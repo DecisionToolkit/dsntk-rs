@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0107"
+             id="_588764d7-6795-4b09-a357-9178a413f6a4"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+    
+    <description>
+        Item definition defining simple days and time duration type.
+    </description>
+    
+    <itemDefinition name="tCourseDuration">
+        <typeRef>dayTimeDuration</typeRef>
+    </itemDefinition>
+    
+</definitions>

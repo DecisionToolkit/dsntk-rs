@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io"
+             name="invalid-model-0014"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        This is an example of invalid model.
+        No mandatory 'text' child node is present in output entry in the first rule.
+    </description>
+
+    <decision name="Approval Status" id="_3b2953a3-745f-4d2e-b55d-75c8c5ae653c">
+        <variable typeRef="string" name="Approval Status"/>
+        <informationRequirement>
+            <requiredInput href="#_794d4d86-5c66-4e41-bb32-7195d7d086b1"/>
+        </informationRequirement>
+        <decisionTable outputLabel="Approval Status">
+            <input label="Age">
+                <inputExpression typeRef="number">
+                    <text>Age</text>
+                </inputExpression>
+            </input>
+            <output>
+                <outputValues>
+                    <text>"Approved", "Declined"</text>
+                </outputValues>
+            </output>
+            <rule>
+                <inputEntry>
+                    <text>&gt;=18</text>
+                </inputEntry>
+                <outputEntry>
+                    <!-- no mandatory child element -->
+                </outputEntry>
+            </rule>
+            <rule>
+                <inputEntry>
+                    <text>&lt;18</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>"Declined"</text>
+                </outputEntry>
+            </rule>
+        </decisionTable>
+    </decision>
+    <inputData name="Age" id="_794d4d86-5c66-4e41-bb32-7195d7d086b1">
+        <variable typeRef="number" name="Age"/>
+    </inputData>
+</definitions>
+

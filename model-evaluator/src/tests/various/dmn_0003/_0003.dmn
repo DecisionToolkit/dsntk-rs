@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/services"
+             name="services"
+             id="_80bf0f7e-f6fb-4e95-b974-0da1e4e00651">
+    <description>
+
+    </description>
+
+    <decisionService name="ds">
+        <variable name="ds"/>
+        <outputDecision href="#_output"/>
+    </decisionService>
+
+    <decision name="output" id="_output">
+        <variable typeRef="number" name="output"/>
+        <informationRequirement>
+            <requiredDecision href="#_input"/>
+        </informationRequirement>
+        <literalExpression>
+            <text>input</text>
+        </literalExpression>
+    </decision>
+
+    <decision name="input" id="_input">
+        <variable typeRef="number" name="input"/>
+        <literalExpression>
+            <text>
+                27
+            </text>
+        </literalExpression>
+    </decision>
+
+</definitions>

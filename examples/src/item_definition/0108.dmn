@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0108"
+             id="_1d44323c-e3a7-4e81-8191-3f99eaf9afe2"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+    
+    <description>
+        Item definition defining simple months and years duration type.
+    </description>
+    
+    <itemDefinition name="tGrowthDuration">
+        <typeRef>yearMonthDuration</typeRef>
+    </itemDefinition>
+    
+</definitions>

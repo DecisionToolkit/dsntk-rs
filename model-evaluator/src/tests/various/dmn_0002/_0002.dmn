@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/coercion"
+             name="coercion"
+             id="_159e8ab3-8fba-437e-98c4-23ec4d2bac37">
+    <description>
+
+    </description>
+
+    <itemDefinition name="tBoundsList" isCollection="true">
+        <typeRef>tBounds</typeRef>
+    </itemDefinition>
+
+    <itemDefinition name="tBounds">
+        <itemComponent name="Min">
+            <typeRef>number</typeRef>
+        </itemComponent>
+        <itemComponent name="Max">
+            <typeRef>number</typeRef>
+        </itemComponent>
+    </itemDefinition>
+
+    <decision name="Echo">
+        <variable name="Echo" typeRef="tBoundsList"/>
+        <informationRequirement>
+            <requiredInput href="#_0ba9ebfb-6385-4e84-a377-d08ab83a0bcd"/>
+        </informationRequirement>
+        <literalExpression>
+            <text>Bounds</text>
+        </literalExpression>
+    </decision>
+
+    <inputData name="Bounds" id="_0ba9ebfb-6385-4e84-a377-d08ab83a0bcd">
+        <variable typeRef="tBoundsList" name="Bounds"/>
+    </inputData>
+
+</definitions>

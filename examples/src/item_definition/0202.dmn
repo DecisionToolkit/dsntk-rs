@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0202"
+             id="_4c020df3-26ba-4ccc-a3a2-a0d39ba268a5"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Reference to simple type 'number'.
+    </description>
+
+    <itemDefinition name="tSalary">
+        <typeRef>number</typeRef>
+    </itemDefinition>
+
+    <itemDefinition name="tMonthlySalary">
+        <typeRef>tSalary</typeRef>
+    </itemDefinition>
+    
+</definitions>
+

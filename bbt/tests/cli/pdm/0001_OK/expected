@@ -1,0 +1,33 @@
+
+┌───────┐
+│ Model │
+└───────┘
+   compliance-level-2-test-0001
+   ├─ FEEL name: compliance-level-2-test-0001
+   ├─ namespace: https://dsntk.io/2_0001
+   ├─ id: _c910c9ba-c584-4ac9-a773-1e6de185cd85
+   └─ description:
+        Compliance level 2. Test 0001.
+
+┌───────────┐
+│ Decisions │
+└───────────┘
+   Greeting Message
+   ├─ FEEL name: Greeting Message
+   ├─ id: _75b3add2-4d36-4a19-a76c-268b49b2f436
+   └─ variable (output)
+      ├─ name: Greeting Message
+      ├─ FEEL name: Greeting Message
+      └─ type: string
+
+┌────────────┐
+│ Input data │
+└────────────┘
+   Full Name
+   ├─ FEEL name: Full Name
+   ├─ id: _cba86e4d-e91c-46a2-9176-e9adf88e15db
+   └─ variable (output)
+      ├─ name: Full Name
+      ├─ FEEL name: Full Name
+      └─ type: string
+

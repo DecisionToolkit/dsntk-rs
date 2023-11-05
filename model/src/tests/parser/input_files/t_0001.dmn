@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io"
+             name="invalid-model-0001"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        This is an example of invalid model.
+        The "kind" attribute in "functionDefinition" element has an invalid value.
+        Allowed values are "FEEL", "Java" or "PMML".
+    </description>
+
+    <decision name="max">
+        <variable name="max"/>
+        <context>
+            <contextEntry>
+                <variable name="maxDouble"/>
+                <functionDefinition kind="Python">
+                    <formalParameter typeRef="number" name="x"/>
+                    <formalParameter typeRef="number" name="y"/>
+                    <context>
+                        <contextEntry>
+                            <variable name="class"/>
+                            <literalExpression>
+                                <text>"java.lang.Math"</text>
+                            </literalExpression>
+                        </contextEntry>
+                        <contextEntry>
+                            <variable name="method signature"/>
+                            <literalExpression>
+                                <text>"max(double, double)"</text>
+                            </literalExpression>
+                        </contextEntry>
+                    </context>
+                </functionDefinition>
+            </contextEntry>
+            <contextEntry>
+                <literalExpression>
+                    <text>maxDouble(123,456)</text>
+                </literalExpression>
+            </contextEntry>
+        </context>
+    </decision>
+
+</definitions>

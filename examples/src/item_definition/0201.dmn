@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0201"
+             id="_de55d6aa-b440-486f-ba74-37772ced0f1b"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Item definition with reference to simple type 'string'.
+    </description>
+
+    <itemDefinition name="tName">
+        <typeRef>string</typeRef>
+    </itemDefinition>
+
+    <itemDefinition name="tCustomerName">
+        <typeRef>tName</typeRef>
+    </itemDefinition>
+    
+</definitions>
+

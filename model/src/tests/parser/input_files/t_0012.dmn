@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io"
+             name="invalid-model-0012"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/">
+
+    <description>
+        This is an example of invalid model.
+        Color definition has invalid value in "red" component.
+    </description>
+
+    <decision name="one" id="_95569835-d86c-44c4-8041-8332fcaa0886">
+        <variable typeRef="number" name="one"/>
+        <literalExpression>
+            <text>1</text>
+        </literalExpression>
+    </decision>
+
+    <dmndi:DMNDI>
+        <dmndi:DMNDiagram id="_d3a3312e-5924-4f7b-ac0e-232ef9203ff6" name="DRD for calculating value 1">
+            <dmndi:Size height="650.0" width="650.0"/>
+            <dmndi:DMNShape dmnElementRef="_95569835-d86c-44c4-8041-8332fcaa0886" id="_ee85d6ab-4659-4b25-a873-6abcc047b47d">
+                <dc:Bounds x="150.0" y="150.0" width="150.0" height="60.0"/>
+            </dmndi:DMNShape>
+        </dmndi:DMNDiagram>
+        <dmndi:DMNStyle id="LS_9d01a0c4-f529-4ad8-ad8e-ec5fb5d96ad4_0" fontFamily="arial,helvetica,sans-serif" fontSize="14" fontBold="false" fontItalic="false" fontUnderline="false" fontStrikeThrough="false">
+            <dmndi:FillColor red="468" green="1" blue="1"/>
+        </dmndi:DMNStyle>
+    </dmndi:DMNDI>
+</definitions>

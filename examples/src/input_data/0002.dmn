@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0002"
+             id="_3538df52-9116-4da3-a31c-80d36bacda0e"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+    <description>Input data with simple number type variable.</description>
+    <inputData name="Monthly Salary" id="_b7a53bad-7a5b-4033-841d-5db6b25834ad">
+        <variable typeRef="number" name="Monthly Salary"/>
+    </inputData>
+</definitions>

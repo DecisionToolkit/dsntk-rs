@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io"
+             name="invalid-model-0006"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        This is an example of invalid model.
+        Rows have fewer values than defined in columns.
+    </description>
+
+    <decision name="Bankrates">
+        <variable typeRef="tTable" name="Bankrates"/>
+        <relation>
+            <column name="lenderName"/>
+            <column name="rate"/>
+            <column name="points"/>
+            <column name="fee"/>
+            <row>
+                <literalExpression>
+                    <text>"Oceans Capital"</text>
+                </literalExpression>
+                <literalExpression>
+                    <text>.03500</text>
+                </literalExpression>
+                <literalExpression>
+                    <text>0</text>
+                </literalExpression>
+            </row>
+            <row>
+                <literalExpression>
+                    <text>"eClick Lending"</text>
+                </literalExpression>
+                <literalExpression>
+                    <text>.03200</text>
+                </literalExpression>
+                <literalExpression>
+                    <text>1.1</text>
+                </literalExpression>
+            </row>
+        </relation>
+    </decision>
+</definitions>
+

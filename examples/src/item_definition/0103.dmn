@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0103"
+             id="_52ec393a-c6da-43df-8324-47f6e3595da8"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+    
+    <description>
+        An item definition defining a simple boolean type.
+    </description>
+    
+    <itemDefinition name="tIsAffordable">
+        <typeRef>boolean</typeRef>
+    </itemDefinition>
+    
+</definitions>

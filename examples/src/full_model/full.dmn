@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io"
+             name="complete-model-example"
+             id="_id_definitions"
+             label="FULL MODEL"
+             exporter="Tool that this model was exported from"
+             exporterVersion="Exporter version number"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        This is an example of a complete DMN model.
+        This model contains all elements allowed by XML Schema for DMN,
+        and there is no reasonable business logic in it.
+    </description>
+
+    <decision name="max" id="_id_decision_max">
+        <variable name="max"/>
+        <context>
+            <contextEntry>
+                <variable name="maxDouble"/>
+                <functionDefinition kind="Java">
+                    <formalParameter typeRef="number" name="x"/>
+                    <formalParameter typeRef="number" name="y"/>
+                    <context>
+                        <contextEntry>
+                            <variable name="class"/>
+                            <literalExpression>
+                                <text>"java.lang.Math"</text>
+                            </literalExpression>
+                        </contextEntry>
+                        <contextEntry>
+                            <variable name="method signature"/>
+                            <literalExpression>
+                                <text>"max(double, double)"</text>
+                            </literalExpression>
+                        </contextEntry>
+                    </context>
+                </functionDefinition>
+            </contextEntry>
+            <contextEntry>
+                <literalExpression>
+                    <text>maxDouble(123,456)</text>
+                </literalExpression>
+            </contextEntry>
+        </context>
+    </decision>
+
+    <performanceIndicator name="Performance indicator impacted by 'max' decision" id="_id_performance_indicator_1" URI="https://dsntk.io/performance-indicators/1" label="PI1">
+        <description>
+            This is an example
+            of the first performance
+            indicator.
+        </description>
+        <impactingDecision href="#_id_decision_max"/>
+        <impactingDecision href="#_id_decision_max_1"/>
+    </performanceIndicator>
+
+    <organizationUnit name="Law department" label="LD">
+        <description>
+            This is an example of the first
+            organisation unit.
+        </description>
+        <decisionMade href="#a"/>
+        <decisionMade href="#b"/>
+        <decisionMade href="#c"/>
+        <decisionOwned href="#A"/>
+        <decisionOwned href="#B"/>
+        <decisionOwned href="#C"/>
+        <decisionOwned href="#D"/>
+    </organizationUnit>
+
+</definitions>

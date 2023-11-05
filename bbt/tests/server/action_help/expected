@@ -1,0 +1,25 @@
+DSNTK | Decision Toolkit
+
+Usage: dsntk [COMMAND]
+
+Commands:
+  srv   Run DSNTK as a service
+  edm   Evaluate DMN Model
+  edt   Evaluate Decision Table
+  efe   Evaluate FEEL Expression
+  pdm   Parse DMN Model
+  pdt   Parse Decision Table
+  pfe   Parse FEEL Expression
+  tdm   Test DMN Model
+  tdt   Test Decision Table
+  tfe   Test FEEL Expression
+  xdm   eXport DMN Model
+  xdt   eXport Decision Table
+  xfe   eXport FEEL Expression
+  rdt   Recognize Decision Table
+  exs   Save examples
+  help  Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help     Print help
+  -V, --version  Print version

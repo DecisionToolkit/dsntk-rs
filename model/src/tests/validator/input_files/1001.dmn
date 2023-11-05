@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/item-definition-cycles"
+             name="cycle-at-the-top-level"
+             id="_9397b5e9-a2ee-417c-be50-b7d5e21627cf"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Item definition defining a component type.
+        There is a cyclic dependency between the components' field
+        and the top item definition.
+    </description>
+
+    <itemDefinition name="iTreeNode">
+        <itemComponent name="children" isCollection="true">
+            <typeRef>iTreeNode</typeRef>
+        </itemComponent>
+        <itemComponent name="value">
+            <typeRef>number</typeRef>
+        </itemComponent>
+    </itemDefinition>
+
+</definitions>

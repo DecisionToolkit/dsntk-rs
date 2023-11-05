@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0106"
+             id="_f8ff1f8f-fe86-471f-8eca-108eca907edc"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Item definition defining simple date and time type.
+    </description>
+
+    <itemDefinition name="tAppointment">
+        <typeRef>dateTime</typeRef>
+    </itemDefinition>
+
+</definitions>

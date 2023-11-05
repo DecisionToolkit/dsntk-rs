@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0601"
+             id="_41afb198-8f6d-48b7-810f-4dee0674cd2a"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Collection of component type.
+    </description>
+
+    <itemDefinition isCollection="true" name="tItems">
+        <itemComponent name="number">
+            <typeRef>number</typeRef>
+        </itemComponent>
+        <itemComponent name="name">
+            <typeRef>string</typeRef>
+        </itemComponent>
+        <itemComponent name="manager">
+            <typeRef>string</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    
+</definitions>

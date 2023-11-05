@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_1001"
+             id="_cf07a27f-362e-4459-98fd-79cc8bd458f2"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Direct type recursion.
+        Generally DMN specification does not allow recursive item definitions.
+        This is a non-conformant exception for direct (tree-like) recursion.
+    </description>
+
+    <itemDefinition name="iTreeNode">
+        <itemComponent name="children" isCollection="true">
+            <typeRef>iTreeNode</typeRef>
+        </itemComponent>
+        <itemComponent name="value">
+            <typeRef>number</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    
+</definitions>

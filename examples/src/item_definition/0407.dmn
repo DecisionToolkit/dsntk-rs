@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0407"
+             id="_225c0ade-9a70-4e93-9f00-ccd17356f95c"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Collection of simple type 'days and time duration'.
+    </description>
+
+    <itemDefinition isCollection="true" name="tItems">
+        <typeRef>dayTimeDuration</typeRef>
+    </itemDefinition>
+    
+</definitions>

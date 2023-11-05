@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0105"
+             id="_40d1bde1-56ed-4f21-af74-ff05ccf6d736"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Item definition defining simple time type.
+    </description>
+    
+    <itemDefinition name="tDeliveryTime">
+        <typeRef>time</typeRef>
+    </itemDefinition>
+    
+</definitions>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/selector"
+             name="selector"
+             id="_c15e2771-36a4-438b-8a65-00dc261bdca5">
+    <description>
+        Input value of null should match in rule with irrelevant ('-').
+    </description>
+
+    <itemDefinition name="tBounds">
+        <itemComponent name="Min">
+            <typeRef>number</typeRef>
+        </itemComponent>
+        <itemComponent name="Max">
+            <typeRef>number</typeRef>
+        </itemComponent>
+    </itemDefinition>
+
+    <decision name="Selector">
+        <variable typeRef="string" name="Selector"/>
+        <informationRequirement>
+            <requiredInput href="#_a38e6184-a07e-4e18-b9bf-7d57e56d988b"/>
+        </informationRequirement>
+        <informationRequirement>
+            <requiredInput href="#_9eced85c-fb9e-4205-bf36-ef3544ab19a4"/>
+        </informationRequirement>
+        <decisionTable outputLabel="Selector">
+            <input>
+                <inputExpression typeRef="number">
+                    <text>Days</text>
+                </inputExpression>
+            </input>
+            <input>
+                <inputExpression typeRef="tBounds">
+                    <text>Bounds.Min</text>
+                </inputExpression>
+            </input>
+            <input>
+                <inputExpression typeRef="tBounds">
+                    <text>Bounds.Max</text>
+                </inputExpression>
+            </input>
+            <output/>
+            <rule>
+                <inputEntry>
+                    <text>-</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>null</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>-</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>"7a"</text>
+                </outputEntry>
+            </rule>
+            <rule>
+                <inputEntry>
+                    <text>7</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>-</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>-</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>"7b"</text>
+                </outputEntry>
+            </rule>
+            <rule>
+                <inputEntry>
+                    <text>(7..360)</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>-</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>-</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>"(7..360)"</text>
+                </outputEntry>
+            </rule>
+            <rule>
+                <inputEntry>
+                    <text>&gt;=360</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>-</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>-</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>"360+"</text>
+                </outputEntry>
+            </rule>
+        </decisionTable>
+    </decision>
+
+    <inputData name="Days" id="_a38e6184-a07e-4e18-b9bf-7d57e56d988b">
+        <variable typeRef="number" name="Days"/>
+    </inputData>
+    <inputData name="Bounds" id="_9eced85c-fb9e-4205-bf36-ef3544ab19a4">
+        <variable typeRef="tBounds" name="Bounds"/>
+    </inputData>
+
+</definitions>

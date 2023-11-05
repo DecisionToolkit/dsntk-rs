@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0408"
+             id="_d399cf28-e2c8-4135-84c2-e2bc79c69713"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Collection of simple type 'months and years duration'.
+    </description>
+
+    <itemDefinition isCollection="true" name="tItems">
+        <typeRef>yearMonthDuration</typeRef>
+    </itemDefinition>
+    
+</definitions>

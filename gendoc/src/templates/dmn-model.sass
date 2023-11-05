@@ -1,0 +1,215 @@
+$border: 1px solid black
+$border-spacing: 2px
+$background-color: #ffffff
+$background-color-input: #73b5e2
+$background-color-output: #d599c8
+$color-value: #ffffff
+$background-color-value: #a2a2a2
+$background-color-h1: #002f56
+$background-color-h2: #ffffff
+$background-color-h3: #d8ecff
+$font-family-normal: 'Barlow', sans-serif
+$font-family-condensed: 'Barlow Condensed', sans-serif
+$font-family-mono: 'JetBrains Mono', monospace
+$font-weight-light: 300
+$font-weight-regular: 400
+$font-weight-medium: 500
+$font-weight-semi-bold: 600
+$svg-stroke-width: 1
+
+@media print
+  body
+    font-size: 10pt
+    margin: 0
+  svg
+    border: unset
+    width: 100%
+  .diagram-section
+    grid-template-columns: 0 auto 0
+
+@media screen
+  body
+    font-size: 16pt
+  svg
+    border: solid 1px #dbdbdb
+  .diagram-section
+    grid-template-columns: auto 80% auto
+
+body
+  font-family: $font-family-normal
+  font-weight: $font-weight-light
+  background-color: $background-color
+
+section
+  display: block
+
+svg
+  stroke: black
+  stroke-width: $svg-stroke-width
+  fill: white
+  color: black
+  font-family: $font-family-condensed
+  font-weight: $font-weight-regular
+  font-size: 20px
+  overflow: hidden
+  user-select: none
+
+h1
+  font-size: 1.4em
+  font-family: $font-family-normal
+  font-weight: $font-weight-semi-bold
+  color: #ffffff
+  background-color: $background-color-h1
+  text-align: left
+  padding: 8px 20px
+  margin: 0 0 8px 0
+
+h2
+  font-size: 1.2em
+  font-family: $font-family-normal
+  font-weight: $font-weight-semi-bold
+  background-color: $background-color-h3
+  text-align: left
+  padding: 8px 20px
+  margin: 0
+
+h3
+  font-size: 1.2em
+  font-family: $font-family-normal
+  font-weight: $font-weight-regular
+  background-color: $background-color-h2
+  text-align: center
+  padding: 12px 20px 4px 20px
+  margin: 0
+
+strong
+  font-weight: $font-weight-semi-bold
+
+.diagram-section
+  display: grid
+
+.diagram-container
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  padding: 5px
+  width: 100%
+  break-inside: avoid
+
+.diagram-title
+  font-size: 1.2em
+  font-family: $font-family-normal
+  font-weight: $font-weight-regular
+  text-align: center
+  padding: 12px 12px 4px 12px
+  margin: 0
+
+.model-element-container
+  padding: 20px 0 0 20px
+  margin: 0
+
+.model-element-name
+  font-size: 1.2em
+  font-family: $font-family-normal
+  font-weight: $font-weight-semi-bold
+  display: inline-block
+
+.model-element-type
+  font-size: 1em
+  font-family: $font-family-normal
+  font-weight: $font-weight-light
+  display: inline-block
+
+.variable-details-container
+  display: flex
+  flex-direction: column
+  align-content: flex-start
+  break-inside: avoid
+  padding: 12px 0 12px 30px
+  margin: 0
+
+.variable-details-heading
+  font-size: 1em
+  font-family: $font-family-normal
+  font-weight: $font-weight-semi-bold
+  text-align: left
+  padding: 0 0 4px 0
+  margin: 0
+
+.variable-details-properties
+  display: grid
+  grid-template-columns: auto auto
+  grid-gap: 2px
+  background-color: #b6b6b6
+  border: 2px solid #b6b6b6
+  align-self: start
+
+.variable-details-property-name
+  font-size: 1em
+  font-family: $font-family-normal
+  font-weight: $font-weight-light
+  text-align: right
+  padding: 4px 10px 4px 10px
+  margin: 0
+  background-color: #e1e1e1
+
+.variable-details-property-value
+  font-size: 1em
+  font-family: $font-family-normal
+  font-weight: $font-weight-medium
+  text-align: left
+  padding: 4px 10px 4px 10px
+  margin: 0
+  background-color: #ffffff
+
+.variable-details-property-value-type
+  font-size: 1em
+  font-family: $font-family-normal
+  font-weight: $font-weight-semi-bold
+  font-style: italic
+  text-align: left
+  padding: 4px 10px 4px 10px
+  margin: 0
+  background-color: #ffffff
+
+.description-container
+  margin: 10px 30px 10px 30px
+  padding: 0 0 0 8px
+  border-left: 3px solid #ffac41
+
+.description
+  font-size: 1em
+  font-family: $font-family-normal
+  font-weight: $font-weight-light
+  margin: 0
+  padding: 0
+
+  p
+    padding: 0
+    margin: 0
+
+  ol
+    margin: 4px 0
+
+  ul
+    margin: 4px 0
+
+.expression-instance-container
+  display: flex
+  flex-direction: column
+  align-content: flex-start
+  break-inside: avoid
+  padding: 12px 0 12px 30px
+  margin: 0
+
+.literal-expression
+  font-size: 0.8em
+  font-family: $font-family-mono
+  font-weight: $font-weight-regular
+  text-align: left
+  padding: 8px 20px
+  margin: 0
+  border: 1px solid #9b9b9b
+  color: blueviolet
+  align-self: flex-start

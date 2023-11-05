@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0401"
+             id="_a14c4a8b-76ba-4396-b295-a97a2f6dedfb"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Collection of simple type 'string'.
+    </description>
+
+    <itemDefinition isCollection="true" name="tItems">
+        <typeRef>string</typeRef>
+    </itemDefinition>
+    
+</definitions>

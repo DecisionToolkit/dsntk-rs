@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io"
+             name="invalid-model-0005"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        This is an example of invalid model.
+        Context entry has no variable expression.
+    </description>
+
+    <decision name="max">
+        <variable name="max"/>
+        <context>
+            <contextEntry>
+                <variable name="maxDouble"/>
+            </contextEntry>
+        </context>
+    </decision>
+
+</definitions>

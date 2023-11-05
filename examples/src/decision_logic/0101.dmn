@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io"
+             name="0101"
+             id="_e4b9436e-14b0-4a08-afea-63d5cab42dcf"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+    <description>Literal expression.</description>
+    <decision name="Greeting Message">
+        <literalExpression>
+            <text>"Hello " + Full Name</text>
+        </literalExpression>
+    </decision>
+</definitions>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io"
+             name="invalid-model-0010"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        This is an example of invalid model.
+        No variable defined in decision.
+    </description>
+
+    <decision name="one">
+        <literalExpression>
+            <text>1</text>
+        </literalExpression>
+    </decision>
+</definitions>

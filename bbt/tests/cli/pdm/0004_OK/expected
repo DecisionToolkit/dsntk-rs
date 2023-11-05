@@ -1,0 +1,71 @@
+
+┌───────┐
+│ Model │
+└───────┘
+   compliance-level-3-test-0002
+   ├─ FEEL name: compliance-level-3-test-0002
+   ├─ namespace: https://dsntk.io
+   └─ id: _536af77f-8f8b-4339-b00d-28116bb0c3f8
+
+┌───────────┐
+│ Decisions │
+└───────────┘
+   Basic
+   ├─ FEEL name: Basic
+   ├─ id: _de5529b1-ed4c-4b39-9e36-e0e056aec20c
+   └─ variable (output)
+      ├─ name: Basic
+      ├─ FEEL name: Basic
+      └─ type: tBasic
+
+   Matches
+   ├─ FEEL name: Matches
+   ├─ id: _93059496-257a-482b-b966-fcafe28cc84b
+   └─ variable (output)
+      ├─ name: Matches
+      ├─ FEEL name: Matches
+      └─ type: boolean
+
+   Replace
+   ├─ FEEL name: Replace
+   ├─ id: _cc368e53-961d-4399-ad91-df00446b49d8
+   └─ variable (output)
+      ├─ name: Replace
+      ├─ FEEL name: Replace
+      └─ type: tReplace
+
+   Constructor
+   ├─ FEEL name: Constructor
+   ├─ id: _255687db-652a-44c5-b4ca-9b3de659fd31
+   └─ variable (output)
+      ├─ name: Constructor
+      ├─ FEEL name: Constructor
+      └─ type: string
+
+┌────────────┐
+│ Input data │
+└────────────┘
+   A
+   ├─ FEEL name: A
+   ├─ id: _0923ed0c-3674-4476-b84c-f9ad5e5e8048
+   └─ variable (output)
+      ├─ name: A
+      ├─ FEEL name: A
+      └─ type: string
+
+   B
+   ├─ FEEL name: B
+   ├─ id: _1df2ad51-3334-4098-b55f-df885fb0e412
+   └─ variable (output)
+      ├─ name: B
+      ├─ FEEL name: B
+      └─ type: string
+
+   NumC
+   ├─ FEEL name: NumC
+   ├─ id: _6a75944d-7013-4fc3-8770-ab8eaa0e0560
+   └─ variable (output)
+      ├─ name: NumC
+      ├─ FEEL name: NumC
+      └─ type: number
+

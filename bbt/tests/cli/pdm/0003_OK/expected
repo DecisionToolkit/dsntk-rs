@@ -1,0 +1,171 @@
+
+┌───────┐
+│ Model │
+└───────┘
+   1108-feel-substring-after-function
+   ├─ FEEL name: 1108-feel-substring-after-function
+   ├─ namespace: http://www.actico.com/spec/DMN/1108-feel-substring-after-function
+   ├─ id: _jBcukPUUEeesLuP4RHs4vA
+   └─ description:
+        FEEL built-in function 'substring after(string, match) in category string functions
+
+┌───────────┐
+│ Decisions │
+└───────────┘
+   feel-substring-after-function_001_f532be66f2
+   ├─ FEEL name: feel-substring-after-function_001_f532be66f2
+   ├─ id: _jBculPUUEeesLuP4RHs4vA
+   ├─ question:
+   │    Result of FEEL expression 'substring after("foobar","ob")'?
+   ├─ allowed answers:
+   │    "ar" (string)
+   ├─ description:
+   │    Tests FEEL expression: 'substring after("foobar","ob")' and expects result: '"ar" (string)'
+   └─ variable (output)
+      ├─ name: feel-substring-after-function_001_f532be66f2
+      ├─ FEEL name: feel-substring-after-function_001_f532be66f2
+      ├─ id: _jBculfUUEeesLuP4RHs4vA
+      └─ type: tfeel-substring-after-function_001_f532be66f2_Result
+
+   feel-substring-after-function_002_f20d66fc1e
+   ├─ FEEL name: feel-substring-after-function_002_f20d66fc1e
+   ├─ id: _jBcumPUUEeesLuP4RHs4vA
+   ├─ question:
+   │    Result of FEEL expression 'substring after("foobar","o")'?
+   ├─ allowed answers:
+   │    "obar" (string)
+   ├─ description:
+   │    Tests FEEL expression: 'substring after("foobar","o")' and expects result: '"obar" (string)'
+   └─ variable (output)
+      ├─ name: feel-substring-after-function_002_f20d66fc1e
+      ├─ FEEL name: feel-substring-after-function_002_f20d66fc1e
+      ├─ id: _jBcumfUUEeesLuP4RHs4vA
+      └─ type: tfeel-substring-after-function_002_f20d66fc1e_Result
+
+   feel-substring-after-function_003_367612fc8b
+   ├─ FEEL name: feel-substring-after-function_003_367612fc8b
+   ├─ id: _jBcunPUUEeesLuP4RHs4vA
+   ├─ question:
+   │    Result of FEEL expression 'substring after("foobar","x")'?
+   ├─ allowed answers:
+   │    "" (string)
+   ├─ description:
+   │    Tests FEEL expression: 'substring after("foobar","x")' and expects result: '"" (string)'
+   └─ variable (output)
+      ├─ name: feel-substring-after-function_003_367612fc8b
+      ├─ FEEL name: feel-substring-after-function_003_367612fc8b
+      ├─ id: _jBcunfUUEeesLuP4RHs4vA
+      └─ type: tfeel-substring-after-function_003_367612fc8b_Result
+
+   feel-substring-after-function_004_e448ee2dad
+   ├─ FEEL name: feel-substring-after-function_004_e448ee2dad
+   ├─ id: _jBcuoPUUEeesLuP4RHs4vA
+   ├─ question:
+   │    Result of FEEL expression 'substring after("","")'?
+   ├─ allowed answers:
+   │    "" (string)
+   ├─ description:
+   │    Tests FEEL expression: 'substring after("","")' and expects result: '"" (string)'
+   └─ variable (output)
+      ├─ name: feel-substring-after-function_004_e448ee2dad
+      ├─ FEEL name: feel-substring-after-function_004_e448ee2dad
+      ├─ id: _jBcuofUUEeesLuP4RHs4vA
+      └─ type: tfeel-substring-after-function_004_e448ee2dad_Result
+
+   feel-substring-after-function_005_429efdafd0
+   ├─ FEEL name: feel-substring-after-function_005_429efdafd0
+   ├─ id: _jBcupPUUEeesLuP4RHs4vA
+   ├─ question:
+   │    Result of FEEL expression 'substring after("","a")'?
+   ├─ allowed answers:
+   │    "" (string)
+   ├─ description:
+   │    Tests FEEL expression: 'substring after("","a")' and expects result: '"" (string)'
+   └─ variable (output)
+      ├─ name: feel-substring-after-function_005_429efdafd0
+      ├─ FEEL name: feel-substring-after-function_005_429efdafd0
+      ├─ id: _jBcupfUUEeesLuP4RHs4vA
+      └─ type: tfeel-substring-after-function_005_429efdafd0_Result
+
+   feel-substring-after-function_006_bf89d6b618
+   ├─ FEEL name: feel-substring-after-function_006_bf89d6b618
+   ├─ id: _jBcuqPUUEeesLuP4RHs4vA
+   ├─ question:
+   │    Result of FEEL expression 'substring after("abc","")'?
+   ├─ allowed answers:
+   │    "abc" (string)
+   ├─ description:
+   │    Tests FEEL expression: 'substring after("abc","")' and expects result: '"abc" (string)'
+   └─ variable (output)
+      ├─ name: feel-substring-after-function_006_bf89d6b618
+      ├─ FEEL name: feel-substring-after-function_006_bf89d6b618
+      ├─ id: _jBcuqfUUEeesLuP4RHs4vA
+      └─ type: tfeel-substring-after-function_006_bf89d6b618_Result
+
+   feel-substring-after-function_007_529baaeb0b
+   ├─ FEEL name: feel-substring-after-function_007_529baaeb0b
+   ├─ id: _jBcurPUUEeesLuP4RHs4vA
+   ├─ question:
+   │    Result of FEEL expression 'substring after("abc","c")'?
+   ├─ allowed answers:
+   │    "" (string)
+   ├─ description:
+   │    Tests FEEL expression: 'substring after("abc","c")' and expects result: '"" (string)'
+   └─ variable (output)
+      ├─ name: feel-substring-after-function_007_529baaeb0b
+      ├─ FEEL name: feel-substring-after-function_007_529baaeb0b
+      ├─ id: _jBcurfUUEeesLuP4RHs4vA
+      └─ type: tfeel-substring-after-function_007_529baaeb0b_Result
+
+   feel-substring-after-function_008_1e611924ea
+   ├─ FEEL name: feel-substring-after-function_008_1e611924ea
+   ├─ id: _jBcusPUUEeesLuP4RHs4vA
+   ├─ question:
+   │    Result of FEEL expression 'substring after("abc","a")'?
+   ├─ allowed answers:
+   │    "bc" (string)
+   ├─ description:
+   │    Tests FEEL expression: 'substring after("abc","a")' and expects result: '"bc" (string)'
+   └─ variable (output)
+      ├─ name: feel-substring-after-function_008_1e611924ea
+      ├─ FEEL name: feel-substring-after-function_008_1e611924ea
+      ├─ id: _jBcusfUUEeesLuP4RHs4vA
+      └─ type: tfeel-substring-after-function_008_1e611924ea_Result
+
+   feel-substring-after-function_009_712fe2842f
+   ├─ FEEL name: feel-substring-after-function_009_712fe2842f
+   ├─ id: _jBcutPUUEeesLuP4RHs4vA
+   ├─ question:
+   │    Result of FEEL expression 'substring after(string:"foobar",match:"ob")'?
+   ├─ allowed answers:
+   │    "ar" (string)
+   ├─ description:
+   │    Tests FEEL expression: 'substring after(string:"foobar",match:"ob")' and expects result: '"ar" (string)'
+   └─ variable (output)
+      ├─ name: feel-substring-after-function_009_712fe2842f
+      ├─ FEEL name: feel-substring-after-function_009_712fe2842f
+      ├─ id: _jBcutfUUEeesLuP4RHs4vA
+      └─ type: tfeel-substring-after-function_009_712fe2842f_Result
+
+   feel-substring-after-function_010_40e159d07a
+   ├─ FEEL name: feel-substring-after-function_010_40e159d07a
+   ├─ id: _jBcuuPUUEeesLuP4RHs4vA
+   ├─ question:
+   │    Result of FEEL expression 'substring after(string:"foobar",match:"b")'?
+   ├─ allowed answers:
+   │    "ar" (string)
+   ├─ description:
+   │    Tests FEEL expression: 'substring after(string:"foobar",match:"b")' and expects result: '"ar" (string)'
+   └─ variable (output)
+      ├─ name: feel-substring-after-function_010_40e159d07a
+      ├─ FEEL name: feel-substring-after-function_010_40e159d07a
+      ├─ id: _jBcuufUUEeesLuP4RHs4vA
+      └─ type: tfeel-substring-after-function_010_40e159d07a_Result
+
+┌───────────────────┐
+│ Knowledge sources │
+└───────────────────┘
+   DMN 1.1 - 10.3.4.3 Table 60
+   ├─ FEEL name: DMN 1.1-10.3.4.3 Table 60
+   └─ id: _jBcukfUUEeesLuP4RHs4vA
+

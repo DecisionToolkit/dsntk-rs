@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0406"
+             id="_4a6289ac-e75d-4a3a-b186-96afdc7daa26"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Collection of simple type 'date and time'.
+    </description>
+
+    <itemDefinition isCollection="true" name="tItems">
+        <typeRef>dateTime</typeRef>
+    </itemDefinition>
+    
+</definitions>

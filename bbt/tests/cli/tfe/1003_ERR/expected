@@ -1,0 +1,6 @@
+parsing expression failed with reason: <ParserError> syntax error: a =+ b - c
+parsing expression failed with reason: <ParserError> syntax error: a =+ b - c
+parsing expression failed with reason: <ParserError> syntax error: a =+ b - c
+
+test result: ok. 0 passed; 0 failed.
+

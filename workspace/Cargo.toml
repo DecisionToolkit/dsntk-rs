@@ -1,0 +1,22 @@
+[package]
+name = "dsntk-workspace"
+version.workspace = true
+authors.workspace = true
+description = "DSNTK | Workspace"
+documentation = "https://docs.rs/dsntk-workspace"
+repository = "https://github.com/dsntk/dsntk-rs.git"
+license.workspace = true
+edition.workspace = true
+
+[dependencies]
+urlencoding.workspace = true
+walkdir.workspace = true
+dsntk-common.workspace = true
+dsntk-feel.workspace = true
+dsntk-feel-evaluator.workspace = true
+dsntk-macros.workspace = true
+dsntk-model.workspace = true
+dsntk-model-evaluator.workspace = true
+
+[dev-dependencies]
+dsntk-examples.workspace = true

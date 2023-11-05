@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0403"
+             id="_aaf95ed3-0959-4517-9a74-82ec5ee0211e"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Collection of simple type 'boolean'.
+    </description>
+
+    <itemDefinition isCollection="true" name="tItems">
+        <typeRef>boolean</typeRef>
+    </itemDefinition>
+    
+</definitions>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io"
+             name="invalid-model-0015"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        This model is a valid, but business knowledge model has no encapsulated logic.
+    </description>
+
+    <businessKnowledgeModel name="ALFA" id="_65c5bd3f-b0fb-4ca7-8243-54c1b506cc05">
+        <variable typeRef="string" name="ALFA"/>
+    </businessKnowledgeModel>
+    
+</definitions>
+

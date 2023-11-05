@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0104"
+             id="_26a34de7-3bbd-46b9-be87-5517c92e501f"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+    
+    <description>
+        Item definition defining simple date type.
+    </description>
+    
+    <itemDefinition name="tBirthday">
+        <typeRef>date</typeRef>
+    </itemDefinition>
+    
+</definitions>

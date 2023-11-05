@@ -1,0 +1,12 @@
+[package]
+name = "dsntk-examples"
+version.workspace = true
+authors.workspace = true
+description = "DSNTK | Examples"
+documentation = "https://docs.rs/dsntk-examples"
+repository = "https://github.com/dsntk/dsntk-rs.git"
+license.workspace = true
+edition.workspace = true
+
+[dev-dependencies]
+walkdir.workspace = true

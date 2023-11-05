@@ -1,0 +1,5 @@
+[error][./2_0001_UTF_16.dmn] stream did not contain valid UTF-8
+Found 1 model.
+Failed to load 1 model.
+Deployed 0 invocables.
+dsntk 0.0.0.0:22022

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io"
+             name="compliance-level-3-test-0003"
+             id="_54863c52-2fa7-4a3d-b383-d4eb2eb88771"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/">
+    <itemDefinition name="tLoan">
+        <itemComponent name="amount">
+            <typeRef>number</typeRef>
+        </itemComponent>
+        <itemComponent name="rate">
+            <typeRef>number</typeRef>
+        </itemComponent>
+        <itemComponent name="term">
+            <typeRef>number</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    <itemDefinition isCollection="true" name="tLoanList">
+        <typeRef>tLoan</typeRef>
+    </itemDefinition>
+    <itemDefinition isCollection="true" name="tMonthlyPaymentList">
+        <typeRef>number</typeRef>
+    </itemDefinition>
+    <decision name="MonthlyPayment" id="_4b4b125b-cd29-49c1-812f-2b23b4ec2447">
+        <variable typeRef="tMonthlyPaymentList" name="MonthlyPayment"/>
+        <informationRequirement id="_4bc8224c-cc94-45ec-8452-a4b9d96db499">
+            <requiredInput href="#_63b50092-3a27-41a0-bcee-5c9d640eac56"/>
+        </informationRequirement>
+        <knowledgeRequirement id="_15867de2-8ee1-42ef-9560-e914337b8a6f">
+            <requiredKnowledge href="#_ea416f9b-871f-45fe-8084-d7e139120bf3"/>
+        </knowledgeRequirement>
+        <literalExpression>
+            <text>for i in Loans return PMT2(i)</text>
+        </literalExpression>
+    </decision>
+    <businessKnowledgeModel name="PMT2" id="_ea416f9b-871f-45fe-8084-d7e139120bf3">
+        <variable typeRef="number" name="PMT2"/>
+        <encapsulatedLogic>
+            <formalParameter name="loan" typeRef="tLoan"/>
+            <literalExpression typeRef="number">
+                <text>(loan.amount * loan.rate / 12) / (1 - (1 + loan.rate / 12) ** -loan.term)</text>
+            </literalExpression>
+        </encapsulatedLogic>
+    </businessKnowledgeModel>
+    <inputData name="Loans" id="_63b50092-3a27-41a0-bcee-5c9d640eac56">
+        <variable typeRef="tLoanList" name="Loans"/>
+    </inputData>
+    <dmndi:DMNDI>
+        <dmndi:DMNDiagram id="_54863c52-2fa7-4a3d-b383-d4eb2eb88771_D1">
+            <dmndi:Size height="650.0" width="667.0"/>
+            <dmndi:DMNShape dmnElementRef="_4b4b125b-cd29-49c1-812f-2b23b4ec2447" id="_e18df313-8a06-4ec5-9ddf-e0d18cbe92bf">
+                <dc:Bounds height="61.0" width="154.0" x="256.0" y="150.0"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape dmnElementRef="_ea416f9b-871f-45fe-8084-d7e139120bf3" id="_7d071c02-97eb-4542-8a56-7b9a3c2e7fe6">
+                <dc:Bounds height="61.0" width="154.0" x="150.0" y="331.0"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape dmnElementRef="_63b50092-3a27-41a0-bcee-5c9d640eac56" id="_937d0f2a-4a9e-4894-883f-5bc741e5c95f">
+                <dc:Bounds height="60.0" width="153.0" x="364.0" y="331.0"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNEdge dmnElementRef="_15867de2-8ee1-42ef-9560-e914337b8a6f" id="_b9771902-8d33-4ee5-8b9b-2b23b2201fb8">
+                <di:waypoint x="227.0" y="331.0"/>
+                <di:waypoint x="333.0" y="211.0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge dmnElementRef="_4bc8224c-cc94-45ec-8452-a4b9d96db499" id="_9cfd0228-54ba-4008-9b81-f8feeb3fcfcd">
+                <di:waypoint x="440.0" y="331.0"/>
+                <di:waypoint x="333.0" y="211.0"/>
+            </dmndi:DMNEdge>
+        </dmndi:DMNDiagram>
+    </dmndi:DMNDI>
+</definitions>

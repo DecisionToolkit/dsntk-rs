@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0402"
+             id="_7c1a728f-6443-4580-87cc-5478bdf9525b"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Collection of simple type 'number'.
+    </description>
+
+    <itemDefinition isCollection="true" name="tItems">
+        <typeRef>number</typeRef>
+    </itemDefinition>
+    
+</definitions>

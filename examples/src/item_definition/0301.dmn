@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0301"
+             id="_a6265464-e190-4ea7-86ed-013eb1b6685a"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Component type.
+    </description>
+    
+    <itemDefinition name="tLoan">
+        <itemComponent name="principal">
+            <typeRef>number</typeRef>
+        </itemComponent>
+        <itemComponent name="rate">
+            <typeRef>number</typeRef>
+        </itemComponent>
+        <itemComponent name="termMonths">
+            <typeRef>number</typeRef>
+        </itemComponent>
+    </itemDefinition>
+    
+</definitions>
+

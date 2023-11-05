@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0405"
+             id="_4d8ea5e9-0aec-41b3-a5e1-bb51bdb87059"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Collection of simple type 'time'.
+    </description>
+
+    <itemDefinition isCollection="true" name="tItems">
+        <typeRef>time</typeRef>
+    </itemDefinition>
+    
+</definitions>

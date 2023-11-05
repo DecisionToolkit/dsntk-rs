@@ -1,0 +1,5 @@
+[error][./2_0001_invalid.dmn] invalid namespace data:text/plain,HelloWorld
+Found 1 model.
+Failed to load 1 model.
+Deployed 0 invocables.
+dsntk 0.0.0.0:22022

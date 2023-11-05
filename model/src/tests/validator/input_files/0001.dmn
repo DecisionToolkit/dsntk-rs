@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/item-definition-cycles"
+             name="simple-string"
+             id="_fe4f68a6-29c7-45de-aec6-233bbd3cec08"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+    
+    <description>
+        Item definition defining a simple string type.
+        There is no cyclic dependency between item definitions.
+    </description>
+    
+    <itemDefinition name="tSimpleString">
+        <typeRef>string</typeRef>
+    </itemDefinition>
+    
+</definitions>

@@ -1,0 +1,213 @@
+version: '3'
+
+silent: true
+
+tasks:
+
+  bbt:
+    desc: Runs all black-box tests
+    cmds:
+      - cmd: cargo +stable build --workspace && cd bbt && ./bbt.sh && cd ..
+
+  bbtt:
+    desc: Runs all black-box test staring in specified directory
+    cmds:
+      - cmd: cargo +stable build --workspace && cd bbt && ./bbt.sh {{.CLI_ARGS}} && cd ..
+
+  bench:
+    desc: Runs all benchmarks
+    cmds:
+      - cmd: cargo +nightly bench
+
+  benchmarks:
+    desc: Runs all compatibility benchmarks
+    cmds:
+      - cmd: rm -rf ./target/benchmarks
+      - cmd: mkdir -p ./target/benchmarks
+      - cmd: cargo +nightly bench -q compatibility | tee ./target/benchmarks/out.txt | grep 'bench' > ./target/benchmarks/benchmarks.txt
+
+  build:
+    desc: Builds in debug mode
+    cmds:
+      - cmd: cargo +stable build --workspace
+        
+  build-tck:
+    desc: Builds in debug mode
+    cmds:
+      - cmd: cargo +stable build --workspace --features=tck
+
+  clean:
+    desc: Cleans all targets
+    cmds:
+      - cmd: cargo clean
+
+  clippy:
+    desc: Runs clippy for all targets
+    cmds:
+      - cmd: cargo +stable clippy --workspace
+        
+  clippy-all:
+    desc: Runs clippy for all targets
+    cmds:
+      - cmd: cargo +nightly clippy --workspace --all-targets
+        
+  clippy-tck:
+    desc: Runs clippy for all targets and TCK feature
+    cmds:
+      - cmd: cargo clippy --workspace --features=tck
+        
+  clippy-tck-all:
+    desc: Runs clippy for all targets and TCK feature
+    cmds:
+      - cmd: cargo +nightly clippy --workspace --all-targets --features=tck
+
+  cov:
+    desc: Runs code coverage using grcov
+    cmds:
+      - cmd: ./coverage.sh
+
+  cov-pdf:
+    desc: Runs code coverage using grcov and generated PDF report
+    cmds:
+      - cmd: PDF_REPORT=yes ./coverage.sh
+
+  cov-common:
+    desc: Runs code coverage using grcov for dsntk-common
+    cmds:
+      - cmd: ./coverage.sh dsntk-common
+
+  cov-feel:
+    desc: Runs code coverage using grcov for dsntk-feel
+    cmds:
+      - cmd: ./coverage.sh dsntk-feel
+
+  cov-feel-evaluator:
+    desc: Runs code coverage using grcov for dsntk-feel-evaluator
+    cmds:
+      - cmd: ./coverage.sh dsntk-feel-evaluator
+
+  cov-feel-grammar:
+    desc: Runs code coverage using grcov for dsntk-feel-grammar
+    cmds:
+      - cmd: ./coverage.sh dsntk-feel-grammar
+
+  cov-feel-number:
+    desc: Runs code coverage using grcov for dsntk-feel-number
+    cmds:
+      - cmd: ./coverage.sh dsntk-feel-number
+
+  cov-feel-parser:
+    desc: Runs code coverage using grcov for dsntk-feel-parser
+    cmds:
+      - cmd: ./coverage.sh dsntk-feel-parser
+
+  cov-feel-temporal:
+    desc: Runs code coverage using grcov for dsntk-feel-temporal
+    cmds:
+      - cmd: ./coverage.sh dsntk-feel-temporal
+
+  cov-gendoc:
+    desc: Runs code coverage using grcov for dsntk-gendoc
+    cmds:
+      - cmd: ./coverage.sh dsntk-gendoc
+
+  cov-model:
+    desc: Runs code coverage using grcov for dsntk-model
+    cmds:
+      - cmd: ./coverage.sh dsntk-model
+
+  cov-recognizer:
+    desc: Runs code coverage using grcov for dsntk-recognizer
+    cmds:
+      - cmd: ./coverage.sh dsntk-recognizer
+
+  cov-server:
+    desc: Runs code coverage using grcov for dsntk-server
+    cmds:
+      - cmd: ./coverage.sh dsntk-server
+
+  doc:
+    desc: Generates documentation
+    cmds:
+      - cmd: cargo +stable doc --no-deps
+
+  doc-open:
+    desc: Generates documentation and opens it in browser
+    cmds:
+      - cmd: cargo +stable doc --no-deps --open
+
+  doc-priv:
+    desc: Generates documentation with private items
+    cmds:
+      - cmd: cargo +stable doc --no-deps --document-private-items
+
+  doc-priv-open:
+    desc: Generates documentation with private items and opens it in browser
+    cmds:
+      - cmd: cargo +stable doc --no-deps --open --document-private-items
+
+  fmt:
+    desc: Runs code formatter
+    cmds:
+      - cmd: cargo +nightly fmt
+        
+  help:
+    desc: Displays short help
+    cmds:
+      - cmd: cargo +stable run -- -h
+        
+  help-long:
+    desc: Displays long help
+    cmds:
+      - cmd: cargo +stable run -- --help
+
+  install:
+    desc: Builds and installs release version from local sources
+    cmds:
+      - cmd: cargo +stable install dsntk --path dsntk --force
+
+  musl:
+    desc: Builds the Linux MUSL target
+    cmds:
+      - cmd: cargo +stable build --release --target=x86_64-unknown-linux-musl
+
+  release:
+    desc: Builds in release mode
+    cmds:
+      - cmd: cargo clean
+      - cmd: cargo +stable build --release
+
+  run:
+    desc: Runs the server in release mode
+    cmds:
+      - cmd: cargo +stable run --release -- srv -H 127.0.0.1 -D ../tck/TestCases
+
+  run-musl:
+    desc: Runs the server in release mode and musl target
+    cmds:
+      - cmd: cargo +stable run --release --target=x86_64-unknown-linux-musl -- srv -H 127.0.0.1 -D ../tck/TestCases
+        
+  tck:
+    desc: Runs the server in release mode and musl target with flags for running TCK test cases
+    cmds:
+      - cmd: cargo +stable run --release --features tck --target=x86_64-unknown-linux-musl -- srv -H 127.0.0.1 -D ../tck/TestCases
+        
+  tck-debug:
+    desc: Runs the server in debug mode with flags for running TCK test cases
+    cmds:
+      - cmd: cargo +stable run --features tck -- srv -H 127.0.0.1 -D ../tck/TestCases
+        
+  test:
+    desc: Runs tests in debug mode
+    cmds:
+      - cmd: cargo +stable test --workspace
+
+  testn:
+    desc: Runs tests in debug mode using nextest
+    cmds:
+      - cmd: cargo +stable nextest run --workspace
+
+  testq:
+    desc: Runs tests in debug and quiet mode
+    cmds:
+      - cmd: cargo +stable test --workspace -q

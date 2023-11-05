@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definition namespace="https://dsntk.io"
+             name="invalid-model-0008"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        This is an example of invalid model.
+        The root element is named "definition" but should be named "definitions".
+    </description>
+
+    <decision name="one">
+        <variable typeRef="number" name="one"/>
+        <literalExpression>
+            <text>1</text>
+        </literalExpression>
+    </decision>
+</definition>

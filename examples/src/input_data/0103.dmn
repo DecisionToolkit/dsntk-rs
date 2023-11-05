@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0103"
+             id="_c87418b3-a615-44f3-8745-14e055a5a576"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+    <description>Input data with reference type variable of simple type string.</description>
+    <itemDefinition name="tEmploymentStatus">
+        <typeRef>string</typeRef>
+    </itemDefinition>
+    <inputData name="Employment Status" id="_acfd4e1d-da0a-4842-aa35-ea50dd36fb01">
+        <variable typeRef="tEmploymentStatus" name="Employment Status"/>
+    </inputData>
+</definitions>
