@@ -9,6 +9,7 @@ set -e
 # $ rustup component add llvm-tools-preview
 # $ cargo install grcov
 # $ cargo install htop
+# $ cargo install cargo-nextest
 #
 ###############################################################################
 
@@ -29,11 +30,10 @@ export CARGO_FEATURE_PARSING_TABLES=1
 
 if [ -n "$1" ]; then
   # run tests only for specified package
-  cargo +nightly nexttest run -p "$1"
+  cargo +nightly nextest run -p "$1"
 else
   # run all tests
-  cargo +nightly nexttest run
-  sleep 1.5
+  cargo +nightly nextest run
   # build the binary again
   cargo +nightly build
   # run black-box tests

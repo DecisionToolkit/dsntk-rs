@@ -58,7 +58,6 @@ mod utilities {
 
   /// This is a utility function for comparing the number of compatibility test models in this crate
   /// with the number of compatibility test models in TCK repository.
-  #[ignore]
   #[test]
   fn compare_the_number_of_models() {
     let tck_models = count_models("../../tck/TestCases");
