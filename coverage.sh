@@ -3,6 +3,7 @@
 set -e
 
 ###############################################################################
+#
 # Dependencies:
 #
 # $ sudo dnf install lcov
@@ -10,6 +11,12 @@ set -e
 # $ cargo install grcov
 # $ cargo install htop
 # $ cargo install cargo-nextest
+#
+# REMARKS:
+#
+# Run this script when the dependencies to particular crates are specified
+# by path. For some reason, code coverage is not accurate when crates
+# versions are in place.
 #
 ###############################################################################
 

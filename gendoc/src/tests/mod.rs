@@ -1,3 +1,5 @@
+#![cfg(test)]
+
 mod ascii_model;
 mod compatibility;
 mod decision_tables;
