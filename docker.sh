@@ -2,7 +2,7 @@
 
 # set variables
 NAME=dsntk
-VERSION=0.4.0-dev
+VERSION=0.0.1
 
 # clean before proceeding
 cargo clean
