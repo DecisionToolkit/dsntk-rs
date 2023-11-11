@@ -2,15 +2,13 @@ mod ascii_model;
 mod defs;
 mod generator;
 mod horizontal_decision_table;
-
-#[cfg(test)]
 mod tests;
 
 use crate::generator::HTMLGenerator;
 pub use ascii_model::print_model;
 use dsntk_model::{DecisionTable, Definitions};
 
-/// Generates HTML documentation from decision model
+/// Generates HTML documentation from decision model.
 pub fn dmn_model_to_html(definitions: &Definitions) -> String {
   let mut html_generator = HTMLGenerator::new();
   html_generator.dmn_model_to_html(definitions)

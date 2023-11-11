@@ -7,7 +7,7 @@ use dsntk_model::*;
 use std::collections::HashMap;
 use std::fmt::Write;
 
-/// Useful constant equal to 2×PI.
+/// Utility constant equal to 2×PI.
 const PI_2: f64 = std::f64::consts::PI * 2.0;
 
 /// Amplitude of the wave in knowledge source symbol.
@@ -563,7 +563,7 @@ fn create_description(optional_description: &Option<String>) -> Option<HtmlEleme
 /// Creates SVG solid edge line with black-filled arrow at the end.  
 fn create_svg_edge_solid_with_black_arrow(way_points: &[DcPoint]) -> HtmlElement {
   // prepare line
-  let points = way_points.iter().fold("".to_string(),|acc,w| format!("{}{},{} ",acc, w.x, w.y));
+  let points = way_points.iter().fold("".to_string(), |acc, w| format!("{}{},{} ", acc, w.x, w.y));
   let mut svg_edge = HtmlElement::new("polyline");
   svg_edge.set_attr("points", points);
   svg_edge.set_attr("stroke", "black");
@@ -593,7 +593,7 @@ fn create_svg_edge_solid_with_black_arrow(way_points: &[DcPoint]) -> HtmlElement
 /// Creates SVG dashed edge line with thin arrow at the end.  
 fn create_svg_edge_dashed_with_thin_arrow(way_points: &[DcPoint]) -> HtmlElement {
   // prepare line
-  let points = way_points.iter().fold("".to_string(),|acc, w| format!("{}{},{} ",acc, w.x, w.y));
+  let points = way_points.iter().fold("".to_string(), |acc, w| format!("{}{},{} ", acc, w.x, w.y));
   let mut svg_edge = HtmlElement::new("polyline");
   svg_edge.set_attr("points", points);
   svg_edge.set_attr("stroke-dasharray", "5 3");
@@ -618,7 +618,7 @@ fn create_svg_edge_dashed_with_thin_arrow(way_points: &[DcPoint]) -> HtmlElement
 /// Creates SVG dashed edge line with black end-point at the end.  
 fn create_svg_edge_dashed_with_end_point(way_points: &[DcPoint]) -> HtmlElement {
   // prepare line
-  let points = way_points.iter().fold("".to_string(),|acc, w| format!("{}{},{} ", acc, w.x, w.y));
+  let points = way_points.iter().fold("".to_string(), |acc, w| format!("{}{},{} ", acc, w.x, w.y));
   let mut svg_edge = HtmlElement::new("polyline");
   svg_edge.set_attr("points", points);
   svg_edge.set_attr("stroke-dasharray", "5 3");
