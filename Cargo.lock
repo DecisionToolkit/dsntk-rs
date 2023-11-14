@@ -388,11 +388,10 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.0.83"
+version = "1.0.84"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f1174fb0b6ec23863f8b971027804a42614e347eafb0a95bf0b12cdae21fc4d0"
+checksum = "0f8e7c90afad890484a21653d08b6e209ae34770fb5ee298f9c699fcc1e5c856"
 dependencies = [
- "jobserver",
  "libc",
 ]
 
@@ -568,6 +567,16 @@ name = "dfp-number-sys"
 version = "0.0.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b3e931e57eee4486077c17ec4b4fa2b14dbb88c9b85e01c3a0045bbdca9453a5"
+dependencies = [
+ "cc",
+ "libc",
+]
+
+[[package]]
+name = "dfp-number-sys"
+version = "0.0.15"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "417c4af8dda9cc2dd04f47bb4ea757a73948d8bfaaa971c7864f51653bb1bbed"
 dependencies = [
  "cc",
  "libc",
@@ -766,7 +775,7 @@ dependencies = [
 name = "dsntk-feel-number"
 version = "0.0.1"
 dependencies = [
- "dfp-number-sys",
+ "dfp-number-sys 0.0.15",
  "dsntk-common 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "dsntk-macros 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -777,7 +786,7 @@ version = "0.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c47b6f6eedd0cb45515be5ef88a6176006b499e473824f5fe408f6d8a255b510"
 dependencies = [
- "dfp-number-sys",
+ "dfp-number-sys 0.0.14",
  "dsntk-common 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "dsntk-macros 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -1184,9 +1193,9 @@ checksum = "d77f7ec81a6d05a3abb01ab6eb7590f6083d08449fe5a1c8b1e620283546ccb7"
 
 [[package]]
 name = "http"
-version = "0.2.10"
+version = "0.2.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f95b9abcae896730d42b78e09c155ed4ddf82c07b4de772c64aee5b2d8b7c150"
+checksum = "8947b1a6fad4393052c7ba1f4cd97bed3e953a95c79c92ad9b051a04611d9fbb"
 dependencies = [
  "bytes",
  "fnv",
@@ -1318,15 +1327,6 @@ name = "itoa"
 version = "1.0.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "af150ab688ff2122fcef229be89cb50dd66af9e01a4ff320cc137eecc9bacc38"
-
-[[package]]
-name = "jobserver"
-version = "0.1.27"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8c37f63953c4c63420ed5fd3d6d398c719489b9f872b9fa683262f8edd363c7d"
-dependencies = [
- "libc",
-]
 
 [[package]]
 name = "js-sys"

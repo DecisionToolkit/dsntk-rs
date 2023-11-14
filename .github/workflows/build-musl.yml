@@ -1,4 +1,4 @@
-name: Musl build
+name: musl
 
 on:
   push:
