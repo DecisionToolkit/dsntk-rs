@@ -1,4 +1,4 @@
-name: linux
+name: macos m1
 
 on:
   push:
@@ -13,12 +13,13 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo build --release
+      - run: rustup target add --toolchain stable aarch64-apple-darwin
+      - run: cargo build --release --target=aarch64-apple-darwin
       - uses: actions/upload-artifact@v3
         with:
-          name: dsntk-linux
-          path: target/release/dsntk
+          name: dsntk-macos-arm64
+          path: target/aarch64-apple-darwin/release/dsntk
