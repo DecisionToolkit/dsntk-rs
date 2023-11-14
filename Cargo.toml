@@ -23,7 +23,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.1.0"
+version = "0.0.2"
 authors = ["Dariusz Depta <dariusz.depta@dsntk.io>"]
 license = "MIT OR Apache-2.0"
 edition = "2021"
@@ -34,8 +34,8 @@ base64 = "0.21.5"
 chrono = "0.4.31"
 chrono-tz = "0.8.4"
 convert_case = "0.6.0"
-clap = { version = "4.4.7", features = ["cargo"] }
-dfp-number-sys = "0.0.14"
+clap = { version = "4.4.8", features = ["cargo"] }
+dfp-number-sys = "0.0.15"
 difference = "2.0.0"
 domrs = "0.0.6"
 markdown = "1.0.0-alpha.14"
