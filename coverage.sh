@@ -37,12 +37,12 @@ export CARGO_FEATURE_PARSING_TABLES=1
 
 if [ -n "$1" ]; then
   # run tests only for specified package
-  cargo +nightly nextest run -p "$1"
+  cargo +nightly test -p "$1"
 else
   # run all tests
-  cargo +nightly nextest run
+  cargo +nightly test --workspace
   # build the binary again
-  cargo +nightly build
+  cargo +nightly build --workspace
   # run black-box tests
   cd "$WORKING_DIRECTORY"/bbt || exit 1
   ./bbt.sh
