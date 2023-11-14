@@ -1,20 +1,20 @@
 [package]
 name = "dsntk-gendoc"
-version.workspace = true
-authors.workspace = true
+version = { workspace = true }
+authors = { workspace = true }
 description = "DSNTK | Documentation generator"
 documentation = "https://docs.rs/dsntk-model"
 repository = "https://github.com/dsntk/dsntk-rs.git"
-license.workspace = true
-edition.workspace = true
+license = { workspace = true }
+edition = { workspace = true }
 
 [dependencies]
-domrs.workspace = true
-markdown.workspace = true
-dsntk-common.workspace = true
-dsntk-examples.workspace = true
-dsntk-feel.workspace = true
-dsntk-model.workspace = true
+domrs = { workspace = true }
+markdown = { workspace = true }
+dsntk-common = { workspace = true }
+dsntk-examples = { workspace = true }
+dsntk-feel = { workspace = true }
+dsntk-model = { workspace = true }
 
 [dev-dependencies]
-dsntk-recognizer.workspace = true
+dsntk-recognizer = { workspace = true }

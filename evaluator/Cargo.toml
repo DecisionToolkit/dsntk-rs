@@ -1,16 +1,16 @@
 [package]
 name = "dsntk-evaluator"
-version.workspace = true
-authors.workspace = true
+version = { workspace = true }
+authors = { workspace = true }
 description = "DSNTK | FEEL and DMN model evaluator"
 documentation = "https://docs.rs/dsntk-evaluator"
 repository = "https://github.com/dsntk/dsntk-rs.git"
-license.workspace = true
-edition.workspace = true
+license = { workspace = true }
+edition = { workspace = true }
 
 [dependencies]
-dsntk-common.workspace = true
-dsntk-feel.workspace = true
-dsntk-feel-evaluator.workspace = true
-dsntk-feel-parser.workspace = true
-dsntk-model-evaluator.workspace = true
+dsntk-common = { workspace = true }
+dsntk-feel = { workspace = true }
+dsntk-feel-evaluator = { workspace = true }
+dsntk-feel-parser = { workspace = true }
+dsntk-model-evaluator = { workspace = true }

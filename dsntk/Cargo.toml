@@ -1,26 +1,26 @@
 [package]
 name = "dsntk"
-version.workspace = true
-authors.workspace = true
+version = { workspace = true }
+authors = { workspace = true }
 description = "DSNTK | Decision Toolkit"
 documentation = "https://docs.rs/dsntk"
 repository = "https://github.com/dsntk/dsntk-rs.git"
-license.workspace = true
-edition.workspace = true
+license = { workspace = true }
+edition = { workspace = true }
 
 [dependencies]
-actix-web.workspace = true
-base64.workspace = true
-clap.workspace = true
-difference.workspace = true
-once_cell.workspace = true
-serde.workspace = true
-dsntk-common.workspace = true
-dsntk-evaluator.workspace = true
-dsntk-feel.workspace = true
-dsntk-feel-parser.workspace = true
-dsntk-gendoc.workspace = true
-dsntk-model.workspace = true
-dsntk-recognizer.workspace = true
-dsntk-server.workspace = true
-dsntk-workspace.workspace = true
+actix-web = { workspace = true }
+base64 = { workspace = true }
+clap = { workspace = true }
+difference = { workspace = true }
+once_cell = { workspace = true }
+serde = { workspace = true }
+dsntk-common = { workspace = true }
+dsntk-evaluator = { workspace = true }
+dsntk-feel = { workspace = true }
+dsntk-feel-parser = { workspace = true }
+dsntk-gendoc = { workspace = true }
+dsntk-model = { workspace = true }
+dsntk-recognizer = { workspace = true }
+dsntk-server = { workspace = true }
+dsntk-workspace = { workspace = true }

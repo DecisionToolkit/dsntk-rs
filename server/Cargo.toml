@@ -1,25 +1,25 @@
 [package]
 name = "dsntk-server"
-version.workspace = true
-authors.workspace = true
+version = { workspace = true }
+authors = { workspace = true }
 description = "DSNTK | API server"
 documentation = "https://docs.rs/dsntk-server"
 repository = "https://github.com/dsntk/dsntk-rs.git"
-license.workspace = true
-edition.workspace = true
+license = { workspace = true }
+edition = { workspace = true }
 
 [features]
 default = []
 tck = []
 
 [dependencies]
-actix-web.workspace = true
-base64.workspace = true
-serde.workspace = true
-serde_json.workspace = true
-dsntk-common.workspace = true
-dsntk-evaluator.workspace = true
-dsntk-feel.workspace = true
-dsntk-macros.workspace = true
-dsntk-model.workspace = true
-dsntk-workspace.workspace = true
+actix-web = { workspace = true }
+base64 = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+dsntk-common = { workspace = true }
+dsntk-evaluator = { workspace = true }
+dsntk-feel = { workspace = true }
+dsntk-macros = { workspace = true }
+dsntk-model = { workspace = true }
+dsntk-workspace = { workspace = true }

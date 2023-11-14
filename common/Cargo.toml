@@ -1,16 +1,16 @@
 [package]
 name = "dsntk-common"
-version.workspace = true
-authors.workspace = true
+version = { workspace = true }
+authors = { workspace = true }
 description = "DSNTK | Common definitions"
 documentation = "https://docs.rs/dsntk-common"
 repository = "https://github.com/dsntk/dsntk-rs.git"
-license.workspace = true
-edition.workspace = true
+license = { workspace = true }
+edition = { workspace = true }
 
 [dependencies]
-serde.workspace = true
-uuid.workspace = true
-uriparse.workspace = true
-url.workspace = true
-dsntk-macros.workspace = true
+serde = { workspace = true }
+uuid = { workspace = true }
+uriparse = { workspace = true }
+url = { workspace = true }
+dsntk-macros = { workspace = true }
