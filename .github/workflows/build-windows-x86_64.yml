@@ -1,4 +1,5 @@
 name: windows-x86_64
+run-name: Windows
 
 on:
   push:
