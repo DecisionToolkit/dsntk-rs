@@ -1,4 +1,6 @@
-name: apple-macos-arm64
+# apple-macos-arm64
+
+name: macOS M1
 
 on:
   push:

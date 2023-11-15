@@ -1,5 +1,6 @@
-name: windows-x86_64
-run-name: Windows
+# apple-macos-x86_64
+
+name: macOs
 
 on:
   push:
@@ -14,14 +15,14 @@ env:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
         with:
-          targets: x86_64-pc-windows-msvc
-      - run: cargo +stable build --release --target=x86_64-pc-windows-msvc
+          targets: x86_64-apple-darwin
+      - run: cargo +stable build --release --target=x86_64-apple-darwin
       - uses: actions/upload-artifact@v3
         with:
-          name: dsntk-windows-x86_64
-          path: target/x86_64-pc-windows-msvc/release/dsntk.exe
+          name: dsntk-apple-macos-x86_64
+          path: target/x86_64-apple-darwin/release/dsntk
