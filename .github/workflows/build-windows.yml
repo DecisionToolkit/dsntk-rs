@@ -1,4 +1,6 @@
-name: windows
+# windows-x86_64
+
+name: Windows
 
 on:
   push:
@@ -17,8 +19,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo build --release
+        with:
+          targets: x86_64-pc-windows-msvc
+      - run: cargo +stable build --release --target=x86_64-pc-windows-msvc
       - uses: actions/upload-artifact@v3
         with:
-          name: dsntk-windows
-          path: target/release/dsntk.exe
+          name: dsntk-windows-x86_64
+          path: target/x86_64-pc-windows-msvc/release/dsntk.exe

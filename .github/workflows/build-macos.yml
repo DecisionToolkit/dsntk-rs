@@ -1,4 +1,6 @@
-name: macos
+# apple-macos-x86_64
+
+name: macOs
 
 on:
   push:
@@ -17,8 +19,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo build --release
+        with:
+          targets: x86_64-apple-darwin
+      - run: cargo +stable build --release --target=x86_64-apple-darwin
       - uses: actions/upload-artifact@v3
         with:
-          name: dsntk-macos
-          path: target/release/dsntk
+          name: dsntk-apple-macos-x86_64
+          path: target/x86_64-apple-darwin/release/dsntk

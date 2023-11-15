@@ -1,4 +1,6 @@
-name: linux
+# linux-musl-x86_64
+
+name: Linux
 
 on:
   push:
@@ -17,8 +19,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo build --release
+        with:
+          targets: x86_64-unknown-linux-musl
+      - run: sudo apt-get update && sudo apt-get install -y musl-tools
+      - run: cargo +stable build --release --target=x86_64-unknown-linux-musl
       - uses: actions/upload-artifact@v3
         with:
-          name: dsntk-linux
-          path: target/release/dsntk
+          name: dsntk-linux-musl-x86_64
+          path: target/x86_64-unknown-linux-musl/release/dsntk
