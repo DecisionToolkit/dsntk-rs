@@ -23,4 +23,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: dsntk-windows-x86_64
-          path: target/release/dsntk.exe
+          path: target/x86_64-pc-windows-msvc/release/dsntk.exe
