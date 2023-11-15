@@ -16,7 +16,7 @@
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-97%25-green.svg
 [build-badge-linux]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-linux-musl-x86_64.yml/badge.svg
 [build-badge-windows]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-windows-x86_64.yml/badge.svg
-[build-badge-macos]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-macos-x86_64.yml/badge.svg
+[build-badge-macos]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-apple-macos-x86_64.yml/badge.svg
 [mit-badge]: https://img.shields.io/badge/License-MIT-blue.svg
 [mit-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE-MIT
 [apache-badge]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
