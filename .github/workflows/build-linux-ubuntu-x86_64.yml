@@ -1,4 +1,4 @@
-name: linux-ubuntu-x86-64
+name: linux-ubuntu-x86_64
 
 on:
   push:
