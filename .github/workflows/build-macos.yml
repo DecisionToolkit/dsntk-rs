@@ -1,4 +1,4 @@
-name: apple-macos-x86_64
+name: macOs
 
 on:
   push:
