@@ -1,4 +1,4 @@
-name: Linux
+name: linux-musl-x86_64
 
 on:
   push:

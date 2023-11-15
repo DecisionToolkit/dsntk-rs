@@ -2,9 +2,11 @@
 
 [![Crates.io][crates-badge]][crates-url]
 ![Code coverage][coverage-badge]
+
 ![build Linux][build-badge-linux]
 ![build Windows][build-badge-windows]
 ![build MacOs][build-badge-macos]
+
 [![MIT licensed][mit-badge]][mit-url]
 [![Apache 2.0 licensed][apache-badge]][apache-url]
 [![Contributor Covenant][cc-badge]][cc-url]
@@ -12,9 +14,9 @@
 [crates-badge]: https://img.shields.io/crates/v/dsntk.svg
 [crates-url]: https://crates.io/crates/dsntk
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-97%25-green.svg
-[build-badge-linux]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-linux.yml/badge.svg
-[build-badge-windows]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-windows.yml/badge.svg
-[build-badge-macos]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-macos.yml/badge.svg
+[build-badge-linux]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-linux-musl-x86_64.yml/badge.svg
+[build-badge-windows]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-windows-x86_64.yml/badge.svg
+[build-badge-macos]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-macos-x86_64.yml/badge.svg
 [mit-badge]: https://img.shields.io/badge/License-MIT-blue.svg
 [mit-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE-MIT
 [apache-badge]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
