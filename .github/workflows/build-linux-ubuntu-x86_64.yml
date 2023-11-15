@@ -1,4 +1,4 @@
-name: windows
+name: linux-ubuntu-x86-64
 
 on:
   push:
@@ -13,12 +13,14 @@ env:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo build --release
+        with:
+          targets: x86_64-unknown-linux-gnu
+      - run: cargo +stable build --release --target=x86_64-unknown-linux-gnu
       - uses: actions/upload-artifact@v3
         with:
-          name: dsntk-windows
-          path: target/release/dsntk.exe
+          name: dsntk-linux-ubuntu-x86_64
+          path: target/release/dsntk
