@@ -44,7 +44,7 @@ petgraph = "0.6.4"
 quote = "1.0.33"
 regex = "1.10.2"
 reqwest = { version = "0.11.22", default-features = false, features = ["blocking", "json", "rustls-tls"] }
-roxmltree = "0.18.1"
+roxmltree = "0.19.0"
 serde = { version = "1.0.192", features = ["derive"] }
 serde_json = "1.0.108"
 syn = "2.0.39"
