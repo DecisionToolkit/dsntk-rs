@@ -37,7 +37,7 @@ convert_case = "0.6.0"
 clap = { version = "4.4.8", features = ["cargo"] }
 dfp-number-sys = "0.0.15"
 difference = "2.0.0"
-domrs = { path = "../domrs" }
+domrs = "0.0.11"
 markdown = "1.0.0-alpha.15"
 once_cell = "1.18.0"
 petgraph = "0.6.4"
