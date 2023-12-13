@@ -91,5 +91,19 @@
             <text>for i in days in weekend return if i = "sunday" then true else false</text>
         </literalExpression>
     </decision>
+
+    <decision name="decision_015" id="_decision_015">
+        <variable name="decision_015"/>
+        <literalExpression>
+            <text>for x in [ [1,2], [3,4] ], y in x return y</text>
+        </literalExpression>
+    </decision>
+
+    <decision name="decision_016" id="_decision_016">
+        <variable name="decision_016"/>
+        <literalExpression>
+            <text>for x in [ [1,2], [3,4] ] return for y in x return y</text>
+        </literalExpression>
+    </decision>
     
 </definitions>
