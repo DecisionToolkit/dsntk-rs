@@ -1,4 +1,4 @@
-//! Definitions of built-in functions.
+//! # Definitions of built-in functions
 
 use crate::errors::*;
 use crate::FeelType;
@@ -70,6 +70,7 @@ pub enum Bif {
   StartsWith,
   Stddev,
   String,
+  StringJoin,
   StringLength,
   Sublist,
   Substring,
@@ -151,6 +152,7 @@ impl FromStr for Bif {
       "starts with" => Ok(Self::StartsWith),
       "stddev" => Ok(Self::Stddev),
       "string" => Ok(Self::String),
+      "string join" => Ok(Self::StringJoin),
       "string length" => Ok(Self::StringLength),
       "sublist" => Ok(Self::Sublist),
       "substring" => Ok(Self::Substring),
@@ -168,7 +170,7 @@ impl FromStr for Bif {
 }
 
 impl Bif {
-  /// Returns a [FeelType] of [Bif].
+  /// Returns a [FeelType] returned from built-in function.
   pub fn feel_type(&self) -> FeelType {
     match self {
       Bif::Abs => FeelType::Function(vec![FeelType::Number], Box::new(FeelType::Number)),

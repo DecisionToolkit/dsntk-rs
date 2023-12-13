@@ -70,6 +70,7 @@ pub fn evaluate_bif(bif: Bif, parameters: &[Value]) -> Value {
     Bif::StartsWith => bif_starts_with(parameters),
     Bif::Stddev => bif_stddev(parameters),
     Bif::String => bif_string(parameters),
+    Bif::StringJoin => bif_string_join(parameters),
     Bif::StringLength => bif_string_length(parameters),
     Bif::Sublist => bif_sublist(parameters),
     Bif::Substring => bif_substring(parameters),
@@ -564,6 +565,14 @@ fn bif_stddev(parameters: &[Value]) -> Value {
 fn bif_string(parameters: &[Value]) -> Value {
   match parameters.len() {
     1 => core::string(&parameters[0]),
+    n => invalid_number_of_parameters!(1, n),
+  }
+}
+
+fn bif_string_join(parameters: &[Value]) -> Value {
+  match parameters.len() {
+    1 => core::string_join(&parameters[0], &value_null!()),
+    2 => core::string_join(&parameters[0], &parameters[1]),
     n => invalid_number_of_parameters!(1, n),
   }
 }

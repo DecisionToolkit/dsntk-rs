@@ -6,14 +6,14 @@ use dsntk_feel::{value_null, Name};
 use once_cell::sync::Lazy;
 
 static NAME_DATE: Lazy<Name> = Lazy::new(|| Name::from("date"));
+static NAME_DAY: Lazy<Name> = Lazy::new(|| Name::from("day"));
 static NAME_DECIMAL_SEPARATOR: Lazy<Name> = Lazy::new(|| Name::new(&["decimal", "separator"]));
 static NAME_DELIMITER: Lazy<Name> = Lazy::new(|| Name::from("delimiter"));
-static NAME_GROUPING_SEPARATOR: Lazy<Name> = Lazy::new(|| Name::new(&["grouping", "separator"]));
-static NAME_DAY: Lazy<Name> = Lazy::new(|| Name::from("day"));
 static NAME_DIVIDEND: Lazy<Name> = Lazy::new(|| Name::from("dividend"));
 static NAME_DIVISOR: Lazy<Name> = Lazy::new(|| Name::from("divisor"));
 static NAME_FLAGS: Lazy<Name> = Lazy::new(|| Name::from("flags"));
 static NAME_FROM: Lazy<Name> = Lazy::new(|| Name::from("from"));
+static NAME_GROUPING_SEPARATOR: Lazy<Name> = Lazy::new(|| Name::new(&["grouping", "separator"]));
 static NAME_HOUR: Lazy<Name> = Lazy::new(|| Name::from("hour"));
 static NAME_INPUT: Lazy<Name> = Lazy::new(|| Name::from("input"));
 static NAME_KEY: Lazy<Name> = Lazy::new(|| Name::from("key"));
@@ -130,6 +130,7 @@ pub fn evaluate_bif(bif: Bif, parameters: &NamedParameters) -> Value {
     Bif::StartsWith => bif_starts_with(parameters),
     Bif::Stddev => bif_stddev(parameters),
     Bif::String => bif_string(parameters),
+    Bif::StringJoin => bif_string_join(parameters),
     Bif::StringLength => bif_string_length(parameters),
     Bif::Sublist => bif_sublist(parameters),
     Bif::Substring => bif_substring(parameters),
@@ -793,6 +794,30 @@ fn bif_string(parameters: &NamedParameters) -> Value {
     core::string(value)
   } else {
     parameter_not_found!(NAME_FROM)
+  }
+}
+
+fn bif_string_join(parameters: &NamedParameters) -> Value {
+  match get_param_count(parameters) {
+    1 => {
+      if let Some((list_value, _)) = get_param(parameters, &NAME_LIST) {
+        core::string_join(list_value, &value_null!())
+      } else {
+        parameter_not_found!(NAME_LIST)
+      }
+    }
+    2 => {
+      if let Some((list_value, _)) = get_param(parameters, &NAME_LIST) {
+        if let Some((delimiter_value, _)) = get_param(parameters, &NAME_DELIMITER) {
+          core::string_join(list_value, delimiter_value)
+        } else {
+          parameter_not_found!(NAME_DELIMITER)
+        }
+      } else {
+        parameter_not_found!(NAME_LIST)
+      }
+    }
+    n => invalid_number_of_parameters!("1,2", n),
   }
 }
 
