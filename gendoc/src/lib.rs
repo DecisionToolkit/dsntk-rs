@@ -1,7 +1,7 @@
 mod ascii_model;
 mod defs;
 mod generator;
-mod horz_decision_table;
+mod horizontal_decision_table;
 mod styles;
 mod tests;
 

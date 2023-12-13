@@ -11,7 +11,7 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
   // prepare information item name
   if let Some(information_item_name) = decision_table.information_item_name() {
     let mut html_information_item_name = div!(CLASS_INFORMATION_ITEM_NAME);
-    html_information_item_name.set_content(information_item_name.to_string());
+    html_information_item_name.set_content(information_item_name);
     decision_table_element.add_child(html_information_item_name);
   }
 
@@ -42,14 +42,14 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
   // add hit policy
   let mut html_hit_policy = div!(CLASS_HIT_POLICY);
   html_hit_policy.set_style(&prepare_style_hit_policy(decision_table));
-  html_hit_policy.set_content(decision_table.hit_policy().to_string());
+  html_hit_policy.set_content(&decision_table.hit_policy().to_string());
   html_grid_body.add_child(html_hit_policy);
 
   // add input clauses
   for input_clause in decision_table.input_clauses() {
     let mut html_input_expression = div!(CLASS_INPUT_EXPRESSION);
     html_input_expression.set_style(&prepare_style_input_expression(decision_table));
-    html_input_expression.set_content(input_clause.input_expression.clone());
+    html_input_expression.set_content(&input_clause.input_expression);
     html_grid_body.add_child(html_input_expression);
   }
 
@@ -58,15 +58,15 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
     if let Some(output_label) = &decision_table.output_label() {
       let mut html_output_label = div!(CLASS_OUTPUT_LABEL);
       html_output_label.set_style(&prepare_style_output_label(decision_table.output_clauses().len()));
-      html_output_label.set_content(output_label.clone());
+      html_output_label.set_content(output_label);
       html_grid_body.add_child(html_output_label);
     } else {
       for output_clause in decision_table.output_clauses() {
         let mut html_output_component = div!(CLASS_OUTPUT_COMPONENT);
         if let Some(output_clause_name) = &output_clause.name {
-          html_output_component.set_content(output_clause_name.clone());
+          html_output_component.set_content(output_clause_name);
         } else {
-          html_output_component.set_content("&nbsp;".to_string());
+          html_output_component.set_content("&nbsp;");
         }
         html_grid_body.add_child(html_output_component);
       }
@@ -74,9 +74,9 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
   } else {
     let mut html_output_label = div!(CLASS_OUTPUT_LABEL);
     if let Some(output_label) = &decision_table.output_label() {
-      html_output_label.set_content(output_label.clone());
+      html_output_label.set_content(output_label);
     } else {
-      html_output_label.set_content("&nbsp;".to_string());
+      html_output_label.set_content("&nbsp;");
     }
     html_grid_body.add_child(html_output_label);
   }
@@ -85,7 +85,7 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
   for annotation in decision_table.annotations() {
     let mut html_annotation_label = div!(CLASS_ANNOTATION_LABEL);
     html_annotation_label.set_style(&prepare_style_annotation_label(decision_table));
-    html_annotation_label.set_content(annotation.name.clone());
+    html_annotation_label.set_content(&annotation.name);
     html_grid_body.add_child(html_annotation_label);
   }
 
@@ -93,9 +93,9 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
     for output_clause in decision_table.output_clauses() {
       let mut html_output_component = div!(CLASS_OUTPUT_COMPONENT);
       if let Some(output_clause_name) = &output_clause.name {
-        html_output_component.set_content(output_clause_name.clone());
+        html_output_component.set_content(output_clause_name);
       } else {
-        html_output_component.set_content("&nbsp;".to_string());
+        html_output_component.set_content("&nbsp;");
       }
       html_grid_body.add_child(html_output_component);
     }
@@ -105,18 +105,18 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
     for input_clause in decision_table.input_clauses() {
       let mut html_input_allowed_values = div!(CLASS_INPUT_ALLOWED_VALUES);
       if let Some(input_allowed_values) = &input_clause.allowed_input_values {
-        html_input_allowed_values.set_content(input_allowed_values.clone());
+        html_input_allowed_values.set_content(input_allowed_values);
       } else {
-        html_input_allowed_values.set_content("&nbsp;".to_string());
+        html_input_allowed_values.set_content("&nbsp;");
       }
       html_grid_body.add_child(html_input_allowed_values);
     }
     for output_clause in decision_table.output_clauses() {
       let mut html_output_allowed_values = div!(CLASS_OUTPUT_ALLOWED_VALUES);
       if let Some(output_allowed_values) = &output_clause.allowed_output_values {
-        html_output_allowed_values.set_content(output_allowed_values.clone());
+        html_output_allowed_values.set_content(output_allowed_values);
       } else {
-        html_output_allowed_values.set_content("&nbsp;".to_string());
+        html_output_allowed_values.set_content("&nbsp;");
       }
       html_grid_body.add_child(html_output_allowed_values);
     }
@@ -128,18 +128,18 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
   // add rules
   for (rule_number, rule) in decision_table.rules().enumerate() {
     // add rule number
-    html_grid_body.add_child(div!(CLASS_RULE_NUMBER, format!("{}", rule_number + 1)));
+    html_grid_body.add_child(div!(CLASS_RULE_NUMBER, &format!("{}", rule_number + 1)));
     // add input entries
     for input_entry in &rule.input_entries {
-      html_grid_body.add_child(div!(CLASS_INPUT_ENTRY, input_entry.text.clone()));
+      html_grid_body.add_child(div!(CLASS_INPUT_ENTRY, &input_entry.text));
     }
     // add output entries
     for output_entry in &rule.output_entries {
-      html_grid_body.add_child(div!(CLASS_OUTPUT_ENTRY, output_entry.text.clone()));
+      html_grid_body.add_child(div!(CLASS_OUTPUT_ENTRY, &output_entry.text));
     }
     // add annotation entries
     for annotation_entry in &rule.annotation_entries {
-      html_grid_body.add_child(div!(CLASS_ANNOTATION_ENTRY, annotation_entry.text.clone()));
+      html_grid_body.add_child(div!(CLASS_ANNOTATION_ENTRY, &annotation_entry.text));
     }
   }
 
