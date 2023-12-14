@@ -3,36 +3,58 @@ use dsntk_common::Jsonify;
 use std::collections::HashMap;
 
 #[test]
-fn test_default_name() {
+fn default_should_work() {
   let name: Name = Default::default();
   assert_eq!("", name.to_string());
   name.assert_receiver_is_total_eq();
 }
 
 #[test]
-fn test_display() {
+fn display_should_work() {
   let name: Name = vec!["   x   ".to_string(), " y      \t".to_string(), "  \n  z  \t  ".to_string()].into();
   assert_eq!("x y z", format!("{name}"));
 }
 
 #[test]
-fn test_debug() {
+fn debug_should_work() {
   let name: Name = vec!["   x   ".to_string(), " y      \t".to_string(), "  \n  z  \t  ".to_string()].into();
   assert_eq!(r#"Name("x y z")"#, format!("{name:?}"));
 }
 
 #[test]
-fn test_to_string() {
+fn into_string_should_work() {
   let name: Name = vec!["a".to_string(), "+".to_string(), "b".to_string()].into();
   let s: String = name.into();
   assert_eq!("a+b", s);
 }
 
 #[test]
-fn test_jsonify() {
+fn to_string_should_work() {
+  let name: Name = vec!["a".to_string(), "+".to_string(), "b".to_string()].into();
+  let s = name.to_string();
+  assert_eq!("a+b", s);
+}
+
+#[test]
+fn jsonify_should_work() {
   let name: Name = vec!["a".to_string(), "+".to_string(), "b".to_string()].into();
   let s: String = name.jsonify();
   assert_eq!("a+b", s);
+}
+
+#[test]
+fn empty_name_should_work() {
+  let name: Name = vec!["".to_string()].into();
+  assert_eq!("", name.to_string());
+  assert_eq!("", name.jsonify());
+}
+
+#[test]
+fn is_empty_should_work() {
+  let name: Name = vec!["".to_string()].into();
+  assert!(name.is_empty());
+  let name: Name = vec!["a".to_string()].into();
+  assert!(!name.is_empty());
 }
 
 #[test]

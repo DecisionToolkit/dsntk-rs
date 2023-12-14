@@ -86,7 +86,7 @@ pub fn te_date_time_offset(trace: bool, scope: &FeelScope, s: &str, date: (Year,
   textual_expression(trace, scope, s, Value::DateTime(FeelDateTime::offset(date, time, offset)));
 }
 
-/// Utility function that creates scope from specified input.
+/// Utility function that creates a scope from specified input.
 pub fn te_scope(input: &str) -> FeelScope {
   let scope = FeelScope::default();
   match dsntk_feel_parser::parse_context(&scope, input, false) {
@@ -161,6 +161,20 @@ pub fn te_days_and_time_duration_x(trace: bool, scope: &FeelScope, s: &str, expe
 /// Utility function that tests evaluation of time.
 pub fn te_time(trace: bool, scope: &FeelScope, s: &str, expected: FeelTime) {
   textual_expression(trace, scope, s, Value::Time(expected));
+}
+
+/// Utility function that tests evaluation of context.
+pub fn te_context<I: ToString, E: ToString>(trace: bool, scope: &FeelScope, actual: I, expected: E) {
+  match dsntk_feel_parser::parse_context(scope, &expected.to_string(), trace) {
+    Ok(node) => {
+      let evaluator = build_evaluator(&BuildContext::default(), &node);
+      textual_expression(trace, scope, &actual.to_string(), evaluator(scope));
+    }
+    Err(reason) => {
+      println!("ERROR: {reason}");
+      panic!("te_value failed");
+    }
+  }
 }
 
 /// Utility function that tests evaluation to specified value.

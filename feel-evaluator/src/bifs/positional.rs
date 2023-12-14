@@ -17,6 +17,9 @@ pub fn evaluate_bif(bif: Bif, parameters: &[Value]) -> Value {
     Bif::Coincides => bif_coincides(parameters),
     Bif::Concatenate => bif_concatenate(parameters),
     Bif::Contains => bif_contains(parameters),
+    Bif::Context => bif_context(parameters),
+    Bif::ContextMerge => bif_context_merge(parameters),
+    Bif::ContextPut => bif_context_put(parameters),
     Bif::Count => bif_count(parameters),
     Bif::Date => bif_date(parameters),
     Bif::DateAndTime => bif_date_and_time(parameters),
@@ -162,6 +165,27 @@ fn bif_contains(parameters: &[Value]) -> Value {
   match parameters.len() {
     2 => core::contains(&parameters[0], &parameters[1]),
     n => invalid_number_of_parameters!(2, n),
+  }
+}
+
+fn bif_context(parameters: &[Value]) -> Value {
+  match parameters.len() {
+    1 => core::context(&parameters[0]),
+    n => invalid_number_of_parameters!(1, n),
+  }
+}
+
+fn bif_context_merge(parameters: &[Value]) -> Value {
+  match parameters.len() {
+    1 => core::context_merge(&parameters[0]),
+    n => invalid_number_of_parameters!(1, n),
+  }
+}
+
+fn bif_context_put(parameters: &[Value]) -> Value {
+  match parameters.len() {
+    3 => core::context_put(&parameters[0], &parameters[1], &parameters[2]),
+    n => invalid_number_of_parameters!(3, n),
   }
 }
 

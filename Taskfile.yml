@@ -36,6 +36,11 @@ tasks:
     cmds:
       - cmd: cargo +stable build --workspace --features=tck
 
+  check:
+    desc: Performs checks in debug mode
+    cmds:
+      - cmd: cargo +stable check
+
   clean:
     desc: Cleans all targets
     cmds:

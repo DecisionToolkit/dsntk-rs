@@ -5,18 +5,22 @@ use dsntk_feel::{value_null, Name};
 
 use once_cell::sync::Lazy;
 
+static NAME_CONTEXT: Lazy<Name> = Lazy::new(|| Name::from("context"));
+static NAME_CONTEXTS: Lazy<Name> = Lazy::new(|| Name::from("contexts"));
 static NAME_DATE: Lazy<Name> = Lazy::new(|| Name::from("date"));
 static NAME_DAY: Lazy<Name> = Lazy::new(|| Name::from("day"));
 static NAME_DECIMAL_SEPARATOR: Lazy<Name> = Lazy::new(|| Name::new(&["decimal", "separator"]));
 static NAME_DELIMITER: Lazy<Name> = Lazy::new(|| Name::from("delimiter"));
 static NAME_DIVIDEND: Lazy<Name> = Lazy::new(|| Name::from("dividend"));
 static NAME_DIVISOR: Lazy<Name> = Lazy::new(|| Name::from("divisor"));
+static NAME_ENTRIES: Lazy<Name> = Lazy::new(|| Name::from("entries"));
 static NAME_FLAGS: Lazy<Name> = Lazy::new(|| Name::from("flags"));
 static NAME_FROM: Lazy<Name> = Lazy::new(|| Name::from("from"));
 static NAME_GROUPING_SEPARATOR: Lazy<Name> = Lazy::new(|| Name::new(&["grouping", "separator"]));
 static NAME_HOUR: Lazy<Name> = Lazy::new(|| Name::from("hour"));
 static NAME_INPUT: Lazy<Name> = Lazy::new(|| Name::from("input"));
 static NAME_KEY: Lazy<Name> = Lazy::new(|| Name::from("key"));
+static NAME_KEYS: Lazy<Name> = Lazy::new(|| Name::from("keys"));
 static NAME_LENGTH: Lazy<Name> = Lazy::new(|| Name::from("length"));
 static NAME_LIST: Lazy<Name> = Lazy::new(|| Name::from("list"));
 static NAME_MATCH: Lazy<Name> = Lazy::new(|| Name::from("match"));
@@ -44,23 +48,25 @@ static NAME_START_POSITION: Lazy<Name> = Lazy::new(|| Name::new(&["start", "posi
 static NAME_STRING: Lazy<Name> = Lazy::new(|| Name::from("string"));
 static NAME_TIME: Lazy<Name> = Lazy::new(|| Name::from("time"));
 static NAME_TO: Lazy<Name> = Lazy::new(|| Name::from("to"));
-static NAME_VALUE1: Lazy<Name> = Lazy::new(|| Name::from("value1"));
-static NAME_VALUE2: Lazy<Name> = Lazy::new(|| Name::from("value2"));
+static NAME_VALUE: Lazy<Name> = Lazy::new(|| Name::from("value"));
+static NAME_VALUE_1: Lazy<Name> = Lazy::new(|| Name::from("value1"));
+static NAME_VALUE_2: Lazy<Name> = Lazy::new(|| Name::from("value2"));
 static NAME_YEAR: Lazy<Name> = Lazy::new(|| Name::from("year"));
 
 type NamedParameters = Value;
 
 macro_rules! invalid_number_of_parameters {
   ($expected:expr, $actual:expr) => {{
-    use dsntk_feel::value_null;
     value_null!("expected {} parameters, actual number of parameters is {}", $expected, $actual)
   }};
 }
 
 macro_rules! parameter_not_found {
-  ($l:expr) => {{
-    use dsntk_feel::value_null;
-    value_null!(r"parameter '{}' not found", $l.to_string())
+  ($p1:expr, $p2:expr) => {{
+    value_null!(r"parameters '{}' or '{}' not found", *$p1, *$p2)
+  }};
+  ($p:expr) => {{
+    value_null!(r"parameter '{}' not found", *$p)
   }};
 }
 
@@ -77,6 +83,9 @@ pub fn evaluate_bif(bif: Bif, parameters: &NamedParameters) -> Value {
     Bif::Coincides => bif_coincides(parameters),
     Bif::Concatenate => bif_concatenate(parameters),
     Bif::Contains => bif_contains(parameters),
+    Bif::Context => bif_context(parameters),
+    Bif::ContextMerge => bif_context_merge(parameters),
+    Bif::ContextPut => bif_context_put(parameters),
     Bif::Count => bif_count(parameters),
     Bif::Date => bif_date(parameters),
     Bif::DateAndTime => bif_date_and_time(parameters),
@@ -239,6 +248,40 @@ fn bif_contains(parameters: &NamedParameters) -> Value {
     }
   } else {
     parameter_not_found!(NAME_STRING)
+  }
+}
+
+fn bif_context(parameters: &NamedParameters) -> Value {
+  if let Some((entries_value, _)) = get_param(parameters, &NAME_ENTRIES) {
+    core::context(entries_value)
+  } else {
+    parameter_not_found!(NAME_ENTRIES)
+  }
+}
+
+fn bif_context_merge(parameters: &NamedParameters) -> Value {
+  if let Some((contexts_value, _)) = get_param(parameters, &NAME_CONTEXTS) {
+    core::context_merge(contexts_value)
+  } else {
+    parameter_not_found!(NAME_CONTEXTS)
+  }
+}
+
+fn bif_context_put(parameters: &NamedParameters) -> Value {
+  if let Some((v_context, _)) = get_param(parameters, &NAME_CONTEXT) {
+    if let Some((v_value, _)) = get_param(parameters, &NAME_VALUE) {
+      if let Some((v_keys, _)) = get_param(parameters, &NAME_KEYS) {
+        core::context_put(v_context, v_keys, v_value)
+      } else if let Some((v_key, _)) = get_param(parameters, &NAME_KEY) {
+        core::context_put(v_context, v_key, v_value)
+      } else {
+        parameter_not_found!(NAME_KEY, NAME_KEYS)
+      }
+    } else {
+      parameter_not_found!(NAME_VALUE)
+    }
+  } else {
+    parameter_not_found!(NAME_CONTEXT)
   }
 }
 
@@ -456,14 +499,14 @@ fn bif_is(parameters: &NamedParameters) -> Value {
   match get_param_count(parameters) {
     1 => Value::Boolean(false),
     2 => {
-      if let Some((value1, _)) = get_param(parameters, &NAME_VALUE1) {
-        if let Some((value2, _)) = get_param(parameters, &NAME_VALUE2) {
+      if let Some((value1, _)) = get_param(parameters, &NAME_VALUE_1) {
+        if let Some((value2, _)) = get_param(parameters, &NAME_VALUE_2) {
           core::is(value1, value2)
         } else {
-          parameter_not_found!(NAME_VALUE2)
+          parameter_not_found!(NAME_VALUE_2)
         }
       } else {
-        parameter_not_found!(NAME_VALUE1)
+        parameter_not_found!(NAME_VALUE_1)
       }
     }
     n => invalid_number_of_parameters!(2, n),

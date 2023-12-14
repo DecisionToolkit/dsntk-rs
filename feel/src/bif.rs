@@ -17,6 +17,9 @@ pub enum Bif {
   Coincides,
   Concatenate,
   Contains,
+  Context,
+  ContextMerge,
+  ContextPut,
   Count,
   Date,
   DateAndTime,
@@ -86,7 +89,7 @@ pub enum Bif {
 
 impl FromStr for Bif {
   type Err = DsntkError;
-  /// Converts a string into corresponding enumeration variant of [Bif].
+  /// Converts a string into corresponding variant of the [Bif] enumeration.
   fn from_str(s: &str) -> Result<Self, Self::Err> {
     match s {
       "abs" => Ok(Self::Abs),
@@ -99,6 +102,9 @@ impl FromStr for Bif {
       "coincides" => Ok(Self::Coincides),
       "concatenate" => Ok(Self::Concatenate),
       "contains" => Ok(Self::Contains),
+      "context" => Ok(Self::Context),
+      "context merge" => Ok(Self::ContextMerge),
+      "context put" => Ok(Self::ContextPut),
       "count" => Ok(Self::Count),
       "date" => Ok(Self::Date),
       "date and time" => Ok(Self::DateAndTime),
@@ -164,7 +170,7 @@ impl FromStr for Bif {
       "upper case" => Ok(Self::UpperCase),
       "week of year" => Ok(Self::WeekOfYear),
       "years and months duration" => Ok(Self::YearsAndMonthsDuration),
-      _ => Err(err_unknown_function_name(s)),
+      unknown => Err(err_unknown_function_name(unknown)),
     }
   }
 }

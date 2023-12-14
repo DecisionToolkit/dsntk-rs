@@ -440,6 +440,61 @@ pub fn contains(input_string_value: &Value, match_string_value: &Value) -> Value
   }
 }
 
+pub fn context(entries: &Value) -> Value {
+  match entries {
+    Value::List(entries) => {
+      let mut result_ctx = FeelContext::default();
+      for entry in entries {
+        match entry {
+          Value::Context(ctx) => {
+            let Some(key) = ctx.get_entry(&"key".into()) else {
+              return value_null!("context: no 'key' entry in context {}", ctx);
+            };
+            let Some(value) = ctx.get_entry(&"value".into()) else {
+              return value_null!("context: no 'value' entry in context {}", ctx);
+            };
+            let key: Name = match key {
+              Value::String(key) => key.clone().into(),
+              _ => return value_null!("context: 'key' entry is not a string, actual type is {}", key.type_of()),
+            };
+            if result_ctx.contains_key(&key) {
+              return value_null!("context: duplicated key: {}", key);
+            }
+            result_ctx.set_entry(&key, value.clone());
+          }
+          _ => return value_null!("context: invalid entry, expected context, actual type is {}", entry.type_of()),
+        }
+      }
+      Value::Context(result_ctx)
+    }
+    Value::Context(ctx) => {
+      let mut result_ctx = FeelContext::default();
+      let Some(key) = ctx.get_entry(&"key".into()) else {
+        return value_null!("context: no 'key' entry in context {}", ctx);
+      };
+      let Some(value) = ctx.get_entry(&"value".into()) else {
+        return value_null!("context: no 'value' entry in context {}", ctx);
+      };
+      let key: Name = match key {
+        Value::String(key) => key.clone().into(),
+        _ => return value_null!("context: 'key' entry is not a string, actual type is {}", key.type_of()),
+      };
+      result_ctx.set_entry(&key, value.clone());
+      Value::Context(result_ctx)
+    }
+    null @ Value::Null(_) => null.clone(),
+    other => invalid_argument_type!("context", "list or context", other.type_of()),
+  }
+}
+
+pub fn context_put(_context: &Value, _keys: &Value, _value: &Value) -> Value {
+  value_null!()
+}
+
+pub fn context_merge(_contexts: &Value) -> Value {
+  value_null!()
+}
+
 /// Returns size of list, or zero if list is empty.
 pub fn count(list: &Value) -> Value {
   if let Value::List(items) = list {
