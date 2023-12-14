@@ -2161,28 +2161,30 @@ pub fn string(value: &Value) -> Value {
 
 /// Returns the number of characters in string.
 pub fn string_join(list: &Value, delimiter: &Value) -> Value {
-  if let Value::List(items) = list {
-    let delimiter = match delimiter {
-      Value::String(delimiter) => delimiter.clone(),
-      Value::Null(_) => "".to_string(),
-      _ => return value_null!("string join: invalid delimiter, expected string, actual value type is {}", delimiter.type_of()),
-    };
-    let mut joined_string = String::new();
-    for (i, item) in items.iter().enumerate() {
-      match item {
-        Value::String(s) => {
-          if i > 0 {
-            joined_string.push_str(&delimiter);
+  match list {
+    Value::List(items) => {
+      let delimiter = match delimiter {
+        Value::String(delimiter) => delimiter.clone(),
+        Value::Null(_) => "".to_string(),
+        _ => return value_null!("string join: invalid delimiter, expected string, actual value type is {}", delimiter.type_of()),
+      };
+      let mut joined_string = String::new();
+      for (i, item) in items.iter().enumerate() {
+        match item {
+          Value::String(s) => {
+            if i > 0 {
+              joined_string.push_str(&delimiter);
+            }
+            joined_string.push_str(s);
           }
-          joined_string.push_str(s);
+          Value::Null(_) => {}
+          other => return invalid_argument_type!("string join", "string", other.type_of()),
         }
-        Value::Null(_) => {}
-        other => return invalid_argument_type!("string join", "string", other.type_of()),
       }
+      Value::String(joined_string)
     }
-    Value::String(joined_string)
-  } else {
-    value_null!("string join: expected list, actual value type is {}", list.type_of())
+    Value::String(string) => Value::String(string.clone()),
+    other => value_null!("string join: expected list or string, actual value type is {}", other.type_of()),
   }
 }
 

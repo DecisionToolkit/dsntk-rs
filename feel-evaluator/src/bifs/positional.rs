@@ -573,7 +573,7 @@ fn bif_string_join(parameters: &[Value]) -> Value {
   match parameters.len() {
     1 => core::string_join(&parameters[0], &value_null!()),
     2 => core::string_join(&parameters[0], &parameters[1]),
-    n => invalid_number_of_parameters!(1, n),
+    n => invalid_number_of_parameters!("1,2", n),
   }
 }
 
