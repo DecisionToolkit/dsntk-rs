@@ -63,6 +63,7 @@ mod bif_starts;
 mod bif_starts_with;
 mod bif_stddev;
 mod bif_string;
+mod bif_string_join;
 mod bif_string_length;
 mod bif_sublist;
 mod bif_substring;
