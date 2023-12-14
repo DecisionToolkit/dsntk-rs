@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="http://www.montera.com.au/spec/DMN/1149-feel-today-function"
+             name="1149-feel-today-function"
+             id="_43530880-e8b5-4aaa-a198-290a465e5b54"
+             xmlns="https://www.omg.org/spec/DMN/20211108/MODEL/">
+
+    <description>FEEL built-in function 'today()' in category miscellaneous functions</description>
+
+    <decision name="decision001" id="_decision001">
+        <variable name="decision001"/>
+        <literalExpression>
+            <text>today() instance of date</text>
+        </literalExpression>
+    </decision>
+
+    <decision name="decision002" id="_decision002">
+        <variable name="decision002"/>
+        <literalExpression>
+            <text>today(123)</text>
+        </literalExpression>
+    </decision>
+
+
+</definitions>
