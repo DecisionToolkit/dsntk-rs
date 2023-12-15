@@ -15,6 +15,7 @@ const NODE_AUTHORITY_REQUIREMENT: &str = "authorityRequirement";
 const NODE_BINDING: &str = "binding";
 const NODE_BUSINESS_KNOWLEDGE_MODEL: &str = "businessKnowledgeModel";
 const NODE_COLUMN: &str = "column";
+const NODE_CONDITIONAL: &str = "conditional";
 const NODE_CONTEXT: &str = "context";
 const NODE_CONTEXT_ENTRY: &str = "contextEntry";
 const NODE_DEFAULT_OUTPUT_ENTRY: &str = "defaultOutputEntry";
@@ -40,11 +41,13 @@ const NODE_DMNDI_LABEL_VERTICAL_ALIGNMENT: &str = "labelVerticalAlignment";
 const NODE_DMNDI_LABEL: &str = "DMNLabel";
 const NODE_DMNDI_DECISION_SERVICE_DIVIDER_LINE: &str = "DMNDecisionServiceDividerLine";
 const NODE_DESCRIPTION: &str = "description";
+const NODE_ELSE: &str = "else";
 const NODE_ENCAPSULATED_DECISION: &str = "encapsulatedDecision";
 const NODE_ENCAPSULATED_LOGIC: &str = "encapsulatedLogic";
 const NODE_FUNCTION_DEFINITION: &str = "functionDefinition";
 const NODE_FORMAL_PARAMETER: &str = "formalParameter";
 const NODE_FUNCTION_ITEM: &str = "functionItem";
+const NODE_IF: &str = "if";
 const NODE_IMPACTING_DECISION: &str = "impactingDecision";
 const NODE_IMPORT: &str = "import";
 const NODE_INFORMATION_REQUIREMENT: &str = "informationRequirement";
@@ -78,6 +81,7 @@ const NODE_REQUIRED_INPUT: &str = "requiredInput";
 const NODE_ROW: &str = "row";
 const NODE_RULE: &str = "rule";
 const NODE_TEXT: &str = "text";
+const NODE_THEN: &str = "then";
 const NODE_TYPE_REF: &str = "typeRef";
 const NODE_VARIABLE: &str = "variable";
 
@@ -630,6 +634,9 @@ impl ModelParser {
     if let Some(relation) = self.parse_optional_relation(node)? {
       return Ok(Some(ExpressionInstance::Relation(Box::new(relation))));
     }
+    if let Some(conditional) = self.parse_optional_conditional(node)? {
+      return Ok(Some(ExpressionInstance::Conditional(Box::new(conditional))));
+    }
     Ok(None)
   }
 
@@ -660,8 +667,12 @@ impl ModelParser {
         Ok(ExpressionInstance::LiteralExpression(Box::new(literal_expression)))
       }
       NODE_RELATION => {
-        let list = self.parse_relation(node)?;
-        Ok(ExpressionInstance::Relation(Box::new(list)))
+        let relation = self.parse_relation(node)?;
+        Ok(ExpressionInstance::Relation(Box::new(relation)))
+      }
+      NODE_CONDITIONAL => {
+        let conditional = self.parse_conditional(node)?;
+        Ok(ExpressionInstance::Conditional(Box::new(conditional)))
       }
       _ => Err(err_required_expression_instance_is_missing()),
     }
@@ -969,6 +980,42 @@ impl ModelParser {
       type_ref: optional_attribute(node, ATTR_TYPE_REF),
       rows,
       columns,
+    })
+  }
+
+  ///
+  fn parse_optional_conditional(&self, node: &Node) -> Result<Option<Conditional>> {
+    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_CONDITIONAL) {
+      return Ok(Some(self.parse_conditional(child_node)?));
+    }
+    Ok(None)
+  }
+
+  ///
+  fn parse_conditional(&self, node: &Node) -> Result<Conditional> {
+    let node_if = required_child(node, NODE_IF)?;
+    let node_then = required_child(node, NODE_THEN)?;
+    let node_else = required_child(node, NODE_ELSE)?;
+    Ok(Conditional {
+      namespace: self.namespace.clone(),
+      model_name: self.model_name.clone(),
+      id: optional_id(node),
+      description: optional_child_optional_content(node, NODE_DESCRIPTION),
+      label: optional_attribute(node, ATTR_LABEL),
+      extension_elements: self.parse_extension_elements(node),
+      extension_attributes: self.parse_extension_attributes(node),
+      type_ref: optional_attribute(node, ATTR_TYPE_REF),
+      if_expression: self.parse_required_conditional_child_expression(&node_if)?,
+      then_expression: self.parse_required_conditional_child_expression(&node_then)?,
+      else_expression: self.parse_required_conditional_child_expression(&node_else)?,
+    })
+  }
+
+  fn parse_required_conditional_child_expression(&self, node: &Node) -> Result<ChildExpression> {
+    let child_node = node.children().take(1).next().ok_or(err_node_has_no_children(node.tag_name().name()))?;
+    Ok(ChildExpression {
+      id: optional_id(node),
+      value: self.parse_required_expression_instance(&child_node)?,
     })
   }
 

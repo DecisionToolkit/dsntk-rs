@@ -8,6 +8,7 @@ use dsntk_common::{gen_id, DsntkError, HRef, Result, Uri};
 use dsntk_feel::{FeelType, Name};
 use std::convert::TryFrom;
 use std::fmt;
+use std::fmt::Display;
 use std::slice::Iter;
 
 pub const URI_FEEL: &str = "https://www.omg.org/spec/DMN/20191111/FEEL/";
@@ -652,6 +653,7 @@ pub enum ExpressionInstance {
   List(Box<List>),
   LiteralExpression(Box<LiteralExpression>),
   Relation(Box<Relation>),
+  Conditional(Box<Conditional>),
 }
 
 /// A [Context] is composed of any number of model context entries, which are instances of [ContextEntry].
@@ -1402,6 +1404,64 @@ impl List {
   }
 }
 
+/// A [Conditional] is a representation of a visual way to express an if statement.
+#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+pub struct Conditional {
+  /// Namespace the element belongs to.
+  pub(crate) namespace: Uri,
+  /// Name of the model the element was defined in.
+  pub(crate) model_name: String,
+  /// Optional identifier of this this [Conditional].
+  pub(crate) id: DmnId,
+  /// Optional description of this [Conditional].
+  pub(crate) description: Option<String>,
+  /// Optional alternative short description of this [Conditional].
+  pub(crate) label: Option<String>,
+  /// Container to attach additional elements to any [Conditional].
+  pub(crate) extension_elements: Vec<ExtensionElement>,
+  /// Container to attach named extended attributes and model associations to any [Conditional].
+  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
+  /// Optional base type of this [Conditional] identified by namespace-prefixed name.
+  pub(crate) type_ref: Option<String>,
+  /// This attribute holds the expression that is evaluated by the conditional expression.
+  pub(crate) if_expression: ChildExpression,
+  /// This attribute holds the expression that will be evaluated when the condition in the if statement evaluates to `true`.
+  pub(crate) then_expression: ChildExpression,
+  /// This attribute holds the expression that will be evaluated when the condition in the if statement evaluates to `false`.
+  pub(crate) else_expression: ChildExpression,
+}
+
+impl Conditional {
+  pub fn if_expression(&self) -> &ChildExpression {
+    &self.if_expression
+  }
+
+  pub fn then_expression(&self) -> &ChildExpression {
+    &self.then_expression
+  }
+
+  pub fn else_expression(&self) -> &ChildExpression {
+    &self.else_expression
+  }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct ChildExpression {
+  /// Optional identifier of this this [ChildExpression].
+  pub(crate) id: DmnId,
+  /// The instance of [Expression] trait that is the expression in this [ChildExpression].
+  pub(crate) value: ExpressionInstance,
+}
+
+impl ChildExpression {
+  pub fn id(&self) -> &DmnId {
+    &self.id
+  }
+  pub fn value(&self) -> &ExpressionInstance {
+    &self.value
+  }
+}
+
 /// Decision table.
 #[derive(Debug, Clone, PartialEq, Eq, DmnElement, Expression)]
 pub struct DecisionTable {
@@ -1445,9 +1505,8 @@ pub struct DecisionTable {
   pub(crate) output_label: Option<String>,
 }
 
-/// Implementation of [Display](fmt::Display) for [DecisionTable].
-impl fmt::Display for DecisionTable {
-  ///
+impl Display for DecisionTable {
+  /// Implements [Display] trait for [DecisionTable].
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     let mut buffer = String::new();
     buffer.push_str("Decision table:\n");

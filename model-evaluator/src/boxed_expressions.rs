@@ -50,6 +50,7 @@ pub fn build_expression_instance_evaluator(scope: &FeelScope, expression_instanc
     ExpressionInstance::LiteralExpression(literal_expression) => build_literal_expression_evaluator(scope, literal_expression, model_builder),
     ExpressionInstance::List(list) => build_list_evaluator(scope, list, model_builder),
     ExpressionInstance::Relation(relation) => build_relation_evaluator(scope, relation, model_builder),
+    ExpressionInstance::Conditional(conditional) => build_conditional_evaluator(scope, conditional, model_builder),
   }
 }
 
@@ -327,6 +328,27 @@ pub fn build_relation_evaluator(scope: &FeelScope, relation: &Relation, model_bu
   });
   Ok((
     build_coerced_result_evaluator(relation_evaluator, relation, relation.namespace(), model_builder),
+    Closure::default(),
+  ))
+}
+
+///
+pub fn build_conditional_evaluator(scope: &FeelScope, conditional: &Conditional, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
+  let (if_evaluator, _) = build_expression_instance_evaluator(scope, conditional.if_expression().value(), model_builder)?;
+  let (then_evaluator, _) = build_expression_instance_evaluator(scope, conditional.then_expression().value(), model_builder)?;
+  let (else_evaluator, _) = build_expression_instance_evaluator(scope, conditional.else_expression().value(), model_builder)?;
+  let conditional_evaluator = Box::new(move |scope: &FeelScope| {
+    let Value::Boolean(condition) = if_evaluator(scope) else {
+      return value_null!("condition is not a boolean expression");
+    };
+    if condition {
+      then_evaluator(scope)
+    } else {
+      else_evaluator(scope)
+    }
+  });
+  Ok((
+    build_coerced_result_evaluator(conditional_evaluator, conditional, conditional.namespace(), model_builder),
     Closure::default(),
   ))
 }

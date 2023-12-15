@@ -206,6 +206,18 @@ fn build_bkm_expression_instance_evaluator(
         model_builder,          //
       )
     }
+    ExpressionInstance::Conditional(conditional) => {
+      //
+      build_bkm_conditional_evaluator(
+        scope,                  //
+        formal_parameters,      //
+        conditional,            //
+        output_variable_name,   //
+        output_variable_type,   //
+        knowledge_requirements, //
+        model_builder,          //
+      )
+    }
   }
 }
 
@@ -364,6 +376,30 @@ fn build_bkm_relation_evaluator(
   model_builder: &ModelBuilder,
 ) -> Result<BusinessKnowledgeModelEvaluatorFn> {
   let (evaluator, _) = build_relation_evaluator(scope, relation, model_builder)?;
+  let closure = Closure::default();
+  let closure_ctx = FeelContext::default();
+  let function_definition = Value::FunctionDefinition(
+    formal_parameters,
+    FunctionBody::Relation(Arc::new(evaluator)),
+    false,
+    closure,
+    closure_ctx,
+    output_variable_type,
+  );
+  build_bkm_evaluator_from_function_definition(output_variable_name, function_definition, knowledge_requirements)
+}
+
+///
+fn build_bkm_conditional_evaluator(
+  scope: &FeelScope,
+  formal_parameters: Vec<(Name, FeelType)>,
+  conditional: &Conditional,
+  output_variable_name: Name,
+  output_variable_type: FeelType,
+  knowledge_requirements: Vec<DefKey>,
+  model_builder: &ModelBuilder,
+) -> Result<BusinessKnowledgeModelEvaluatorFn> {
+  let (evaluator, _) = build_conditional_evaluator(scope, conditional, model_builder)?;
   let closure = Closure::default();
   let closure_ctx = FeelContext::default();
   let function_definition = Value::FunctionDefinition(

@@ -564,6 +564,11 @@ fn create_model_expression_instance(opt_expression_instance: &Option<ExpressionI
         variable_details_heading.set_content("Decision Logic (Relation)");
         container.add_child(variable_details_heading);
       }
+      ExpressionInstance::Conditional(_) => {
+        let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
+        variable_details_heading.set_content("Decision Logic (Conditional)");
+        container.add_child(variable_details_heading);
+      }
     }
     return Some(container);
   }
