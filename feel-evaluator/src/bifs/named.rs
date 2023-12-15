@@ -63,7 +63,7 @@ macro_rules! invalid_number_of_parameters {
 
 macro_rules! parameter_not_found {
   ($p1:expr, $p2:expr) => {{
-    value_null!(r"parameters '{}' or '{}' not found", *$p1, *$p2)
+    value_null!(r"parameter '{}' or '{}' not found", *$p1, *$p2)
   }};
   ($p:expr) => {{
     value_null!(r"parameter '{}' not found", *$p)
@@ -122,6 +122,7 @@ pub fn evaluate_bif(bif: Bif, parameters: &NamedParameters) -> Value {
     Bif::Modulo => bif_modulo(parameters),
     Bif::MonthOfYear => bif_month_of_year(parameters),
     Bif::Not => bif_not(parameters),
+    Bif::Now => bif_now(parameters),
     Bif::Number => bif_number(parameters),
     Bif::Odd => bif_odd(parameters),
     Bif::Overlaps => bif_overlaps(parameters),
@@ -147,6 +148,7 @@ pub fn evaluate_bif(bif: Bif, parameters: &NamedParameters) -> Value {
     Bif::SubstringBefore => bif_substring_before(parameters),
     Bif::Sum => bif_sum(parameters),
     Bif::Time => bif_time(parameters),
+    Bif::Today => bif_today(parameters),
     Bif::Union => bif_union(parameters),
     Bif::UpperCase => bif_upper_case(parameters),
     Bif::WeekOfYear => bif_week_of_year(parameters),
@@ -271,9 +273,17 @@ fn bif_context_put(parameters: &NamedParameters) -> Value {
   if let Some((v_context, _)) = get_param(parameters, &NAME_CONTEXT) {
     if let Some((v_value, _)) = get_param(parameters, &NAME_VALUE) {
       if let Some((v_keys, _)) = get_param(parameters, &NAME_KEYS) {
-        core::context_put(v_context, v_keys, v_value)
+        if v_keys.is_list() {
+          core::context_put(v_context, v_keys, v_value)
+        } else {
+          value_null!()
+        }
       } else if let Some((v_key, _)) = get_param(parameters, &NAME_KEY) {
-        core::context_put(v_context, v_key, v_value)
+        if v_key.is_string() {
+          core::context_put(v_context, v_key, v_value)
+        } else {
+          value_null!()
+        }
       } else {
         parameter_not_found!(NAME_KEY, NAME_KEYS)
       }
@@ -649,6 +659,10 @@ fn bif_not(parameters: &NamedParameters) -> Value {
   }
 }
 
+fn bif_now(_: &NamedParameters) -> Value {
+  value_null!("[named::now] this function has no implementation with named parameters")
+}
+
 fn bif_number(parameters: &NamedParameters) -> Value {
   if let Some((from, _)) = get_param(parameters, &NAME_FROM) {
     if let Some((grouping_separator, _)) = get_param(parameters, &NAME_GROUPING_SEPARATOR) {
@@ -970,8 +984,12 @@ fn bif_time(parameters: &NamedParameters) -> Value {
   value_null!("invalid parameters in bif time")
 }
 
-fn bif_union(_parameters: &NamedParameters) -> Value {
-  value_null!("[named::union] this function has no version with named parameters")
+fn bif_today(_: &NamedParameters) -> Value {
+  value_null!("[named::today] this function has no implementation with named parameters")
+}
+
+fn bif_union(_: &NamedParameters) -> Value {
+  value_null!("[named::union] this function has no implementation with named parameters")
 }
 
 fn bif_upper_case(parameters: &NamedParameters) -> Value {

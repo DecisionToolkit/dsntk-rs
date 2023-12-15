@@ -56,6 +56,7 @@ pub fn evaluate_bif(bif: Bif, parameters: &[Value]) -> Value {
     Bif::Modulo => bif_modulo(parameters),
     Bif::MonthOfYear => bif_month_of_year(parameters),
     Bif::Not => bif_not(parameters),
+    Bif::Now => bif_now(parameters),
     Bif::Number => bif_number(parameters),
     Bif::Odd => bif_odd(parameters),
     Bif::Overlaps => bif_overlaps(parameters),
@@ -81,6 +82,7 @@ pub fn evaluate_bif(bif: Bif, parameters: &[Value]) -> Value {
     Bif::SubstringBefore => bif_substring_before(parameters),
     Bif::Sum => bif_sum(parameters),
     Bif::Time => bif_time(parameters),
+    Bif::Today => bif_today(parameters),
     Bif::Union => bif_union(parameters),
     Bif::UpperCase => bif_upper_case(parameters),
     Bif::WeekOfYear => bif_week_of_year(parameters),
@@ -465,6 +467,13 @@ fn bif_not(parameters: &[Value]) -> Value {
   }
 }
 
+fn bif_now(parameters: &[Value]) -> Value {
+  match parameters.len() {
+    0 => core::now(),
+    n => invalid_number_of_parameters!(0, n),
+  }
+}
+
 fn bif_number(parameters: &[Value]) -> Value {
   match parameters.len() {
     3 => core::number(&parameters[0], &parameters[1], &parameters[2]),
@@ -655,6 +664,13 @@ fn bif_time(parameters: &[Value]) -> Value {
     3 => core::time_3(&parameters[0], &parameters[1], &parameters[2]),
     4 => core::time_4(&parameters[0], &parameters[1], &parameters[2], &parameters[3]),
     n => invalid_number_of_parameters!("1,3,4", n),
+  }
+}
+
+fn bif_today(parameters: &[Value]) -> Value {
+  match parameters.len() {
+    0 => core::today(),
+    n => invalid_number_of_parameters!(0, n),
   }
 }
 

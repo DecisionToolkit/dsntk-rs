@@ -42,6 +42,6 @@ fn _0007() {
     false,
     &scope!(),
     r#"union(list: [1,2])"#,
-    r#"[named::union] this function has no version with named parameters"#,
+    r#"[named::union] this function has no implementation with named parameters"#,
   );
 }

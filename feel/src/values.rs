@@ -334,9 +334,24 @@ impl Value {
     matches!(self, Value::Boolean(true))
   }
 
+  /// Returns `true` when the value is of type [Value::Boolean] and is equal to `false`.
+  pub fn is_false(&self) -> bool {
+    matches!(self, Value::Boolean(false))
+  }
+
   /// Returns `true` when the value is of type [Value::Number].
   pub fn is_number(&self) -> bool {
     matches!(self, Value::Number(_))
+  }
+
+  /// Returns `true` when the value is of type [Value::String].
+  pub fn is_string(&self) -> bool {
+    matches!(self, Value::String(_))
+  }
+
+  /// Returns `true` when the value is of type [Value::List].
+  pub fn is_list(&self) -> bool {
+    matches!(self, Value::List(_))
   }
 
   /// Returns `true` when the value is of type [Value::Null] indicating invalid coercion.

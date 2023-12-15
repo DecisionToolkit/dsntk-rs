@@ -8,18 +8,19 @@ use crate::defs::*;
 use crate::errors::err_date_time_conversion_failed;
 use crate::feel_ym_duration::FeelYearsAndMonthsDuration;
 use crate::FeelDaysAndTimeDuration;
-use chrono::{DateTime, Datelike, Duration, FixedOffset, Timelike};
+use chrono::{DateTime, Datelike, Duration, FixedOffset, Local, Timelike};
 use dsntk_common::{DsntkError, Result};
 use std::cmp::Ordering;
 use std::fmt;
+use std::fmt::Display;
 use std::ops::{Add, Sub};
 
 /// FEEL date and time.
 #[derive(Debug, Clone)]
 pub struct FeelDateTime(FeelDate, FeelTime);
 
-/// Implements `Display` trait for date and time.
-impl fmt::Display for FeelDateTime {
+impl Display for FeelDateTime {
+  /// Implements [Display] trait for date and time.
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     write!(f, "{}T{}", self.0, self.1)
   }
@@ -309,6 +310,15 @@ impl FeelDateTime {
   /// Creates  date and time from specified date, time and offset values.
   pub fn offset(date: (Year, Month, Day), time: (u8, u8, u8, u64), offset: i32) -> Self {
     Self(FeelDate::new(date.0, date.1, date.2), FeelTime::offset(time.0, time.1, time.2, time.3, offset))
+  }
+
+  /// Returns today's date and time (local time).
+  pub fn now() -> Self {
+    let now = Local::now();
+    Self(
+      FeelDate::new(now.year(), now.month(), now.day()),
+      FeelTime::local(now.hour() as u8, now.minute() as u8, now.second() as u8, now.nanosecond() as u64),
+    )
   }
 
   /// Returns the `Date` part from date and time value.

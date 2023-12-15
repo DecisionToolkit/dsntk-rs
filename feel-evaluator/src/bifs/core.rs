@@ -487,12 +487,56 @@ pub fn context(entries: &Value) -> Value {
   }
 }
 
-pub fn context_put(_context: &Value, _keys: &Value, _value: &Value) -> Value {
-  value_null!()
+pub fn context_put(context: &Value, keys: &Value, value: &Value) -> Value {
+  match context {
+    Value::Context(ctx) => {
+      let mut result_ctx = ctx.clone();
+      match keys {
+        Value::String(key) => result_ctx.set_entry(&key.into(), value.clone()),
+        Value::List(items) => {
+          if items.is_empty() {
+            return value_null!();
+          }
+          let mut names = vec![];
+          for item in items {
+            match item {
+              Value::String(s) => names.push(s.into()),
+              null @ Value::Null(_) => return null.clone(),
+              other => return invalid_argument_type!("context put", "string", other.type_of()),
+            }
+          }
+          result_ctx.create_entries(&names, value.clone());
+        }
+        null @ Value::Null(_) => return null.clone(),
+        other => return invalid_argument_type!("context put", "string or list<string>", other.type_of()),
+      }
+      Value::Context(result_ctx)
+    }
+    null @ Value::Null(_) => null.clone(),
+    other => invalid_argument_type!("context put", "context", other.type_of()),
+  }
 }
 
-pub fn context_merge(_contexts: &Value) -> Value {
-  value_null!()
+pub fn context_merge(contexts: &Value) -> Value {
+  match contexts {
+    Value::List(items) => {
+      if items.is_empty() {
+        return value_null!();
+      }
+      let mut result_ctx = FeelContext::default();
+      for item in items {
+        match item {
+          Value::Context(ctx) => result_ctx.zip(ctx),
+          Value::Null(_) => {}
+          other => return invalid_argument_type!("context merge", "context", other.type_of()),
+        }
+      }
+      Value::Context(result_ctx)
+    }
+    Value::Context(ctx) => Value::Context(ctx.clone()),
+    null @ Value::Null(_) => null.clone(),
+    other => invalid_argument_type!("context merge", "list<context>", other.type_of()),
+  }
 }
 
 /// Returns size of list, or zero if list is empty.
@@ -1532,6 +1576,11 @@ pub fn not(negand: &Value) -> Value {
   }
 }
 
+/// Returns current date and time.
+pub fn now() -> Value {
+  Value::DateTime(FeelDateTime::now())
+}
+
 /// Converts string to a number.
 /// Grouping...
 pub fn number(from: &Value, grouping_separator: &Value, decimal_separator: &Value) -> Value {
@@ -2560,6 +2609,11 @@ pub fn time_4(hour_value: &Value, minute_value: &Value, second_value: &Value, of
   } else {
     value_null!("core", "time_4", "hour must be a number, current type is: {}", hour_value.type_of())
   }
+}
+
+/// Returns current date.
+pub fn today() -> Value {
+  Value::Date(FeelDate::today())
 }
 
 /// Returns new list containing concatenated list with duplicates removed.

@@ -43,14 +43,14 @@ fn jsonify_should_work() {
 }
 
 #[test]
-fn empty_name_should_work() {
+fn creating_empty_name_should_work() {
   let name: Name = vec!["".to_string()].into();
   assert_eq!("", name.to_string());
   assert_eq!("", name.jsonify());
 }
 
 #[test]
-fn is_empty_should_work() {
+fn is_empty_function_should_work() {
   let name: Name = vec!["".to_string()].into();
   assert!(name.is_empty());
   let name: Name = vec!["a".to_string()].into();
@@ -58,7 +58,7 @@ fn is_empty_should_work() {
 }
 
 #[test]
-fn test_from_string_vector() {
+fn conversion_from_string_vector() {
   let name: Name = vec!["".to_string(), "".to_string(), "".to_string()].into();
   assert_eq!("", name.to_string());
   let name: Name = vec!["x".to_string(), "y".to_string()].into();
@@ -74,7 +74,7 @@ fn test_from_string_vector() {
 }
 
 #[test]
-fn test_from_str_vector() {
+fn conversion_from_str_vector() {
   let name: Name = vec!["", "", ""].into();
   assert_eq!("", name.to_string());
   let name: Name = vec!["x", "y"].into();
