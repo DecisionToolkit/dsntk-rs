@@ -7,7 +7,7 @@ use std::cmp::Ordering;
 
 /// Iteration types.
 #[derive(Debug, Clone)]
-pub enum FeelIterationType {
+enum IterationType {
   /// Iteration over a range of values.
   Range,
   /// Iteration over a list of values.
@@ -20,9 +20,9 @@ pub enum FeelIterationType {
 }
 
 /// Iteration state properties.
-struct FeelIteratorState {
+struct IteratorState {
   /// Enumeration indicating if the iteration is over the range of values or a list of values.
-  iteration_type: FeelIterationType,
+  iteration_type: IterationType,
   /// Name of the variable used in iteration state.
   name: Name,
   /// Current value of the looping index.
@@ -40,14 +40,14 @@ struct FeelIteratorState {
 /// Single iterator.
 #[derive(Default)]
 pub(crate) struct FeelIterator {
-  iteration_states: Vec<FeelIteratorState>,
+  iteration_states: Vec<IteratorState>,
 }
 
 impl FeelIterator {
   ///
   pub fn add_range(&mut self, name: Name, start: isize, end: isize) {
-    self.iteration_states.push(FeelIteratorState {
-      iteration_type: FeelIterationType::Range,
+    self.iteration_states.push(IteratorState {
+      iteration_type: IterationType::Range,
       name,
       index: start,
       step: if start <= end { 1 } else { -1 },
@@ -59,8 +59,8 @@ impl FeelIterator {
 
   ///
   pub fn add_list(&mut self, name: Name, values: Values) {
-    self.iteration_states.push(FeelIteratorState {
-      iteration_type: FeelIterationType::List,
+    self.iteration_states.push(IteratorState {
+      iteration_type: IterationType::List,
       name,
       index: 0,
       step: 1,
@@ -72,8 +72,8 @@ impl FeelIterator {
 
   ///
   pub fn add_variable(&mut self, name: Name, variable: Name) {
-    self.iteration_states.push(FeelIteratorState {
-      iteration_type: FeelIterationType::Variable(variable),
+    self.iteration_states.push(IteratorState {
+      iteration_type: IterationType::Variable(variable),
       name,
       index: 0,
       step: 1,
@@ -95,12 +95,12 @@ impl FeelIterator {
         let mut is_empty_iteration = true;
         for iteration_state in &self.iteration_states {
           match &iteration_state.iteration_type {
-            FeelIterationType::Range => {
+            IterationType::Range => {
               let value = Value::Number(iteration_state.index.into());
               iteration_context.set_entry(&iteration_state.name, value);
               is_empty_iteration = false;
             }
-            FeelIterationType::List => {
+            IterationType::List => {
               if let Some(values) = &iteration_state.values {
                 let index = iteration_state.index as usize;
                 if let Some(value) = values.get(index) {
@@ -109,7 +109,7 @@ impl FeelIterator {
                 }
               }
             }
-            FeelIterationType::Variable(variable) => {
+            IterationType::Variable(variable) => {
               iteration_context.set_entry(&iteration_state.name, iteration_context.get(variable).unwrap_or(&value_null!()).clone());
               is_empty_iteration = false;
             }
@@ -164,8 +164,8 @@ impl FeelIterator {
   fn sort_iteration_states(&mut self) {
     self.iteration_states.reverse();
     self.iteration_states.sort_by(|a, b| {
-      let flag_a = matches!(a.iteration_type, FeelIterationType::Variable(_));
-      let flag_b = matches!(b.iteration_type, FeelIterationType::Variable(_));
+      let flag_a = matches!(a.iteration_type, IterationType::Variable(_));
+      let flag_b = matches!(b.iteration_type, IterationType::Variable(_));
       match (flag_a, flag_b) {
         (false, false) => Ordering::Equal,
         (false, true) => Ordering::Less,
@@ -247,7 +247,7 @@ impl SomeExpressionEvaluator {
   }
 
   ///
-  pub fn add(&mut self, name: Name, value: Value) {
+  pub fn add_list(&mut self, name: Name, value: Value) {
     let values = match value {
       Value::List(values) => values,
       other => vec![other],
@@ -283,7 +283,7 @@ impl EveryExpressionEvaluator {
   }
 
   ///
-  pub fn add(&mut self, name: Name, value: Value) {
+  pub fn add_list(&mut self, name: Name, value: Value) {
     let values = match value {
       Value::List(values) => values,
       other => vec![other],

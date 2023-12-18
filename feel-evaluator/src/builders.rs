@@ -961,7 +961,7 @@ fn build_every(bx: &BuildContext, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
   Box::new(move |scope: &FeelScope| {
     let mut expression_evaluator = EveryExpressionEvaluator::new();
     for (name, expr_evaluator) in &expr_evaluators {
-      expression_evaluator.add(name.clone(), expr_evaluator(scope));
+      expression_evaluator.add_list(name.clone(), expr_evaluator(scope));
     }
     expression_evaluator.evaluate(scope, &satisfies_evaluator)
   })
@@ -1879,7 +1879,7 @@ fn build_some(bx: &BuildContext, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
   Box::new(move |scope: &FeelScope| {
     let mut expression_evaluator = SomeExpressionEvaluator::new();
     for (name, expr_evaluator) in &expr_evaluators {
-      expression_evaluator.add(name.clone(), expr_evaluator(scope));
+      expression_evaluator.add_list(name.clone(), expr_evaluator(scope));
     }
     expression_evaluator.evaluate(scope, &satisfies_evaluator)
   })
