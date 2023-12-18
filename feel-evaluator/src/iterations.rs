@@ -2,15 +2,24 @@
 
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values};
-use dsntk_feel::{Evaluator, FeelScope, Name};
+use dsntk_feel::{value_null, Evaluator, FeelScope, Name};
+use std::cmp::Ordering;
 
-///
-enum FeelIterationType {
+/// Iteration types.
+#[derive(Debug, Clone)]
+pub enum FeelIterationType {
+  /// Iteration over a range of values.
   Range,
+  /// Iteration over a list of values.
   List,
+  /// Iteration over previously defined binding variable.
+  Variable(
+    /// Name of the binding variable to iterate over.
+    Name,
+  ),
 }
 
-///
+/// Iteration state properties.
 struct FeelIteratorState {
   /// Enumeration indicating if the iteration is over the range of values or a list of values.
   iteration_type: FeelIterationType,
@@ -28,7 +37,7 @@ struct FeelIteratorState {
   values: Option<Values>,
 }
 
-///
+/// Single iterator.
 #[derive(Default)]
 pub(crate) struct FeelIterator {
   iteration_states: Vec<FeelIteratorState>,
@@ -47,6 +56,7 @@ impl FeelIterator {
       values: None,
     });
   }
+
   ///
   pub fn add_list(&mut self, name: Name, values: Values) {
     self.iteration_states.push(FeelIteratorState {
@@ -59,18 +69,32 @@ impl FeelIterator {
       values: Some(values),
     });
   }
+
+  ///
+  pub fn add_variable(&mut self, name: Name, variable: Name) {
+    self.iteration_states.push(FeelIteratorState {
+      iteration_type: FeelIterationType::Variable(variable),
+      name,
+      index: 0,
+      step: 1,
+      start: 0,
+      end: 0,
+      values: None,
+    });
+  }
+
   ///
   pub fn run<F>(&mut self, mut handler: F)
   where
     F: FnMut(&FeelContext),
   {
     if !self.iteration_states.is_empty() {
-      self.iteration_states.reverse();
+      self.sort_iteration_states();
       let mut iteration_context = FeelContext::default();
       'outer: loop {
         let mut is_empty_iteration = true;
         for iteration_state in &self.iteration_states {
-          match iteration_state.iteration_type {
+          match &iteration_state.iteration_type {
             FeelIterationType::Range => {
               let value = Value::Number(iteration_state.index.into());
               iteration_context.set_entry(&iteration_state.name, value);
@@ -84,6 +108,10 @@ impl FeelIterator {
                   is_empty_iteration = false;
                 }
               }
+            }
+            FeelIterationType::Variable(variable) => {
+              iteration_context.set_entry(&iteration_state.name, iteration_context.get(variable).unwrap_or(&value_null!()).clone());
+              is_empty_iteration = false;
             }
           }
         }
@@ -130,6 +158,22 @@ impl FeelIterator {
       }
     }
   }
+
+  /// Sorts the iteration states this way, that states pointing
+  /// to another binding variables are shifted to the end of the list.
+  fn sort_iteration_states(&mut self) {
+    self.iteration_states.reverse();
+    self.iteration_states.sort_by(|a, b| {
+      let flag_a = matches!(a.iteration_type, FeelIterationType::Variable(_));
+      let flag_b = matches!(b.iteration_type, FeelIterationType::Variable(_));
+      match (flag_a, flag_b) {
+        (false, false) => Ordering::Equal,
+        (false, true) => Ordering::Less,
+        (true, false) => Ordering::Greater,
+        (true, true) => Ordering::Equal,
+      }
+    });
+  }
 }
 
 ///
@@ -146,14 +190,16 @@ impl ForExpressionEvaluator {
       name_partial: "partial".into(),
     }
   }
+
   ///
-  pub fn add_single(&mut self, name: Name, value: Value) {
+  pub fn add_list(&mut self, name: Name, value: Value) {
     let values = match value {
       Value::List(values) => values,
       other => vec![other],
     };
     self.feel_iterator.add_list(name, values);
   }
+
   ///
   pub fn add_range(&mut self, name: Name, range_start: Value, range_end: Value) {
     if let Value::Number(start) = range_start {
@@ -166,6 +212,12 @@ impl ForExpressionEvaluator {
       }
     }
   }
+
+  ///
+  pub fn add_variable(&mut self, name: Name, variable: Name) {
+    self.feel_iterator.add_variable(name, variable);
+  }
+
   ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Values {
     let mut results = vec![];
@@ -193,6 +245,7 @@ impl SomeExpressionEvaluator {
       feel_iterator: FeelIterator::default(),
     }
   }
+
   ///
   pub fn add(&mut self, name: Name, value: Value) {
     let values = match value {
@@ -201,6 +254,7 @@ impl SomeExpressionEvaluator {
     };
     self.feel_iterator.add_list(name, values);
   }
+
   ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Value {
     let mut result = false;
@@ -227,6 +281,7 @@ impl EveryExpressionEvaluator {
       feel_iterator: FeelIterator::default(),
     }
   }
+
   ///
   pub fn add(&mut self, name: Name, value: Value) {
     let values = match value {
@@ -235,6 +290,7 @@ impl EveryExpressionEvaluator {
     };
     self.feel_iterator.add_list(name, values);
   }
+
   ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Value {
     let mut result = true;

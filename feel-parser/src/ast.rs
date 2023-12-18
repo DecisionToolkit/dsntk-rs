@@ -161,8 +161,8 @@ pub enum AstNode {
   /// List of iteration contexts.
   IterationContexts(Vec<AstNode>),
 
-  /// Node representing iteration context containing the variable name and a single list of elements to iterate over.
-  IterationContextSingle(
+  /// Node representing iteration context containing the variable name and a list of elements to iterate over.
+  IterationContextList(
     /// Node representing variable name used in this iteration context.
     Box<AstNode>,
     /// Node representing a single list of elements to iterate over.
@@ -360,7 +360,7 @@ fn ast_node_to_tree(node: &AstNode) -> AsciiNode {
     AstNode::IntervalStart(lhs, closed) => node_and_label("IntervalStart", lhs, " (closed)", " (opened)", *closed),
     AstNode::Irrelevant => leaf("Irrelevant"),
     AstNode::IterationContexts(items) => node_n("IterationContexts", items),
-    AstNode::IterationContextSingle(lhs, rhs) => node_2("IterationContextSingle", lhs, rhs),
+    AstNode::IterationContextList(lhs, rhs) => node_2("IterationContextSingle", lhs, rhs),
     AstNode::IterationContextRange(lhs, mid, rhs) => node_3("IterationContextRange", lhs, mid, rhs),
     AstNode::Le(lhs, rhs) => node_2("Le", lhs, rhs),
     AstNode::List(mid) => node_n("List", mid),

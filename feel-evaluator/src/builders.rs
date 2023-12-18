@@ -93,7 +93,7 @@ pub fn build_evaluator(bx: &BuildContext, node: &AstNode) -> Evaluator {
     AstNode::UnaryLt(lhs) => build_unary_lt(bx, lhs),
     AstNode::CommaList { .. }
     | AstNode::IterationContexts { .. }
-    | AstNode::IterationContextSingle { .. }
+    | AstNode::IterationContextList { .. }
     | AstNode::IterationContextRange { .. }
     | AstNode::PositionalParameters { .. }
     | AstNode::QuantifiedContext { .. }
@@ -725,23 +725,43 @@ fn build_filter(bx: &BuildContext, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
 
 ///
 fn build_for(bx: &BuildContext, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  enum IterationContextType {
+    Range,
+    List,
+    Variable,
+  }
   let rhe = build_evaluator(bx, rhs);
-  let mut evaluators_single = vec![];
   let mut evaluators_range = vec![];
+  let mut evaluators_list = vec![];
+  let mut evaluators_variable = vec![];
+  let mut evaluators_order = vec![];
+  let mut binding_variables = HashSet::new();
   if let AstNode::IterationContexts(items) = lhs {
     for item in items {
       match item {
         AstNode::IterationContextRange(variable_name, range_start_node, range_end_node) => {
-          let evaluator_range_start = build_evaluator(bx, range_start_node);
-          let evaluator_range_end = build_evaluator(bx, range_end_node);
           if let AstNode::Name(name) = variable_name.borrow() {
+            let evaluator_range_start = build_evaluator(bx, range_start_node);
+            let evaluator_range_end = build_evaluator(bx, range_end_node);
             evaluators_range.push((name.clone(), evaluator_range_start, evaluator_range_end));
+            evaluators_order.push((IterationContextType::Range, evaluators_range.len() - 1));
+            binding_variables.insert(name.clone());
           }
         }
-        AstNode::IterationContextSingle(variable_name, expr_node) => {
-          let evaluator_single = build_evaluator(bx, expr_node);
+        AstNode::IterationContextList(variable_name, expr_node) => {
           if let AstNode::Name(name) = variable_name.borrow() {
-            evaluators_single.push((name.clone(), evaluator_single));
+            if let AstNode::Name(variable_name) = expr_node.borrow() {
+              if binding_variables.contains(variable_name) {
+                evaluators_variable.push((name.clone(), variable_name.clone()));
+                evaluators_order.push((IterationContextType::Variable, evaluators_variable.len() - 1));
+                binding_variables.insert(name.clone());
+                continue;
+              }
+            }
+            let evaluator_list = build_evaluator(bx, expr_node);
+            evaluators_list.push((name.clone(), evaluator_list));
+            evaluators_order.push((IterationContextType::List, evaluators_list.len() - 1));
+            binding_variables.insert(name.clone());
           }
         }
         _ => {}
@@ -750,14 +770,20 @@ fn build_for(bx: &BuildContext, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
   }
   Box::new(move |scope: &FeelScope| {
     let mut expression_evaluator = ForExpressionEvaluator::new();
-    if !evaluators_single.is_empty() {
-      for (name, evaluator_single) in &evaluators_single {
-        expression_evaluator.add_single(name.clone(), evaluator_single(scope));
-      }
-    }
-    if !evaluators_range.is_empty() {
-      for (name, evaluator_range_start, evaluator_range_end) in &evaluators_range {
-        expression_evaluator.add_range(name.clone(), evaluator_range_start(scope), evaluator_range_end(scope));
+    for (fit, index) in &evaluators_order {
+      match fit {
+        IterationContextType::Range => {
+          let (name, evaluator_range_start, evaluator_range_end) = &evaluators_range[*index];
+          expression_evaluator.add_range(name.clone(), evaluator_range_start(scope), evaluator_range_end(scope));
+        }
+        IterationContextType::List => {
+          let (name, evaluator_single) = &evaluators_list[*index];
+          expression_evaluator.add_list(name.clone(), evaluator_single(scope));
+        }
+        IterationContextType::Variable => {
+          let (name, variable_name) = &evaluators_variable[*index];
+          expression_evaluator.add_variable(name.clone(), variable_name.clone());
+        }
       }
     }
     Value::List(expression_evaluator.evaluate(scope, &rhe))

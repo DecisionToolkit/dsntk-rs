@@ -75,3 +75,23 @@ fn _0006() {
 fn _0007() {
   te_be_value(false, &scope!(), r#"for n in 4..2 return n"#, "[4,3,2]");
 }
+
+#[test]
+fn _0008() {
+  te_be_value(
+    false,
+    &scope!(),
+    r#"for i in 1..3, j in [4,5] return {a: i, b: j}"#,
+    "[{a: 1, b: 4}, {a: 1, b: 5}, {a: 2, b: 4}, {a: 2, b: 5}, {a: 3, b: 4}, {a: 3, b: 5}]",
+  );
+}
+
+#[test]
+fn _0009() {
+  te_be_value(
+    false,
+    &scope!(),
+    r#"for j in [4,5], i in 1..3 return {a: i, b: j}"#,
+    "[{a: 1, b: 4}, {a: 2, b: 4}, {a: 3, b: 4}, {a: 1, b: 5}, {a: 2, b: 5}, {a: 3, b: 5}]",
+  );
+}

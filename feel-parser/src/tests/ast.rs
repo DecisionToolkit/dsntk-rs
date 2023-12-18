@@ -764,10 +764,10 @@ fn test_node_iteration_contexts() {
 }
 
 #[test]
-fn test_node_iteration_context_single() {
-  let node = &AstNode::IterationContextSingle(b_name!(i), Box::new(AstNode::List(vec![_num!(1), _num!(2), _num!(3)])));
+fn test_node_iteration_context_list() {
+  let node = &AstNode::IterationContextList(b_name!(i), Box::new(AstNode::List(vec![_num!(1), _num!(2), _num!(3)])));
   eqd(
-    r#"IterationContextSingle(Name(Name("i")), List([Numeric("1", ""), Numeric("2", ""), Numeric("3", "")]))"#,
+    r#"IterationContextList(Name(Name("i")), List([Numeric("1", ""), Numeric("2", ""), Numeric("3", "")]))"#,
     node,
   );
   eqs(
