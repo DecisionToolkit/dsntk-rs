@@ -164,7 +164,7 @@ pub fn te_time(trace: bool, scope: &FeelScope, s: &str, expected: FeelTime) {
 }
 
 /// Utility function that tests evaluation of context.
-pub fn te_context<I: ToString, E: ToString>(trace: bool, scope: &FeelScope, actual: I, expected: E) {
+pub fn te_context<Actual: ToString, Expected: ToString>(trace: bool, scope: &FeelScope, actual: Actual, expected: Expected) {
   match dsntk_feel_parser::parse_context(scope, &expected.to_string(), trace) {
     Ok(node) => {
       let evaluator = build_evaluator(&BuildContext::default(), &node);

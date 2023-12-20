@@ -3,5 +3,5 @@ use dsntk_feel::scope;
 
 #[test]
 fn _0001() {
-  te_bool(false, &scope!(), r#"contains("foobar","ob")"#, true);
+  te_context(false, &scope!(), r#"context put({}, "a", 1)"#, "{a: 1}");
 }
