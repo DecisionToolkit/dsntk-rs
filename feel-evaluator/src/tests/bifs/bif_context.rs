@@ -110,3 +110,33 @@ fn _0019() {
 fn _0020() {
   te_context(false, &scope!(), r#"context({key:"a", value:1, ignored:"foo"})"#, "{a: 1}");
 }
+
+#[test]
+fn _0021() {
+  te_null(
+    false,
+    &scope!(),
+    "context({key: 1, value: 1})",
+    "context: 'key' entry is not a string, actual type is number",
+  );
+}
+
+#[test]
+fn _0022() {
+  te_null(
+    false,
+    &scope!(),
+    "context(entries: [21])",
+    "context: invalid entry, expected context, actual type is number",
+  );
+}
+
+#[test]
+fn _0023() {
+  te_null(
+    false,
+    &scope!(),
+    r#"context(entries: [{key: 1, value: 1}])"#,
+    "context: 'key' entry is not a string, actual type is number",
+  );
+}
