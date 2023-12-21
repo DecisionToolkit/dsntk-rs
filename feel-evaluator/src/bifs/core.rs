@@ -505,7 +505,9 @@ pub fn context_put(context: &Value, keys: &Value, value: &Value) -> Value {
               other => return invalid_argument_type!("context put", "string", other.type_of()),
             }
           }
-          result_ctx.create_entries(&names, value.clone());
+          if result_ctx.apply_entries(&names, value.clone()).is_err() {
+            return value_null!();
+          }
         }
         null @ Value::Null(_) => return null.clone(),
         other => return invalid_argument_type!("context put", "string or list<string>", other.type_of()),

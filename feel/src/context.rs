@@ -6,7 +6,7 @@ use crate::qualified_names::QualifiedName;
 use crate::strings::ToFeelString;
 use crate::value_null;
 use crate::values::Value;
-use dsntk_common::{DsntkError, Jsonify};
+use dsntk_common::{DsntkError, Jsonify, Result};
 use std::collections::btree_map::Iter;
 use std::collections::BTreeMap;
 use std::convert::TryFrom;
@@ -100,6 +100,11 @@ impl Jsonify for FeelContext {
 }
 
 impl FeelContext {
+  /// Creates a new, empty context.
+  pub fn new() -> Self {
+    Self::default()
+  }
+
   /// Returns `true` if context contains an entry specified by **name**.
   pub fn contains_entry(&self, name: &Name) -> bool {
     self.0.contains_key(name)
@@ -213,7 +218,7 @@ impl FeelContext {
 
   /// Creates entries with intermediary contexts when needed.
   pub fn create_entries(&mut self, names: &[Name], value: Value) {
-    // if there are no names provided, then simply return
+    // if there are no entry names provided, then fo nothing
     if names.is_empty() {
       return;
     }
@@ -233,6 +238,37 @@ impl FeelContext {
     let mut ctx = FeelContext::default();
     ctx.create_entries(tail, value);
     self.0.insert(key, ctx.into());
+  }
+
+  /// ???
+  pub fn apply_entries(&mut self, names: &[Name], value: Value) -> Result<()> {
+    // if there are no entry names provided, then do nothing
+    if names.is_empty() {
+      return Ok(());
+    }
+    let key = names[0].clone();
+    let tail = &names[1..];
+    // if tail is empty, then insert the value under the key in current context and return
+    if tail.is_empty() {
+      self.0.insert(key, value);
+      return Ok(());
+    }
+    // if there is a context under the key, then insert value to this context and return
+    match self.0.get_mut(&key) {
+      Some(Value::Context(ctx)) => {
+        ctx.apply_entries(tail, value)?;
+        return Ok(());
+      }
+      Some(other) => {
+        return Err(err_value_is_not_a_context(other));
+      }
+      _ => {}
+    }
+    // insert a value from tail to new created context
+    let mut ctx = FeelContext::default();
+    ctx.apply_entries(tail, value)?;
+    self.0.insert(key, ctx.into());
+    Ok(())
   }
 
   /// Deep search for a value pointed by names.
