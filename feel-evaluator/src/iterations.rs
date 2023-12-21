@@ -175,7 +175,7 @@ impl FeelIterator {
           return; // the last value of the outermost iterator is reached, iterating is completed
         }
         if state.next() {
-          break; // current iterator has more values to process,do not continue with other iterators
+          break; // current iterator has more values to process, do not continue with other iterators
         }
       }
     }
