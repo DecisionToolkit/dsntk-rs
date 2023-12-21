@@ -2,7 +2,7 @@
 
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values};
-use dsntk_feel::{value_null, Evaluator, FeelScope, Name};
+use dsntk_feel::{Evaluator, FeelScope, Name};
 use std::cmp::Ordering;
 
 /// Iteration types.
@@ -24,7 +24,7 @@ struct IteratorState {
   /// Enumeration indicating if the iteration is over the range of values or a list of values.
   iteration_type: IterationType,
   /// Name of the variable used in iteration state.
-  name: Name,
+  variable: Name,
   /// Current value of the looping index.
   index: isize,
   /// Iteration step.
@@ -33,7 +33,7 @@ struct IteratorState {
   start: isize,
   /// Iteration end value.
   end: isize,
-  /// Collection of `FEEL` values to iterate over (if not a range).
+  /// Collection of FEEL values to iterate over (if not a range).
   values: Option<Values>,
 }
 
@@ -45,10 +45,10 @@ pub(crate) struct FeelIterator {
 
 impl FeelIterator {
   ///
-  pub fn add_range(&mut self, name: Name, start: isize, end: isize) {
+  pub fn add_range(&mut self, variable: Name, start: isize, end: isize) {
     self.iteration_states.push(IteratorState {
       iteration_type: IterationType::Range,
-      name,
+      variable,
       index: start,
       step: if start <= end { 1 } else { -1 },
       start,
@@ -58,10 +58,10 @@ impl FeelIterator {
   }
 
   ///
-  pub fn add_list(&mut self, name: Name, values: Values) {
+  pub fn add_list(&mut self, variable: Name, values: Values) {
     self.iteration_states.push(IteratorState {
       iteration_type: IterationType::List,
-      name,
+      variable,
       index: 0,
       step: 1,
       start: 0,
@@ -71,10 +71,10 @@ impl FeelIterator {
   }
 
   ///
-  pub fn add_variable(&mut self, name: Name, variable: Name) {
+  pub fn add_variable(&mut self, variable: Name, binding: Name) {
     self.iteration_states.push(IteratorState {
-      iteration_type: IterationType::Variable(variable),
-      name,
+      iteration_type: IterationType::Variable(binding),
+      variable,
       index: 0,
       step: 1,
       start: 0,
@@ -83,77 +83,110 @@ impl FeelIterator {
     });
   }
 
-  ///
-  pub fn run<F>(&mut self, mut handler: F)
+  /// Iterates over all iteration states.
+  pub fn iterate<F>(&mut self, mut handler: F)
   where
     F: FnMut(&FeelContext),
   {
-    if !self.iteration_states.is_empty() {
-      self.sort_iteration_states();
-      let mut iteration_context = FeelContext::default();
-      'outer: loop {
-        let mut is_empty_iteration = true;
-        for iteration_state in &self.iteration_states {
-          match &iteration_state.iteration_type {
-            IterationType::Range => {
-              let value = Value::Number(iteration_state.index.into());
-              iteration_context.set_entry(&iteration_state.name, value);
-              is_empty_iteration = false;
+    if self.iteration_states.is_empty() {
+      return;
+    }
+    //self.sort_iteration_states();
+    self.iteration_states.reverse();
+    let mut iteration_context = FeelContext::new();
+    'outer: loop {
+      let mut is_empty_iteration = true;
+      for iteration_state in &mut self.iteration_states {
+        match &iteration_state.iteration_type {
+          IterationType::Range => {
+            let value = Value::Number(iteration_state.index.into());
+            iteration_context.set_entry(&iteration_state.variable, value);
+            is_empty_iteration = false;
+          }
+          IterationType::List => {
+            if let Some(values) = &iteration_state.values {
+              let index = iteration_state.index as usize;
+              if let Some(value) = values.get(index) {
+                iteration_context.set_entry(&iteration_state.variable, value.clone());
+                is_empty_iteration = false;
+              }
             }
-            IterationType::List => {
-              if let Some(values) = &iteration_state.values {
+          }
+          IterationType::Variable(binding) => {
+            iteration_state.end = 0;
+            match iteration_context.get(binding) {
+              Some(Value::List(values)) => {
+                println!("DDD: values = {:?}", values);
+                println!("DDD: {}", iteration_state.index);
+                iteration_state.end = (values.len() as isize);
                 let index = iteration_state.index as usize;
                 if let Some(value) = values.get(index) {
-                  iteration_context.set_entry(&iteration_state.name, value.clone());
+                  iteration_context.set_entry(&iteration_state.variable, value.clone());
                   is_empty_iteration = false;
                 }
               }
+              Some(value) => {
+                iteration_context.set_entry(&iteration_state.variable, value.clone());
+                is_empty_iteration = false;
+                iteration_state.end = 1;
+              }
+              _ => {
+                println!("DDD: empty");
+              }
             }
-            IterationType::Variable(variable) => {
-              iteration_context.set_entry(&iteration_state.name, iteration_context.get(variable).unwrap_or(&value_null!()).clone());
-              is_empty_iteration = false;
-            }
+            // if let Some(value) = iteration_context.get(binding).cloned() {
+            //   println!("DDD: {} => {}", iteration_state.variable, binding);
+            //   println!("DDD: value = {}", value);
+            //
+            // }
+            // if let Some(values) = iteration_context.get(variable) {
+            //   let index = iteration_state.index as usize;
+            //   if let Some(value) = values.get(index) {
+            //     iteration_context.set_entry(&iteration_state.variable, value.clone());
+            //     is_empty_iteration = false;
+            //   }
+            // }
           }
         }
-        if !is_empty_iteration {
-          handler(&iteration_context);
-        }
-        let last_iteration_state_index = self.iteration_states.len() - 1;
-        let mut overflow = true;
-        'inner: for (x, iteration_state) in self.iteration_states.iter_mut().enumerate() {
-          if overflow {
-            if x == last_iteration_state_index {
-              if iteration_state.step > 0 && iteration_state.index + iteration_state.step > iteration_state.end {
-                break 'outer;
-              }
-              if iteration_state.step < 0 && iteration_state.index + iteration_state.step < iteration_state.end {
-                break 'outer;
-              }
-            }
-            if iteration_state.step > 0 {
-              if iteration_state.index + iteration_state.step <= iteration_state.end {
-                iteration_state.index += iteration_state.step;
-                overflow = false;
-              } else {
-                iteration_state.index = iteration_state.start;
-                overflow = true;
-              }
-            }
-            if iteration_state.step < 0 {
-              if iteration_state.index + iteration_state.step >= iteration_state.end {
-                iteration_state.index += iteration_state.step;
-                overflow = false;
-              } else {
-                iteration_state.index = iteration_state.start;
-                overflow = true;
-              }
-            }
-            if iteration_state.step == 0 {
+      }
+      if !is_empty_iteration {
+        handler(&iteration_context);
+      }
+      let last_iteration_state_index = self.iteration_states.len() - 1;
+      let mut overflow = true;
+      'inner: for (x, iteration_state) in self.iteration_states.iter_mut().enumerate() {
+        if overflow {
+          if x == last_iteration_state_index {
+            if iteration_state.step > 0 && iteration_state.index + iteration_state.step > iteration_state.end {
               break 'outer;
             }
-          } else {
-            break 'inner;
+            if iteration_state.step < 0 && iteration_state.index + iteration_state.step < iteration_state.end {
+              break 'outer;
+            }
           }
+          if iteration_state.step > 0 {
+            if iteration_state.index + iteration_state.step <= iteration_state.end {
+              iteration_state.index += iteration_state.step;
+              overflow = false;
+            } else {
+              iteration_state.index = iteration_state.start;
+              overflow = true;
+            }
+          }
+          if iteration_state.step < 0 {
+            if iteration_state.index + iteration_state.step >= iteration_state.end {
+              iteration_state.index += iteration_state.step;
+              overflow = false;
+            } else {
+              iteration_state.index = iteration_state.start;
+              overflow = true;
+            }
+          }
+          if iteration_state.step == 0 {
+            break 'outer;
+          }
+        } else {
+          break 'inner;
         }
       }
     }
@@ -221,7 +254,7 @@ impl ForExpressionEvaluator {
   ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Values {
     let mut results = vec![];
-    self.feel_iterator.run(|ctx| {
+    self.feel_iterator.iterate(|ctx| {
       let mut iteration_context = ctx.clone();
       iteration_context.set_entry(&self.name_partial, Value::List(results.clone()));
       scope.push(iteration_context.clone());
@@ -258,7 +291,7 @@ impl SomeExpressionEvaluator {
   ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Value {
     let mut result = false;
-    self.feel_iterator.run(|ctx| {
+    self.feel_iterator.iterate(|ctx| {
       scope.push(ctx.clone());
       if let Value::Boolean(value) = evaluator(scope) {
         result = result || value;
@@ -294,7 +327,7 @@ impl EveryExpressionEvaluator {
   ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Value {
     let mut result = true;
-    self.feel_iterator.run(|ctx| {
+    self.feel_iterator.iterate(|ctx| {
       scope.push(ctx.clone());
       if let Value::Boolean(value) = evaluator(scope) {
         result = result && value;

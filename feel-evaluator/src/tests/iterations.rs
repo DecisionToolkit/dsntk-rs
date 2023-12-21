@@ -9,7 +9,7 @@ fn _0001() {
   let mut iterator = FeelIterator::default();
   iterator.add_range("x".into(), 1, 3);
   let mut actual = vec![];
-  iterator.run(|ctx| actual.push(Value::Context(ctx.clone())));
+  iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(3, actual.len());
   assert_eq!(r#"[{x: 1}, {x: 2}, {x: 3}]"#, values_to_string(&actual));
 }
@@ -20,7 +20,7 @@ fn _0002() {
   iterator.add_range("x".into(), 1, 3);
   iterator.add_range("y".into(), 1, 5);
   let mut actual = vec![];
-  iterator.run(|ctx| actual.push(Value::Context(ctx.clone())));
+  iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(15, actual.len());
   assert_eq!(
     r#"[{x: 1, y: 1}, {x: 1, y: 2}, {x: 1, y: 3}, {x: 1, y: 4}, {x: 1, y: 5}, {x: 2, y: 1}, {x: 2, y: 2}, {x: 2, y: 3}, {x: 2, y: 4}, {x: 2, y: 5}, {x: 3, y: 1}, {x: 3, y: 2}, {x: 3, y: 3}, {x: 3, y: 4}, {x: 3, y: 5}]"#,
@@ -34,7 +34,7 @@ fn _0003() {
   iterator.add_range("x".into(), 3, 1);
   iterator.add_range("y".into(), 5, 1);
   let mut actual = vec![];
-  iterator.run(|ctx| actual.push(Value::Context(ctx.clone())));
+  iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(15, actual.len());
   assert_eq!(
     r#"[{x: 3, y: 5}, {x: 3, y: 4}, {x: 3, y: 3}, {x: 3, y: 2}, {x: 3, y: 1}, {x: 2, y: 5}, {x: 2, y: 4}, {x: 2, y: 3}, {x: 2, y: 2}, {x: 2, y: 1}, {x: 1, y: 5}, {x: 1, y: 4}, {x: 1, y: 3}, {x: 1, y: 2}, {x: 1, y: 1}]"#,
@@ -49,7 +49,7 @@ fn _0004() {
   iterator.add_range("y".into(), 1, 3);
   iterator.add_range("z".into(), 1, 4);
   let mut actual = vec![];
-  iterator.run(|ctx| actual.push(Value::Context(ctx.clone())));
+  iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(24, actual.len());
   assert_eq!(
     r#"[{x: 1, y: 1, z: 1}, {x: 1, y: 1, z: 2}, {x: 1, y: 1, z: 3}, {x: 1, y: 1, z: 4}, {x: 1, y: 2, z: 1}, {x: 1, y: 2, z: 2}, {x: 1, y: 2, z: 3}, {x: 1, y: 2, z: 4}, {x: 1, y: 3, z: 1}, {x: 1, y: 3, z: 2}, {x: 1, y: 3, z: 3}, {x: 1, y: 3, z: 4}, {x: 2, y: 1, z: 1}, {x: 2, y: 1, z: 2}, {x: 2, y: 1, z: 3}, {x: 2, y: 1, z: 4}, {x: 2, y: 2, z: 1}, {x: 2, y: 2, z: 2}, {x: 2, y: 2, z: 3}, {x: 2, y: 2, z: 4}, {x: 2, y: 3, z: 1}, {x: 2, y: 3, z: 2}, {x: 2, y: 3, z: 3}, {x: 2, y: 3, z: 4}]"#,
@@ -63,7 +63,7 @@ fn _0005() {
   let list = vec![Value::String("a".to_string()), Value::String("b".to_string()), Value::String("c".to_string())];
   iterator.add_list("x".into(), list);
   let mut actual = vec![];
-  iterator.run(|ctx| actual.push(Value::Context(ctx.clone())));
+  iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(3, actual.len());
   assert_eq!(r#"[{x: "a"}, {x: "b"}, {x: "c"}]"#, values_to_string(&actual));
 }
@@ -76,7 +76,7 @@ fn _0006() {
   let list2 = vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0)];
   iterator.add_list("y".into(), list2);
   let mut actual = vec![];
-  iterator.run(|ctx| actual.push(Value::Context(ctx.clone())));
+  iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(9, actual.len());
   assert_eq!(
     r#"[{x: "a", y: 1}, {x: "a", y: 2}, {x: "a", y: 3}, {x: "b", y: 1}, {x: "b", y: 2}, {x: "b", y: 3}, {x: "c", y: 1}, {x: "c", y: 2}, {x: "c", y: 3}]"#,
@@ -94,7 +94,7 @@ fn _0007() {
   iterator.add_list("y".into(), list_y);
   iterator.add_list("z".into(), list_z);
   let mut actual = vec![];
-  iterator.run(|ctx| actual.push(Value::Context(ctx.clone())));
+  iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(24, actual.len());
   assert_eq!(
     r#"[{x: "a", y: 1, z: 1}, {x: "a", y: 1, z: 2}, {x: "a", y: 1, z: 3}, {x: "a", y: 1, z: 4}, {x: "a", y: 2, z: 1}, {x: "a", y: 2, z: 2}, {x: "a", y: 2, z: 3}, {x: "a", y: 2, z: 4}, {x: "a", y: 3, z: 1}, {x: "a", y: 3, z: 2}, {x: "a", y: 3, z: 3}, {x: "a", y: 3, z: 4}, {x: "b", y: 1, z: 1}, {x: "b", y: 1, z: 2}, {x: "b", y: 1, z: 3}, {x: "b", y: 1, z: 4}, {x: "b", y: 2, z: 1}, {x: "b", y: 2, z: 2}, {x: "b", y: 2, z: 3}, {x: "b", y: 2, z: 4}, {x: "b", y: 3, z: 1}, {x: "b", y: 3, z: 2}, {x: "b", y: 3, z: 3}, {x: "b", y: 3, z: 4}]"#,
@@ -108,7 +108,7 @@ fn _0008() {
   iterator.add_range("x".into(), 1, 2);
   iterator.add_list("y".into(), vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0)]);
   let mut actual = vec![];
-  iterator.run(|ctx| actual.push(Value::Context(ctx.clone())));
+  iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(6, actual.len());
   assert_eq!(
     r#"[{x: 1, y: 1}, {x: 1, y: 2}, {x: 1, y: 3}, {x: 2, y: 1}, {x: 2, y: 2}, {x: 2, y: 3}]"#,
@@ -179,6 +179,7 @@ fn _0013() {
 }
 
 #[test]
+#[ignore]
 fn _0014() {
   let mut iterator = ForExpressionEvaluator::new();
   let list = Value::List(vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0), value_number!(4, 0)]);

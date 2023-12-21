@@ -735,6 +735,7 @@ fn build_for(bx: &BuildContext, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
   let mut evaluators_list = vec![];
   let mut evaluators_variable = vec![];
   let mut evaluators_order = vec![];
+  // set of names of all binding variables used in this `for` loop
   let mut binding_variables = HashSet::new();
   if let AstNode::IterationContexts(items) = lhs {
     for item in items {
