@@ -174,12 +174,11 @@ fn _0013() {
   let node = dsntk_feel_parser::parse_expression(scope, "x+1", false).unwrap();
   let evaluator = crate::builders::build_evaluator(&BuildContext::default(), &node);
   let actual = iterator.evaluate(scope, &evaluator);
-  assert_eq!(2, actual.len());
-  assert_eq!(r#"[2, 3]"#, values_to_string(&actual));
+  assert_eq!(0, actual.len());
+  assert_eq!(r#"[]"#, values_to_string(&actual));
 }
 
 #[test]
-#[ignore]
 fn _0014() {
   let mut iterator = ForExpressionEvaluator::new();
   let list = Value::List(vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0), value_number!(4, 0)]);

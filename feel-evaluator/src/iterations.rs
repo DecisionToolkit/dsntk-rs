@@ -32,6 +32,8 @@ struct IterationState {
   end: isize,
   /// Collection of FEEL values to iterate over.
   values: Option<Values>,
+
+  empty: bool,
 }
 
 impl IterationState {
@@ -45,6 +47,7 @@ impl IterationState {
       start,
       end,
       values: None,
+      empty: true,
     }
   }
 
@@ -58,6 +61,7 @@ impl IterationState {
       start: 0,
       end: (values.len() as isize) - 1,
       values: Some(values),
+      empty: true,
     }
   }
 
@@ -71,6 +75,7 @@ impl IterationState {
       start: 0,
       end: 0,
       values: None,
+      empty: true,
     }
   }
 
@@ -78,14 +83,16 @@ impl IterationState {
   fn bind_value(&mut self, ctx: &FeelContext) {
     if let IteratorType::Variable(bound_variable) = &self.iterator_type {
       if let Some(value) = ctx.get(bound_variable) {
-        let values = match value {
-          Value::List(values) => values.clone(),
-          other => vec![other.clone()],
-        };
-        self.index = 0;
-        self.start = 0;
-        self.end = (values.len() as isize) - 1;
-        self.values = Some(values);
+        if self.index == self.start {
+          let values = match value {
+            Value::List(values) => values.clone(),
+            other => vec![other.clone()],
+          };
+          self.index = 0;
+          self.start = 0;
+          self.end = (values.len() as isize) - 1;
+          self.values = Some(values);
+        }
       }
     }
   }
@@ -125,24 +132,26 @@ impl IterationState {
   }
 
   ///
-  fn set_value(&self, ctx: &mut FeelContext) -> bool {
+  fn set_value(&mut self, ctx: &mut FeelContext) {
     match self.iterator_type {
       IteratorType::Range => {
         let value = Value::Number(self.index.into());
         ctx.set_entry(&self.variable, value);
-        return true;
+        self.empty = false;
+        return;
       }
       _ => {
         if let Some(values) = &self.values {
           let index = self.index as usize;
           if let Some(value) = values.get(index) {
             ctx.set_entry(&self.variable, value.clone());
-            return true;
+            self.empty = false;
+            return;
           }
         }
       }
     }
-    false
+    self.empty = true;
   }
 
   ///
@@ -179,45 +188,43 @@ impl FeelIterator {
     F: FnMut(&FeelContext),
   {
     if self.states.is_empty() {
-      return; // nothing to iterate over
+      return;
     }
     let mut ctx = FeelContext::new();
-    for state in self.iter_non_variable_states() {
-      state.set_value(&mut ctx);
-    }
-    for state in self.iter_variable_states() {
-      state.bind_value(&mut ctx);
-      state.set_value(&mut ctx);
-    }
     loop {
-      let mut empty_iteration = true;
-      for state in self.states.iter().rev() {
-        empty_iteration = !state.set_value(&mut ctx);
+      for state in self.iter_states_non_variable_mut() {
+        state.set_value(&mut ctx);
       }
-      println!("DDD: ctx = {}", ctx);
+      for state in self.iter_states_variable_mut() {
+        state.bind_value(&ctx);
+        state.set_value(&mut ctx);
+      }
+      let empty_iteration = self.states.iter().fold(false, |acc, state| acc | state.empty);
       if !empty_iteration {
         handler(&ctx);
       }
       let last_state = self.states.len() - 1;
-      for (i, state) in self.states.iter_mut().rev().enumerate() {
+      for (i, state) in self.iter_states_mut().enumerate() {
         if i == last_state && !state.has_next() {
           return;
-          // the last value of the outermost iterator is reached, iterating is completed
         }
         if state.next() {
           break;
-          // current iterator has more values to process, do not continue with other iterators
         }
       }
     }
   }
 
-  fn iter_non_variable_states(&self) -> impl Iterator<Item = &IterationState> {
-    self.states.iter().filter(|state| !state.is_variable())
+  fn iter_states_mut(&mut self) -> impl Iterator<Item = &mut IterationState> {
+    self.states.iter_mut().rev()
   }
 
-  fn iter_variable_states(&mut self) -> impl Iterator<Item = &mut IterationState> {
-    self.states.iter_mut().filter(|state| state.is_variable())
+  fn iter_states_non_variable_mut(&mut self) -> impl Iterator<Item = &mut IterationState> {
+    self.states.iter_mut().rev().filter(|state| !state.is_variable())
+  }
+
+  fn iter_states_variable_mut(&mut self) -> impl Iterator<Item = &mut IterationState> {
+    self.states.iter_mut().rev().filter(|state| state.is_variable())
   }
 }
 
