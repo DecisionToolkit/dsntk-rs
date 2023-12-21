@@ -18,9 +18,9 @@ enum IteratorType {
 
 /// Iteration state properties.
 struct IteratorState {
-  /// Enumeration indicating if the iteration is over the range of values or a list of values.
-  iteration_type: IteratorType,
-  /// Name of the variable used in iteration state.
+  /// Type of the iterator.
+  iterator_type: IteratorType,
+  /// Name of the binding variable in iteration context.
   variable: Name,
   /// Current value of the looping index.
   index: isize,
@@ -30,7 +30,7 @@ struct IteratorState {
   start: isize,
   /// Iteration end value.
   end: isize,
-  /// Collection of FEEL values to iterate over (if not a range).
+  /// Collection of FEEL values to iterate over.
   values: Option<Values>,
 }
 
@@ -44,7 +44,7 @@ impl FeelIterator {
   ///
   pub fn add_range(&mut self, variable: Name, start: isize, end: isize) {
     self.iteration_states.push(IteratorState {
-      iteration_type: IteratorType::Range,
+      iterator_type: IteratorType::Range,
       variable,
       index: start,
       step: if start <= end { 1 } else { -1 },
@@ -57,7 +57,7 @@ impl FeelIterator {
   ///
   pub fn add_list(&mut self, variable: Name, values: Values) {
     self.iteration_states.push(IteratorState {
-      iteration_type: IteratorType::List,
+      iterator_type: IteratorType::List,
       variable,
       index: 0,
       step: 1,
@@ -70,7 +70,7 @@ impl FeelIterator {
   ///
   pub fn add_variable(&mut self, variable: Name, binding: Name) {
     self.iteration_states.push(IteratorState {
-      iteration_type: IteratorType::Variable(binding),
+      iterator_type: IteratorType::Variable(binding),
       variable,
       index: 0,
       step: 1,
@@ -94,7 +94,7 @@ impl FeelIterator {
     'outer: loop {
       let mut is_empty_iteration = true;
       for iteration_state in &mut self.iteration_states {
-        match &iteration_state.iteration_type {
+        match &iteration_state.iterator_type {
           IteratorType::Range => {
             let value = Value::Number(iteration_state.index.into());
             iteration_context.set_entry(&iteration_state.variable, value);
@@ -178,8 +178,8 @@ impl FeelIterator {
   fn sort_iteration_states(&mut self) {
     self.iteration_states.reverse();
     self.iteration_states.sort_by(|a, b| {
-      let flag_a = matches!(a.iteration_type, IteratorType::Variable(_));
-      let flag_b = matches!(b.iteration_type, IteratorType::Variable(_));
+      let flag_a = matches!(a.iterator_type, IteratorType::Variable(_));
+      let flag_b = matches!(b.iterator_type, IteratorType::Variable(_));
       match (flag_a, flag_b) {
         (false, false) => Ordering::Equal,
         (false, true) => Ordering::Less,
