@@ -61,7 +61,7 @@ fn _0004() {
 fn _0005() {
   let mut iterator = FeelIterator::default();
   let list = vec![Value::String("a".to_string()), Value::String("b".to_string()), Value::String("c".to_string())];
-  iterator.add_list("x".into(), list);
+  iterator.add_list("x".into(), Value::List(list));
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(3, actual.len());
@@ -72,9 +72,9 @@ fn _0005() {
 fn _0006() {
   let mut iterator = FeelIterator::default();
   let list1 = vec![Value::String("a".to_string()), Value::String("b".to_string()), Value::String("c".to_string())];
-  iterator.add_list("x".into(), list1);
+  iterator.add_list("x".into(), Value::List(list1));
   let list2 = vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0)];
-  iterator.add_list("y".into(), list2);
+  iterator.add_list("y".into(), Value::List(list2));
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(9, actual.len());
@@ -90,9 +90,9 @@ fn _0007() {
   let list_x = vec![Value::String("a".to_string()), Value::String("b".to_string())];
   let list_y = vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0)];
   let list_z = vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0), value_number!(4, 0)];
-  iterator.add_list("x".into(), list_x);
-  iterator.add_list("y".into(), list_y);
-  iterator.add_list("z".into(), list_z);
+  iterator.add_list("x".into(), Value::List(list_x));
+  iterator.add_list("y".into(), Value::List(list_y));
+  iterator.add_list("z".into(), Value::List(list_z));
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(24, actual.len());
@@ -106,7 +106,7 @@ fn _0007() {
 fn _0008() {
   let mut iterator = FeelIterator::default();
   iterator.add_range("x".into(), 1, 2);
-  iterator.add_list("y".into(), vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0)]);
+  iterator.add_list("y".into(), Value::List(vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0)]));
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(6, actual.len());

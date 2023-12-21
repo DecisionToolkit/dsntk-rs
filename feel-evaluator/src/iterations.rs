@@ -52,7 +52,11 @@ impl IterationState {
   }
 
   /// Creates a new iteration state for a list of values.
-  fn new_list(variable: Name, values: Values) -> Self {
+  fn new_list(variable: Name, value: Value) -> Self {
+    let values = match value {
+      Value::List(values) => values,
+      other => vec![other],
+    };
     Self {
       iterator_type: IteratorType::List,
       variable,
@@ -173,8 +177,8 @@ impl FeelIterator {
   }
 
   ///
-  pub fn add_list(&mut self, variable: Name, values: Values) {
-    self.states.push(IterationState::new_list(variable, values));
+  pub fn add_list(&mut self, variable: Name, value: Value) {
+    self.states.push(IterationState::new_list(variable, value));
   }
 
   ///
@@ -245,11 +249,7 @@ impl ForExpressionEvaluator {
 
   ///
   pub fn add_list(&mut self, name: Name, value: Value) {
-    let values = match value {
-      Value::List(values) => values,
-      other => vec![other],
-    };
-    self.iterator.add_list(name, values);
+    self.iterator.add_list(name, value);
   }
 
   ///
@@ -300,11 +300,7 @@ impl SomeExpressionEvaluator {
 
   ///
   pub fn add_list(&mut self, name: Name, value: Value) {
-    let values = match value {
-      Value::List(values) => values,
-      other => vec![other],
-    };
-    self.iterator.add_list(name, values);
+    self.iterator.add_list(name, value);
   }
 
   ///
@@ -336,11 +332,7 @@ impl EveryExpressionEvaluator {
 
   ///
   pub fn add_list(&mut self, name: Name, value: Value) {
-    let values = match value {
-      Value::List(values) => values,
-      other => vec![other],
-    };
-    self.iterator.add_list(name, values);
+    self.iterator.add_list(name, value);
   }
 
   ///
