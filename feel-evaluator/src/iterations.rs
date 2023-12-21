@@ -1,4 +1,4 @@
-//! ???
+//! # FEEL iterator implementation
 
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values};
@@ -101,7 +101,7 @@ impl IterationState {
     }
   }
 
-  /// If the iterator has more values, then move to next one.
+  /// Moves the iterator to the next value if any available.
   fn next(&mut self) -> bool {
     match self.step.cmp(&0) {
       Ordering::Greater => {
@@ -126,7 +126,7 @@ impl IterationState {
     }
   }
 
-  /// Returns `true` when the iterator has more values to iterate over.
+  /// Returns `true` when the iterator has some more values to iterate over.
   fn has_next(&self) -> bool {
     match self.step.cmp(&0) {
       Ordering::Greater => self.index + self.step <= self.end,
@@ -171,6 +171,11 @@ pub(crate) struct FeelIterator {
 }
 
 impl FeelIterator {
+  /// Creates a new iterator with default settings.
+  pub fn new() -> Self {
+    Self::default()
+  }
+
   ///
   pub fn add_range(&mut self, variable: Name, start: isize, end: isize) {
     self.states.push(IterationState::new_range(variable, start, end));
@@ -219,16 +224,19 @@ impl FeelIterator {
     }
   }
 
+  ///
   fn iter_states_mut(&mut self) -> impl Iterator<Item = &mut IterationState> {
     self.states.iter_mut().rev()
   }
 
+  ///
   fn iter_states_non_variable_mut(&mut self) -> impl Iterator<Item = &mut IterationState> {
     self.states.iter_mut().rev().filter(|state| !state.is_variable())
   }
 
+  ///
   fn iter_states_variable_mut(&mut self) -> impl Iterator<Item = &mut IterationState> {
-    self.states.iter_mut().rev().filter(|state| state.is_variable())
+    self.states.iter_mut().filter(|state| state.is_variable())
   }
 }
 
@@ -325,9 +333,7 @@ pub struct EveryExpressionEvaluator {
 impl EveryExpressionEvaluator {
   ///
   pub fn new() -> Self {
-    Self {
-      iterator: FeelIterator::default(),
-    }
+    Self { iterator: FeelIterator::new() }
   }
 
   ///

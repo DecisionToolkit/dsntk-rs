@@ -764,8 +764,8 @@ fn build_for(bx: &BuildContext, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
   }
   Box::new(move |scope: &FeelScope| {
     let mut expression_evaluator = ForExpressionEvaluator::new();
-    for a in &evaluators {
-      match a {
+    for iterator_type in &evaluators {
+      match iterator_type {
         IteratorType::Range((name, evaluator_range_start, evaluator_range_end)) => {
           expression_evaluator.add_range(name.clone(), evaluator_range_start(scope), evaluator_range_end(scope));
         }
