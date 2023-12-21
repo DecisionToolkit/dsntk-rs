@@ -725,16 +725,13 @@ fn build_filter(bx: &BuildContext, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
 
 ///
 fn build_for(bx: &BuildContext, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
-  enum IterationContextType {
-    Range,
-    List,
-    Variable,
+  enum IteratorType {
+    Range((Name, Evaluator, Evaluator)),
+    List((Name, Evaluator)),
+    Variable((Name, Name)),
   }
   let rhe = build_evaluator(bx, rhs);
-  let mut evaluators_range = vec![];
-  let mut evaluators_list = vec![];
-  let mut evaluators_variable = vec![];
-  let mut evaluators_order = vec![];
+  let mut evaluators = vec![];
   let mut binding_variables = HashSet::new();
   if let AstNode::IterationContexts(items) = lhs {
     for item in items {
@@ -743,8 +740,7 @@ fn build_for(bx: &BuildContext, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
           if let AstNode::Name(name) = variable_name.borrow() {
             let evaluator_range_start = build_evaluator(bx, range_start_node);
             let evaluator_range_end = build_evaluator(bx, range_end_node);
-            evaluators_range.push((name.clone(), evaluator_range_start, evaluator_range_end));
-            evaluators_order.push((IterationContextType::Range, evaluators_range.len() - 1));
+            evaluators.push(IteratorType::Range((name.clone(), evaluator_range_start, evaluator_range_end)));
             binding_variables.insert(name.clone());
           }
         }
@@ -752,15 +748,13 @@ fn build_for(bx: &BuildContext, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
           if let AstNode::Name(name) = variable_name.borrow() {
             if let AstNode::Name(variable_name) = expr_node.borrow() {
               if binding_variables.contains(variable_name) {
-                evaluators_variable.push((name.clone(), variable_name.clone()));
-                evaluators_order.push((IterationContextType::Variable, evaluators_variable.len() - 1));
+                evaluators.push(IteratorType::Variable((name.clone(), variable_name.clone())));
                 binding_variables.insert(name.clone());
                 continue;
               }
             }
             let evaluator_list = build_evaluator(bx, expr_node);
-            evaluators_list.push((name.clone(), evaluator_list));
-            evaluators_order.push((IterationContextType::List, evaluators_list.len() - 1));
+            evaluators.push(IteratorType::List((name.clone(), evaluator_list)));
             binding_variables.insert(name.clone());
           }
         }
@@ -770,18 +764,15 @@ fn build_for(bx: &BuildContext, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
   }
   Box::new(move |scope: &FeelScope| {
     let mut expression_evaluator = ForExpressionEvaluator::new();
-    for (fit, index) in &evaluators_order {
-      match fit {
-        IterationContextType::Range => {
-          let (name, evaluator_range_start, evaluator_range_end) = &evaluators_range[*index];
+    for a in &evaluators {
+      match a {
+        IteratorType::Range((name, evaluator_range_start, evaluator_range_end)) => {
           expression_evaluator.add_range(name.clone(), evaluator_range_start(scope), evaluator_range_end(scope));
         }
-        IterationContextType::List => {
-          let (name, evaluator_single) = &evaluators_list[*index];
+        IteratorType::List((name, evaluator_single)) => {
           expression_evaluator.add_list(name.clone(), evaluator_single(scope));
         }
-        IterationContextType::Variable => {
-          let (name, variable_name) = &evaluators_variable[*index];
+        IteratorType::Variable((name, variable_name)) => {
           expression_evaluator.add_variable(name.clone(), variable_name.clone());
         }
       }
