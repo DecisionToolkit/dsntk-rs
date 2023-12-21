@@ -5,22 +5,22 @@ use dsntk_feel::values::{Value, Values};
 use dsntk_feel::{Evaluator, FeelScope, Name};
 use std::cmp::Ordering;
 
-/// Iteration types.
+/// Iterator types.
 #[derive(Debug, Clone)]
 enum IteratorType {
   /// Iterator over a range of values.
   Range,
   /// Iterator over a list of values.
   List,
-  /// Iterator over values in binding variable.
+  /// Iterator over value(s) of bound variable defined in another iteration context.
   Variable(Name),
 }
 
-/// Iteration state properties.
-struct IteratorState {
+/// Iteration state.
+struct IterationState {
   /// Type of the iterator.
   iterator_type: IteratorType,
-  /// Name of the binding variable in iteration context.
+  /// Name of the bound variable of the iteration context.
   variable: Name,
   /// Current value of the looping index.
   index: isize,
@@ -34,16 +34,52 @@ struct IteratorState {
   values: Option<Values>,
 }
 
-/// Single iterator.
+impl IterationState {
+  ///
+  fn next(&mut self) -> bool {
+    match self.step.cmp(&0) {
+      Ordering::Greater => {
+        if self.index + self.step <= self.end {
+          self.index += self.step;
+          false
+        } else {
+          self.index = self.start;
+          true
+        }
+      }
+      Ordering::Less => {
+        if self.index + self.step >= self.end {
+          self.index += self.step;
+          false
+        } else {
+          self.index = self.start;
+          true
+        }
+      }
+      Ordering::Equal => panic!("iteration step must not be zero"),
+    }
+  }
+
+  ///
+  fn has_next(&self) -> bool {
+    match self.step.cmp(&0) {
+      Ordering::Greater => self.index + self.step <= self.end,
+      Ordering::Less => self.index + self.step >= self.end,
+      Ordering::Equal => panic!("iteration step must not be zero"),
+    }
+  }
+}
+
+/// Iterator built from multiple iteration states.
 #[derive(Default)]
 pub(crate) struct FeelIterator {
-  iteration_states: Vec<IteratorState>,
+  states: Vec<IterationState>,
 }
 
 impl FeelIterator {
   ///
   pub fn add_range(&mut self, variable: Name, start: isize, end: isize) {
-    self.iteration_states.push(IteratorState {
+    self.states.push(IterationState {
       iterator_type: IteratorType::Range,
       variable,
       index: start,
@@ -56,7 +92,7 @@ impl FeelIterator {
 
   ///
   pub fn add_list(&mut self, variable: Name, values: Values) {
-    self.iteration_states.push(IteratorState {
+    self.states.push(IterationState {
       iterator_type: IteratorType::List,
       variable,
       index: 0,
@@ -69,7 +105,7 @@ impl FeelIterator {
 
   ///
   pub fn add_variable(&mut self, variable: Name, binding: Name) {
-    self.iteration_states.push(IteratorState {
+    self.states.push(IterationState {
       iterator_type: IteratorType::Variable(binding),
       variable,
       index: 0,
@@ -85,15 +121,14 @@ impl FeelIterator {
   where
     F: FnMut(&FeelContext),
   {
-    if self.iteration_states.is_empty() {
+    if self.states.is_empty() {
       return;
     }
-    //self.sort_iteration_states();
-    self.iteration_states.reverse();
     let mut iteration_context = FeelContext::new();
-    'outer: loop {
+    self.states.reverse();
+    loop {
       let mut is_empty_iteration = true;
-      for iteration_state in &mut self.iteration_states {
+      for iteration_state in &mut self.states {
         match &iteration_state.iterator_type {
           IteratorType::Range => {
             let value = Value::Number(iteration_state.index.into());
@@ -109,84 +144,22 @@ impl FeelIterator {
               }
             }
           }
-          IteratorType::Variable(binding) => {
-            iteration_state.end = 0;
-            match iteration_context.get(binding) {
-              Some(Value::List(values)) => {
-                iteration_state.end = (values.len() as isize);
-                let index = iteration_state.index as usize;
-                if let Some(value) = values.get(index) {
-                  iteration_context.set_entry(&iteration_state.variable, value.clone());
-                  is_empty_iteration = false;
-                }
-              }
-              Some(value) => {
-                iteration_context.set_entry(&iteration_state.variable, value.clone());
-                is_empty_iteration = false;
-                iteration_state.end = 1;
-              }
-              _ => {}
-            }
-          }
+          _ => {}
         }
       }
       if !is_empty_iteration {
         handler(&iteration_context);
       }
-      let last_iteration_state_index = self.iteration_states.len() - 1;
-      let mut overflow = true;
-      'inner: for (x, iteration_state) in self.iteration_states.iter_mut().enumerate() {
-        if overflow {
-          if x == last_iteration_state_index {
-            if iteration_state.step > 0 && iteration_state.index + iteration_state.step > iteration_state.end {
-              break 'outer;
-            }
-            if iteration_state.step < 0 && iteration_state.index + iteration_state.step < iteration_state.end {
-              break 'outer;
-            }
-          }
-          if iteration_state.step > 0 {
-            if iteration_state.index + iteration_state.step <= iteration_state.end {
-              iteration_state.index += iteration_state.step;
-              overflow = false;
-            } else {
-              iteration_state.index = iteration_state.start;
-              overflow = true;
-            }
-          }
-          if iteration_state.step < 0 {
-            if iteration_state.index + iteration_state.step >= iteration_state.end {
-              iteration_state.index += iteration_state.step;
-              overflow = false;
-            } else {
-              iteration_state.index = iteration_state.start;
-              overflow = true;
-            }
-          }
-          if iteration_state.step == 0 {
-            break 'outer;
-          }
-        } else {
-          break 'inner;
+      let last_state = self.states.len() - 1;
+      for (i, iteration_state) in self.states.iter_mut().enumerate() {
+        if i == last_state && !iteration_state.has_next() {
+          return;
+        }
+        if !iteration_state.next() {
+          break;
         }
       }
     }
-  }
-
-  /// Sorts the iteration states this way, that states pointing
-  /// to another binding variables are shifted to the end of the list.
-  fn sort_iteration_states(&mut self) {
-    self.iteration_states.reverse();
-    self.iteration_states.sort_by(|a, b| {
-      let flag_a = matches!(a.iterator_type, IteratorType::Variable(_));
-      let flag_b = matches!(b.iterator_type, IteratorType::Variable(_));
-      match (flag_a, flag_b) {
-        (false, false) => Ordering::Equal,
-        (false, true) => Ordering::Less,
-        (true, false) => Ordering::Greater,
-        (true, true) => Ordering::Equal,
-      }
-    });
   }
 }
 
