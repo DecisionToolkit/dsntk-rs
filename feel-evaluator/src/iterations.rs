@@ -127,18 +127,6 @@ impl FeelIterator {
               }
               _ => {}
             }
-            // if let Some(value) = iteration_context.get(binding).cloned() {
-            //   println!("DDD: {} => {}", iteration_state.variable, binding);
-            //   println!("DDD: value = {}", value);
-            //
-            // }
-            // if let Some(values) = iteration_context.get(variable) {
-            //   let index = iteration_state.index as usize;
-            //   if let Some(value) = values.get(index) {
-            //     iteration_context.set_entry(&iteration_state.variable, value.clone());
-            //     is_empty_iteration = false;
-            //   }
-            // }
           }
         }
       }
@@ -204,7 +192,7 @@ impl FeelIterator {
 
 ///
 pub struct ForExpressionEvaluator {
-  feel_iterator: FeelIterator,
+  iterator: FeelIterator,
   name_partial: Name,
 }
 
@@ -212,7 +200,7 @@ impl ForExpressionEvaluator {
   ///
   pub fn new() -> Self {
     Self {
-      feel_iterator: FeelIterator::default(),
+      iterator: FeelIterator::default(),
       name_partial: "partial".into(),
     }
   }
@@ -223,7 +211,7 @@ impl ForExpressionEvaluator {
       Value::List(values) => values,
       other => vec![other],
     };
-    self.feel_iterator.add_list(name, values);
+    self.iterator.add_list(name, values);
   }
 
   ///
@@ -232,7 +220,7 @@ impl ForExpressionEvaluator {
       if let Value::Number(end) = range_end {
         if let Ok(i_start) = start.try_into() {
           if let Ok(i_end) = end.try_into() {
-            self.feel_iterator.add_range(name, i_start, i_end);
+            self.iterator.add_range(name, i_start, i_end);
           }
         }
       }
@@ -241,13 +229,13 @@ impl ForExpressionEvaluator {
 
   ///
   pub fn add_variable(&mut self, name: Name, variable: Name) {
-    self.feel_iterator.add_variable(name, variable);
+    self.iterator.add_variable(name, variable);
   }
 
   ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Values {
     let mut results = vec![];
-    self.feel_iterator.iterate(|ctx| {
+    self.iterator.iterate(|ctx| {
       let mut iteration_context = ctx.clone();
       iteration_context.set_entry(&self.name_partial, Value::List(results.clone()));
       scope.push(iteration_context.clone());
@@ -261,14 +249,14 @@ impl ForExpressionEvaluator {
 
 ///
 pub struct SomeExpressionEvaluator {
-  feel_iterator: FeelIterator,
+  iterator: FeelIterator,
 }
 
 impl SomeExpressionEvaluator {
   ///
   pub fn new() -> Self {
     Self {
-      feel_iterator: FeelIterator::default(),
+      iterator: FeelIterator::default(),
     }
   }
 
@@ -278,13 +266,13 @@ impl SomeExpressionEvaluator {
       Value::List(values) => values,
       other => vec![other],
     };
-    self.feel_iterator.add_list(name, values);
+    self.iterator.add_list(name, values);
   }
 
   ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Value {
     let mut result = false;
-    self.feel_iterator.iterate(|ctx| {
+    self.iterator.iterate(|ctx| {
       scope.push(ctx.clone());
       if let Value::Boolean(value) = evaluator(scope) {
         result = result || value;
@@ -297,14 +285,14 @@ impl SomeExpressionEvaluator {
 
 ///
 pub struct EveryExpressionEvaluator {
-  feel_iterator: FeelIterator,
+  iterator: FeelIterator,
 }
 
 impl EveryExpressionEvaluator {
   ///
   pub fn new() -> Self {
     Self {
-      feel_iterator: FeelIterator::default(),
+      iterator: FeelIterator::default(),
     }
   }
 
@@ -314,13 +302,13 @@ impl EveryExpressionEvaluator {
       Value::List(values) => values,
       other => vec![other],
     };
-    self.feel_iterator.add_list(name, values);
+    self.iterator.add_list(name, values);
   }
 
   ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Value {
     let mut result = true;
-    self.feel_iterator.iterate(|ctx| {
+    self.iterator.iterate(|ctx| {
       scope.push(ctx.clone());
       if let Value::Boolean(value) = evaluator(scope) {
         result = result && value;
