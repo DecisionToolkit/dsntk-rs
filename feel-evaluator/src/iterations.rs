@@ -172,14 +172,10 @@ impl FeelIterator {
       let last_state = self.states.len() - 1;
       for (i, state) in self.states.iter_mut().enumerate() {
         if i == last_state && !state.has_next() {
-          // the last value of the outermost iterator is reached,
-          // iterating is completed, exit the whole function
-          return;
+          return; // the last value of the outermost iterator is reached, iterating is completed
         }
         if state.next() {
-          // current iterator has more values to process,
-          // so do not continue with other iterators
-          break;
+          break; // current iterator has more values to process,do not continue with other iterators
         }
       }
     }
