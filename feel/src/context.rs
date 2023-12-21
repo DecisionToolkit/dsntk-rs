@@ -31,11 +31,10 @@ impl TryFrom<Value> for FeelContext {
   type Error = DsntkError;
   /// Converts [Value] to [FeelContext].
   fn try_from(value: Value) -> Result<Self, Self::Error> {
-    if let Value::Context(ctx) = value {
-      Ok(ctx)
-    } else {
-      Err(err_value_is_not_a_context(&value))
-    }
+    let Value::Context(ctx) = value else {
+      return Err(err_value_is_not_a_context(&value));
+    };
+    Ok(ctx)
   }
 }
 
@@ -214,29 +213,26 @@ impl FeelContext {
 
   /// Creates entries with intermediary contexts when needed.
   pub fn create_entries(&mut self, names: &[Name], value: Value) {
-    // if there are no names, then return
+    // if there are no names provided, then simply return
     if names.is_empty() {
       return;
     }
     let key = names[0].clone();
     let tail = &names[1..];
-    // if tail is empty, then insert the value under
-    // specified key in current context and return
+    // if tail is empty, then insert the value under the key in current context and return
     if tail.is_empty() {
       self.0.insert(key, value);
       return;
     }
-    // if there is a context under the specified key,
-    // then insert value to this context and return
-    if let Some(Value::Context(sub_ctx)) = self.0.get_mut(&key) {
-      sub_ctx.create_entries(tail, value);
+    // if there is a context under the key, then insert value to this context and return
+    if let Some(Value::Context(ctx)) = self.0.get_mut(&key) {
+      ctx.create_entries(tail, value);
       return;
     }
-    // finally, when got to this point, insert a value
-    // to newly created context
-    let mut sub_ctx = FeelContext::default();
-    sub_ctx.create_entries(tail, value);
-    self.0.insert(key, sub_ctx.into());
+    // insert a value from tail to newly created context
+    let mut ctx = FeelContext::default();
+    ctx.create_entries(tail, value);
+    self.0.insert(key, ctx.into());
   }
 
   /// Deep search for a value pointed by names.

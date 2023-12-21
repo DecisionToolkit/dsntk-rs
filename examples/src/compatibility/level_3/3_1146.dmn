@@ -231,7 +231,7 @@
     <decision name="nested009" id="_nested009">
         <variable name="nested009"/>
         <literalExpression>
-            <text>context put(context: {x:1, y: {a: 0}}, ky: ["y", "a", "b", "c"], value: 2)</text>
+            <text>context put({x:1, y: {a: 0}}, ["y", "a", "b", "c"], 2)</text>
         </literalExpression>
     </decision>
 

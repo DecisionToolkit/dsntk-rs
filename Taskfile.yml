@@ -72,7 +72,7 @@ tasks:
       - cmd: ./coverage.sh
 
   cov-pdf:
-    desc: Runs code coverage using grcov and generated PDF report
+    desc: Runs code coverage using grcov and generates a PDF report
     cmds:
       - cmd: PDF_REPORT=yes ./coverage.sh
 

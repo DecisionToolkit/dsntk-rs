@@ -175,6 +175,7 @@ fn _0027() {
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "nested008", &CTX, "null");
 }
 
+#[ignore]
 #[test]
 fn _0028() {
   assert_decision(

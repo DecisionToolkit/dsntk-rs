@@ -248,6 +248,39 @@ fn test_context_create_entry() {
 }
 
 #[test]
+fn test_context_create_entries() {
+  let name_a: Name = "a".into();
+  let name_b = Name::from("b");
+  let name_c = Name::from("c");
+  let name_d = Name::from("d");
+  let qn_a = QualifiedName::new(&[&name_a]);
+  let qn_b = QualifiedName::new(&[&name_b]);
+  let qn_a_b = QualifiedName::new(&[&name_a, &name_b]);
+  let qn_a_c = QualifiedName::new(&[&name_a, &name_c]);
+  let qn_a_d = QualifiedName::new(&[&name_a, &name_d]);
+  let qn_c_d = QualifiedName::new(&[&name_c, &name_d]);
+  let qn_a_b_c = QualifiedName::new(&[&name_a, &name_b, &name_c]);
+  let qn_a_b_c_d = QualifiedName::new(&[&name_a, &name_b, &name_c, &name_d]);
+  let mut ctx: FeelContext = Default::default();
+  ctx.create_entry(&qn_a_b_c_d, Value::Boolean(true));
+  assert_eq!("{a: {b: {c: {d: true}}}}", ctx.to_string().as_str());
+  assert_eq!("{b: {c: {d: true}}}", ctx.search_entry(&qn_a).unwrap().to_string().as_str());
+  assert_eq!("{c: {d: true}}", ctx.search_entry(&qn_a_b).unwrap().to_string().as_str());
+  assert_eq!("{d: true}", ctx.search_entry(&qn_a_b_c).unwrap().to_string().as_str());
+  assert_eq!("true", ctx.search_entry(&qn_a_b_c_d).unwrap().to_string().as_str());
+  let mut ctx: FeelContext = Default::default();
+  ctx.create_entry(&qn_a, Value::Boolean(true));
+  ctx.create_entry(&qn_b, Value::Boolean(false));
+  ctx.create_entry(&qn_c_d, Value::String("deep".to_string()));
+  assert_eq!(r#"{a: true, b: false, c: {d: "deep"}}"#, ctx.to_string().as_str());
+  let mut ctx: FeelContext = Default::default();
+  ctx.create_entry(&qn_a_b, Value::String("b".to_string()));
+  ctx.create_entry(&qn_a_c, Value::String("c".to_string()));
+  ctx.create_entry(&qn_a_d, Value::String("d".to_string()));
+  assert_eq!(r#"{a: {b: "b", c: "c", d: "d"}}"#, ctx.to_string().as_str());
+}
+
+#[test]
 fn test_context_set_null() {
   let name_a = Name::from("a");
   let mut ctx: FeelContext = Default::default();
