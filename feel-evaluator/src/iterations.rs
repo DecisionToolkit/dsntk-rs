@@ -144,6 +144,11 @@ impl IterationState {
     }
     false
   }
+
+  ///
+  fn is_variable(&self) -> bool {
+    matches!(self.iterator_type, IteratorType::Variable(_))
+  }
 }
 
 /// Iterator built from multiple iteration states.
@@ -196,21 +201,23 @@ impl FeelIterator {
       let last_state = self.states.len() - 1;
       for (i, state) in self.states.iter_mut().rev().enumerate() {
         if i == last_state && !state.has_next() {
-          return; // the last value of the outermost iterator is reached, iterating is completed
+          return;
+          // the last value of the outermost iterator is reached, iterating is completed
         }
         if state.next() {
-          break; // current iterator has more values to process, do not continue with other iterators
+          break;
+          // current iterator has more values to process, do not continue with other iterators
         }
       }
     }
   }
 
   fn iter_non_variable_states(&self) -> impl Iterator<Item = &IterationState> {
-    self.states.iter().filter(|state| !matches!(state.iterator_type, IteratorType::Variable(_)))
+    self.states.iter().filter(|state| !state.is_variable())
   }
 
   fn iter_variable_states(&mut self) -> impl Iterator<Item = &mut IterationState> {
-    self.states.iter_mut().filter(|state| matches!(state.iterator_type, IteratorType::Variable(_)))
+    self.states.iter_mut().filter(|state| state.is_variable())
   }
 }
 
