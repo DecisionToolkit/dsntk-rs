@@ -7,22 +7,19 @@ use std::cmp::Ordering;
 
 /// Iteration types.
 #[derive(Debug, Clone)]
-enum IterationType {
-  /// Iteration over a range of values.
+enum IteratorType {
+  /// Iterator over a range of values.
   Range,
-  /// Iteration over a list of values.
+  /// Iterator over a list of values.
   List,
-  /// Iteration over previously defined binding variable.
-  Variable(
-    /// Name of the binding variable to iterate over.
-    Name,
-  ),
+  /// Iterator over values in binding variable.
+  Variable(Name),
 }
 
 /// Iteration state properties.
 struct IteratorState {
   /// Enumeration indicating if the iteration is over the range of values or a list of values.
-  iteration_type: IterationType,
+  iteration_type: IteratorType,
   /// Name of the variable used in iteration state.
   variable: Name,
   /// Current value of the looping index.
@@ -47,7 +44,7 @@ impl FeelIterator {
   ///
   pub fn add_range(&mut self, variable: Name, start: isize, end: isize) {
     self.iteration_states.push(IteratorState {
-      iteration_type: IterationType::Range,
+      iteration_type: IteratorType::Range,
       variable,
       index: start,
       step: if start <= end { 1 } else { -1 },
@@ -60,7 +57,7 @@ impl FeelIterator {
   ///
   pub fn add_list(&mut self, variable: Name, values: Values) {
     self.iteration_states.push(IteratorState {
-      iteration_type: IterationType::List,
+      iteration_type: IteratorType::List,
       variable,
       index: 0,
       step: 1,
@@ -73,7 +70,7 @@ impl FeelIterator {
   ///
   pub fn add_variable(&mut self, variable: Name, binding: Name) {
     self.iteration_states.push(IteratorState {
-      iteration_type: IterationType::Variable(binding),
+      iteration_type: IteratorType::Variable(binding),
       variable,
       index: 0,
       step: 1,
@@ -98,12 +95,12 @@ impl FeelIterator {
       let mut is_empty_iteration = true;
       for iteration_state in &mut self.iteration_states {
         match &iteration_state.iteration_type {
-          IterationType::Range => {
+          IteratorType::Range => {
             let value = Value::Number(iteration_state.index.into());
             iteration_context.set_entry(&iteration_state.variable, value);
             is_empty_iteration = false;
           }
-          IterationType::List => {
+          IteratorType::List => {
             if let Some(values) = &iteration_state.values {
               let index = iteration_state.index as usize;
               if let Some(value) = values.get(index) {
@@ -112,12 +109,10 @@ impl FeelIterator {
               }
             }
           }
-          IterationType::Variable(binding) => {
+          IteratorType::Variable(binding) => {
             iteration_state.end = 0;
             match iteration_context.get(binding) {
               Some(Value::List(values)) => {
-                println!("DDD: values = {:?}", values);
-                println!("DDD: {}", iteration_state.index);
                 iteration_state.end = (values.len() as isize);
                 let index = iteration_state.index as usize;
                 if let Some(value) = values.get(index) {
@@ -130,9 +125,7 @@ impl FeelIterator {
                 is_empty_iteration = false;
                 iteration_state.end = 1;
               }
-              _ => {
-                println!("DDD: empty");
-              }
+              _ => {}
             }
             // if let Some(value) = iteration_context.get(binding).cloned() {
             //   println!("DDD: {} => {}", iteration_state.variable, binding);
@@ -197,8 +190,8 @@ impl FeelIterator {
   fn sort_iteration_states(&mut self) {
     self.iteration_states.reverse();
     self.iteration_states.sort_by(|a, b| {
-      let flag_a = matches!(a.iteration_type, IterationType::Variable(_));
-      let flag_b = matches!(b.iteration_type, IterationType::Variable(_));
+      let flag_a = matches!(a.iteration_type, IteratorType::Variable(_));
+      let flag_b = matches!(b.iteration_type, IteratorType::Variable(_));
       match (flag_a, flag_b) {
         (false, false) => Ordering::Equal,
         (false, true) => Ordering::Less,

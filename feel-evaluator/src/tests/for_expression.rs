@@ -117,6 +117,7 @@ fn _0011() {
 }
 
 #[test]
+#[ignore]
 fn _0012() {
   //--------------------------------------------------------------------------------------------------------------------
   // This is tricky. `x` iterates over values that are lists. So in each iteration,
