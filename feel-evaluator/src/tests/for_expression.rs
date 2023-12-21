@@ -98,14 +98,32 @@ fn _0009() {
 
 #[test]
 fn _0010() {
-  // 'x' variable iterates over a list. But the elements of this list are also lists (nested lists).
-  // The result is a list of elements, but because each element is also a list, the we get a nested list as a result.
+  //--------------------------------------------------------------------------------------------------------------------
+  // `x` variable iterates over a list. But the elements of this list are also lists (nested lists).
+  // The result is a list of elements, but because each element is also a list,
+  // the we get a nested list as a result.
+  //--------------------------------------------------------------------------------------------------------------------
   te_be_value(false, &scope!(), "for x in [[1,2],[3,4]] return x", "[[1, 2], [3, 4]]");
 }
 
 #[test]
 fn _0011() {
+  //--------------------------------------------------------------------------------------------------------------------
   // In the previous test we get a nested list as a result from iteration done by variable `x`.
-  // So the nested loop with variable `y` also iterates over a nested list, so we get the same result as in previous test.
+  // So the nested loop with variable `y` also iterates over a nested list, so we get the same result
+  // as in previous test.
+  //--------------------------------------------------------------------------------------------------------------------
   te_be_value(false, &scope!(), "for x in [[1,2],[3,4]] return for y in x return y", "[[1, 2], [3, 4]]");
+}
+
+#[test]
+fn _0012() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // This is tricky. `x` iterates over values that are lists. So in each iteration,
+  // the value of `x` is a list (the nested one).
+  // So the variable `y` always sees a list of numbers, so it iterates over numbers,
+  // and because we care only about variable `y` in the result (which is a number in each iteration),
+  // so the final result is a list of numbers.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_be_value(false, &scope!(), "for x in [[1,2],[3,4]], y in x return y", "[1, 2, 3, 4]");
 }
