@@ -1010,9 +1010,17 @@ fn flatten_value(value: &Value, flattened: &mut Vec<Value>) {
 }
 
 /// Returns greatest **integer** <= **value** specified as a parameter.
-pub fn floor(value: &Value) -> Value {
-  if let Value::Number(v) = value {
-    Value::Number(v.floor())
+pub fn floor(value: &Value, scale: &Value) -> Value {
+  if let Value::Number(value) = value {
+    if let Value::Number(scale) = scale {
+      if let Ok(scale) = scale.try_into() {
+        Value::Number(value.floor(scale))
+      } else {
+        value_null!("invalid scale: {}", scale)
+      }
+    } else {
+      invalid_argument_type!("floor", "number", scale.type_of())
+    }
   } else {
     invalid_argument_type!("floor", "number", value.type_of())
   }
@@ -1539,7 +1547,7 @@ pub fn modulo(dividend_value: &Value, divisor_value: &Value) -> Value {
       if divisor.abs() == FeelNumber::zero() {
         value_null!("[core::modulo] division by zero")
       } else {
-        Value::Number(dividend - divisor * (dividend / divisor).floor())
+        Value::Number(dividend - divisor * (dividend / divisor).floor(0))
       }
     } else {
       invalid_argument_type!("modulo", "number", divisor_value.type_of())

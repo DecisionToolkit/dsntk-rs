@@ -96,9 +96,13 @@ impl FeelNumber {
     }
   }
 
-  ///
-  pub fn floor(&self) -> Self {
-    Self(bid128_round_integral_negative(self.0, flags!()), false)
+  /// Rounds to the maximum integer that is less or equal to this value.
+  pub fn floor(&self, s: i32) -> Self {
+    if s == 0 {
+      Self(bid128_round_integral_negative(self.0, flags!()), false)
+    } else {
+      Self(bid128_scalbn(bid128_round_integral_negative(bid128_scalbn(self.0, s), flags!()), -s), false)
+    }
   }
 
   ///

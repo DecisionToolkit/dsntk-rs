@@ -207,6 +207,11 @@ tasks:
     cmds:
       - cmd: cargo +stable test --workspace
 
+  test-feel-evaluator:
+    desc: Runs tests in debug mode
+    cmds:
+      - cmd: cargo +stable test -p dsntk-feel-evaluator
+
   testn:
     desc: Runs tests in debug mode using nextest
     cmds:

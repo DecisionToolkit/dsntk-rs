@@ -1,7 +1,7 @@
 use crate::bifs::core;
 use dsntk_feel::bif::Bif;
 use dsntk_feel::values::Value;
-use dsntk_feel::{value_null, Name};
+use dsntk_feel::{value_null, FeelNumber, Name};
 
 use once_cell::sync::Lazy;
 
@@ -440,10 +440,26 @@ fn bif_flatten(parameters: &NamedParameters) -> Value {
 }
 
 fn bif_floor(parameters: &NamedParameters) -> Value {
-  if let Some((value, _)) = get_param(parameters, &NAME_N) {
-    core::floor(value)
-  } else {
-    parameter_not_found!(NAME_N)
+  match get_param_count(parameters) {
+    1 => {
+      if let Some((value, _)) = get_param(parameters, &NAME_N) {
+        core::floor(value, &Value::Number(FeelNumber::zero()))
+      } else {
+        parameter_not_found!(NAME_N)
+      }
+    }
+    2 => {
+      if let Some((value, _)) = get_param(parameters, &NAME_N) {
+        if let Some((scale, _)) = get_param(parameters, &NAME_SCALE) {
+          core::floor(value, scale)
+        } else {
+          parameter_not_found!(NAME_SCALE)
+        }
+      } else {
+        parameter_not_found!(NAME_N)
+      }
+    }
+    n => invalid_number_of_parameters!(2, n),
   }
 }
 

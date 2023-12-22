@@ -3,21 +3,31 @@ mod common;
 use dsntk_feel_number::FeelNumber;
 
 #[test]
-fn test_floor_001() {
-  eqs!("1", num!(1.5).floor());
+fn _0001() {
+  eqs!("1", num!(1.5).floor(0));
 }
 
 #[test]
-fn test_floor_002() {
-  eqs!("-2", num!(-1.5).floor());
+fn _0002() {
+  eqs!("1.5", num!(1.56).floor(1));
 }
 
 #[test]
-fn test_floor_003() {
-  eqs!("0", num!(0.333).floor());
+fn _0003() {
+  eqs!("-2", num!(-1.5).floor(0));
 }
 
 #[test]
-fn test_floor_004() {
-  eqs!("-1", num!(-0.3333).floor());
+fn _0004() {
+  eqs!("-1.6", num!(-1.56).floor(1));
+}
+
+#[test]
+fn _0005() {
+  eqs!("0", num!(0.333).floor(0));
+}
+
+#[test]
+fn _0006() {
+  eqs!("-1", num!(-0.3333).floor(0));
 }

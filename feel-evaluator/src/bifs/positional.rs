@@ -1,8 +1,8 @@
 use crate::bifs::core;
 use crate::macros::invalid_number_of_parameters;
 use dsntk_feel::bif::Bif;
-use dsntk_feel::value_null;
 use dsntk_feel::values::Value;
+use dsntk_feel::{value_null, FeelNumber};
 
 ///
 pub fn evaluate_bif(bif: Bif, parameters: &[Value]) -> Value {
@@ -300,8 +300,9 @@ fn bif_flatten(parameters: &[Value]) -> Value {
 
 fn bif_floor(parameters: &[Value]) -> Value {
   match parameters.len() {
-    1 => core::floor(&parameters[0]),
-    n => invalid_number_of_parameters!(1, n),
+    1 => core::floor(&parameters[0], &Value::Number(FeelNumber::zero())),
+    2 => core::floor(&parameters[0], &parameters[1]),
+    n => invalid_number_of_parameters!("1,2", n),
   }
 }
 
