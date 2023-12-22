@@ -3,26 +3,31 @@ mod common;
 use dsntk_feel_number::FeelNumber;
 
 #[test]
-fn test_ceiling_001() {
-  eqs!("2", num!(1.5).ceiling());
+fn _0001() {
+  eqs!("2", num!(1.5).ceiling(0));
 }
 
 #[test]
-fn test_ceiling_002() {
-  eqs!("-1", num!(-1.5).ceiling());
+fn _0002() {
+  eqs!("-1", num!(-1.5).ceiling(0));
 }
 
 #[test]
-fn test_ceiling_003() {
-  eqs!("1", num!(0.3333).ceiling());
+fn _0003() {
+  eqs!("-1.5", num!(-1.56).ceiling(1));
 }
 
 #[test]
-fn test_ceiling_004() {
-  eqs!("0", num!(-0.3333).ceiling());
+fn _0004() {
+  eqs!("1", num!(0.3333).ceiling(0));
 }
 
 #[test]
-fn test_ceiling_005() {
-  println!("{}", num!(-0.3333).ceiling());
+fn _0005() {
+  eqs!("0", num!(-0.3333).ceiling(0));
+}
+
+#[test]
+fn _0006() {
+  println!("{}", num!(-0.3333).ceiling(0));
 }

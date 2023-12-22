@@ -218,10 +218,26 @@ fn bif_before(parameters: &NamedParameters) -> Value {
 }
 
 fn bif_ceiling(parameters: &NamedParameters) -> Value {
-  if let Some((value, _)) = get_param(parameters, &NAME_N) {
-    core::ceiling(value)
-  } else {
-    parameter_not_found!(NAME_N)
+  match get_param_count(parameters) {
+    1 => {
+      if let Some((value, _)) = get_param(parameters, &NAME_N) {
+        core::ceiling(value, &Value::Number(FeelNumber::zero()))
+      } else {
+        parameter_not_found!(NAME_N)
+      }
+    }
+    2 => {
+      if let Some((value, _)) = get_param(parameters, &NAME_N) {
+        if let Some((scale, _)) = get_param(parameters, &NAME_SCALE) {
+          core::ceiling(value, scale)
+        } else {
+          parameter_not_found!(NAME_SCALE)
+        }
+      } else {
+        parameter_not_found!(NAME_N)
+      }
+    }
+    n => invalid_number_of_parameters!(2, n),
   }
 }
 

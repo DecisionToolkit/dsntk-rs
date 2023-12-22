@@ -143,8 +143,9 @@ fn bif_before(parameters: &[Value]) -> Value {
 
 fn bif_ceiling(parameters: &[Value]) -> Value {
   match parameters.len() {
-    1 => core::ceiling(&parameters[0]),
-    n => invalid_number_of_parameters!(1, n),
+    1 => core::ceiling(&parameters[0], &Value::Number(FeelNumber::zero())),
+    2 => core::ceiling(&parameters[0], &parameters[1]),
+    n => invalid_number_of_parameters!("1,2", n),
   }
 }
 

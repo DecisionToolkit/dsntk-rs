@@ -56,10 +56,10 @@ fn _0010() {
 
 #[test]
 fn _0011() {
-  te_null(false, &scope!(), r#"ceiling()"#, r#"expected 1 parameters, actual number of parameters is 0"#);
+  te_null(false, &scope!(), r#"ceiling()"#, r#"expected 1,2 parameters, actual number of parameters is 0"#);
 }
 
 #[test]
 fn _0012() {
-  te_null(false, &scope!(), r#"ceiling(1,2)"#, r#"expected 1 parameters, actual number of parameters is 2"#);
+  te_null(false, &scope!(), r#"ceiling(1,2,3)"#, r#"expected 1,2 parameters, actual number of parameters is 3"#);
 }

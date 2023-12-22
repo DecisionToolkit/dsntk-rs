@@ -321,9 +321,17 @@ pub fn before(value1: &Value, value2: &Value) -> Value {
 }
 
 /// Returns the smallest integer >= argument.
-pub fn ceiling(value: &Value) -> Value {
-  if let Value::Number(v) = value {
-    Value::Number(v.ceiling())
+pub fn ceiling(value: &Value, scale: &Value) -> Value {
+  if let Value::Number(value) = value {
+    if let Value::Number(scale) = scale {
+      if let Ok(scale) = scale.try_into() {
+        Value::Number(value.ceiling(scale))
+      } else {
+        value_null!("invalid scale: {}", scale)
+      }
+    } else {
+      invalid_argument_type!("ceiling", "number", scale.type_of())
+    }
   } else {
     invalid_argument_type!("ceiling", "number", value.type_of())
   }
