@@ -584,18 +584,38 @@ fn bif_lower_case(parameters: &NamedParameters) -> Value {
 }
 
 fn bif_matches(parameters: &NamedParameters) -> Value {
-  if let Some((input_string_value, _)) = get_param(parameters, &NAME_INPUT) {
-    if let Some((pattern_string_value, _)) = get_param(parameters, &NAME_PATTERN) {
-      if let Some((flags_string_value, _)) = get_param(parameters, &NAME_FLAGS) {
-        core::matches(input_string_value, pattern_string_value, flags_string_value)
+  match get_param_count(parameters) {
+    2 => {
+      if let Some((input_string_value, _)) = get_param(parameters, &NAME_INPUT) {
+        if let Some((pattern_string_value, _)) = get_param(parameters, &NAME_PATTERN) {
+          core::matches_2(input_string_value, pattern_string_value)
+        } else {
+          parameter_not_found!(NAME_PATTERN)
+        }
       } else {
-        core::matches(input_string_value, pattern_string_value, &value_null!())
+        parameter_not_found!(NAME_INPUT)
       }
-    } else {
-      parameter_not_found!(NAME_PATTERN)
     }
-  } else {
-    parameter_not_found!(NAME_INPUT)
+    3 => {
+      if let Some((v_input, _)) = get_param(parameters, &NAME_INPUT) {
+        if let Some((v_pattern, _)) = get_param(parameters, &NAME_PATTERN) {
+          if let Some((v_flags, _)) = get_param(parameters, &NAME_FLAGS) {
+            if v_flags.is_null() {
+              core::matches_2(v_input, v_pattern)
+            } else {
+              core::matches_3(v_input, v_pattern, v_flags)
+            }
+          } else {
+            parameter_not_found!(NAME_FLAGS)
+          }
+        } else {
+          parameter_not_found!(NAME_PATTERN)
+        }
+      } else {
+        parameter_not_found!(NAME_INPUT)
+      }
+    }
+    n => invalid_number_of_parameters!("2,3", n),
   }
 }
 

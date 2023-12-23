@@ -1277,19 +1277,61 @@ pub fn lower_case(input_string_value: &Value) -> Value {
 }
 
 /// Returns `true` when the input matches the regexp pattern.
-pub fn matches(input_string_value: &Value, pattern_string_value: &Value, flags_string_value: &Value) -> Value {
-  if let Value::String(input_string) = input_string_value {
-    if let Value::String(pattern_string) = pattern_string_value {
-      if let Value::String(flags_string) = flags_string_value {
-        if let Ok(re) = Regex::new(format!("(?{flags_string}){pattern_string}").as_str()) {
-          return Value::Boolean(re.is_match(input_string));
-        }
-      } else if let Ok(re) = Regex::new(pattern_string) {
-        return Value::Boolean(re.is_match(input_string));
-      }
+pub fn matches_2(input_string_value: &Value, pattern_string_value: &Value) -> Value {
+  let Value::String(input_string) = input_string_value else {
+    return value_null!("matches"); //TODO Prepare more detailed error message.
+  };
+  let Value::String(pattern_string) = pattern_string_value else {
+    return value_null!("matches"); //TODO Prepare more detailed error message.
+  };
+  let Ok(re) = Regex::new(&fix_pattern(pattern_string, false)) else {
+    return value_null!("[core::matches_3] parsing pattern failed: '{}'", pattern_string);
+  };
+  Value::Boolean(re.is_match(&fix_input(input_string)))
+}
+
+/// Returns `true` when the input matches the regexp pattern.
+pub fn matches_3(input_string_value: &Value, pattern_string_value: &Value, flags_string_value: &Value) -> Value {
+  let Value::String(input_string) = input_string_value else {
+    return value_null!("matches"); //TODO Prepare more detailed error message.
+  };
+  let Value::String(pattern_string) = pattern_string_value else {
+    return value_null!("matches"); //TODO Prepare more detailed error message.
+  };
+  // flags if present must be a string
+  let Value::String(flags_string) = flags_string_value else {
+    return value_null!("matches"); //TODO Prepare more detailed error message.
+  };
+  // flags must contain flags, may not be an empty string
+  let flags = flags_string.trim();
+  if flags.is_empty() {
+    return value_null!("matches"); //TODO Prepare more detailed error message.
+  }
+  for ch in flags.chars() {
+    if !matches!(ch, 'i' | 'm' | 's' | 'x') {
+      return value_null!("[core::matches_3] flags can not contain character '{}'", ch);
     }
   }
-  value_null!("matches")
+  let Ok(re) = Regex::new(&format!("(?{flags}){}", fix_pattern(pattern_string, flags.contains("x")))) else {
+    return value_null!("[core::matches_3] parsing pattern failed: '{}'", pattern_string);
+  };
+  Value::Boolean(re.is_match(&fix_input(input_string)))
+}
+
+/// Nasty tricks on input.
+fn fix_input(s: &str) -> String {
+  s.replace("\r\n", "\n").replace('\r', "\n")
+}
+
+/// Nasty tricks on pattern.
+#[inline(always)]
+fn fix_pattern(s: &str, whitespaces: bool) -> String {
+  let pattern = s.replace("-[", "--[");
+  if whitespaces {
+    pattern.replace("\\ ", "\\").replace("[ ]", "[\\ ]")
+  } else {
+    pattern
+  }
 }
 
 /// Returns the maximum value in the collection of comparable values.
