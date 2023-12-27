@@ -2006,6 +2006,74 @@ pub fn reverse(list: &Value) -> Value {
 }
 
 ///
+pub fn round_down(n: &Value, scale: &Value) -> Value {
+  let Value::Number(n) = n else {
+    return invalid_argument_type!("round down", "number", n.type_of());
+  };
+  let Value::Number(scale) = scale else {
+    return invalid_argument_type!("round down", "number", scale.type_of());
+  };
+  let Ok(scale): Result<i32, DsntkError> = scale.try_into() else {
+    return value_null!("[core::round_down] invalid scale: {}", scale);
+  };
+  if !(-6111..=6176).contains(&scale) {
+    return value_null!("[core::round_down] scale is out of range -6111..6176: {}", scale);
+  }
+  Value::Number(n.round_down(scale))
+}
+
+///
+pub fn round_half_down(n: &Value, scale: &Value) -> Value {
+  let Value::Number(n) = n else {
+    return invalid_argument_type!("round half down", "number", n.type_of());
+  };
+  let Value::Number(scale) = scale else {
+    return invalid_argument_type!("round half down", "number", scale.type_of());
+  };
+  let Ok(scale): Result<i32, DsntkError> = scale.try_into() else {
+    return value_null!("[core::round_half_down] invalid scale: {}", scale);
+  };
+  if !(-6111..6176).contains(&scale) {
+    return value_null!("[core::round_half_down] scale is out of range -6111..6176: {}", scale);
+  }
+  Value::Number(n.round_half_down(scale))
+}
+
+///
+pub fn round_half_up(n: &Value, scale: &Value) -> Value {
+  let Value::Number(n) = n else {
+    return invalid_argument_type!("round half up", "number", n.type_of());
+  };
+  let Value::Number(scale) = scale else {
+    return invalid_argument_type!("round half up", "number", scale.type_of());
+  };
+  let Ok(scale): Result<i32, DsntkError> = scale.try_into() else {
+    return value_null!("[core::round_half_up] invalid scale: {}", scale);
+  };
+  if !(-6111..6176).contains(&scale) {
+    return value_null!("[core::round_half_up] scale is out of range -6111..6176: {}", scale);
+  }
+  Value::Number(n.round_half_up(scale))
+}
+
+///
+pub fn round_up(n: &Value, scale: &Value) -> Value {
+  let Value::Number(n) = n else {
+    return invalid_argument_type!("round up", "number", n.type_of());
+  };
+  let Value::Number(scale) = scale else {
+    return invalid_argument_type!("round up", "number", scale.type_of());
+  };
+  let Ok(scale): Result<i32, DsntkError> = scale.try_into() else {
+    return value_null!("[core::round_up] invalid scale: {}", scale);
+  };
+  if !(-6111..6176).contains(&scale) {
+    return value_null!("[core::round_up] scale is out of range -6111..6176: {}", scale);
+  }
+  Value::Number(n.round_up(scale))
+}
+
+///
 pub fn sort(list: &Value, ordering_function: &Value) -> Value {
   if let Value::List(items) = list {
     if let Value::FunctionDefinition(parameters, body, false, _, closure_ctx, _) = ordering_function {

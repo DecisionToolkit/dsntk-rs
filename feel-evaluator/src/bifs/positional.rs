@@ -66,6 +66,10 @@ pub fn evaluate_bif(bif: Bif, parameters: &[Value]) -> Value {
     Bif::Remove => bif_remove(parameters),
     Bif::Replace => bif_replace(parameters),
     Bif::Reverse => bif_reverse(parameters),
+    Bif::RoundDown => bif_round_down(parameters),
+    Bif::RoundHalfDown => bif_round_half_down(parameters),
+    Bif::RoundHalfUp => bif_round_half_up(parameters),
+    Bif::RoundUp => bif_round_up(parameters),
     Bif::Sort => bif_sort(parameters),
     Bif::Split => bif_split(parameters),
     Bif::Sqrt => bif_sqrt(parameters),
@@ -547,6 +551,38 @@ fn bif_reverse(parameters: &[Value]) -> Value {
   match parameters.len() {
     1 => core::reverse(&parameters[0]),
     n => invalid_number_of_parameters!(1, n),
+  }
+}
+
+/// Returns `n` with given `scale` and rounding mode **round down**.
+fn bif_round_down(parameters: &[Value]) -> Value {
+  match parameters.len() {
+    2 => core::round_down(&parameters[0], &parameters[1]),
+    n => invalid_number_of_parameters!(2, n),
+  }
+}
+
+/// Returns `n` with given `scale` and rounding mode **round half down**.
+fn bif_round_half_down(parameters: &[Value]) -> Value {
+  match parameters.len() {
+    2 => core::round_half_down(&parameters[0], &parameters[1]),
+    n => invalid_number_of_parameters!(2, n),
+  }
+}
+
+/// Returns `n` with given `scale` and rounding mode **round half up**.
+fn bif_round_half_up(parameters: &[Value]) -> Value {
+  match parameters.len() {
+    2 => core::round_half_up(&parameters[0], &parameters[1]),
+    n => invalid_number_of_parameters!(2, n),
+  }
+}
+
+/// Returns `n` with given `scale` and rounding mode **round up**.
+fn bif_round_up(parameters: &[Value]) -> Value {
+  match parameters.len() {
+    2 => core::round_up(&parameters[0], &parameters[1]),
+    n => invalid_number_of_parameters!(2, n),
   }
 }
 

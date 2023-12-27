@@ -182,6 +182,33 @@ impl FeelNumber {
   }
 
   ///
+  pub fn round_down(&self, scale: i32) -> Self {
+    Self(
+      if scale == 0 {
+        bid128_round_integral_zero(self.0, flags!())
+      } else {
+        bid128_scalbn(bid128_round_integral_zero(bid128_scalbn(self.0, scale), flags!()), -scale)
+      },
+      false,
+    )
+  }
+
+  ///
+  pub fn round_half_down(&self, _scale: i32) -> Self {
+    Self(self.0, true)
+  }
+
+  ///
+  pub fn round_half_up(&self, _scale: i32) -> Self {
+    Self(self.0, true)
+  }
+
+  ///
+  pub fn round_up(&self, _scale: i32) -> Self {
+    Self(self.0, true)
+  }
+
+  ///
   pub fn sqrt(&self) -> Option<Self> {
     let n = bid128_sqrt(self.0, round!(), flags!());
     if bid128_is_finite(n) {
