@@ -204,8 +204,23 @@ impl FeelNumber {
   }
 
   ///
-  pub fn round_up(&self, _scale: i32) -> Self {
-    Self(self.0, true)
+  pub fn round_up(&self, scale: i32) -> Self {
+    Self(
+      if scale == 0 {
+        if bid128_is_signed(self.0) {
+          bid128_round_integral_negative(self.0, flags!())
+        } else {
+          bid128_round_integral_positive(self.0, flags!())
+        }
+      } else {
+        if bid128_is_signed(self.0) {
+          bid128_scalbn(bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!()), -scale)
+        } else {
+          bid128_scalbn(bid128_round_integral_positive(bid128_scalbn(self.0, scale), flags!()), -scale)
+        }
+      },
+      false,
+    )
   }
 
   ///
