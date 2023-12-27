@@ -2016,10 +2016,10 @@ pub fn round_down(n: &Value, scale: &Value) -> Value {
   let Ok(scale): Result<i32, DsntkError> = scale.try_into() else {
     return value_null!("[core::round_down] invalid scale: {}", scale);
   };
-  if !(-6111..=6176).contains(&scale) {
-    return value_null!("[core::round_down] scale is out of range -6111..6176: {}", scale);
+  match n.round_down(scale) {
+    Ok(rounded) => Value::Number(rounded),
+    Err(reason) => value_null!("[core::round_down] {}", reason),
   }
-  Value::Number(n.round_down(scale))
 }
 
 ///
@@ -2033,10 +2033,10 @@ pub fn round_half_down(n: &Value, scale: &Value) -> Value {
   let Ok(scale): Result<i32, DsntkError> = scale.try_into() else {
     return value_null!("[core::round_half_down] invalid scale: {}", scale);
   };
-  if !(-6111..6176).contains(&scale) {
-    return value_null!("[core::round_half_down] scale is out of range -6111..6176: {}", scale);
+  match n.round_half_down(scale) {
+    Ok(rounded) => Value::Number(rounded),
+    Err(reason) => value_null!("[core::round_down] {}", reason),
   }
-  Value::Number(n.round_half_down(scale))
 }
 
 ///
@@ -2050,10 +2050,10 @@ pub fn round_half_up(n: &Value, scale: &Value) -> Value {
   let Ok(scale): Result<i32, DsntkError> = scale.try_into() else {
     return value_null!("[core::round_half_up] invalid scale: {}", scale);
   };
-  if !(-6111..6176).contains(&scale) {
-    return value_null!("[core::round_half_up] scale is out of range -6111..6176: {}", scale);
+  match n.round_half_up(scale) {
+    Ok(rounded) => Value::Number(rounded),
+    Err(reason) => value_null!("[core::round_down] {}", reason),
   }
-  Value::Number(n.round_half_up(scale))
 }
 
 ///
@@ -2067,10 +2067,10 @@ pub fn round_up(n: &Value, scale: &Value) -> Value {
   let Ok(scale): Result<i32, DsntkError> = scale.try_into() else {
     return value_null!("[core::round_up] invalid scale: {}", scale);
   };
-  if !(-6111..6176).contains(&scale) {
-    return value_null!("[core::round_up] scale is out of range -6111..6176: {}", scale);
+  match n.round_up(scale) {
+    Ok(rounded) => Value::Number(rounded),
+    Err(reason) => value_null!("[core::round_down] {}", reason),
   }
-  Value::Number(n.round_up(scale))
 }
 
 ///

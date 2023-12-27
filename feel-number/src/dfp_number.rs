@@ -5,7 +5,7 @@
 
 use crate::errors::*;
 use dfp_number_sys::*;
-use dsntk_common::{DsntkError, Jsonify};
+use dsntk_common::{DsntkError, Jsonify, Result};
 use std::cmp::Ordering;
 use std::fmt;
 use std::fmt::{Debug, Display};
@@ -175,26 +175,26 @@ impl FeelNumber {
 
   ///
   pub fn round(&self, rhs: &FeelNumber) -> Self {
-    let r = bid128_negate(rhs.0);
-    let n = bid128_to_int32_int(r, flags!());
-    let q = bid128_scalbn(Self::one().0, n);
-    Self(bid128_quantize(self.0, q, round!(), flags!()), false)
+    let scale = bid128_to_int32_int(rhs.0, flags!());
+    let quantifier = bid128_scalbn(Self::one().0, -scale);
+    Self(bid128_quantize(self.0, quantifier, round!(), flags!()), false)
   }
 
   ///
-  pub fn round_down(&self, scale: i32) -> Self {
-    Self(
+  pub fn round_down(&self, scale: i32) -> Result<Self> {
+    Ok(Self(
       if scale == 0 {
         bid128_round_integral_zero(self.0, flags!())
       } else {
+        self.validate_scale(scale)?;
         bid128_scalbn(bid128_round_integral_zero(bid128_scalbn(self.0, scale), flags!()), -scale)
       },
-      false,
-    )
+      true,
+    ))
   }
 
   ///
-  pub fn round_half_down(&self, scale: i32) -> Self {
+  pub fn round_half_down(&self, scale: i32) -> Result<Self> {
     let positive = |n| {
       let zero = bid128_round_integral_zero(n, flags!());
       let away = bid128_round_integral_positive(n, flags!());
@@ -217,7 +217,7 @@ impl FeelNumber {
         away
       }
     };
-    Self(
+    Ok(Self(
       if scale == 0 {
         if bid128_is_signed(self.0) {
           negative(self.0)
@@ -225,28 +225,30 @@ impl FeelNumber {
           positive(self.0)
         }
       } else {
+        self.validate_scale(scale)?;
         let scaled = bid128_scalbn(self.0, scale);
         bid128_scalbn(if bid128_is_signed(self.0) { negative(scaled) } else { positive(scaled) }, -scale)
       },
-      false,
-    )
+      true,
+    ))
   }
 
   ///
-  pub fn round_half_up(&self, scale: i32) -> Self {
-    Self(
+  pub fn round_half_up(&self, scale: i32) -> Result<Self> {
+    Ok(Self(
       if scale == 0 {
         bid128_round_integral_nearest_away(self.0, flags!())
       } else {
+        self.validate_scale(scale)?;
         bid128_scalbn(bid128_round_integral_nearest_away(bid128_scalbn(self.0, scale), flags!()), -scale)
       },
-      false,
-    )
+      true,
+    ))
   }
 
   ///
-  pub fn round_up(&self, scale: i32) -> Self {
-    Self(
+  pub fn round_up(&self, scale: i32) -> Result<Self> {
+    Ok(Self(
       if scale == 0 {
         if bid128_is_signed(self.0) {
           bid128_round_integral_negative(self.0, flags!())
@@ -254,14 +256,15 @@ impl FeelNumber {
           bid128_round_integral_positive(self.0, flags!())
         }
       } else {
+        self.validate_scale(scale)?;
         if bid128_is_signed(self.0) {
           bid128_scalbn(bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!()), -scale)
         } else {
           bid128_scalbn(bid128_round_integral_positive(bid128_scalbn(self.0, scale), flags!()), -scale)
         }
       },
-      false,
-    )
+      true,
+    ))
   }
 
   ///
@@ -295,6 +298,17 @@ impl FeelNumber {
     n = bid128_round_integral_negative(n, flags!());
     n = bid128_mul(rhs, n, round!(), flags!());
     bid128_sub(self.0, n, round!(), flags!())
+  }
+
+  /// Validates effective scale after changing the scale to the required one.
+  /// When the final scale is out of allowed range (-6176..6144) then returns an error.
+  fn validate_scale(&self, scale: i32) -> Result<()> {
+    let s = bid128_ilogb(self.0, flags!()) + scale;
+    if (-6111..=6144).contains(&s) {
+      Ok(())
+    } else {
+      Err(err_invalid_scale(s))
+    }
   }
 }
 
