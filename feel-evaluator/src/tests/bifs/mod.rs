@@ -60,6 +60,8 @@ mod bif_remove;
 mod bif_replace;
 mod bif_reverse;
 mod bif_round_down;
+mod bif_round_half_down;
+mod bif_round_half_up;
 mod bif_round_up;
 mod bif_sort;
 mod bif_split;

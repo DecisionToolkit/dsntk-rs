@@ -194,13 +194,54 @@ impl FeelNumber {
   }
 
   ///
-  pub fn round_half_down(&self, _scale: i32) -> Self {
-    Self(self.0, true)
+  pub fn round_half_down(&self, scale: i32) -> Self {
+    let positive = |n| {
+      let zero = bid128_round_integral_zero(n, flags!());
+      let away = bid128_round_integral_positive(n, flags!());
+      let upper = bid128_sub(away, n, round!(), flags!());
+      let lower = bid128_sub(n, zero, round!(), flags!());
+      if bid128_quiet_less_equal(lower, upper, flags!()) {
+        zero
+      } else {
+        away
+      }
+    };
+    let negative = |n| {
+      let zero = bid128_round_integral_zero(n, flags!());
+      let away = bid128_round_integral_negative(n, flags!());
+      let upper = bid128_sub(away, n, round!(), flags!());
+      let lower = bid128_sub(n, zero, round!(), flags!());
+      if bid128_quiet_less_equal(upper, lower, flags!()) {
+        zero
+      } else {
+        away
+      }
+    };
+    Self(
+      if scale == 0 {
+        if bid128_is_signed(self.0) {
+          negative(self.0)
+        } else {
+          positive(self.0)
+        }
+      } else {
+        let scaled = bid128_scalbn(self.0, scale);
+        bid128_scalbn(if bid128_is_signed(self.0) { negative(scaled) } else { positive(scaled) }, -scale)
+      },
+      false,
+    )
   }
 
   ///
-  pub fn round_half_up(&self, _scale: i32) -> Self {
-    Self(self.0, true)
+  pub fn round_half_up(&self, scale: i32) -> Self {
+    Self(
+      if scale == 0 {
+        bid128_round_integral_nearest_away(self.0, flags!())
+      } else {
+        bid128_scalbn(bid128_round_integral_nearest_away(bid128_scalbn(self.0, scale), flags!()), -scale)
+      },
+      false,
+    )
   }
 
   ///
