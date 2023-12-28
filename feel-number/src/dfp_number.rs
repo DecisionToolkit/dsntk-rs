@@ -1,7 +1,7 @@
-//! `FEEL` number type.
+//! # FEEL number type
 //!
-//! Implementation of the `FEEL` number based on
-//! **Intel(R) Decimal Floating-Point Math Library**.
+//! Implementation of the FEEL number type
+//! based on the **Intel(R) Decimal Floating-Point Math Library**.
 
 use crate::errors::*;
 use dfp_number_sys::*;
@@ -12,7 +12,7 @@ use std::fmt::{Debug, Display};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, RemAssign, Sub, SubAssign};
 use std::str::FromStr;
 
-/// Flags for operation status.
+/// Flags for the status of the operation.
 macro_rules! flags {
   () => {
     &mut 0_u32
