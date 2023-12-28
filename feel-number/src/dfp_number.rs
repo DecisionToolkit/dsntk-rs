@@ -41,11 +41,6 @@ impl FeelNumber {
     Self(bid128_from_uint64(0), false)
   }
 
-  /// Returns [FeelNumber] value 0.1 (one tenth).
-  pub fn one_tenth() -> FeelNumber {
-    Self(BID128_ONE_TENTH, false)
-  }
-
   /// Returns [FeelNumber] value 1 (one).
   pub fn one() -> FeelNumber {
     Self(BID128_ONE, false)
