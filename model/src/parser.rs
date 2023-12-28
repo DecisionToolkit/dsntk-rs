@@ -115,6 +115,7 @@ const ATTR_ID: &str = "id";
 const ATTR_IMPORT_TYPE: &str = "importType";
 const ATTR_IS_COLLAPSED: &str = "isCollapsed";
 const ATTR_IS_COLLECTION: &str = "isCollection";
+const ATTR_ITERATOR_VARIABLE: &str = "iteratorVariable";
 const ATTR_KIND: &str = "kind";
 const ATTR_LABEL: &str = "label";
 const ATTR_LABEL_TEXT: &str = "Text";
@@ -1078,7 +1079,7 @@ impl ModelParser {
       extension_elements: self.parse_extension_elements(node),
       extension_attributes: self.parse_extension_attributes(node),
       type_ref: optional_attribute(node, ATTR_TYPE_REF),
-      iterator_variable: required_name(node)?,
+      iterator_variable: required_attribute(node, ATTR_ITERATOR_VARIABLE)?,
       in_expression: self.parse_required_typed_child_expression(&node_in)?,
       return_expression: self.parse_required_child_expression(&node_return)?,
     })
@@ -1105,7 +1106,7 @@ impl ModelParser {
       extension_elements: self.parse_extension_elements(node),
       extension_attributes: self.parse_extension_attributes(node),
       type_ref: optional_attribute(node, ATTR_TYPE_REF),
-      iterator_variable: required_name(node)?,
+      iterator_variable: required_attribute(node, ATTR_ITERATOR_VARIABLE)?,
       in_expression: self.parse_required_typed_child_expression(&node_in)?,
       satisfies_expression: self.parse_required_child_expression(&node_satisfies)?,
     })
@@ -1132,7 +1133,7 @@ impl ModelParser {
       extension_elements: self.parse_extension_elements(node),
       extension_attributes: self.parse_extension_attributes(node),
       type_ref: optional_attribute(node, ATTR_TYPE_REF),
-      iterator_variable: required_name(node)?,
+      iterator_variable: required_attribute(node, ATTR_ITERATOR_VARIABLE)?,
       in_expression: self.parse_required_typed_child_expression(&node_in)?,
       satisfies_expression: self.parse_required_child_expression(&node_satisfies)?,
     })
