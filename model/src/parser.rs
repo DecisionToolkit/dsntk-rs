@@ -44,12 +44,16 @@ const NODE_DESCRIPTION: &str = "description";
 const NODE_ELSE: &str = "else";
 const NODE_ENCAPSULATED_DECISION: &str = "encapsulatedDecision";
 const NODE_ENCAPSULATED_LOGIC: &str = "encapsulatedLogic";
-const NODE_FUNCTION_DEFINITION: &str = "functionDefinition";
+const NODE_EVERY: &str = "every";
+const NODE_FILTER: &str = "filter";
+const NODE_FOR: &str = "for";
 const NODE_FORMAL_PARAMETER: &str = "formalParameter";
+const NODE_FUNCTION_DEFINITION: &str = "functionDefinition";
 const NODE_FUNCTION_ITEM: &str = "functionItem";
 const NODE_IF: &str = "if";
 const NODE_IMPACTING_DECISION: &str = "impactingDecision";
 const NODE_IMPORT: &str = "import";
+const NODE_IN: &str = "in";
 const NODE_INFORMATION_REQUIREMENT: &str = "informationRequirement";
 const NODE_INPUT_DATA: &str = "inputData";
 const NODE_INPUT: &str = "input";
@@ -64,6 +68,7 @@ const NODE_KNOWLEDGE_REQUIREMENT: &str = "knowledgeRequirement";
 const NODE_KNOWLEDGE_SOURCE: &str = "knowledgeSource";
 const NODE_LIST: &str = "list";
 const NODE_LITERAL_EXPRESSION: &str = "literalExpression";
+const NODE_MATCH: &str = "match";
 const NODE_OUTPUT: &str = "output";
 const NODE_OUTPUT_DECISION: &str = "outputDecision";
 const NODE_OUTPUT_ENTRY: &str = "outputEntry";
@@ -78,8 +83,11 @@ const NODE_REQUIRED_AUTHORITY: &str = "requiredAuthority";
 const NODE_REQUIRED_DECISION: &str = "requiredDecision";
 const NODE_REQUIRED_KNOWLEDGE: &str = "requiredKnowledge";
 const NODE_REQUIRED_INPUT: &str = "requiredInput";
+const NODE_RETURN: &str = "return";
 const NODE_ROW: &str = "row";
 const NODE_RULE: &str = "rule";
+const NODE_SATISFIES: &str = "satisfies";
+const NODE_SOME: &str = "some";
 const NODE_TEXT: &str = "text";
 const NODE_THEN: &str = "then";
 const NODE_TYPE_REF: &str = "typeRef";
@@ -637,6 +645,18 @@ impl ModelParser {
     if let Some(conditional) = self.parse_optional_conditional(node)? {
       return Ok(Some(ExpressionInstance::Conditional(Box::new(conditional))));
     }
+    if let Some(filter) = self.parse_optional_filter(node)? {
+      return Ok(Some(ExpressionInstance::Filter(Box::new(filter))));
+    }
+    if let Some(r#for) = self.parse_optional_for(node)? {
+      return Ok(Some(ExpressionInstance::For(Box::new(r#for))));
+    }
+    if let Some(every) = self.parse_optional_every(node)? {
+      return Ok(Some(ExpressionInstance::Every(Box::new(every))));
+    }
+    if let Some(some) = self.parse_optional_some(node)? {
+      return Ok(Some(ExpressionInstance::Some(Box::new(some))));
+    }
     Ok(None)
   }
 
@@ -1005,17 +1025,133 @@ impl ModelParser {
       extension_elements: self.parse_extension_elements(node),
       extension_attributes: self.parse_extension_attributes(node),
       type_ref: optional_attribute(node, ATTR_TYPE_REF),
-      if_expression: self.parse_required_conditional_child_expression(&node_if)?,
-      then_expression: self.parse_required_conditional_child_expression(&node_then)?,
-      else_expression: self.parse_required_conditional_child_expression(&node_else)?,
+      if_expression: self.parse_required_child_expression(&node_if)?,
+      then_expression: self.parse_required_child_expression(&node_then)?,
+      else_expression: self.parse_required_child_expression(&node_else)?,
     })
   }
 
-  fn parse_required_conditional_child_expression(&self, node: &Node) -> Result<ChildExpression> {
+  ///
+  fn parse_optional_filter(&self, node: &Node) -> Result<Option<Filter>> {
+    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_FILTER) {
+      return Ok(Some(self.parse_filter(child_node)?));
+    }
+    Ok(None)
+  }
+
+  ///
+  fn parse_filter(&self, node: &Node) -> Result<Filter> {
+    let node_in = required_child(node, NODE_IN)?;
+    let node_match = required_child(node, NODE_MATCH)?;
+    Ok(Filter {
+      namespace: self.namespace.clone(),
+      model_name: self.model_name.clone(),
+      id: optional_id(node),
+      description: optional_child_optional_content(node, NODE_DESCRIPTION),
+      label: optional_attribute(node, ATTR_LABEL),
+      extension_elements: self.parse_extension_elements(node),
+      extension_attributes: self.parse_extension_attributes(node),
+      type_ref: optional_attribute(node, ATTR_TYPE_REF),
+      in_expression: self.parse_required_child_expression(&node_in)?,
+      match_expression: self.parse_required_child_expression(&node_match)?,
+    })
+  }
+
+  ///
+  fn parse_optional_for(&self, node: &Node) -> Result<Option<For>> {
+    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_FOR) {
+      return Ok(Some(self.parse_for(child_node)?));
+    }
+    Ok(None)
+  }
+
+  ///
+  fn parse_for(&self, node: &Node) -> Result<For> {
+    let node_in = required_child(node, NODE_IN)?;
+    let node_return = required_child(node, NODE_RETURN)?;
+    Ok(For {
+      namespace: self.namespace.clone(),
+      model_name: self.model_name.clone(),
+      id: optional_id(node),
+      description: optional_child_optional_content(node, NODE_DESCRIPTION),
+      label: optional_attribute(node, ATTR_LABEL),
+      extension_elements: self.parse_extension_elements(node),
+      extension_attributes: self.parse_extension_attributes(node),
+      type_ref: optional_attribute(node, ATTR_TYPE_REF),
+      iterator_variable: required_name(node)?,
+      in_expression: self.parse_required_typed_child_expression(&node_in)?,
+      return_expression: self.parse_required_child_expression(&node_return)?,
+    })
+  }
+
+  ///
+  fn parse_optional_every(&self, node: &Node) -> Result<Option<Every>> {
+    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_EVERY) {
+      return Ok(Some(self.parse_every(child_node)?));
+    }
+    Ok(None)
+  }
+
+  ///
+  fn parse_every(&self, node: &Node) -> Result<Every> {
+    let node_in = required_child(node, NODE_IN)?;
+    let node_satisfies = required_child(node, NODE_SATISFIES)?;
+    Ok(Every {
+      namespace: self.namespace.clone(),
+      model_name: self.model_name.clone(),
+      id: optional_id(node),
+      description: optional_child_optional_content(node, NODE_DESCRIPTION),
+      label: optional_attribute(node, ATTR_LABEL),
+      extension_elements: self.parse_extension_elements(node),
+      extension_attributes: self.parse_extension_attributes(node),
+      type_ref: optional_attribute(node, ATTR_TYPE_REF),
+      iterator_variable: required_name(node)?,
+      in_expression: self.parse_required_typed_child_expression(&node_in)?,
+      satisfies_expression: self.parse_required_child_expression(&node_satisfies)?,
+    })
+  }
+
+  ///
+  fn parse_optional_some(&self, node: &Node) -> Result<Option<Some>> {
+    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_SOME) {
+      return Ok(Some(self.parse_some(child_node)?));
+    }
+    Ok(None)
+  }
+
+  ///
+  fn parse_some(&self, node: &Node) -> Result<Some> {
+    let node_in = required_child(node, NODE_IN)?;
+    let node_satisfies = required_child(node, NODE_SATISFIES)?;
+    Ok(Some {
+      namespace: self.namespace.clone(),
+      model_name: self.model_name.clone(),
+      id: optional_id(node),
+      description: optional_child_optional_content(node, NODE_DESCRIPTION),
+      label: optional_attribute(node, ATTR_LABEL),
+      extension_elements: self.parse_extension_elements(node),
+      extension_attributes: self.parse_extension_attributes(node),
+      type_ref: optional_attribute(node, ATTR_TYPE_REF),
+      iterator_variable: required_name(node)?,
+      in_expression: self.parse_required_typed_child_expression(&node_in)?,
+      satisfies_expression: self.parse_required_child_expression(&node_satisfies)?,
+    })
+  }
+
+  fn parse_required_child_expression(&self, node: &Node) -> Result<ChildExpression> {
     let child_node = node.children().take(1).next().ok_or(err_node_has_no_children(node.tag_name().name()))?;
     Ok(ChildExpression {
       id: optional_id(node),
       value: self.parse_required_expression_instance(&child_node)?,
+    })
+  }
+
+  fn parse_required_typed_child_expression(&self, node: &Node) -> Result<TypedChildExpression> {
+    let child_node = node.children().take(1).next().ok_or(err_node_has_no_children(node.tag_name().name()))?;
+    Ok(TypedChildExpression {
+      id: optional_id(node),
+      value: self.parse_required_expression_instance(&child_node)?,
+      type_ref: optional_attribute(node, ATTR_TYPE_REF),
     })
   }
 
