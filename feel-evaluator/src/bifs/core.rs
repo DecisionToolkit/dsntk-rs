@@ -1312,7 +1312,7 @@ pub fn matches_3(input_string_value: &Value, pattern_string_value: &Value, flags
       return value_null!("[core::matches_3] flags can not contain character '{}'", ch);
     }
   }
-  let Ok(re) = Regex::new(&format!("(?{flags}){}", fix_pattern(pattern_string, flags.contains("x")))) else {
+  let Ok(re) = Regex::new(&format!("(?{flags}){}", fix_pattern(pattern_string, flags.contains('x')))) else {
     return value_null!("[core::matches_3] parsing pattern failed: '{}'", pattern_string);
   };
   Value::Boolean(re.is_match(&fix_input(input_string)))
