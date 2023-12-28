@@ -643,7 +643,12 @@ impl Import {
 /// - [FunctionDefinition],
 /// - [Invocation],
 /// - [LiteralExpression],
-/// - [Relation].
+/// - [Relation],
+/// - [Conditional],
+/// - [Filter],
+/// - [For],
+/// - [Every],
+/// - [Some].
 #[derive(Debug, Clone, PartialEq)]
 pub enum ExpressionInstance {
   Context(Box<Context>),
@@ -654,6 +659,10 @@ pub enum ExpressionInstance {
   LiteralExpression(Box<LiteralExpression>),
   Relation(Box<Relation>),
   Conditional(Box<Conditional>),
+  Filter(Box<Filter>),
+  For(Box<For>),
+  Every(Box<Every>),
+  Some(Box<Some>),
 }
 
 /// A [Context] is composed of any number of model context entries, which are instances of [ContextEntry].
@@ -1432,16 +1441,190 @@ pub struct Conditional {
 }
 
 impl Conditional {
+  ///
   pub fn if_expression(&self) -> &ChildExpression {
     &self.if_expression
   }
 
+  ///
   pub fn then_expression(&self) -> &ChildExpression {
     &self.then_expression
   }
 
+  ///
   pub fn else_expression(&self) -> &ChildExpression {
     &self.else_expression
+  }
+}
+
+/// A [Filter] is a visual way to express list filtering.
+#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+pub struct Filter {
+  /// Namespace the element belongs to.
+  pub(crate) namespace: Uri,
+  /// Name of the model the element was defined in.
+  pub(crate) model_name: String,
+  /// Optional identifier of this this [Filter].
+  pub(crate) id: DmnId,
+  /// Optional description of this [Filter].
+  pub(crate) description: Option<String>,
+  /// Optional alternative short description of this [Filter].
+  pub(crate) label: Option<String>,
+  /// Container to attach additional elements to any [Filter].
+  pub(crate) extension_elements: Vec<ExtensionElement>,
+  /// Container to attach named extended attributes and model associations to any [Filter].
+  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
+  /// Optional base type of this [Filter] identified by namespace-prefixed name.
+  pub(crate) type_ref: Option<String>,
+  /// This attribute holds the expression that is evaluate as the collection to be filtered.
+  pub(crate) in_expression: ChildExpression,
+  /// This attribute holds the expression that is used to filter the collection.
+  pub(crate) match_expression: ChildExpression,
+}
+
+impl Filter {
+  ///
+  pub fn in_expression(&self) -> &ChildExpression {
+    &self.in_expression
+  }
+
+  ///
+  pub fn match_expression(&self) -> &ChildExpression {
+    &self.match_expression
+  }
+}
+
+/// A [For] is a visual representation of a loop.
+#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+pub struct For {
+  /// Namespace the element belongs to.
+  pub(crate) namespace: Uri,
+  /// Name of the model the element was defined in.
+  pub(crate) model_name: String,
+  /// Optional identifier of this this [For].
+  pub(crate) id: DmnId,
+  /// Optional description of this [For].
+  pub(crate) description: Option<String>,
+  /// Optional alternative short description of this [For].
+  pub(crate) label: Option<String>,
+  /// Container to attach additional elements to any [For].
+  pub(crate) extension_elements: Vec<ExtensionElement>,
+  /// Container to attach named extended attributes and model associations to any [For].
+  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
+  /// Optional base type of this [For] identified by namespace-prefixed name.
+  pub(crate) type_ref: Option<String>,
+  /// This attribute holds name of the iterator variable that will be populated at each iteration.
+  pub(crate) iterator_variable: String,
+  /// This attribute holds the expression that is evaluated as the collection to be processed.
+  pub(crate) in_expression: TypedChildExpression,
+  /// This attribute holds the expression that is evaluated to create the new collection that will be returned.
+  pub(crate) return_expression: ChildExpression,
+}
+
+impl For {
+  ///
+  pub fn iterator_variable(&self) -> &String {
+    &self.iterator_variable
+  }
+
+  ///
+  pub fn in_expression(&self) -> &TypedChildExpression {
+    &self.in_expression
+  }
+
+  ///
+  pub fn return_expression(&self) -> &ChildExpression {
+    &self.return_expression
+  }
+}
+
+/// A [Every] is a visual representation of an expression where all
+/// `satisfies` needs to be true for it to return true.
+#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+pub struct Every {
+  /// Namespace the element belongs to.
+  pub(crate) namespace: Uri,
+  /// Name of the model the element was defined in.
+  pub(crate) model_name: String,
+  /// Optional identifier of this this [Every].
+  pub(crate) id: DmnId,
+  /// Optional description of this [Every].
+  pub(crate) description: Option<String>,
+  /// Optional alternative short description of this [Every].
+  pub(crate) label: Option<String>,
+  /// Container to attach additional elements to any [Every].
+  pub(crate) extension_elements: Vec<ExtensionElement>,
+  /// Container to attach named extended attributes and model associations to any [Every].
+  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
+  /// Optional base type of this [Every] identified by namespace-prefixed name.
+  pub(crate) type_ref: Option<String>,
+  /// This attribute holds name of the iterator variable that will be populated at each iteration.
+  pub(crate) iterator_variable: String,
+  /// This attribute holds the expression that is evaluated as the collection to be processed.
+  pub(crate) in_expression: TypedChildExpression,
+  /// This attribute holds the expression that is evaluated to determine if the current item satisfies a condition.
+  pub(crate) satisfies_expression: ChildExpression,
+}
+
+impl Every {
+  ///
+  pub fn iterator_variable(&self) -> &String {
+    &self.iterator_variable
+  }
+
+  ///
+  pub fn in_expression(&self) -> &TypedChildExpression {
+    &self.in_expression
+  }
+
+  ///
+  pub fn satisfies_expression(&self) -> &ChildExpression {
+    &self.satisfies_expression
+  }
+}
+
+/// A [Some] is a visual representation of an expression where at least one of the
+/// `satisfies` needs to be true for it to return true.
+#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+pub struct Some {
+  /// Namespace the element belongs to.
+  pub(crate) namespace: Uri,
+  /// Name of the model the element was defined in.
+  pub(crate) model_name: String,
+  /// Optional identifier of this this [Some].
+  pub(crate) id: DmnId,
+  /// Optional description of this [Some].
+  pub(crate) description: Option<String>,
+  /// Optional alternative short description of this [Some].
+  pub(crate) label: Option<String>,
+  /// Container to attach additional elements to any [Some].
+  pub(crate) extension_elements: Vec<ExtensionElement>,
+  /// Container to attach named extended attributes and model associations to any [Some].
+  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
+  /// Optional base type of this [Some] identified by namespace-prefixed name.
+  pub(crate) type_ref: Option<String>,
+  /// This attribute holds name of the iterator variable that will be populated at each iteration.
+  pub(crate) iterator_variable: String,
+  /// This attribute holds the expression that is evaluated as the collection to be processed.
+  pub(crate) in_expression: TypedChildExpression,
+  /// This attribute holds the expression that is evaluated to determine if the current item satisfies a condition.
+  pub(crate) satisfies_expression: ChildExpression,
+}
+
+impl Some {
+  ///
+  pub fn iterator_variable(&self) -> &String {
+    &self.iterator_variable
+  }
+
+  ///
+  pub fn in_expression(&self) -> &TypedChildExpression {
+    &self.in_expression
+  }
+
+  ///
+  pub fn satisfies_expression(&self) -> &ChildExpression {
+    &self.satisfies_expression
   }
 }
 
@@ -1454,11 +1637,41 @@ pub struct ChildExpression {
 }
 
 impl ChildExpression {
+  ///
   pub fn id(&self) -> &DmnId {
     &self.id
   }
+
+  ///
   pub fn value(&self) -> &ExpressionInstance {
     &self.value
+  }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct TypedChildExpression {
+  /// Optional identifier of this this [TypedChildExpression].
+  pub(crate) id: DmnId,
+  /// The instance of [Expression] trait that is the expression in this [TypedChildExpression].
+  pub(crate) value: ExpressionInstance,
+  /// Optional base type of this [TypedChildExpression] identified by namespace-prefixed name.
+  pub(crate) type_ref: Option<String>,
+}
+
+impl TypedChildExpression {
+  ///
+  pub fn id(&self) -> &DmnId {
+    &self.id
+  }
+
+  ///
+  pub fn value(&self) -> &ExpressionInstance {
+    &self.value
+  }
+
+  ///
+  pub fn type_ref(&self) -> &Option<String> {
+    &self.type_ref
   }
 }
 

@@ -218,6 +218,7 @@ fn build_bkm_expression_instance_evaluator(
         model_builder,          //
       )
     }
+    _ => todo!(),
   }
 }
 

@@ -51,6 +51,7 @@ pub fn build_expression_instance_evaluator(scope: &FeelScope, expression_instanc
     ExpressionInstance::List(list) => build_list_evaluator(scope, list, model_builder),
     ExpressionInstance::Relation(relation) => build_relation_evaluator(scope, relation, model_builder),
     ExpressionInstance::Conditional(conditional) => build_conditional_evaluator(scope, conditional, model_builder),
+    _ => todo!(),
   }
 }
 
