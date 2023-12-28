@@ -110,3 +110,7 @@ pub const DMN_3_1147: &str = include_str!("3_1147.dmn");
 pub const DMN_3_1148: &str = include_str!("3_1148.dmn");
 pub const DMN_3_1149: &str = include_str!("3_1149.dmn");
 pub const DMN_3_1150: &str = include_str!("3_1150.dmn");
+pub const DMN_3_1151: &str = include_str!("3_1151.dmn");
+pub const DMN_3_1152: &str = include_str!("3_1152.dmn");
+pub const DMN_3_1153: &str = include_str!("3_1153.dmn");
+pub const DMN_3_1154: &str = include_str!("3_1154.dmn");
