@@ -201,15 +201,12 @@ fn _0040() {
   te_number(false, &scope!(), "round half up(-1.129, 2)", -113, 2);
 }
 
-/*
 #[test]
-#[ignore]
 fn _0041() {
   //--------------------------------------------------------------------------------------------------------------------
   // Used maximum allowed scale.
-  // Currently get this: (signal: 11, SIGSEGV: invalid memory reference)
   //--------------------------------------------------------------------------------------------------------------------
-  te_number(false, &scope!(), "round half up(5.5, 6176)", 55, 1);
+  te_number(false, &scope!(), "round half up(5.5, 6144)", 55, 1);
 }
 
 #[test]
@@ -221,7 +218,6 @@ fn _0042() {
     false,
     &scope!(),
     "round half up(5.5, (6176 + 1))",
-    "[core::round_down] scale is out of range -6111..6176: 6177",
+    "[core::round_half_up] <FeelNumberError> invalid scale, allowed range is -6176..6144, actual is 6177",
   );
 }
-*/

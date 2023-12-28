@@ -2035,7 +2035,7 @@ pub fn round_half_down(n: &Value, scale: &Value) -> Value {
   };
   match n.round_half_down(scale) {
     Ok(rounded) => Value::Number(rounded),
-    Err(reason) => value_null!("[core::round_down] {}", reason),
+    Err(reason) => value_null!("[core::round_half_down] {}", reason),
   }
 }
 
@@ -2052,7 +2052,7 @@ pub fn round_half_up(n: &Value, scale: &Value) -> Value {
   };
   match n.round_half_up(scale) {
     Ok(rounded) => Value::Number(rounded),
-    Err(reason) => value_null!("[core::round_down] {}", reason),
+    Err(reason) => value_null!("[core::round_half_up] {}", reason),
   }
 }
 
@@ -2069,7 +2069,7 @@ pub fn round_up(n: &Value, scale: &Value) -> Value {
   };
   match n.round_up(scale) {
     Ok(rounded) => Value::Number(rounded),
-    Err(reason) => value_null!("[core::round_down] {}", reason),
+    Err(reason) => value_null!("[core::round_up] {}", reason),
   }
 }
 
