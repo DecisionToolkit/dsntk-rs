@@ -659,6 +659,7 @@ dependencies = [
  "dfp-number-sys",
  "dsntk-common",
  "dsntk-macros",
+ "once_cell",
 ]
 
 [[package]]

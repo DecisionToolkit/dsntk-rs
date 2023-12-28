@@ -12,5 +12,6 @@ edition = { workspace = true }
 
 [dependencies]
 dfp-number-sys = { workspace = true }
+once_cell = { workspace = true }
 dsntk-common = { workspace = true }
 dsntk-macros = { workspace = true }

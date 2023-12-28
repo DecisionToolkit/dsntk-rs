@@ -6,11 +6,14 @@
 use crate::errors::*;
 use dfp_number_sys::*;
 use dsntk_common::{DsntkError, Jsonify, Result};
+use once_cell::sync::Lazy;
 use std::cmp::Ordering;
 use std::fmt;
 use std::fmt::{Debug, Display};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, RemAssign, Sub, SubAssign};
 use std::str::FromStr;
+
+pub static ONE_TENTH: Lazy<FeelNumber> = Lazy::new(|| FeelNumber::one_tenth());
 
 /// Flags for the status of the operation.
 macro_rules! flags {
@@ -39,6 +42,11 @@ impl FeelNumber {
   /// Returns [FeelNumber] value 0 (zero).
   pub fn zero() -> FeelNumber {
     Self(bid128_from_uint64(0), false)
+  }
+
+  /// Returns [FeelNumber] value 0.1 (one tenth).
+  pub fn one_tenth() -> FeelNumber {
+    Self(bid128_scalbn(bid128_from_uint64(1), -1), false)
   }
 
   /// Returns [FeelNumber] value 1 (one).
@@ -196,26 +204,12 @@ impl FeelNumber {
   ///
   pub fn round_half_down(&self, scale: i32) -> Result<Self> {
     let positive = |n| {
-      let zero = bid128_round_integral_zero(n, flags!());
-      let away = bid128_round_integral_positive(n, flags!());
-      let upper = bid128_sub(away, n, round!(), flags!());
-      let lower = bid128_sub(n, zero, round!(), flags!());
-      if bid128_quiet_less_equal(lower, upper, flags!()) {
-        zero
-      } else {
-        away
-      }
+      let b = bid128_sub(n, ONE_TENTH.0, round!(), flags!());
+      bid128_round_integral_nearest_away(b, flags!())
     };
     let negative = |n| {
-      let zero = bid128_round_integral_zero(n, flags!());
-      let away = bid128_round_integral_negative(n, flags!());
-      let upper = bid128_sub(away, n, round!(), flags!());
-      let lower = bid128_sub(n, zero, round!(), flags!());
-      if bid128_quiet_less_equal(upper, lower, flags!()) {
-        zero
-      } else {
-        away
-      }
+      let b = bid128_add(n, ONE_TENTH.0, round!(), flags!());
+      bid128_round_integral_nearest_away(b, flags!())
     };
     Ok(Self(
       if scale == 0 {
