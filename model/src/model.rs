@@ -637,31 +637,32 @@ impl Import {
   }
 }
 
-/// Enumeration of concrete instances of abstract [Expression], which are:
+/// An enumeration of concrete instances of abstract [Expression], which are:
+/// - [Conditional],
 /// - [Context],
 /// - [DecisionTable],
-/// - [FunctionDefinition],
-/// - [Invocation],
-/// - [LiteralExpression],
-/// - [Relation],
-/// - [Conditional],
+/// - [Every],
 /// - [Filter],
 /// - [For],
-/// - [Every],
+/// - [FunctionDefinition],
+/// - [Invocation],
+/// - [List],
+/// - [LiteralExpression],
+/// - [Relation],
 /// - [Some].
 #[derive(Debug, Clone, PartialEq)]
 pub enum ExpressionInstance {
+  Conditional(Box<Conditional>),
   Context(Box<Context>),
   DecisionTable(Box<DecisionTable>),
+  Every(Box<Every>),
+  Filter(Box<Filter>),
+  For(Box<For>),
   FunctionDefinition(Box<FunctionDefinition>),
   Invocation(Box<Invocation>),
   List(Box<List>),
   LiteralExpression(Box<LiteralExpression>),
   Relation(Box<Relation>),
-  Conditional(Box<Conditional>),
-  Filter(Box<Filter>),
-  For(Box<For>),
-  Every(Box<Every>),
   Some(Box<Some>),
 }
 
