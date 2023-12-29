@@ -37,7 +37,7 @@ macro_rules! round {
 pub struct FeelNumber(BID128, bool);
 
 impl FeelNumber {
-  /// Returns [FeelNumber] value Inf (infinite).
+  /// Returns [FeelNumber] value infinite.
   pub fn infinite() -> FeelNumber {
     Self(BID128_INF, false)
   }
@@ -135,22 +135,22 @@ impl FeelNumber {
 
   ///
   pub fn is_zero(&self) -> bool {
-    bid128_quiet_equal(self.0, Self::zero().0, flags!())
+    bid128_quiet_equal(self.0, BID128_ZERO, flags!())
   }
 
   ///
   pub fn is_one(&self) -> bool {
-    bid128_quiet_equal(self.0, Self::one().0, flags!())
+    bid128_quiet_equal(self.0, BID128_ONE, flags!())
   }
 
   ///
   pub fn is_negative(&self) -> bool {
-    bid128_quiet_less(self.0, Self::zero().0, flags!())
+    bid128_quiet_less(self.0, BID128_ZERO, flags!())
   }
 
   ///
   pub fn is_positive(&self) -> bool {
-    bid128_quiet_greater(self.0, Self::zero().0, flags!())
+    bid128_quiet_greater(self.0, BID128_ZERO, flags!())
   }
 
   ///
@@ -166,7 +166,7 @@ impl FeelNumber {
   ///
   pub fn odd(&self) -> bool {
     if self.is_integer() {
-      !bid128_is_zero(bid128_rem(self.0, Self::two().0, flags!()))
+      !bid128_is_zero(bid128_rem(self.0, BID128_TWO, flags!()))
     } else {
       false
     }
@@ -185,7 +185,7 @@ impl FeelNumber {
   ///
   pub fn round(&self, rhs: &FeelNumber) -> Self {
     let scale = bid128_to_int32_int(rhs.0, flags!());
-    let quantifier = bid128_scalbn(Self::one().0, -scale);
+    let quantifier = bid128_scalbn(BID128_ONE, -scale);
     Self(bid128_quantize(self.0, quantifier, round!(), flags!()), false)
   }
 
@@ -277,7 +277,7 @@ impl FeelNumber {
 
   ///
   pub fn square(&self) -> Option<Self> {
-    let n = bid128_pow(self.0, Self::two().0, round!(), flags!());
+    let n = bid128_pow(self.0, BID128_TWO, round!(), flags!());
     if bid128_is_finite(n) {
       Some(Self(n, true))
     } else {
