@@ -94,11 +94,31 @@ fn _0018() {
 
 #[test]
 fn _0019() {
-  te_null(false, &scope!(), "ceiling(number:5.777)", r#"parameter 'n' not found"#);
+  te_null(false, &scope!(), "ceiling(number:5.777)", "parameter 'n' not found");
 }
 
 #[test]
 fn _0020() {
+  te_null(false, &scope!(), "ceiling(number: 5.777, scale: 1)", "parameter 'n' not found");
+}
+
+#[test]
+fn _0021() {
+  te_null(false, &scope!(), "ceiling(n: 5.777, s: 1)", "parameter 'scale' not found");
+}
+
+#[test]
+fn _0022() {
+  te_null(
+    false,
+    &scope!(),
+    "ceiling(n: 5.777, scale: 1, foo: 11)",
+    "expected 1,2 parameters, actual number of parameters is 3",
+  );
+}
+
+#[test]
+fn _0023() {
   te_null(
     false,
     &scope!(),
@@ -108,17 +128,17 @@ fn _0020() {
 }
 
 #[test]
-fn _0021() {
-  te_null(false, &scope!(), r#"ceiling()"#, r#"expected 1,2 parameters, actual number of parameters is 0"#);
+fn _0024() {
+  te_null(false, &scope!(), r#"ceiling()"#, "expected 1,2 parameters, actual number of parameters is 0");
 }
 
 #[test]
-fn _0022() {
-  te_null(false, &scope!(), r#"ceiling(1,2,3)"#, r#"expected 1,2 parameters, actual number of parameters is 3"#);
+fn _0025() {
+  te_null(false, &scope!(), r#"ceiling(1,2,3)"#, "expected 1,2 parameters, actual number of parameters is 3");
 }
 
 #[test]
-fn _0023() {
+fn _0026() {
   te_null(
     false,
     &scope!(),
@@ -128,7 +148,7 @@ fn _0023() {
 }
 
 #[test]
-fn _0024() {
+fn _0027() {
   //--------------------------------------------------------------------------------------------------------------------
   // First check of the scale. Should be in i32 range.
   //--------------------------------------------------------------------------------------------------------------------
@@ -136,7 +156,7 @@ fn _0024() {
 }
 
 #[test]
-fn _0025() {
+fn _0028() {
   //--------------------------------------------------------------------------------------------------------------------
   // First check of the scale. Should be in i32 range.
   //--------------------------------------------------------------------------------------------------------------------
@@ -144,7 +164,7 @@ fn _0025() {
 }
 
 #[test]
-fn _0026() {
+fn _0029() {
   //--------------------------------------------------------------------------------------------------------------------
   // Now the scale is truncated to integer.
   // When non-integer scale should be reported as an error, then this test should be modified.
@@ -153,7 +173,7 @@ fn _0026() {
 }
 
 #[test]
-fn _0027() {
+fn _0030() {
   te_null(
     false,
     &scope!(),
@@ -163,7 +183,7 @@ fn _0027() {
 }
 
 #[test]
-fn _0028() {
+fn _0031() {
   te_null(
     false,
     &scope!(),

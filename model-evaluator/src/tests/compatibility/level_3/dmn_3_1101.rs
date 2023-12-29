@@ -108,7 +108,7 @@ fn _0012() {
     &MODEL_NAME,
     "decision012",
     &CTX,
-    "null(expected 2 parameters, actual number of parameters is 3)",
+    "null(expected 1,2 parameters, actual number of parameters is 3)",
   );
 }
 

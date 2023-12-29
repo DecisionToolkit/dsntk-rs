@@ -127,7 +127,7 @@ fn _0022() {
     false,
     &scope!(),
     r#"floor(n: 1.56, scale: 1, foo: 5)"#,
-    "expected 2 parameters, actual number of parameters is 3",
+    "expected 1,2 parameters, actual number of parameters is 3",
   );
 }
 

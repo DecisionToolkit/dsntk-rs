@@ -203,6 +203,41 @@ fn _0040() {
 
 #[test]
 fn _0041() {
+  te_number(false, &scope!(), "round down(n: 1.23, scale: 1)", 12, 1);
+}
+
+#[test]
+fn _0042() {
+  te_null(false, &scope!(), "round down(1.1, 0, 5)", "expected 2 parameters, actual number of parameters is 3");
+}
+
+#[test]
+fn _0043() {
+  te_null(false, &scope!(), "round down()", "expected 2 parameters, actual number of parameters is 0");
+}
+
+#[test]
+fn _0044() {
+  te_null(false, &scope!(), "round down(num: 1.23, scale: 1)", "parameter 'n' not found");
+}
+
+#[test]
+fn _0045() {
+  te_null(false, &scope!(), "round down(n: 1.23, s: 1)", "parameter 'scale' not found");
+}
+
+#[test]
+fn _0045_() {
+  te_null(
+    false,
+    &scope!(),
+    "round down(n: 1.23, scale: 1, foo: 11)",
+    "expected 2 parameters, actual number of parameters is 3",
+  );
+}
+
+#[test]
+fn _0046() {
   //--------------------------------------------------------------------------------------------------------------------
   // Use maximum allowed scale.
   //--------------------------------------------------------------------------------------------------------------------
@@ -210,7 +245,15 @@ fn _0041() {
 }
 
 #[test]
-fn _0042() {
+fn _0047() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Use minimum allowed scale.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_number(false, &scope!(), "round down(5.5, -6111)", 0, 0);
+}
+
+#[test]
+fn _0048() {
   //--------------------------------------------------------------------------------------------------------------------
   // Scale is out of range.
   //--------------------------------------------------------------------------------------------------------------------
@@ -219,5 +262,18 @@ fn _0042() {
     &scope!(),
     "round down(5.5, 6145)",
     "[core::round_down] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is 6145",
+  );
+}
+
+#[test]
+fn _0049() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Scale is out of range.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_null(
+    false,
+    &scope!(),
+    "round down(5.5, -6112)",
+    "[core::round_down] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is -6112",
   );
 }

@@ -241,7 +241,7 @@ fn bif_ceiling(parameters: &NamedParameters) -> Value {
         parameter_not_found!(NAME_N)
       }
     }
-    n => invalid_number_of_parameters!(2, n),
+    n => invalid_number_of_parameters!("1,2", n),
   }
 }
 
@@ -479,7 +479,7 @@ fn bif_floor(parameters: &NamedParameters) -> Value {
         parameter_not_found!(NAME_N)
       }
     }
-    n => invalid_number_of_parameters!(2, n),
+    n => invalid_number_of_parameters!("1,2", n),
   }
 }
 
