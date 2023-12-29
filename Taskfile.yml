@@ -29,7 +29,7 @@ tasks:
     cmds:
       - cmd: rm -rf ./target/benchmarks
       - cmd: mkdir -p ./target/benchmarks
-      - cmd: cargo +nightly bench -q compatibility | tee ./target/benchmarks/out.txt | grep 'bench' > ./target/benchmarks/benchmarks.txt
+      - cmd: cargo +nightly bench -p dsntk-model-evaluator -q compatibility | tee ./target/benchmarks/out.txt | grep 'bench' > ./target/benchmarks/benchmarks.txt
 
   build:
     desc: Builds in debug mode
