@@ -19,6 +19,11 @@ tasks:
     cmds:
       - cmd: cargo +nightly bench
 
+  benchmarks-dry:
+    desc: Runs all benchmarks
+    cmds:
+      - cmd: cargo +nightly bench -p dsntk-model-evaluator dmn_2_0001 -- --nocapture
+
   benchmarks:
     desc: Runs all compatibility benchmarks
     cmds:

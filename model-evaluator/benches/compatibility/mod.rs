@@ -6,6 +6,7 @@ use dsntk_feel::values::Value;
 use dsntk_feel::FeelScope;
 use dsntk_model_evaluator::ModelEvaluator;
 use once_cell::sync::Lazy;
+use std::sync::atomic::AtomicUsize;
 use std::sync::Arc;
 use test::Bencher;
 
@@ -13,11 +14,27 @@ mod level_2;
 mod level_3;
 mod non_compliant;
 
+const DRY_RUN: bool = true;
+
+static BENCHMARK_COUNT: AtomicUsize = AtomicUsize::new(0);
+
 macro_rules! from_examples {
   ($model_name:tt) => {
     model_evaluator_from_examples!($model_name);
     model_namespace_from_examples!($model_name);
     model_name_from_examples!($model_name);
+  };
+}
+
+macro_rules! iter {
+  ($b:tt, $benchmark:expr) => {
+    if DRY_RUN {
+      use core::sync::atomic::Ordering;
+      BENCHMARK_COUNT.fetch_add(1, Ordering::SeqCst);
+      println!("total benchmark count: {}", BENCHMARK_COUNT.load(Ordering::SeqCst));
+    } else {
+      $b.iter(|| $benchmark);
+    }
   };
 }
 
@@ -41,7 +58,7 @@ macro_rules! model_name_from_examples {
 
 use dsntk_feel_evaluator::BuildContext;
 use dsntk_model::NamedElement;
-use {from_examples, model_evaluator_from_examples, model_name_from_examples, model_namespace_from_examples};
+use {from_examples, iter, model_evaluator_from_examples, model_name_from_examples, model_namespace_from_examples};
 
 /// Utility function that builds a model evaluator from a single DMN model.
 fn build_model_evaluator(model_content: &str) -> Arc<ModelEvaluator> {
