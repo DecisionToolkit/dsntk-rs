@@ -89,14 +89,7 @@ impl FeelNumber {
         }
       } else {
         self.validate_scale(scale)?;
-        let rounded = bid128_round_integral_positive(bid128_scalbn(self.0, scale), flags!());
-        if bid128_is_zero(rounded) {
-          BID128_ZERO
-        } else if bid128_quiet_equal(rounded, BID128_ONE, flags!()) {
-          BID128_ONE
-        } else {
-          bid128_scalbn(rounded, -scale)
-        }
+        self.unscale(bid128_round_integral_positive(bid128_scalbn(self.0, scale), flags!()), scale)
       },
       true,
     ))
@@ -104,7 +97,7 @@ impl FeelNumber {
 
   ///
   pub fn even(&self) -> bool {
-    bid128_is_zero(bid128_rem(self.0, Self::two().0, flags!()))
+    bid128_is_zero(bid128_rem(self.0, BID128_TWO, flags!()))
   }
 
   ///
@@ -124,14 +117,7 @@ impl FeelNumber {
         bid128_round_integral_negative(self.0, flags!())
       } else {
         self.validate_scale(scale)?;
-        let rounded = bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!());
-        if bid128_is_zero(rounded) {
-          BID128_ZERO
-        } else if bid128_quiet_equal(rounded, BID128_MINUS_ONE, flags!()) {
-          BID128_MINUS_ONE
-        } else {
-          bid128_scalbn(rounded, -scale)
-        }
+        self.unscale(bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!()), scale)
       },
       true,
     ))
@@ -210,7 +196,7 @@ impl FeelNumber {
         bid128_round_integral_zero(self.0, flags!())
       } else {
         self.validate_scale(scale)?;
-        bid128_scalbn(bid128_round_integral_zero(bid128_scalbn(self.0, scale), flags!()), -scale)
+        self.unscale(bid128_round_integral_zero(bid128_scalbn(self.0, scale), flags!()), scale)
       },
       true,
     ))
@@ -236,7 +222,7 @@ impl FeelNumber {
       } else {
         self.validate_scale(scale)?;
         let scaled = bid128_scalbn(self.0, scale);
-        bid128_scalbn(if bid128_is_signed(self.0) { negative(scaled) } else { positive(scaled) }, -scale)
+        self.unscale(if bid128_is_signed(self.0) { negative(scaled) } else { positive(scaled) }, scale)
       },
       true,
     ))
@@ -249,7 +235,7 @@ impl FeelNumber {
         bid128_round_integral_nearest_away(self.0, flags!())
       } else {
         self.validate_scale(scale)?;
-        bid128_scalbn(bid128_round_integral_nearest_away(bid128_scalbn(self.0, scale), flags!()), -scale)
+        self.unscale(bid128_round_integral_nearest_away(bid128_scalbn(self.0, scale), flags!()), scale)
       },
       true,
     ))
@@ -266,11 +252,14 @@ impl FeelNumber {
         }
       } else {
         self.validate_scale(scale)?;
-        if bid128_is_signed(self.0) {
-          self.unscale(bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!()), scale)
-        } else {
-          self.unscale(bid128_round_integral_positive(bid128_scalbn(self.0, scale), flags!()), scale)
-        }
+        self.unscale(
+          if bid128_is_signed(self.0) {
+            bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!())
+          } else {
+            bid128_round_integral_positive(bid128_scalbn(self.0, scale), flags!())
+          },
+          scale,
+        )
       },
       true,
     ))
