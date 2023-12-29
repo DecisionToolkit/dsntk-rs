@@ -231,7 +231,7 @@ fn _0046() {
   te_null(
     false,
     &scope!(),
-    "round half down(n: 1.23, scale: 1, foo: 11)",
+    "round up(n: 1.23, scale: 1, foo: 11)",
     "expected 2 parameters, actual number of parameters is 3",
   );
 }
