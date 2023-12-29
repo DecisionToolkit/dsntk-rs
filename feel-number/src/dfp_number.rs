@@ -12,6 +12,9 @@ use std::fmt::{Debug, Display};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, RemAssign, Sub, SubAssign};
 use std::str::FromStr;
 
+const MIN_SCALE: i32 = -6111;
+const MAX_SCALE: i32 = 6144;
+
 /// Flags for the status of the operation.
 macro_rules! flags {
   () => {
@@ -72,17 +75,28 @@ impl FeelNumber {
   }
 
   /// Returns a nearest integer greater or equal to this [FeelNumber].
-  pub fn ceiling(&self, scale: i32) -> Self {
-    let bid = if scale == 0 {
-      bid128_round_integral_positive(self.0, flags!())
-    } else {
-      bid128_scalbn(bid128_round_integral_positive(bid128_scalbn(self.0, scale), flags!()), -scale)
-    };
-    if bid128_is_zero(bid) {
-      Self::zero()
-    } else {
-      Self(bid, false)
-    }
+  pub fn ceiling(&self, scale: i32) -> Result<Self> {
+    Ok(Self(
+      if scale == 0 {
+        let rounded = bid128_round_integral_positive(self.0, flags!());
+        if bid128_is_zero(rounded) {
+          Self::zero().0
+        } else {
+          rounded
+        }
+      } else {
+        self.validate_scale(scale)?;
+        let rounded = bid128_round_integral_positive(bid128_scalbn(self.0, scale), flags!());
+        if bid128_is_zero(rounded) {
+          Self::zero().0
+        } else if bid128_quiet_equal(rounded, BID128_ONE, flags!()) {
+          BID128_ONE
+        } else {
+          bid128_scalbn(rounded, -scale)
+        }
+      },
+      true,
+    ))
   }
 
   ///
@@ -101,17 +115,16 @@ impl FeelNumber {
   }
 
   /// Returns a nearest integer less or equal to this [FeelNumber].
-  pub fn floor(&self, scale: i32) -> Self {
-    let bid = if scale == 0 {
-      bid128_round_integral_negative(self.0, flags!())
-    } else {
-      bid128_scalbn(bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!()), -scale)
-    };
-    if bid128_is_zero(bid) {
-      Self::zero()
-    } else {
-      Self(bid, false)
-    }
+  pub fn floor(&self, scale: i32) -> Result<Self> {
+    Ok(Self(
+      if scale == 0 {
+        bid128_round_integral_negative(self.0, flags!())
+      } else {
+        self.validate_scale(scale)?;
+        bid128_scalbn(bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!()), -scale)
+      },
+      true,
+    ))
   }
 
   ///
@@ -289,11 +302,11 @@ impl FeelNumber {
   /// Validates effective scale after changing the scale to the required one.
   /// When the final scale is out of allowed range (-6176..6144) then returns an error.
   fn validate_scale(&self, scale: i32) -> Result<()> {
-    let s = bid128_ilogb(self.0, flags!()) + scale;
-    if (-6111..=6144).contains(&s) {
+    let scale = bid128_ilogb(self.0, flags!()) + scale;
+    if (MIN_SCALE..=MAX_SCALE).contains(&scale) {
       Ok(())
     } else {
-      Err(err_invalid_scale(s))
+      Err(err_invalid_scale(MIN_SCALE, MAX_SCALE, scale))
     }
   }
 }

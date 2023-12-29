@@ -218,6 +218,6 @@ fn _0042() {
     false,
     &scope!(),
     "round half down(5.5, (6176 + 1))",
-    "[core::round_half_down] <FeelNumberError> invalid scale, allowed range is -6176..6144, actual is 6177",
+    "[core::round_half_down] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is 6177",
   );
 }

@@ -112,14 +112,14 @@ fn _0018() {
 
 #[test]
 fn _0019() {
-  te_null(false, &scope!(), r#"floor(n: 1.56, scale: 2147483648)"#, "invalid scale: 2147483648");
+  te_null(false, &scope!(), r#"floor(n: 1.56, scale: 2147483648)"#, "[core::floor] invalid scale: 2147483648");
 }
 
 #[test]
 fn _0020() {
   //--------------------------------------------------------------------------------------------------------------------
   // Now the scale is truncated to integer.
-  // If non-integer scale should be reported as an error then this test should be modified.
+  // When non-integer scale should be reported as an error, then this test should be modified.
   //--------------------------------------------------------------------------------------------------------------------
   te_number(false, &scope!(), "floor(n: 1.56, scale: 1.28)", 15, 1);
 }

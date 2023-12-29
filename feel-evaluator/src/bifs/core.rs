@@ -321,19 +321,22 @@ pub fn before(value1: &Value, value2: &Value) -> Value {
 }
 
 /// Returns the smallest integer >= argument.
-pub fn ceiling(value: &Value, scale: &Value) -> Value {
-  if let Value::Number(value) = value {
+pub fn ceiling(n: &Value, scale: &Value) -> Value {
+  if let Value::Number(n) = n {
     if let Value::Number(scale) = scale {
       if let Ok(scale) = scale.try_into() {
-        Value::Number(value.ceiling(scale))
+        match n.ceiling(scale) {
+          Ok(rounded) => Value::Number(rounded),
+          Err(reason) => value_null!("[core::ceiling] {}", reason),
+        }
       } else {
-        value_null!("invalid scale: {}", scale)
+        value_null!("[core::ceiling] invalid scale: {}", scale)
       }
     } else {
       invalid_argument_type!("ceiling", "number", scale.type_of())
     }
   } else {
-    invalid_argument_type!("ceiling", "number", value.type_of())
+    invalid_argument_type!("ceiling", "number", n.type_of())
   }
 }
 
@@ -1018,19 +1021,22 @@ fn flatten_value(value: &Value, flattened: &mut Vec<Value>) {
 }
 
 /// Returns greatest **integer** <= **value** specified as a parameter.
-pub fn floor(value: &Value, scale: &Value) -> Value {
-  if let Value::Number(value) = value {
+pub fn floor(n: &Value, scale: &Value) -> Value {
+  if let Value::Number(n) = n {
     if let Value::Number(scale) = scale {
       if let Ok(scale) = scale.try_into() {
-        Value::Number(value.floor(scale))
+        match n.floor(scale) {
+          Ok(rounded) => Value::Number(rounded),
+          Err(reason) => value_null!("[core::floor] {}", reason),
+        }
       } else {
-        value_null!("invalid scale: {}", scale)
+        value_null!("[core::floor] invalid scale: {}", scale)
       }
     } else {
       invalid_argument_type!("floor", "number", scale.type_of())
     }
   } else {
-    invalid_argument_type!("floor", "number", value.type_of())
+    invalid_argument_type!("floor", "number", n.type_of())
   }
 }
 
@@ -1597,7 +1603,8 @@ pub fn modulo(dividend_value: &Value, divisor_value: &Value) -> Value {
       if divisor.abs() == FeelNumber::zero() {
         value_null!("[core::modulo] division by zero")
       } else {
-        Value::Number(dividend - divisor * (dividend / divisor).floor(0))
+        // in floor function below the scale is zero, so unwrap is safe
+        Value::Number(dividend - divisor * (dividend / divisor).floor(0).unwrap())
       }
     } else {
       invalid_argument_type!("modulo", "number", divisor_value.type_of())

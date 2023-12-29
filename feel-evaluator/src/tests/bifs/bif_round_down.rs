@@ -218,6 +218,6 @@ fn _0042() {
     false,
     &scope!(),
     "round down(5.5, 6145)",
-    "[core::round_down] <FeelNumberError> invalid scale, allowed range is -6176..6144, actual is 6145",
+    "[core::round_down] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is 6145",
   );
 }

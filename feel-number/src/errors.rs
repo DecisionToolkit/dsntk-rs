@@ -15,6 +15,6 @@ pub fn err_number_conversion_failed() -> DsntkError {
 }
 
 /// Creates an error describing invalid scale.
-pub fn err_invalid_scale(scale: i32) -> DsntkError {
-  FeelNumberError(format!("invalid scale, allowed range is -6176..6144, actual is {scale}")).into()
+pub fn err_invalid_scale(min: i32, max: i32, scale: i32) -> DsntkError {
+  FeelNumberError(format!("invalid scale, allowed range is {min}..{max}, actual is {scale}")).into()
 }
