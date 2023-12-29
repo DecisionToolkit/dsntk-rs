@@ -14,7 +14,7 @@ fn _0001(b: &mut Bencher) {
     &CTX,
     r#"{divisionResultPositional: 2, multiplicationResultPositional: 50, sumResult: 15}"#,
   );
-  b.iter(|| MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }
 
 #[bench]
@@ -28,7 +28,7 @@ fn _0002(b: &mut Bencher) {
     &CTX,
     r#"{divisionResultNamed: 2, multiplicationResultNamed: 50, subResult: 5, subResultMixed: -5}"#,
   );
-  b.iter(|| MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }
 
 #[bench]
@@ -42,5 +42,5 @@ fn _0003(b: &mut Bencher) {
     &CTX,
     r#"{circumference: 94.24776, functionInvocationInParameter: 200, functionInvocationLiteralExpressionInParameter: 500}"#,
   );
-  b.iter(|| MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }

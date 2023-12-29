@@ -9,7 +9,7 @@ fn _0001(b: &mut Bencher) {
   );
   let invocable_name = "sort1";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"[5, 4, 3, 1]"#);
-  b.iter(|| MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
 #[bench]
@@ -26,7 +26,7 @@ fn _0002(b: &mut Bencher) {
     &ctx,
     r#"[{col1: 1, col2: 0, col3: 1, col4: 1}, {col1: 16, col2: 4, col3: 25, col4: 1}, {col1: 16, col2: 43, col3: 2, col4: 10}]"#,
   );
-  b.iter(|| MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
 #[bench]
@@ -36,5 +36,5 @@ fn _0003(b: &mut Bencher) {
   );
   let invocable_name = "sort3";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"["10", "8", "9", "A", "Aa", "a"]"#);
-  b.iter(|| MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }

@@ -14,7 +14,7 @@ fn _0001(b: &mut Bencher) {
     &ctx,
     r#"null([division] division by zero)"#,
   );
-  b.iter(|| MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
 #[bench]
@@ -29,5 +29,5 @@ fn _0002(b: &mut Bencher) {
     &ctx,
     r#"null([division] division by zero)"#,
   );
-  b.iter(|| MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }

@@ -14,7 +14,7 @@ fn _0001(b: &mut Bencher) {
     &ctx,
     r#"[{Rate: "Best", Status: "Approved"}, {Rate: "Standard", Status: "Approved"}]"#,
   );
-  b.iter(|| MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
 #[bench]
@@ -29,7 +29,7 @@ fn _0002(b: &mut Bencher) {
     &ctx,
     r#"[{Rate: "Standard", Status: "Approved"}]"#,
   );
-  b.iter(|| MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
 #[bench]
@@ -44,5 +44,5 @@ fn _0003(b: &mut Bencher) {
     &ctx,
     r#"[{Rate: "Standard", Status: "Declined"}]"#,
   );
-  b.iter(|| MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }

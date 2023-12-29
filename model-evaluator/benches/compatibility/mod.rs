@@ -14,7 +14,7 @@ mod level_2;
 mod level_3;
 mod non_compliant;
 
-const DRY_RUN: bool = true;
+const ENV_DRY_RUN: &str = "DSNTK_DRY_BENCHMARK_RUN";
 
 static BENCHMARK_COUNT: AtomicUsize = AtomicUsize::new(0);
 
@@ -28,12 +28,14 @@ macro_rules! from_examples {
 
 macro_rules! iter {
   ($b:tt, $benchmark:expr) => {
-    if DRY_RUN {
-      use core::sync::atomic::Ordering;
-      BENCHMARK_COUNT.fetch_add(1, Ordering::SeqCst);
-      println!("total benchmark count: {}", BENCHMARK_COUNT.load(Ordering::SeqCst));
-    } else {
-      $b.iter(|| $benchmark);
+    match std::env::var(ENV_DRY_RUN) {
+      Ok(_) => {
+        BENCHMARK_COUNT.fetch_add(1, core::sync::atomic::Ordering::SeqCst);
+        print!("total benchmark count: {} | ", BENCHMARK_COUNT.load(core::sync::atomic::Ordering::SeqCst));
+      }
+      Err(_) => {
+        $b.iter(|| $benchmark);
+      }
     }
   };
 }
@@ -56,9 +58,15 @@ macro_rules! model_name_from_examples {
   };
 }
 
+macro_rules! static_context {
+  ($name:tt, $content:tt) => {
+    static $name: Lazy<FeelContext> = Lazy::new(|| context($content));
+  };
+}
+
 use dsntk_feel_evaluator::BuildContext;
 use dsntk_model::NamedElement;
-use {from_examples, iter, model_evaluator_from_examples, model_name_from_examples, model_namespace_from_examples};
+use {from_examples, iter, model_evaluator_from_examples, model_name_from_examples, model_namespace_from_examples, static_context};
 
 /// Utility function that builds a model evaluator from a single DMN model.
 fn build_model_evaluator(model_content: &str) -> Arc<ModelEvaluator> {
