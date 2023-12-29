@@ -35,7 +35,7 @@ chrono = "0.4.31"
 chrono-tz = "0.8.4"
 convert_case = "0.6.0"
 clap = { version = "4.4.12", features = ["cargo"] }
-dfp-number-sys = "0.0.18"
+dfp-number-sys = "0.0.19"
 difference = "2.0.0"
 domrs = "0.0.15"
 markdown = "1.0.0-alpha.16"

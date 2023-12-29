@@ -12,7 +12,10 @@ use std::fmt::{Debug, Display};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, RemAssign, Sub, SubAssign};
 use std::str::FromStr;
 
+/// Minimum scale.
 const MIN_SCALE: i32 = -6111;
+
+/// Maximum scale.
 const MAX_SCALE: i32 = 6144;
 
 /// Flags for the status of the operation.
@@ -36,12 +39,12 @@ pub struct FeelNumber(BID128, bool);
 impl FeelNumber {
   /// Returns [FeelNumber] value Inf (infinite).
   pub fn infinite() -> FeelNumber {
-    Self(bid128_inf(), false)
+    Self(BID128_INF, false)
   }
 
   /// Returns [FeelNumber] value 0 (zero).
   pub fn zero() -> FeelNumber {
-    Self(bid128_from_uint64(0), false)
+    Self(BID128_ZERO, false)
   }
 
   /// Returns [FeelNumber] value 1 (one).
@@ -51,12 +54,12 @@ impl FeelNumber {
 
   /// Returns [FeelNumber] value 2 (two).
   pub fn two() -> FeelNumber {
-    Self(bid128_from_uint64(2), false)
+    Self(BID128_TWO, false)
   }
 
-  /// Returns [FeelNumber] value 1000000000 (billion).
+  /// Returns [FeelNumber] value 1_000_000_000 (billion).
   pub fn billion() -> FeelNumber {
-    Self(bid128_from_uint64(1_000_000_000), false)
+    Self(BID128_BILLION, false)
   }
 
   /// Creates a new [FeelNumber] from integer value and a scale.
@@ -80,7 +83,7 @@ impl FeelNumber {
       if scale == 0 {
         let rounded = bid128_round_integral_positive(self.0, flags!());
         if bid128_is_zero(rounded) {
-          Self::zero().0
+          BID128_ZERO
         } else {
           rounded
         }
@@ -88,7 +91,7 @@ impl FeelNumber {
         self.validate_scale(scale)?;
         let rounded = bid128_round_integral_positive(bid128_scalbn(self.0, scale), flags!());
         if bid128_is_zero(rounded) {
-          Self::zero().0
+          BID128_ZERO
         } else if bid128_quiet_equal(rounded, BID128_ONE, flags!()) {
           BID128_ONE
         } else {
@@ -121,7 +124,14 @@ impl FeelNumber {
         bid128_round_integral_negative(self.0, flags!())
       } else {
         self.validate_scale(scale)?;
-        bid128_scalbn(bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!()), -scale)
+        let rounded = bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!());
+        if bid128_is_zero(rounded) {
+          BID128_ZERO
+        } else if bid128_quiet_equal(rounded, BID128_MINUS_ONE, flags!()) {
+          BID128_MINUS_ONE
+        } else {
+          bid128_scalbn(rounded, -scale)
+        }
       },
       true,
     ))
