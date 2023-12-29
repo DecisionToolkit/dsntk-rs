@@ -3,7 +3,7 @@
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values};
 use dsntk_feel::{Evaluator, FeelScope, Name};
-use std::cmp::Ordering;
+use std::num::NonZeroIsize;
 
 /// Iterator types.
 #[derive(Debug, Clone)]
@@ -25,14 +25,14 @@ struct IterationState {
   /// Current value of the looping index.
   index: isize,
   /// Iteration step.
-  step: isize,
+  step: NonZeroIsize,
   /// Iteration start value.
   start: isize,
   /// Iteration end value.
   end: isize,
   /// Collection of FEEL values to iterate over.
   values: Option<Values>,
-
+  /// Flag indicating whether the current iteration is empty (does not iterate anymore).
   empty: bool,
 }
 
@@ -43,7 +43,7 @@ impl IterationState {
       iterator_type: IteratorType::Range,
       variable,
       index: start,
-      step: if start <= end { 1 } else { -1 },
+      step: if start <= end { NonZeroIsize::new(1).unwrap() } else { NonZeroIsize::new(-1).unwrap() },
       start,
       end,
       values: None,
@@ -61,7 +61,7 @@ impl IterationState {
       iterator_type: IteratorType::List,
       variable,
       index: 0,
-      step: 1,
+      step: NonZeroIsize::new(1).unwrap(),
       start: 0,
       end: (values.len() as isize) - 1,
       values: Some(values),
@@ -75,7 +75,7 @@ impl IterationState {
       iterator_type: IteratorType::Variable(bound_variable),
       variable,
       index: 0,
-      step: 1,
+      step: NonZeroIsize::new(1).unwrap(),
       start: 0,
       end: 0,
       values: None,
@@ -103,35 +103,32 @@ impl IterationState {
 
   /// Moves the iterator to the next value if any available.
   fn next(&mut self) -> bool {
-    match self.step.cmp(&0) {
-      Ordering::Greater => {
-        if self.index + self.step <= self.end {
-          self.index += self.step;
-          true
-        } else {
-          self.index = self.start;
-          false
-        }
+    let s = self.step.get();
+    if self.step.is_positive() {
+      if self.index + s <= self.end {
+        self.index += s;
+        true
+      } else {
+        self.index = self.start;
+        false
       }
-      Ordering::Less => {
-        if self.index + self.step >= self.end {
-          self.index += self.step;
-          true
-        } else {
-          self.index = self.start;
-          false
-        }
+    } else {
+      if self.index + s >= self.end {
+        self.index += s;
+        true
+      } else {
+        self.index = self.start;
+        false
       }
-      Ordering::Equal => panic!("iteration step must not be zero"),
     }
   }
 
   /// Returns `true` when the iterator has some more values to iterate over.
   fn has_next(&self) -> bool {
-    match self.step.cmp(&0) {
-      Ordering::Greater => self.index + self.step <= self.end,
-      Ordering::Less => self.index + self.step >= self.end,
-      Ordering::Equal => panic!("iteration step must not be zero"),
+    if self.step.is_positive() {
+      self.index + self.step.get() <= self.end
+    } else {
+      self.index + self.step.get() >= self.end
     }
   }
 

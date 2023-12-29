@@ -1277,33 +1277,33 @@ pub fn lower_case(input_string_value: &Value) -> Value {
 }
 
 /// Returns `true` when the input matches the regexp pattern.
-pub fn matches_2(input_string_value: &Value, pattern_string_value: &Value) -> Value {
-  let Value::String(input_string) = input_string_value else {
-    return value_null!("matches"); //TODO Prepare more detailed error message.
+pub fn matches_2(input: &Value, pattern: &Value) -> Value {
+  let Value::String(input) = input else {
+    return invalid_argument_type!("matches", "string", input.type_of());
   };
-  let Value::String(pattern_string) = pattern_string_value else {
-    return value_null!("matches"); //TODO Prepare more detailed error message.
+  let Value::String(pattern) = pattern else {
+    return invalid_argument_type!("matches", "string", pattern.type_of());
   };
-  let Ok(re) = Regex::new(&fix_pattern(pattern_string, false)) else {
-    return value_null!("[core::matches_3] parsing pattern failed: '{}'", pattern_string);
+  let Ok(re) = Regex::new(&fix_pattern(pattern, false)) else {
+    return value_null!("[core::matches_3] parsing pattern failed: '{}'", pattern);
   };
-  Value::Boolean(re.is_match(&fix_input(input_string)))
+  Value::Boolean(re.is_match(&fix_input(input)))
 }
 
 /// Returns `true` when the input matches the regexp pattern.
-pub fn matches_3(input_string_value: &Value, pattern_string_value: &Value, flags_string_value: &Value) -> Value {
-  let Value::String(input_string) = input_string_value else {
-    return value_null!("matches"); //TODO Prepare more detailed error message.
+pub fn matches_3(input: &Value, pattern: &Value, flags: &Value) -> Value {
+  let Value::String(input) = input else {
+    return invalid_argument_type!("matches", "string", input.type_of());
   };
-  let Value::String(pattern_string) = pattern_string_value else {
-    return value_null!("matches"); //TODO Prepare more detailed error message.
+  let Value::String(pattern) = pattern else {
+    return invalid_argument_type!("matches", "string", pattern.type_of());
   };
   // flags if present must be a string
-  let Value::String(flags_string) = flags_string_value else {
+  let Value::String(flags) = flags else {
     return value_null!("matches"); //TODO Prepare more detailed error message.
   };
   // flags must contain flags, may not be an empty string
-  let flags = flags_string.trim();
+  let flags = flags.trim();
   if flags.is_empty() {
     return value_null!("matches"); //TODO Prepare more detailed error message.
   }
@@ -1312,10 +1312,10 @@ pub fn matches_3(input_string_value: &Value, pattern_string_value: &Value, flags
       return value_null!("[core::matches_3] flags can not contain character '{}'", ch);
     }
   }
-  let Ok(re) = Regex::new(&format!("(?{flags}){}", fix_pattern(pattern_string, flags.contains('x')))) else {
-    return value_null!("[core::matches_3] parsing pattern failed: '{}'", pattern_string);
+  let Ok(re) = Regex::new(&format!("(?{flags}){}", fix_pattern(pattern, flags.contains('x')))) else {
+    return value_null!("[core::matches_3] parsing pattern failed: '{}'", pattern);
   };
-  Value::Boolean(re.is_match(&fix_input(input_string)))
+  Value::Boolean(re.is_match(&fix_input(input)))
 }
 
 /// Nasty tricks on input.

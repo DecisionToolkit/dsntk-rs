@@ -10,25 +10,31 @@
         <typeRef>boolean</typeRef>
     </itemDefinition>
 
-    <decision name="fn-null-input">
-        <description>Evaluates "matches" function with null input</description>
-        <variable typeRef="boolean" name="fn-null-input"/>
+    <decision name="decision001">
+        <description>Evaluates 'matches' function with null input</description>
+        <question>What is the result of FEEL expression 'matches(null, "pattern")'?</question>
+        <allowedAnswers>null (boolean)</allowedAnswers>
+        <variable typeRef="boolean" name="decision001"/>
         <literalExpression>
             <text>matches(null, "pattern")</text>
         </literalExpression>
     </decision>
 
-    <decision name="fn-null-pattern">
-        <description>Evaluates "matches" function with null pattern</description>
-        <variable typeRef="boolean" name="fn-null-pattern"/>
+    <decision name="decision002">
+        <description>Evaluates 'matches' function with null pattern</description>
+        <question>What is the result of FEEL expression 'matches("input", null)'?</question>
+        <allowedAnswers>null (boolean)</allowedAnswers>
+        <variable typeRef="boolean" name="decision002"/>
         <literalExpression>
             <text>matches("input", null)</text>
         </literalExpression>
     </decision>
 
-    <decision name="fn-null-flags">
-        <description>Evaluates "matches" function with null flags</description>
-        <variable typeRef="boolean" name="fn-null-flags"/>
+    <decision name="decision003">
+        <description>Evaluates 'matches' function with null flags</description>
+        <question>What is the result of FEEL expression 'matches("abracadabra", "bra", null)'?</question>
+        <allowedAnswers>true (boolean)</allowedAnswers>
+        <variable typeRef="boolean" name="decision003"/>
         <literalExpression>
             <text>matches("abracadabra", "bra", null)</text>
         </literalExpression>

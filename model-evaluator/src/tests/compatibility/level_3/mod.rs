@@ -94,6 +94,7 @@ mod dmn_3_1107;
 mod dmn_3_1108;
 mod dmn_3_1109;
 mod dmn_3_1110;
+mod dmn_3_1111;
 mod dmn_3_1115;
 mod dmn_3_1116;
 mod dmn_3_1117;

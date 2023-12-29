@@ -81,127 +81,157 @@ fn _0014() {
 
 #[test]
 fn _0015() {
-  te_null(false, &scope!(), r#"matches(input: 10, pattern: "^fo*b")"#, r#"matches"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"matches(input: 10, pattern: "^fo*b")"#,
+    r#"[core::matches] invalid argument type, expected string, actual type is number"#,
+  );
 }
 
 #[test]
 fn _0016() {
-  te_null(false, &scope!(), r#"matches(input: "foobar", pattern: true)"#, r#"matches"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"matches(input: "foobar", pattern: true)"#,
+    r#"[core::matches] invalid argument type, expected string, actual type is boolean"#,
+  );
 }
 
 #[test]
 fn _0017() {
-  te_bool(false, &scope!(), r#"matches("Mary\rJones", "Mary.Jones")"#, false);
+  te_null(
+    false,
+    &scope!(),
+    r#"matches(input: 10, pattern: "^fo*b", flags: "s")"#,
+    r#"[core::matches] invalid argument type, expected string, actual type is number"#,
+  );
 }
 
 #[test]
 fn _0018() {
-  te_bool(false, &scope!(), r#"matches("Mary\rJones", "Mary.Jones", "s")"#, true);
+  te_null(
+    false,
+    &scope!(),
+    r#"matches(input: "foobar", pattern: true, flags: "s")"#,
+    r#"[core::matches] invalid argument type, expected string, actual type is boolean"#,
+  );
 }
 
 #[test]
 fn _0019() {
-  te_bool(false, &scope!(), r#"matches("Mary\nJones", "Mary.Jones")"#, false);
+  te_bool(false, &scope!(), r#"matches("Mary\rJones", "Mary.Jones")"#, false);
 }
 
 #[test]
 fn _0020() {
-  te_bool(false, &scope!(), r#"matches("Mary\nJones", "Mary.Jones", "s")"#, true);
+  te_bool(false, &scope!(), r#"matches("Mary\rJones", "Mary.Jones", "s")"#, true);
 }
 
 #[test]
 fn _0021() {
-  te_bool(false, &scope!(), r#"matches("Mary\r\nJones", "Mary.Jones")"#, false);
+  te_bool(false, &scope!(), r#"matches("Mary\nJones", "Mary.Jones")"#, false);
 }
 
+#[test]
 fn _0022() {
-  te_bool(false, &scope!(), r#"matches("Mary\r\nJones", "Mary.Jones", "s")"#, true);
+  te_bool(false, &scope!(), r#"matches("Mary\nJones", "Mary.Jones", "s")"#, true);
 }
 
 #[test]
 fn _0023() {
-  te_bool(false, &scope!(), r#"matches("Mary\u000AJones", "Mary.Jones")"#, false);
+  te_bool(false, &scope!(), r#"matches("Mary\r\nJones", "Mary.Jones")"#, false);
 }
 
-#[test]
 fn _0024() {
-  te_bool(false, &scope!(), r#"matches("Mary\u000AJones", "Mary.Jones", "s")"#, true);
+  te_bool(false, &scope!(), r#"matches("Mary\r\nJones", "Mary.Jones", "s")"#, true);
 }
 
 #[test]
 fn _0025() {
-  te_bool(false, &scope!(), r#"matches("Mary\u000DJones", "Mary.Jones")"#, false);
+  te_bool(false, &scope!(), r#"matches("Mary\u000AJones", "Mary.Jones")"#, false);
 }
 
 #[test]
 fn _0026() {
-  te_bool(false, &scope!(), r#"matches("Mary\u000DJones", "Mary.Jones", "s")"#, true);
+  te_bool(false, &scope!(), r#"matches("Mary\u000AJones", "Mary.Jones", "s")"#, true);
 }
 
 #[test]
 fn _0027() {
-  te_bool(false, &scope!(), r#"matches("x", "[A-Z-[OI]]", "i")"#, true);
+  te_bool(false, &scope!(), r#"matches("Mary\u000DJones", "Mary.Jones")"#, false);
 }
 
 #[test]
 fn _0028() {
-  te_bool(false, &scope!(), r#"matches("O", "[A-Z-[OI]]", "i")"#, false);
+  te_bool(false, &scope!(), r#"matches("Mary\u000DJones", "Mary.Jones", "s")"#, true);
 }
 
 #[test]
 fn _0029() {
-  te_bool(false, &scope!(), r#"matches("O", "[A-Z--O]", "i")"#, false);
+  te_bool(false, &scope!(), r#"matches("x", "[A-Z-[OI]]", "i")"#, true);
 }
 
 #[test]
 fn _0030() {
-  te_null(false, &scope!(), r#"matches("input", "pattern", [])"#, "matches");
+  te_bool(false, &scope!(), r#"matches("O", "[A-Z-[OI]]", "i")"#, false);
 }
 
 #[test]
 fn _0031() {
-  te_bool(false, &scope!(), r#"matches("hello!world", " hello[ ! ]world", "x")"#, true);
+  te_bool(false, &scope!(), r#"matches("O", "[A-Z--O]", "i")"#, false);
 }
 
 #[test]
 fn _0032() {
-  te_bool(false, &scope!(), r#"matches("hello world", " hello[ ]world", "x")"#, true);
+  te_null(false, &scope!(), r#"matches("input", "pattern", [])"#, "matches");
 }
 
 #[test]
 fn _0033() {
-  te_bool(false, &scope!(), r#"matches("hello world", "\p{ IsLatin}+", "x")"#, true);
+  te_bool(false, &scope!(), r#"matches("hello!world", " hello[ ! ]world", "x")"#, true);
 }
 
 #[test]
 fn _0034() {
-  te_bool(false, &scope!(), r#"matches("hello world", "\p{IsLatin}+")"#, true);
+  te_bool(false, &scope!(), r#"matches("hello world", " hello[ ]world", "x")"#, true);
 }
 
 #[test]
 fn _0035() {
-  te_bool(false, &scope!(), r#"matches("hello world", "\p{ I s L a t i n }+", "x")"#, true);
+  te_bool(false, &scope!(), r#"matches("hello world", "\p{ IsLatin}+", "x")"#, true);
 }
 
 #[test]
 fn _0036() {
+  te_bool(false, &scope!(), r#"matches("hello world", "\p{IsLatin}+")"#, true);
+}
+
+#[test]
+fn _0037() {
+  te_bool(false, &scope!(), r#"matches("hello world", "\p{ I s L a t i n }+", "x")"#, true);
+}
+
+#[test]
+fn _0038() {
   te_bool(false, &scope!(), r#"matches("abracadabra", "bra", null)"#, true);
 }
 
 #[test]
 #[ignore]
-fn _0037() {
+fn _0039() {
   te_bool(false, &scope!(), r#"matches("hello world", "\p{IsBasicLatin}+")"#, true);
 }
 
 #[test]
 #[ignore]
-fn _0038() {
+fn _0040() {
   te_bool(false, &scope!(), r#"matches("hello world", "\p{ I s B a s i c L a t i n }+", "x")"#, true);
 }
 
 #[test]
 #[ignore]
-fn _0039() {
+fn _0041() {
   te_bool(false, &scope!(), r#"matches("aA", "(a)\1", "i")"#, true);
 }
