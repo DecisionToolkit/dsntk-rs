@@ -301,6 +301,14 @@ fn test_is_true() {
 }
 
 #[test]
+fn test_is_false() {
+  assert!(Value::Boolean(false).is_false());
+  assert!(!Value::Boolean(true).is_false());
+  assert!(!Value::Null(None).is_false());
+  assert!(!value_number!(10).is_false());
+}
+
+#[test]
 fn test_comparison() {
   assert_eq!(value_number!(10), value_number!(10));
   assert_ne!(value_number!(10, 0), value_number!(10, 1));
