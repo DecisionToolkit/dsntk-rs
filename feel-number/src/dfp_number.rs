@@ -267,9 +267,9 @@ impl FeelNumber {
       } else {
         self.validate_scale(scale)?;
         if bid128_is_signed(self.0) {
-          bid128_scalbn(bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!()), -scale)
+          self.unscale(bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!()), scale)
         } else {
-          bid128_scalbn(bid128_round_integral_positive(bid128_scalbn(self.0, scale), flags!()), -scale)
+          self.unscale(bid128_round_integral_positive(bid128_scalbn(self.0, scale), flags!()), scale)
         }
       },
       true,
@@ -317,6 +317,19 @@ impl FeelNumber {
       Ok(())
     } else {
       Err(err_invalid_scale(MIN_SCALE, MAX_SCALE, scale))
+    }
+  }
+
+  ///
+  fn unscale(&self, n: BID128, scale: i32) -> BID128 {
+    if bid128_is_zero(n) {
+      BID128_ZERO
+    } else if bid128_quiet_equal(n, BID128_ONE, flags!()) {
+      BID128_ONE
+    } else if bid128_quiet_equal(n, BID128_MINUS_ONE, flags!()) {
+      BID128_MINUS_ONE
+    } else {
+      bid128_scalbn(n, -scale)
     }
   }
 }
