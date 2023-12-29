@@ -185,53 +185,63 @@ fn _0031() {
 
 #[test]
 fn _0032() {
-  te_null(false, &scope!(), r#"matches("input", "pattern", [])"#, "matches");
+  te_null(
+    false,
+    &scope!(),
+    r#"matches("input", "pattern", [])"#,
+    "[core::matches] invalid argument type, expected string, actual type is list<Null>",
+  );
 }
 
 #[test]
 fn _0033() {
-  te_bool(false, &scope!(), r#"matches("hello!world", " hello[ ! ]world", "x")"#, true);
+  te_null(false, &scope!(), r#"matches("input", "pattern", "")"#, "[core::matches_3] flags can not be an empty string");
 }
 
 #[test]
 fn _0034() {
-  te_bool(false, &scope!(), r#"matches("hello world", " hello[ ]world", "x")"#, true);
+  te_bool(false, &scope!(), r#"matches("hello!world", " hello[ ! ]world", "x")"#, true);
 }
 
 #[test]
 fn _0035() {
-  te_bool(false, &scope!(), r#"matches("hello world", "\p{ IsLatin}+", "x")"#, true);
+  te_bool(false, &scope!(), r#"matches("hello world", " hello[ ]world", "x")"#, true);
 }
 
 #[test]
 fn _0036() {
-  te_bool(false, &scope!(), r#"matches("hello world", "\p{IsLatin}+")"#, true);
+  te_bool(false, &scope!(), r#"matches("hello world", "\p{ IsLatin}+", "x")"#, true);
 }
 
 #[test]
 fn _0037() {
-  te_bool(false, &scope!(), r#"matches("hello world", "\p{ I s L a t i n }+", "x")"#, true);
+  te_bool(false, &scope!(), r#"matches("hello world", "\p{IsLatin}+")"#, true);
 }
 
 #[test]
 fn _0038() {
+  te_bool(false, &scope!(), r#"matches("hello world", "\p{ I s L a t i n }+", "x")"#, true);
+}
+
+#[test]
+fn _0039() {
   te_bool(false, &scope!(), r#"matches("abracadabra", "bra", null)"#, true);
 }
 
 #[test]
 #[ignore]
-fn _0039() {
+fn _0040() {
   te_bool(false, &scope!(), r#"matches("hello world", "\p{IsBasicLatin}+")"#, true);
 }
 
 #[test]
 #[ignore]
-fn _0040() {
+fn _0041() {
   te_bool(false, &scope!(), r#"matches("hello world", "\p{ I s B a s i c L a t i n }+", "x")"#, true);
 }
 
 #[test]
 #[ignore]
-fn _0041() {
+fn _0042() {
   te_bool(false, &scope!(), r#"matches("aA", "(a)\1", "i")"#, true);
 }

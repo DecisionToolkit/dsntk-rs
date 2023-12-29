@@ -112,14 +112,12 @@ impl IterationState {
         self.index = self.start;
         false
       }
+    } else if self.index + s >= self.end {
+      self.index += s;
+      true
     } else {
-      if self.index + s >= self.end {
-        self.index += s;
-        true
-      } else {
-        self.index = self.start;
-        false
-      }
+      self.index = self.start;
+      false
     }
   }
 

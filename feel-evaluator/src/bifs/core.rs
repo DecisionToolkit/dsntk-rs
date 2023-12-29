@@ -1306,12 +1306,12 @@ pub fn matches_3(input: &Value, pattern: &Value, flags: &Value) -> Value {
   };
   // flags if present must be a string
   let Value::String(flags) = flags else {
-    return value_null!("matches"); //TODO Prepare more detailed error message.
+    return invalid_argument_type!("matches", "string", flags.type_of());
   };
   // flags must contain flags, may not be an empty string
   let flags = flags.trim();
   if flags.is_empty() {
-    return value_null!("matches"); //TODO Prepare more detailed error message.
+    return value_null!("[core::matches_3] flags can not be an empty string");
   }
   for ch in flags.chars() {
     if !matches!(ch, 'i' | 'm' | 's' | 'x') {
