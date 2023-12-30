@@ -7,8 +7,8 @@
 ![build Linux][build-badge-linux]
 ![build Windows][build-badge-windows]
 ![build MacOs][build-badge-macos]<br/>
-[![MIT licensed][mit-badge]][mit-url]
-[![Apache 2.0 licensed][apache-badge]][apache-url]
+[![MIT licensed][mit-badge]][mit-license-url]
+[![Apache 2.0 licensed][apache-badge]][apache-license-url]
 [![Contributor Covenant][cc-badge]][cc-url]
 
 [crates-badge]: https://img.shields.io/crates/v/dsntk-common.svg
@@ -18,9 +18,12 @@
 [build-badge-windows]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-windows.yml/badge.svg
 [build-badge-macos]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-macos.yml/badge.svg
 [mit-badge]: https://img.shields.io/badge/License-MIT-blue.svg
-[mit-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE-MIT
+[mit-url]: https://opensource.org/licenses/MIT
+[mit-license-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE-MIT
 [apache-badge]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-[apache-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE-APACHE
+[apache-url]: https://www.apache.org/licenses/LICENSE-2.0
+[apache-license-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE
+[apache-notice-url]: https://github.com/dsntk/dsntk-rs/blob/main/NOTICE
 [cc-badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
 [cc-url]: https://github.com/dsntk/dsntk-rs/blob/main/CODE_OF_CONDUCT.md
 
@@ -32,8 +35,8 @@ Common definitions used by other components of [DSNTK](https://github.com/dsntk)
 
 Licensed under either of
 
-- [MIT license](https://opensource.org/licenses/MIT) ([LICENSE-MIT][mit-url]) or
-- [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0) ([LICENSE-APACHE][apache-url])
+- [MIT license][mit-url] (see [LICENSE-MIT][mit-license-url]) or
+- [Apache License, Version 2.0][apache-url] (see [LICENSE][apache-license-url] and [NOTICE][apache-notice-url])
 
 at your option.
 
