@@ -68,7 +68,7 @@ to ensure high performance, reliability and portability.
 
 ## Project status
 
-**DSNTK** is PRODUCTION READY, but there are still some features that may be subject to change or refinement,
+**DSNTK** is _**production ready**_, but there are still some features that may be subject to change or refinement,
 based on testing and user feedback. We welcome users to try **DSNTK** out and provide feedback or suggestions
 to improve its usability or performance.
 
