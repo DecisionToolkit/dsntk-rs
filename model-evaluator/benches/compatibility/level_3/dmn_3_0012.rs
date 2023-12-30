@@ -91,7 +91,7 @@ fn _0010(b: &mut Bencher) {
 #[bench]
 fn _0011(b: &mut Bencher) {
   let ctx = context(r#"{ num1: 11, num2: 2, num3: 10, numList: [6, 14, -3] }"#);
-  let invocable_name = "";
+  let invocable_name = "append1";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"[6, 14, -3, 11, 2]"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
@@ -99,7 +99,7 @@ fn _0011(b: &mut Bencher) {
 #[bench]
 fn _0012(b: &mut Bencher) {
   let ctx = context(r#"{ list1: ["a", "b", "c"], list2: ["x", "y", "z"] }"#);
-  let invocable_name = "append1";
+  let invocable_name = "concatenate1";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"["a", "b", "c", "x", "y", "z"]"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
