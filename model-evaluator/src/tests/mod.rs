@@ -140,7 +140,7 @@ fn compare_the_number_of_benchmarks_with_tests() {
     let cb = *benches.get(&key).unwrap_or(&0);
     total_cb += cb;
     let marker = if ct != cb { "*" } else { "" };
-    println!("{:30} {:>12} {:>12} {}", key, ct, cb, marker);
+    println!("{:30} {:>12} {:>12} {:3} {}", key, ct, cb, marker, ct - cb);
   }
   println!("{:30} {:>12} {:>12}", "TOTAL", total_ct, total_cb);
 }
