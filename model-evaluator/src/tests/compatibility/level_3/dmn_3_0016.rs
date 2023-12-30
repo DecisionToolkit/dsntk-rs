@@ -1,8 +1,7 @@
 use super::*;
 
 from_examples!(DMN_3_0016);
-
-static_context!(CTX, r#"{}"#);
+static_context!(CTX, "{}");
 
 #[test]
 fn _0001() {

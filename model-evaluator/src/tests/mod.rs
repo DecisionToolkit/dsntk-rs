@@ -129,9 +129,9 @@ fn assert_decision_service(model_evaluator: &ModelEvaluator, model_namespace: &s
 fn compare_the_number_of_benchmarks_with_tests() {
   let tests = count_lines("src/tests/compatibility", "#[test]");
   let benches = count_lines("benches/compatibility", "#[bench]");
-  let keys_tests = tests.keys().map(|key| key.clone()).collect::<BTreeSet<String>>();
-  let keys_benches = benches.keys().map(|key| key.clone()).collect::<BTreeSet<String>>();
-  let keys: BTreeSet<String> = keys_tests.union(&keys_benches).map(|key| key.clone()).collect::<BTreeSet<String>>();
+  let keys_tests = tests.keys().cloned().collect::<BTreeSet<String>>();
+  let keys_benches = benches.keys().cloned().collect::<BTreeSet<String>>();
+  let keys: BTreeSet<String> = keys_tests.union(&keys_benches).cloned().collect::<BTreeSet<String>>();
   let mut total_ct = 0_usize;
   let mut total_cb = 0_usize;
   for key in keys {
