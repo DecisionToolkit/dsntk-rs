@@ -1,8 +1,7 @@
 use super::*;
 
 from_examples!(DMN_3_0103);
-
-static_context!(CTX, r#"{}"#);
+static_context!(CTX, "{}");
 
 #[test]
 fn _0001() {
@@ -251,12 +250,6 @@ fn _0049() {
 
 #[test]
 fn _0050() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "named_params_004",
-    &CTX,
-    r#"null(expected 2 parameters, actual number of parameters is 3)"#,
-  );
+  let expected = "null(expected 2 parameters, actual number of parameters is 3)";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "named_params_004", &CTX, expected);
 }
