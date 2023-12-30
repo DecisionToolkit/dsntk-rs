@@ -3,7 +3,10 @@ use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::Value;
 use dsntk_feel::FeelScope;
 use once_cell::sync::Lazy;
+use std::collections::{BTreeMap, BTreeSet};
+use std::fs;
 use std::sync::Arc;
+use walkdir::WalkDir;
 
 mod compatibility;
 mod various;
@@ -118,4 +121,41 @@ fn assert_decision_service(model_evaluator: &ModelEvaluator, model_namespace: &s
     expected, actual,
     "Assertion error, actual value of the decision service does not match the expected value:\n  expected: {expected}\n    actual: {actual}\n"
   );
+}
+
+/// This utility function compares the number of test cases defined in `./compatibility` directory
+/// with the actual number of benchmarks defined in `../../benches/compatibility` directory.
+#[test]
+fn compare_the_number_of_benchmarks_with_tests() {
+  let tests = count_lines("src/tests/compatibility", "#[test]");
+  let benches = count_lines("benches/compatibility", "#[bench]");
+  let keys_tests = tests.keys().map(|key| key.clone()).collect::<BTreeSet<String>>();
+  let keys_benches = benches.keys().map(|key| key.clone()).collect::<BTreeSet<String>>();
+  let keys: BTreeSet<String> = keys_tests.union(&keys_benches).map(|key| key.clone()).collect::<BTreeSet<String>>();
+  let mut total_ct = 0_usize;
+  let mut total_cb = 0_usize;
+  for key in keys {
+    let ct = *tests.get(&key).unwrap_or(&0);
+    total_ct += ct;
+    let cb = *benches.get(&key).unwrap_or(&0);
+    total_cb += cb;
+    let marker = if ct != cb { "*" } else { "" };
+    println!("{:30} {:>12} {:>12} {}", key, ct, cb, marker);
+  }
+  println!("{:30} {:>12} {:>12}", "TOTAL", total_ct, total_cb);
+}
+
+/// Counts test cases defined in test files in the specified directory.
+fn count_lines(dir: &str, pattern: &str) -> BTreeMap<String, usize> {
+  let mut results = BTreeMap::new();
+  for entry_result in WalkDir::new(dir).into_iter() {
+    let entry = entry_result.unwrap();
+    let path = entry.path();
+    if path.is_file() && path.extension().map_or(false, |ext| ext == "rs") && path.file_name().unwrap().to_string_lossy().starts_with("dmn_") {
+      let content = fs::read_to_string(path).unwrap();
+      let count = content.lines().filter(|line| line.contains(pattern)).count();
+      results.insert(path.strip_prefix(dir).unwrap().display().to_string(), count);
+    }
+  }
+  results
 }
