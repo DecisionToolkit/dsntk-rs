@@ -8,6 +8,10 @@ repository = "https://github.com/dsntk/dsntk-rs.git"
 license = { workspace = true }
 edition = { workspace = true }
 
+[features]
+default = []
+tck = ["dsntk-server/tck"]
+
 [dependencies]
 actix-web = { workspace = true }
 base64 = { workspace = true }

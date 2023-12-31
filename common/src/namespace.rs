@@ -30,13 +30,9 @@ pub fn to_rdnn(input: &str) -> Option<String> {
   let Ok(url) = Url::parse(input) else {
     return None;
   };
-  let Some(segments) = url.path_segments() else {
-    return None;
-  };
+  let segments = url.path_segments()?;
   let mut path_segments = segments.map(|s| s.trim()).filter(|s| !s.is_empty()).collect::<Vec<&str>>();
-  let Some(domain) = url.domain() else {
-    return None;
-  };
+  let domain = url.domain()?;
   let mut domain_segments = domain.split('.').collect::<Vec<&str>>();
   domain_segments.reverse();
   domain_segments.append(&mut path_segments);
