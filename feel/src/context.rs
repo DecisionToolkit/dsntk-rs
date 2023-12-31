@@ -6,7 +6,7 @@ use crate::qualified_names::QualifiedName;
 use crate::strings::ToFeelString;
 use crate::value_null;
 use crate::values::Value;
-use dsntk_common::{DsntkError, Jsonify};
+use dsntk_common::{DsntkError, Jsonify, Result};
 use std::collections::btree_map::Iter;
 use std::collections::BTreeMap;
 use std::convert::TryFrom;
@@ -31,11 +31,10 @@ impl TryFrom<Value> for FeelContext {
   type Error = DsntkError;
   /// Converts [Value] to [FeelContext].
   fn try_from(value: Value) -> Result<Self, Self::Error> {
-    if let Value::Context(ctx) = value {
-      Ok(ctx)
-    } else {
-      Err(err_value_is_not_a_context(&value))
-    }
+    let Value::Context(ctx) = value else {
+      return Err(err_value_is_not_a_context(&value));
+    };
+    Ok(ctx)
   }
 }
 
@@ -52,7 +51,12 @@ impl fmt::Display for FeelContext {
     write!(
       f,
       "{{{}}}",
-      self.0.iter().map(|(name, value)| { format!(r#"{name}: {value}"#) }).collect::<Vec<String>>().join(", ")
+      self
+        .0
+        .iter()
+        .map(|(name, value)| { format!("{}: {}", if name.is_empty() { r#""""#.to_string() } else { name.to_string() }, value) })
+        .collect::<Vec<String>>()
+        .join(", ")
     )
   }
 }
@@ -96,6 +100,11 @@ impl Jsonify for FeelContext {
 }
 
 impl FeelContext {
+  /// Creates a new, empty context.
+  pub fn new() -> Self {
+    Self::default()
+  }
+
   /// Returns `true` if context contains an entry specified by **name**.
   pub fn contains_entry(&self, name: &Name) -> bool {
     self.0.contains_key(name)
@@ -209,29 +218,57 @@ impl FeelContext {
 
   /// Creates entries with intermediary contexts when needed.
   pub fn create_entries(&mut self, names: &[Name], value: Value) {
-    // if there are no names, then return
+    // if there are no entry names provided, then fo nothing
     if names.is_empty() {
       return;
     }
     let key = names[0].clone();
     let tail = &names[1..];
-    // if tail is empty, then insert the value under
-    // specified key in current context and return
+    // if tail is empty, then insert the value under the key in current context and return
     if tail.is_empty() {
       self.0.insert(key, value);
       return;
     }
-    // if there is a context under the specified key,
-    // then insert value to this context and return
-    if let Some(Value::Context(sub_ctx)) = self.0.get_mut(&key) {
-      sub_ctx.create_entries(tail, value);
+    // if there is a context under the key, then insert value to this context and return
+    if let Some(Value::Context(ctx)) = self.0.get_mut(&key) {
+      ctx.create_entries(tail, value);
       return;
     }
-    // finally, when got to this point, insert a value
-    // to newly created context
-    let mut sub_ctx = FeelContext::default();
-    sub_ctx.create_entries(tail, value);
-    self.0.insert(key, sub_ctx.into());
+    // insert a value from tail to newly created context
+    let mut ctx = FeelContext::default();
+    ctx.create_entries(tail, value);
+    self.0.insert(key, ctx.into());
+  }
+
+  /// ???
+  pub fn apply_entries(&mut self, names: &[Name], value: Value) -> Result<()> {
+    // if there are no entry names provided, then do nothing
+    if names.is_empty() {
+      return Ok(());
+    }
+    let key = names[0].clone();
+    let tail = &names[1..];
+    // if tail is empty, then insert the value under the key in current context and return
+    if tail.is_empty() {
+      self.0.insert(key, value);
+      return Ok(());
+    }
+    // if there is a context under the key, then insert value to this context and return
+    match self.0.get_mut(&key) {
+      Some(Value::Context(ctx)) => {
+        ctx.apply_entries(tail, value)?;
+        return Ok(());
+      }
+      Some(other) => {
+        return Err(err_value_is_not_a_context(other));
+      }
+      _ => {}
+    }
+    // insert a value from tail to new created context
+    let mut ctx = FeelContext::default();
+    ctx.apply_entries(tail, value)?;
+    self.0.insert(key, ctx.into());
+    Ok(())
   }
 
   /// Deep search for a value pointed by names.

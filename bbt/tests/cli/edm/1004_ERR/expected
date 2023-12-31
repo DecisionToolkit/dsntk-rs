@@ -1,1 +1,1 @@
-parsing model failed with reason: <ModelParserError> parsing model from XML failed with reason: invalid attribute at 9:17 cause expected space not '$' at 9:17
+parsing model failed with reason: <ModelParserError> parsing model from XML failed with reason: expected a whitespace not '$' at 9:17

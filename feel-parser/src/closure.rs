@@ -83,7 +83,7 @@ impl ClosureBuilder {
       AstNode::IntervalStart(lhs, _) => self.visit_1(lhs, path_level),
       AstNode::Irrelevant => self.visit_0(path_level),
       AstNode::IterationContexts(lhs) => self.visit_list(lhs, path_level),
-      AstNode::IterationContextSingle(lhs, rhs) => self.visit_2(lhs, rhs, path_level),
+      AstNode::IterationContextList(lhs, rhs) => self.visit_2(lhs, rhs, path_level),
       AstNode::IterationContextRange(lhs, mhs, rhs) => self.visit_3(lhs, mhs, rhs, path_level),
       AstNode::Le(lhs, rhs) => self.visit_2(lhs, rhs, path_level),
       AstNode::List(lhs) => self.visit_list(lhs, path_level),

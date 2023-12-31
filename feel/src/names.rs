@@ -28,6 +28,13 @@ impl From<String> for Name {
   }
 }
 
+impl From<&String> for Name {
+  /// Converts a reference to [String] into [Name].
+  fn from(value: &String) -> Self {
+    Self(value.trim().to_string())
+  }
+}
+
 impl From<&str> for Name {
   /// Converts a reference to [str] into [Name].
   fn from(value: &str) -> Self {
@@ -78,5 +85,10 @@ impl Name {
       prev = current;
     }
     Self(result)
+  }
+
+  /// Returns `true` when this name is empty.
+  pub fn is_empty(&self) -> bool {
+    self.0.is_empty()
   }
 }

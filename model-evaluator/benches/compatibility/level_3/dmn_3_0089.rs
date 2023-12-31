@@ -21,7 +21,7 @@ fn _0001(b: &mut Bencher) {
   let ctx = context(r#" { Person name: "Jenny" } "#);
   let invocable_name = "Greet the Person";
   assert_decision(&MODEL_EVALUATOR_A, NAMESPACE_A, MODEL_NAME_A, invocable_name, &ctx, r#""Hello, Jenny""#);
-  b.iter(|| MODEL_EVALUATOR_A.evaluate_invocable(NAMESPACE_A, MODEL_NAME_A, invocable_name, &ctx));
+  iter!(b, MODEL_EVALUATOR_A.evaluate_invocable(NAMESPACE_A, MODEL_NAME_A, invocable_name, &ctx));
 }
 
 #[bench]
@@ -36,7 +36,7 @@ fn _0002(b: &mut Bencher) {
     &ctx,
     r#""Evaluating Say Hello to: Hello, John""#,
   );
-  b.iter(|| MODEL_EVALUATOR_B1.evaluate_invocable(NAMESPACE_B1, MODEL_NAME_B1, invocable_name, &ctx));
+  iter!(b, MODEL_EVALUATOR_B1.evaluate_invocable(NAMESPACE_B1, MODEL_NAME_B1, invocable_name, &ctx));
 }
 
 #[bench]
@@ -51,7 +51,7 @@ fn _0003(b: &mut Bencher) {
     &ctx,
     r#""Evaluating Say Hello to: Hello, Peter""#,
   );
-  b.iter(|| MODEL_EVALUATOR_B2.evaluate_invocable(NAMESPACE_B2, MODEL_NAME_B2, invocable_name, &ctx));
+  iter!(b, MODEL_EVALUATOR_B2.evaluate_invocable(NAMESPACE_B2, MODEL_NAME_B2, invocable_name, &ctx));
 }
 
 #[bench]
@@ -71,5 +71,5 @@ fn _0004(b: &mut Bencher) {
     &ctx,
     r#""B1: Evaluating Say Hello to: Hello, Bob; B2: Evaluating Say Hello to: Hello, John""#,
   );
-  b.iter(|| MODEL_EVALUATOR_C.evaluate_invocable(NAMESPACE_C, MODEL_NAME_C, invocable_name, &ctx));
+  iter!(b, MODEL_EVALUATOR_C.evaluate_invocable(NAMESPACE_C, MODEL_NAME_C, invocable_name, &ctx));
 }

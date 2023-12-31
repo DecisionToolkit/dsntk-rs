@@ -2,7 +2,8 @@
 
 use crate::defs::*;
 use crate::horizontal_decision_table::create_horizontal_decision_table_elements;
-use domrs::*;
+use crate::styles::{create_decision_table_style, create_document_style, create_model_style};
+use domrs::{h1, HtmlBodyElement, HtmlDocument, HtmlElement, HtmlHeadElement, HtmlStyleElement};
 use dsntk_model::*;
 use std::collections::HashMap;
 use std::fmt::Write;
@@ -171,27 +172,42 @@ impl HTMLGenerator {
       }
     }
     // prepare the document body
-    let mut body = HtmlElement::new("body");
+    let mut body = HtmlBodyElement::default();
     // add section with model title
     let document_title = definitions.name();
-    body.add_child(create_html_heading(HeadingLevel::H1, document_title));
-    body.add_child_opt(create_description_in_container(definitions.description()));
+    body.add_child(h1!(document_title));
+    body.add_child(create_description_in_container(definitions.description()));
     // add model diagrams
-    body.add_child(create_html_heading(HeadingLevel::H2, HEADING_MODEL_DIAGRAMS));
+    body.add_child(HtmlElement::h2(HEADING_MODEL_DIAGRAMS));
     for html_element in self.create_model_diagrams(definitions) {
       body.add_child(html_element);
     }
     // add model elements
-    body.add_child(create_html_heading(HeadingLevel::H2, HEADING_MODEL_ELEMENTS));
+    body.add_child(HtmlElement::h2(HEADING_MODEL_ELEMENTS));
     for html_element in create_model_elements(definitions) {
       body.add_child(html_element);
     }
-    HtmlDocument::new(document_title, "en", &[DMN_MODEL_CSS, DECISION_TABLE_CSS], body).to_string()
+    //HtmlDocument::new(document_title, "en", &[DMN_MODEL_CSS, DECISION_TABLE_CSS], body).to_string()
+    HtmlDocument::default()
+      .default_doctype()
+      .default_language()
+      .default_namespace()
+      .head(
+        HtmlHeadElement::default()
+          .default_charset()
+          .title(document_title)
+          .stylesheet(FONT_NORMAL)
+          .stylesheet(FONT_CONDENSED)
+          .stylesheet(FONT_MONO)
+          .style(HtmlStyleElement::new(create_document_style() + create_model_style())),
+      )
+      .body(body)
+      .to_string()
   }
 
   /// Generates HTML document for specified decision table.
   pub fn decision_table_to_html(&self, decision_table: &DecisionTable) -> String {
-    let mut body = HtmlElement::new("body");
+    let mut body = HtmlBodyElement::default();
     // add title
     let document_title = if let Some(information_item_name) = &decision_table.information_item_name() {
       information_item_name
@@ -200,7 +216,7 @@ impl HTMLGenerator {
     } else {
       "Decision Table"
     };
-    body.add_child(create_html_heading(HeadingLevel::H1, document_title));
+    body.add_child(HtmlElement::h1(document_title));
     // add decision table
     match &decision_table.preferred_orientation() {
       DecisionTableOrientation::RuleAsRow => {
@@ -213,7 +229,21 @@ impl HTMLGenerator {
         //TODO implement
       }
     }
-    HtmlDocument::new(document_title, "en", &[DMN_MODEL_CSS, DECISION_TABLE_CSS], body).to_string()
+    HtmlDocument::default()
+      .default_doctype()
+      .default_language()
+      .default_namespace()
+      .head(
+        HtmlHeadElement::default()
+          .default_charset()
+          .title(document_title)
+          .stylesheet(FONT_NORMAL)
+          .stylesheet(FONT_CONDENSED)
+          .stylesheet(FONT_MONO)
+          .style(HtmlStyleElement::new(create_document_style() + create_decision_table_style())),
+      )
+      .body(body)
+      .to_string()
   }
 
   /// Creates a collection of model diagrams.
@@ -276,12 +306,12 @@ impl HTMLGenerator {
   fn create_svg_decision(&self, mut style: Style, shape: &DmnShape, decision: &Decision) -> HtmlElement {
     self.apply_shape_style(&mut style, shape);
     let mut rect = HtmlElement::new("rect");
-    rect.set_attr("x", shape.bounds.x.to_string());
-    rect.set_attr("y", shape.bounds.y);
-    rect.set_attr("width", shape.bounds.width);
-    rect.set_attr("height", shape.bounds.height);
-    rect.set_attr("style", style.svg_figure_style());
-    let text = create_svg_text(&shape.bounds, &style, get_label_text(shape, decision.name()));
+    rect.set_attribute("x", shape.bounds.x.to_string());
+    rect.set_attribute("y", shape.bounds.y);
+    rect.set_attribute("width", shape.bounds.width);
+    rect.set_attribute("height", shape.bounds.height);
+    rect.set_attribute("style", style.svg_figure_style());
+    let text = create_svg_text(&shape.bounds, &style, &get_label_text(shape, decision.name()));
     create_svg_group(vec![rect, text])
   }
 
@@ -290,14 +320,14 @@ impl HTMLGenerator {
     self.apply_shape_style(&mut style, shape);
     let radius = shape.bounds.height / 2.0;
     let mut rect = HtmlElement::new("rect");
-    rect.set_attr("x", shape.bounds.x);
-    rect.set_attr("y", shape.bounds.y);
-    rect.set_attr("width", shape.bounds.width);
-    rect.set_attr("height", shape.bounds.height);
-    rect.set_attr("rx", radius);
-    rect.set_attr("ry", radius);
-    rect.set_attr("style", style.svg_figure_style());
-    let text = create_svg_text(&shape.bounds, &style, get_label_text(shape, input_data.name()));
+    rect.set_attribute("x", shape.bounds.x);
+    rect.set_attribute("y", shape.bounds.y);
+    rect.set_attribute("width", shape.bounds.width);
+    rect.set_attribute("height", shape.bounds.height);
+    rect.set_attribute("rx", radius);
+    rect.set_attribute("ry", radius);
+    rect.set_attribute("style", style.svg_figure_style());
+    let text = create_svg_text(&shape.bounds, &style, &get_label_text(shape, input_data.name()));
     create_svg_group(vec![rect, text])
   }
 
@@ -321,9 +351,9 @@ impl HTMLGenerator {
       y + h
     );
     let mut polygon = HtmlElement::new("polygon");
-    polygon.set_attr("points", points);
-    polygon.set_attr("style", style.svg_figure_style());
-    let text = create_svg_text(&shape.bounds, &style, get_label_text(shape, bkm.name()));
+    polygon.set_attribute("points", points);
+    polygon.set_attribute("style", style.svg_figure_style());
+    let text = create_svg_text(&shape.bounds, &style, &get_label_text(shape, bkm.name()));
     create_svg_group(vec![polygon, text])
   }
 
@@ -331,13 +361,13 @@ impl HTMLGenerator {
   fn create_svg_knowledge_source(&self, mut style: Style, shape: &DmnShape, knowledge_source: &KnowledgeSource) -> HtmlElement {
     self.apply_shape_style(&mut style, shape);
     let mut path = HtmlElement::new("path");
-    path.set_attr("d", build_knowledge_source_path(&shape.bounds));
-    path.set_attr("style", style.svg_figure_style());
+    path.set_attribute("d", build_knowledge_source_path(&shape.bounds));
+    path.set_attribute("style", style.svg_figure_style());
     let bounds = DcBounds {
       height: shape.bounds.height - (AMPLITUDE / 2.0) - 5.0,
       ..shape.bounds
     };
-    let svg_text = create_svg_text(&bounds, &style, get_label_text(shape, knowledge_source.name()));
+    let svg_text = create_svg_text(&bounds, &style, &get_label_text(shape, knowledge_source.name()));
     create_svg_group(vec![path, svg_text])
   }
 
@@ -377,161 +407,186 @@ fn create_model_elements(definitions: &Definitions) -> Vec<HtmlElement> {
 
 /// Creates model element containing decision service details.
 fn create_model_element_decision_service(decision_service: &DecisionService) -> HtmlElement {
-  let mut element_name = HtmlElement::new_div(CLASS_MODEL_ELEMENT_NAME);
+  let mut element_name = HtmlElement::div().class(CLASS_MODEL_ELEMENT_NAME);
   element_name.set_content(decision_service.name());
-  let mut element_type = HtmlElement::new_div(CLASS_MODEL_ELEMENT_TYPE);
+  let mut element_type = HtmlElement::div().class(CLASS_MODEL_ELEMENT_TYPE);
   element_type.set_content("(Decision Service)");
   let variable_details = create_variable_details(decision_service.variable(), HEADING_OUTPUT_DATA);
   //
-  let mut model_element_container = HtmlElement::new_div(CLASS_MODEL_ELEMENT_CONTAINER);
-  model_element_container.add_children(vec![element_name, element_type, variable_details]);
+  let mut model_element_container = HtmlElement::div().class(CLASS_MODEL_ELEMENT_CONTAINER);
+  model_element_container.add_children(&[element_name, element_type, variable_details]);
   model_element_container
 }
 
 /// Creates model element containing decision details.
 fn create_model_element_decision(decision: &Decision) -> HtmlElement {
   // prepare the container for the details
-  let mut model_element_container = HtmlElement::new_div(CLASS_MODEL_ELEMENT_CONTAINER);
+  let mut model_element_container = HtmlElement::div().class(CLASS_MODEL_ELEMENT_CONTAINER);
   // prepare the name of the element
-  let mut element_name = HtmlElement::new_div(CLASS_MODEL_ELEMENT_NAME);
+  let mut element_name = HtmlElement::div().class(CLASS_MODEL_ELEMENT_NAME);
   element_name.set_content(decision.name());
   model_element_container.add_child(element_name);
   // prepare the type of the element
-  let mut element_type = HtmlElement::new_div(CLASS_MODEL_ELEMENT_TYPE);
+  let mut element_type = HtmlElement::div().class(CLASS_MODEL_ELEMENT_TYPE);
   element_type.set_content("(Decision)");
   model_element_container.add_child(element_type);
   // prepare description for the decision when provided
-  model_element_container.add_child_opt(create_description_in_container(decision.description()));
+  model_element_container.add_child(create_description_in_container(decision.description()));
   // prepare output variable details
   let variable_details = create_variable_details(decision.variable(), HEADING_OUTPUT_DATA);
   model_element_container.add_child(variable_details);
   // prepare the decision logic details
-  model_element_container.add_child_opt(create_model_expression_instance(decision.decision_logic()));
+  model_element_container.add_opt_child(create_model_expression_instance(decision.decision_logic()));
   // return the container with filled up content
   model_element_container
 }
 
 /// Creates model element containing business knowledge model details.
 fn create_model_element_business_knowledge_model(bkm: &BusinessKnowledgeModel) -> HtmlElement {
-  let mut element_name = HtmlElement::new_div(CLASS_MODEL_ELEMENT_NAME);
+  let mut element_name = HtmlElement::div().class(CLASS_MODEL_ELEMENT_NAME);
   element_name.set_content(bkm.name());
-  let mut element_type = HtmlElement::new_div(CLASS_MODEL_ELEMENT_TYPE);
+  let mut element_type = HtmlElement::div().class(CLASS_MODEL_ELEMENT_TYPE);
   element_type.set_content("(Business Knowledge Model)");
   let variable_details = create_variable_details(bkm.variable(), HEADING_OUTPUT_DATA);
   //
-  let mut model_element_container = HtmlElement::new_div(CLASS_MODEL_ELEMENT_CONTAINER);
-  model_element_container.add_children(vec![element_name, element_type, variable_details]);
+  let mut model_element_container = HtmlElement::div().class(CLASS_MODEL_ELEMENT_CONTAINER);
+  model_element_container.add_children(&[element_name, element_type, variable_details]);
   model_element_container
 }
 
 /// Creates model element containing knowledge source details.
 fn create_model_element_knowledge_source(knowledge_source: &KnowledgeSource) -> HtmlElement {
-  let mut element_name = HtmlElement::new_div(CLASS_MODEL_ELEMENT_NAME);
+  let mut element_name = HtmlElement::div().class(CLASS_MODEL_ELEMENT_NAME);
   element_name.set_content(knowledge_source.name());
-  let mut element_type = HtmlElement::new_div(CLASS_MODEL_ELEMENT_TYPE);
+  let mut element_type = HtmlElement::div().class(CLASS_MODEL_ELEMENT_TYPE);
   element_type.set_content("(Knowledge Source)");
-  let mut model_element_container = HtmlElement::new_div(CLASS_MODEL_ELEMENT_CONTAINER);
-  model_element_container.add_children(vec![element_name, element_type]);
+  let mut model_element_container = HtmlElement::div().class(CLASS_MODEL_ELEMENT_CONTAINER);
+  model_element_container.add_children(&[element_name, element_type]);
   model_element_container
 }
 
 /// Creates model element containing input data details.
 fn create_model_element_input_data(input_data: &InputData) -> HtmlElement {
-  let mut element_name = HtmlElement::new_div(CLASS_MODEL_ELEMENT_NAME);
+  let mut element_name = HtmlElement::div().class(CLASS_MODEL_ELEMENT_NAME);
   element_name.set_content(input_data.name());
-  let mut element_type = HtmlElement::new_div(CLASS_MODEL_ELEMENT_TYPE);
+  let mut element_type = HtmlElement::div().class(CLASS_MODEL_ELEMENT_TYPE);
   element_type.set_content("(Input Data)");
   let variable_details = create_variable_details(input_data.variable(), HEADING_INPUT_DATA);
   //
-  let mut model_element_container = HtmlElement::new_div(CLASS_MODEL_ELEMENT_CONTAINER);
-  model_element_container.add_children(vec![element_name, element_type, variable_details]);
+  let mut model_element_container = HtmlElement::div().class(CLASS_MODEL_ELEMENT_CONTAINER);
+  model_element_container.add_children(&[element_name, element_type, variable_details]);
   model_element_container
 }
 
 /// Creates element containing input/output variable details.
 fn create_variable_details(variable: &InformationItem, heading: &str) -> HtmlElement {
-  let mut variable_details_heading = HtmlElement::new_div(Some("variable-details-heading"));
+  let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
   variable_details_heading.set_content(heading);
 
-  let mut variable_details_properties = HtmlElement::new_div(Some("variable-details-properties"));
+  let mut variable_details_properties = HtmlElement::div().class("variable-details-properties");
 
   if let Some(label) = variable.label() {
-    let mut property_label = HtmlElement::new_div(Some("variable-details-property-name"));
+    let mut property_label = HtmlElement::div().class("variable-details-property-name");
     property_label.set_content("Label");
-    let mut value_label = HtmlElement::new_div(Some("variable-details-property-value"));
+    let mut value_label = HtmlElement::div().class("variable-details-property-value");
     value_label.set_content(label);
-    variable_details_properties.add_children(vec![property_label, value_label]);
+    variable_details_properties.add_children(&[property_label, value_label]);
   }
 
-  let mut property_name = HtmlElement::new_div(Some("variable-details-property-name"));
+  let mut property_name = HtmlElement::div().class("variable-details-property-name");
   property_name.set_content("Name");
-  let mut value_name = HtmlElement::new_div(Some("variable-details-property-value"));
+  let mut value_name = HtmlElement::div().class("variable-details-property-value");
   value_name.set_content(variable.name());
-  variable_details_properties.add_children(vec![property_name, value_name]);
+  variable_details_properties.add_children(&[property_name, value_name]);
 
   if variable.description().is_some() {
-    let mut property_description = HtmlElement::new_div(Some("variable-details-property-name"));
+    let mut property_description = HtmlElement::div().class("variable-details-property-name");
     property_description.set_content("Description");
-    let mut value_description = HtmlElement::new_div(Some("variable-details-property-value"));
-    value_description.add_child_opt(create_description(variable.description()));
-    variable_details_properties.add_children(vec![property_description, value_description]);
+    let mut value_description = HtmlElement::div().class("variable-details-property-value");
+    value_description.add_child(create_description(variable.description()));
+    variable_details_properties.add_children(&[property_description, value_description]);
   }
 
-  let mut property_type = HtmlElement::new_div(Some("variable-details-property-name"));
+  let mut property_type = HtmlElement::div().class("variable-details-property-name");
   property_type.set_content("Type");
-  let mut value_type = HtmlElement::new_div(Some("variable-details-property-value-type"));
+  let mut value_type = HtmlElement::div().class("variable-details-property-value-type");
   value_type.set_content(variable.type_ref());
-  variable_details_properties.add_children(vec![property_type, value_type]);
+  variable_details_properties.add_children(&[property_type, value_type]);
 
-  let mut variable_details = HtmlElement::new_div(Some("variable-details-container"));
-  variable_details.add_children(vec![variable_details_heading, variable_details_properties]);
+  let mut variable_details = HtmlElement::div().class("variable-details-container");
+  variable_details.add_children(&[variable_details_heading, variable_details_properties]);
   variable_details
 }
 
 /// Creates element containing expression instance details.
 fn create_model_expression_instance(opt_expression_instance: &Option<ExpressionInstance>) -> Option<HtmlElement> {
   if let Some(expression_instance) = opt_expression_instance {
-    let mut container = HtmlElement::new_div(CLASS_EXPRESSION_INSTANCE_CONTAINER);
+    let mut container = HtmlElement::div().class(CLASS_EXPRESSION_INSTANCE_CONTAINER);
     match expression_instance {
       ExpressionInstance::Context(_) => {
-        let mut variable_details_heading = HtmlElement::new_div(Some("variable-details-heading"));
+        let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
         variable_details_heading.set_content("Decision Logic (Context)");
         container.add_child(variable_details_heading);
       }
       ExpressionInstance::DecisionTable(decision_table) => {
-        let mut variable_details_heading = HtmlElement::new_div(Some("variable-details-heading"));
+        let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
         variable_details_heading.set_content("Decision Logic (Decision Table)");
         container.add_child(variable_details_heading);
         container.add_child(create_horizontal_decision_table_elements(decision_table));
       }
       ExpressionInstance::FunctionDefinition(_) => {
-        let mut variable_details_heading = HtmlElement::new_div(Some("variable-details-heading"));
+        let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
         variable_details_heading.set_content("Decision Logic (Function Definition)");
         container.add_child(variable_details_heading);
       }
       ExpressionInstance::Invocation(_) => {
-        let mut variable_details_heading = HtmlElement::new_div(Some("variable-details-heading"));
+        let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
         variable_details_heading.set_content("Decision Logic (Invocation)");
         container.add_child(variable_details_heading);
       }
       ExpressionInstance::List(_) => {
-        let mut variable_details_heading = HtmlElement::new_div(Some("variable-details-heading"));
+        let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
         variable_details_heading.set_content("Decision Logic (List)");
         container.add_child(variable_details_heading);
       }
       ExpressionInstance::LiteralExpression(literal_expression) => {
-        let mut variable_details_heading = HtmlElement::new_div(Some("variable-details-heading"));
+        let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
         variable_details_heading.set_content("Decision Logic (Literal Expression)");
         container.add_child(variable_details_heading);
-        let mut element_literal_expression = HtmlElement::new_div(Some("literal-expression"));
+        let mut element_literal_expression = HtmlElement::div().class("literal-expression");
         let no_literal_expression = "(no literal expression specified)".to_string();
         let text = literal_expression.text().as_ref().unwrap_or(&no_literal_expression);
         element_literal_expression.set_content(text);
         container.add_child(element_literal_expression);
       }
       ExpressionInstance::Relation(_) => {
-        let mut variable_details_heading = HtmlElement::new_div(Some("variable-details-heading"));
+        let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
         variable_details_heading.set_content("Decision Logic (Relation)");
+        container.add_child(variable_details_heading);
+      }
+      ExpressionInstance::Conditional(_) => {
+        let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
+        variable_details_heading.set_content("Decision Logic (Conditional)");
+        container.add_child(variable_details_heading);
+      }
+      ExpressionInstance::Filter(_) => {
+        let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
+        variable_details_heading.set_content("Decision Logic (Filter)");
+        container.add_child(variable_details_heading);
+      }
+      ExpressionInstance::For(_) => {
+        let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
+        variable_details_heading.set_content("Decision Logic (For)");
+        container.add_child(variable_details_heading);
+      }
+      ExpressionInstance::Every(_) => {
+        let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
+        variable_details_heading.set_content("Decision Logic (Every)");
+        container.add_child(variable_details_heading);
+      }
+      ExpressionInstance::Some(_) => {
+        let mut variable_details_heading = HtmlElement::div().class("variable-details-heading");
+        variable_details_heading.set_content("Decision Logic (Some)");
         container.add_child(variable_details_heading);
       }
     }
@@ -541,23 +596,17 @@ fn create_model_expression_instance(opt_expression_instance: &Option<ExpressionI
 }
 
 /// Creates a description element enclosed in description container.
-fn create_description_in_container(optional_description: &Option<String>) -> Option<HtmlElement> {
-  if let Some(description_element) = create_description(optional_description) {
-    let mut html_element = HtmlElement::new_div(CLASS_DESCRIPTION_CONTAINER);
-    html_element.add_child(description_element);
-    return Some(html_element);
-  }
-  None
+fn create_description_in_container(optional_description: &Option<String>) -> HtmlElement {
+  HtmlElement::div().class(CLASS_DESCRIPTION_CONTAINER).child(create_description(optional_description))
 }
 
 /// Creates a description element.
-fn create_description(optional_description: &Option<String>) -> Option<HtmlElement> {
+fn create_description(optional_description: &Option<String>) -> HtmlElement {
   if let Some(description) = optional_description {
-    let mut html_element = HtmlElement::new_div(CLASS_DESCRIPTION);
-    html_element.set_content(&from_markdown(description));
-    return Some(html_element);
+    HtmlElement::div().class(CLASS_DESCRIPTION).content(&from_markdown(description))
+  } else {
+    HtmlElement::span()
   }
-  None
 }
 
 /// Creates SVG solid edge line with black-filled arrow at the end.  
@@ -565,8 +614,8 @@ fn create_svg_edge_solid_with_black_arrow(way_points: &[DcPoint]) -> HtmlElement
   // prepare line
   let points = way_points.iter().fold("".to_string(), |acc, w| format!("{}{},{} ", acc, w.x, w.y));
   let mut svg_edge = HtmlElement::new("polyline");
-  svg_edge.set_attr("points", points);
-  svg_edge.set_attr("stroke", "black");
+  svg_edge.set_attribute("points", points);
+  svg_edge.set_attribute("stroke", "black");
   // prepare arrow
   let start_point = &way_points[way_points.len() - 2];
   let end_point = &way_points[way_points.len() - 1];
@@ -582,10 +631,10 @@ fn create_svg_edge_solid_with_black_arrow(way_points: &[DcPoint]) -> HtmlElement
   let angle = get_angle(start_point, end_point);
   let rotate = format!("rotate({},{},{})", angle, end_point.x, end_point.y);
   let mut svg_arrow = HtmlElement::new("polygon");
-  svg_arrow.set_attr("points", points);
-  svg_arrow.set_attr("transform", rotate);
-  svg_arrow.set_attr("fill", "black");
-  svg_arrow.set_attr("stroke", "none");
+  svg_arrow.set_attribute("points", points);
+  svg_arrow.set_attribute("transform", rotate);
+  svg_arrow.set_attribute("fill", "black");
+  svg_arrow.set_attribute("stroke", "none");
   // return a group of arrow elements
   create_svg_group(vec![svg_edge, svg_arrow])
 }
@@ -595,8 +644,8 @@ fn create_svg_edge_dashed_with_thin_arrow(way_points: &[DcPoint]) -> HtmlElement
   // prepare line
   let points = way_points.iter().fold("".to_string(), |acc, w| format!("{}{},{} ", acc, w.x, w.y));
   let mut svg_edge = HtmlElement::new("polyline");
-  svg_edge.set_attr("points", points);
-  svg_edge.set_attr("stroke-dasharray", "5 3");
+  svg_edge.set_attribute("points", points);
+  svg_edge.set_attribute("stroke-dasharray", "5 3");
   // prepare arrow
   let start_point = &way_points[way_points.len() - 2];
   let end_point = &way_points[way_points.len() - 1];
@@ -607,10 +656,10 @@ fn create_svg_edge_dashed_with_thin_arrow(way_points: &[DcPoint]) -> HtmlElement
   let angle = get_angle(start_point, end_point);
   let rotate = format!("rotate({},{},{})", angle, end_point.x, end_point.y);
   let mut svg_arrow = HtmlElement::new("path");
-  svg_arrow.set_attr("d", path);
-  svg_arrow.set_attr("transform", rotate);
-  svg_arrow.set_attr("fill", "none");
-  svg_arrow.set_attr("stroke", "black");
+  svg_arrow.set_attribute("d", path);
+  svg_arrow.set_attribute("transform", rotate);
+  svg_arrow.set_attribute("fill", "none");
+  svg_arrow.set_attribute("stroke", "black");
   // return a group of arrow elements
   create_svg_group(vec![svg_edge, svg_arrow])
 }
@@ -620,16 +669,16 @@ fn create_svg_edge_dashed_with_end_point(way_points: &[DcPoint]) -> HtmlElement 
   // prepare line
   let points = way_points.iter().fold("".to_string(), |acc, w| format!("{}{},{} ", acc, w.x, w.y));
   let mut svg_edge = HtmlElement::new("polyline");
-  svg_edge.set_attr("points", points);
-  svg_edge.set_attr("stroke-dasharray", "5 3");
+  svg_edge.set_attribute("points", points);
+  svg_edge.set_attribute("stroke-dasharray", "5 3");
   // prepare arrow (ending point)
   let end_point = &way_points[way_points.len() - 1];
   let mut svg_arrow = HtmlElement::new("circle");
-  svg_arrow.set_attr("cx", end_point.x);
-  svg_arrow.set_attr("cy", end_point.y);
-  svg_arrow.set_attr("r", "4");
-  svg_arrow.set_attr("fill", "black");
-  svg_arrow.set_attr("stroke", "none");
+  svg_arrow.set_attribute("cx", end_point.x);
+  svg_arrow.set_attribute("cy", end_point.y);
+  svg_arrow.set_attribute("r", "4");
+  svg_arrow.set_attribute("fill", "black");
+  svg_arrow.set_attribute("stroke", "none");
   // return a group of arrow elements
   create_svg_group(vec![svg_edge, svg_arrow])
 }
@@ -648,21 +697,21 @@ fn create_svg_edge_dashed_with_end_point(way_points: &[DcPoint]) -> HtmlElement 
 /// The `div` and `span` elements have such styles set, that the content is displayed as a table cell.
 /// Text in a table cell is centered horizontally and aligned vertically in the middle.
 ///
-fn create_svg_text(bounds: &DcBounds, style: &Style, text: String) -> HtmlElement {
+fn create_svg_text(bounds: &DcBounds, style: &Style, text: &str) -> HtmlElement {
   // create span with content
   let mut span = HtmlElement::new("span");
-  span.set_content(&text);
-  span.set_attr("style", format!("display:table-cell;{}", style.svg_text_span_style()));
+  span.set_content(text);
+  span.set_attribute("style", format!("display:table-cell;{}", style.svg_text_span_style()));
   // create div for above created span
   let mut div = HtmlElement::new("div");
-  div.set_attr("style", format!("display:table;height:100%;width:100%;{}color:blue;", style.svg_text_div_style()));
+  div.set_attribute("style", format!("display:table;height:100%;width:100%;{}color:blue;", style.svg_text_div_style()));
   div.add_child(span);
   // create foreignObject
   let mut foreign_object = HtmlElement::new("foreignObject");
-  foreign_object.set_attr("x", bounds.x + 4.0);
-  foreign_object.set_attr("y", bounds.y);
-  foreign_object.set_attr("width", bounds.width - 8.0);
-  foreign_object.set_attr("height", bounds.height - 2.0);
+  foreign_object.set_attribute("x", bounds.x + 4.0);
+  foreign_object.set_attribute("y", bounds.y);
+  foreign_object.set_attribute("width", bounds.width - 8.0);
+  foreign_object.set_attribute("height", bounds.height - 2.0);
   foreign_object.add_child(div);
   foreign_object
 }
@@ -737,15 +786,15 @@ pub fn create_svg_tag(title: &str, dimension: &Option<DcDimension>, elements: Ve
   if let Some(size) = dimension {
     let width = size.width.ceil();
     let height = size.height.ceil();
-    svg.set_attr("viewBox", format!("0 0 {width} {height}"));
-    svg.set_attr("width", width.to_string());
+    svg.set_attribute("viewBox", &format!("0 0 {width} {height}"));
+    svg.set_attribute("width", &format!("{}", width));
   }
   for element in elements {
     svg.add_child(element);
   }
-  let mut diagram_title = HtmlElement::new_div(CLASS_DIAGRAM_TITLE);
+  let mut diagram_title = HtmlElement::div().class(CLASS_DIAGRAM_TITLE);
   diagram_title.set_content(title);
-  let mut diagram_container = HtmlElement::new_div(CLASS_DIAGRAM_CONTAINER);
+  let mut diagram_container = HtmlElement::div().class(CLASS_DIAGRAM_CONTAINER);
   diagram_container.add_child(diagram_title);
   diagram_container.add_child(svg);
   diagram_container
@@ -760,21 +809,6 @@ fn create_svg_group(elements: Vec<HtmlElement>) -> HtmlElement {
   group
 }
 
-/// Creates HTML heading tag with specified level and content.
-fn create_html_heading(level: HeadingLevel, content: &str) -> HtmlElement {
-  let tag_name = match level {
-    HeadingLevel::H1 => "h1",
-    HeadingLevel::H2 => "h2",
-    HeadingLevel::H3 => "h3",
-    HeadingLevel::H4 => "h4",
-    HeadingLevel::H5 => "h5",
-    HeadingLevel::H6 => "h6",
-  };
-  let mut heading = HtmlElement::new(tag_name);
-  heading.set_content(content);
-  heading
-}
-
 /// Converts markdown content into HTML content.
 fn from_markdown(input: &str) -> String {
   let trimmed_input = input.lines().map(|line| line.trim().to_string()).collect::<Vec<String>>().join("\n");
@@ -785,19 +819,4 @@ fn from_markdown(input: &str) -> String {
     .replace("&amp;", "&")
     .replace("&quot;", "\"")
     .replace("&apos;", "\'")
-}
-
-#[cfg(test)]
-mod tests {
-  use super::*;
-
-  #[test]
-  fn test_create_html_heading() {
-    assert_eq!("<h1>Heading H1</h1>", create_html_heading(HeadingLevel::H1, "Heading H1").to_string());
-    assert_eq!("<h2>Heading H2</h2>", create_html_heading(HeadingLevel::H2, "Heading H2").to_string());
-    assert_eq!("<h3>Heading H3</h3>", create_html_heading(HeadingLevel::H3, "Heading H3").to_string());
-    assert_eq!("<h4>Heading H4</h4>", create_html_heading(HeadingLevel::H4, "Heading H4").to_string());
-    assert_eq!("<h5>Heading H5</h5>", create_html_heading(HeadingLevel::H5, "Heading H5").to_string());
-    assert_eq!("<h6>Heading H6</h6>", create_html_heading(HeadingLevel::H6, "Heading H6").to_string());
-  }
 }

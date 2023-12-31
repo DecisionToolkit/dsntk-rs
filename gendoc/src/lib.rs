@@ -2,6 +2,7 @@ mod ascii_model;
 mod defs;
 mod generator;
 mod horizontal_decision_table;
+mod styles;
 mod tests;
 
 use crate::generator::HTMLGenerator;

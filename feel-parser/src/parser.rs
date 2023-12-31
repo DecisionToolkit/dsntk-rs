@@ -781,7 +781,7 @@ impl<'parser> ReduceActions for Parser<'parser> {
     trace_action!(self, "iteration_context_value_single");
     let rhs = self.yy_node_stack.pop().unwrap();
     let lhs = self.yy_node_stack.pop().unwrap();
-    let node = AstNode::IterationContextSingle(Box::new(lhs), Box::new(rhs));
+    let node = AstNode::IterationContextList(Box::new(lhs), Box::new(rhs));
     self.yy_node_stack.push(node);
     Ok(())
   }

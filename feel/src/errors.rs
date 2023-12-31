@@ -3,7 +3,11 @@
 use crate::values::Value;
 use dsntk_common::{DsntkError, ToErrorMessage};
 
-/// Definition of errors raised in `types` module.
+//-----------------------------------------------------------------------------
+// TypesError
+//-----------------------------------------------------------------------------
+
+/// Definition of errors used in module [types](crate::types).
 #[derive(ToErrorMessage)]
 struct TypesError(String);
 
@@ -16,6 +20,10 @@ pub fn err_invalid_feel_type_name(s: &str) -> DsntkError {
 pub fn err_invalid_value_for_retrieving_using_feel_type(s1: &str, s2: &str) -> DsntkError {
   TypesError(format!("invalid value for retrieving with type check, type = '{s1}', value = '{s2}'")).into()
 }
+
+//-----------------------------------------------------------------------------
+// ValueError
+//-----------------------------------------------------------------------------
 
 /// Value errors.
 #[derive(ToErrorMessage)]
@@ -54,6 +62,10 @@ pub fn err_invalid_xsd_duration(text: &str) -> DsntkError {
   ValueError(format!("'{text}' is not valid xsd:duration representation")).into()
 }
 
+//-----------------------------------------------------------------------------
+// ContextError
+//-----------------------------------------------------------------------------
+
 /// Context errors.
 #[derive(ToErrorMessage)]
 struct ContextError(String);
@@ -63,6 +75,10 @@ pub fn err_value_is_not_a_context(value: &Value) -> DsntkError {
   ContextError(format!("'{value}' is not a value containing context")).into()
 }
 
+//-----------------------------------------------------------------------------
+// BifError
+//-----------------------------------------------------------------------------
+
 /// Built-in functions errors.
 #[derive(ToErrorMessage)]
 struct BifError(String);
@@ -71,6 +87,10 @@ struct BifError(String);
 pub fn err_unknown_function_name(name: &str) -> DsntkError {
   BifError(format!("unknown built-in function name: {name}")).into()
 }
+
+//-----------------------------------------------------------------------------
+// DtoError
+//-----------------------------------------------------------------------------
 
 /// DTO errors.
 #[derive(ToErrorMessage)]

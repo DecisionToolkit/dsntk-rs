@@ -187,13 +187,13 @@ impl AsciiNodeBuilder {
 
 /// Writes the tree to provided writer starting from specified node.
 pub fn write(f: &mut dyn Write, node: &AsciiNode, color_mode: &ColorMode) -> fmt::Result {
-  write_node(f, node, &vec![], color_mode)
+  write_node(f, node, &[], color_mode)
 }
 
 /// Writes the tree to provided writer starting from specified node with indentation.
 pub fn write_indented(f: &mut dyn Write, node: &AsciiNode, color_mode: &ColorMode, indent: usize) -> fmt::Result {
   let mut buffer = String::new();
-  let _ = write_node(&mut buffer, node, &vec![], color_mode);
+  let _ = write_node(&mut buffer, node, &[], color_mode);
   let indent = " ".repeat(indent);
   let mut tree = String::new();
   for line in buffer.lines() {
@@ -203,7 +203,7 @@ pub fn write_indented(f: &mut dyn Write, node: &AsciiNode, color_mode: &ColorMod
 }
 
 /// Writes the tree node to provided writer.
-fn write_node(f: &mut dyn Write, tree: &AsciiNode, level: &Vec<usize>, color_mode: &ColorMode) -> fmt::Result {
+fn write_node(f: &mut dyn Write, tree: &AsciiNode, level: &[usize], color_mode: &ColorMode) -> fmt::Result {
   const NONE: &str = "   ";
   const EDGE: &str = " └─";
   const PIPE: &str = " │ ";
@@ -234,7 +234,7 @@ fn write_node(f: &mut dyn Write, tree: &AsciiNode, level: &Vec<usize>, color_mod
       let mut deep = children.len();
       writeln!(f, " {}", title.mode(color_mode))?;
       for node in children {
-        let mut level_next = level.clone();
+        let mut level_next = level.to_vec();
         level_next.push(deep);
         deep -= 1;
         write_node(f, node, &level_next, color_mode)?;

@@ -19,12 +19,17 @@ tasks:
     cmds:
       - cmd: cargo +nightly bench
 
+  benchmarks-dry:
+    desc: Runs all benchmarks
+    cmds:
+      - cmd: DSNTK_DRY_BENCHMARK_RUN=1 cargo +nightly bench -p dsntk-model-evaluator -- --nocapture
+
   benchmarks:
     desc: Runs all compatibility benchmarks
     cmds:
       - cmd: rm -rf ./target/benchmarks
       - cmd: mkdir -p ./target/benchmarks
-      - cmd: cargo +nightly bench -q compatibility | tee ./target/benchmarks/out.txt | grep 'bench' > ./target/benchmarks/benchmarks.txt
+      - cmd: cargo +nightly bench -p dsntk-model-evaluator -q compatibility | tee ./target/benchmarks/out.txt | grep 'bench' > ./target/benchmarks/benchmarks.txt
 
   build:
     desc: Builds in debug mode
@@ -35,6 +40,11 @@ tasks:
     desc: Builds in debug mode
     cmds:
       - cmd: cargo +stable build --workspace --features=tck
+
+  check:
+    desc: Performs checks in debug mode
+    cmds:
+      - cmd: cargo +stable check
 
   clean:
     desc: Cleans all targets
@@ -67,7 +77,7 @@ tasks:
       - cmd: ./coverage.sh
 
   cov-pdf:
-    desc: Runs code coverage using grcov and generated PDF report
+    desc: Runs code coverage using grcov and generates a PDF report
     cmds:
       - cmd: PDF_REPORT=yes ./coverage.sh
 
@@ -201,6 +211,11 @@ tasks:
     desc: Runs tests in debug mode
     cmds:
       - cmd: cargo +stable test --workspace
+
+  test-feel-evaluator:
+    desc: Runs tests in debug mode
+    cmds:
+      - cmd: cargo +stable test -p dsntk-feel-evaluator
 
   testn:
     desc: Runs tests in debug mode using nextest

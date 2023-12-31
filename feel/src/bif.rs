@@ -1,4 +1,4 @@
-//! Definitions of built-in functions.
+//! # Definitions of built-in functions
 
 use crate::errors::*;
 use crate::FeelType;
@@ -17,6 +17,9 @@ pub enum Bif {
   Coincides,
   Concatenate,
   Contains,
+  Context,
+  ContextMerge,
+  ContextPut,
   Count,
   Date,
   DateAndTime,
@@ -53,6 +56,7 @@ pub enum Bif {
   Modulo,
   MonthOfYear,
   Not,
+  Now,
   Number,
   Odd,
   Overlaps,
@@ -62,6 +66,10 @@ pub enum Bif {
   Remove,
   Replace,
   Reverse,
+  RoundDown,
+  RoundHalfDown,
+  RoundHalfUp,
+  RoundUp,
   Sort,
   Split,
   Sqrt,
@@ -70,6 +78,7 @@ pub enum Bif {
   StartsWith,
   Stddev,
   String,
+  StringJoin,
   StringLength,
   Sublist,
   Substring,
@@ -77,6 +86,7 @@ pub enum Bif {
   SubstringBefore,
   Sum,
   Time,
+  Today,
   Union,
   UpperCase,
   WeekOfYear,
@@ -85,7 +95,7 @@ pub enum Bif {
 
 impl FromStr for Bif {
   type Err = DsntkError;
-  /// Converts a string into corresponding enumeration variant of [Bif].
+  /// Converts a string into corresponding variant of the [Bif] enumeration.
   fn from_str(s: &str) -> Result<Self, Self::Err> {
     match s {
       "abs" => Ok(Self::Abs),
@@ -98,6 +108,9 @@ impl FromStr for Bif {
       "coincides" => Ok(Self::Coincides),
       "concatenate" => Ok(Self::Concatenate),
       "contains" => Ok(Self::Contains),
+      "context" => Ok(Self::Context),
+      "context merge" => Ok(Self::ContextMerge),
+      "context put" => Ok(Self::ContextPut),
       "count" => Ok(Self::Count),
       "date" => Ok(Self::Date),
       "date and time" => Ok(Self::DateAndTime),
@@ -134,6 +147,7 @@ impl FromStr for Bif {
       "modulo" => Ok(Self::Modulo),
       "month of year" => Ok(Self::MonthOfYear),
       "not" => Ok(Self::Not),
+      "now" => Ok(Self::Now),
       "number" => Ok(Self::Number),
       "odd" => Ok(Self::Odd),
       "overlaps" => Ok(Self::Overlaps),
@@ -143,6 +157,10 @@ impl FromStr for Bif {
       "remove" => Ok(Self::Remove),
       "replace" => Ok(Self::Replace),
       "reverse" => Ok(Self::Reverse),
+      "round down" => Ok(Self::RoundDown),
+      "round half down" => Ok(Self::RoundHalfDown),
+      "round half up" => Ok(Self::RoundHalfUp),
+      "round up" => Ok(Self::RoundUp),
       "sort" => Ok(Self::Sort),
       "split" => Ok(Self::Split),
       "sqrt" => Ok(Self::Sqrt),
@@ -151,6 +169,7 @@ impl FromStr for Bif {
       "starts with" => Ok(Self::StartsWith),
       "stddev" => Ok(Self::Stddev),
       "string" => Ok(Self::String),
+      "string join" => Ok(Self::StringJoin),
       "string length" => Ok(Self::StringLength),
       "sublist" => Ok(Self::Sublist),
       "substring" => Ok(Self::Substring),
@@ -158,17 +177,18 @@ impl FromStr for Bif {
       "substring before" => Ok(Self::SubstringBefore),
       "sum" => Ok(Self::Sum),
       "time" => Ok(Self::Time),
+      "today" => Ok(Self::Today),
       "union" => Ok(Self::Union),
       "upper case" => Ok(Self::UpperCase),
       "week of year" => Ok(Self::WeekOfYear),
       "years and months duration" => Ok(Self::YearsAndMonthsDuration),
-      _ => Err(err_unknown_function_name(s)),
+      unknown => Err(err_unknown_function_name(unknown)),
     }
   }
 }
 
 impl Bif {
-  /// Returns a [FeelType] of [Bif].
+  /// Returns a [FeelType] returned from built-in function.
   pub fn feel_type(&self) -> FeelType {
     match self {
       Bif::Abs => FeelType::Function(vec![FeelType::Number], Box::new(FeelType::Number)),

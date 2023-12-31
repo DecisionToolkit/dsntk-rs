@@ -1,4 +1,5 @@
 //! # Examples of decision models and decision tables
+
 mod compatibility;
 pub mod decision_logic;
 pub mod decision_tables;
@@ -56,7 +57,7 @@ mod utilities {
     assert_eq!(1157, buffer.lines().count());
   }
 
-  /// This is a utility function for comparing the number of compatibility test models in this crate
+  /// This utility function compares the number of compatibility test models in this crate
   /// with the number of compatibility test models in TCK repository.
   #[test]
   fn compare_the_number_of_models() {
@@ -93,9 +94,9 @@ mod utilities {
     all_keys.append(&mut tck_adjusted_models.clone());
     all_keys.append(&mut dsntk_adjusted_models.clone());
 
-    println!("-------------------------------");
+    println!("────────────────────────────────");
     println!(" Model               TCK  DSNTK");
-    println!("-------------------------------");
+    println!("────────────────────────────────");
     for key in &all_keys {
       println!(
         "{:20}  {:>2}     {:>2}",
@@ -106,7 +107,7 @@ mod utilities {
     }
   }
 
-  /// Counts DMN models.
+  /// Counts DMN models residing in the specified directory.
   fn count_models(root_dir: &str) -> BTreeSet<String> {
     let mut results = BTreeSet::new();
     for entry_result in WalkDir::new(root_dir).into_iter() {

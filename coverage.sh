@@ -47,7 +47,6 @@ else
   cd "$WORKING_DIRECTORY"/bbt || exit 1
   ./bbt.sh
   cd "$WORKING_DIRECTORY" || exit 1
-  # give some time to collect all data
 fi
 
 # prepare output directories for coverage results
@@ -79,5 +78,5 @@ if [ "$PDF_REPORT" != "" ]; then
 fi
 echo ""
 
-# reformat generated code
+# format generated code
 cargo +nightly fmt -p dsntk-feel-parser

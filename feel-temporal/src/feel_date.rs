@@ -10,6 +10,7 @@ use dsntk_feel_number::FeelNumber;
 use std::cmp::Ordering;
 use std::convert::{TryFrom, TryInto};
 use std::fmt;
+use std::fmt::Display;
 use std::ops::{Add, Sub};
 use std::str::FromStr;
 
@@ -17,7 +18,7 @@ use std::str::FromStr;
 #[derive(Debug, Clone)]
 pub struct FeelDate(Year, Month, Day);
 
-impl fmt::Display for FeelDate {
+impl Display for FeelDate {
   /// Converts [FeelDate] into [String].
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     write!(f, "{:04}-{:02}-{:02}", self.0, self.1, self.2)
@@ -224,8 +225,7 @@ impl TryFrom<FeelDate> for NaiveDate {
 }
 
 impl FeelDate {
-  ///
-  //TODO this constructor may create invalid date - remove and use new_opt instead.
+  //FIXME This constructor may create invalid date - remove and use new_opt instead.
   pub fn new(year: Year, month: Month, day: Day) -> Self {
     Self(year, month, day)
   }
@@ -239,7 +239,7 @@ impl FeelDate {
     }
   }
 
-  /// Returns [FeelDate] set to today's date in local time.
+  /// Returns today's date (local time).
   pub fn today() -> Self {
     let today = Local::now();
     Self(today.year(), today.month(), today.day())

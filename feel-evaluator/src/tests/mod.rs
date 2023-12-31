@@ -63,8 +63,8 @@ pub fn te_bool(trace: bool, scope: &FeelScope, s: &str, expected: bool) {
 }
 
 /// Utility function that tests evaluation of date value.
-pub fn te_date(trace: bool, scope: &FeelScope, s: &str, year: Year, month: Month, day: Day) {
-  textual_expression(trace, scope, s, Value::Date(FeelDate::new(year, month, day)));
+pub fn te_date(trace: bool, scope: &FeelScope, expression: &str, year: Year, month: Month, day: Day) {
+  textual_expression(trace, scope, expression, Value::Date(FeelDate::new(year, month, day)));
 }
 
 /// Utility function that tests evaluation of local date and time value.
@@ -86,7 +86,7 @@ pub fn te_date_time_offset(trace: bool, scope: &FeelScope, s: &str, date: (Year,
   textual_expression(trace, scope, s, Value::DateTime(FeelDateTime::offset(date, time, offset)));
 }
 
-/// Utility function that creates scope from specified input.
+/// Utility function that creates a scope from specified input.
 pub fn te_scope(input: &str) -> FeelScope {
   let scope = FeelScope::default();
   match dsntk_feel_parser::parse_context(&scope, input, false) {
@@ -161,6 +161,20 @@ pub fn te_days_and_time_duration_x(trace: bool, scope: &FeelScope, s: &str, expe
 /// Utility function that tests evaluation of time.
 pub fn te_time(trace: bool, scope: &FeelScope, s: &str, expected: FeelTime) {
   textual_expression(trace, scope, s, Value::Time(expected));
+}
+
+/// Utility function that tests evaluation of context.
+pub fn te_context<Actual: ToString, Expected: ToString>(trace: bool, scope: &FeelScope, actual: Actual, expected: Expected) {
+  match dsntk_feel_parser::parse_context(scope, &expected.to_string(), trace) {
+    Ok(node) => {
+      let evaluator = build_evaluator(&BuildContext::default(), &node);
+      textual_expression(trace, scope, &actual.to_string(), evaluator(scope));
+    }
+    Err(reason) => {
+      println!("ERROR: {reason}");
+      panic!("te_value failed");
+    }
+  }
 }
 
 /// Utility function that tests evaluation to specified value.
@@ -275,4 +289,29 @@ pub fn satisfies_null(trace: bool, scope: &FeelScope, input_expression: &str, in
     AstNode::In(Box::new(input_expression_node), Box::new(input_entry_node))
   };
   assert_eq!(crate::evaluate(scope, &node), Value::Null(Some(expected.to_string())));
+}
+
+/// Utility function for testing if parsed `expression` evaluates to [FeelDateTime]
+/// and the evaluated value is in the range (`date_time` .. `date_time + seconds`).
+pub fn te_date_time_local_after(trace: bool, scope: &FeelScope, expression: &str, date_time: FeelDateTime, seconds: u8) {
+  let (year, month, day) = date_time.date().as_tuple();
+  let (hour, min, sec, nano, _) = date_time.time().as_tuple();
+  let range_start = FeelDateTime::local(year, month, day, hour, min, sec, nano);
+  let range_end = FeelDateTime::local(year, month, day, hour, min, sec + seconds, nano);
+  match dsntk_feel_parser::parse_textual_expression(scope, expression, trace) {
+    Ok(node) => {
+      let evaluator = build_evaluator(&BuildContext::default(), &node);
+      let value = evaluator(scope);
+      let Value::DateTime(actual) = value else {
+        panic!("expected date and time, actual type is {}", value.type_of());
+      };
+      assert!(
+        (actual > range_start && actual < range_end),
+        "ERROR\nexpected: {range_start}..{range_end}\n  actual: {actual}\n"
+      );
+    }
+    Err(reason) => {
+      panic!("parsing date and time expression failed with reason: {}", reason);
+    }
+  }
 }

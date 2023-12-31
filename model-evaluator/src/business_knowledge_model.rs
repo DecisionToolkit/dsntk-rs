@@ -122,91 +122,139 @@ fn build_bkm_expression_instance_evaluator(
   model_builder: &ModelBuilder,
 ) -> Result<BusinessKnowledgeModelEvaluatorFn> {
   match expression_instance {
-    ExpressionInstance::Context(context) => {
-      //
-      build_bkm_context_evaluator(
-        scope,                  //
-        formal_parameters,      //
-        context,                //
-        output_variable_name,   //
-        output_variable_type,   //
-        knowledge_requirements, //
-        model_builder,          //
-      )
-    }
-    ExpressionInstance::DecisionTable(decision_table) => {
-      //
-      build_bkm_decision_table_evaluator(
-        scope,                  //
-        formal_parameters,      //
-        decision_table,         //
-        output_variable_name,   //
-        output_variable_type,   //
-        knowledge_requirements, //
-        model_builder,          //
-      )
-    }
-    ExpressionInstance::FunctionDefinition(function_definition) => {
-      //
-      build_bkm_function_definition_evaluator(
-        scope,                  //
-        formal_parameters,      //
-        function_definition,    //
-        output_variable_name,   //
-        output_variable_type,   //
-        knowledge_requirements, //
-        model_builder,          //
-      )
-    }
-    ExpressionInstance::Invocation(invocation) => {
-      //
-      build_bkm_invocation_evaluator(
-        scope,                  //
-        formal_parameters,      //
-        invocation,             //
-        output_variable_name,   //
-        output_variable_type,   //
-        knowledge_requirements, //
-        model_builder,          //
-      )
-    }
-    ExpressionInstance::LiteralExpression(literal_expression) => {
-      //
-      build_bkm_literal_expression_evaluator(
-        scope,                  //
-        formal_parameters,      //
-        literal_expression,     //
-        output_variable_name,   //
-        output_variable_type,   //
-        knowledge_requirements, //
-        model_builder,          //
-      )
-    }
-    ExpressionInstance::List(list) => {
-      //
-      build_bkm_list_evaluator(
-        scope,                  //
-        formal_parameters,      //
-        list,                   //
-        output_variable_name,   //
-        output_variable_type,   //
-        knowledge_requirements, //
-        model_builder,          //
-      )
-    }
-    ExpressionInstance::Relation(relation) => {
-      //
-      build_bkm_relation_evaluator(
-        scope,                  //
-        formal_parameters,      //
-        relation,               //
-        output_variable_name,   //
-        output_variable_type,   //
-        knowledge_requirements, //
-        model_builder,          //
-      )
-    }
+    ExpressionInstance::Conditional(conditional) => build_bkm_conditional_evaluator(
+      scope,
+      formal_parameters,
+      conditional,
+      output_variable_name,
+      output_variable_type,
+      knowledge_requirements,
+      model_builder,
+    ),
+    ExpressionInstance::Context(context) => build_bkm_context_evaluator(
+      scope,
+      formal_parameters,
+      context,
+      output_variable_name,
+      output_variable_type,
+      knowledge_requirements,
+      model_builder,
+    ),
+    ExpressionInstance::DecisionTable(decision_table) => build_bkm_decision_table_evaluator(
+      scope,
+      formal_parameters,
+      decision_table,
+      output_variable_name,
+      output_variable_type,
+      knowledge_requirements,
+      model_builder,
+    ),
+    ExpressionInstance::Every(every) => build_bkm_every_evaluator(
+      scope,
+      formal_parameters,
+      every,
+      output_variable_name,
+      output_variable_type,
+      knowledge_requirements,
+      model_builder,
+    ),
+    ExpressionInstance::Filter(filter) => build_bkm_filter_evaluator(
+      scope,
+      formal_parameters,
+      filter,
+      output_variable_name,
+      output_variable_type,
+      knowledge_requirements,
+      model_builder,
+    ),
+    ExpressionInstance::For(r#for) => build_bkm_for_evaluator(
+      scope,
+      formal_parameters,
+      r#for,
+      output_variable_name,
+      output_variable_type,
+      knowledge_requirements,
+      model_builder,
+    ),
+    ExpressionInstance::FunctionDefinition(function_definition) => build_bkm_function_definition_evaluator(
+      scope,
+      formal_parameters,
+      function_definition,
+      output_variable_name,
+      output_variable_type,
+      knowledge_requirements,
+      model_builder,
+    ),
+    ExpressionInstance::Invocation(invocation) => build_bkm_invocation_evaluator(
+      scope,
+      formal_parameters,
+      invocation,
+      output_variable_name,
+      output_variable_type,
+      knowledge_requirements,
+      model_builder,
+    ),
+    ExpressionInstance::LiteralExpression(literal_expression) => build_bkm_literal_expression_evaluator(
+      scope,
+      formal_parameters,
+      literal_expression,
+      output_variable_name,
+      output_variable_type,
+      knowledge_requirements,
+      model_builder,
+    ),
+    ExpressionInstance::List(list) => build_bkm_list_evaluator(
+      scope,
+      formal_parameters,
+      list,
+      output_variable_name,
+      output_variable_type,
+      knowledge_requirements,
+      model_builder,
+    ),
+    ExpressionInstance::Relation(relation) => build_bkm_relation_evaluator(
+      scope,
+      formal_parameters,
+      relation,
+      output_variable_name,
+      output_variable_type,
+      knowledge_requirements,
+      model_builder,
+    ),
+    ExpressionInstance::Some(some) => build_bkm_some_evaluator(
+      scope,
+      formal_parameters,
+      some,
+      output_variable_name,
+      output_variable_type,
+      knowledge_requirements,
+      model_builder,
+    ),
   }
+}
+
+///
+fn build_bkm_conditional_evaluator(
+  scope: &FeelScope,
+  formal_parameters: Vec<(Name, FeelType)>,
+  conditional: &Conditional,
+  output_variable_name: Name,
+  output_variable_type: FeelType,
+  knowledge_requirements: Vec<DefKey>,
+  model_builder: &ModelBuilder,
+) -> Result<BusinessKnowledgeModelEvaluatorFn> {
+  let (evaluator, _) = build_conditional_evaluator(scope, conditional, model_builder)?;
+  let closure = Closure::default();
+  let closure_ctx = FeelContext::default();
+  let function_definition = Value::FunctionDefinition(
+    formal_parameters,
+    FunctionBody::Conditional(Arc::new(evaluator)),
+    false,
+    closure,
+    closure_ctx,
+    output_variable_type,
+  );
+  build_bkm_evaluator_from_function_definition(output_variable_name, function_definition, knowledge_requirements)
 }
 
 ///
@@ -255,6 +303,71 @@ fn build_bkm_decision_table_evaluator(
     output_variable_type,
   );
   build_bkm_evaluator_from_function_definition(output_variable_name, function, knowledge_requirements)
+}
+
+///
+fn build_bkm_every_evaluator(
+  scope: &FeelScope,
+  formal_parameters: Vec<(Name, FeelType)>,
+  every: &Every,
+  output_variable_name: Name,
+  output_variable_type: FeelType,
+  knowledge_requirements: Vec<DefKey>,
+  model_builder: &ModelBuilder,
+) -> Result<BusinessKnowledgeModelEvaluatorFn> {
+  let (evaluator, _) = build_every_evaluator(scope, every, model_builder)?;
+  let closure = Closure::default();
+  let closure_ctx = FeelContext::default();
+  let function_definition = Value::FunctionDefinition(
+    formal_parameters,
+    FunctionBody::Every(Arc::new(evaluator)),
+    false,
+    closure,
+    closure_ctx,
+    output_variable_type,
+  );
+  build_bkm_evaluator_from_function_definition(output_variable_name, function_definition, knowledge_requirements)
+}
+
+///
+fn build_bkm_filter_evaluator(
+  scope: &FeelScope,
+  formal_parameters: Vec<(Name, FeelType)>,
+  filter: &Filter,
+  output_variable_name: Name,
+  output_variable_type: FeelType,
+  knowledge_requirements: Vec<DefKey>,
+  model_builder: &ModelBuilder,
+) -> Result<BusinessKnowledgeModelEvaluatorFn> {
+  let (evaluator, _) = build_filter_evaluator(scope, filter, model_builder)?;
+  let closure = Closure::default();
+  let closure_ctx = FeelContext::default();
+  let function_definition = Value::FunctionDefinition(
+    formal_parameters,
+    FunctionBody::Filter(Arc::new(evaluator)),
+    false,
+    closure,
+    closure_ctx,
+    output_variable_type,
+  );
+  build_bkm_evaluator_from_function_definition(output_variable_name, function_definition, knowledge_requirements)
+}
+
+///
+fn build_bkm_for_evaluator(
+  scope: &FeelScope,
+  formal_parameters: Vec<(Name, FeelType)>,
+  r#for: &For,
+  output_variable_name: Name,
+  output_variable_type: FeelType,
+  knowledge_requirements: Vec<DefKey>,
+  model_builder: &ModelBuilder,
+) -> Result<BusinessKnowledgeModelEvaluatorFn> {
+  let (evaluator, _) = build_for_evaluator(scope, r#for, model_builder)?;
+  let closure = Closure::default();
+  let closure_ctx = FeelContext::default();
+  let function_definition = Value::FunctionDefinition(formal_parameters, FunctionBody::For(Arc::new(evaluator)), false, closure, closure_ctx, output_variable_type);
+  build_bkm_evaluator_from_function_definition(output_variable_name, function_definition, knowledge_requirements)
 }
 
 ///
@@ -320,7 +433,7 @@ fn build_bkm_list_evaluator(
   let closure_ctx = FeelContext::default();
   let function = Value::FunctionDefinition(
     formal_parameters,
-    FunctionBody::LiteralExpression(Arc::new(evaluator)),
+    FunctionBody::List(Arc::new(evaluator)),
     false,
     closure,
     closure_ctx,
@@ -378,6 +491,30 @@ fn build_bkm_relation_evaluator(
 }
 
 ///
+fn build_bkm_some_evaluator(
+  scope: &FeelScope,
+  formal_parameters: Vec<(Name, FeelType)>,
+  some: &Some,
+  output_variable_name: Name,
+  output_variable_type: FeelType,
+  knowledge_requirements: Vec<DefKey>,
+  model_builder: &ModelBuilder,
+) -> Result<BusinessKnowledgeModelEvaluatorFn> {
+  let (evaluator, _) = build_some_evaluator(scope, some, model_builder)?;
+  let closure = Closure::default();
+  let closure_ctx = FeelContext::default();
+  let function_definition = Value::FunctionDefinition(
+    formal_parameters,
+    FunctionBody::Some(Arc::new(evaluator)),
+    false,
+    closure,
+    closure_ctx,
+    output_variable_type,
+  );
+  build_bkm_evaluator_from_function_definition(output_variable_name, function_definition, knowledge_requirements)
+}
+
+///
 fn build_bkm_evaluator_from_function_definition(
   output_variable_name: Name,
   function_definition: Value,
@@ -388,9 +525,7 @@ fn build_bkm_evaluator_from_function_definition(
       let business_knowledge_model_evaluator = model_evaluator.business_knowledge_model_evaluator();
       let decision_service_evaluator = model_evaluator.decision_service_evaluator();
       knowledge_requirements.iter().for_each(|def_key| {
-        //TODO refactor:
-        //  call either business knowledge model or decision service,
-        //  but not both!
+        //TODO refactor: call either business knowledge model or decision service,  but not both!
         business_knowledge_model_evaluator.evaluate(def_key, global_context, input_data, model_evaluator, output_data);
         decision_service_evaluator.evaluate(def_key, global_context, input_data, model_evaluator, output_data);
       });

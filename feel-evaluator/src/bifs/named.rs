@@ -1,22 +1,26 @@
 use crate::bifs::core;
 use dsntk_feel::bif::Bif;
 use dsntk_feel::values::Value;
-use dsntk_feel::{value_null, Name};
+use dsntk_feel::{value_null, FeelNumber, Name};
 
 use once_cell::sync::Lazy;
 
+static NAME_CONTEXT: Lazy<Name> = Lazy::new(|| Name::from("context"));
+static NAME_CONTEXTS: Lazy<Name> = Lazy::new(|| Name::from("contexts"));
 static NAME_DATE: Lazy<Name> = Lazy::new(|| Name::from("date"));
+static NAME_DAY: Lazy<Name> = Lazy::new(|| Name::from("day"));
 static NAME_DECIMAL_SEPARATOR: Lazy<Name> = Lazy::new(|| Name::new(&["decimal", "separator"]));
 static NAME_DELIMITER: Lazy<Name> = Lazy::new(|| Name::from("delimiter"));
-static NAME_GROUPING_SEPARATOR: Lazy<Name> = Lazy::new(|| Name::new(&["grouping", "separator"]));
-static NAME_DAY: Lazy<Name> = Lazy::new(|| Name::from("day"));
 static NAME_DIVIDEND: Lazy<Name> = Lazy::new(|| Name::from("dividend"));
 static NAME_DIVISOR: Lazy<Name> = Lazy::new(|| Name::from("divisor"));
+static NAME_ENTRIES: Lazy<Name> = Lazy::new(|| Name::from("entries"));
 static NAME_FLAGS: Lazy<Name> = Lazy::new(|| Name::from("flags"));
 static NAME_FROM: Lazy<Name> = Lazy::new(|| Name::from("from"));
+static NAME_GROUPING_SEPARATOR: Lazy<Name> = Lazy::new(|| Name::new(&["grouping", "separator"]));
 static NAME_HOUR: Lazy<Name> = Lazy::new(|| Name::from("hour"));
 static NAME_INPUT: Lazy<Name> = Lazy::new(|| Name::from("input"));
 static NAME_KEY: Lazy<Name> = Lazy::new(|| Name::from("key"));
+static NAME_KEYS: Lazy<Name> = Lazy::new(|| Name::from("keys"));
 static NAME_LENGTH: Lazy<Name> = Lazy::new(|| Name::from("length"));
 static NAME_LIST: Lazy<Name> = Lazy::new(|| Name::from("list"));
 static NAME_MATCH: Lazy<Name> = Lazy::new(|| Name::from("match"));
@@ -44,23 +48,25 @@ static NAME_START_POSITION: Lazy<Name> = Lazy::new(|| Name::new(&["start", "posi
 static NAME_STRING: Lazy<Name> = Lazy::new(|| Name::from("string"));
 static NAME_TIME: Lazy<Name> = Lazy::new(|| Name::from("time"));
 static NAME_TO: Lazy<Name> = Lazy::new(|| Name::from("to"));
-static NAME_VALUE1: Lazy<Name> = Lazy::new(|| Name::from("value1"));
-static NAME_VALUE2: Lazy<Name> = Lazy::new(|| Name::from("value2"));
+static NAME_VALUE: Lazy<Name> = Lazy::new(|| Name::from("value"));
+static NAME_VALUE_1: Lazy<Name> = Lazy::new(|| Name::from("value1"));
+static NAME_VALUE_2: Lazy<Name> = Lazy::new(|| Name::from("value2"));
 static NAME_YEAR: Lazy<Name> = Lazy::new(|| Name::from("year"));
 
 type NamedParameters = Value;
 
 macro_rules! invalid_number_of_parameters {
   ($expected:expr, $actual:expr) => {{
-    use dsntk_feel::value_null;
     value_null!("expected {} parameters, actual number of parameters is {}", $expected, $actual)
   }};
 }
 
 macro_rules! parameter_not_found {
-  ($l:expr) => {{
-    use dsntk_feel::value_null;
-    value_null!(r"parameter '{}' not found", $l.to_string())
+  ($p1:expr, $p2:expr) => {{
+    value_null!(r"parameter '{}' or '{}' not found", *$p1, *$p2)
+  }};
+  ($p:expr) => {{
+    value_null!(r"parameter '{}' not found", *$p)
   }};
 }
 
@@ -77,6 +83,9 @@ pub fn evaluate_bif(bif: Bif, parameters: &NamedParameters) -> Value {
     Bif::Coincides => bif_coincides(parameters),
     Bif::Concatenate => bif_concatenate(parameters),
     Bif::Contains => bif_contains(parameters),
+    Bif::Context => bif_context(parameters),
+    Bif::ContextMerge => bif_context_merge(parameters),
+    Bif::ContextPut => bif_context_put(parameters),
     Bif::Count => bif_count(parameters),
     Bif::Date => bif_date(parameters),
     Bif::DateAndTime => bif_date_and_time(parameters),
@@ -113,6 +122,7 @@ pub fn evaluate_bif(bif: Bif, parameters: &NamedParameters) -> Value {
     Bif::Modulo => bif_modulo(parameters),
     Bif::MonthOfYear => bif_month_of_year(parameters),
     Bif::Not => bif_not(parameters),
+    Bif::Now => bif_now(parameters),
     Bif::Number => bif_number(parameters),
     Bif::Odd => bif_odd(parameters),
     Bif::Overlaps => bif_overlaps(parameters),
@@ -122,6 +132,10 @@ pub fn evaluate_bif(bif: Bif, parameters: &NamedParameters) -> Value {
     Bif::Remove => bif_remove(parameters),
     Bif::Replace => bif_replace(parameters),
     Bif::Reverse => bif_reverse(parameters),
+    Bif::RoundDown => bif_round_down(parameters),
+    Bif::RoundHalfDown => bif_round_half_down(parameters),
+    Bif::RoundHalfUp => bif_round_half_up(parameters),
+    Bif::RoundUp => bif_round_up(parameters),
     Bif::Sort => bif_sort(parameters),
     Bif::Split => bif_split(parameters),
     Bif::Sqrt => bif_sqrt(parameters),
@@ -130,6 +144,7 @@ pub fn evaluate_bif(bif: Bif, parameters: &NamedParameters) -> Value {
     Bif::StartsWith => bif_starts_with(parameters),
     Bif::Stddev => bif_stddev(parameters),
     Bif::String => bif_string(parameters),
+    Bif::StringJoin => bif_string_join(parameters),
     Bif::StringLength => bif_string_length(parameters),
     Bif::Sublist => bif_sublist(parameters),
     Bif::Substring => bif_substring(parameters),
@@ -137,6 +152,7 @@ pub fn evaluate_bif(bif: Bif, parameters: &NamedParameters) -> Value {
     Bif::SubstringBefore => bif_substring_before(parameters),
     Bif::Sum => bif_sum(parameters),
     Bif::Time => bif_time(parameters),
+    Bif::Today => bif_today(parameters),
     Bif::Union => bif_union(parameters),
     Bif::UpperCase => bif_upper_case(parameters),
     Bif::WeekOfYear => bif_week_of_year(parameters),
@@ -206,10 +222,26 @@ fn bif_before(parameters: &NamedParameters) -> Value {
 }
 
 fn bif_ceiling(parameters: &NamedParameters) -> Value {
-  if let Some((value, _)) = get_param(parameters, &NAME_N) {
-    core::ceiling(value)
-  } else {
-    parameter_not_found!(NAME_N)
+  match get_param_count(parameters) {
+    1 => {
+      if let Some((value, _)) = get_param(parameters, &NAME_N) {
+        core::ceiling(value, &Value::Number(FeelNumber::zero()))
+      } else {
+        parameter_not_found!(NAME_N)
+      }
+    }
+    2 => {
+      if let Some((value, _)) = get_param(parameters, &NAME_N) {
+        if let Some((scale, _)) = get_param(parameters, &NAME_SCALE) {
+          core::ceiling(value, scale)
+        } else {
+          parameter_not_found!(NAME_SCALE)
+        }
+      } else {
+        parameter_not_found!(NAME_N)
+      }
+    }
+    n => invalid_number_of_parameters!("1,2", n),
   }
 }
 
@@ -238,6 +270,48 @@ fn bif_contains(parameters: &NamedParameters) -> Value {
     }
   } else {
     parameter_not_found!(NAME_STRING)
+  }
+}
+
+fn bif_context(parameters: &NamedParameters) -> Value {
+  if let Some((entries_value, _)) = get_param(parameters, &NAME_ENTRIES) {
+    core::context(entries_value)
+  } else {
+    parameter_not_found!(NAME_ENTRIES)
+  }
+}
+
+fn bif_context_merge(parameters: &NamedParameters) -> Value {
+  if let Some((contexts_value, _)) = get_param(parameters, &NAME_CONTEXTS) {
+    core::context_merge(contexts_value)
+  } else {
+    parameter_not_found!(NAME_CONTEXTS)
+  }
+}
+
+fn bif_context_put(parameters: &NamedParameters) -> Value {
+  if let Some((v_context, _)) = get_param(parameters, &NAME_CONTEXT) {
+    if let Some((v_value, _)) = get_param(parameters, &NAME_VALUE) {
+      if let Some((v_keys, _)) = get_param(parameters, &NAME_KEYS) {
+        if v_keys.is_list() {
+          core::context_put(v_context, v_keys, v_value)
+        } else {
+          value_null!()
+        }
+      } else if let Some((v_key, _)) = get_param(parameters, &NAME_KEY) {
+        if v_key.is_string() {
+          core::context_put(v_context, v_key, v_value)
+        } else {
+          value_null!()
+        }
+      } else {
+        parameter_not_found!(NAME_KEY, NAME_KEYS)
+      }
+    } else {
+      parameter_not_found!(NAME_VALUE)
+    }
+  } else {
+    parameter_not_found!(NAME_CONTEXT)
   }
 }
 
@@ -386,10 +460,26 @@ fn bif_flatten(parameters: &NamedParameters) -> Value {
 }
 
 fn bif_floor(parameters: &NamedParameters) -> Value {
-  if let Some((value, _)) = get_param(parameters, &NAME_N) {
-    core::floor(value)
-  } else {
-    parameter_not_found!(NAME_N)
+  match get_param_count(parameters) {
+    1 => {
+      if let Some((value, _)) = get_param(parameters, &NAME_N) {
+        core::floor(value, &Value::Number(FeelNumber::zero()))
+      } else {
+        parameter_not_found!(NAME_N)
+      }
+    }
+    2 => {
+      if let Some((value, _)) = get_param(parameters, &NAME_N) {
+        if let Some((scale, _)) = get_param(parameters, &NAME_SCALE) {
+          core::floor(value, scale)
+        } else {
+          parameter_not_found!(NAME_SCALE)
+        }
+      } else {
+        parameter_not_found!(NAME_N)
+      }
+    }
+    n => invalid_number_of_parameters!("1,2", n),
   }
 }
 
@@ -455,14 +545,14 @@ fn bif_is(parameters: &NamedParameters) -> Value {
   match get_param_count(parameters) {
     1 => Value::Boolean(false),
     2 => {
-      if let Some((value1, _)) = get_param(parameters, &NAME_VALUE1) {
-        if let Some((value2, _)) = get_param(parameters, &NAME_VALUE2) {
+      if let Some((value1, _)) = get_param(parameters, &NAME_VALUE_1) {
+        if let Some((value2, _)) = get_param(parameters, &NAME_VALUE_2) {
           core::is(value1, value2)
         } else {
-          parameter_not_found!(NAME_VALUE2)
+          parameter_not_found!(NAME_VALUE_2)
         }
       } else {
-        parameter_not_found!(NAME_VALUE1)
+        parameter_not_found!(NAME_VALUE_1)
       }
     }
     n => invalid_number_of_parameters!(2, n),
@@ -498,18 +588,38 @@ fn bif_lower_case(parameters: &NamedParameters) -> Value {
 }
 
 fn bif_matches(parameters: &NamedParameters) -> Value {
-  if let Some((input_string_value, _)) = get_param(parameters, &NAME_INPUT) {
-    if let Some((pattern_string_value, _)) = get_param(parameters, &NAME_PATTERN) {
-      if let Some((flags_string_value, _)) = get_param(parameters, &NAME_FLAGS) {
-        core::matches(input_string_value, pattern_string_value, flags_string_value)
+  match get_param_count(parameters) {
+    2 => {
+      if let Some((input_string_value, _)) = get_param(parameters, &NAME_INPUT) {
+        if let Some((pattern_string_value, _)) = get_param(parameters, &NAME_PATTERN) {
+          core::matches_2(input_string_value, pattern_string_value)
+        } else {
+          parameter_not_found!(NAME_PATTERN)
+        }
       } else {
-        core::matches(input_string_value, pattern_string_value, &value_null!())
+        parameter_not_found!(NAME_INPUT)
       }
-    } else {
-      parameter_not_found!(NAME_PATTERN)
     }
-  } else {
-    parameter_not_found!(NAME_INPUT)
+    3 => {
+      if let Some((v_input, _)) = get_param(parameters, &NAME_INPUT) {
+        if let Some((v_pattern, _)) = get_param(parameters, &NAME_PATTERN) {
+          if let Some((v_flags, _)) = get_param(parameters, &NAME_FLAGS) {
+            if v_flags.is_null() {
+              core::matches_2(v_input, v_pattern)
+            } else {
+              core::matches_3(v_input, v_pattern, v_flags)
+            }
+          } else {
+            parameter_not_found!(NAME_FLAGS)
+          }
+        } else {
+          parameter_not_found!(NAME_PATTERN)
+        }
+      } else {
+        parameter_not_found!(NAME_INPUT)
+      }
+    }
+    n => invalid_number_of_parameters!("2,3", n),
   }
 }
 
@@ -603,6 +713,10 @@ fn bif_not(parameters: &NamedParameters) -> Value {
   } else {
     parameter_not_found!(NAME_NEGAND)
   }
+}
+
+fn bif_now(_: &NamedParameters) -> Value {
+  value_null!("[named::now] this function has no implementation with named parameters")
 }
 
 fn bif_number(parameters: &NamedParameters) -> Value {
@@ -714,6 +828,78 @@ fn bif_reverse(parameters: &NamedParameters) -> Value {
   }
 }
 
+/// Returns `n` with given `scale` and rounding mode **round down**.
+fn bif_round_down(parameters: &NamedParameters) -> Value {
+  match get_param_count(parameters) {
+    2 => {
+      if let Some((n, _)) = get_param(parameters, &NAME_N) {
+        if let Some((scale, _)) = get_param(parameters, &NAME_SCALE) {
+          core::round_down(n, scale)
+        } else {
+          parameter_not_found!(NAME_SCALE)
+        }
+      } else {
+        parameter_not_found!(NAME_N)
+      }
+    }
+    n => invalid_number_of_parameters!(2, n),
+  }
+}
+
+/// Returns `n` with given `scale` and rounding mode **round half down**.
+fn bif_round_half_down(parameters: &NamedParameters) -> Value {
+  match get_param_count(parameters) {
+    2 => {
+      if let Some((n, _)) = get_param(parameters, &NAME_N) {
+        if let Some((scale, _)) = get_param(parameters, &NAME_SCALE) {
+          core::round_half_down(n, scale)
+        } else {
+          parameter_not_found!(NAME_SCALE)
+        }
+      } else {
+        parameter_not_found!(NAME_N)
+      }
+    }
+    n => invalid_number_of_parameters!(2, n),
+  }
+}
+
+/// Returns `n` with given `scale` and rounding mode **round half up**.
+fn bif_round_half_up(parameters: &NamedParameters) -> Value {
+  match get_param_count(parameters) {
+    2 => {
+      if let Some((n, _)) = get_param(parameters, &NAME_N) {
+        if let Some((scale, _)) = get_param(parameters, &NAME_SCALE) {
+          core::round_half_up(n, scale)
+        } else {
+          parameter_not_found!(NAME_SCALE)
+        }
+      } else {
+        parameter_not_found!(NAME_N)
+      }
+    }
+    n => invalid_number_of_parameters!(2, n),
+  }
+}
+
+/// Returns `n` with given `scale` and rounding mode **round up**.
+fn bif_round_up(parameters: &NamedParameters) -> Value {
+  match get_param_count(parameters) {
+    2 => {
+      if let Some((n, _)) = get_param(parameters, &NAME_N) {
+        if let Some((scale, _)) = get_param(parameters, &NAME_SCALE) {
+          core::round_up(n, scale)
+        } else {
+          parameter_not_found!(NAME_SCALE)
+        }
+      } else {
+        parameter_not_found!(NAME_N)
+      }
+    }
+    n => invalid_number_of_parameters!(2, n),
+  }
+}
+
 ///
 fn bif_sort(parameters: &NamedParameters) -> Value {
   if let Some((list, _)) = get_param(parameters, &NAME_LIST) {
@@ -793,6 +979,30 @@ fn bif_string(parameters: &NamedParameters) -> Value {
     core::string(value)
   } else {
     parameter_not_found!(NAME_FROM)
+  }
+}
+
+fn bif_string_join(parameters: &NamedParameters) -> Value {
+  match get_param_count(parameters) {
+    1 => {
+      if let Some((list_value, _)) = get_param(parameters, &NAME_LIST) {
+        core::string_join(list_value, &value_null!())
+      } else {
+        parameter_not_found!(NAME_LIST)
+      }
+    }
+    2 => {
+      if let Some((list_value, _)) = get_param(parameters, &NAME_LIST) {
+        if let Some((delimiter_value, _)) = get_param(parameters, &NAME_DELIMITER) {
+          core::string_join(list_value, delimiter_value)
+        } else {
+          parameter_not_found!(NAME_DELIMITER)
+        }
+      } else {
+        parameter_not_found!(NAME_LIST)
+      }
+    }
+    n => invalid_number_of_parameters!("1,2", n),
   }
 }
 
@@ -902,8 +1112,12 @@ fn bif_time(parameters: &NamedParameters) -> Value {
   value_null!("invalid parameters in bif time")
 }
 
-fn bif_union(_parameters: &NamedParameters) -> Value {
-  value_null!("[named::union] this function has no version with named parameters")
+fn bif_today(_: &NamedParameters) -> Value {
+  value_null!("[named::today] this function has no implementation with named parameters")
+}
+
+fn bif_union(_: &NamedParameters) -> Value {
+  value_null!("[named::union] this function has no implementation with named parameters")
 }
 
 fn bif_upper_case(parameters: &NamedParameters) -> Value {

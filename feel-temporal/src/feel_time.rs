@@ -8,6 +8,8 @@ use crate::feel_date_time::FeelDateTime;
 use crate::feel_dt_duration::FeelDaysAndTimeDuration;
 use dsntk_common::{DsntkError, Result};
 use std::cmp::Ordering;
+use std::fmt;
+use std::fmt::Display;
 use std::ops::{Add, Sub};
 use std::str::FromStr;
 
@@ -15,9 +17,9 @@ use std::str::FromStr;
 #[derive(Debug, Clone)]
 pub struct FeelTime(u8, u8, u8, u64, FeelZone);
 
-impl std::fmt::Display for FeelTime {
-  /// Converts [FeelTime] into [String].
-  fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl Display for FeelTime {
+  /// Implements [Display] for FEEL time.
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     if self.3 > 0 {
       write!(f, "{:02}:{:02}:{:02}.{}{}", self.0, self.1, self.2, nanos_to_string(self.3), self.4)
     } else {
@@ -260,6 +262,10 @@ impl FeelTime {
 
   pub fn zone(&self) -> &FeelZone {
     &self.4
+  }
+
+  pub fn as_tuple(&self) -> (u8, u8, u8, u64, FeelZone) {
+    (self.0, self.1, self.2, self.3, self.4.clone())
   }
 
   pub fn feel_time_offset(&self) -> Option<i32> {

@@ -321,11 +321,22 @@ pub fn before(value1: &Value, value2: &Value) -> Value {
 }
 
 /// Returns the smallest integer >= argument.
-pub fn ceiling(value: &Value) -> Value {
-  if let Value::Number(v) = value {
-    Value::Number(v.ceiling())
+pub fn ceiling(n: &Value, scale: &Value) -> Value {
+  if let Value::Number(n) = n {
+    if let Value::Number(scale) = scale {
+      if let Ok(scale) = scale.try_into() {
+        match n.ceiling(scale) {
+          Ok(rounded) => Value::Number(rounded),
+          Err(reason) => value_null!("[core::ceiling] {}", reason),
+        }
+      } else {
+        value_null!("[core::ceiling] invalid scale: {}", scale)
+      }
+    } else {
+      invalid_argument_type!("ceiling", "number", scale.type_of())
+    }
   } else {
-    invalid_argument_type!("ceiling", "number", value.type_of())
+    invalid_argument_type!("ceiling", "number", n.type_of())
   }
 }
 
@@ -437,6 +448,107 @@ pub fn contains(input_string_value: &Value, match_string_value: &Value) -> Value
     }
   } else {
     invalid_argument_type!("contains", "string", input_string_value.type_of())
+  }
+}
+
+pub fn context(entries: &Value) -> Value {
+  match entries {
+    Value::List(entries) => {
+      let mut result_ctx = FeelContext::default();
+      for entry in entries {
+        match entry {
+          Value::Context(ctx) => {
+            let Some(key) = ctx.get_entry(&"key".into()) else {
+              return value_null!("context: no 'key' entry in context {}", ctx);
+            };
+            let Some(value) = ctx.get_entry(&"value".into()) else {
+              return value_null!("context: no 'value' entry in context {}", ctx);
+            };
+            let key: Name = match key {
+              Value::String(key) => key.clone().into(),
+              _ => return value_null!("context: 'key' entry is not a string, actual type is {}", key.type_of()),
+            };
+            if result_ctx.contains_key(&key) {
+              return value_null!("context: duplicated key: {}", key);
+            }
+            result_ctx.set_entry(&key, value.clone());
+          }
+          _ => return value_null!("context: invalid entry, expected context, actual type is {}", entry.type_of()),
+        }
+      }
+      Value::Context(result_ctx)
+    }
+    Value::Context(ctx) => {
+      let mut result_ctx = FeelContext::default();
+      let Some(key) = ctx.get_entry(&"key".into()) else {
+        return value_null!("context: no 'key' entry in context {}", ctx);
+      };
+      let Some(value) = ctx.get_entry(&"value".into()) else {
+        return value_null!("context: no 'value' entry in context {}", ctx);
+      };
+      let key: Name = match key {
+        Value::String(key) => key.clone().into(),
+        _ => return value_null!("context: 'key' entry is not a string, actual type is {}", key.type_of()),
+      };
+      result_ctx.set_entry(&key, value.clone());
+      Value::Context(result_ctx)
+    }
+    null @ Value::Null(_) => null.clone(),
+    other => invalid_argument_type!("context", "list or context", other.type_of()),
+  }
+}
+
+pub fn context_put(context: &Value, keys: &Value, value: &Value) -> Value {
+  match context {
+    Value::Context(ctx) => {
+      let mut result_ctx = ctx.clone();
+      match keys {
+        Value::String(key) => result_ctx.set_entry(&key.into(), value.clone()),
+        Value::List(items) => {
+          if items.is_empty() {
+            return value_null!();
+          }
+          let mut names = vec![];
+          for item in items {
+            match item {
+              Value::String(s) => names.push(s.into()),
+              null @ Value::Null(_) => return null.clone(),
+              other => return invalid_argument_type!("context put", "string", other.type_of()),
+            }
+          }
+          if result_ctx.apply_entries(&names, value.clone()).is_err() {
+            return value_null!();
+          }
+        }
+        null @ Value::Null(_) => return null.clone(),
+        other => return invalid_argument_type!("context put", "string or list<string>", other.type_of()),
+      }
+      Value::Context(result_ctx)
+    }
+    null @ Value::Null(_) => null.clone(),
+    other => invalid_argument_type!("context put", "context", other.type_of()),
+  }
+}
+
+pub fn context_merge(contexts: &Value) -> Value {
+  match contexts {
+    Value::List(items) => {
+      if items.is_empty() {
+        return value_null!();
+      }
+      let mut result_ctx = FeelContext::default();
+      for item in items {
+        match item {
+          Value::Context(ctx) => result_ctx.zip(ctx),
+          Value::Null(_) => {}
+          other => return invalid_argument_type!("context merge", "context", other.type_of()),
+        }
+      }
+      Value::Context(result_ctx)
+    }
+    Value::Context(ctx) => Value::Context(ctx.clone()),
+    null @ Value::Null(_) => null.clone(),
+    other => invalid_argument_type!("context merge", "list<context>", other.type_of()),
   }
 }
 
@@ -909,11 +1021,22 @@ fn flatten_value(value: &Value, flattened: &mut Vec<Value>) {
 }
 
 /// Returns greatest **integer** <= **value** specified as a parameter.
-pub fn floor(value: &Value) -> Value {
-  if let Value::Number(v) = value {
-    Value::Number(v.floor())
+pub fn floor(n: &Value, scale: &Value) -> Value {
+  if let Value::Number(n) = n {
+    if let Value::Number(scale) = scale {
+      if let Ok(scale) = scale.try_into() {
+        match n.floor(scale) {
+          Ok(rounded) => Value::Number(rounded),
+          Err(reason) => value_null!("[core::floor] {}", reason),
+        }
+      } else {
+        value_null!("[core::floor] invalid scale: {}", scale)
+      }
+    } else {
+      invalid_argument_type!("floor", "number", scale.type_of())
+    }
   } else {
-    invalid_argument_type!("floor", "number", value.type_of())
+    invalid_argument_type!("floor", "number", n.type_of())
   }
 }
 
@@ -1160,19 +1283,61 @@ pub fn lower_case(input_string_value: &Value) -> Value {
 }
 
 /// Returns `true` when the input matches the regexp pattern.
-pub fn matches(input_string_value: &Value, pattern_string_value: &Value, flags_string_value: &Value) -> Value {
-  if let Value::String(input_string) = input_string_value {
-    if let Value::String(pattern_string) = pattern_string_value {
-      if let Value::String(flags_string) = flags_string_value {
-        if let Ok(re) = Regex::new(format!("(?{flags_string}){pattern_string}").as_str()) {
-          return Value::Boolean(re.is_match(input_string));
-        }
-      } else if let Ok(re) = Regex::new(pattern_string) {
-        return Value::Boolean(re.is_match(input_string));
-      }
+pub fn matches_2(input: &Value, pattern: &Value) -> Value {
+  let Value::String(input) = input else {
+    return invalid_argument_type!("matches", "string", input.type_of());
+  };
+  let Value::String(pattern) = pattern else {
+    return invalid_argument_type!("matches", "string", pattern.type_of());
+  };
+  let Ok(re) = Regex::new(&fix_pattern(pattern, false)) else {
+    return value_null!("[core::matches_3] parsing pattern failed: '{}'", pattern);
+  };
+  Value::Boolean(re.is_match(&fix_input(input)))
+}
+
+/// Returns `true` when the input matches the regexp pattern.
+pub fn matches_3(input: &Value, pattern: &Value, flags: &Value) -> Value {
+  let Value::String(input) = input else {
+    return invalid_argument_type!("matches", "string", input.type_of());
+  };
+  let Value::String(pattern) = pattern else {
+    return invalid_argument_type!("matches", "string", pattern.type_of());
+  };
+  // flags if present must be a string
+  let Value::String(flags) = flags else {
+    return invalid_argument_type!("matches", "string", flags.type_of());
+  };
+  // flags must contain flags, may not be an empty string
+  let flags = flags.trim();
+  if flags.is_empty() {
+    return value_null!("[core::matches_3] flags can not be an empty string");
+  }
+  for ch in flags.chars() {
+    if !matches!(ch, 'i' | 'm' | 's' | 'x') {
+      return value_null!("[core::matches_3] flags can not contain character '{}'", ch);
     }
   }
-  value_null!("matches")
+  let Ok(re) = Regex::new(&format!("(?{flags}){}", fix_pattern(pattern, flags.contains('x')))) else {
+    return value_null!("[core::matches_3] parsing pattern failed: '{}'", pattern);
+  };
+  Value::Boolean(re.is_match(&fix_input(input)))
+}
+
+/// Nasty tricks on input.
+fn fix_input(s: &str) -> String {
+  s.replace("\r\n", "\n").replace('\r', "\n")
+}
+
+/// Nasty tricks on pattern.
+#[inline(always)]
+fn fix_pattern(s: &str, whitespaces: bool) -> String {
+  let pattern = s.replace("-[", "--[");
+  if whitespaces {
+    pattern.replace("\\ ", "\\").replace("[ ]", "[\\ ]")
+  } else {
+    pattern
+  }
 }
 
 /// Returns the maximum value in the collection of comparable values.
@@ -1438,7 +1603,8 @@ pub fn modulo(dividend_value: &Value, divisor_value: &Value) -> Value {
       if divisor.abs() == FeelNumber::zero() {
         value_null!("[core::modulo] division by zero")
       } else {
-        Value::Number(dividend - divisor * (dividend / divisor).floor())
+        // in floor function below the scale is zero, so unwrap is safe
+        Value::Number(dividend - divisor * (dividend / divisor).floor(0).unwrap())
       }
     } else {
       invalid_argument_type!("modulo", "number", divisor_value.type_of())
@@ -1475,6 +1641,11 @@ pub fn not(negand: &Value) -> Value {
   } else {
     invalid_argument_type!("not", "boolean", negand.type_of())
   }
+}
+
+/// Returns current date and time.
+pub fn now() -> Value {
+  Value::DateTime(FeelDateTime::now())
 }
 
 /// Converts string to a number.
@@ -1842,6 +2013,74 @@ pub fn reverse(list: &Value) -> Value {
 }
 
 ///
+pub fn round_down(n: &Value, scale: &Value) -> Value {
+  let Value::Number(n) = n else {
+    return invalid_argument_type!("round down", "number", n.type_of());
+  };
+  let Value::Number(scale) = scale else {
+    return invalid_argument_type!("round down", "number", scale.type_of());
+  };
+  let Ok(scale): Result<i32, DsntkError> = scale.try_into() else {
+    return value_null!("[core::round_down] invalid scale: {}", scale);
+  };
+  match n.round_down(scale) {
+    Ok(rounded) => Value::Number(rounded),
+    Err(reason) => value_null!("[core::round_down] {}", reason),
+  }
+}
+
+///
+pub fn round_half_down(n: &Value, scale: &Value) -> Value {
+  let Value::Number(n) = n else {
+    return invalid_argument_type!("round half down", "number", n.type_of());
+  };
+  let Value::Number(scale) = scale else {
+    return invalid_argument_type!("round half down", "number", scale.type_of());
+  };
+  let Ok(scale): Result<i32, DsntkError> = scale.try_into() else {
+    return value_null!("[core::round_half_down] invalid scale: {}", scale);
+  };
+  match n.round_half_down(scale) {
+    Ok(rounded) => Value::Number(rounded),
+    Err(reason) => value_null!("[core::round_half_down] {}", reason),
+  }
+}
+
+///
+pub fn round_half_up(n: &Value, scale: &Value) -> Value {
+  let Value::Number(n) = n else {
+    return invalid_argument_type!("round half up", "number", n.type_of());
+  };
+  let Value::Number(scale) = scale else {
+    return invalid_argument_type!("round half up", "number", scale.type_of());
+  };
+  let Ok(scale): Result<i32, DsntkError> = scale.try_into() else {
+    return value_null!("[core::round_half_up] invalid scale: {}", scale);
+  };
+  match n.round_half_up(scale) {
+    Ok(rounded) => Value::Number(rounded),
+    Err(reason) => value_null!("[core::round_half_up] {}", reason),
+  }
+}
+
+///
+pub fn round_up(n: &Value, scale: &Value) -> Value {
+  let Value::Number(n) = n else {
+    return invalid_argument_type!("round up", "number", n.type_of());
+  };
+  let Value::Number(scale) = scale else {
+    return invalid_argument_type!("round up", "number", scale.type_of());
+  };
+  let Ok(scale): Result<i32, DsntkError> = scale.try_into() else {
+    return value_null!("[core::round_up] invalid scale: {}", scale);
+  };
+  match n.round_up(scale) {
+    Ok(rounded) => Value::Number(rounded),
+    Err(reason) => value_null!("[core::round_up] {}", reason),
+  }
+}
+
+///
 pub fn sort(list: &Value, ordering_function: &Value) -> Value {
   if let Value::List(items) = list {
     if let Value::FunctionDefinition(parameters, body, false, _, closure_ctx, _) = ordering_function {
@@ -2156,6 +2395,35 @@ pub fn string(value: &Value) -> Value {
     Value::Null(_) => value_null!(),
     Value::String(s) => Value::String(s.clone()),
     other => Value::String(other.to_feel_string()),
+  }
+}
+
+/// Returns the number of characters in string.
+pub fn string_join(list: &Value, delimiter: &Value) -> Value {
+  match list {
+    Value::List(items) => {
+      let delimiter = match delimiter {
+        Value::String(delimiter) => delimiter.clone(),
+        Value::Null(_) => "".to_string(),
+        _ => return value_null!("string join: invalid delimiter, expected string, actual value type is {}", delimiter.type_of()),
+      };
+      let mut joined_string = String::new();
+      for (i, item) in items.iter().enumerate() {
+        match item {
+          Value::String(s) => {
+            if i > 0 {
+              joined_string.push_str(&delimiter);
+            }
+            joined_string.push_str(s);
+          }
+          Value::Null(_) => {}
+          other => return invalid_argument_type!("string join", "string", other.type_of()),
+        }
+      }
+      Value::String(joined_string)
+    }
+    Value::String(string) => Value::String(string.clone()),
+    other => value_null!("string join: expected list or string, actual value type is {}", other.type_of()),
   }
 }
 
@@ -2476,6 +2744,11 @@ pub fn time_4(hour_value: &Value, minute_value: &Value, second_value: &Value, of
   } else {
     value_null!("core", "time_4", "hour must be a number, current type is: {}", hour_value.type_of())
   }
+}
+
+/// Returns current date.
+pub fn today() -> Value {
+  Value::Date(FeelDate::today())
 }
 
 /// Returns new list containing concatenated list with duplicates removed.

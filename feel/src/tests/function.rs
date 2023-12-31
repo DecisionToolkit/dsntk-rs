@@ -93,3 +93,69 @@ fn test_function_body_external() {
   assert_eq!(fun_body, fun_body_a);
   assert_eq!(fun_body, fun_body.clone());
 }
+
+#[test]
+fn test_function_body_conditional() {
+  let scope = &FeelScope::default();
+  let fun_body = FunctionBody::Conditional(Arc::new(Box::new(|_: &FeelScope| value_number!(9))));
+  assert_eq!(value_number!(9), fun_body.evaluate(scope));
+  assert_eq!("FunctionBodyConditional", format!("{fun_body:?}"));
+  let fun_body_a = FunctionBody::Conditional(Arc::new(Box::new(|_: &FeelScope| value_number!(90))));
+  assert_eq!(fun_body, fun_body_a);
+  assert_eq!(fun_body, fun_body.clone());
+}
+
+#[test]
+fn test_function_body_every() {
+  let scope = &FeelScope::default();
+  let fun_body = FunctionBody::Every(Arc::new(Box::new(|_: &FeelScope| value_number!(10))));
+  assert_eq!(value_number!(10), fun_body.evaluate(scope));
+  assert_eq!("FunctionBodyEvery", format!("{fun_body:?}"));
+  let fun_body_a = FunctionBody::Every(Arc::new(Box::new(|_: &FeelScope| value_number!(100))));
+  assert_eq!(fun_body, fun_body_a);
+  assert_eq!(fun_body, fun_body.clone());
+}
+
+#[test]
+fn test_function_body_filter() {
+  let scope = &FeelScope::default();
+  let fun_body = FunctionBody::Filter(Arc::new(Box::new(|_: &FeelScope| value_number!(11))));
+  assert_eq!(value_number!(11), fun_body.evaluate(scope));
+  assert_eq!("FunctionBodyFilter", format!("{fun_body:?}"));
+  let fun_body_a = FunctionBody::Filter(Arc::new(Box::new(|_: &FeelScope| value_number!(110))));
+  assert_eq!(fun_body, fun_body_a);
+  assert_eq!(fun_body, fun_body.clone());
+}
+
+#[test]
+fn test_function_body_for() {
+  let scope = &FeelScope::default();
+  let fun_body = FunctionBody::For(Arc::new(Box::new(|_: &FeelScope| value_number!(12))));
+  assert_eq!(value_number!(12), fun_body.evaluate(scope));
+  assert_eq!("FunctionBodyFor", format!("{fun_body:?}"));
+  let fun_body_a = FunctionBody::For(Arc::new(Box::new(|_: &FeelScope| value_number!(120))));
+  assert_eq!(fun_body, fun_body_a);
+  assert_eq!(fun_body, fun_body.clone());
+}
+
+#[test]
+fn test_function_body_list() {
+  let scope = &FeelScope::default();
+  let fun_body = FunctionBody::List(Arc::new(Box::new(|_: &FeelScope| value_number!(13))));
+  assert_eq!(value_number!(13), fun_body.evaluate(scope));
+  assert_eq!("FunctionBodyList", format!("{fun_body:?}"));
+  let fun_body_a = FunctionBody::List(Arc::new(Box::new(|_: &FeelScope| value_number!(130))));
+  assert_eq!(fun_body, fun_body_a);
+  assert_eq!(fun_body, fun_body.clone());
+}
+
+#[test]
+fn test_function_body_some() {
+  let scope = &FeelScope::default();
+  let fun_body = FunctionBody::Some(Arc::new(Box::new(|_: &FeelScope| value_number!(14))));
+  assert_eq!(value_number!(14), fun_body.evaluate(scope));
+  assert_eq!("FunctionBodySome", format!("{fun_body:?}"));
+  let fun_body_a = FunctionBody::Some(Arc::new(Box::new(|_: &FeelScope| value_number!(140))));
+  assert_eq!(fun_body, fun_body_a);
+  assert_eq!(fun_body, fun_body.clone());
+}

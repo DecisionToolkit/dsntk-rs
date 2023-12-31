@@ -75,3 +75,146 @@ fn _0006() {
 fn _0007() {
   te_be_value(false, &scope!(), r#"for n in 4..2 return n"#, "[4,3,2]");
 }
+
+#[test]
+fn _0008() {
+  te_be_value(
+    false,
+    &scope!(),
+    r#"for i in 1..3, j in [4,5] return {a: i, b: j}"#,
+    "[{a: 1, b: 4}, {a: 1, b: 5}, {a: 2, b: 4}, {a: 2, b: 5}, {a: 3, b: 4}, {a: 3, b: 5}]",
+  );
+}
+
+#[test]
+fn _0009() {
+  te_be_value(
+    false,
+    &scope!(),
+    r#"for j in [4,5], i in 1..3 return {a: i, b: j}"#,
+    "[{a: 1, b: 4}, {a: 2, b: 4}, {a: 3, b: 4}, {a: 1, b: 5}, {a: 2, b: 5}, {a: 3, b: 5}]",
+  );
+}
+
+#[test]
+fn _0010() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // `x` variable iterates over a list. But the elements of this list are also lists (nested lists).
+  // The result is a list of elements, but because each element is also a list,
+  // the we get a nested list as a result.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_be_value(false, &scope!(), "for x in [[1,2],[3,4]] return x", "[[1, 2], [3, 4]]");
+}
+
+#[test]
+fn _0011() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // In the previous test we get a nested list as a result from iteration done by variable `x`.
+  // So the nested loop with variable `y` also iterates over a nested list, so we get the same result
+  // as in previous test.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_be_value(false, &scope!(), "for x in [[1,2],[3,4]] return for y in x return y", "[[1, 2], [3, 4]]");
+}
+
+#[test]
+fn _0012() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // This is tricky. `x` iterates over values that are lists. So in each iteration,
+  // the value of `x` is a list (the nested one).
+  // So the variable `y` always sees a list of numbers, so it iterates over numbers,
+  // and because we care only about variable `y` in the result (which is a number in each iteration),
+  // so the final result is a list of numbers.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_be_value(false, &scope!(), "for x in [[1,2],[3,4]], y in x return y", "[1, 2, 3, 4]");
+}
+
+#[test]
+fn _0013() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Binding variable pointing to another variable can not be the before the pointed one.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_null(false, &scope!(), "(for y in x, x in [[1,2],[3,4]] return y)[1]", "context has no value for key 'x'");
+  te_null(false, &scope!(), "(for y in x, x in [[1,2],[3,4]] return y)[2]", "context has no value for key 'x'");
+}
+
+#[test]
+fn _0014() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Binding variable is repeated in the output, because is not in the last iteration context.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_be_value(
+    false,
+    &scope!(),
+    "for x in [[1,2],[3,4]], y in x, z in [8,9,10] return y",
+    "[1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4]",
+  );
+}
+
+#[test]
+fn _0015() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Iterating over empty list should return an empty list.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_be_value(false, &scope!(), "for x in [] return x", "[]");
+}
+
+#[test]
+fn _0016() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Iterating over empty list in first context should return an empty list.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_be_value(false, &scope!(), "for x in [], y in [1,2] return y", "[]");
+}
+
+#[test]
+fn _0017() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Iterating over empty list in last context should return an empty list.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_be_value(false, &scope!(), "for x in [1,2], y in [] return x", "[]");
+}
+
+#[test]
+fn _0018() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Iterating over empty list in any context should return an empty list.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_be_value(false, &scope!(), "for x in [1,2,3], y in [], z in [4,5] return z", "[]");
+}
+
+#[test]
+fn _0019() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Binding variable points on another one, but the list is not nested.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_be_value(false, &scope!(), "for x in [1,2,3,4], y in x return y", "[1, 2, 3, 4]");
+}
+
+#[test]
+fn _0020() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Binding variables chain.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_be_value(false, &scope!(), "for x in [1,2,3,4], y in x, z in y return z", "[1, 2, 3, 4]");
+}
+
+#[test]
+fn _0021() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Binding variables chain with nested lists.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_be_value(false, &scope!(), "for x in [[1,2],[3,4]], y in x, z in y return z", "[1, 2, 3, 4]");
+}
+
+#[test]
+fn _0022() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Binding variables chain with triple nested lists.
+  //--------------------------------------------------------------------------------------------------------------------
+  te_be_value(
+    false,
+    &scope!(),
+    "for x in [[[1,2],[3,4]],[[5,6],[7,8]]], y in x, z in y return z",
+    "[1, 2, 3, 4, 5, 6, 7, 8]",
+  );
+}

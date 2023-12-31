@@ -1,20 +1,30 @@
 #!/usr/bin/env bash
 
-# set variables
+# container name
 NAME=dsntk
-VERSION=0.0.2
 
-# clean before proceeding
-cargo clean
+# container version
+VERSION=0.0.3
+
+# stop existing Docker container
 docker stop $NAME
-docker rm $NAME
-docker rmi "$(docker images | grep $VERSION | awk '{print $3}')"
 
-# build the toolkit
+# remove stopped Docker container
+docker rm $NAME
+
+# remove existing Docker image
+docker rmi "$(docker images | grep "^$NAME " | awk '{print $3}')"
+
+# build the Decision Toolkit
 cargo +stable build --release --target x86_64-unknown-linux-musl
 
-# build the docker image
+# build new Docker image
 docker build -t $NAME:$VERSION .
 
-# start the container
+# start new Docker container
 docker run --name $NAME -d -p 22022:22022 $NAME:$VERSION
+
+# display logs from running Docker container
+docker logs -f $NAME
+
+# press Ctrl+C to stop following the log file ;-)

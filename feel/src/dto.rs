@@ -215,7 +215,6 @@ impl TryFrom<&SimpleDto> for Value {
 
 impl TryFrom<&ObjectDto> for Value {
   type Error = DsntkError;
-  /// Converts an [ObjectDto] to [Value].
   fn try_from(object: &ObjectDto) -> Result<Self, Self::Error> {
     let mut ctx: FeelContext = Default::default();
     for item in object {

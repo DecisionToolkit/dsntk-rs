@@ -1,23 +1,23 @@
 [package]
 name = "dsntk-feel"
-version.workspace = true
-authors.workspace = true
+version = { workspace = true }
+authors = { workspace = true }
 description = "DSNTK | FEEL definitions"
 documentation = "https://docs.rs/dsntk-feel"
 repository = "https://github.com/dsntk/dsntk-rs.git"
-license.workspace = true
-edition.workspace = true
+license = { workspace = true }
+edition = { workspace = true }
 
 [dependencies]
-chrono.workspace = true
-chrono-tz.workspace = true
-serde.workspace = true
-serde_json.workspace = true
-regex.workspace = true
-dsntk-common.workspace = true
-dsntk-feel-number.workspace = true
-dsntk-feel-temporal.workspace = true
-dsntk-macros.workspace = true
+chrono = { workspace = true }
+chrono-tz = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+regex = { workspace = true }
+dsntk-common = { workspace = true }
+dsntk-feel-number = { workspace = true }
+dsntk-feel-temporal = { workspace = true }
+dsntk-macros = { workspace = true }
 
 [dev-dependencies]
-once_cell.workspace = true
+once_cell = { workspace = true }

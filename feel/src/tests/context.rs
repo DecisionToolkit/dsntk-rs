@@ -1,7 +1,7 @@
 use crate::context::FeelContext;
 use crate::names::Name;
 use crate::qualified_names::QualifiedName;
-use crate::values::Value;
+use crate::values::{Value, VALUE_FALSE, VALUE_TRUE};
 use crate::{value_number, ToFeelString};
 use dsntk_common::Jsonify;
 
@@ -230,21 +230,70 @@ fn test_context_create_entry() {
   let qn_a_b_c_d = QualifiedName::new(&[&name_a, &name_b, &name_c, &name_d]);
   let mut ctx: FeelContext = Default::default();
   ctx.create_entry(&qn_a_b_c_d, Value::Boolean(true));
-  assert_eq!("{a: {b: {c: {d: true}}}}", ctx.to_string().as_str());
-  assert_eq!("{b: {c: {d: true}}}", ctx.search_entry(&qn_a).unwrap().to_string().as_str());
-  assert_eq!("{c: {d: true}}", ctx.search_entry(&qn_a_b).unwrap().to_string().as_str());
-  assert_eq!("{d: true}", ctx.search_entry(&qn_a_b_c).unwrap().to_string().as_str());
-  assert_eq!("true", ctx.search_entry(&qn_a_b_c_d).unwrap().to_string().as_str());
+  assert_eq!("{a: {b: {c: {d: true}}}}", ctx.to_string());
+  assert_eq!("{b: {c: {d: true}}}", ctx.search_entry(&qn_a).unwrap().to_string());
+  assert_eq!("{c: {d: true}}", ctx.search_entry(&qn_a_b).unwrap().to_string());
+  assert_eq!("{d: true}", ctx.search_entry(&qn_a_b_c).unwrap().to_string());
+  assert_eq!("true", ctx.search_entry(&qn_a_b_c_d).unwrap().to_string());
   let mut ctx: FeelContext = Default::default();
   ctx.create_entry(&qn_a, Value::Boolean(true));
   ctx.create_entry(&qn_b, Value::Boolean(false));
   ctx.create_entry(&qn_c_d, Value::String("deep".to_string()));
-  assert_eq!(r#"{a: true, b: false, c: {d: "deep"}}"#, ctx.to_string().as_str());
+  assert_eq!(r#"{a: true, b: false, c: {d: "deep"}}"#, ctx.to_string());
   let mut ctx: FeelContext = Default::default();
   ctx.create_entry(&qn_a_b, Value::String("b".to_string()));
   ctx.create_entry(&qn_a_c, Value::String("c".to_string()));
   ctx.create_entry(&qn_a_d, Value::String("d".to_string()));
-  assert_eq!(r#"{a: {b: "b", c: "c", d: "d"}}"#, ctx.to_string().as_str());
+  assert_eq!(r#"{a: {b: "b", c: "c", d: "d"}}"#, ctx.to_string());
+}
+
+#[test]
+fn test_context_create_entries() {
+  let name_a: Name = "a".into();
+  let name_b: Name = "b".into();
+  let name_c: Name = "c".into();
+  let name_d: Name = "d".into();
+  let v_a = VALUE_TRUE;
+  let v_b = VALUE_FALSE;
+  let mut ctx: FeelContext = Default::default();
+  ctx.create_entries(&[], v_a.clone());
+  assert_eq!("{}", ctx.to_string());
+  ctx.create_entries(&[name_a.clone()], v_a.clone());
+  assert_eq!("{a: true}", ctx.to_string());
+  ctx.create_entries(&[name_a.clone(), name_b.clone()], v_a.clone());
+  assert_eq!("{a: {b: true}}", ctx.to_string());
+  ctx.create_entries(&[name_a.clone(), name_b.clone(), name_c.clone()], v_a.clone());
+  assert_eq!("{a: {b: {c: true}}}", ctx.to_string());
+  ctx.create_entries(&[name_a.clone(), name_b.clone(), name_c, name_d], v_a);
+  assert_eq!("{a: {b: {c: {d: true}}}}", ctx.to_string());
+  ctx.create_entries(&[name_a, name_b], v_b);
+  assert_eq!("{a: {b: false}}", ctx.to_string());
+}
+
+#[test]
+fn test_context_apply_entries() {
+  let name_a: Name = "a".into();
+  let name_b: Name = "b".into();
+  let name_c: Name = "c".into();
+  let name_d: Name = "d".into();
+  let v_a = VALUE_TRUE;
+  let v_b = VALUE_FALSE;
+  let v_c = Value::Context(FeelContext::new());
+  let mut ctx = FeelContext::new();
+  ctx.apply_entries(&[], v_a.clone()).unwrap();
+  assert_eq!("{}", ctx.to_string());
+  ctx.apply_entries(&[name_a.clone()], v_c.clone()).unwrap();
+  assert_eq!("{a: {}}", ctx.to_string());
+  ctx.apply_entries(&[name_a.clone(), name_b.clone()], v_c.clone()).unwrap();
+  assert_eq!("{a: {b: {}}}", ctx.to_string());
+  ctx.apply_entries(&[name_a.clone(), name_b.clone(), name_c.clone()], v_c.clone()).unwrap();
+  assert_eq!("{a: {b: {c: {}}}}", ctx.to_string());
+  ctx.apply_entries(&[name_a.clone(), name_b.clone(), name_c.clone(), name_d.clone()], v_a.clone()).unwrap();
+  assert_eq!("{a: {b: {c: {d: true}}}}", ctx.to_string());
+  ctx.apply_entries(&[name_a.clone(), name_b.clone(), name_c.clone()], v_b).unwrap();
+  assert_eq!("{a: {b: {c: false}}}", ctx.to_string());
+  // net operation should fail, because `c` is not a context
+  ctx.apply_entries(&[name_a, name_b, name_c, name_d], v_a).unwrap_err();
 }
 
 #[test]

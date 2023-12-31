@@ -74,6 +74,11 @@ pub fn err_xml_parsing_model_failed(s: &str) -> DsntkError {
   ModelParserError(format!("parsing model from XML failed with reason: {s}")).into()
 }
 
+/// Raised when specified node has no child nodes.
+pub fn err_node_has_no_children(s: &str) -> DsntkError {
+  ModelParserError(format!("node {s} has no children nodes")).into()
+}
+
 ///
 pub fn err_xml_unexpected_node(s1: &str, s2: &str) -> DsntkError {
   ModelParserError(format!("unexpected XML node, expected: {s1}, actual: {s2}")).into()
