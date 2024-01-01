@@ -17,10 +17,8 @@
 [build-badge-macos]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-macos.yml/badge.svg
 [mit-badge]: https://img.shields.io/badge/License-MIT-blue.svg
 [mit-url]: https://opensource.org/licenses/MIT
-[mit-url]: https://opensource.org/licenses/MIT
 [mit-license-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE-MIT
 [apache-badge]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-[apache-url]: https://www.apache.org/licenses/LICENSE-2.0
 [apache-url]: https://www.apache.org/licenses/LICENSE-2.0
 [apache-license-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE
 [apache-notice-url]: https://github.com/dsntk/dsntk-rs/blob/main/NOTICE
