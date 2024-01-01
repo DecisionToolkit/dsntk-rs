@@ -3,6 +3,7 @@
 # dsntk-model-evaluator
 
 [![Crates.io][crates-badge]][crates-url]
+[![docs][docs-badge]][docs-url]
 ![Code coverage][coverage-badge]<br/>
 ![build Linux][build-badge-linux]
 ![build Windows][build-badge-windows]
@@ -13,6 +14,8 @@
 
 [crates-badge]: https://img.shields.io/crates/v/dsntk-model-evaluator.svg
 [crates-url]: https://crates.io/crates/dsntk-model-evaluator
+[docs-badge]: https://docs.rs/dsntk-model-evaluator/badge.svg
+[docs-url]: https://docs.rs/dsntk-model-evaluator
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-89%25-green.svg
 [build-badge-linux]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-linux.yml/badge.svg
 [build-badge-windows]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-windows.yml/badge.svg
