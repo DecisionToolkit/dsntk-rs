@@ -3,6 +3,7 @@
 # dsntk-feel-parser
 
 [![Crates.io][crates-badge]][crates-url]
+[![docs][docs-badge]][docs-url]
 ![Code coverage][coverage-badge]<br/>
 ![build Linux][build-badge-linux]
 ![build Windows][build-badge-windows]
@@ -13,6 +14,8 @@
 
 [crates-badge]: https://img.shields.io/crates/v/dsntk-feel-parser.svg
 [crates-url]: https://crates.io/crates/dsntk-feel-parser
+[docs-badge]: https://docs.rs/dsntk-feel-parser/badge.svg
+[docs-url]: https://docs.rs/dsntk-feel-parser
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-100%25-green.svg
 [build-badge-linux]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-linux.yml/badge.svg
 [build-badge-windows]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-windows.yml/badge.svg
