@@ -4,7 +4,8 @@
 //! based on the **Intel(R) Decimal Floating-Point Math Library**.
 
 use crate::errors::*;
-use dfp_number_sys::{bid128_000::*, *};
+use dfp_number_sys::bid128_000::*;
+use dfp_number_sys::*;
 use dsntk_common::{DsntkError, Jsonify, Result};
 use std::cmp::Ordering;
 use std::fmt;
