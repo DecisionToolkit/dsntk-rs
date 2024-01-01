@@ -14,7 +14,6 @@
 
 [crates-badge]: https://img.shields.io/crates/v/dsntk-examples.svg
 [crates-url]: https://crates.io/crates/dsntk-examples
-[crates-url]: https://crates.io/crates/dsntk-examples
 [docs-badge]: https://docs.rs/dsntk-examples/badge.svg
 [docs-url]: https://docs.rs/dsntk-examples
 [coverage-badge]: https://img.shields.io/badge/Code%20Coverage-100%25-green.svg
