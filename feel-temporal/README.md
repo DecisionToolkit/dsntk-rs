@@ -3,6 +3,7 @@
 # dsntk-feel-temporal
 
 [![Crates.io][crates-badge]][crates-url]
+[![docs][docs-badge]][docs-url]
 ![Code coverage][coverage-badge]<br/>
 ![build Linux][build-badge-linux]
 ![build Windows][build-badge-windows]
@@ -11,8 +12,10 @@
 [![Apache 2.0 licensed][apache-badge]][apache-license-url]
 [![Contributor Covenant][cc-badge]][cc-url]
 
-[crates-badge]: https://img.shields.io/crates/v/dsntk-feel-number.svg
-[crates-url]: https://crates.io/crates/dsntk-feel-number
+[crates-badge]: https://img.shields.io/crates/v/dsntk-feel-temporal.svg
+[crates-url]: https://crates.io/crates/dsntk-feel-temporal
+[docs-badge]: https://docs.rs/dsntk-feel-temporal/badge.svg
+[docs-url]: https://docs.rs/dsntk-feel-temporal
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-100%25-green.svg
 [build-badge-linux]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-linux.yml/badge.svg
 [build-badge-windows]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-windows.yml/badge.svg
