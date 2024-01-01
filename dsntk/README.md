@@ -12,8 +12,8 @@
 
 [crates-badge]: https://img.shields.io/crates/v/dsntk.svg
 [crates-url]: https://crates.io/crates/dsntk
-[docs-badge]: https://docs.rs/dsntk/badge.svg
-[docs-url]: https://docs.rs/dsntk
+[docs-badge]: https://img.shields.io/badge/docs-passing-green.svg
+[docs-url]: https://dsntk.io
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-97%25-green.svg
 [build-badge-linux]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-linux.yml/badge.svg
 [build-badge-windows]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-windows.yml/badge.svg
