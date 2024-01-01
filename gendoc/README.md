@@ -3,6 +3,7 @@
 # dsntk-gendoc
 
 [![Crates.io][crates-badge]][crates-url]
+[![docs][docs-badge]][docs-url]
 ![Code coverage][coverage-badge]<br/>
 ![build Linux][build-badge-linux]
 ![build Windows][build-badge-windows]
@@ -13,6 +14,8 @@
 
 [crates-badge]: https://img.shields.io/crates/v/dsntk-gendoc.svg
 [crates-url]: https://crates.io/crates/dsntk-gendoc
+[docs-badge]: https://docs.rs/dsntk-gendoc/badge.svg
+[docs-url]: https://docs.rs/dsntk-gendoc
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-97%25-green.svg
 [build-badge-linux]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-linux.yml/badge.svg
 [build-badge-windows]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-windows.yml/badge.svg

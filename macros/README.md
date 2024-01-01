@@ -3,6 +3,7 @@
 # dsntk-macros
 
 [![Crates.io][crates-badge]][crates-url]
+[![docs][docs-badge]][docs-url]
 ![Code coverage][coverage-badge]<br/>
 ![build Linux][build-badge-linux]
 ![build Windows][build-badge-windows]
@@ -11,8 +12,10 @@
 [![Apache 2.0 licensed][apache-badge]][apache-license-url]
 [![Contributor Covenant][cc-badge]][cc-url]
 
-[crates-badge]: https://img.shields.io/crates/v/dsntk-model.svg
-[crates-url]: https://crates.io/crates/dsntk-model
+[crates-badge]: https://img.shields.io/crates/v/dsntk-macros.svg
+[crates-url]: https://crates.io/crates/dsntk-macros
+[docs-badge]: https://docs.rs/dsntk-macros/badge.svg
+[docs-url]: https://docs.rs/dsntk-macros
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-77%25-green.svg
 [build-badge-linux]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-linux.yml/badge.svg
 [build-badge-windows]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-windows.yml/badge.svg

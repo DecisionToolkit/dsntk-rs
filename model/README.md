@@ -3,6 +3,7 @@
 # dsntk-model
 
 [![Crates.io][crates-badge]][crates-url]
+[![docs][docs-badge]][docs-url]
 ![Code coverage][coverage-badge]<br/>
 ![build Linux][build-badge-linux]
 ![build Windows][build-badge-windows]
@@ -13,6 +14,8 @@
 
 [crates-badge]: https://img.shields.io/crates/v/dsntk-model.svg
 [crates-url]: https://crates.io/crates/dsntk-model
+[docs-badge]: https://docs.rs/dsntk-model/badge.svg
+[docs-url]: https://docs.rs/dsntk-model
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-77%25-green.svg
 [build-badge-linux]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-linux.yml/badge.svg
 [build-badge-windows]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-windows.yml/badge.svg
