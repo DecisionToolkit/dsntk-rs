@@ -92,7 +92,7 @@ _Changes introduced in version 1.5 are marked with:_ ◀️
 
 34. boolean literal = `true` | `false` ;
 
-35. numeric literal = [ `-` ] ( digits [ `.` digits ] | `.` digits ) ;
+35. numeric literal = [ `-` ] ( digits [ `.` digits ] | `.` digits [ ( `e` | `E` ) , [ `+` | `-` ] digits ]) ; ◀️
 
 36. digit = [0-9] ;
 
@@ -164,6 +164,13 @@ _Changes introduced in version 1.5 are marked with:_ ◀️
 
 65. at literal = `@` string literal
 
+66. range literal = ◀️
+    - a. ( open range start | closed range start ) range endpoint `..` range endpoint ( open range end | closed range end ) |
+    - b. open range start `..` range endpoint ( open range end | closed range end ) |
+    - c. ( open range start | closed range start ) range endpoint `..` open range end ;
+
+67. range endpoint = numeric literal | string literal | date time literal ; ◀️
+
 ## Summary of changes from version 1.4 to 1.5
 
 ### Rule 7
@@ -179,3 +186,28 @@ _Changes introduced in version 1.5 are marked with:_ ◀️
 > 7. simple positive unary test =
 >    - a. [ `<` | `<=` | `>` | `>=` | `=` | `!=` ] endpoint |
 >    - b. interval ;
+
+### Rule 35
+
+> `1.4`
+>
+> 35. numeric literal = [ `-` ] ( digits [ `.` digits ] | `.` digits ) ;
+
+> `1.5`
+>
+> 35. numeric literal = [ `-` ] ( digits [ `.` digits ] | `.` digits [ ( `e` | `E` ) , [ `+` | `-` ] digits ]) ;
+
+### Rule 66 (new)
+
+> `1.5`
+>
+> 66. range literal =
+>     - a. ( open range start | closed range start ) range endpoint `..` range endpoint ( open range end | closed range end ) |
+>     - b. open range start `..` range endpoint ( open range end | closed range end ) |
+>     - c. ( open range start | closed range start ) range endpoint `..` open range end ;
+
+### Rule 67 (new)
+
+> `1.5`
+>
+> 67. range endpoint = numeric literal | string literal | date time literal ;
