@@ -220,40 +220,24 @@ pub enum Value {
   UnaryGreater(
     /// Value on the right side of the unary `>` operator.
     Box<Value>,
-    /// Flag indicating, if the direct child is a `path expression`.
-    /// In such case, when equal to `true`, the unary `>` operator
-    /// is treated like a range (value..∞).
-    bool,
   ),
 
   /// Value representing unary `>=`.
   UnaryGreaterOrEqual(
     /// Value on the right side of the unary `>=` operator.
     Box<Value>,
-    /// Flag indicating, if the direct child is a `path expression`.
-    /// In such case, when equal to `true`, the unary `>=` operator
-    /// is treated like a range [value..∞).
-    bool,
   ),
 
   /// Value representing unary `<`.
   UnaryLess(
     /// Value on the right side of the unary `<` operator.
     Box<Value>,
-    /// Flag indicating, if the direct child is a `path expression`.
-    /// In such case, when equal to `true`, the unary `<` operator
-    /// is treated like a range (-∞..value).
-    bool,
   ),
 
   /// Value representing unary `<=`.
   UnaryLessOrEqual(
     /// Value on the right side of the unary `<=` operator.
     Box<Value>,
-    /// Flag indicating, if the direct child is a `path expression`.
-    /// In such case, when equal to `true`, the unary `<=` operator
-    /// is treated like a range (-∞..value].
-    bool,
   ),
 
   /// Value representing unary `=`.
@@ -267,6 +251,9 @@ pub enum Value {
     /// Value on the right side of the unary `!=` operator.
     Box<Value>,
   ),
+
+  /// Value that is "bubbled-up" without any processing.
+  Transparent(Box<Value>),
 
   /// Value for storing years and months duration.
   YearsAndMonthsDuration(FeelYearsAndMonthsDuration),
@@ -313,12 +300,13 @@ impl fmt::Display for Value {
       Value::Range(v1, c1, v2, c2) => write!(f, "{}{}..{}{}", if *c1 { '[' } else { '(' }, v1, v2, if *c2 { ']' } else { ')' }),
       Value::String(s) => write!(f, "\"{s}\""),
       Value::Time(time) => write!(f, "{time}"),
-      Value::UnaryGreater(value, contains_path) => write!(f, "UnaryGreater({value}, {contains_path})"),
-      Value::UnaryGreaterOrEqual(value, contains_path) => write!(f, "UnaryGreaterOrEqual({value}, {contains_path})"),
-      Value::UnaryLess(value, contains_path) => write!(f, "UnaryLess({value}, {contains_path})"),
-      Value::UnaryLessOrEqual(value, contains_path) => write!(f, "UnaryLessOrEqual({value}, {contains_path})"),
+      Value::UnaryGreater(value) => write!(f, "UnaryGreater({value})"),
+      Value::UnaryGreaterOrEqual(value) => write!(f, "UnaryGreaterOrEqual({value})"),
+      Value::UnaryLess(value) => write!(f, "UnaryLess({value})"),
+      Value::UnaryLessOrEqual(value) => write!(f, "UnaryLessOrEqual({value})"),
       Value::UnaryEqual(value) => write!(f, "UnaryEqual({value})"),
       Value::UnaryNotEqual(value) => write!(f, "UnaryNotEqual({value})"),
+      Value::Transparent(value) => write!(f, "Transparent({value})"),
       Value::YearsAndMonthsDuration(ym_duration) => write!(f, "{ym_duration}"),
     }
   }
@@ -471,12 +459,13 @@ impl Value {
       }
       Value::String(_) => FeelType::String,
       Value::Time(_) => FeelType::Time,
-      Value::UnaryGreater(_, _) => FeelType::Boolean,
-      Value::UnaryGreaterOrEqual(_, _) => FeelType::Boolean,
-      Value::UnaryLess(_, _) => FeelType::Boolean,
-      Value::UnaryLessOrEqual(_, _) => FeelType::Boolean,
+      Value::UnaryGreater(_) => FeelType::Boolean,
+      Value::UnaryGreaterOrEqual(_) => FeelType::Boolean,
+      Value::UnaryLess(_) => FeelType::Boolean,
+      Value::UnaryLessOrEqual(_) => FeelType::Boolean,
       Value::UnaryEqual(_) => FeelType::Boolean,
       Value::UnaryNotEqual(_) => FeelType::Boolean,
+      Value::Transparent(value) => value.type_of(),
       Value::YearsAndMonthsDuration(_) => FeelType::YearsAndMonthsDuration,
     }
   }

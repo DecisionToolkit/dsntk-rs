@@ -84,9 +84,14 @@ fn _0010() {
 
 #[test]
 fn _0011() {
-  let scope = scope!();
-  assert_eq!(
-    "<ParserError> syntax error: 1 += 2",
-    Parser::new(&scope, StartExpression, "1 += 2", false).parse().err().unwrap().to_string().as_str()
-  );
+  let input = "1 += 2";
+  let expected = r#"
+       Add
+       ├─ Numeric
+       │  └─ `1.`
+       └─ UnaryEq
+          └─ Numeric
+             └─ `2.`
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
 }
