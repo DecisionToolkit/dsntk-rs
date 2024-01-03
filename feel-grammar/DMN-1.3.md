@@ -1,11 +1,11 @@
 # FEEL grammar of [DMN™](https://www.omg.org/spec/DMN/1.3/PDF) 1.3
 
 1. expression  =
-    - a. boxed_expression |
-    - b. textual_expression ;
+    - a. boxed expression |
+    - b. textual expression ;
 
 2. textual_expression  =
-    - a. for_expression | if_expression | quantified_expression |
+    - a. for expression | if expression | quantified expression |
     - b. disjunction |
     - c. conjunction |
     - d. comparison |
@@ -102,7 +102,7 @@
 
 39. parameters = `(` , ( named_parameters | positional_parameters ) , `)` ;
 
-40. named_parameters = parameter_name , `:` , expression , { `,` , parameter name , `:` , expression } ;
+40. named parameters = parameter name , `:` , expression , { `,` , parameter name , `:` , expression } ;
 
 41. parameter_name = name ;
 
