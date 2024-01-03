@@ -49,7 +49,7 @@
     - b. `not` `(` positive unary tests `)` |
     - c. `-` ;
 
-> 16. endpoint = expression ;
+16. endpoint = expression ;
 
 17. simple value = qualified name | simple literal ;
 
@@ -160,3 +160,10 @@
 64. string escape sequence = `\'` | `\"` | `\\` | `\n` | `\r` | `\t` | code point;
 
 65. at literal = `@` string literal
+
+## Changes from version 1.3 to 1.4
+
+### Rule 16
+
+`1.3` 16. endpoint = simple value ;
+`1.4` 16. endpoint = endpoint ;
