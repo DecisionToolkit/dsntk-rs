@@ -49,7 +49,7 @@
     - b. `not` `(` positive unary tests `)` |
     - c. `-` ;
 
-16. endpoint = expression ;
+16. endpoint = **expression** ;
 
 17. simple value = qualified name | simple literal ;
 
@@ -161,7 +161,7 @@
 
 65. at literal = `@` string literal
 
-## Changes from version 1.3 to 1.4
+## Summary of the changes from version 1.3 to 1.4
 
 ### Rule 16
 
