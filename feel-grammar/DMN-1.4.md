@@ -166,7 +166,7 @@ _Changes introduced in version 1.4 are marked with:_ ◀️
 
 ## Summary of changes from version 1.3 to 1.4
 
-### Rule 16
+### Rule 16 (changed)
 
 > `1.3`
 > 
@@ -176,7 +176,7 @@ _Changes introduced in version 1.4 are marked with:_ ◀️
 >
 > 16. endpoint = endpoint ;
 
-### Rule 52
+### Rule 52 (changed)
 
 > `1.3`
 > 

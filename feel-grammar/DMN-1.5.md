@@ -173,7 +173,7 @@ _Changes introduced in version 1.5 are marked with:_ ◀️
 
 ## Summary of changes from version 1.4 to 1.5
 
-### Rule 7
+### Rule 7 (changed)
 
 > `1.4`
 >
@@ -187,7 +187,7 @@ _Changes introduced in version 1.5 are marked with:_ ◀️
 >    - a. [ `<` | `<=` | `>` | `>=` | `=` | `!=` ] endpoint |
 >    - b. interval ;
 
-### Rule 35
+### Rule 35 (changed)
 
 > `1.4`
 >
