@@ -168,13 +168,13 @@ _Changes introduced in version 1.4 are marked with:_ ◀️
 
 ### Rule 16
 
-#### 1.3
+> `1.3`
+> 
+> 16. endpoint = simple value ;
 
-16. endpoint = simple value ;
-
-#### 1.4
-
-16. endpoint = endpoint ;
+> `1.4`
+>
+> 16. endpoint = endpoint ;
 
 ### Rule 52
 
