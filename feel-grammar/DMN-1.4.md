@@ -130,9 +130,10 @@
 
 52. type =
     - a. qualified name |
-    - b. `list` `<` type `>` |
-    - c. `context` `<` name `:` type { `,` name `:` type } `>` |
-    - d. `function` `<` [ type { `,` type } ] `>` `->` type ;
+    - b. **`range` `<` type `>`** |
+    - c. `list` `<` type `>` |
+    - d. `context` `<` name `:` type { `,` name `:` type } `>` |
+    - e. `function` `<` [ type { `,` type } ] `>` `->` type ;
 
 53. boxed expression = list | function definition | context ;
 
@@ -161,9 +162,33 @@
 
 65. at literal = `@` string literal
 
-## Summary of the changes from version 1.3 to 1.4
+## Summary of changes from version 1.3 to 1.4
 
-### Rule 16
+#### Rule 16
 
-`1.3` 16. endpoint = simple value ;
-`1.4` 16. endpoint = endpoint ;
+`1.3`
+ 
+16. endpoint = simple value ;
+
+`1.4`
+
+16. endpoint = endpoint ;
+
+#### Rule 52
+
+`1.3`
+
+52. type =
+    - a. qualified name |
+    - b. `list` `<` type `>` |
+    - c. `context` `<` name `:` type { `,` name `:` type } `>` |
+    - d. `function` `<` [ type { `,` type } ] `>` `->` type ;
+
+`1.4`
+
+52. type =
+    - a. qualified name |
+    - b. `range` `<` type `>` |
+    - c. `list` `<` type `>` |
+    - d. `context` `<` name `:` type { `,` name `:` type } `>` |
+    - e. `function` `<` [ type { `,` type } ] `>` `->` type ;
