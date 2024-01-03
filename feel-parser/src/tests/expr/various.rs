@@ -152,57 +152,57 @@ fn _0002() {
        │  ├─ Mul
        │  │  ├─ Sub
        │  │  │  ├─ Path
-       │  │  │  │  ├─ Name
-       │  │  │  │  │  └─ `Bounds`
-       │  │  │  │  └─ Path
-       │  │  │  │     ├─ Name
-       │  │  │  │     │  └─ `Max`
-       │  │  │  │     └─ Name
-       │  │  │  │        └─ `Rate`
+       │  │  │  │  ├─ Path
+       │  │  │  │  │  ├─ Name
+       │  │  │  │  │  │  └─ `Bounds`
+       │  │  │  │  │  └─ Name
+       │  │  │  │  │     └─ `Max`
+       │  │  │  │  └─ Name
+       │  │  │  │     └─ `Rate`
        │  │  │  └─ Path
-       │  │  │     ├─ Name
-       │  │  │     │  └─ `Bounds`
-       │  │  │     └─ Path
-       │  │  │        ├─ Name
-       │  │  │        │  └─ `Min`
-       │  │  │        └─ Name
-       │  │  │           └─ `Rate`
+       │  │  │     ├─ Path
+       │  │  │     │  ├─ Name
+       │  │  │     │  │  └─ `Bounds`
+       │  │  │     │  └─ Name
+       │  │  │     │     └─ `Min`
+       │  │  │     └─ Name
+       │  │  │        └─ `Rate`
        │  │  └─ Sub
        │  │     ├─ Name
        │  │     │  └─ `Days`
        │  │     └─ Path
-       │  │        ├─ Name
-       │  │        │  └─ `Bounds`
-       │  │        └─ Path
-       │  │           ├─ Name
-       │  │           │  └─ `Min`
-       │  │           └─ Name
-       │  │              └─ `Tenor`
+       │  │        ├─ Path
+       │  │        │  ├─ Name
+       │  │        │  │  └─ `Bounds`
+       │  │        │  └─ Name
+       │  │        │     └─ `Min`
+       │  │        └─ Name
+       │  │           └─ `Tenor`
        │  └─ Sub
        │     ├─ Path
-       │     │  ├─ Name
-       │     │  │  └─ `Bounds`
-       │     │  └─ Path
-       │     │     ├─ Name
-       │     │     │  └─ `Max`
-       │     │     └─ Name
-       │     │        └─ `Tenor`
+       │     │  ├─ Path
+       │     │  │  ├─ Name
+       │     │  │  │  └─ `Bounds`
+       │     │  │  └─ Name
+       │     │  │     └─ `Max`
+       │     │  └─ Name
+       │     │     └─ `Tenor`
        │     └─ Path
-       │        ├─ Name
-       │        │  └─ `Bounds`
-       │        └─ Path
-       │           ├─ Name
-       │           │  └─ `Min`
-       │           └─ Name
-       │              └─ `Tenor`
+       │        ├─ Path
+       │        │  ├─ Name
+       │        │  │  └─ `Bounds`
+       │        │  └─ Name
+       │        │     └─ `Min`
+       │        └─ Name
+       │           └─ `Tenor`
        └─ Path
-          ├─ Name
-          │  └─ `Bounds`
-          └─ Path
-             ├─ Name
-             │  └─ `Min`
-             └─ Name
-                └─ `Rate`
+          ├─ Path
+          │  ├─ Name
+          │  │  └─ `Bounds`
+          │  └─ Name
+          │     └─ `Min`
+          └─ Name
+             └─ `Rate`
     "#,
     false,
   );

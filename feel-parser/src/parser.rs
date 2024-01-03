@@ -996,26 +996,6 @@ impl<'parser> ReduceActions for Parser<'parser> {
   }
 
   ///
-  fn action_path_segment(&mut self) -> Result<()> {
-    trace_action!(self, "path_segment");
-    let rhs = self.yy_node_stack.pop().unwrap();
-    if let TokenValue::Name(name) = &self.yy_value_stack[self.yy_value_stack.len() - 3] {
-      let lhs = AstNode::Name(name.clone());
-      self.yy_node_stack.push(AstNode::Path(Box::new(lhs), Box::new(rhs)));
-    }
-    Ok(())
-  }
-
-  ///
-  fn action_path_segment_tail(&mut self) -> Result<()> {
-    trace_action!(self, "path_segment_tail");
-    if let Some(TokenValue::Name(name)) = &self.yy_value_stack.last() {
-      self.yy_node_stack.push(AstNode::Name(name.clone()));
-    }
-    Ok(())
-  }
-
-  ///
   fn action_positional_parameters_tail(&mut self) -> Result<()> {
     trace_action!(self, "positional_parameters_tail");
     let node = self.yy_node_stack.pop().unwrap();
@@ -1092,6 +1072,18 @@ impl<'parser> ReduceActions for Parser<'parser> {
     }
     self.yy_node_stack.push(AstNode::QuantifiedContexts(vec![node]));
     Ok(())
+  }
+
+  fn action_range_literal(&mut self) -> Result<()> {
+    todo!()
+  }
+
+  fn action_range_literal_end(&mut self) -> Result<()> {
+    todo!()
+  }
+
+  fn action_range_literal_start(&mut self) -> Result<()> {
+    todo!()
   }
 
   ///

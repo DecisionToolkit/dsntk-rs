@@ -12,13 +12,13 @@ fn _0001() {
     r#"Date.fromString.day"#,
     r#"
        Path
-       ├─ Name
-       │  └─ `Date`
-       └─ Path
-          ├─ Name
-          │  └─ `fromString`
-          └─ Name
-             └─ `day`
+       ├─ Path
+       │  ├─ Name
+       │  │  └─ `Date`
+       │  └─ Name
+       │     └─ `fromString`
+       └─ Name
+          └─ `day`
     "#,
     false,
   );

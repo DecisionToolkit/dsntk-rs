@@ -41,6 +41,12 @@ tasks:
     cmds:
       - cmd: cargo +stable build --workspace --features=tck
 
+  build-parser:
+    desc: Builds in debug mode
+    cmds:
+      - cmd: cargo +stable build --workspace --features=parsing-tables
+      - task: fmt
+
   check:
     desc: Performs checks in debug mode
     cmds:
@@ -216,6 +222,11 @@ tasks:
     desc: Runs tests in debug mode
     cmds:
       - cmd: cargo +stable test -p dsntk-feel-evaluator
+
+  test-feel-parser:
+    desc: Runs tests in debug mode
+    cmds:
+      - cmd: cargo +stable test -p dsntk-feel-parser
 
   testn:
     desc: Runs tests in debug mode using nextest

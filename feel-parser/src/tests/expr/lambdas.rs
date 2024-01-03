@@ -128,23 +128,23 @@ fn _0003() {
                    │  │  │  │  │  └─ String
                    │  │  │  │  │     └─ `, hello `
                    │  │  │  │  └─ Path
-                   │  │  │  │     ├─ Name
-                   │  │  │  │     │  └─ `Customer data`
-                   │  │  │  │     └─ Path
-                   │  │  │  │        ├─ Name
-                   │  │  │  │        │  └─ `Person`
-                   │  │  │  │        └─ Name
-                   │  │  │  │           └─ `Surname`
+                   │  │  │  │     ├─ Path
+                   │  │  │  │     │  ├─ Name
+                   │  │  │  │     │  │  └─ `Customer data`
+                   │  │  │  │     │  └─ Name
+                   │  │  │  │     │     └─ `Person`
+                   │  │  │  │     └─ Name
+                   │  │  │  │        └─ `Surname`
                    │  │  │  └─ String
                    │  │  │     └─ ` (`
                    │  │  └─ Path
-                   │  │     ├─ Name
-                   │  │     │  └─ `Customer data`
-                   │  │     └─ Path
-                   │  │        ├─ Name
-                   │  │        │  └─ `Person`
-                   │  │        └─ Name
-                   │  │           └─ `City`
+                   │  │     ├─ Path
+                   │  │     │  ├─ Name
+                   │  │     │  │  └─ `Customer data`
+                   │  │     │  └─ Name
+                   │  │     │     └─ `Person`
+                   │  │     └─ Name
+                   │  │        └─ `City`
                    │  └─ String
                    │     └─ `)`
                    └─ Name

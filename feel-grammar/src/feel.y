@@ -9,6 +9,10 @@
 %token START_TEXTUAL_EXPRESSION
 %token START_TEXTUAL_EXPRESSIONS
 %token START_UNARY_TESTS
+%token START_SIMPLE_EXPRESSION
+%token START_SIMPLE_EXPRESSIONS
+%token START_SIMPLE_VALUE
+%token START_RANGE_LITERAL
 
 %token AT
 %token NOT
@@ -28,10 +32,7 @@
 %token EXTERNAL
 %token IF
 %token RIGHT_BRACE
-%token RIGHT_BRACKET
-%token RIGHT_PAREN
 %token RETURN
-%token ELLIPSIS
 %token SOME
 %token NUMERIC
 %token STRING
@@ -51,7 +52,8 @@
 %precedence PREC_NEG
 %precedence INSTANCE
 %precedence NAME NAME_DATE_TIME BUILT_IN_TYPE_NAME
-%precedence LEFT_PAREN LEFT_BRACKET
+%precedence LEFT_PAREN RIGHT_PAREN LEFT_BRACKET RIGHT_BRACKET
+%precedence ELLIPSIS
 %precedence DOT
 
 %%
@@ -63,6 +65,10 @@ feel:
   | START_TEXTUAL_EXPRESSION textual_expression
   | START_TEXTUAL_EXPRESSIONS textual_expressions
   | START_UNARY_TESTS {/* unary_tests_begin */} unary_tests
+  | START_SIMPLE_EXPRESSION simple_expression
+  | START_SIMPLE_EXPRESSIONS simple_expressions
+  | START_SIMPLE_VALUE simple_value
+  | START_RANGE_LITERAL range_literal
   ;
 
 expression:
@@ -99,7 +105,6 @@ textual_expression:
   | expression EXP expression {/* exponentiation */}
   | MINUS expression %prec PREC_NEG {/* negation */}
   | expression INSTANCE OF {/* type_name */} type {/* instance_of */}
-  | NAME DOT path_segment {/* path_segment */}
   | expression DOT NAME {/* path */}
   | expression LEFT_BRACKET expression RIGHT_BRACKET {/* filter */}
   | expression LEFT_PAREN parameters
@@ -107,11 +112,6 @@ textual_expression:
   | simple_positive_unary_test
   | NAME {/* name */}
   | LEFT_PAREN expression RIGHT_PAREN
-  ;
-
-path_segment:
-    NAME DOT path_segment {/* path_segment */}
-  | NAME {/* path_segment_tail */}
   ;
 
 textual_expressions:
@@ -132,6 +132,21 @@ positive_unary_tests:
 
 comparison_in:
     expression COMMA positive_unary_tests RIGHT_PAREN {/* expression_list_tail */}
+  ;
+
+simple_expression:
+    expression PLUS expression {/* addition */}
+  | expression MINUS expression {/* subtraction */}
+  | expression MUL expression {/* multiplication */}
+  | expression DIV expression {/* division */}
+  | expression EXP expression {/* exponentiation */}
+  | MINUS expression %prec PREC_NEG {/* negation */}
+  | simple_value
+  ;
+
+simple_expressions:
+    simple_expression COMMA simple_expressions {/* expression_list_tail */}
+  | simple_expression {/* expression_list_tail */}
   ;
 
 simple_positive_unary_test:
@@ -159,7 +174,7 @@ interval_end:
   ;
 
 endpoint:
-    simple_value
+    expression %prec ELLIPSIS
   ;
 
 simple_value:
@@ -208,7 +223,7 @@ list:
   ;
 
 list_items:
-    RIGHT_BRACKET {/* list_empty */}
+    RIGHT_BRACKET %prec DOT {/* list_empty */}
   | expression list_tail {/* list_tail */}
   ;
 
@@ -327,6 +342,28 @@ formal_parameter:
 external:
     EXTERNAL expression {/* function_body_external */}
   | expression %prec EXTERNAL {/* function_body */}
+  ;
+
+range_literal:
+    range_literal_start range_literal_end {/* range_literal */}
+  ;
+
+range_literal_start:
+    LEFT_PAREN range_endpoint ELLIPSIS {/* range_literal_start */}
+  | RIGHT_BRACKET range_endpoint ELLIPSIS {/* range_literal_start */}
+  | LEFT_BRACKET range_endpoint ELLIPSIS {/* range_literal_start */}
+  ;
+
+range_literal_end:
+    range_endpoint RIGHT_PAREN {/* range_literal_end */}
+  | range_endpoint LEFT_BRACKET {/* range_literal_end */}
+  | range_endpoint RIGHT_BRACKET {/* range_literal_end */}
+  ;
+
+range_endpoint:
+    NUMERIC {/* literal_numeric */}
+  | STRING {/* literal_string */}
+  | NAME_DATE_TIME LEFT_PAREN {/* literal_date_time */} parameters
   ;
 
 %%

@@ -78,13 +78,14 @@ fn _0005() {
   let name_power = Name::from("power");
   ctx.set_name(name_power);
   scope.set_context("engine".into(), ctx);
+  assert_eq!("[{engine: {power: <v>}}]", scope.to_string());
   accept(
     &scope,
     StartExpression,
     r#" >= engine.power"#,
     r#"
        UnaryGe
-       └─ QualifiedName
+       └─ Path
           ├─ Name
           │  └─ `engine`
           └─ Name
@@ -105,7 +106,7 @@ fn _0006() {
     r#" >= engine.power"#,
     r#"
        UnaryGe
-       └─ QualifiedName
+       └─ Path
           ├─ Name
           │  └─ `engine`
           └─ Name
@@ -116,8 +117,11 @@ fn _0006() {
 }
 
 #[test]
-#[should_panic]
 fn _0007() {
-  let scope = scope!();
-  accept(&scope, StartExpression, r#" < null"#, r#""#, false);
+  let input = " < null";
+  let expected = r#"
+       UnaryLt
+       └─ Null
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
 }

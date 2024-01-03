@@ -244,13 +244,13 @@ fn _0008() {
        └─ FunctionBody
           └─ Mul
              ├─ Path
-             │  ├─ Name
-             │  │  └─ `a`
-             │  └─ Path
-             │     ├─ Name
-             │     │  └─ `b`
-             │     └─ Name
-             │        └─ `c`
+             │  ├─ Path
+             │  │  ├─ Name
+             │  │  │  └─ `a`
+             │  │  └─ Name
+             │  │     └─ `b`
+             │  └─ Name
+             │     └─ `c`
              └─ Name
                 └─ `x`
     "#,
