@@ -52,6 +52,13 @@ struct EvaluatorBuilder<'b> {
 }
 
 impl<'b> EvaluatorBuilder<'b> {
+  /*
+  /// Returns an optional reference to parent node if any.
+  fn parent_node(&self) -> Option<&AstNode> {
+    self.node_stack.last().copied()
+  }
+  */
+
   /// Builds and evaluator based on provided AST node.
   fn build(&mut self, node: &'b AstNode) -> Evaluator {
     // push the current node on the top of the node stack
