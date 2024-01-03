@@ -327,7 +327,7 @@ impl<'parser> ReduceActions for Parser<'parser> {
   }
 
   ///
-  fn action_comparison_nq(&mut self) -> Result<()> {
+  fn action_comparison_ne(&mut self) -> Result<()> {
     trace_action!(self, "comparison_not_equal");
     let rhs = self.yy_node_stack.pop().unwrap();
     let lhs = self.yy_node_stack.pop().unwrap();
@@ -364,6 +364,22 @@ impl<'parser> ReduceActions for Parser<'parser> {
     trace_action!(self, "comparison_unary_lt");
     let lhs = self.yy_node_stack.pop().unwrap();
     self.yy_node_stack.push(AstNode::UnaryLt(Box::new(lhs)));
+    Ok(())
+  }
+
+  ///
+  fn action_comparison_unary_eq(&mut self) -> Result<()> {
+    trace_action!(self, "comparison_unary_eq");
+    let lhs = self.yy_node_stack.pop().unwrap();
+    self.yy_node_stack.push(AstNode::UnaryEq(Box::new(lhs)));
+    Ok(())
+  }
+
+  ///
+  fn action_comparison_unary_ne(&mut self) -> Result<()> {
+    trace_action!(self, "comparison_unary_ne");
+    let lhs = self.yy_node_stack.pop().unwrap();
+    self.yy_node_stack.push(AstNode::UnaryNe(Box::new(lhs)));
     Ok(())
   }
 

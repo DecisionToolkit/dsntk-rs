@@ -290,7 +290,7 @@ impl<'lexer> Lexer<'lexer> {
       }
       ['!', '=', _, _, _, _, _, _, _, _, _, _] => {
         self.position += 2;
-        Ok((TokenType::Nq, TokenValue::Nq))
+        Ok((TokenType::Ne, TokenValue::Nq))
       }
       ['<', '=', _, _, _, _, _, _, _, _, _, _] => {
         self.position += 2;

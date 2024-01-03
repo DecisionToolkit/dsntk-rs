@@ -216,17 +216,23 @@ pub enum Value {
   /// Value for storing time as [FeelTime].
   Time(FeelTime),
 
-  /// `UnaryGreater` value...
+  /// Value representing unary `>`.
   UnaryGreater(Box<Value>),
 
-  /// `UnaryGreaterOrEqual` value...
+  /// Value representing unary `>=`.
   UnaryGreaterOrEqual(Box<Value>),
 
-  /// `UnaryLess` value...
+  /// Value representing unary `<`.
   UnaryLess(Box<Value>),
 
-  /// `UnaryLessOrEqual` value...
+  /// Value representing unary `<=`.
   UnaryLessOrEqual(Box<Value>),
+
+  /// Value representing unary `=`.
+  UnaryEqual(Box<Value>),
+
+  /// Value representing unary `!=`.
+  UnaryNotEqual(Box<Value>),
 
   /// Value for storing years and months duration.
   YearsAndMonthsDuration(FeelYearsAndMonthsDuration),
@@ -277,6 +283,8 @@ impl fmt::Display for Value {
       Value::UnaryGreaterOrEqual(value) => write!(f, "UnaryGreaterOrEqual({value})"),
       Value::UnaryLess(value) => write!(f, "UnaryLess({value})"),
       Value::UnaryLessOrEqual(value) => write!(f, "UnaryLessOrEqual({value})"),
+      Value::UnaryEqual(value) => write!(f, "UnaryEqual({value})"),
+      Value::UnaryNotEqual(value) => write!(f, "UnaryNotEqual({value})"),
       Value::YearsAndMonthsDuration(ym_duration) => write!(f, "{ym_duration}"),
     }
   }
@@ -433,6 +441,8 @@ impl Value {
       Value::UnaryGreaterOrEqual(_) => FeelType::Boolean,
       Value::UnaryLess(_) => FeelType::Boolean,
       Value::UnaryLessOrEqual(_) => FeelType::Boolean,
+      Value::UnaryEqual(_) => FeelType::Boolean,
+      Value::UnaryNotEqual(_) => FeelType::Boolean,
       Value::YearsAndMonthsDuration(_) => FeelType::YearsAndMonthsDuration,
     }
   }

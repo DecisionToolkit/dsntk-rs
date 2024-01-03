@@ -281,17 +281,23 @@ pub enum AstNode {
   /// Node representing an arithmetic operator `-` (subtraction).
   Sub(Box<AstNode>, Box<AstNode>),
 
-  /// Node representing unary comparison operator `greater or equal`.
+  /// Node representing unary comparison operator `>=`.
   UnaryGe(Box<AstNode>),
 
-  /// Node representing unary comparison operator `greater than`.
+  /// Node representing unary comparison operator `>`.
   UnaryGt(Box<AstNode>),
 
-  /// Node representing unary comparison operator `less or equal`.
+  /// Node representing unary comparison operator `<=>`.
   UnaryLe(Box<AstNode>),
 
-  /// Node representing unary comparison operator `less than`.
+  /// Node representing unary comparison operator `<less than>`.
   UnaryLt(Box<AstNode>),
+
+  /// Node representing unary comparison operator `=`.
+  UnaryEq(Box<AstNode>),
+
+  /// Node representing unary comparison operator `!=`.
+  UnaryNe(Box<AstNode>),
 }
 
 impl fmt::Display for AstNode {
@@ -395,6 +401,8 @@ fn ast_node_to_tree(node: &AstNode) -> AsciiNode {
     AstNode::UnaryGt(mid) => node_1("UnaryGt", mid),
     AstNode::UnaryLe(mid) => node_1("UnaryLe", mid),
     AstNode::UnaryLt(mid) => node_1("UnaryLt", mid),
+    AstNode::UnaryEq(mid) => node_1("UnaryEq", mid),
+    AstNode::UnaryNe(mid) => node_1("UnaryNe", mid),
   }
 }
 

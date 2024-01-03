@@ -42,7 +42,7 @@
 %precedence ELSE
 %left OR
 %left AND
-%nonassoc EQ NQ LT LE GT GE
+%nonassoc EQ NE LT LE GT GE
 %precedence BETWEEN
 %precedence BETWEEN_AND
 %right IN
@@ -91,7 +91,7 @@ textual_expression:
   | expression OR expression {/* disjunction */}
   | expression AND expression {/* conjunction */}
   | expression EQ expression {/* comparison_eq */}
-  | expression NQ expression {/* comparison_nq */}
+  | expression NE expression {/* comparison_ne */}
   | expression LT expression {/* comparison_lt */}
   | expression LE expression {/* comparison_le */}
   | expression GT expression {/* comparison_gt */}
@@ -154,6 +154,8 @@ simple_positive_unary_test:
   | LE endpoint {/* comparison_unary_le */}
   | GT endpoint {/* comparison_unary_gt */}
   | GE endpoint {/* comparison_unary_ge */}
+  | EQ endpoint {/* comparison_unary_eq */}
+  | NE endpoint {/* comparison_unary_ne */}
   | interval
   ;
 

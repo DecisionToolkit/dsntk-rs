@@ -137,6 +137,8 @@ impl ClosureBuilder {
       AstNode::UnaryGt(lhs) => self.visit_1(lhs, path_level),
       AstNode::UnaryLe(lhs) => self.visit_1(lhs, path_level),
       AstNode::UnaryLt(lhs) => self.visit_1(lhs, path_level),
+      AstNode::UnaryEq(lhs) => self.visit_1(lhs, path_level),
+      AstNode::UnaryNe(lhs) => self.visit_1(lhs, path_level),
       AstNode::Satisfies(lhs) => self.visit_1(lhs, path_level),
     }
   }

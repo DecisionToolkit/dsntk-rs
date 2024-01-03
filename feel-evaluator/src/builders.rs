@@ -128,6 +128,8 @@ impl<'b> EvaluatorBuilder<'b> {
       AstNode::UnaryGt(lhs) => self.build_unary_gt(lhs),
       AstNode::UnaryLe(lhs) => self.build_unary_le(lhs),
       AstNode::UnaryLt(lhs) => self.build_unary_lt(lhs),
+      AstNode::UnaryEq(lhs) => self.build_unary_eq(lhs),
+      AstNode::UnaryNe(lhs) => self.build_unary_ne(lhs),
       AstNode::CommaList { .. }
       | AstNode::IterationContexts { .. }
       | AstNode::IterationContextList { .. }
@@ -2028,6 +2030,24 @@ impl<'b> EvaluatorBuilder<'b> {
     Box::new(move |scope: &FeelScope| {
       let lhv = lhe(scope);
       Value::UnaryLess(Box::from(lhv))
+    })
+  }
+
+  ///
+  fn build_unary_eq(&mut self, lhs: &'b AstNode) -> Evaluator {
+    let lhe = self.build(lhs);
+    Box::new(move |scope: &FeelScope| {
+      let lhv = lhe(scope);
+      Value::UnaryEqual(Box::from(lhv))
+    })
+  }
+
+  ///
+  fn build_unary_ne(&mut self, lhs: &'b AstNode) -> Evaluator {
+    let lhe = self.build(lhs);
+    Box::new(move |scope: &FeelScope| {
+      let lhv = lhe(scope);
+      Value::UnaryNotEqual(Box::from(lhv))
     })
   }
 }
