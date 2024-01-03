@@ -1,4 +1,4 @@
-# FEEL grammar for [DMN™](https://www.omg.org/spec/DMN/1.3/PDF) 1.3
+# FEEL grammar of [DMN™](https://www.omg.org/spec/DMN/1.3/PDF) 1.3
 
 1. expression  =
     - a. boxed_expression |
