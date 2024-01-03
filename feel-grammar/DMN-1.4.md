@@ -49,7 +49,7 @@
     - b. `not` `(` positive unary tests `)` |
     - c. `-` ;
 
-16. endpoint = <span style="color:red;">expression</span> ;
+16. endpoint = $${\color{red}expression}$$ ;
 
 17. simple value = qualified name | simple literal ;
 
