@@ -1,6 +1,6 @@
 use dsntk_feel::values::Value;
 use dsntk_feel::{FeelNumber, FeelScope};
-use dsntk_feel_evaluator::{evaluate, evaluate_context, evaluate_context_node, evaluate_max, evaluate_min, evaluate_sum, prepare, BuildContext};
+use dsntk_feel_evaluator::*;
 use dsntk_feel_parser::AstNode;
 
 #[test]
@@ -36,7 +36,7 @@ fn _0004() {
     Box::new(AstNode::Numeric("1".to_string(), "23".to_string())),
     Box::new(AstNode::Numeric("1".to_string(), "77".to_string())),
   );
-  let evaluator = prepare(&BuildContext::default(), &node);
+  let evaluator = prepare(&node);
   assert_eq!("3", evaluator(&scope).to_string());
 }
 

@@ -9,7 +9,6 @@ use dsntk_feel::closure::Closure;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::Value;
 use dsntk_feel::{value_null, Evaluator, FeelScope, FeelType, FunctionBody};
-use dsntk_feel_evaluator::BuildContext;
 use dsntk_feel_parser::{parse_name, ClosureBuilder};
 use dsntk_model::*;
 use std::sync::Arc;
@@ -281,7 +280,7 @@ pub fn build_literal_expression_evaluator(scope: &FeelScope, literal_expression:
   let text = literal_expression.text().as_ref().ok_or_else(err_empty_literal_expression)?;
   let node = dsntk_feel_parser::parse_expression(scope, text, false)?;
   let closure = ClosureBuilder::from_node(&node);
-  let literal_expression_evaluator = dsntk_feel_evaluator::prepare(&BuildContext::default(), &node);
+  let literal_expression_evaluator = dsntk_feel_evaluator::prepare(&node);
   Ok((
     build_coerced_result_evaluator(literal_expression_evaluator, literal_expression, literal_expression.namespace(), model_builder),
     closure,

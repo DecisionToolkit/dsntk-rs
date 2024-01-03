@@ -1,6 +1,5 @@
 use crate::iterations::{FeelIterator, ForExpressionEvaluator};
 use crate::tests::te_scope;
-use crate::BuildContext;
 use dsntk_feel::values::{values_to_string, Value, Values};
 use dsntk_feel::{value_number, FeelNumber};
 
@@ -122,7 +121,7 @@ fn _0009() {
   iterator.add_range("x".into(), value_number!(1, 0), value_number!(3, 0));
   let scope = &te_scope(r#"{x:null}"#);
   let node = dsntk_feel_parser::parse_expression(scope, "x+1", false).unwrap();
-  let evaluator = crate::builders::build_evaluator(&BuildContext::default(), &node);
+  let evaluator = crate::builders::build_evaluator(&node);
   let actual = iterator.evaluate(scope, &evaluator);
   assert_eq!(3, actual.len());
   assert_eq!(r#"[2, 3, 4]"#, values_to_string(&actual));
@@ -135,7 +134,7 @@ fn _0010() {
   iterator.add_list("y".into(), Value::List(vec![value_number!(5, 0), value_number!(6, 0), value_number!(7, 0)]));
   let scope = &te_scope(r#"{x:null,y:null}"#);
   let node = dsntk_feel_parser::parse_expression(scope, "x+y", false).unwrap();
-  let evaluator = crate::builders::build_evaluator(&BuildContext::default(), &node);
+  let evaluator = crate::builders::build_evaluator(&node);
   let actual = iterator.evaluate(scope, &evaluator);
   assert_eq!(6, actual.len());
   assert_eq!(r#"[6, 7, 8, 7, 8, 9]"#, values_to_string(&actual));
@@ -147,7 +146,7 @@ fn _0011() {
   iterator.add_list("x".into(), Value::List(Values::default()));
   let scope = &te_scope(r#"{x:null}"#);
   let node = dsntk_feel_parser::parse_expression(scope, "x+1", false).unwrap();
-  let evaluator = crate::builders::build_evaluator(&BuildContext::default(), &node);
+  let evaluator = crate::builders::build_evaluator(&node);
   let actual = iterator.evaluate(scope, &evaluator);
   assert_eq!(0, actual.len());
   assert_eq!(r#"[]"#, values_to_string(&actual));
@@ -159,7 +158,7 @@ fn _0012() {
   iterator.add_list("x".into(), value_number!(1, 0));
   let scope = &te_scope(r#"{x:null}"#);
   let node = dsntk_feel_parser::parse_expression(scope, "x+1", false).unwrap();
-  let evaluator = crate::builders::build_evaluator(&BuildContext::default(), &node);
+  let evaluator = crate::builders::build_evaluator(&node);
   let actual = iterator.evaluate(scope, &evaluator);
   assert_eq!(1, actual.len());
   assert_eq!(r#"[2]"#, values_to_string(&actual));
@@ -172,7 +171,7 @@ fn _0013() {
   iterator.add_list("y".into(), Value::List(Values::default()));
   let scope = &te_scope(r#"{x:null,y:null}"#);
   let node = dsntk_feel_parser::parse_expression(scope, "x+1", false).unwrap();
-  let evaluator = crate::builders::build_evaluator(&BuildContext::default(), &node);
+  let evaluator = crate::builders::build_evaluator(&node);
   let actual = iterator.evaluate(scope, &evaluator);
   assert_eq!(0, actual.len());
   assert_eq!(r#"[]"#, values_to_string(&actual));
@@ -186,7 +185,7 @@ fn _0014() {
   iterator.add_variable("y".into(), "x".into());
   let scope = &te_scope(r#"{x:null,y:null}"#);
   let node = dsntk_feel_parser::parse_expression(scope, "y", false).unwrap();
-  let evaluator = crate::builders::build_evaluator(&BuildContext::default(), &node);
+  let evaluator = crate::builders::build_evaluator(&node);
   let actual = iterator.evaluate(scope, &evaluator);
   assert_eq!(4, actual.len());
   assert_eq!(r#"[1, 2, 3, 4]"#, values_to_string(&actual));

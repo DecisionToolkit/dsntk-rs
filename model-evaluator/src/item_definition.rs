@@ -6,7 +6,6 @@ use dsntk_common::Result;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values};
 use dsntk_feel::{value_null, Evaluator, FeelScope, FeelType, Name};
-use dsntk_feel_evaluator::BuildContext;
 use dsntk_feel_parser::AstNode;
 use dsntk_model::ItemDefinitionType;
 use std::collections::HashMap;
@@ -65,7 +64,7 @@ fn build_allowed_values_evaluator(item_definition: &DefItemDefinition) -> Result
       let scope = FeelScope::default();
       let unary_tests_node = dsntk_feel_parser::parse_unary_tests(&scope, text, false)?;
       let node = AstNode::In(Box::new(AstNode::Name("?".into())), Box::new(unary_tests_node));
-      av_evaluator = Some(dsntk_feel_evaluator::prepare(&BuildContext::default(), &node));
+      av_evaluator = Some(dsntk_feel_evaluator::prepare(&node));
     }
   }
   Ok(av_evaluator)

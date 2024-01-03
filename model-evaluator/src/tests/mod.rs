@@ -49,7 +49,6 @@ macro_rules! static_context {
   };
 }
 
-use dsntk_feel_evaluator::BuildContext;
 use dsntk_model::NamedElement;
 use {from_examples, model_evaluator, model_evaluator_from_examples, model_name_from_examples, model_namespace_from_examples, static_context};
 
@@ -58,7 +57,7 @@ pub fn context(input: &str) -> FeelContext {
   let scope = FeelScope::default();
   match dsntk_feel_parser::parse_context(&scope, input, false) {
     Ok(node) => {
-      let evaluator = dsntk_feel_evaluator::prepare(&BuildContext::default(), &node);
+      let evaluator = dsntk_feel_evaluator::prepare(&node);
       match evaluator(&scope) {
         Value::Context(ctx) => ctx,
         other => panic!("ERROR: expected context value, actual value is: {}", other as Value),
