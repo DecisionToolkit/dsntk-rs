@@ -32,9 +32,7 @@
 
 ## Overview
 
-FEEL grammar and parsing tables generator used in [DSNTK](https://github.com/dsntk) project.
-
-Currently supported FEEL grammar version is [1.5](DMN-1.5.md).
+FEEL grammar and parsing tables generator used by other components of [DSNTK](https://github.com/dsntk) project.
 
 ## License
 
