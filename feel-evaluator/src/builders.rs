@@ -20,7 +20,7 @@ use std::sync::Arc;
 
 /// Builds an evaluator from provided AST node.
 pub fn build_evaluator(node: &AstNode) -> Evaluator {
-  let evaluator_builder = EvaluatorBuilder::default();
+  let mut evaluator_builder = EvaluatorBuilder::default();
   evaluator_builder.build(node)
 }
 
@@ -45,14 +45,18 @@ macro_rules! between_null3 {
 }
 
 #[derive(Default)]
-struct EvaluatorBuilder {
-  //node_stack: Vec<&'static AstNode>,
+struct EvaluatorBuilder<'b> {
+  /// References to visited nodes in AST during processing.
+  node_stack: Vec<&'b AstNode>,
 }
 
-impl EvaluatorBuilder {
+impl<'b> EvaluatorBuilder<'b> {
   ///
-  fn build(&self, node: &AstNode) -> Evaluator {
-    match node {
+  fn build(&mut self, node: &'b AstNode) -> Evaluator {
+    // push the current node on the top of the node stack
+    self.node_stack.push(node);
+    // build the evaluator
+    let evaluator = match node {
       AstNode::Add(lhs, rhs) => self.build_add(lhs, rhs),
       AstNode::And(lhs, rhs) => self.build_and(lhs, rhs),
       AstNode::At(rhs) => self.build_at(rhs),
@@ -124,11 +128,15 @@ impl EvaluatorBuilder {
       | AstNode::QuantifiedContext { .. }
       | AstNode::QuantifiedContexts { .. }
       | AstNode::Satisfies { .. } => build_err_msg(err_msg_unexpected_node(node)),
-    }
+    };
+    // remove the current node from the top of the nodes stack
+    self.node_stack.pop();
+    // return the evaluator
+    evaluator
   }
 
   ///
-  fn build_add(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_add(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -234,7 +242,7 @@ impl EvaluatorBuilder {
   }
 
   /// Builds evaluator of temporal expression after `@` (at) literal.
-  fn build_at(&self, text: &str) -> Evaluator {
+  fn build_at(&mut self, text: &str) -> Evaluator {
     if let Ok(date) = FeelDate::from_str(text) {
       Box::new(move |_: &FeelScope| Value::Date(date.clone()))
     } else if let Ok(date_time) = FeelDateTime::try_from(text) {
@@ -252,7 +260,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_between(&self, lhs: &AstNode, mhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_between(&mut self, lhs: &'b AstNode, mhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let mhe = self.build(mhs);
     let rhe = self.build(rhs);
@@ -350,7 +358,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_boolean(&self, lhs: bool) -> Evaluator {
+  fn build_boolean(&mut self, lhs: bool) -> Evaluator {
     Box::new(move |_: &FeelScope| Value::Boolean(lhs))
   }
 
@@ -368,7 +376,7 @@ impl EvaluatorBuilder {
   /// otherwise   false        false
   /// otherwise   otherwise    null
   /// ```
-  fn build_and(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_and(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -400,7 +408,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_context(&self, lhs: &[AstNode]) -> Evaluator {
+  fn build_context(&mut self, lhs: &'b [AstNode]) -> Evaluator {
     let mut evaluators = vec![];
     for node in lhs {
       evaluators.push(self.build(node));
@@ -435,7 +443,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_context_entry(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_context_entry(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -449,13 +457,13 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_context_entry_key(&self, lhs: &Name) -> Evaluator {
+  fn build_context_entry_key(&mut self, lhs: &Name) -> Evaluator {
     let name = lhs.clone();
     Box::new(move |_: &FeelScope| Value::ContextEntryKey(name.clone()))
   }
 
   ///
-  fn build_context_type(&self, lhs: &[AstNode]) -> Evaluator {
+  fn build_context_type(&mut self, lhs: &'b [AstNode]) -> Evaluator {
     let mut evaluators = vec![];
     for node in lhs {
       evaluators.push(self.build(node));
@@ -476,7 +484,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_context_type_entry(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_context_type_entry(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -495,13 +503,13 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_context_type_entry_key(&self, lhs: &Name) -> Evaluator {
+  fn build_context_type_entry_key(&mut self, lhs: &Name) -> Evaluator {
     let name = lhs.clone();
     Box::new(move |_: &FeelScope| Value::ContextTypeEntryKey(name.clone()))
   }
 
   ///
-  fn build_div(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_div(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -572,7 +580,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_expression_list(&self, lhs: &[AstNode]) -> Evaluator {
+  fn build_expression_list(&mut self, lhs: &'b [AstNode]) -> Evaluator {
     let mut evaluators = vec![];
     for node in lhs {
       evaluators.push(self.build(node));
@@ -587,7 +595,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_exp(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_exp(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -610,13 +618,13 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_feel_type(&self, lhs: &FeelType) -> Evaluator {
+  fn build_feel_type(&mut self, lhs: &FeelType) -> Evaluator {
     let feel_type = lhs.clone();
     Box::new(move |_: &FeelScope| Value::FeelType(feel_type.clone()))
   }
 
   ///
-  fn build_filter(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_filter(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     let name_item: Name = "item".into();
@@ -729,7 +737,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_for(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_for(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     enum IteratorType {
       Range((Name, Evaluator, Evaluator)),
       List((Name, Evaluator)),
@@ -787,7 +795,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_formal_parameter(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_formal_parameter(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -806,7 +814,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_formal_parameters(&self, lhs: &[AstNode]) -> Evaluator {
+  fn build_formal_parameters(&mut self, lhs: &'b [AstNode]) -> Evaluator {
     let mut evaluators = vec![];
     for node in lhs {
       evaluators.push(self.build(node));
@@ -827,7 +835,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_function_body(&self, lhs: &AstNode, rhs: &bool) -> Evaluator {
+  fn build_function_body(&mut self, lhs: &'b AstNode, rhs: &bool) -> Evaluator {
     if *rhs {
       self.build_external_function_body(lhs)
     } else {
@@ -836,13 +844,13 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_internal_function_body(&self, lhs: &AstNode) -> Evaluator {
+  fn build_internal_function_body(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = Arc::new(self.build(lhs));
     Box::new(move |_: &FeelScope| Value::FunctionBody(FunctionBody::LiteralExpression(lhe.clone()), false))
   }
 
   ///
-  fn build_external_function_body(&self, lhs: &AstNode) -> Evaluator {
+  fn build_external_function_body(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     Box::new(move |scope: &FeelScope| {
       let mapping_value = lhe(scope);
@@ -886,7 +894,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_function_definition(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_function_definition(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let closure = ClosureBuilder::from_function_definition(lhs, rhs);
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
@@ -916,7 +924,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_eq(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_eq(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -931,13 +939,13 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_evaluated_expression(&self, lhs: &AstNode) -> Evaluator {
+  fn build_evaluated_expression(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     Box::new(move |scope: &FeelScope| lhe(scope))
   }
 
   ///
-  fn build_every(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_every(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let mut expr_evaluators = vec![];
     let AstNode::QuantifiedContexts(items) = lhs else {
       return build_err_msg(err_msg_expected_node("QuantifiedContexts", lhs));
@@ -964,7 +972,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_function_invocation(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_function_invocation(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     match rhs {
       AstNode::PositionalParameters(parameters) => self.build_function_invocation_with_positional_parameters(lhs, parameters),
       node @ AstNode::NamedParameters(_) => self.build_function_invocation_with_named_parameters(lhs, node),
@@ -973,7 +981,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_function_invocation_with_positional_parameters(&self, lhs: &AstNode, rhs: &[AstNode]) -> Evaluator {
+  fn build_function_invocation_with_positional_parameters(&mut self, lhs: &'b AstNode, rhs: &'b [AstNode]) -> Evaluator {
     let mut argument_evaluators = vec![];
     for node in rhs {
       argument_evaluators.push(self.build(node));
@@ -997,7 +1005,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_function_invocation_with_named_parameters(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_function_invocation_with_named_parameters(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let function_evaluator = self.build(lhs);
     let arguments_evaluator = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -1018,7 +1026,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_function_type(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_function_type(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -1041,7 +1049,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_ge(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_ge(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -1082,7 +1090,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_gt(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_gt(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -1123,7 +1131,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_if(&self, lhs: &AstNode, mhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_if(&mut self, lhs: &'b AstNode, mhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let mhe = self.build(mhs);
     let rhe = self.build(rhs);
@@ -1135,7 +1143,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_in(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_in(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -1173,7 +1181,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_interval_end(&self, lhs: &AstNode, rhs: &bool) -> Evaluator {
+  fn build_interval_end(&mut self, lhs: &'b AstNode, rhs: &bool) -> Evaluator {
     let lhe = self.build(lhs);
     let closed = *rhs;
     Box::new(move |scope: &FeelScope| {
@@ -1183,7 +1191,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_interval_start(&self, lhs: &AstNode, rhs: &bool) -> Evaluator {
+  fn build_interval_start(&mut self, lhs: &'b AstNode, rhs: &bool) -> Evaluator {
     let lhe = self.build(lhs);
     let closed = *rhs;
     Box::new(move |scope: &FeelScope| {
@@ -1193,12 +1201,12 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_irrelevant(&self) -> Evaluator {
+  fn build_irrelevant(&mut self) -> Evaluator {
     Box::new(move |_: &FeelScope| Value::Irrelevant)
   }
 
   ///
-  fn build_instance_of(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_instance_of(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -1275,7 +1283,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_le(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_le(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -1316,7 +1324,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_lt(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_lt(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -1357,7 +1365,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_list(&self, lhs: &[AstNode]) -> Evaluator {
+  fn build_list(&mut self, lhs: &'b [AstNode]) -> Evaluator {
     let mut evaluators = vec![];
     for node in lhs {
       evaluators.push(self.build(node));
@@ -1372,7 +1380,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_list_type(&self, lhs: &AstNode) -> Evaluator {
+  fn build_list_type(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     Box::new(move |scope: &FeelScope| {
       let lhv = lhe(scope);
@@ -1385,7 +1393,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_mul(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_mul(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -1441,7 +1449,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_name(&self, name: Name) -> Evaluator {
+  fn build_name(&mut self, name: Name) -> Evaluator {
     Box::new(move |scope: &FeelScope| {
       if let Some(value) = scope.get_value(&name) {
         value
@@ -1454,7 +1462,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_named_parameter(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_named_parameter(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     if let AstNode::ParameterName(name) = lhs {
       let lhv = Value::ParameterName(name.clone());
       let rhe = self.build(rhs);
@@ -1466,7 +1474,7 @@ impl EvaluatorBuilder {
     build_err_msg(err_expected_parameter_name(lhs))
   }
 
-  fn build_named_parameters(&self, lhs: &[AstNode]) -> Evaluator {
+  fn build_named_parameters(&mut self, lhs: &'b [AstNode]) -> Evaluator {
     let mut evaluators = vec![];
     for item in lhs {
       evaluators.push(self.build(item));
@@ -1487,7 +1495,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_neg(&self, lhs: &AstNode) -> Evaluator {
+  fn build_neg(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     Box::new(move |scope: &FeelScope| {
       let lhv = lhe(scope);
@@ -1501,7 +1509,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_negated_list(&self, lhs: &[AstNode]) -> Evaluator {
+  fn build_negated_list(&mut self, lhs: &'b [AstNode]) -> Evaluator {
     let mut evaluators = vec![];
     for node in lhs {
       evaluators.push(self.build(node));
@@ -1516,12 +1524,12 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_null(&self) -> Evaluator {
+  fn build_null(&mut self) -> Evaluator {
     Box::new(move |_: &FeelScope| Value::Null(None))
   }
 
   ///
-  fn build_numeric(&self, lhs: &str, rhs: &str) -> Evaluator {
+  fn build_numeric(&mut self, lhs: &str, rhs: &str) -> Evaluator {
     let text = format!("{lhs}.{rhs}");
     if let Ok(num) = text.parse::<FeelNumber>() {
       Box::new(move |_: &FeelScope| Value::Number(num))
@@ -1531,7 +1539,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_nq(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_nq(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -1559,7 +1567,7 @@ impl EvaluatorBuilder {
   /// otherwise   false        null
   /// otherwise   otherwise    null
   /// ```
-  fn build_or(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_or(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -1591,7 +1599,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_out(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_out(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let ine = self.build_in(lhs, rhs);
     let lhe = self.build(lhs);
     Box::new(move |scope: &FeelScope| {
@@ -1605,13 +1613,13 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_parameter_name(&self, lhs: &Name) -> Evaluator {
+  fn build_parameter_name(&mut self, lhs: &Name) -> Evaluator {
     let name = lhs.to_owned();
     Box::new(move |_: &FeelScope| Value::ParameterName(name.clone()))
   }
 
   ///
-  fn build_parameter_types(&self, lhs: &[AstNode]) -> Evaluator {
+  fn build_parameter_types(&mut self, lhs: &'b [AstNode]) -> Evaluator {
     let mut evaluators = vec![];
     for node in lhs {
       evaluators.push(self.build(node));
@@ -1626,7 +1634,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_qualified_name(&self, lhs: &[AstNode]) -> Evaluator {
+  fn build_qualified_name(&mut self, lhs: &'b [AstNode]) -> Evaluator {
     let mut evaluators = vec![];
     for node in lhs {
       evaluators.push(self.build(node));
@@ -1643,7 +1651,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_qualified_name_segment(&self, name: &Name) -> Evaluator {
+  fn build_qualified_name_segment(&mut self, name: &Name) -> Evaluator {
     let name = name.to_owned();
     Box::new(move |_: &FeelScope| Value::QualifiedNameSegment(name.to_owned()))
   }
@@ -1764,7 +1772,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_qualified_name_from_path(node: &AstNode) -> Option<QualifiedName> {
+  fn build_qualified_name_from_path(node: &'b AstNode) -> Option<QualifiedName> {
     match node {
       AstNode::Path(lhs, rhs) => {
         if let AstNode::Name(name) = lhs.borrow() {
@@ -1781,7 +1789,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_path(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_path(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let Some(qualified_name) = Self::build_qualified_name_from_path(rhs) else {
       return build_err_msg(err_invalid_qualified_name(rhs));
     };
@@ -1823,7 +1831,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_range(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_range(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -1842,7 +1850,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_range_type(&self, lhs: &AstNode) -> Evaluator {
+  fn build_range_type(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     Box::new(move |scope: &FeelScope| {
       let lhv = lhe(scope);
@@ -1855,7 +1863,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_some(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_some(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let mut expr_evaluators = vec![];
     let AstNode::QuantifiedContexts(items) = lhs else {
       return build_err_msg(err_msg_expected_node("QuantifiedContexts", lhs));
@@ -1882,13 +1890,13 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_string(&self, lhs: &str) -> Evaluator {
+  fn build_string(&mut self, lhs: &str) -> Evaluator {
     let value = Value::String(lhs.to_string());
     Box::new(move |_: &FeelScope| value.clone())
   }
 
   ///
-  fn build_sub(&self, lhs: &AstNode, rhs: &AstNode) -> Evaluator {
+  fn build_sub(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
     Box::new(move |scope: &FeelScope| {
@@ -1978,7 +1986,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_unary_ge(&self, lhs: &AstNode) -> Evaluator {
+  fn build_unary_ge(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     Box::new(move |scope: &FeelScope| {
       let lhv = lhe(scope);
@@ -1987,7 +1995,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_unary_gt(&self, lhs: &AstNode) -> Evaluator {
+  fn build_unary_gt(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     Box::new(move |scope: &FeelScope| {
       let lhv = lhe(scope);
@@ -1996,7 +2004,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_unary_le(&self, lhs: &AstNode) -> Evaluator {
+  fn build_unary_le(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     Box::new(move |scope: &FeelScope| {
       let lhv = lhe(scope);
@@ -2005,7 +2013,7 @@ impl EvaluatorBuilder {
   }
 
   ///
-  fn build_unary_lt(&self, lhs: &AstNode) -> Evaluator {
+  fn build_unary_lt(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     Box::new(move |scope: &FeelScope| {
       let lhv = lhe(scope);
