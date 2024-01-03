@@ -84,6 +84,7 @@ fn _0010() {
 
 #[test]
 fn _0011() {
+  // There is no `+=` operator in FEEL, but this expression parses properly (will return null on execution).
   let input = "1 += 2";
   let expected = r#"
        Add
