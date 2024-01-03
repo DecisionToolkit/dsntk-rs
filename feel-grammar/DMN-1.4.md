@@ -164,10 +164,10 @@
 
 ## Summary of changes from version 1.3 to 1.4
 
-| Rule 16 |                               |
-|---------|-------------------------------|
-| `1.3`   | 16. endpoint = simple value ; |
-| `1.4`   | 16. endpoint = endpoint ;     |
+| Rule 16 |                                 |
+|---------|---------------------------------|
+| 1.3     | `16. endpoint = simple value ;` |
+| 1.4     | `16. endpoint = endpoint ;`     |
 
 #### Rule 52
 
