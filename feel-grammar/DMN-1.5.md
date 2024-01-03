@@ -29,7 +29,7 @@ _Changes introduced in version 1.5 are marked with:_ ◀️
 6. simple expressions = simple expression { `,` simple expression } ;
 
 7. simple positive unary test =
-    - a. [ `<` | `<=` | `>` | `>=` ] endpoint |
+    - a. [ `<` | `<=` | `>` | `>=` | `=` | `!=` ] endpoint | ◀️
     - b. interval ;
 
 8. interval = ( open interval start | closed interval start ) endpoint `..` endpoint ( open interval end | closed interval end ) ;
@@ -165,3 +165,17 @@ _Changes introduced in version 1.5 are marked with:_ ◀️
 65. at literal = `@` string literal
 
 ## Summary of changes from version 1.4 to 1.5
+
+### Rule 7
+
+> `1.4`
+>
+> 7. simple positive unary test =
+>    - a. [ `<` | `<=` | `>` | `>=` ] endpoint |
+>    - b. interval ;
+
+> `1.5`
+>
+> 7. simple positive unary test =
+>    - a. [ `<` | `<=` | `>` | `>=` | `=` | `!=` ] endpoint |
+>    - b. interval ;
