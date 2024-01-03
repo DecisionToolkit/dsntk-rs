@@ -128,9 +128,9 @@
 
 51. instance of = expression `instance` `of` type ;
 
-> 52. type =
+52. type = 
     - a. qualified name |
-    - b. `range` `<` type `>` |
+    - b. `range` `<` type `>` | 🔴
     - c. `list` `<` type `>` |
     - d. `context` `<` name `:` type { `,` name `:` type } `>` |
     - e. `function` `<` [ type { `,` type } ] `>` `->` type ;
