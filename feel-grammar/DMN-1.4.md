@@ -173,8 +173,7 @@
 
 | Rule 52 |                                                            |
 |---------|------------------------------------------------------------|
-| `1.3`   | 52. type =                                                 |                                                 
-|         | - a. qualified name                                        |
+| `1.3`   | 52. type = <br/> - a. qualified name                       |
 |         | - b. `list` `<` type `>`                                   |
 |         | - c. `context` `<` name `:` type { `,` name `:` type } `>` |
 |         | - d. `function` `<` [ type { `,` type } ] `>` `->` type ;  |
