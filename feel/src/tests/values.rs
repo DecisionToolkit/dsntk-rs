@@ -102,10 +102,16 @@ fn test_debug() {
   );
   eq_dbg!(r#"String("beta")"#, Value::String("beta".to_string()));
   eq_dbg!(r#"Time(FeelTime(12, 13, 23, 0, Local))"#, Value::Time(v_time));
-  eq_dbg!(r#"UnaryGreater(Number(+1E+0))"#, Value::UnaryGreater(b_number.clone()));
-  eq_dbg!(r#"UnaryGreaterOrEqual(Number(+1E+0))"#, Value::UnaryGreaterOrEqual(b_number.clone()));
-  eq_dbg!(r#"UnaryLess(Number(+1E+0))"#, Value::UnaryLess(b_number.clone()));
-  eq_dbg!(r#"UnaryLessOrEqual(Number(+1E+0))"#, Value::UnaryLessOrEqual(b_number));
+  eq_dbg!(r#"UnaryGreater(Number(+1E+0), false)"#, Value::UnaryGreater(b_number.clone(), false));
+  eq_dbg!(r#"UnaryGreater(Number(+1E+0), true)"#, Value::UnaryGreater(b_number.clone(), true));
+  eq_dbg!(r#"UnaryGreaterOrEqual(Number(+1E+0), false)"#, Value::UnaryGreaterOrEqual(b_number.clone(), false));
+  eq_dbg!(r#"UnaryGreaterOrEqual(Number(+1E+0), true)"#, Value::UnaryGreaterOrEqual(b_number.clone(), true));
+  eq_dbg!(r#"UnaryLess(Number(+1E+0), false)"#, Value::UnaryLess(b_number.clone(), false));
+  eq_dbg!(r#"UnaryLess(Number(+1E+0), true)"#, Value::UnaryLess(b_number.clone(), true));
+  eq_dbg!(r#"UnaryLessOrEqual(Number(+1E+0), false)"#, Value::UnaryLessOrEqual(b_number.clone(), false));
+  eq_dbg!(r#"UnaryLessOrEqual(Number(+1E+0), true)"#, Value::UnaryLessOrEqual(b_number.clone(), true));
+  eq_dbg!(r#"UnaryEqual(Number(+1E+0))"#, Value::UnaryEqual(b_number.clone()));
+  eq_dbg!(r#"UnaryNotEqual(Number(+1E+0))"#, Value::UnaryNotEqual(b_number));
   eq_dbg!(
     r#"YearsAndMonthsDuration(FeelYearsAndMonthsDuration(38))"#,
     Value::YearsAndMonthsDuration(v_years_and_months_duration)
@@ -171,10 +177,12 @@ fn test_display() {
   eq_dsp!(r#"(1..1]"#, Value::Range(b_number.clone(), false, b_number.clone(), true));
   eq_dsp!(r#""beta""#, Value::String("beta".to_string()));
   eq_dsp!(r#"12:13:23"#, Value::Time(v_time));
-  eq_dsp!(r#"UnaryGreater(1)"#, Value::UnaryGreater(b_number.clone()));
-  eq_dsp!(r#"UnaryGreaterOrEqual(1)"#, Value::UnaryGreaterOrEqual(b_number.clone()));
-  eq_dsp!(r#"UnaryLess(1)"#, Value::UnaryLess(b_number.clone()));
-  eq_dsp!(r#"UnaryLessOrEqual(1)"#, Value::UnaryLessOrEqual(b_number));
+  eq_dsp!(r#"UnaryGreater(1, false)"#, Value::UnaryGreater(b_number.clone(), false));
+  eq_dsp!(r#"UnaryGreaterOrEqual(1, false)"#, Value::UnaryGreaterOrEqual(b_number.clone(), false));
+  eq_dsp!(r#"UnaryLess(1, false)"#, Value::UnaryLess(b_number.clone(), false));
+  eq_dsp!(r#"UnaryLessOrEqual(1, false)"#, Value::UnaryLessOrEqual(b_number.clone(), false));
+  eq_dsp!(r#"UnaryEqual(1)"#, Value::UnaryEqual(b_number.clone()));
+  eq_dsp!(r#"UnaryNotEqual(1)"#, Value::UnaryNotEqual(b_number));
   eq_dsp!(r#"P3Y2M"#, Value::YearsAndMonthsDuration(v_years_and_months_duration));
 }
 
@@ -243,10 +251,10 @@ fn test_type_of() {
   eq_typ!(FeelType::Range(Box::new(FeelType::Any)), Value::Range(b_number.clone(), false, b_boolean, true));
   eq_typ!(FeelType::String, Value::String("beta".to_string()));
   eq_typ!(FeelType::Time, Value::Time(v_time));
-  eq_typ!(FeelType::Boolean, Value::UnaryGreater(b_number.clone()));
-  eq_typ!(FeelType::Boolean, Value::UnaryGreaterOrEqual(b_number.clone()));
-  eq_typ!(FeelType::Boolean, Value::UnaryLess(b_number.clone()));
-  eq_typ!(FeelType::Boolean, Value::UnaryLessOrEqual(b_number));
+  eq_typ!(FeelType::Boolean, Value::UnaryGreater(b_number.clone(), false));
+  eq_typ!(FeelType::Boolean, Value::UnaryGreaterOrEqual(b_number.clone(), false));
+  eq_typ!(FeelType::Boolean, Value::UnaryLess(b_number.clone(), false));
+  eq_typ!(FeelType::Boolean, Value::UnaryLessOrEqual(b_number, false));
   eq_typ!(FeelType::YearsAndMonthsDuration, Value::YearsAndMonthsDuration(v_years_and_months_duration));
 }
 

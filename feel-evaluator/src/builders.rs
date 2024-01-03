@@ -52,12 +52,15 @@ struct EvaluatorBuilder<'b> {
 }
 
 impl<'b> EvaluatorBuilder<'b> {
-  /*
   /// Returns an optional reference to parent node if any.
   fn parent_node(&self) -> Option<&AstNode> {
-    self.node_stack.last().copied()
+    let stack_height = self.node_stack.len();
+    if stack_height > 1 {
+      self.node_stack.get(stack_height - 2).cloned()
+    } else {
+      None
+    }
   }
-  */
 
   /// Builds and evaluator based on provided AST node.
   fn build(&mut self, node: &'b AstNode) -> Evaluator {
@@ -1181,10 +1184,10 @@ impl<'b> EvaluatorBuilder<'b> {
         }
         Value::ExpressionList(inner) => eval_in_list(&lhv, &inner),
         Value::NegatedCommaList(inner) => eval_in_negated_list(&lhv, &inner),
-        Value::UnaryLess(inner) => eval_in_unary_less(&lhv, inner.borrow()),
-        Value::UnaryLessOrEqual(inner) => eval_in_unary_less_or_equal(&lhv, inner.borrow()),
-        Value::UnaryGreater(inner) => eval_in_unary_greater(&lhv, inner.borrow()),
-        Value::UnaryGreaterOrEqual(inner) => eval_in_unary_greater_or_equal(&lhv, inner.borrow()),
+        Value::UnaryLess(inner, _) => eval_in_unary_less(&lhv, inner.borrow()),
+        Value::UnaryLessOrEqual(inner, _) => eval_in_unary_less_or_equal(&lhv, inner.borrow()),
+        Value::UnaryGreater(inner, _) => eval_in_unary_greater(&lhv, inner.borrow()),
+        Value::UnaryGreaterOrEqual(inner, _) => eval_in_unary_greater_or_equal(&lhv, inner.borrow()),
         Value::Irrelevant => VALUE_TRUE,
         _ => value_null!("unexpected argument type in 'in' operator: {}", rhv.type_of()),
       }
@@ -1754,26 +1757,26 @@ impl<'b> EvaluatorBuilder<'b> {
         "end included" => Value::Boolean(ce),
         other => value_null!("no such property in range: {}", other),
       },
-      Value::UnaryGreater(value) => match property_name.as_str() {
-        "start" => *value,
+      Value::UnaryGreater(value, _) => match property_name.as_str() {
+        "start" => Value::UnaryGreater(value, true),
         "start included" => Value::Boolean(false),
         "end included" => Value::Boolean(false),
         other => value_null!("no such property in unary greater: {}", other),
       },
-      Value::UnaryGreaterOrEqual(value) => match property_name.as_str() {
-        "start" => *value,
+      Value::UnaryGreaterOrEqual(value, _) => match property_name.as_str() {
+        "start" => Value::UnaryLessOrEqual(value, true),
         "start included" => Value::Boolean(true),
         "end included" => Value::Boolean(false),
         other => value_null!("no such property in unary greater or equal: {}", other),
       },
-      Value::UnaryLess(value) => match property_name.as_str() {
-        "end" => *value,
+      Value::UnaryLess(value, _) => match property_name.as_str() {
+        "end" => Value::UnaryLess(value, true),
         "start included" => Value::Boolean(false),
         "end included" => Value::Boolean(false),
         other => value_null!("no such property in unary less: {}", other),
       },
-      Value::UnaryLessOrEqual(value) => match property_name.as_str() {
-        "end" => *value,
+      Value::UnaryLessOrEqual(value, _) => match property_name.as_str() {
+        "end" => Value::UnaryLessOrEqual(value, true),
         "start included" => Value::Boolean(false),
         "end included" => Value::Boolean(true),
         other => value_null!("no such property in unary less or equal: {}", other),
@@ -1808,36 +1811,47 @@ impl<'b> EvaluatorBuilder<'b> {
     let mut property_path = qualified_name.clone();
     let property_name = property_path.pop().unwrap();
     let lhe = self.build(lhs);
-    Box::new(move |scope: &FeelScope| {
-      let lhv = lhe(scope);
-      match lhv {
-        Value::Context(context) => {
-          if let Some(value) = context.search_entry(&qualified_name) {
-            return value.clone();
-          }
-          if let Some(value) = context.search_entry(&property_path) {
-            return Self::get_property_from_value(value.clone(), &property_name);
-          }
-          value_null!("build_path: no entry {} in context: {}", qualified_name, context)
+    //
+
+    println!("DDD: {:?}", self.parent_node());
+    let fn_adjust = match self.parent_node() {
+      Some(AstNode::UnaryGt(_)) => |value: Value| Value::UnaryGreater(value.into(), true),
+      Some(AstNode::UnaryGe(_)) => |value: Value| Value::UnaryGreaterOrEqual(value.into(), true),
+      Some(AstNode::UnaryLt(_)) => |value: Value| Value::UnaryLess(value.into(), true),
+      Some(AstNode::UnaryLe(_)) => |value: Value| Value::UnaryLessOrEqual(value.into(), true),
+      _ => |value: Value| value,
+    };
+    // prepare and return the evaluator
+    Box::new(move |scope: &FeelScope| match fn_adjust(lhe(scope)) {
+      Value::Context(context) => {
+        if let Some(value) = context.search_entry(&qualified_name) {
+          return value.clone();
         }
-        Value::List(items) => {
-          let mut result = vec![];
-          for item in items {
-            if let Value::Context(context) = item {
-              if let Some(value) = context.search_entry(&qualified_name) {
-                result.push(value.clone());
-              } else if let Some(value) = context.search_entry(&property_path) {
-                result.push(Self::get_property_from_value(value.clone(), &property_name));
-              } else {
-                result.push(value_null!());
-              }
+        if let Some(value) = context.search_entry(&property_path) {
+          return Self::get_property_from_value(value.clone(), &property_name);
+        }
+        value_null!("build_path: no entry {} in context: {}", qualified_name, context)
+      }
+      Value::List(items) => {
+        let mut result = vec![];
+        for item in items {
+          if let Value::Context(context) = item {
+            if let Some(value) = context.search_entry(&qualified_name) {
+              result.push(value.clone());
+            } else if let Some(value) = context.search_entry(&property_path) {
+              result.push(Self::get_property_from_value(value.clone(), &property_name));
             } else {
-              return value_null!("build_path: no context in list");
+              result.push(value_null!());
             }
+          } else {
+            return value_null!("build_path: no context in list");
           }
-          Value::List(result)
         }
-        other => Self::get_property_from_value(other, &property_name),
+        Value::List(result)
+      }
+      other => {
+        println!("DDD: getting property: {}", property_name);
+        Self::get_property_from_value(other, &property_name)
       }
     })
   }
@@ -1997,43 +2011,47 @@ impl<'b> EvaluatorBuilder<'b> {
     })
   }
 
-  ///
+  /// Returns an evaluator for unary `>=` (greater or equal) operator.
   fn build_unary_ge(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
-    Box::new(move |scope: &FeelScope| {
-      let lhv = lhe(scope);
-      Value::UnaryGreaterOrEqual(Box::from(lhv))
+    Box::new(move |scope: &FeelScope| match lhe(scope) {
+      Value::UnaryGreaterOrEqual(value, true) => *value,
+      null @ Value::Null(_) => null,
+      other => Value::UnaryGreaterOrEqual(other.into(), false),
     })
   }
 
-  ///
+  /// Returns an evaluator for unary `>` (greater) operator.
   fn build_unary_gt(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
-    Box::new(move |scope: &FeelScope| {
-      let lhv = lhe(scope);
-      Value::UnaryGreater(Box::from(lhv))
+    Box::new(move |scope: &FeelScope| match lhe(scope) {
+      Value::UnaryGreater(value, true) => *value,
+      null @ Value::Null(_) => null,
+      other => Value::UnaryGreater(other.into(), false),
     })
   }
 
-  ///
+  /// Returns an evaluator for unary `<=` (less or equal) operator.
   fn build_unary_le(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
-    Box::new(move |scope: &FeelScope| {
-      let lhv = lhe(scope);
-      Value::UnaryLessOrEqual(Box::from(lhv))
+    Box::new(move |scope: &FeelScope| match lhe(scope) {
+      Value::UnaryLessOrEqual(value, true) => *value,
+      null @ Value::Null(_) => null,
+      other => Value::UnaryLessOrEqual(other.into(), false),
     })
   }
 
-  ///
+  /// Returns an evaluator for unary `<` (less) operator.
   fn build_unary_lt(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
-    Box::new(move |scope: &FeelScope| {
-      let lhv = lhe(scope);
-      Value::UnaryLess(Box::from(lhv))
+    Box::new(move |scope: &FeelScope| match lhe(scope) {
+      Value::UnaryLess(value, true) => *value,
+      null @ Value::Null(_) => null,
+      other => Value::UnaryLess(other.into(), false),
     })
   }
 
-  ///
+  /// Returns an evaluator for unary `=` (equal) operator.
   fn build_unary_eq(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     Box::new(move |scope: &FeelScope| {
@@ -2042,7 +2060,7 @@ impl<'b> EvaluatorBuilder<'b> {
     })
   }
 
-  ///
+  /// Returns an evaluator for unary `!=` (not equal) operator.
   fn build_unary_ne(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     Box::new(move |scope: &FeelScope| {
@@ -2150,7 +2168,7 @@ pub fn eval_ternary_equality(lhs: &Value, rhs: &Value) -> Option<bool> {
       Value::Null(_) => Some(false),
       _ => None,
     },
-    Value::UnaryGreater(end) => match rhs {
+    Value::UnaryGreater(end, _) => match rhs {
       Value::Range(rs, cs, re, ce) => {
         if !*cs && !*ce && re.is_null() {
           eval_ternary_equality(end, rs)
@@ -2160,7 +2178,7 @@ pub fn eval_ternary_equality(lhs: &Value, rhs: &Value) -> Option<bool> {
       }
       _ => None,
     },
-    Value::UnaryLess(end) => match rhs {
+    Value::UnaryLess(end, _) => match rhs {
       Value::Range(rs, cs, re, ce) => {
         if !*cs && !*ce && rs.is_null() {
           eval_ternary_equality(end, re)
@@ -2170,7 +2188,7 @@ pub fn eval_ternary_equality(lhs: &Value, rhs: &Value) -> Option<bool> {
       }
       _ => None,
     },
-    Value::UnaryGreaterOrEqual(end) => match rhs {
+    Value::UnaryGreaterOrEqual(end, _) => match rhs {
       Value::Range(rs, cs, re, ce) => {
         if *cs && !*ce && re.is_null() {
           eval_ternary_equality(end, rs)
@@ -2180,7 +2198,7 @@ pub fn eval_ternary_equality(lhs: &Value, rhs: &Value) -> Option<bool> {
       }
       _ => None,
     },
-    Value::UnaryLessOrEqual(end) => match rhs {
+    Value::UnaryLessOrEqual(end, _) => match rhs {
       Value::Range(rs, cs, re, ce) => {
         if !*cs && *ce && rs.is_null() {
           eval_ternary_equality(end, re)
@@ -2224,22 +2242,22 @@ fn eval_in_list(left: &Value, items: &[Value]) -> Value {
           return VALUE_TRUE;
         }
       }
-      Value::UnaryLess(inner) => {
+      Value::UnaryLess(inner, _) => {
         if let Value::Boolean(true) = eval_in_unary_less(left, inner.borrow()) {
           return VALUE_TRUE;
         }
       }
-      Value::UnaryLessOrEqual(inner) => {
+      Value::UnaryLessOrEqual(inner, _) => {
         if let Value::Boolean(true) = eval_in_unary_less_or_equal(left, inner.borrow()) {
           return VALUE_TRUE;
         }
       }
-      Value::UnaryGreater(inner) => {
+      Value::UnaryGreater(inner, _) => {
         if let Value::Boolean(true) = eval_in_unary_greater(left, inner.borrow()) {
           return VALUE_TRUE;
         }
       }
-      Value::UnaryGreaterOrEqual(inner) => {
+      Value::UnaryGreaterOrEqual(inner, _) => {
         if let Value::Boolean(true) = eval_in_unary_greater_or_equal(left, inner.borrow()) {
           return VALUE_TRUE;
         }
@@ -2303,22 +2321,22 @@ fn eval_in_negated_list(left: &Value, items: &[Value]) -> Value {
           return Value::Boolean(false);
         }
       }
-      Value::UnaryLess(inner) => {
+      Value::UnaryLess(inner, _) => {
         if let Value::Boolean(true) = eval_in_unary_less(left, inner.borrow()) {
           return Value::Boolean(false);
         }
       }
-      Value::UnaryLessOrEqual(inner) => {
+      Value::UnaryLessOrEqual(inner, _) => {
         if let Value::Boolean(true) = eval_in_unary_less_or_equal(left, inner.borrow()) {
           return Value::Boolean(false);
         }
       }
-      Value::UnaryGreater(inner) => {
+      Value::UnaryGreater(inner, _) => {
         if let Value::Boolean(true) = eval_in_unary_greater(left, inner.borrow()) {
           return Value::Boolean(false);
         }
       }
-      Value::UnaryGreaterOrEqual(inner) => {
+      Value::UnaryGreaterOrEqual(inner, _) => {
         if let Value::Boolean(true) = eval_in_unary_greater_or_equal(left, inner.borrow()) {
           return Value::Boolean(false);
         }
