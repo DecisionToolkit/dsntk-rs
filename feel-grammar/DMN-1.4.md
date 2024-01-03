@@ -1,6 +1,6 @@
 # FEEL grammar of [DMN™](https://www.omg.org/spec/DMN/1.3/PDF) 1.4
 
-__Changes introduced in version 1.4 are marked with:__ ◀️
+_Changes introduced in version 1.4 are marked with:_ ◀️
 
 1. expression =
     - a. boxed expression |
