@@ -1,5 +1,7 @@
 # FEEL grammar of [DMN™](https://www.omg.org/spec/DMN/1.3/PDF) 1.4
 
+__Changes introduced in version 1.4 are marked with:__ ◀️
+
 1. expression =
     - a. boxed expression |
     - b. textual expression ;
@@ -49,7 +51,7 @@
     - b. `not` `(` positive unary tests `)` |
     - c. `-` ;
 
-> 16. endpoint = expression ;
+16. endpoint = expression ; ◀️
 
 17. simple value = qualified name | simple literal ;
 
