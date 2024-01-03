@@ -126,7 +126,7 @@
 
 50. filter expression = expression `[` expression `]` ;
 
-51. instance of = expression `instance of` type ;
+51. instance of = expression `instance` `of` type ;
 
 52. type =
     - a. qualified name |
