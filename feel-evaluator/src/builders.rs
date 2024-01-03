@@ -44,6 +44,7 @@ macro_rules! between_null3 {
   };
 }
 
+/// Evaluator builder.
 #[derive(Default)]
 struct EvaluatorBuilder<'b> {
   /// Stack of visited parent nodes in AST during evaluator building.
@@ -51,7 +52,7 @@ struct EvaluatorBuilder<'b> {
 }
 
 impl<'b> EvaluatorBuilder<'b> {
-  ///
+  /// Builds and evaluator based on provided AST node.
   fn build(&mut self, node: &'b AstNode) -> Evaluator {
     // push the current node on the top of the node stack
     self.node_stack.push(node);
@@ -135,7 +136,7 @@ impl<'b> EvaluatorBuilder<'b> {
     evaluator
   }
 
-  ///
+  /// Returns an evaluator for `addition`.
   fn build_add(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
     let rhe = self.build(rhs);
@@ -241,7 +242,7 @@ impl<'b> EvaluatorBuilder<'b> {
     })
   }
 
-  /// Builds evaluator of temporal expression after `@` (at) literal.
+  /// Returns an evaluator of the temporal expression after `@` (at) literal.
   fn build_at(&mut self, text: &str) -> Evaluator {
     if let Ok(date) = FeelDate::from_str(text) {
       Box::new(move |_: &FeelScope| Value::Date(date.clone()))
@@ -362,7 +363,8 @@ impl<'b> EvaluatorBuilder<'b> {
     Box::new(move |_: &FeelScope| Value::Boolean(lhs))
   }
 
-  /// Semantics of conjunction.
+  /// Returns an evaluator for `conjunction`.
+  ///
   /// ```text
   /// left        right        result
   ///─────────────────────────────────
@@ -1553,7 +1555,8 @@ impl<'b> EvaluatorBuilder<'b> {
     })
   }
 
-  /// Semantics of disjunction.
+  /// Returns an evaluator for `disjunction`.
+  ///
   /// ```text
   /// left        right        result
   ///─────────────────────────────────
