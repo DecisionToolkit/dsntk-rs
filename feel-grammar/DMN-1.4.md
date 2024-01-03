@@ -178,23 +178,16 @@ _Changes introduced in version 1.4 are marked with:_ ◀️
 
 ### Rule 52
 
-| Rule 52 |                                                            |
-|---------|------------------------------------------------------------|
-| `1.3`   | `52. type = <br/> - a. qualified name`                     |
-|         | - b. `list` `<` type `>`                                   |
-|         | - c. `context` `<` name `:` type { `,` name `:` type } `>` |
-|         | - d. `function` `<` [ type { `,` type } ] `>` `->` type ;  |
 
-
-`1.3`
+> `1.3`
 
 
 
-`1.4`
-
-52. type =
-    - a. qualified name |
-    - b. `range` `<` type `>` |
-    - c. `list` `<` type `>` |
-    - d. `context` `<` name `:` type { `,` name `:` type } `>` |
-    - e. `function` `<` [ type { `,` type } ] `>` `->` type ;
+> `1.4`
+>
+> 52. type =
+>     - a. qualified name |
+>     - b. `range` `<` type `>` |
+>     - c. `list` `<` type `>` |
+>     - d. `context` `<` name `:` type { `,` name `:` type } `>` |
+>     - e. `function` `<` [ type { `,` type } ] `>` `->` type ;
