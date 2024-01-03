@@ -1800,7 +1800,7 @@ impl<'b> EvaluatorBuilder<'b> {
     }
   }
 
-  ///
+  /// Returns and evaluator for `path expression`.
   fn build_path(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let Some(qualified_name) = Self::build_qualified_name_from_path(rhs) else {
       return build_err_msg(err_invalid_qualified_name(rhs));
