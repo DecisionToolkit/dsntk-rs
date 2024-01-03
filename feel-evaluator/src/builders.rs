@@ -2014,8 +2014,9 @@ impl EvaluatorBuilder {
   }
 }
 
-/// Evaluates ternary equality between two values.
+/// Evaluates ternary equality of two values.
 pub fn eval_ternary_equality(lhs: &Value, rhs: &Value) -> Option<bool> {
+  //TODO Maybe this function should be defined in dsntk-feel crate?
   match lhs {
     Value::Boolean(ls) => match rhs {
       Value::Boolean(rs) => Some(*ls == *rs),
