@@ -174,7 +174,7 @@ _Changes introduced in version 1.4 are marked with:_ ◀️
 
 > `1.4`
 >
-> 16. endpoint = endpoint ; ◀️
+> 16. endpoint = endpoint ;
 
 ### Rule 52
 
@@ -188,8 +188,8 @@ _Changes introduced in version 1.4 are marked with:_ ◀️
 > `1.4`
 >
 > 52. type =
->     - a. qualified name |
->     - b. `range` `<` type `>` | ◀️
->     - c. `list` `<` type `>` |
->     - d. `context` `<` name `:` type { `,` name `:` type } `>` |
->     - e. `function` `<` [ type { `,` type } ] `>` `->` type ;
+>      - a. qualified name |
+>      - b. `range` `<` type `>` |
+>      - c. `list` `<` type `>` |
+>      - d. `context` `<` name `:` type { `,` name `:` type } `>` |
+>      - e. `function` `<` [ type { `,` type } ] `>` `->` type ;
