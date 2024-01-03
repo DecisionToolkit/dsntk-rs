@@ -1,4 +1,4 @@
-# Grammar rules for [DMN™](https://www.omg.org/spec/DMN/1.3/PDF) in version 1.3
+# Grammar rules for [DMN™ 1.3](https://www.omg.org/spec/DMN/1.3/PDF)
 
 1. expression  =
     - a. boxed_expression |
