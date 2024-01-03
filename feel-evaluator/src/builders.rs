@@ -18,12 +18,6 @@ use std::ops::Deref;
 use std::str::FromStr;
 use std::sync::Arc;
 
-/// Build context.
-#[derive(Default)]
-pub struct BuildContext {
-  // Currently not used, but left here for future extensions.
-}
-
 /// Builds an evaluator from provided AST node.
 pub fn build_evaluator(node: &AstNode) -> Evaluator {
   let evaluator_builder = EvaluatorBuilder::default();
