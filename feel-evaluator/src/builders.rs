@@ -46,7 +46,7 @@ macro_rules! between_null3 {
 
 #[derive(Default)]
 struct EvaluatorBuilder<'b> {
-  /// References to visited nodes in AST during processing.
+  /// Stack of visited parent nodes in AST during evaluator building.
   node_stack: Vec<&'b AstNode>,
 }
 
