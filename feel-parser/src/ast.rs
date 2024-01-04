@@ -389,7 +389,7 @@ fn ast_node_to_tree(node: &AstNode) -> AsciiNode {
     AstNode::NegatedList(mid) => node_n("NegatedList", mid),
     AstNode::Nq(lhs, rhs) => node_2("Nq", lhs, rhs),
     AstNode::Null => leaf("Null"),
-    AstNode::Numeric(before, after, sign, exponent) => node_and_leaf("Numeric", &numeric_to_tree_string(before, after, sign, exponent)),
+    AstNode::Numeric(before, after, sign, exponent) => node_and_leaf("Numeric", &numeric_to_string(before, after, sign, exponent)),
     AstNode::Or(lhs, rhs) => node_2("Or", lhs, rhs),
     AstNode::Out(lhs, rhs) => node_2("Out", lhs, rhs),
     AstNode::ParameterName(lhs) => node_and_leaf("ParameterName", &format!("`{lhs}`")),
@@ -470,11 +470,15 @@ fn leaf(leaf: &str) -> AsciiNode {
   AsciiNode::leaf_builder().line(AsciiLine::builder().text(leaf).build()).build()
 }
 
-fn numeric_to_tree_string(before: &str, after: &str, _sign: &char, _exponent: &str) -> String {
+/// Converts a numeric AST node into string representation used in tree visualisation.
+fn numeric_to_string(before: &str, after: &str, sign: &char, exponent: &str) -> String {
   let mut output = String::new();
   let _ = write!(&mut output, "`{before}");
   if !after.is_empty() {
     let _ = write!(&mut output, ".{after}");
+  }
+  if !exponent.is_empty() {
+    let _ = write!(&mut output, "{sign}{exponent}");
   }
   let _ = write!(&mut output, "`");
   output
