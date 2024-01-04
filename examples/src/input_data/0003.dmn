@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions namespace="https://dsntk.io/"
              name="_0003"
-             id="_83ec1232-39e8-4211-a8ed-80422ac96798"
+             id="_0003"
              xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
     <description>Input data with simple boolean type variable.</description>
     <inputData name="Is Affordable" id="_b7a53bad-7a5b-4033-841d-5db6b25834ad">

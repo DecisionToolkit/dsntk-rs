@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions namespace="https://dsntk.io/"
              name="_0001"
-             id="_a11e0d2d-cd38-4bf3-abe8-0abe54efbd69"
+             id="_0001"
              xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
     <description>Input data with simple string type variable.</description>
     <inputData name="Full Name" id="_cba86e4d-e91c-46a2-9176-e9adf88e15db">

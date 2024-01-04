@@ -50,7 +50,7 @@ mod tests {
   use crate::model_definitions::{DefDefinitions, DefKey};
   use dsntk_examples::input_data::*;
   use dsntk_feel::values::Value;
-  use dsntk_feel::{value_number, FeelNumber, Name};
+  use dsntk_feel::{value_null, value_number, FeelNumber, Name};
 
   const NAMESPACE: &str = "https://dsntk.io";
 
@@ -103,7 +103,7 @@ mod tests {
     let context_str = r#"{Full Name: 50.0}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     assert_eq!(
-      Some((Name::new(&["Full", "Name"]), Value::Null(Some("after coercion".to_string())))),
+      Some((Name::new(&["Full", "Name"]), value_null!("after coercion"))),
       input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
     );
   }
@@ -148,7 +148,7 @@ mod tests {
     let context_str = r#"{Monthly Salary: "12000.00"}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     assert_eq!(
-      Some((Name::new(&["Monthly", "Salary"]), Value::Null(Some("after coercion".to_string())))),
+      Some((Name::new(&["Monthly", "Salary"]), value_null!("after coercion"))),
       input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
     );
   }
@@ -193,7 +193,7 @@ mod tests {
     let context_str = r#"{Is Affordable: "no"}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     assert_eq!(
-      Some((Name::new(&["Is", "Affordable"]), Value::Null(Some("after coercion".to_string())))),
+      Some((Name::new(&["Is", "Affordable"]), value_null!("after coercion"))),
       input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
     );
   }
@@ -224,7 +224,7 @@ mod tests {
     let context_str = r#"{Always Null: null}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     assert_eq!(
-      Some((Name::new(&["Always", "Null"]), Value::Null(None))),
+      Some((Name::new(&["Always", "Null"]), value_null!())),
       input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
     );
   }
@@ -239,7 +239,23 @@ mod tests {
     let context_str = r#"{Always Null: 10}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     assert_eq!(
-      Some((Name::new(&["Always", "Null"]), Value::Null(Some("after coercion".to_string())))),
+      Some((Name::new(&["Always", "Null"]), value_null!("after coercion"))),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
+  }
+
+  #[test]
+  fn _0006_1() {
+    let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0006);
+    let def_key = DefKey::new(NAMESPACE, "_input_0006");
+    let variable = input_data_evaluator.get_variable(&def_key).unwrap();
+    assert_eq!("Employment Status", variable.name().to_string());
+    assert_eq!(NAMESPACE, variable.namespace());
+    let context_str = r#"{Employment Status: "EMPLOYED"}"#;
+    let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
+    let name = Name::new(&["Employment", "Status"]);
+    assert_eq!(
+      Some((name, value_null!("input data evaluator: item definition evaluator 'tEmploymentStatus' not found"))),
       input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
     );
   }
