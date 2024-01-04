@@ -791,21 +791,21 @@ impl<'b> EvaluatorBuilder<'b> {
       }
     }
     Box::new(move |scope: &FeelScope| {
-      let mut expression_evaluator = ForExpressionEvaluator::new();
+      let mut for_expression_evaluator = ForExpressionEvaluator::new();
       for iterator_type in &evaluators {
         match iterator_type {
           IteratorType::Range((name, evaluator_range_start, evaluator_range_end)) => {
-            expression_evaluator.add_range(name.clone(), evaluator_range_start(scope), evaluator_range_end(scope));
+            for_expression_evaluator.add_range(name.clone(), evaluator_range_start(scope), evaluator_range_end(scope));
           }
           IteratorType::List((name, evaluator_single)) => {
-            expression_evaluator.add_list(name.clone(), evaluator_single(scope));
+            for_expression_evaluator.add_list(name.clone(), evaluator_single(scope));
           }
           IteratorType::Variable((name, variable_name)) => {
-            expression_evaluator.add_variable(name.clone(), variable_name.clone());
+            for_expression_evaluator.add_variable(name.clone(), variable_name.clone());
           }
         }
       }
-      Value::List(expression_evaluator.evaluate(scope, &rhe))
+      Value::List(for_expression_evaluator.evaluate(scope, &rhe))
     })
   }
 
