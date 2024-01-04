@@ -931,8 +931,8 @@ impl<'parser> ReduceActions for Parser<'parser> {
   ///
   fn action_literal_numeric(&mut self) -> Result<()> {
     trace_action!(self, "numeric_literal");
-    if let Some(TokenValue::Numeric(before, after)) = self.yy_value_stack.last() {
-      self.yy_node_stack.push(AstNode::Numeric(before.clone(), after.clone()));
+    if let Some(TokenValue::Numeric(before, after, sign, exponent)) = self.yy_value_stack.last() {
+      self.yy_node_stack.push(AstNode::Numeric(before.clone(), after.clone(), *sign, exponent.clone()));
     }
     Ok(())
   }

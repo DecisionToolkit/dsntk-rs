@@ -33,8 +33,8 @@ fn _0003() {
 fn _0004() {
   let scope = FeelScope::default();
   let node = AstNode::Add(
-    Box::new(AstNode::Numeric("1".to_string(), "23".to_string())),
-    Box::new(AstNode::Numeric("1".to_string(), "77".to_string())),
+    Box::new(AstNode::Numeric("1".to_string(), "23".to_string(), '+', "".into())),
+    Box::new(AstNode::Numeric("1".to_string(), "77".to_string(), '+', "".into())),
   );
   let evaluator = prepare(&node);
   assert_eq!("3", evaluator(&scope).to_string());

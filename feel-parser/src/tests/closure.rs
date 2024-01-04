@@ -1,3 +1,4 @@
+use super::*;
 use crate::{parse_context, parse_textual_expression, AstNode, ClosureBuilder};
 use dsntk_feel::{scope, FeelScope};
 
@@ -89,13 +90,13 @@ fn _0014() {
 
 #[test]
 fn _0015() {
-  let node = AstNode::CommaList(vec![AstNode::Numeric("1".into(), "2".into())]);
+  let node = AstNode::CommaList(vec![_num!(s!("1"), s!("2"))]);
   assert_eq!("[]", format!("{}", ClosureBuilder::from_node(&node)));
 }
 
 #[test]
 fn _0016() {
-  let node = AstNode::NegatedList(vec![AstNode::Numeric("1".into(), "2".into())]);
+  let node = AstNode::NegatedList(vec![_num!(s!("1"), s!("2"))]);
   assert_eq!("[]", format!("{}", ClosureBuilder::from_node(&node)));
 }
 
@@ -125,7 +126,7 @@ fn _0020() {
 
 #[test]
 fn _0021() {
-  let node = AstNode::Out(Box::new(AstNode::Numeric("1".into(), "2".into())), Box::new(AstNode::Numeric("1".into(), "2".into())));
+  let node = AstNode::Out(b_num!(s!("1"), s!("2")), b_num!(s!("1"), s!("2")));
   assert_eq!("[]", format!("{}", ClosureBuilder::from_node(&node)));
 }
 

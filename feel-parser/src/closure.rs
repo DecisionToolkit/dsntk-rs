@@ -102,7 +102,7 @@ impl ClosureBuilder {
       AstNode::Neg(lhs) => self.visit_1(lhs, path_level),
       AstNode::NegatedList(lhs) => self.visit_list(lhs, path_level),
       AstNode::Null => self.visit_0(path_level),
-      AstNode::Numeric(_, _) => self.visit_0(path_level),
+      AstNode::Numeric(_, _, _, _) => self.visit_0(path_level),
       AstNode::Nq(lhs, rhs) => self.visit_2(lhs, rhs, path_level),
       AstNode::Or(lhs, rhs) => self.visit_2(lhs, rhs, path_level),
       AstNode::Out(lhs, rhs) => self.visit_2(lhs, rhs, path_level),
