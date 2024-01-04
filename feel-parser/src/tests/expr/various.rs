@@ -24,9 +24,9 @@ fn _0001() {
        │     ├─ Name
        │     │  └─ `i`
        │     ├─ Numeric
-       │     │  └─ `1.`
+       │     │  └─ `1`
        │     └─ Numeric
-       │        └─ `6.`
+       │        └─ `6`
        └─ EvaluatedExpression
           └─ Div
              ├─ Add
@@ -37,7 +37,7 @@ fn _0001() {
              │  │  │  └─ PositionalParameters
              │  │  │     └─ Add
              │  │  │        ├─ Numeric
-             │  │  │        │  └─ `1.`
+             │  │  │        │  └─ `1`
              │  │  │        └─ Mul
              │  │  │           ├─ Div
              │  │  │           │  ├─ Path
@@ -49,7 +49,7 @@ fn _0001() {
              │  │  │           │  │  └─ Name
              │  │  │           │  │     └─ `rate`
              │  │  │           │  └─ Numeric
-             │  │  │           │     └─ `100.`
+             │  │  │           │     └─ `100`
              │  │  │           └─ Div
              │  │  │              ├─ Path
              │  │  │              │  ├─ Filter
@@ -60,7 +60,7 @@ fn _0001() {
              │  │  │              │  └─ Name
              │  │  │              │     └─ `tenor`
              │  │  │              └─ Numeric
-             │  │  │                 └─ `365.`
+             │  │  │                 └─ `365`
              │  │  └─ Div
              │  │     ├─ Path
              │  │     │  ├─ Filter
@@ -71,7 +71,7 @@ fn _0001() {
              │  │     │  └─ Name
              │  │     │     └─ `tenor`
              │  │     └─ Numeric
-             │  │        └─ `365.`
+             │  │        └─ `365`
              │  └─ Div
              │     ├─ FunctionInvocation
              │     │  ├─ Name
@@ -79,7 +79,7 @@ fn _0001() {
              │     │  └─ PositionalParameters
              │     │     └─ Add
              │     │        ├─ Numeric
-             │     │        │  └─ `1.`
+             │     │        │  └─ `1`
              │     │        └─ Mul
              │     │           ├─ Div
              │     │           │  ├─ Path
@@ -91,7 +91,7 @@ fn _0001() {
              │     │           │  │  └─ Name
              │     │           │  │     └─ `rate`
              │     │           │  └─ Numeric
-             │     │           │     └─ `100.`
+             │     │           │     └─ `100`
              │     │           └─ Div
              │     │              ├─ Path
              │     │              │  ├─ Filter
@@ -102,7 +102,7 @@ fn _0001() {
              │     │              │  └─ Name
              │     │              │     └─ `tenor`
              │     │              └─ Numeric
-             │     │                 └─ `365.`
+             │     │                 └─ `365`
              │     └─ Div
              │        ├─ Path
              │        │  ├─ Filter
@@ -113,9 +113,9 @@ fn _0001() {
              │        │  └─ Name
              │        │     └─ `tenor`
              │        └─ Numeric
-             │           └─ `365.`
+             │           └─ `365`
              └─ Numeric
-                └─ `2.`
+                └─ `2`
     "#,
     false,
   );

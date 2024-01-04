@@ -11,11 +11,11 @@ fn _0001() {
     r#"
        ExpressionList
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        ├─ Numeric
-       │  └─ `2.`
+       │  └─ `2`
        └─ Numeric
-          └─ `3.`
+          └─ `3`
     "#,
     false,
   );

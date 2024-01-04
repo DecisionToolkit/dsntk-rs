@@ -190,7 +190,7 @@ fn _0011() {
        │  └─ Name
        │     └─ `Rating`
        └─ Numeric
-          └─ `0.`
+          └─ `0`
     "#,
     false,
   );

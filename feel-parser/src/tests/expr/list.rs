@@ -135,7 +135,7 @@ fn _0007() {
        List
        └─ List
           └─ Numeric
-             └─ `1.`
+             └─ `1`
     "#,
     false,
   );
@@ -152,10 +152,10 @@ fn _0008() {
        List
        ├─ List
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ List
           └─ Numeric
-             └─ `2.`
+             └─ `2`
     "#,
     false,
   );
@@ -172,13 +172,13 @@ fn _0009() {
        List
        ├─ List
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        ├─ List
        │  └─ Numeric
-       │     └─ `2.`
+       │     └─ `2`
        └─ List
           └─ Numeric
-             └─ `3.`
+             └─ `3`
     "#,
     false,
   );
@@ -196,7 +196,7 @@ fn _00010() {
        └─ List
           └─ List
              └─ Numeric
-                └─ `1.`
+                └─ `1`
     "#,
     false,
   );
@@ -214,27 +214,27 @@ fn _00011() {
        ├─ List
        │  ├─ List
        │  │  └─ Numeric
-       │  │     └─ `1.`
+       │  │     └─ `1`
        │  ├─ List
        │  │  └─ Numeric
-       │  │     └─ `2.`
+       │  │     └─ `2`
        │  └─ List
        │     └─ Numeric
-       │        └─ `3.`
+       │        └─ `3`
        ├─ List
        │  ├─ List
        │  │  └─ Numeric
-       │  │     └─ `4.`
+       │  │     └─ `4`
        │  └─ List
        │     └─ Numeric
-       │        └─ `5.`
+       │        └─ `5`
        └─ List
           ├─ Numeric
-          │  └─ `7.`
+          │  └─ `7`
           ├─ Numeric
-          │  └─ `8.`
+          │  └─ `8`
           └─ Numeric
-             └─ `9.`
+             └─ `9`
     "#,
     false,
   );

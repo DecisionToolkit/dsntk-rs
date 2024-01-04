@@ -8,7 +8,7 @@ fn _0001() {
   let expected = r#"
        Path
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Name
           └─ `first`
     "#;
@@ -218,7 +218,7 @@ fn _0010() {
        │  └─ Name
        │     └─ `type`
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     false,
   );
@@ -363,12 +363,12 @@ fn _0014() {
        │  │  ├─ ContextEntryKey
        │  │  │  └─ `first`
        │  │  └─ Numeric
-       │  │     └─ `10.`
+       │  │     └─ `10`
        │  └─ ContextEntry
        │     ├─ ContextEntryKey
        │     │  └─ `second`
        │     └─ Numeric
-       │        └─ `20.`
+       │        └─ `20`
        └─ Name
           └─ `first`
     "#;

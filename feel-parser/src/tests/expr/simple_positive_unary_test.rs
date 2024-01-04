@@ -13,7 +13,7 @@ fn _0001() {
     r#"
        UnaryLt
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     false,
   );
@@ -45,7 +45,7 @@ fn _0003() {
     r#"
        UnaryGt
        └─ Numeric
-          └─ `50.`
+          └─ `50`
     "#,
     false,
   );

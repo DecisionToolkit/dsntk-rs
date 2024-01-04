@@ -12,10 +12,10 @@ fn _0001() {
        Range
        ├─ IntervalStart (closed)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (closed)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -67,14 +67,14 @@ fn _0003() {
        Eq
        ├─ UnaryLe
        │  └─ Numeric
-       │     └─ `10.`
+       │     └─ `10`
        └─ Range
           ├─ IntervalStart (closed)
           │  └─ Numeric
-          │     └─ `1.`
+          │     └─ `1`
           └─ IntervalEnd (closed)
              └─ Numeric
-                └─ `10.`
+                └─ `10`
     "#,
     false,
   );

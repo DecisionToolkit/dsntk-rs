@@ -157,7 +157,7 @@ fn _0005() {
                    ├─ Name
                    │  └─ `state`
                    └─ Numeric
-                      └─ `1.`
+                      └─ `1`
     "#,
     false,
   );

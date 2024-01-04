@@ -27,7 +27,7 @@ fn _0002() {
     r#"
        ExpressionList
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     false,
   );
@@ -43,9 +43,9 @@ fn _0003() {
     r#"
        ExpressionList
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     false,
   );
@@ -105,13 +105,13 @@ fn _0006() {
     r#"
        ExpressionList
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        ├─ Numeric
-       │  └─ `2.`
+       │  └─ `2`
        ├─ Numeric
-       │  └─ `3.`
+       │  └─ `3`
        └─ Numeric
-          └─ `4.`
+          └─ `4`
     "#,
     false,
   );
@@ -127,7 +127,7 @@ fn _0007() {
     r#"
        NegatedList
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     false,
   );
@@ -143,9 +143,9 @@ fn _0008() {
     r#"
        NegatedList
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     false,
   );
@@ -161,13 +161,13 @@ fn _0009() {
     r#"
        NegatedList
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        ├─ Numeric
-       │  └─ `2.`
+       │  └─ `2`
        ├─ Numeric
-       │  └─ `3.`
+       │  └─ `3`
        └─ Numeric
-          └─ `4.`
+          └─ `4`
     "#,
     false,
   );

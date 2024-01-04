@@ -6,7 +6,7 @@ fn _0001() {
   let input = "2";
   let expected = r#"
        Numeric
-       └─ `2.`
+       └─ `2`
     "#;
   accept(&scope!(), StartExpression, input, expected, false);
 }
@@ -36,7 +36,7 @@ fn _0004() {
   let input = "1";
   let expected = r#"
        Numeric
-       └─ `1.`
+       └─ `1`
     "#;
   accept(&scope!(), StartExpression, input, expected, false);
 }
@@ -57,7 +57,7 @@ fn _0006() {
   let expected = r#"
        Neg
        └─ Numeric
-          └─ `14.`
+          └─ `14`
     "#;
   accept(&scope!(), StartExpression, input, expected, false);
 }

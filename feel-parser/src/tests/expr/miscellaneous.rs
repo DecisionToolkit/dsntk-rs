@@ -32,14 +32,14 @@ fn _0001() {
        │  │     └─ Name
        │  │        └─ `rate`
        │  └─ Numeric
-       │     └─ `12.`
+       │     └─ `12`
        └─ Sub
           ├─ Numeric
-          │  └─ `1.`
+          │  └─ `1`
           └─ Exp
              ├─ Add
              │  ├─ Numeric
-             │  │  └─ `1.`
+             │  │  └─ `1`
              │  └─ Div
              │     ├─ Path
              │     │  ├─ Name
@@ -47,7 +47,7 @@ fn _0001() {
              │     │  └─ Name
              │     │     └─ `rate`
              │     └─ Numeric
-             │        └─ `12.`
+             │        └─ `12`
              └─ Neg
                 └─ Path
                    ├─ Name

@@ -89,10 +89,10 @@ fn _0011() {
   let expected = r#"
        Add
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ UnaryEq
           └─ Numeric
-             └─ `2.`
+             └─ `2`
     "#;
   accept(&scope!(), StartExpression, input, expected, false);
 }

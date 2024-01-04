@@ -28,9 +28,9 @@ fn test_clone() {
     r#"
        Add
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     format!("{node_a}"),
   );
@@ -42,9 +42,9 @@ fn test_display() {
     r#"
        Add
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     format!("{}", AstNode::Add(b_num!(1), b_num!(2))),
   );
@@ -56,9 +56,9 @@ fn test_trace() {
     r#"      AST:
        Add
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     AstNode::Add(b_num!(1), b_num!(2)).trace()
   );
@@ -135,9 +135,9 @@ fn test_node_between() {
        ├─ Name
        │  └─ `x`
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `10.`
+          └─ `10`
     "#,
     node,
   );
@@ -164,11 +164,11 @@ fn test_node_comma_list() {
     r#"
        CommaList
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        ├─ Numeric
-       │  └─ `2.`
+       │  └─ `2`
        └─ Numeric
-          └─ `3.`
+          └─ `3`
     "#,
     node,
   );
@@ -191,7 +191,7 @@ fn test_node_context() {
        │  ├─ ContextEntryKey
        │  │  └─ `count`
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ ContextEntry
           ├─ ContextEntryKey
           │  └─ `amount`
@@ -212,7 +212,7 @@ fn test_node_context_entry() {
        ├─ ContextEntryKey
        │  └─ `count`
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     node,
   );
@@ -354,10 +354,10 @@ fn test_node_every() {
     r#"
        Every
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ List
           └─ Numeric
-             └─ `1.`
+             └─ `1`
     "#,
     node,
   );
@@ -396,7 +396,7 @@ fn test_node_expression_list() {
     r#"
        ExpressionList
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     node,
   );
@@ -417,14 +417,14 @@ fn test_node_filter() {
        Filter
        ├─ List
        │  ├─ Numeric
-       │  │  └─ `1.`
+       │  │  └─ `1`
        │  └─ Numeric
-       │     └─ `2.`
+       │     └─ `2`
        └─ Gt
           ├─ Name
           │  └─ `count`
           └─ Numeric
-             └─ `1.`
+             └─ `1`
     "#,
     node,
   );
@@ -441,9 +441,9 @@ fn test_node_for() {
        │  └─ `i`
        └─ List
           ├─ Numeric
-          │  └─ `1.`
+          │  └─ `1`
           └─ Numeric
-             └─ `2.`
+             └─ `2`
     "#,
     node,
   );
@@ -486,7 +486,7 @@ fn test_node_function_body() {
     r#"
        FunctionBody
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     node,
   );
@@ -503,7 +503,7 @@ fn test_node_function_definition() {
        │  └─ (empty)
        └─ FunctionBody
           └─ Numeric
-             └─ `1.`
+             └─ `1`
     "#,
     node,
   );
@@ -610,9 +610,9 @@ fn test_node_if() {
        If
        ├─ Gt
        │  ├─ Numeric
-       │  │  └─ `1.`
+       │  │  └─ `1`
        │  └─ Numeric
-       │     └─ `2.`
+       │     └─ `2`
        ├─ Boolean
        │  └─ `true`
        └─ Boolean
@@ -633,14 +633,14 @@ fn test_node_in() {
     r#"
        In
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ List
           ├─ Numeric
-          │  └─ `1.`
+          │  └─ `1`
           ├─ Numeric
-          │  └─ `2.`
+          │  └─ `2`
           └─ Numeric
-             └─ `3.`
+             └─ `3`
     "#,
     node,
   );
@@ -654,7 +654,7 @@ fn test_node_instance_of() {
     r#"
        InstanceOf
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ FeelType
           └─ number
     "#,
@@ -670,7 +670,7 @@ fn test_node_interval_end() {
     r#"
        IntervalEnd (opened)
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     node,
   );
@@ -684,7 +684,7 @@ fn test_node_interval_start() {
     r#"
        IntervalStart (closed)
        └─ Numeric
-          └─ `100.`
+          └─ `100`
     "#,
     node,
   );
@@ -702,14 +702,14 @@ fn test_node_iteration_contexts() {
        IterationContexts
        ├─ Range
        │  ├─ Numeric
-       │  │  └─ `1.`
+       │  │  └─ `1`
        │  └─ Numeric
-       │     └─ `10.`
+       │     └─ `10`
        └─ Range
           ├─ Numeric
-          │  └─ `100.`
+          │  └─ `100`
           └─ Numeric
-             └─ `110.`
+             └─ `110`
     "#,
     node,
   );
@@ -729,11 +729,11 @@ fn test_node_iteration_context_list() {
        │  └─ `i`
        └─ List
           ├─ Numeric
-          │  └─ `1.`
+          │  └─ `1`
           ├─ Numeric
-          │  └─ `2.`
+          │  └─ `2`
           └─ Numeric
-             └─ `3.`
+             └─ `3`
     "#,
     node,
   );
@@ -749,9 +749,9 @@ fn test_node_iteration_context_range() {
        ├─ Name
        │  └─ `i`
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `10.`
+          └─ `10`
     "#,
     node,
   );
@@ -790,11 +790,11 @@ fn test_node_list() {
     r#"
        List
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        ├─ Numeric
-       │  └─ `2.`
+       │  └─ `2`
        └─ Numeric
-          └─ `3.`
+          └─ `3`
     "#,
     node,
   );
@@ -944,7 +944,7 @@ fn test_node_negated_list() {
     r#"
        NegatedList
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     node,
   );
@@ -1015,9 +1015,9 @@ fn test_node_out() {
     r#"
        Out
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     node,
   );
@@ -1092,9 +1092,9 @@ fn test_node_positional_parameters() {
     r#"
        PositionalParameters
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     node,
   );
@@ -1160,7 +1160,7 @@ fn test_node_quantified_context() {
        ├─ Name
        │  └─ `a`
        └─ Numeric
-          └─ `10.`
+          └─ `10`
     "#,
     node,
   );
@@ -1180,12 +1180,12 @@ fn test_node_quantified_contexts() {
        │  ├─ Name
        │  │  └─ `a`
        │  └─ Numeric
-       │     └─ `10.`
+       │     └─ `10`
        └─ QuantifiedContext
           ├─ Name
           │  └─ `b`
           └─ Numeric
-             └─ `20.`
+             └─ `20`
     "#,
     node,
   );
@@ -1199,9 +1199,9 @@ fn test_node_range() {
     r#"
        Range
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `10.`
+          └─ `10`
     "#,
     node,
   );
@@ -1243,10 +1243,10 @@ fn test_node_some() {
     r#"
        Some
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ List
           └─ Numeric
-             └─ `1.`
+             └─ `1`
     "#,
     node,
   );

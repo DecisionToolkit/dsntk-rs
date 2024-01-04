@@ -44,7 +44,7 @@ fn _0003() {
           ├─ ContextEntryKey
           │  └─ `age`
           └─ Numeric
-             └─ `49.`
+             └─ `49`
     "#,
     false,
   );
@@ -63,7 +63,7 @@ fn _0004() {
           ├─ ContextEntryKey
           │  └─ `age`
           └─ Numeric
-             └─ `49.`
+             └─ `49`
     "#,
     false,
   );
@@ -110,7 +110,7 @@ fn _0006() {
           ├─ ContextEntryKey
           │  └─ `age`
           └─ Numeric
-             └─ `49.`
+             └─ `49`
     "#,
     false,
   );
@@ -134,7 +134,7 @@ fn _0007() {
           ├─ ContextEntryKey
           │  └─ `age`
           └─ Numeric
-             └─ `49.`
+             └─ `49`
     "#,
     false,
   );
@@ -158,7 +158,7 @@ fn _0008() {
        │  ├─ ContextEntryKey
        │  │  └─ `age`
        │  └─ Numeric
-       │     └─ `49.`
+       │     └─ `49`
        └─ ContextEntry
           ├─ ContextEntryKey
           │  └─ `car`
@@ -172,7 +172,7 @@ fn _0008() {
                 ├─ ContextEntryKey
                 │  └─ `production year`
                 └─ Numeric
-                   └─ `2016.`
+                   └─ `2016`
     "#,
     false,
   );
@@ -196,7 +196,7 @@ fn _0009() {
        │  ├─ ContextEntryKey
        │  │  └─ `age`
        │  └─ Numeric
-       │     └─ `49.`
+       │     └─ `49`
        └─ ContextEntry
           ├─ ContextEntryKey
           │  └─ `car`
@@ -210,7 +210,7 @@ fn _0009() {
                 ├─ ContextEntryKey
                 │  └─ `production year`
                 └─ Numeric
-                   └─ `2016.`
+                   └─ `2016`
     "#,
     false,
   );
@@ -229,20 +229,20 @@ fn _00010() {
        │  ├─ ContextEntryKey
        │  │  └─ `a`
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        ├─ ContextEntry
        │  ├─ ContextEntryKey
        │  │  └─ `b`
        │  └─ Numeric
-       │     └─ `2.`
+       │     └─ `2`
        └─ ContextEntry
           ├─ ContextEntryKey
           │  └─ `c`
           └─ Add
              ├─ Numeric
-             │  └─ `1.`
+             │  └─ `1`
              └─ Numeric
-                └─ `2.`
+                └─ `2`
     "#,
     false,
   );
@@ -263,12 +263,12 @@ fn _00011() {
        │  ├─ ContextEntryKey
        │  │  └─ `a`
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        ├─ ContextEntry
        │  ├─ ContextEntryKey
        │  │  └─ `b`
        │  └─ Numeric
-       │     └─ `2.`
+       │     └─ `2`
        └─ ContextEntry
           ├─ ContextEntryKey
           │  └─ `c`
@@ -295,12 +295,12 @@ fn _00012() {
        │  ├─ ContextEntryKey
        │  │  └─ `a`
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        ├─ ContextEntry
        │  ├─ ContextEntryKey
        │  │  └─ `b`
        │  └─ Numeric
-       │     └─ `2.`
+       │     └─ `2`
        └─ ContextEntry
           ├─ ContextEntryKey
           │  └─ `c`
@@ -383,7 +383,7 @@ fn _00013() {
        │  ├─ ContextEntryKey
        │  │  └─ `Another number`
        │  └─ Numeric
-       │     └─ `15.`
+       │     └─ `15`
        └─ ContextEntry
           ├─ ContextEntryKey
           │  └─ `Complex`
@@ -412,7 +412,7 @@ fn _00013() {
              │  ├─ ContextEntryKey
              │  │  └─ `aNumber`
              │  └─ Numeric
-             │     └─ `10.`
+             │     └─ `10`
              ├─ ContextEntry
              │  ├─ ContextEntryKey
              │  │  └─ `aString`
@@ -531,7 +531,7 @@ fn _0018() {
                 ├─ ContextEntryKey
                 │  └─ `age`
                 └─ Numeric
-                   └─ `27.`
+                   └─ `27`
     "#,
     false,
   );

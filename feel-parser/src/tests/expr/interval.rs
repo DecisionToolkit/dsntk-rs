@@ -13,10 +13,10 @@ fn _0001() {
        Range
        ├─ IntervalStart (closed)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (closed)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -33,10 +33,10 @@ fn _0002() {
        Range
        ├─ IntervalStart (opened)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (closed)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -53,10 +53,10 @@ fn _0003() {
        Range
        ├─ IntervalStart (closed)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (opened)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -73,10 +73,10 @@ fn _0004() {
        Range
        ├─ IntervalStart (opened)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (opened)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -93,10 +93,10 @@ fn _0005() {
        Range
        ├─ IntervalStart (opened)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (closed)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -113,10 +113,10 @@ fn _0006() {
        Range
        ├─ IntervalStart (closed)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (opened)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -133,10 +133,10 @@ fn _0007() {
        Range
        ├─ IntervalStart (opened)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (opened)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );

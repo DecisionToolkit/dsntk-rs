@@ -16,11 +16,11 @@ fn _0001() {
        │     │  └─ `n`
        │     └─ List
        │        ├─ Numeric
-       │        │  └─ `1.`
+       │        │  └─ `1`
        │        ├─ Numeric
-       │        │  └─ `2.`
+       │        │  └─ `2`
        │        └─ Numeric
-       │           └─ `3.`
+       │           └─ `3`
        └─ Satisfies
           └─ Gt
              ├─ Name
@@ -47,18 +47,18 @@ fn _0002() {
        │     │  └─ `n`
        │     └─ List
        │        ├─ Numeric
-       │        │  └─ `1.`
+       │        │  └─ `1`
        │        ├─ Numeric
-       │        │  └─ `2.`
+       │        │  └─ `2`
        │        └─ Numeric
-       │           └─ `3.`
+       │           └─ `3`
        └─ Satisfies
           └─ Gt
              ├─ Add
              │  ├─ Name
              │  │  └─ `n`
              │  └─ Numeric
-             │     └─ `1.`
+             │     └─ `1`
              └─ Numeric
                 └─ `1.5`
     "#,
@@ -81,17 +81,17 @@ fn _0003() {
        │  │  │  └─ `n`
        │  │  └─ List
        │  │     ├─ Numeric
-       │  │     │  └─ `1.`
+       │  │     │  └─ `1`
        │  │     ├─ Numeric
-       │  │     │  └─ `2.`
+       │  │     │  └─ `2`
        │  │     └─ Numeric
-       │  │        └─ `3.`
+       │  │        └─ `3`
        │  └─ QuantifiedContext
        │     ├─ Name
        │     │  └─ `m`
        │     └─ UnaryLe
        │        └─ Numeric
-       │           └─ `100.`
+       │           └─ `100`
        └─ Satisfies
           └─ Gt
              ├─ Name
@@ -122,10 +122,10 @@ fn _0004() {
        │     └─ Range
        │        ├─ IntervalStart (closed)
        │        │  └─ Numeric
-       │        │     └─ `1.`
+       │        │     └─ `1`
        │        └─ IntervalEnd (closed)
        │           └─ Numeric
-       │              └─ `3.`
+       │              └─ `3`
        └─ Satisfies
           └─ Gt
              ├─ Name

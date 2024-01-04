@@ -471,5 +471,11 @@ fn leaf(leaf: &str) -> AsciiNode {
 }
 
 fn numeric_to_tree_string(before: &str, after: &str, _sign: &char, _exponent: &str) -> String {
-  format!("`{before}.{after}`")
+  let mut output = String::new();
+  let _ = write!(&mut output, "`{before}");
+  if !after.is_empty() {
+    let _ = write!(&mut output, ".{after}");
+  }
+  let _ = write!(&mut output, "`");
+  output
 }

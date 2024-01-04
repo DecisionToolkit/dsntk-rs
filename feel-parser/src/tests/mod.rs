@@ -94,9 +94,9 @@ fn test_parse_textual_expression() {
     r#"
        Add
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     node.to_string()
   );
@@ -111,19 +111,19 @@ fn test_parse_textual_expressions() {
        ExpressionList
        ├─ Add
        │  ├─ Numeric
-       │  │  └─ `1.`
+       │  │  └─ `1`
        │  └─ Numeric
-       │     └─ `2.`
+       │     └─ `2`
        ├─ Add
        │  ├─ Numeric
-       │  │  └─ `2.`
+       │  │  └─ `2`
        │  └─ Numeric
-       │     └─ `3.`
+       │     └─ `3`
        └─ Mul
           ├─ Numeric
-          │  └─ `3.`
+          │  └─ `3`
           └─ Numeric
-             └─ `4.`
+             └─ `4`
     "#,
     node.to_string()
   );
@@ -137,13 +137,13 @@ fn test_parse_unary_tests() {
     r#"
        ExpressionList
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        ├─ Numeric
-       │  └─ `2.`
+       │  └─ `2`
        ├─ Numeric
-       │  └─ `3.`
+       │  └─ `3`
        └─ Numeric
-          └─ `4.`
+          └─ `4`
     "#,
     node.to_string()
   );
@@ -157,13 +157,13 @@ fn test_parse_boxed_expression() {
     r#"
        List
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        ├─ Numeric
-       │  └─ `2.`
+       │  └─ `2`
        ├─ Numeric
-       │  └─ `3.`
+       │  └─ `3`
        └─ Numeric
-          └─ `4.`
+          └─ `4`
     "#,
     node.to_string()
   );
@@ -181,7 +181,7 @@ fn test_parse_context() {
           ├─ ContextEntryKey
           │  └─ `age`
           └─ Numeric
-             └─ `50.`
+             └─ `50`
     "#,
     node.to_string()
   );
