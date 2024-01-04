@@ -8,7 +8,7 @@ use crate::macros::invalid_argument_type;
 use dsntk_feel::bif::Bif;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values, VALUE_FALSE, VALUE_TRUE};
-use dsntk_feel::{value_null, Evaluator, FeelNumber, FeelScope, FeelType, FunctionBody, Name, QualifiedName};
+use dsntk_feel::{value_null, Evaluator, FeelNumber, FeelScope, FeelType, FunctionBody, Name};
 use dsntk_feel_parser::{AstNode, ClosureBuilder};
 use dsntk_feel_temporal::{FeelDate, FeelDateTime, FeelDaysAndTimeDuration, FeelTime, FeelYearsAndMonthsDuration};
 use std::borrow::Borrow;
@@ -1667,186 +1667,54 @@ impl<'b> EvaluatorBuilder<'b> {
 
   ///
   fn build_qualified_name_segment(&mut self, name: &Name) -> Evaluator {
-    let name = name.to_owned();
-    Box::new(move |_: &FeelScope| Value::QualifiedNameSegment(name.to_owned()))
-  }
-
-  ///
-  fn get_property_from_value(value: Value, name: &Name) -> Value {
-    let property_name = name.to_string();
-    match value {
-      Value::Date(date) => match property_name.as_str() {
-        "year" => Value::Number(date.year().into()),
-        "month" => Value::Number(date.month().into()),
-        "day" => Value::Number(date.day().into()),
-        "weekday" => {
-          if let Some(day_of_week) = date.day_of_week() {
-            Value::Number(day_of_week.1.into())
-          } else {
-            value_null!("could not retrieve weekday for date")
-          }
-        }
-        other => value_null!("no such property in date: {}", other),
-      },
-      Value::DateTime(date_time) => match property_name.as_str() {
-        "year" => Value::Number(date_time.year().into()),
-        "month" => Value::Number(date_time.month().into()),
-        "day" => Value::Number(date_time.day().into()),
-        "weekday" => {
-          if let Some(day_of_week) = date_time.day_of_week() {
-            Value::Number(day_of_week.1.into())
-          } else {
-            value_null!("could not retrieve weekday for date and time")
-          }
-        }
-        "hour" => Value::Number(date_time.hour().into()),
-        "minute" => Value::Number(date_time.minute().into()),
-        "second" => Value::Number(date_time.second().into()),
-        "time offset" => {
-          if let Some(offset) = date_time.feel_time_offset() {
-            Value::DaysAndTimeDuration(FeelDaysAndTimeDuration::from_s(offset as i64))
-          } else {
-            value_null!("could not retrieve time offset for date and time")
-          }
-        }
-        "timezone" => {
-          if let Some(feel_time_zone) = date_time.feel_time_zone() {
-            Value::String(feel_time_zone)
-          } else {
-            value_null!("could not retrieve timezone for date and time")
-          }
-        }
-        other => value_null!("no such property in date and time: {}", other),
-      },
-      Value::Time(time) => match property_name.as_str() {
-        "hour" => Value::Number(time.hour().into()),
-        "minute" => Value::Number(time.minute().into()),
-        "second" => Value::Number(time.second().into()),
-        "time offset" => {
-          if let Some(offset) = time.feel_time_offset() {
-            Value::DaysAndTimeDuration(FeelDaysAndTimeDuration::from_s(offset as i64))
-          } else {
-            value_null!("could not retrieve time offset for time")
-          }
-        }
-        "timezone" => {
-          if let Some(feel_time_zone) = time.feel_time_zone() {
-            Value::String(feel_time_zone)
-          } else {
-            value_null!("could not retrieve timezone for time")
-          }
-        }
-        other => value_null!("no such property in time: {}", other),
-      },
-      Value::DaysAndTimeDuration(dt_duration) => match property_name.as_str() {
-        "days" => Value::Number(dt_duration.get_days().into()),
-        "hours" => Value::Number(dt_duration.get_hours().into()),
-        "minutes" => Value::Number(dt_duration.get_minutes().into()),
-        "seconds" => Value::Number(dt_duration.get_seconds().into()),
-        other => value_null!("no such property in days and time duration: {}", other),
-      },
-      Value::YearsAndMonthsDuration(ym_duration) => match property_name.as_str() {
-        "years" => Value::Number(ym_duration.years().into()),
-        "months" => Value::Number(ym_duration.months().into()),
-        other => value_null!("no such property in years and months duration: {}", other),
-      },
-      Value::Range(rs, cs, re, ce) => match property_name.as_str() {
-        "start" => *rs,
-        "start included" => Value::Boolean(cs),
-        "end" => *re,
-        "end included" => Value::Boolean(ce),
-        other => value_null!("no such property in range: {}", other),
-      },
-      Value::UnaryGreater(value) => match property_name.as_str() {
-        "start" => Value::Transparent(value),
-        "start included" | "end included" => Value::Transparent(Value::Boolean(false).into()),
-        other => Value::Transparent(value_null!("no such property in unary greater: {}", other).into()),
-      },
-      Value::UnaryGreaterOrEqual(value) => match property_name.as_str() {
-        "start" => Value::Transparent(value),
-        "start included" => Value::Transparent(Value::Boolean(true).into()),
-        "end included" => Value::Transparent(Value::Boolean(false).into()),
-        other => Value::Transparent(value_null!("no such property in unary greater or equal: {}", other).into()),
-      },
-      Value::UnaryLess(value) => match property_name.as_str() {
-        "end" => Value::Transparent(value),
-        "start included" | "end included" => Value::Transparent(Value::Boolean(false).into()),
-        other => Value::Transparent(value_null!("no such property in unary less: {}", other).into()),
-      },
-      Value::UnaryLessOrEqual(value) => match property_name.as_str() {
-        "end" => Value::Transparent(value),
-        "start included" => Value::Transparent(Value::Boolean(false).into()),
-        "end included" => Value::Transparent(Value::Boolean(true).into()),
-        other => Value::Transparent(value_null!("no such property in unary less or equal: {}", other).into()),
-      },
-      v @ Value::Null(_) => v,
-      other => value_null!("unexpected type: {}, for property: {}", other.type_of(), property_name),
-    }
-  }
-
-  ///
-  fn build_qualified_name_from_path(node: &'b AstNode) -> Option<QualifiedName> {
-    match node {
-      AstNode::Path(lhs, rhs) => {
-        if let AstNode::Name(name) = lhs.borrow() {
-          if let Some(mut qualified_name) = Self::build_qualified_name_from_path(rhs) {
-            qualified_name.insert(0, name.clone());
-            return Some(qualified_name);
-          }
-        }
-        None
-      }
-      AstNode::Name(name) => Some(name.clone().into()),
-      _ => None,
-    }
+    let name = name.clone();
+    Box::new(move |_: &FeelScope| Value::QualifiedNameSegment(name.clone()))
   }
 
   /// Returns and evaluator for `path expression`.
   fn build_path(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
-    let Some(qualified_name) = Self::build_qualified_name_from_path(rhs) else {
-      return build_err_msg(err_invalid_qualified_name(rhs));
+    let AstNode::Name(name) = rhs.clone() else {
+      return build_err_msg(err_expected_name(rhs));
     };
-    let mut property_path = qualified_name.clone();
-    let property_name = property_path.pop().unwrap();
-    let lhe = self.build(lhs);
-    //
-
     let fn_adjust = match self.parent_node() {
-      Some(AstNode::UnaryGt(_)) => |value: Value| Value::UnaryGreater(value.into()),
-      Some(AstNode::UnaryGe(_)) => |value: Value| Value::UnaryGreaterOrEqual(value.into()),
-      Some(AstNode::UnaryLt(_)) => |value: Value| Value::UnaryLess(value.into()),
-      Some(AstNode::UnaryLe(_)) => |value: Value| Value::UnaryLessOrEqual(value.into()),
-      _ => |value: Value| value,
+      Some(AstNode::UnaryGt(_)) => |value: Value| (Value::UnaryGreater(value.into()), true),
+      Some(AstNode::UnaryGe(_)) => |value: Value| (Value::UnaryGreaterOrEqual(value.into()), true),
+      Some(AstNode::UnaryLt(_)) => |value: Value| (Value::UnaryLess(value.into()), true),
+      Some(AstNode::UnaryLe(_)) => |value: Value| (Value::UnaryLessOrEqual(value.into()), true),
+      _ => |value: Value| (value, false),
     };
+    let lhe = self.build(lhs);
     // prepare and return the evaluator
-    Box::new(move |scope: &FeelScope| match fn_adjust(lhe(scope)) {
-      Value::Context(context) => {
-        if let Some(value) = context.search_entry(&qualified_name) {
-          return value.clone();
-        }
-        if let Some(value) = context.search_entry(&property_path) {
-          return Self::get_property_from_value(value.clone(), &property_name);
-        }
-        value_null!("build_path: no entry {} in context: {}", qualified_name, context)
-      }
-      Value::List(items) => {
-        let mut result = vec![];
-        for item in items {
-          if let Value::Context(context) = item {
-            if let Some(value) = context.search_entry(&qualified_name) {
-              result.push(value.clone());
-            } else if let Some(value) = context.search_entry(&property_path) {
-              result.push(Self::get_property_from_value(value.clone(), &property_name));
-            } else {
-              result.push(value_null!());
-            }
+    Box::new(move |scope: &FeelScope| {
+      let lhv = lhe(scope);
+      match lhv {
+        Value::Context(context) => {
+          if let Some(value) = context.get_entry(&name) {
+            value.clone()
           } else {
-            return value_null!("build_path: no context in list");
+            value_null!("build_path: no entry {} in context: {}", name, context)
           }
         }
-        Value::List(result)
+        Value::List(items) => {
+          let mut result = vec![];
+          for item in items {
+            if let Value::Context(context) = item {
+              if let Some(value) = context.get_entry(&name) {
+                result.push(value.clone());
+              } else {
+                result.push(value_null!());
+              }
+            } else {
+              result.push(get_property_from_value(item, false, &name));
+            }
+          }
+          Value::List(result)
+        }
+        other => {
+          let (value, adjusted) = fn_adjust(other);
+          get_property_from_value(value, adjusted, &name)
+        }
       }
-      other => Self::get_property_from_value(other, &property_name),
     })
   }
 
@@ -2014,6 +1882,15 @@ impl<'b> EvaluatorBuilder<'b> {
     })
   }
 
+  /// Returns an evaluator for unary `=` (equal) operator.
+  fn build_unary_eq(&mut self, lhs: &'b AstNode) -> Evaluator {
+    let lhe = self.build(lhs);
+    Box::new(move |scope: &FeelScope| {
+      let lhv = lhe(scope);
+      Value::UnaryEqual(Box::from(lhv))
+    })
+  }
+
   /// Returns an evaluator for unary `>` (greater) operator.
   fn build_unary_gt(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
@@ -2041,15 +1918,6 @@ impl<'b> EvaluatorBuilder<'b> {
     })
   }
 
-  /// Returns an evaluator for unary `=` (equal) operator.
-  fn build_unary_eq(&mut self, lhs: &'b AstNode) -> Evaluator {
-    let lhe = self.build(lhs);
-    Box::new(move |scope: &FeelScope| {
-      let lhv = lhe(scope);
-      Value::UnaryEqual(Box::from(lhv))
-    })
-  }
-
   /// Returns an evaluator for unary `!=` (not equal) operator.
   fn build_unary_ne(&mut self, lhs: &'b AstNode) -> Evaluator {
     let lhe = self.build(lhs);
@@ -2057,6 +1925,127 @@ impl<'b> EvaluatorBuilder<'b> {
       let lhv = lhe(scope);
       Value::UnaryNotEqual(Box::from(lhv))
     })
+  }
+}
+
+fn adjust(value: Value, adjusted: bool) -> Value {
+  if adjusted {
+    Value::Transparent(value.into())
+  } else {
+    value
+  }
+}
+
+///
+fn get_property_from_value(value: Value, adjusted: bool, name: &Name) -> Value {
+  let property_name = name.to_string();
+  match value {
+    Value::Date(date) => match property_name.as_str() {
+      "year" => Value::Number(date.year().into()),
+      "month" => Value::Number(date.month().into()),
+      "day" => Value::Number(date.day().into()),
+      "weekday" => {
+        if let Some(day_of_week) = date.day_of_week() {
+          Value::Number(day_of_week.1.into())
+        } else {
+          value_null!("could not retrieve weekday for date")
+        }
+      }
+      other => value_null!("no such property in date: {}", other),
+    },
+    Value::DateTime(date_time) => match property_name.as_str() {
+      "year" => Value::Number(date_time.year().into()),
+      "month" => Value::Number(date_time.month().into()),
+      "day" => Value::Number(date_time.day().into()),
+      "weekday" => {
+        if let Some(day_of_week) = date_time.day_of_week() {
+          Value::Number(day_of_week.1.into())
+        } else {
+          value_null!("could not retrieve weekday for date and time")
+        }
+      }
+      "hour" => Value::Number(date_time.hour().into()),
+      "minute" => Value::Number(date_time.minute().into()),
+      "second" => Value::Number(date_time.second().into()),
+      "time offset" => {
+        if let Some(offset) = date_time.feel_time_offset() {
+          Value::DaysAndTimeDuration(FeelDaysAndTimeDuration::from_s(offset as i64))
+        } else {
+          value_null!("could not retrieve time offset for date and time")
+        }
+      }
+      "timezone" => {
+        if let Some(feel_time_zone) = date_time.feel_time_zone() {
+          Value::String(feel_time_zone)
+        } else {
+          value_null!("could not retrieve timezone for date and time")
+        }
+      }
+      other => value_null!("no such property in date and time: {}", other),
+    },
+    Value::Time(time) => match property_name.as_str() {
+      "hour" => Value::Number(time.hour().into()),
+      "minute" => Value::Number(time.minute().into()),
+      "second" => Value::Number(time.second().into()),
+      "time offset" => {
+        if let Some(offset) = time.feel_time_offset() {
+          Value::DaysAndTimeDuration(FeelDaysAndTimeDuration::from_s(offset as i64))
+        } else {
+          value_null!("could not retrieve time offset for time")
+        }
+      }
+      "timezone" => {
+        if let Some(feel_time_zone) = time.feel_time_zone() {
+          Value::String(feel_time_zone)
+        } else {
+          value_null!("could not retrieve timezone for time")
+        }
+      }
+      other => value_null!("no such property in time: {}", other),
+    },
+    Value::DaysAndTimeDuration(dt_duration) => match property_name.as_str() {
+      "days" => Value::Number(dt_duration.get_days().into()),
+      "hours" => Value::Number(dt_duration.get_hours().into()),
+      "minutes" => Value::Number(dt_duration.get_minutes().into()),
+      "seconds" => Value::Number(dt_duration.get_seconds().into()),
+      other => value_null!("no such property in days and time duration: {}", other),
+    },
+    Value::YearsAndMonthsDuration(ym_duration) => match property_name.as_str() {
+      "years" => Value::Number(ym_duration.years().into()),
+      "months" => Value::Number(ym_duration.months().into()),
+      other => value_null!("no such property in years and months duration: {}", other),
+    },
+    Value::Range(rs, cs, re, ce) => match property_name.as_str() {
+      "start" => *rs,
+      "start included" => Value::Boolean(cs),
+      "end" => *re,
+      "end included" => Value::Boolean(ce),
+      other => value_null!("no such property in range: {}", other),
+    },
+    Value::UnaryGreater(value) => match property_name.as_str() {
+      "start" => adjust(*value, adjusted),
+      "start included" | "end included" => adjust(Value::Boolean(false), adjusted),
+      other => adjust(value_null!("no such property in unary greater: {}", other), adjusted),
+    },
+    Value::UnaryGreaterOrEqual(value) => match property_name.as_str() {
+      "start" => adjust(*value, adjusted),
+      "start included" => adjust(Value::Boolean(true), adjusted),
+      "end included" => adjust(Value::Boolean(false), adjusted),
+      other => adjust(value_null!("no such property in unary greater or equal: {}", other), adjusted),
+    },
+    Value::UnaryLess(value) => match property_name.as_str() {
+      "end" => adjust(*value, adjusted),
+      "start included" | "end included" => adjust(Value::Boolean(false), adjusted),
+      other => adjust(value_null!("no such property in unary less: {}", other), adjusted),
+    },
+    Value::UnaryLessOrEqual(value) => match property_name.as_str() {
+      "end" => adjust(*value, adjusted),
+      "start included" => adjust(Value::Boolean(false), adjusted),
+      "end included" => adjust(Value::Boolean(true), adjusted),
+      other => adjust(value_null!("no such property in unary less or equal: {}", other), adjusted),
+    },
+    v @ Value::Null(_) => v,
+    other => value_null!("unexpected type: {}, for property: {}", other.type_of(), property_name),
   }
 }
 
@@ -2743,8 +2732,8 @@ fn err_expected_parameter_name(actual: &AstNode) -> String {
 }
 
 /// Returns an error message when expected only a parameter name.
-fn err_invalid_qualified_name(actual: &AstNode) -> String {
-  format!("invalid qualified name node: {actual:?}")
+fn err_expected_name(actual: &AstNode) -> String {
+  format!("expected name node, actual node is: {actual:?}")
 }
 
 #[cfg(test)]

@@ -134,8 +134,8 @@ fn _0005() {
 #[test]
 fn _0006() {
   let scope = scope!();
-  scope.set_name("?".into());
-  scope.set_name("Lender Name".into());
+  scope.set_entry_name("?".into());
+  scope.set_entry_name("Lender Name".into());
   accept(
     &scope,
     StartExpression,

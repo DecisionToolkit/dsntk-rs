@@ -5,11 +5,14 @@ use dsntk_feel::Name;
 use std::cell::RefCell;
 use std::collections::HashSet;
 use std::fmt;
+use std::fmt::Display;
 
 /// Parsing scope.
 pub struct ParsingScope {
   /// The stack of parsing contexts.
   stack: RefCell<Vec<ParsingContext>>,
+  /// Set of parsed names.
+  names: RefCell<HashSet<Name>>,
 }
 
 impl From<&dsntk_feel::FeelScope> for ParsingScope {
@@ -19,7 +22,8 @@ impl From<&dsntk_feel::FeelScope> for ParsingScope {
     for feel_context in scope.contexts() {
       stack.borrow_mut().push(feel_context.into());
     }
-    Self { stack }
+    let names = RefCell::new(HashSet::default());
+    Self { stack, names }
   }
 }
 
@@ -28,11 +32,12 @@ impl Default for ParsingScope {
   fn default() -> Self {
     Self {
       stack: RefCell::new(vec![ParsingContext::default()]),
+      names: RefCell::new(HashSet::default()),
     }
   }
 }
 
-impl fmt::Display for ParsingScope {
+impl Display for ParsingScope {
   /// Converts parsing scope to text representation.
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     write!(f, "[{}]", self.stack.borrow_mut().iter().map(|ctx| ctx.to_string()).collect::<Vec<String>>().join(", "))
@@ -55,8 +60,8 @@ impl ParsingScope {
     self.stack.borrow_mut().push(ParsingContext::default());
   }
 
-  /// Sets a specified name in context placed on the top of the stack.
-  pub fn set_name(&self, name: Name) {
+  /// Sets a specified entry name in context placed on the top of the stack.
+  pub fn set_entry_name(&self, name: Name) {
     if let Some(last_ctx) = self.stack.borrow_mut().last_mut() {
       last_ctx.set_name(name);
     }
@@ -69,8 +74,15 @@ impl ParsingScope {
     }
   }
 
-  /// Returns a set of flattened keys from all contexts in scope.
-  pub fn flattened_keys(&self) -> HashSet<String> {
-    self.stack.borrow().iter().flat_map(|ctx| ctx.flattened_keys()).collect::<HashSet<String>>()
+  /// Adds a name to a set of already parsed names.
+  pub fn add_name(&self, name: Name) {
+    self.names.borrow_mut().insert(name);
+  }
+
+  /// Returns already parsed flattened keys and names.
+  pub fn flattened(&self) -> HashSet<String> {
+    let keys = self.stack.borrow().iter().flat_map(|ctx| ctx.flattened_keys()).collect::<HashSet<String>>();
+    let names = self.names.borrow().iter().map(|name| name.to_string()).collect::<HashSet<String>>();
+    keys.union(&names).cloned().collect()
   }
 }

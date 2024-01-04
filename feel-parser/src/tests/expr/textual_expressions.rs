@@ -24,9 +24,9 @@ fn _0001() {
 #[test]
 fn _0002() {
   let scope = scope!();
-  scope.set_name("a".into());
-  scope.set_name("b".into());
-  scope.set_name("c".into());
+  scope.set_entry_name("a".into());
+  scope.set_entry_name("b".into());
+  scope.set_entry_name("c".into());
   accept(
     &scope,
     StartTextualExpressions,
@@ -47,9 +47,9 @@ fn _0002() {
 #[test]
 fn _0003() {
   let scope = scope!();
-  scope.set_name("a".into());
-  scope.set_name("b".into());
-  scope.set_name("c".into());
+  scope.set_entry_name("a".into());
+  scope.set_entry_name("b".into());
+  scope.set_entry_name("c".into());
   accept(
     &scope,
     StartTextualExpressions,

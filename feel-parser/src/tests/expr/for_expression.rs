@@ -188,7 +188,7 @@ fn _0005() {
 #[test]
 fn _0006() {
   let scope = scope!();
-  scope.set_name("N".into());
+  scope.set_entry_name("N".into());
   accept(
     &scope,
     StartExpression,
@@ -232,7 +232,7 @@ fn _0007() {
   // but only this way it is well tested, if this variable is properly defined
   // in local context during parsing the `return` expression.
   let scope = scope!();
-  scope.set_name("N".into());
+  scope.set_entry_name("N".into());
   accept(
     &scope,
     StartExpression,

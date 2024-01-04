@@ -197,7 +197,7 @@ fn _0006() {
 #[test]
 fn _0007() {
   let scope = scope!();
-  scope.set_name("a".into());
+  scope.set_entry_name("a".into());
   accept(
     &scope,
     StartExpression,
@@ -261,7 +261,7 @@ fn _0008() {
 #[test]
 fn _0009() {
   let scope = scope!();
-  scope.set_name("a".into());
+  scope.set_entry_name("a".into());
   accept(
     &scope,
     StartExpression,

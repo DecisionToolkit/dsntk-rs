@@ -18,7 +18,7 @@ fn _0001() {
 #[test]
 fn _0002() {
   let scope = scope!();
-  scope.set_name("Manager".into());
+  scope.set_entry_name("Manager".into());
   accept(
     &scope,
     StartExpression,
@@ -37,7 +37,7 @@ fn _0002() {
 #[test]
 fn _0003() {
   let scope = scope!();
-  scope.set_name("Manager".into());
+  scope.set_entry_name("Manager".into());
   accept(
     &scope,
     StartExpression,
@@ -74,8 +74,8 @@ fn _0004() {
 #[test]
 fn _0005() {
   let scope = scope!();
-  scope.set_name("Manager".into());
-  scope.set_name("Address".into());
+  scope.set_entry_name("Manager".into());
+  scope.set_entry_name("Address".into());
   accept(
     &scope,
     StartExpression,
@@ -97,10 +97,10 @@ fn _0005() {
 #[test]
 fn _0006() {
   let scope = scope!();
-  scope.set_name("Manager".into());
-  scope.set_name("Address".into());
-  scope.set_name("City".into());
-  scope.set_name("Street".into());
+  scope.set_entry_name("Manager".into());
+  scope.set_entry_name("Address".into());
+  scope.set_entry_name("City".into());
+  scope.set_entry_name("Street".into());
   accept(
     &scope,
     StartExpression,
@@ -172,9 +172,9 @@ fn _0008() {
 #[test]
 fn _0009() {
   let scope = scope!();
-  scope.set_name("principal".into());
-  scope.set_name("loan".into());
-  scope.set_name("id".into());
+  scope.set_entry_name("principal".into());
+  scope.set_entry_name("loan".into());
+  scope.set_entry_name("id".into());
   accept(
     &scope,
     StartExpression,
@@ -196,10 +196,10 @@ fn _0009() {
 #[test]
 fn _0010() {
   let scope = scope!();
-  scope.set_name("principal".into());
-  scope.set_name("loan".into());
-  scope.set_name("id".into());
-  scope.set_name("type".into());
+  scope.set_entry_name("principal".into());
+  scope.set_entry_name("loan".into());
+  scope.set_entry_name("id".into());
+  scope.set_entry_name("type".into());
   accept(
     &scope,
     StartExpression,
@@ -290,7 +290,7 @@ fn _0013() {
   ctx_max.set_name("Rate".into());
   ctx_bounds.set_context("Max".into(), ctx_max);
   scope.set_context("Bounds".into(), ctx_bounds);
-  scope.set_name("Days".into());
+  scope.set_entry_name("Days".into());
   let input = "((Bounds.Max.Rate - Bounds.Min.Rate) * (Days - Bounds.Min.Tenor) / (Bounds.Max.Tenor - Bounds.Min.Tenor)) + Bounds.Min.Rate";
   let expected = r#"
        Add

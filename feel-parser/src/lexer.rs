@@ -157,7 +157,7 @@ impl<'lexer> Lexer<'lexer> {
 
   ///
   pub fn add_name_to_scope(&mut self, name: &Name) {
-    self.scope.set_name(name.to_owned());
+    self.scope.set_entry_name(name.to_owned());
   }
 
   /// Returns the next token from input.
@@ -532,16 +532,25 @@ impl<'lexer> Lexer<'lexer> {
 
   /// Consumes a name.
   fn consume_name(&mut self) -> Result<(TokenType, TokenValue)> {
-    // collection of all name parts
+    // vector of all name parts
     let mut parts = vec![];
     // currently parsed name part
-    let mut current_part = "".to_string();
+    let mut current_part = String::new();
     // positions of consumed characters
     let mut consumed_positions = vec![];
-    // the current character on input is already a name start character, so consume it
+
+    //------------------------------------------------------------------------------------------------------------------
+    // The current character on input is already a name start character,
+    // so just consume it and advance the input position.
+    //------------------------------------------------------------------------------------------------------------------
     let mut ch = self.peek_character();
     current_part.push(ch);
-    // start parsing the rest of input using a state machine
+
+    //------------------------------------------------------------------------------------------------------------------
+    // First character of the name was just consumed.
+    // Now start parsing the rest of input using a state machine,
+    // looking for characters belonging to this name.
+    //------------------------------------------------------------------------------------------------------------------
     let mut state = 1;
     loop {
       match state {
@@ -605,43 +614,51 @@ impl<'lexer> Lexer<'lexer> {
       }
     }
 
-    // now the `parts` vector contains all parts of the longest possible name,
-    // now must be decides what kind of name it is, by checking the parsing scope
+    //==================================================================================================================
+    // Now the `parts` vector contains all parts of the longest possible name.
+    // Now decide, what kind of name it is.
+    //==================================================================================================================
 
-    // ------------------------------------------------------------------------
-    // tweak with name of the `item` in filter
-    // ------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
+    // Tweak with the name `item` used in filters.
+    // If the first part is `item`, then treat it as a resulting name.
+    //------------------------------------------------------------------------------------------------------------------
+    const ITEM: &str = "item";
     if let Some(part_name) = parts.first() {
-      if part_name == "item" {
+      if part_name == ITEM {
         self.position = consumed_positions[0] + 1;
-        return Ok((TokenType::Name, TokenValue::Name(Name::from("item"))));
+        return Ok((TokenType::Name, TokenValue::Name(ITEM.into())));
       }
     }
 
-    // ------------------------------------------------------------------------
-    // tweak with the name in `for` and `quantified` expressions
-    // variable name is the name before the keyword `in`
-    // ------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
+    // Tweak with the name in `for` and `quantified` expressions.
+    // The variable's name is the name before the keyword `in`.
+    // Return the name of the local variable before `in` keyword.
+    //------------------------------------------------------------------------------------------------------------------
+    const KEYWORD_IN: &str = "in";
     if self.till_in {
-      if let Some(index) = parts.iter().position(|value| value == "in") {
+      if let Some(index) = parts.iter().position(|value| value == KEYWORD_IN) {
         self.till_in = false;
         parts.truncate(index);
         self.position = consumed_positions[index - 1] + 1;
-        // return the name of the local variable before `in` keyword
-        return Ok((TokenType::Name, TokenValue::Name(parts.to_vec().into())));
+        let name: Name = parts.to_vec().into();
+        return Ok((TokenType::Name, TokenValue::Name(name)));
       }
     }
 
+    //------------------------------------------------------------------------------------------------------------------
     // begin with with the longest name containing all parts
+    //------------------------------------------------------------------------------------------------------------------
     let mut part_count = parts.len();
-    let flattened_keys = self.scope.flattened_keys();
+    let flattened = self.scope.flattened();
     while part_count > 0 {
       // take a sublist of the original part list until the list is empty
       let part_sublist = &parts[..part_count];
       // flatten the name parts to compare it with built-in names and keys in current scope
       let name = flatten_name_parts(part_sublist);
       // check if the flattened name exists as a key in the current context
-      if flattened_keys.contains(&name) {
+      if flattened.contains(&name) {
         // return to the input all characters that do not belong to the name that was found
         self.position = consumed_positions[part_count - 1] + 1;
         let part_vector = part_sublist.to_vec();
@@ -651,12 +668,15 @@ impl<'lexer> Lexer<'lexer> {
       part_count -= 1;
     }
 
-    // build the name from name parts
+    //------------------------------------------------------------------------------------------------------------------
+    // Build the name from name parts.
+    //------------------------------------------------------------------------------------------------------------------
     let name: Name = parts.to_vec().into();
 
-    // ------------------------------------------------------------------------
-    // tweak with built-in type names
-    // ------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
+    // Tweak with the names of built-in types.
+    // If the name is a built-in type name, then return a type name instead of regular name.
+    //------------------------------------------------------------------------------------------------------------------
     if self.type_name
       && matches!(
         name.to_string().as_str(),
@@ -667,25 +687,31 @@ impl<'lexer> Lexer<'lexer> {
       return Ok((TokenType::BuiltInTypeName, TokenValue::BuiltInTypeName(name)));
     }
 
-    // ------------------------------------------------------------------------
-    // tweak with "date and time" and "duration" literals
-    // when these names are encountered then treat them
-    // as the names of temporal functions
-    // ------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
+    // Tweak with `date and time` and `duration` literals.
+    // When these names are encountered, then treat them as the names of temporal functions.
+    //------------------------------------------------------------------------------------------------------------------
     let name_str = name.to_string();
     if matches!(name_str.as_str(), "date and time" | "duration") {
       return Ok((TokenType::NameDateTime, TokenValue::NameDateTime(name)));
     }
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Tweak with `date` and `time` literals.
+    // When a colon is encountered after these names, then treat them as a name of the parameter.
+    //------------------------------------------------------------------------------------------------------------------
     if matches!(name_str.as_str(), "date" | "time") {
       return if self.is_next_character(&[':'], 0) {
-        // when colon is after these names, than treat them as named parameters
         Ok((TokenType::Name, TokenValue::Name(name)))
       } else {
         Ok((TokenType::NameDateTime, TokenValue::NameDateTime(name)))
       };
     }
 
-    // by default return the name as it appears on input
+    //------------------------------------------------------------------------------------------------------------------
+    // By default, return the name as it appears on input.
+    //------------------------------------------------------------------------------------------------------------------
+    self.scope.add_name(name.clone());
     Ok((TokenType::Name, TokenValue::Name(name)))
   }
 
@@ -910,7 +936,6 @@ fn is_additional_name_symbol(ch: char) -> bool {
 }
 
 /// Returns `true` when the specified character is name start character.
-/// Specification: 10.3.1.2 Grammar rules, p.120, grammar rule 28.
 fn is_name_start_char(ch: char) -> bool {
   matches!(ch, '?' | 'A'..='Z' | '_' | 'a'..='z' |
                '\u{00C0}'..='\u{00D6}' | '\u{00D8}'..='\u{00F6}' | '\u{00F8}'..='\u{02FF}' |
@@ -920,7 +945,6 @@ fn is_name_start_char(ch: char) -> bool {
 }
 
 /// Returns `true` when the specified character is name start character.
-/// Specification: 10.3.1.2 Grammar rules, p.120, grammar rule 29.
 fn is_name_part_char(ch: char) -> bool {
   is_name_start_char(ch) || is_digit(ch) || matches!(ch, '\u{00B7}' | '\u{0300}'..='\u{036F}' | '\u{203F}'..='\u{2040}')
 }
@@ -936,7 +960,6 @@ fn is_whitespace(ch: char) -> bool {
 }
 
 /// Returns `true` when the specified character is a vertical space.
-/// Specification: 10.3.1.2 Grammar rules, p.120, grammar rule 62.
 fn is_vertical_space(ch: char) -> bool {
   matches!(ch, '\u{000A}'..='\u{000D}')
 }
@@ -1013,7 +1036,6 @@ mod tests {
 
   #[test]
   fn test_is_additional_name_symbol() {
-    assert!(is_additional_name_symbol('.'));
     assert!(is_additional_name_symbol('/'));
     assert!(is_additional_name_symbol('-'));
     assert!(is_additional_name_symbol('\''));

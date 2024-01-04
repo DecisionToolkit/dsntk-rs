@@ -348,7 +348,7 @@ fn _0067() {
 
 #[test]
 fn _0068() {
-  te_number(false, &scope!(), r#" >=1.start "#, 1, 0);
+  te_number(true, &scope!(), r#" >=1.start "#, 1, 0);
 }
 
 #[test]
@@ -404,4 +404,14 @@ fn _0078() {
 #[test]
 fn _0079() {
   te_bool(false, &scope!(), r#" <=1.end included "#, true);
+}
+
+#[test]
+fn _0080() {
+  te_bool(false, &scope!(), "(>= 10).end included", false);
+}
+
+#[test]
+fn _0081() {
+  te_bool(false, &scope!(), "(> (1+3)).end included", false);
 }

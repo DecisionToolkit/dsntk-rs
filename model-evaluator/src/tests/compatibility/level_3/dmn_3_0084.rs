@@ -69,7 +69,6 @@ fn _0014() {
 }
 
 #[test]
-#[ignore]
 fn _0015() {
   let ctx = context("{}");
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision_015", &ctx, "[1, 2, 3, 4]");

@@ -124,7 +124,7 @@ fn _0001() {
 #[test]
 fn _0002() {
   let scope = scope!();
-  scope.set_name("Days".into());
+  scope.set_entry_name("Days".into());
   let mut ctx_1 = ParsingContext::default();
 
   let mut ctx_2 = ParsingContext::default();

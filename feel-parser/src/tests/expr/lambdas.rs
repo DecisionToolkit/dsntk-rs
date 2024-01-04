@@ -5,7 +5,7 @@ use crate::lalr::TokenType::*;
 #[test]
 fn _0001() {
   let scope = scope!();
-  scope.set_name("name".into());
+  scope.set_entry_name("name".into());
   accept(
     &scope,
     StartExpression,
@@ -39,9 +39,9 @@ fn _0001() {
 #[test]
 fn _0002() {
   let scope = scope!();
-  scope.set_name("suffix".into());
-  scope.set_name("other".into());
-  scope.set_name("name".into());
+  scope.set_entry_name("suffix".into());
+  scope.set_entry_name("other".into());
+  scope.set_entry_name("name".into());
   accept(
     &scope,
     StartExpression,
@@ -92,9 +92,9 @@ fn _0003() {
   ctx.set_context(vec!["Customer", "data"].into(), ctx_outer);
   // prepare scope
   let scope = scope!();
-  scope.set_name("x".into());
-  scope.set_name("y".into());
-  scope.set_name(vec!["Customer", "data"].into());
+  scope.set_entry_name("x".into());
+  scope.set_entry_name("y".into());
+  scope.set_entry_name(vec!["Customer", "data"].into());
   scope.push(ctx);
   assert_eq!(
     "[{Customer data: <v>, x: <v>, y: <v>}, {Customer data: {Person: {City: <v>, Marital status: <v>, Street: <v>, Surname: <v>}}}]",

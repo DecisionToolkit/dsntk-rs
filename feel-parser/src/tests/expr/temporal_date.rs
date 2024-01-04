@@ -4,8 +4,8 @@ use crate::lalr::TokenType::StartExpression;
 #[test]
 fn _0001() {
   let scope = scope!();
-  scope.set_name("Date".into());
-  scope.set_name("fromString".into());
+  scope.set_entry_name("Date".into());
+  scope.set_entry_name("fromString".into());
   accept(
     &scope,
     StartExpression,

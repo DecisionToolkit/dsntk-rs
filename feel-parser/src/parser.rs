@@ -336,6 +336,14 @@ impl<'parser> ReduceActions for Parser<'parser> {
   }
 
   ///
+  fn action_comparison_unary_eq(&mut self) -> Result<()> {
+    trace_action!(self, "comparison_unary_eq");
+    let lhs = self.yy_node_stack.pop().unwrap();
+    self.yy_node_stack.push(AstNode::UnaryEq(Box::new(lhs)));
+    Ok(())
+  }
+
+  ///
   fn action_comparison_unary_ge(&mut self) -> Result<()> {
     trace_action!(self, "comparison_unary_ge");
     let lhs = self.yy_node_stack.pop().unwrap();
@@ -364,14 +372,6 @@ impl<'parser> ReduceActions for Parser<'parser> {
     trace_action!(self, "comparison_unary_lt");
     let lhs = self.yy_node_stack.pop().unwrap();
     self.yy_node_stack.push(AstNode::UnaryLt(Box::new(lhs)));
-    Ok(())
-  }
-
-  ///
-  fn action_comparison_unary_eq(&mut self) -> Result<()> {
-    trace_action!(self, "comparison_unary_eq");
-    let lhs = self.yy_node_stack.pop().unwrap();
-    self.yy_node_stack.push(AstNode::UnaryEq(Box::new(lhs)));
     Ok(())
   }
 
@@ -577,7 +577,7 @@ impl<'parser> ReduceActions for Parser<'parser> {
       self.yy_node_stack.push(AstNode::FormalParameter(parameter_name, parameter_type));
       // set the name of the parameter to local context on the top of the scope stack
       // this name will be properly interpreted as a name while parsing the function body
-      self.scope.set_name(name.to_owned());
+      self.scope.set_entry_name(name.to_owned());
     }
     Ok(())
   }
@@ -593,7 +593,7 @@ impl<'parser> ReduceActions for Parser<'parser> {
       self.yy_node_stack.push(AstNode::FormalParameter(parameter_name, parameter_type));
       // set the name of the parameter to local context on the top of the scope stack
       // this name will be properly interpreted as a name while parsing the function body
-      self.scope.set_name(name.to_owned());
+      self.scope.set_entry_name(name.to_owned());
     }
     Ok(())
   }

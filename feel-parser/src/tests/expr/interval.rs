@@ -145,8 +145,8 @@ fn _0007() {
 #[test]
 fn _0008() {
   let scope = scope!();
-  scope.set_name("a".into());
-  scope.set_name("b".into());
+  scope.set_entry_name("a".into());
+  scope.set_entry_name("b".into());
   accept(
     &scope,
     StartExpression,
@@ -197,9 +197,9 @@ fn _0009() {
 #[test]
 fn _00010() {
   let scope = scope!();
-  scope.set_name("r".into());
-  scope.set_name("start".into());
-  scope.set_name("end".into());
+  scope.set_entry_name("r".into());
+  scope.set_entry_name("start".into());
+  scope.set_entry_name("end".into());
   accept(
     &scope,
     StartExpression,
@@ -226,10 +226,10 @@ fn _00010() {
 #[test]
 fn _00011() {
   let scope = scope!();
-  scope.set_name("r".into());
-  scope.set_name("s".into());
-  scope.set_name("start".into());
-  scope.set_name("end".into());
+  scope.set_entry_name("r".into());
+  scope.set_entry_name("s".into());
+  scope.set_entry_name("start".into());
+  scope.set_entry_name("end".into());
   accept(
     &scope,
     StartExpression,

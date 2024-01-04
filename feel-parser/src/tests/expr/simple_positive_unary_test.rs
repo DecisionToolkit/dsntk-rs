@@ -98,8 +98,8 @@ fn _0005() {
 #[test]
 fn _0006() {
   let scope = scope!();
-  scope.set_name("engine".into());
-  scope.set_name("power".into());
+  scope.set_entry_name("engine".into());
+  scope.set_entry_name("power".into());
   accept(
     &scope,
     StartExpression,
