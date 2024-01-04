@@ -2,15 +2,13 @@ use dsntk_feel::{scope, FeelScope};
 
 #[test]
 fn _0001() {
-  let node = dsntk_feel_parser::parse_boxed_expression(&scope!(), "[1,2,3]", false).unwrap();
+  let node = dsntk_feel_parser::parse_simple_expression(&scope!(), "1 + 2", false).unwrap();
   let expected = r#"
-       List
+       Add
        ├─ Numeric
        │  └─ `1`
-       ├─ Numeric
-       │  └─ `2`
        └─ Numeric
-          └─ `3`
+          └─ `2`
     "#;
   assert_eq!(expected, node.to_string());
 }

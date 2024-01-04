@@ -1336,3 +1336,31 @@ fn test_node_unary_lt() {
     node,
   );
 }
+
+#[test]
+fn test_node_unary_eq() {
+  let node = &AstNode::UnaryEq(Box::new(AstNode::String(s!("a"))));
+  eqd(r#"UnaryEq(String("a"))"#, node);
+  eqs(
+    r#"
+       UnaryEq
+       └─ String
+          └─ `a`
+    "#,
+    node,
+  );
+}
+
+#[test]
+fn test_node_unary_ne() {
+  let node = &AstNode::UnaryNe(Box::new(AstNode::String(s!("a"))));
+  eqd(r#"UnaryNe(String("a"))"#, node);
+  eqs(
+    r#"
+       UnaryNe
+       └─ String
+          └─ `a`
+    "#,
+    node,
+  );
+}
