@@ -66,7 +66,7 @@ mod tests {
   #[test]
   fn _0001_1() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0001);
-    let def_key = DefKey::new(NAMESPACE, "_cba86e4d-e91c-46a2-9176-e9adf88e15db");
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let variable = input_data_evaluator.get_variable(&def_key).unwrap();
     assert_eq!("Full Name", variable.name().to_string());
     assert_eq!(NAMESPACE, variable.namespace());
@@ -81,7 +81,7 @@ mod tests {
   #[test]
   fn _0001_2() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0001);
-    let def_key = DefKey::new(NAMESPACE, "_cba86e4d-e91c-46a2-9176-e9adf88e15db");
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let variable = input_data_evaluator.get_variable(&def_key).unwrap();
     assert_eq!("Full Name", variable.name().to_string());
     assert_eq!(NAMESPACE, variable.namespace());
@@ -96,7 +96,7 @@ mod tests {
   #[test]
   fn _0001_3() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0001);
-    let def_key = DefKey::new(NAMESPACE, "_cba86e4d-e91c-46a2-9176-e9adf88e15db");
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let variable = input_data_evaluator.get_variable(&def_key).unwrap();
     assert_eq!("Full Name", variable.name().to_string());
     assert_eq!(NAMESPACE, variable.namespace());
@@ -111,7 +111,7 @@ mod tests {
   #[test]
   fn _0002_1() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0002);
-    let def_key = DefKey::new(NAMESPACE, "_b7a53bad-7a5b-4033-841d-5db6b25834ad");
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let variable = input_data_evaluator.get_variable(&def_key).unwrap();
     assert_eq!("Monthly Salary", variable.name().to_string());
     assert_eq!(NAMESPACE, variable.namespace());
@@ -126,7 +126,7 @@ mod tests {
   #[test]
   fn _0002_2() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0002);
-    let def_key = DefKey::new(NAMESPACE, "_b7a53bad-7a5b-4033-841d-5db6b25834ad");
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let variable = input_data_evaluator.get_variable(&def_key).unwrap();
     assert_eq!("Monthly Salary", variable.name().to_string());
     assert_eq!(NAMESPACE, variable.namespace());
@@ -141,7 +141,7 @@ mod tests {
   #[test]
   fn _0002_3() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0002);
-    let def_key = DefKey::new(NAMESPACE, "_b7a53bad-7a5b-4033-841d-5db6b25834ad");
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let variable = input_data_evaluator.get_variable(&def_key).unwrap();
     assert_eq!("Monthly Salary", variable.name().to_string());
     assert_eq!(NAMESPACE, variable.namespace());
@@ -156,7 +156,7 @@ mod tests {
   #[test]
   fn _0003_1() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0003);
-    let def_key = DefKey::new(NAMESPACE, "_b7a53bad-7a5b-4033-841d-5db6b25834ad");
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let variable = input_data_evaluator.get_variable(&def_key).unwrap();
     assert_eq!("Is Affordable", variable.name().to_string());
     assert_eq!(NAMESPACE, variable.namespace());
@@ -171,7 +171,7 @@ mod tests {
   #[test]
   fn _0003_2() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0003);
-    let def_key = DefKey::new(NAMESPACE, "_b7a53bad-7a5b-4033-841d-5db6b25834ad");
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let variable = input_data_evaluator.get_variable(&def_key).unwrap();
     assert_eq!("Is Affordable", variable.name().to_string());
     assert_eq!(NAMESPACE, variable.namespace());
@@ -186,7 +186,7 @@ mod tests {
   #[test]
   fn _0003_3() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0003);
-    let def_key = DefKey::new(NAMESPACE, "_b7a53bad-7a5b-4033-841d-5db6b25834ad");
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let variable = input_data_evaluator.get_variable(&def_key).unwrap();
     assert_eq!("Is Affordable", variable.name().to_string());
     assert_eq!(NAMESPACE, variable.namespace());
@@ -201,7 +201,7 @@ mod tests {
   #[test]
   fn _0004_1() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0004);
-    let def_key = DefKey::new(NAMESPACE, "_acfd4e1d-da0a-4842-aa35-ea50dd36fb01");
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let variable = input_data_evaluator.get_variable(&def_key).unwrap();
     assert_eq!("Employment Status", variable.name().to_string());
     assert_eq!(NAMESPACE, variable.namespace());
@@ -217,7 +217,7 @@ mod tests {
   #[test]
   fn _0005_1() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0005);
-    let def_key = DefKey::new(NAMESPACE, "_11527295-b3d3-4506-9bde-1b07d44d0e01");
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let variable = input_data_evaluator.get_variable(&def_key).unwrap();
     assert_eq!("Always Null", variable.name().to_string());
     assert_eq!(NAMESPACE, variable.namespace());
@@ -232,7 +232,7 @@ mod tests {
   #[test]
   fn _0005_2() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0005);
-    let def_key = DefKey::new(NAMESPACE, "_11527295-b3d3-4506-9bde-1b07d44d0e01");
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let variable = input_data_evaluator.get_variable(&def_key).unwrap();
     assert_eq!("Always Null", variable.name().to_string());
     assert_eq!(NAMESPACE, variable.namespace());
@@ -247,7 +247,7 @@ mod tests {
   #[test]
   fn _0006_1() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0006);
-    let def_key = DefKey::new(NAMESPACE, "_input_0006");
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let variable = input_data_evaluator.get_variable(&def_key).unwrap();
     assert_eq!("Employment Status", variable.name().to_string());
     assert_eq!(NAMESPACE, variable.namespace());

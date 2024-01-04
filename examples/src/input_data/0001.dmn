@@ -3,8 +3,13 @@
              name="_0001"
              id="_0001"
              xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
-    <description>Input data with simple string type variable.</description>
-    <inputData name="Full Name" id="_cba86e4d-e91c-46a2-9176-e9adf88e15db">
+
+    <description>
+        Input data with simple string type variable.
+    </description>
+
+    <inputData name="Full Name" id="_input_1">
         <variable typeRef="string" name="Full Name"/>
     </inputData>
+
 </definitions>

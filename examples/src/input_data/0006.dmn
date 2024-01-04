@@ -9,7 +9,7 @@
         but no item definition is provided.
     </description>
 
-    <inputData name="Employment Status" id="_input_0006">
+    <inputData name="Employment Status" id="_input_1">
         <variable typeRef="tEmploymentStatus" name="Employment Status"/>
     </inputData>
 

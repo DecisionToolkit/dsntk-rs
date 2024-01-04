@@ -9,7 +9,7 @@
         Not practical, but possible.
     </description>
 
-    <inputData name="Always Null" id="_11527295-b3d3-4506-9bde-1b07d44d0e01">
+    <inputData name="Always Null" id="_input_1">
         <variable typeRef="Null" name="Always Null"/>
     </inputData>
 </definitions>
