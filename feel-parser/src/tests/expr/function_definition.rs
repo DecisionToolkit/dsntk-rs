@@ -7,7 +7,7 @@ fn _0001() {
   let scope = scope!();
   accept(
     &scope,
-    StartContext,
+    StartBoxedExpression,
     r#"{msg: function () "hello!" }"#,
     r#"
        Context
@@ -30,7 +30,7 @@ fn _0002() {
   let scope = scope!();
   accept(
     &scope,
-    StartContext,
+    StartBoxedExpression,
     r#"{pow: function (x: number) x * x }"#,
     r#"
        Context
@@ -60,7 +60,7 @@ fn _0003() {
   let scope = scope!();
   accept(
     &scope,
-    StartContext,
+    StartBoxedExpression,
     r#"{add: function (x: number, y: number) x + y }"#,
     r#"
        Context
@@ -95,7 +95,7 @@ fn _0004() {
   let scope = scope!();
   accept(
     &scope,
-    StartContext,
+    StartBoxedExpression,
     r#"{add3: function(x:number,y:number,z:number)x+y+z}"#,
     r#"
        Context
@@ -138,7 +138,7 @@ fn _0005() {
   let scope = scope!();
   accept(
     &scope,
-    StartContext,
+    StartBoxedExpression,
     r#"{inc: function (state) state + 1 }"#,
     r#"
        Context

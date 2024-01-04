@@ -81,7 +81,7 @@ pub fn parse_boxed_expression(scope: &FeelScope, input: &str, trace: bool) -> Re
 
 /// Parses a `context` as defined in grammar rule `59`.
 pub fn parse_context(scope: &FeelScope, input: &str, trace: bool) -> Result<AstNode> {
-  Parser::new(&scope.into(), TokenType::StartContext, input, trace).parse()
+  Parser::new(&scope.into(), TokenType::StartBoxedExpression, input, trace).parse()
 }
 
 /// Parses a `range literal` as defined in grammar rule `66`.

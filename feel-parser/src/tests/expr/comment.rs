@@ -1,5 +1,5 @@
 use super::super::*;
-use crate::lalr::TokenType::{StartContext, StartExpression};
+use crate::lalr::TokenType::*;
 
 #[test]
 fn _0001() {
@@ -146,7 +146,7 @@ fn _0007() {
   let scope = scope!();
   accept(
     &scope,
-    StartContext,
+    StartBoxedExpression,
     r#"
       /// Maybe this comment may be used
       /// for some documentation, like in Rust?

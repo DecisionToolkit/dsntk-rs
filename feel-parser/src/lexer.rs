@@ -171,7 +171,6 @@ impl<'lexer> Lexer<'lexer> {
       return Ok(match start_token_type {
         tt @ TokenType::StartExpression => (tt, TokenValue::StartExpression),
         tt @ TokenType::StartBoxedExpression => (tt, TokenValue::StartBoxedExpression),
-        tt @ TokenType::StartContext => (tt, TokenValue::StartBoxedExpression),
         tt @ TokenType::StartRangeLiteral => (tt, TokenValue::StartRangeLiteral),
         tt @ TokenType::StartSimpleExpression => (tt, TokenValue::StartSimpleExpression),
         tt @ TokenType::StartSimpleExpressions => (tt, TokenValue::StartSimpleExpressions),

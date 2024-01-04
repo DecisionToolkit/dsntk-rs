@@ -5,7 +5,6 @@
 
 %token START_EXPRESSION
 %token START_BOXED_EXPRESSION
-%token START_CONTEXT
 %token START_TEXTUAL_EXPRESSION
 %token START_TEXTUAL_EXPRESSIONS
 %token START_UNARY_TESTS
@@ -61,7 +60,6 @@
 feel:
     START_EXPRESSION expression
   | START_BOXED_EXPRESSION boxed_expression
-  | START_CONTEXT context
   | START_TEXTUAL_EXPRESSION textual_expression
   | START_TEXTUAL_EXPRESSIONS textual_expressions
   | START_UNARY_TESTS {/* unary_tests_begin */} unary_tests
