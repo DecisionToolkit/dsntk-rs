@@ -530,6 +530,11 @@ impl<'lexer> Lexer<'lexer> {
             self.position += 1;
             state = 2
           }
+          'e' | 'E' => {
+            // consume exponent letter
+            self.position += 1;
+            state = 3
+          }
           _ => break,
         },
         2 => match ch {

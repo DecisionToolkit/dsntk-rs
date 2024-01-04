@@ -478,7 +478,7 @@ fn numeric_to_string(before: &str, after: &str, sign: &char, exponent: &str) -> 
     let _ = write!(&mut output, ".{after}");
   }
   if !exponent.is_empty() {
-    let _ = write!(&mut output, "{sign}{exponent}");
+    let _ = write!(&mut output, "e{sign}{exponent}");
   }
   let _ = write!(&mut output, "`");
   output

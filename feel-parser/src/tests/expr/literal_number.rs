@@ -61,3 +61,73 @@ fn _0006() {
     "#;
   accept(&scope!(), StartExpression, input, expected, false);
 }
+
+#[test]
+fn _0007() {
+  let input = "1.0";
+  let expected = r#"
+       Numeric
+       └─ `1.0`
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
+}
+
+#[test]
+fn _0008() {
+  let input = "1.23e1";
+  let expected = r#"
+       Numeric
+       └─ `1.23e+1`
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
+}
+
+#[test]
+fn _0009() {
+  let input = "1.23e+1";
+  let expected = r#"
+       Numeric
+       └─ `1.23e+1`
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
+}
+
+#[test]
+fn _0010() {
+  let input = "1.23e-1";
+  let expected = r#"
+       Numeric
+       └─ `1.23e-1`
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
+}
+
+#[test]
+fn _0011() {
+  let input = "1e-10";
+  let expected = r#"
+       Numeric
+       └─ `1e-10`
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
+}
+
+#[test]
+fn _0012() {
+  let input = "1E-10";
+  let expected = r#"
+       Numeric
+       └─ `1e-10`
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
+}
+
+#[test]
+fn _0013() {
+  let input = "1.23E-1";
+  let expected = r#"
+       Numeric
+       └─ `1.23e-1`
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
+}
