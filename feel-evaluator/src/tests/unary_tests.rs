@@ -50,3 +50,33 @@ fn test_0009() {
 fn test_0010() {
   valid_unary_tests(false, &scope!(), "not(1,2,3)");
 }
+
+#[test]
+fn test_0011() {
+  valid_unary_tests(false, &scope!(), "<1");
+}
+
+#[test]
+fn test_0012() {
+  valid_unary_tests(false, &scope!(), "<=1");
+}
+
+#[test]
+fn test_0013() {
+  valid_unary_tests(false, &scope!(), ">1");
+}
+
+#[test]
+fn test_0014() {
+  valid_unary_tests(false, &scope!(), ">=1");
+}
+
+#[test]
+fn test_0015() {
+  valid_unary_tests(false, &scope!(), "=1");
+}
+
+#[test]
+fn test_0016() {
+  valid_unary_tests(false, &scope!(), "!=1");
+}
