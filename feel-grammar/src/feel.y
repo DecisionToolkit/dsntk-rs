@@ -363,6 +363,7 @@ range_literal_end:
 range_endpoint:
     NUMERIC {/* literal_numeric */}
   | STRING {/* literal_string */}
+  | AT STRING {/* literal_at */}
   | NAME_DATE_TIME LEFT_PAREN {/* literal_date_time */} parameters
   ;
 
