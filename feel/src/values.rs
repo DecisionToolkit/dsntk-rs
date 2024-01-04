@@ -14,6 +14,7 @@ use dsntk_feel_temporal::{FeelDate, FeelDateTime, FeelDaysAndTimeDuration, FeelT
 use std::collections::BTreeMap;
 use std::convert::TryFrom;
 use std::fmt;
+use std::fmt::Display;
 use std::ops::Deref;
 use std::str::FromStr;
 use std::string::ToString;
@@ -259,8 +260,8 @@ pub enum Value {
   YearsAndMonthsDuration(FeelYearsAndMonthsDuration),
 }
 
-impl fmt::Display for Value {
-  /// Converts [Value] into string.
+impl Display for Value {
+  /// Implements [Display] for a [Value].
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     match self {
       Value::Boolean(value) => write!(f, "{value}"),
