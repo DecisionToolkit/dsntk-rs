@@ -14,6 +14,7 @@ use dsntk_feel_temporal::{FeelDate, FeelDateTime, FeelDaysAndTimeDuration, FeelT
 use std::borrow::Borrow;
 use std::collections::{BTreeMap, HashSet};
 use std::convert::TryFrom;
+use std::fmt::Write;
 use std::ops::Deref;
 use std::str::FromStr;
 use std::sync::Arc;
@@ -113,7 +114,7 @@ impl<'b> EvaluatorBuilder<'b> {
       AstNode::Neg(rhs) => self.build_neg(rhs),
       AstNode::NegatedList(lhs) => self.build_negated_list(lhs),
       AstNode::Null => self.build_null(),
-      AstNode::Numeric(before, after, sign, exponent) => self.build_numeric(before, after, *sign, exponent),
+      AstNode::Numeric(before, after, sign, exponent) => self.build_number(before, after, *sign, exponent),
       AstNode::Nq(lhs, rhs) => self.build_nq(lhs, rhs),
       AstNode::Or(lhs, rhs) => self.build_or(lhs, rhs),
       AstNode::Out(lhs, rhs) => self.build_out(lhs, rhs),
@@ -1543,8 +1544,15 @@ impl<'b> EvaluatorBuilder<'b> {
   }
 
   ///
-  fn build_numeric(&mut self, before: &str, after: &str, _sign: char, _exponent: &str) -> Evaluator {
-    let text = format!("{before}.{after}");
+  fn build_number(&mut self, before: &str, after: &str, sign: char, exponent: &str) -> Evaluator {
+    let mut text = String::new();
+    let _ = write!(&mut text, "{before}");
+    if !after.is_empty() {
+      let _ = write!(&mut text, ".{after}");
+    }
+    if !exponent.is_empty() {
+      let _ = write!(&mut text, "e{sign}{exponent}");
+    }
     if let Ok(num) = text.parse::<FeelNumber>() {
       Box::new(move |_: &FeelScope| Value::Number(num))
     } else {
