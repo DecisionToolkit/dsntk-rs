@@ -24,6 +24,7 @@ mod lambdas;
 mod list;
 mod literal;
 mod literal_number;
+mod literal_range;
 mod miscellaneous;
 mod multiplication;
 mod name;
