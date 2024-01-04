@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0005"
+             id="_0005"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Input data with input variable of type Null.
+        Not practical, but possible.
+    </description>
+
+    <inputData name="Always Null" id="_11527295-b3d3-4506-9bde-1b07d44d0e01">
+        <variable typeRef="Null" name="Always Null"/>
+    </inputData>
+</definitions>

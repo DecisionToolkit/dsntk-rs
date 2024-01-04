@@ -156,6 +156,11 @@ mod tests {
         &item_definitions_evaluator
       )
     );
+  }
+
+  #[test]
+  fn _0003_2() {
+    let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0003);
     let context_str = r#"{Is Affordable: false}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     assert_eq!(
@@ -169,7 +174,7 @@ mod tests {
   }
 
   #[test]
-  fn _0003_2() {
+  fn _0003_3() {
     let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0003);
     let context_str = r#"{Is Affordable: "no"}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
@@ -184,8 +189,8 @@ mod tests {
   }
 
   #[test]
-  fn _0103_1() {
-    let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0103);
+  fn _0004_1() {
+    let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0004);
     let context_str = r#"{Employment Status: "EMPLOYED"}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let name = Name::new(&["Employment", "Status"]);
@@ -193,6 +198,36 @@ mod tests {
       Some((name, Value::String("EMPLOYED".to_string()))),
       input_data_evaluator.evaluate(
         &DefKey::new(NAMESPACE, "_acfd4e1d-da0a-4842-aa35-ea50dd36fb01"),
+        &Value::Context(context),
+        &item_definitions_evaluator
+      )
+    );
+  }
+
+  #[test]
+  fn _0005_1() {
+    let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0005);
+    let context_str = r#"{Always Null: null}"#;
+    let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
+    assert_eq!(
+      Some((Name::new(&["Always", "Null"]), Value::Null(None))),
+      input_data_evaluator.evaluate(
+        &DefKey::new(NAMESPACE, "_11527295-b3d3-4506-9bde-1b07d44d0e01"),
+        &Value::Context(context),
+        &item_definitions_evaluator
+      )
+    );
+  }
+
+  #[test]
+  fn _0005_2() {
+    let (input_data_evaluator, item_definitions_evaluator) = build_evaluators(DMN_0005);
+    let context_str = r#"{Always Null: 10}"#;
+    let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
+    assert_eq!(
+      Some((Name::new(&["Always", "Null"]), Value::Null(Some("after coercion".to_string())))),
+      input_data_evaluator.evaluate(
+        &DefKey::new(NAMESPACE, "_11527295-b3d3-4506-9bde-1b07d44d0e01"),
         &Value::Context(context),
         &item_definitions_evaluator
       )
