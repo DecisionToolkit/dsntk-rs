@@ -9,6 +9,7 @@ use dsntk_feel::closure::Closure;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::Value;
 use dsntk_feel::{value_null, Evaluator, FeelScope, FeelType, FunctionBody};
+use dsntk_feel_evaluator::{EveryExpressionEvaluator, ForExpressionEvaluator, SomeExpressionEvaluator};
 use dsntk_feel_parser::{parse_name, ClosureBuilder};
 use dsntk_model::*;
 use std::sync::Arc;
@@ -373,42 +374,70 @@ pub fn build_filter_evaluator(scope: &FeelScope, filter: &Filter, model_builder:
 
 ///
 pub fn build_for_evaluator(scope: &FeelScope, r#for: &For, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
+  // get the name of the iterator variable
   let iterator_variable = parse_name(scope, r#for.iterator_variable(), false)?;
+  // prepare evaluator of values the loop should iterate over
   let (in_evaluator, _) = build_expression_instance_evaluator(scope, r#for.in_expression().value(), model_builder)?;
+  // prepare context with the names of iteration variables
+  let mut variables_ctx = FeelContext::default();
+  variables_ctx.set_null(iterator_variable.clone());
+  scope.push(variables_ctx);
+  // prepare the `for` loop returned value evaluator
   let (return_evaluator, _) = build_expression_instance_evaluator(scope, r#for.return_expression().value(), model_builder)?;
+  scope.pop();
+  // prepare `for` loop evaluator
   let for_evaluator = Box::new(move |scope: &FeelScope| {
-    let _iterator_variable = iterator_variable.clone();
-    let _list = in_evaluator(scope);
-    let _return = return_evaluator(scope);
-    value_null!("boxed 'for' not implemented")
+    let mut for_expression_evaluator = ForExpressionEvaluator::new();
+    let iterator_variable = iterator_variable.clone();
+    match in_evaluator(scope) {
+      value @ Value::List(_) => for_expression_evaluator.add_list(iterator_variable, value),
+      Value::Range(start, true, end, true) => for_expression_evaluator.add_range(iterator_variable, *start, *end),
+      _ => {}
+    }
+    Value::List(for_expression_evaluator.evaluate(scope, &return_evaluator))
   });
   Ok((build_coerced_result_evaluator(for_evaluator, r#for, r#for.namespace(), model_builder), Closure::default()))
 }
 
 ///
 pub fn build_every_evaluator(scope: &FeelScope, every: &Every, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
+  // get the name of the iterator variable
   let iterator_variable = parse_name(scope, every.iterator_variable(), false)?;
+  // prepare evaluator of values the loop should iterate over
   let (in_evaluator, _) = build_expression_instance_evaluator(scope, every.in_expression().value(), model_builder)?;
+  // prepare context with the names of iteration variables
+  let mut variables_ctx = FeelContext::default();
+  variables_ctx.set_null(iterator_variable.clone());
+  scope.push(variables_ctx);
+  // prepare the `every` loop satisfies condition evaluator
   let (satisfies_evaluator, _) = build_expression_instance_evaluator(scope, every.satisfies_expression().value(), model_builder)?;
-  let for_evaluator = Box::new(move |scope: &FeelScope| {
-    let _iterator_variable = iterator_variable.clone();
-    let _list = in_evaluator(scope);
-    let _satisfies = satisfies_evaluator(scope);
-    value_null!("boxed 'every' not implemented")
+  scope.pop();
+  // prepare `for` loop evaluator
+  let every_evaluator = Box::new(move |scope: &FeelScope| {
+    let mut every_expression_evaluator = EveryExpressionEvaluator::new();
+    let iterator_variable = iterator_variable.clone();
+    let in_clause = in_evaluator(scope);
+    every_expression_evaluator.add_list(iterator_variable, in_clause);
+    every_expression_evaluator.evaluate(scope, &satisfies_evaluator)
   });
-  Ok((build_coerced_result_evaluator(for_evaluator, every, every.namespace(), model_builder), Closure::default()))
+  Ok((build_coerced_result_evaluator(every_evaluator, every, every.namespace(), model_builder), Closure::default()))
 }
 
 ///
 pub fn build_some_evaluator(scope: &FeelScope, some: &Some, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   let iterator_variable = parse_name(scope, some.iterator_variable(), false)?;
   let (in_evaluator, _) = build_expression_instance_evaluator(scope, some.in_expression().value(), model_builder)?;
+  let mut variables_ctx = FeelContext::default();
+  variables_ctx.set_null(iterator_variable.clone());
+  scope.push(variables_ctx);
   let (satisfies_evaluator, _) = build_expression_instance_evaluator(scope, some.satisfies_expression().value(), model_builder)?;
+  scope.pop();
   let for_evaluator = Box::new(move |scope: &FeelScope| {
-    let _iterator_variable = iterator_variable.clone();
-    let _list = in_evaluator(scope);
-    let _satisfies = satisfies_evaluator(scope);
-    value_null!("boxed 'some' not implemented")
+    let mut some_expression_evaluator = SomeExpressionEvaluator::new();
+    let iterator_variable = iterator_variable.clone();
+    let in_clause = in_evaluator(scope);
+    some_expression_evaluator.add_list(iterator_variable, in_clause);
+    some_expression_evaluator.evaluate(scope, &satisfies_evaluator)
   });
   Ok((build_coerced_result_evaluator(for_evaluator, some, some.namespace(), model_builder), Closure::default()))
 }

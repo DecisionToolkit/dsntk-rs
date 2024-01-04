@@ -70,7 +70,6 @@ fn simple_type_context_evaluator(feel_type: FeelType) -> Result<ItemDefinitionCo
       | FeelType::DaysAndTimeDuration
       | FeelType::YearsAndMonthsDuration
   ) {
-    println!("DDD: 1={}", feel_type);
     Ok(Box::new(move |name: &Name, ctx: &mut FeelContext, _: &ItemDefinitionContextEvaluator| {
       ctx.set_entry(name, Value::FeelType(feel_type.clone()));
       feel_type.clone()

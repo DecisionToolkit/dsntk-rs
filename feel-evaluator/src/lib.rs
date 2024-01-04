@@ -16,3 +16,4 @@ mod macros;
 mod tests;
 
 pub use crate::evaluators::{evaluate, evaluate_context, evaluate_context_node, evaluate_equals, evaluate_max, evaluate_min, evaluate_sum, prepare};
+pub use crate::iterations::{EveryExpressionEvaluator, ForExpressionEvaluator, SomeExpressionEvaluator};

@@ -162,7 +162,6 @@ fn build_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluat
       _ => value_null!("expected type 'years and months duration', actual type is '{}' in value '{}'", value.type_of(), value),
     })
   }
-  println!("DDD: 2={}", feel_type);
   match feel_type {
     FeelType::Any => Ok(build_any_evaluator(av_evaluator)),
     FeelType::Null => Ok(build_null_evaluator(av_evaluator)),
