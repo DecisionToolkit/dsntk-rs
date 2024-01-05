@@ -363,7 +363,7 @@ pub fn build_filter_evaluator(scope: &FeelScope, filter: &Filter, model_builder:
   let (match_evaluator, _) = build_expression_instance_evaluator(scope, filter.match_expression().value(), model_builder)?;
   // prepare `filter` evaluator
   let evaluator = Box::new(move |scope: &FeelScope| {
-    let filter_expression_evaluator = FilterExpressionEvaluator::new();
+    let filter_expression_evaluator = FilterExpressionEvaluator::default();
     filter_expression_evaluator.evaluate(scope, in_evaluator(scope), &match_evaluator)
   });
   Ok((build_coerced_result_evaluator(evaluator, filter, filter.namespace(), model_builder), Closure::default()))
@@ -384,7 +384,7 @@ pub fn build_for_evaluator(scope: &FeelScope, r#for: &For, model_builder: &Model
   scope.pop();
   // prepare `for` evaluator
   let evaluator = Box::new(move |scope: &FeelScope| {
-    let mut for_expression_evaluator = ForExpressionEvaluator::new();
+    let mut for_expression_evaluator = ForExpressionEvaluator::default();
     let iterator_variable = iterator_variable.clone();
     match in_evaluator(scope) {
       value @ Value::List(_) => for_expression_evaluator.add_list(iterator_variable, value),
@@ -411,7 +411,7 @@ pub fn build_every_evaluator(scope: &FeelScope, every: &Every, model_builder: &M
   scope.pop();
   // prepare `every` evaluator
   let evaluator = Box::new(move |scope: &FeelScope| {
-    let mut every_expression_evaluator = EveryExpressionEvaluator::new();
+    let mut every_expression_evaluator = EveryExpressionEvaluator::default();
     let iterator_variable = iterator_variable.clone();
     let in_clause = in_evaluator(scope);
     every_expression_evaluator.add_list(iterator_variable, in_clause);
@@ -435,7 +435,7 @@ pub fn build_some_evaluator(scope: &FeelScope, some: &Some, model_builder: &Mode
   scope.pop();
   // prepare `some` evaluator
   let evaluator = Box::new(move |scope: &FeelScope| {
-    let mut some_expression_evaluator = SomeExpressionEvaluator::new();
+    let mut some_expression_evaluator = SomeExpressionEvaluator::default();
     let iterator_variable = iterator_variable.clone();
     let in_clause = in_evaluator(scope);
     some_expression_evaluator.add_list(iterator_variable, in_clause);
