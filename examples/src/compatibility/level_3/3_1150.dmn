@@ -1,35 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<definitions namespace="http://www.montera.com.au/spec/DMN/1150-boxed-conditional"
+<definitions namespace="https://dsntk.io/spec/DMN/1150-boxed-conditional"
              name="1150-boxed-conditional"
-             id="_9f9cfa0a-db61-4910-87cb-c43a6aad6cf4"
+             id="_1150-boxed-conditional"
              xmlns="https://www.omg.org/spec/DMN/20211108/MODEL/">
 
-    <description>Boxed Conditional Expression</description>
+    <description>
+        Examples of `conditional` boxed expressions.
+    </description>
 
     <decision name="decision001" id="_decision001">
         <variable name="decision001"/>
         <conditional>
-            <if><literalExpression><text>true</text></literalExpression></if>
-            <then><literalExpression><text>"then"</text></literalExpression></then>
-            <else><literalExpression><text>"else"</text></literalExpression></else>
+            <if>
+                <literalExpression>
+                    <text>true</text>
+                </literalExpression>
+            </if>
+            <then>
+                <literalExpression>
+                    <text>"then"</text>
+                </literalExpression>
+            </then>
+            <else>
+                <literalExpression>
+                    <text>"else"</text>
+                </literalExpression>
+            </else>
         </conditional>
     </decision>
 
     <decision name="decision002" id="_decision002">
         <variable name="decision002"/>
         <conditional>
-            <if><literalExpression><text>false</text></literalExpression></if>
-            <then><literalExpression><text>"then"</text></literalExpression></then>
-            <else><literalExpression><text>"else"</text></literalExpression></else>
+            <if>
+                <literalExpression>
+                    <text>false</text>
+                </literalExpression>
+            </if>
+            <then>
+                <literalExpression>
+                    <text>"then"</text>
+                </literalExpression>
+            </then>
+            <else>
+                <literalExpression>
+                    <text>"else"</text>
+                </literalExpression>
+            </else>
         </conditional>
     </decision>
 
     <decision name="decision003" id="_decision003">
         <variable name="decision003"/>
         <conditional>
-            <if><literalExpression><text>"abc"</text></literalExpression></if>
-            <then><literalExpression><text>"then"</text></literalExpression></then>
-            <else><literalExpression><text>"else"</text></literalExpression></else>
+            <if>
+                <literalExpression>
+                    <text>"abc"</text>
+                </literalExpression>
+            </if>
+            <then>
+                <literalExpression>
+                    <text>"then"</text>
+                </literalExpression>
+            </then>
+            <else>
+                <literalExpression>
+                    <text>"else"</text>
+                </literalExpression>
+            </else>
         </conditional>
     </decision>
 
