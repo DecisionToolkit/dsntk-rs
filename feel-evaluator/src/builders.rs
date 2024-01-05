@@ -2,6 +2,7 @@
 
 use crate::evaluator_java::evaluate_external_java_function;
 use crate::evaluator_pmml::evaluate_external_pmml_function;
+use crate::evaluators::evaluate_range_literal;
 use crate::iterations::{EveryExpressionEvaluator, ForExpressionEvaluator, SomeExpressionEvaluator};
 use crate::macros::invalid_argument_type;
 use crate::{bifs, FilterExpressionEvaluator};
@@ -894,11 +895,8 @@ impl<'b> EvaluatorBuilder<'b> {
 
   ///
   fn build_function_invocation_with_positional_parameters(&mut self, lhs: &'b AstNode, rhs: &'b [AstNode]) -> Evaluator {
-    let mut argument_evaluators = vec![];
-    for node in rhs {
-      argument_evaluators.push(self.build(node));
-    }
     let function_evaluator = self.build(lhs);
+    let argument_evaluators = self.build_positional_argument_evaluators(lhs, rhs);
     Box::new(move |scope: &FeelScope| {
       let function = function_evaluator(scope);
       let args = argument_evaluators.iter().map(|evaluator| evaluator(scope)).collect::<Vec<Value>>();
@@ -917,9 +915,34 @@ impl<'b> EvaluatorBuilder<'b> {
   }
 
   ///
+  fn build_positional_argument_evaluators(&mut self, lhs: &'b AstNode, rhs: &'b [AstNode]) -> Vec<Evaluator> {
+    //------------------------------------------------------------------------------------------------------------------
+    // Tweak for `range` function
+    //------------------------------------------------------------------------------------------------------------------
+    if let AstNode::Name(name) = lhs {
+      if name.to_string() == "range" && rhs.len() == 1 {
+        if let AstNode::String(range_literal) = &rhs[0] {
+          let scope = FeelScope::default();
+          if let Ok(range) = evaluate_range_literal(&scope, range_literal) {
+            return vec![value_evaluator(range)];
+          }
+        }
+      }
+    }
+    //------------------------------------------------------------------------------------------------------------------
+    // Default argument processing.
+    //------------------------------------------------------------------------------------------------------------------
+    let mut argument_evaluators = vec![];
+    for node in rhs {
+      argument_evaluators.push(self.build(node));
+    }
+    argument_evaluators
+  }
+
+  ///
   fn build_function_invocation_with_named_parameters(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     let function_evaluator = self.build(lhs);
-    let arguments_evaluator = self.build(rhs);
+    let arguments_evaluator = self.build_named_arguments_evaluator(lhs, rhs);
     Box::new(move |scope: &FeelScope| {
       let function = function_evaluator(scope);
       let args = arguments_evaluator(scope);
@@ -935,6 +958,13 @@ impl<'b> EvaluatorBuilder<'b> {
         _ => value_null!("expected built-in function name or function definition, actual is {}", function),
       }
     })
+  }
+
+  ///
+  fn build_named_arguments_evaluator(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
+    println!("DDD: lhs(2) = {:?}", lhs);
+    //------------------------------------------------------------------------------------------------------------------
+    self.build(rhs)
   }
 
   ///
@@ -1952,6 +1982,11 @@ fn get_property_from_value(value: Value, adjusted: bool, name: &Name) -> Value {
     v @ Value::Null(_) => v,
     other => value_null!("unexpected type: {}, for property: {}", other.type_of(), property_name),
   }
+}
+
+/// Returns an evaluator that returns passed value.
+fn value_evaluator(value: Value) -> Evaluator {
+  Box::new(move |_: &FeelScope| value.clone())
 }
 
 /// Evaluates ternary equality of two values.

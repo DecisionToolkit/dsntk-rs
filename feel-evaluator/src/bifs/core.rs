@@ -1913,6 +1913,11 @@ pub fn product(values: &[Value]) -> Value {
   Value::Number(list.iter().fold(FeelNumber::one(), |acc, n| acc * (*n)))
 }
 
+/// Returns already parsed range or null value.
+pub fn range(value: &Value) -> Value {
+  value.clone()
+}
+
 /// ???
 pub fn remove(list: &Value, position_value: &Value) -> Value {
   if let Value::List(mut items) = list.clone() {

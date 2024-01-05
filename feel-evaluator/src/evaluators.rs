@@ -1,4 +1,4 @@
-use crate::errors::err_not_a_context;
+use crate::errors::{err_not_a_context, err_not_a_range};
 use dsntk_common::Result;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::Value;
@@ -48,5 +48,21 @@ pub fn evaluate_context_node(scope: &FeelScope, node: &AstNode) -> Result<FeelCo
     Ok(context)
   } else {
     Err(err_not_a_context())
+  }
+}
+
+/// Evaluates a range value from range literal expression.
+pub fn evaluate_range_literal(scope: &FeelScope, input: &str) -> Result<Value> {
+  let node = &dsntk_feel_parser::parse_range_literal(scope, input, false)?;
+  evaluate_range_literal_node(scope, node)
+}
+
+/// Evaluates a range value from AST node.
+pub fn evaluate_range_literal_node(scope: &FeelScope, node: &AstNode) -> Result<Value> {
+  let evaluator = crate::builders::build_evaluator(node);
+  if let value @ Value::Range(_, _, _, _) = evaluator(scope) {
+    Ok(value)
+  } else {
+    Err(err_not_a_range())
   }
 }

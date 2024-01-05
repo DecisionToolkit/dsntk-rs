@@ -63,6 +63,7 @@ pub fn evaluate_bif(bif: Bif, parameters: &[Value]) -> Value {
     Bif::OverlapsAfter => bif_overlaps_after(parameters),
     Bif::OverlapsBefore => bif_overlaps_before(parameters),
     Bif::Product => bif_product(parameters),
+    Bif::Range => bif_range(parameters),
     Bif::Remove => bif_remove(parameters),
     Bif::Replace => bif_replace(parameters),
     Bif::Reverse => bif_reverse(parameters),
@@ -529,6 +530,13 @@ fn bif_product(parameters: &[Value]) -> Value {
       _ => core::product(parameters),
     },
     _ => core::product(parameters),
+  }
+}
+
+fn bif_range(parameters: &[Value]) -> Value {
+  match parameters.len() {
+    1 => core::range(&parameters[0]),
+    n => invalid_number_of_parameters!(1, n),
   }
 }
 

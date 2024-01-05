@@ -129,6 +129,7 @@ pub fn evaluate_bif(bif: Bif, parameters: &NamedParameters) -> Value {
     Bif::OverlapsAfter => bif_overlaps_after(parameters),
     Bif::OverlapsBefore => bif_overlaps_before(parameters),
     Bif::Product => bif_product(parameters),
+    Bif::Range => bif_range(parameters),
     Bif::Remove => bif_remove(parameters),
     Bif::Replace => bif_replace(parameters),
     Bif::Reverse => bif_reverse(parameters),
@@ -784,6 +785,14 @@ fn bif_product(parameters: &NamedParameters) -> Value {
     core::product(list)
   } else {
     parameter_not_found!(NAME_LIST)
+  }
+}
+
+fn bif_range(parameters: &NamedParameters) -> Value {
+  if let Some((value, _)) = get_param(parameters, &NAME_FROM) {
+    core::range(value)
+  } else {
+    parameter_not_found!(NAME_FROM)
   }
 }
 
