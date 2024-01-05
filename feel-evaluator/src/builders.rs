@@ -916,17 +916,22 @@ impl<'b> EvaluatorBuilder<'b> {
 
   ///
   fn build_positional_argument_evaluators(&mut self, lhs: &'b AstNode, rhs: &'b [AstNode]) -> Vec<Evaluator> {
-    //------------------------------------------------------------------------------------------------------------------
-    // Tweak with `range` function
-    //------------------------------------------------------------------------------------------------------------------
     if let AstNode::Name(name) = lhs {
-      if name.to_string() == "range" && rhs.len() == 1 {
-        if let AstNode::String(range_literal) = &rhs[0] {
-          let scope = FeelScope::default();
-          if let Ok(range) = evaluate_range_literal(&scope, range_literal) {
-            return vec![value_evaluator(range)];
+      match name.to_string().as_str() {
+        "range" => {
+          //------------------------------------------------------------------------------------------------------------
+          // Tweak with `range` function
+          //------------------------------------------------------------------------------------------------------------
+          if let AstNode::String(range_literal) = &rhs[0] {
+            let scope = FeelScope::default();
+            return if let Ok(range) = evaluate_range_literal(&scope, range_literal) {
+              vec![value_evaluator(range)]
+            } else {
+              vec![value_evaluator(value_null!("invalid range literal"))]
+            };
           }
         }
+        _ => {} // more tweaks are on the way
       }
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -962,22 +967,28 @@ impl<'b> EvaluatorBuilder<'b> {
 
   ///
   fn build_named_arguments_evaluator(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
-    //------------------------------------------------------------------------------------------------------------------
-    // Tweak with `range` function
-    //------------------------------------------------------------------------------------------------------------------
     if let AstNode::Name(name) = lhs {
-      if name.to_string() == "range" {
-        if let AstNode::NamedParameters(parameters) = rhs {
-          if parameters.len() == 1 {
-            if let AstNode::NamedParameter(name, value) = &parameters[0] {
-              if let AstNode::ParameterName(name) = name.borrow() {
-                if name.to_string() == "from" {
-                  if let AstNode::String(range_literal) = value.borrow() {
-                    let scope = FeelScope::default();
-                    if let Ok(range) = evaluate_range_literal(&scope, range_literal) {
-                      let mut map = BTreeMap::new();
-                      map.insert(name.to_owned(), (range, 1_usize));
-                      return value_evaluator(Value::NamedParameters(map));
+      match name.to_string().as_str() {
+        "range" => {
+          //------------------------------------------------------------------------------------------------------------
+          // Tweak with `range` function
+          //------------------------------------------------------------------------------------------------------------
+          if let AstNode::NamedParameters(parameters) = rhs {
+            if parameters.len() == 1 {
+              if let AstNode::NamedParameter(name, value) = &parameters[0] {
+                if let AstNode::ParameterName(name) = name.borrow() {
+                  if name.to_string() == "from" {
+                    if let AstNode::String(range_literal) = value.borrow() {
+                      let scope = FeelScope::default();
+                      return if let Ok(range) = evaluate_range_literal(&scope, range_literal) {
+                        let mut map = BTreeMap::new();
+                        map.insert(name.to_owned(), (range, 1_usize));
+                        value_evaluator(Value::NamedParameters(map))
+                      } else {
+                        let mut map = BTreeMap::new();
+                        map.insert(name.to_owned(), (value_null!("invalid range literal"), 1_usize));
+                        value_evaluator(Value::NamedParameters(map))
+                      };
                     }
                   }
                 }
@@ -985,6 +996,7 @@ impl<'b> EvaluatorBuilder<'b> {
             }
           }
         }
+        _ => {} // more tweaks are on the way
       }
     }
     //------------------------------------------------------------------------------------------------------------------
