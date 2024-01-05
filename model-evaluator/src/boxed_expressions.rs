@@ -9,7 +9,7 @@ use dsntk_feel::closure::Closure;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::Value;
 use dsntk_feel::{value_null, Evaluator, FeelScope, FeelType, FunctionBody};
-use dsntk_feel_evaluator::{EveryExpressionEvaluator, ForExpressionEvaluator, SomeExpressionEvaluator};
+use dsntk_feel_evaluator::{EveryExpressionEvaluator, FilterExpressionEvaluator, ForExpressionEvaluator, SomeExpressionEvaluator};
 use dsntk_feel_parser::{parse_name, ClosureBuilder};
 use dsntk_model::*;
 use std::sync::Arc;
@@ -363,9 +363,8 @@ pub fn build_filter_evaluator(scope: &FeelScope, filter: &Filter, model_builder:
   let (match_evaluator, _) = build_expression_instance_evaluator(scope, filter.match_expression().value(), model_builder)?;
   // prepare `filter` evaluator
   let evaluator = Box::new(move |scope: &FeelScope| {
-    let _list = in_evaluator(scope);
-    let _filter = match_evaluator(scope);
-    value_null!("boxed 'filter' not implemented")
+    let filter_expression_evaluator = FilterExpressionEvaluator::new();
+    filter_expression_evaluator.evaluate(scope, in_evaluator(scope), &match_evaluator)
   });
   Ok((build_coerced_result_evaluator(evaluator, filter, filter.namespace(), model_builder), Closure::default()))
 }

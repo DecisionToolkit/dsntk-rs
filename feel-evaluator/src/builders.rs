@@ -7,7 +7,7 @@ use crate::macros::invalid_argument_type;
 use crate::{bifs, FilterExpressionEvaluator};
 use dsntk_feel::bif::Bif;
 use dsntk_feel::context::FeelContext;
-use dsntk_feel::values::{Value, Values, VALUE_FALSE, VALUE_TRUE};
+use dsntk_feel::values::{Value, VALUE_FALSE, VALUE_TRUE};
 use dsntk_feel::{value_null, Evaluator, FeelNumber, FeelScope, FeelType, FunctionBody, Name};
 use dsntk_feel_parser::{AstNode, ClosureBuilder};
 use dsntk_feel_temporal::{FeelDate, FeelDateTime, FeelDaysAndTimeDuration, FeelTime, FeelYearsAndMonthsDuration};

@@ -533,3 +533,23 @@ fn _0071() {
 fn _0072() {
   te_null(false, &scope!(), r#" (function() 1)[1] "#, "unexpected value type in filter: function<>->Any");
 }
+
+#[test]
+fn _0073() {
+  te_be_value(false, &scope!(), r#"[1,2,3,4,5][item >= 3]"#, "[3, 4, 5]");
+}
+
+#[test]
+fn _0074() {
+  te_be_value(false, &scope!(), r#"[1,2,3,4,5][item > 5]"#, "[]");
+}
+
+#[test]
+fn _0075() {
+  te_be_value(false, &scope!(), r#""not a list"[true]"#, r#"["not a list"]"#);
+}
+
+#[test]
+fn _0076() {
+  te_null(false, &scope!(), r#"[1,2,3,4,5]["not a boolean"]"#, "only number or boolean indexes are allowed in filters");
+}

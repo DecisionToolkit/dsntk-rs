@@ -43,8 +43,10 @@ impl FilterExpressionEvaluator {
             scope.push(special_context);
           }
           let rhv = evaluator(scope);
-          if let Value::Boolean(true) = rhv {
-            filtered_values.push(value.clone());
+          match rhv {
+            Value::Boolean(true) => filtered_values.push(value.clone()),
+            Value::Boolean(false) | Value::Number(_) | Value::Null(_) => {}
+            _ => return value_null!("only number or boolean indexes are allowed in filters"),
           }
           if !has_item_entry {
             scope.pop();
