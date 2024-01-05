@@ -1098,11 +1098,25 @@ impl<'parser> ReduceActions for Parser<'parser> {
     Ok(())
   }
 
+  fn action_range_literal_empty_end(&mut self) -> Result<()> {
+    trace_action!(self, "range_literal_end");
+    let closed = matches!(&self.yy_value_stack[self.yy_value_stack.len() - 1], TokenValue::RightBracket);
+    self.yy_node_stack.push(AstNode::IntervalEnd(AstNode::Null.into(), closed));
+    Ok(())
+  }
+
   fn action_range_literal_end(&mut self) -> Result<()> {
     trace_action!(self, "range_literal_end");
     let closed = matches!(&self.yy_value_stack[self.yy_value_stack.len() - 1], TokenValue::RightBracket);
     let lhs = self.yy_node_stack.pop().unwrap();
     self.yy_node_stack.push(AstNode::IntervalEnd(Box::new(lhs), closed));
+    Ok(())
+  }
+
+  fn action_range_literal_empty_start(&mut self) -> Result<()> {
+    trace_action!(self, "range_literal_start");
+    let closed = matches!(&self.yy_value_stack[self.yy_value_stack.len() - self.yy_len as usize], TokenValue::LeftBracket);
+    self.yy_node_stack.push(AstNode::IntervalStart(AstNode::Null.into(), closed));
     Ok(())
   }
 

@@ -349,13 +349,19 @@ range_literal:
   ;
 
 range_literal_start:
-    LEFT_PAREN range_endpoint ELLIPSIS {/* range_literal_start */}
+    LEFT_PAREN ELLIPSIS {/* range_literal_empty_start */}
+  | RIGHT_BRACKET ELLIPSIS {/* range_literal_empty_start */}
+  | LEFT_BRACKET ELLIPSIS {/* range_literal_empty_start */}
+  | LEFT_PAREN range_endpoint ELLIPSIS {/* range_literal_start */}
   | RIGHT_BRACKET range_endpoint ELLIPSIS {/* range_literal_start */}
   | LEFT_BRACKET range_endpoint ELLIPSIS {/* range_literal_start */}
   ;
 
 range_literal_end:
-    range_endpoint RIGHT_PAREN {/* range_literal_end */}
+    RIGHT_PAREN {/* range_literal_empty_end */}
+  | LEFT_BRACKET {/* range_literal_empty_end */}
+  | RIGHT_BRACKET {/* range_literal_empty_end */}
+  | range_endpoint RIGHT_PAREN {/* range_literal_end */}
   | range_endpoint LEFT_BRACKET {/* range_literal_end */}
   | range_endpoint RIGHT_BRACKET {/* range_literal_end */}
   ;

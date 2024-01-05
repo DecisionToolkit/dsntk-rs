@@ -3,12 +3,8 @@ use crate::lalr::TokenType::StartExpression;
 
 #[test]
 fn _0001() {
-  let scope = scope!();
-  accept(
-    &scope,
-    StartExpression,
-    r#"[1..10]"#,
-    r#"
+  let input = "[1..10]";
+  let expected = r#"
        Range
        ├─ IntervalStart (closed)
        │  └─ Numeric
@@ -16,19 +12,14 @@ fn _0001() {
        └─ IntervalEnd (closed)
           └─ Numeric
              └─ `10`
-    "#,
-    false,
-  );
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
 }
 
 #[test]
 fn _0002() {
-  let scope = scope!();
-  accept(
-    &scope,
-    StartExpression,
-    r#"date("2012-12-25") in [date("2012-01-01")..date("2021-12-31")]"#,
-    r#"
+  let input = r#"date("2012-12-25") in [date("2012-01-01")..date("2021-12-31")]"#;
+  let expected = r#"
        In
        ├─ FunctionInvocation
        │  ├─ Name
@@ -51,19 +42,14 @@ fn _0002() {
                 └─ PositionalParameters
                    └─ String
                       └─ `2021-12-31`
-    "#,
-    false,
-  );
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
 }
 
 #[test]
 fn _0003() {
-  let scope = scope!();
-  accept(
-    &scope,
-    StartExpression,
-    r#"(<=10) = [1..10]"#,
-    r#"
+  let input = "(<=10) = [1..10]";
+  let expected = r#"
        Eq
        ├─ UnaryLe
        │  └─ Numeric
@@ -75,7 +61,6 @@ fn _0003() {
           └─ IntervalEnd (closed)
              └─ Numeric
                 └─ `10`
-    "#,
-    false,
-  );
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
 }

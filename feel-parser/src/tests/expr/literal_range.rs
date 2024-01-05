@@ -164,3 +164,115 @@ fn _0011() {
   let input = r#"[false..true]"#;
   Parser::new(&scope!(), StartRangeLiteral, input, false).parse().unwrap_err();
 }
+
+#[test]
+fn _0012() {
+  let input = "[..10]";
+  let expected = r#"
+       Range
+       ├─ IntervalStart (closed)
+       │  └─ Null
+       └─ IntervalEnd (closed)
+          └─ Numeric
+             └─ `10`
+    "#;
+  accept(&scope!(), StartRangeLiteral, input, expected, false);
+}
+
+#[test]
+fn _0013() {
+  let input = "(..10)";
+  let expected = r#"
+       Range
+       ├─ IntervalStart (opened)
+       │  └─ Null
+       └─ IntervalEnd (opened)
+          └─ Numeric
+             └─ `10`
+    "#;
+  accept(&scope!(), StartRangeLiteral, input, expected, false);
+}
+
+#[test]
+fn _0014() {
+  let input = "]..10]";
+  let expected = r#"
+       Range
+       ├─ IntervalStart (opened)
+       │  └─ Null
+       └─ IntervalEnd (closed)
+          └─ Numeric
+             └─ `10`
+    "#;
+  accept(&scope!(), StartRangeLiteral, input, expected, false);
+}
+
+#[test]
+fn _0015() {
+  let input = "[..10)";
+  let expected = r#"
+       Range
+       ├─ IntervalStart (closed)
+       │  └─ Null
+       └─ IntervalEnd (opened)
+          └─ Numeric
+             └─ `10`
+    "#;
+  accept(&scope!(), StartRangeLiteral, input, expected, false);
+}
+
+#[test]
+fn _0016() {
+  let input = "[10..]";
+  let expected = r#"
+       Range
+       ├─ IntervalStart (closed)
+       │  └─ Numeric
+       │     └─ `10`
+       └─ IntervalEnd (closed)
+          └─ Null
+    "#;
+  accept(&scope!(), StartRangeLiteral, input, expected, false);
+}
+
+#[test]
+fn _0017() {
+  let input = "(10..)";
+  let expected = r#"
+       Range
+       ├─ IntervalStart (opened)
+       │  └─ Numeric
+       │     └─ `10`
+       └─ IntervalEnd (opened)
+          └─ Null
+    "#;
+  accept(&scope!(), StartRangeLiteral, input, expected, false);
+}
+
+#[test]
+fn _0018() {
+  let input = "]10..]";
+  let expected = r#"
+       Range
+       ├─ IntervalStart (opened)
+       │  └─ Numeric
+       │     └─ `10`
+       └─ IntervalEnd (closed)
+          └─ Null
+    "#;
+  accept(&scope!(), StartRangeLiteral, input, expected, false);
+}
+
+#[test]
+fn _0019() {
+  let input = "[10..)";
+  let expected = r#"
+       Range
+       ├─ IntervalStart (closed)
+       │  └─ Numeric
+       │     └─ `10`
+       └─ IntervalEnd (opened)
+          └─ Null
+    "#;
+  accept(&scope!(), StartRangeLiteral, input, expected, false);
+}
