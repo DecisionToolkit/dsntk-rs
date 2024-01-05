@@ -18,6 +18,20 @@ fn _0002() {
 }
 
 #[test]
+fn _0003() {
+  let invocable_name = "decision003";
+  let expected = "null";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+}
+
+#[test]
+fn _0004() {
+  let invocable_name = "decision004";
+  let expected = "null";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+}
+
+#[test]
 fn _0005() {
   let invocable_name = "decision005";
   let expected = "null";
