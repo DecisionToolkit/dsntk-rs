@@ -1,0 +1,16 @@
+[package]
+name = "dsntk-feel-regex"
+version = { workspace = true }
+authors = { workspace = true }
+description = "DSNTK | FEEL parser"
+documentation = "https://docs.rs/dsntk-feel-parser"
+repository = "https://github.com/dsntk/dsntk-rs.git"
+license = { workspace = true }
+edition = { workspace = true }
+
+[features]
+default = []
+oniguruma = ["onig"]
+
+[dependencies]
+onig = { version = "6.4.0", default-features = false, optional = true }

@@ -12,6 +12,7 @@ members = [
     "feel-evaluator",
     "feel-number",
     "feel-parser",
+    "feel-regex",
     "feel-temporal",
     "gendoc",
     "macros",
@@ -61,6 +62,7 @@ dsntk-feel-evaluator = { path = "feel-evaluator" }
 dsntk-feel-grammar = { path = "feel-grammar" }
 dsntk-feel-number = { path = "feel-number" }
 dsntk-feel-parser = { path = "feel-parser" }
+dsntk-feel-regex = { path = "feel-regex" }
 dsntk-feel-temporal = { path = "feel-temporal" }
 dsntk-gendoc = { path = "gendoc" }
 dsntk-macros = { path = "macros" }

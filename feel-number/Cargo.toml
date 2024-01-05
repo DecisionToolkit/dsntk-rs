@@ -8,8 +8,6 @@ repository = "https://github.com/dsntk/dsntk-rs.git"
 license = { workspace = true }
 edition = { workspace = true }
 
-[features]
-
 [dependencies]
 dfp-number-sys = { workspace = true }
 dsntk-common = { workspace = true }

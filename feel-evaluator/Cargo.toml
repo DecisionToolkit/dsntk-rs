@@ -17,5 +17,6 @@ serde_json = { workspace = true }
 dsntk-common = { workspace = true }
 dsntk-feel = { workspace = true }
 dsntk-feel-parser = { workspace = true }
+dsntk-feel-regex = { workspace = true }
 dsntk-feel-temporal = { workspace = true }
 dsntk-macros = { workspace = true }
