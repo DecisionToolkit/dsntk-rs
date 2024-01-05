@@ -789,10 +789,15 @@ fn bif_product(parameters: &NamedParameters) -> Value {
 }
 
 fn bif_range(parameters: &NamedParameters) -> Value {
-  if let Some((value, _)) = get_param(parameters, &NAME_FROM) {
-    core::range(value)
-  } else {
-    parameter_not_found!(NAME_FROM)
+  match get_param_count(parameters) {
+    1 => {
+      if let Some((value, _)) = get_param(parameters, &NAME_FROM) {
+        core::range(value)
+      } else {
+        parameter_not_found!(NAME_FROM)
+      }
+    }
+    n => invalid_number_of_parameters!("1", n),
   }
 }
 

@@ -922,13 +922,15 @@ impl<'b> EvaluatorBuilder<'b> {
           //------------------------------------------------------------------------------------------------------------
           // Tweak with `range` function
           //------------------------------------------------------------------------------------------------------------
-          if let AstNode::String(range_literal) = &rhs[0] {
-            let scope = FeelScope::default();
-            return if let Ok(range) = evaluate_range_literal(&scope, range_literal) {
-              vec![value_evaluator(range)]
-            } else {
-              vec![value_evaluator(value_null!("invalid range literal"))]
-            };
+          if rhs.len() == 1 {
+            if let AstNode::String(range_literal) = &rhs[0] {
+              let scope = FeelScope::default();
+              return if let Ok(range) = evaluate_range_literal(&scope, range_literal) {
+                vec![value_evaluator(range)]
+              } else {
+                vec![value_evaluator(value_null!("invalid range literal"))]
+              };
+            }
           }
         }
         _ => {} // more tweaks are on the way
