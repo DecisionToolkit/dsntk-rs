@@ -95,8 +95,8 @@ fn build_model_name(model_content: &str) -> String {
 }
 
 /// Utility function that evaluates a [Decision] specified by name and compares the result.
-fn assert_decision(model_evaluator: &ModelEvaluator, model_namespace: &str, model_name: &str, invocable_name: &str, input_data: &FeelContext, expected: &str) {
-  let actual = model_evaluator.evaluate_invocable(model_namespace, model_name, invocable_name, input_data).to_string();
+fn assert_decision(model_evaluator: &ModelEvaluator, model_namespace: &str, model_name: &str, invocable: &str, input_data: &FeelContext, expected: &str) {
+  let actual = model_evaluator.evaluate_invocable(model_namespace, model_name, invocable, input_data).to_string();
   assert_eq!(
     expected, actual,
     "Assertion error, actual value of the decision does not match the expected value:\n  expected: {expected}\n    actual: {actual}\n"

@@ -5,29 +5,42 @@ static_context!(CTX, "{}");
 
 #[test]
 fn _0001() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision001",
-    &CTX,
-    "null([core::matches] invalid argument type, expected string, actual type is Null)",
-  );
+  let invocable = "decision001";
+  let expected = "null([core::matches] invalid argument type, expected string, actual type is Null)";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0002() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision002",
-    &CTX,
-    "null([core::matches] invalid argument type, expected string, actual type is Null)",
-  );
+  let invocable = "decision002";
+  let expected = "null([core::matches] invalid argument type, expected string, actual type is Null)";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0003() {
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision003", &CTX, "true");
+  let invocable = "decision003";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
+}
+
+#[test]
+fn _0004() {
+  let invocable = "K2-MatchesFunc-5";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
+}
+
+#[test]
+fn _0005() {
+  let invocable = "K2-MatchesFunc-6";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
+}
+
+#[test]
+fn _0006() {
+  let invocable = "K2-MatchesFunc-17";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
