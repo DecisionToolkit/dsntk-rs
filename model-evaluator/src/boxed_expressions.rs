@@ -412,7 +412,7 @@ pub fn build_every_evaluator(scope: &FeelScope, every: &Every, model_builder: &M
   // prepare the `every` loop satisfies condition evaluator
   let (satisfies_evaluator, _) = build_expression_instance_evaluator(scope, every.satisfies_expression().value(), model_builder)?;
   scope.pop();
-  // prepare `for` loop evaluator
+  // prepare `every` loop evaluator
   let every_evaluator = Box::new(move |scope: &FeelScope| {
     let mut every_expression_evaluator = EveryExpressionEvaluator::new();
     let iterator_variable = iterator_variable.clone();
@@ -425,21 +425,26 @@ pub fn build_every_evaluator(scope: &FeelScope, every: &Every, model_builder: &M
 
 ///
 pub fn build_some_evaluator(scope: &FeelScope, some: &Some, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
+  // get the name of the iterator variable
   let iterator_variable = parse_name(scope, some.iterator_variable(), false)?;
+  // prepare evaluator of values the loop should iterate over
   let (in_evaluator, _) = build_expression_instance_evaluator(scope, some.in_expression().value(), model_builder)?;
+  // prepare context with the names of iteration variables
   let mut variables_ctx = FeelContext::default();
   variables_ctx.set_null(iterator_variable.clone());
   scope.push(variables_ctx);
+  // prepare the `some` loop satisfies condition evaluator
   let (satisfies_evaluator, _) = build_expression_instance_evaluator(scope, some.satisfies_expression().value(), model_builder)?;
   scope.pop();
-  let for_evaluator = Box::new(move |scope: &FeelScope| {
+  // prepare `some` loop evaluator
+  let some_evaluator = Box::new(move |scope: &FeelScope| {
     let mut some_expression_evaluator = SomeExpressionEvaluator::new();
     let iterator_variable = iterator_variable.clone();
     let in_clause = in_evaluator(scope);
     some_expression_evaluator.add_list(iterator_variable, in_clause);
     some_expression_evaluator.evaluate(scope, &satisfies_evaluator)
   });
-  Ok((build_coerced_result_evaluator(for_evaluator, some, some.namespace(), model_builder), Closure::default()))
+  Ok((build_coerced_result_evaluator(some_evaluator, some, some.namespace(), model_builder), Closure::default()))
 }
 
 /// Builds an evaluator that provides coercion for output type of the expression.
