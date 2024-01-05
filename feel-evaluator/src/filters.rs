@@ -21,7 +21,7 @@ impl FilterExpressionEvaluator {
   }
 
   ///
-  pub fn evaluate(&mut self, scope: &FeelScope, value: Value, evaluator: &Evaluator) -> Value {
+  pub fn evaluate(&self, scope: &FeelScope, value: Value, evaluator: &Evaluator) -> Value {
     let name_item: Name = "item".into();
     match value {
       Value::List(values) => {
