@@ -167,16 +167,11 @@ fn _0011() {
 
 #[test]
 fn _0012() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Opened start may not have `[` as opening character.
+  //--------------------------------------------------------------------------------------------------------------------
   let input = "[..10]";
-  let expected = r#"
-       Range
-       ├─ IntervalStart (closed)
-       │  └─ Null
-       └─ IntervalEnd (closed)
-          └─ Numeric
-             └─ `10`
-    "#;
-  accept(&scope!(), StartRangeLiteral, input, expected, false);
+  Parser::new(&scope!(), StartRangeLiteral, input, false).parse().unwrap_err();
 }
 
 #[test]
@@ -209,30 +204,20 @@ fn _0014() {
 
 #[test]
 fn _0015() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Opened start may not have `[` as opening character.
+  //--------------------------------------------------------------------------------------------------------------------
   let input = "[..10)";
-  let expected = r#"
-       Range
-       ├─ IntervalStart (closed)
-       │  └─ Null
-       └─ IntervalEnd (opened)
-          └─ Numeric
-             └─ `10`
-    "#;
-  accept(&scope!(), StartRangeLiteral, input, expected, false);
+  Parser::new(&scope!(), StartRangeLiteral, input, false).parse().unwrap_err();
 }
 
 #[test]
 fn _0016() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Opened end may not have `]` as closing character.
+  //--------------------------------------------------------------------------------------------------------------------
   let input = "[10..]";
-  let expected = r#"
-       Range
-       ├─ IntervalStart (closed)
-       │  └─ Numeric
-       │     └─ `10`
-       └─ IntervalEnd (closed)
-          └─ Null
-    "#;
-  accept(&scope!(), StartRangeLiteral, input, expected, false);
+  Parser::new(&scope!(), StartRangeLiteral, input, false).parse().unwrap_err();
 }
 
 #[test]
@@ -251,16 +236,11 @@ fn _0017() {
 
 #[test]
 fn _0018() {
+  //--------------------------------------------------------------------------------------------------------------------
+  // Opened end may not have `]` as closing character.
+  //--------------------------------------------------------------------------------------------------------------------
   let input = "]10..]";
-  let expected = r#"
-       Range
-       ├─ IntervalStart (opened)
-       │  └─ Numeric
-       │     └─ `10`
-       └─ IntervalEnd (closed)
-          └─ Null
-    "#;
-  accept(&scope!(), StartRangeLiteral, input, expected, false);
+  Parser::new(&scope!(), StartRangeLiteral, input, false).parse().unwrap_err();
 }
 
 #[test]

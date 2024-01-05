@@ -917,7 +917,7 @@ impl<'b> EvaluatorBuilder<'b> {
   ///
   fn build_positional_argument_evaluators(&mut self, lhs: &'b AstNode, rhs: &'b [AstNode]) -> Vec<Evaluator> {
     //------------------------------------------------------------------------------------------------------------------
-    // Tweak for `range` function
+    // Tweak with `range` function
     //------------------------------------------------------------------------------------------------------------------
     if let AstNode::Name(name) = lhs {
       if name.to_string() == "range" && rhs.len() == 1 {
@@ -962,7 +962,33 @@ impl<'b> EvaluatorBuilder<'b> {
 
   ///
   fn build_named_arguments_evaluator(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
-    println!("DDD: lhs(2) = {:?}", lhs);
+    //------------------------------------------------------------------------------------------------------------------
+    // Tweak with `range` function
+    //------------------------------------------------------------------------------------------------------------------
+    if let AstNode::Name(name) = lhs {
+      if name.to_string() == "range" {
+        if let AstNode::NamedParameters(parameters) = rhs {
+          if parameters.len() == 1 {
+            if let AstNode::NamedParameter(name, value) = &parameters[0] {
+              if let AstNode::ParameterName(name) = name.borrow() {
+                if name.to_string() == "from" {
+                  if let AstNode::String(range_literal) = value.borrow() {
+                    let scope = FeelScope::default();
+                    if let Ok(range) = evaluate_range_literal(&scope, range_literal) {
+                      let mut map = BTreeMap::new();
+                      map.insert(name.to_owned(), (range, 1_usize));
+                      return value_evaluator(Value::NamedParameters(map));
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    //------------------------------------------------------------------------------------------------------------------
+    // Default argument processing.
     //------------------------------------------------------------------------------------------------------------------
     self.build(rhs)
   }

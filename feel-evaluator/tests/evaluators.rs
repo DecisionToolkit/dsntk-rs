@@ -24,7 +24,7 @@ fn _0003() {
   let scope = FeelScope::default();
   let node = AstNode::Boolean(true);
   assert_eq!(
-    "<FeelEvaluatorError> expected FEEL context as an input",
+    "<FeelEvaluatorError> expected FEEL context on input",
     evaluate_context_node(&scope, &node).err().unwrap().to_string()
   );
 }

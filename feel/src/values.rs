@@ -385,6 +385,11 @@ impl Value {
     matches!(self, Value::List(_))
   }
 
+  /// Returns `true` when the value is of type [Value::Range].
+  pub fn is_range(&self) -> bool {
+    matches!(self, Value::Range(_, _, _, _))
+  }
+
   /// Returns `true` when the value is of type [Value::Null] indicating invalid coercion.
   pub fn is_invalid_coercion(&self) -> bool {
     if let Value::Null(Some(message)) = self {

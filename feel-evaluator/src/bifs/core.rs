@@ -1915,7 +1915,11 @@ pub fn product(values: &[Value]) -> Value {
 
 /// Returns already parsed range or null value.
 pub fn range(value: &Value) -> Value {
-  value.clone()
+  if value.is_range() {
+    value.clone()
+  } else {
+    invalid_argument_type!("range", "range", value.type_of())
+  }
 }
 
 /// ???
