@@ -361,15 +361,13 @@ pub fn build_conditional_evaluator(scope: &FeelScope, conditional: &Conditional,
 pub fn build_filter_evaluator(scope: &FeelScope, filter: &Filter, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   let (in_evaluator, _) = build_expression_instance_evaluator(scope, filter.in_expression().value(), model_builder)?;
   let (match_evaluator, _) = build_expression_instance_evaluator(scope, filter.match_expression().value(), model_builder)?;
-  let filter_evaluator = Box::new(move |scope: &FeelScope| {
+  // prepare `filter` evaluator
+  let evaluator = Box::new(move |scope: &FeelScope| {
     let _list = in_evaluator(scope);
     let _filter = match_evaluator(scope);
     value_null!("boxed 'filter' not implemented")
   });
-  Ok((
-    build_coerced_result_evaluator(filter_evaluator, filter, filter.namespace(), model_builder),
-    Closure::default(),
-  ))
+  Ok((build_coerced_result_evaluator(evaluator, filter, filter.namespace(), model_builder), Closure::default()))
 }
 
 ///
@@ -385,8 +383,8 @@ pub fn build_for_evaluator(scope: &FeelScope, r#for: &For, model_builder: &Model
   // prepare the `for` loop returned value evaluator
   let (return_evaluator, _) = build_expression_instance_evaluator(scope, r#for.return_expression().value(), model_builder)?;
   scope.pop();
-  // prepare `for` loop evaluator
-  let for_evaluator = Box::new(move |scope: &FeelScope| {
+  // prepare `for` evaluator
+  let evaluator = Box::new(move |scope: &FeelScope| {
     let mut for_expression_evaluator = ForExpressionEvaluator::new();
     let iterator_variable = iterator_variable.clone();
     match in_evaluator(scope) {
@@ -396,7 +394,7 @@ pub fn build_for_evaluator(scope: &FeelScope, r#for: &For, model_builder: &Model
     }
     Value::List(for_expression_evaluator.evaluate(scope, &return_evaluator))
   });
-  Ok((build_coerced_result_evaluator(for_evaluator, r#for, r#for.namespace(), model_builder), Closure::default()))
+  Ok((build_coerced_result_evaluator(evaluator, r#for, r#for.namespace(), model_builder), Closure::default()))
 }
 
 ///
@@ -412,15 +410,15 @@ pub fn build_every_evaluator(scope: &FeelScope, every: &Every, model_builder: &M
   // prepare the `every` loop satisfies condition evaluator
   let (satisfies_evaluator, _) = build_expression_instance_evaluator(scope, every.satisfies_expression().value(), model_builder)?;
   scope.pop();
-  // prepare `every` loop evaluator
-  let every_evaluator = Box::new(move |scope: &FeelScope| {
+  // prepare `every` evaluator
+  let evaluator = Box::new(move |scope: &FeelScope| {
     let mut every_expression_evaluator = EveryExpressionEvaluator::new();
     let iterator_variable = iterator_variable.clone();
     let in_clause = in_evaluator(scope);
     every_expression_evaluator.add_list(iterator_variable, in_clause);
     every_expression_evaluator.evaluate(scope, &satisfies_evaluator)
   });
-  Ok((build_coerced_result_evaluator(every_evaluator, every, every.namespace(), model_builder), Closure::default()))
+  Ok((build_coerced_result_evaluator(evaluator, every, every.namespace(), model_builder), Closure::default()))
 }
 
 ///
@@ -436,15 +434,15 @@ pub fn build_some_evaluator(scope: &FeelScope, some: &Some, model_builder: &Mode
   // prepare the `some` loop satisfies condition evaluator
   let (satisfies_evaluator, _) = build_expression_instance_evaluator(scope, some.satisfies_expression().value(), model_builder)?;
   scope.pop();
-  // prepare `some` loop evaluator
-  let some_evaluator = Box::new(move |scope: &FeelScope| {
+  // prepare `some` evaluator
+  let evaluator = Box::new(move |scope: &FeelScope| {
     let mut some_expression_evaluator = SomeExpressionEvaluator::new();
     let iterator_variable = iterator_variable.clone();
     let in_clause = in_evaluator(scope);
     some_expression_evaluator.add_list(iterator_variable, in_clause);
     some_expression_evaluator.evaluate(scope, &satisfies_evaluator)
   });
-  Ok((build_coerced_result_evaluator(some_evaluator, some, some.namespace(), model_builder), Closure::default()))
+  Ok((build_coerced_result_evaluator(evaluator, some, some.namespace(), model_builder), Closure::default()))
 }
 
 /// Builds an evaluator that provides coercion for output type of the expression.

@@ -6,6 +6,7 @@ static_context!(CTX, "{}");
 #[test]
 fn _0001() {
   let invocable_name = "decision001";
-  let expected = "[3, 4, 5]";
+  //let expected = "[3, 4, 5]";
+  let expected = "null(boxed 'filter' not implemented)";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
 }

@@ -241,6 +241,13 @@ pub struct ForExpressionEvaluator {
   name_partial: Name,
 }
 
+impl Default for ForExpressionEvaluator {
+  /// Implements [Default] trait for [ForExpressionEvaluator].
+  fn default() -> Self {
+    Self::new()
+  }
+}
+
 impl ForExpressionEvaluator {
   ///
   pub fn new() -> Self {
@@ -293,6 +300,13 @@ pub struct SomeExpressionEvaluator {
   iterator: FeelIterator,
 }
 
+impl Default for SomeExpressionEvaluator {
+  /// Implements [Default] trait for [SomeExpressionEvaluator].
+  fn default() -> Self {
+    Self::new()
+  }
+}
+
 impl SomeExpressionEvaluator {
   ///
   pub fn new() -> Self {
@@ -335,6 +349,13 @@ impl SomeExpressionEvaluator {
 ///
 pub struct EveryExpressionEvaluator {
   iterator: FeelIterator,
+}
+
+impl Default for EveryExpressionEvaluator {
+  /// Implements [Default] trait for [EveryExpressionEvaluator].
+  fn default() -> Self {
+    Self::new()
+  }
 }
 
 impl EveryExpressionEvaluator {
