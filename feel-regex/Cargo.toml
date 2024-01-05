@@ -1,6 +1,6 @@
 [package]
 name = "dsntk-feel-regex"
-version = { workspace = true }
+version = "0.0.0"
 authors = { workspace = true }
 description = "DSNTK | FEEL regular expressions"
 documentation = "https://docs.rs/dsntk-feel-regex"
