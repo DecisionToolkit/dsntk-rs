@@ -6,7 +6,7 @@ use crate::validator::validate;
 use crate::xml_utils::*;
 use dsntk_common::{gen_id, to_uri, HRef, Result, Uri};
 use dsntk_feel::{Name, FEEL_TYPE_NAME_ANY};
-use roxmltree::Node;
+use roxmltree::{Node, NodeType};
 
 // XML node names
 const NODE_ALLOWED_ANSWERS: &str = "allowedAnswers";
@@ -1140,7 +1140,7 @@ impl ModelParser {
   }
 
   fn parse_required_child_expression(&self, node: &Node) -> Result<ChildExpression> {
-    let child_node = node.children().take(1).next().ok_or(err_node_has_no_children(node.tag_name().name()))?;
+    let child_node = first_child_element(node)?;
     Ok(ChildExpression {
       id: optional_id(node),
       value: self.parse_required_expression_instance(&child_node)?,
@@ -1148,7 +1148,7 @@ impl ModelParser {
   }
 
   fn parse_required_typed_child_expression(&self, node: &Node) -> Result<TypedChildExpression> {
-    let child_node = node.children().take(1).next().ok_or(err_node_has_no_children(node.tag_name().name()))?;
+    let child_node = first_child_element(node)?;
     Ok(TypedChildExpression {
       id: optional_id(node),
       value: self.parse_required_expression_instance(&child_node)?,
@@ -1422,6 +1422,16 @@ impl ModelParser {
       Ok(None)
     }
   }
+}
+
+/// Returns the first child element of the specified node.
+fn first_child_element<'a>(node: &'a Node) -> Result<Node<'a, 'a>> {
+  node
+    .children()
+    .filter(|n| matches!(n.node_type(), NodeType::Element))
+    .take(1)
+    .next()
+    .ok_or(err_node_has_no_children(node.tag_name().name()))
 }
 
 /// Returns required name attribute for specified node.
