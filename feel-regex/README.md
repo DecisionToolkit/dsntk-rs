@@ -1,6 +1,6 @@
 **DSNTK** | Decision Toolkit
 
-# dsntk-feel-
+# dsntk-feel-regex
 
 [![Crates.io][crates-badge]][crates-url]
 [![docs][docs-badge]][docs-url]
@@ -32,7 +32,7 @@
 
 ## Overview
 
-FEEL regex used by other components of [DSNTK](https://github.com/dsntk) project.
+FEEL regular expressions used by other components of [DSNTK](https://github.com/dsntk) project.
 
 ## License
 
