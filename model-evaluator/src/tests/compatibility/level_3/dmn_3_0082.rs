@@ -1,8 +1,7 @@
 use super::*;
 
 from_examples!(DMN_3_0082);
-
-static_context!(CTX, r#"{}"#);
+static_context!(CTX, "{}");
 
 #[test]
 fn _0001() {
@@ -188,4 +187,25 @@ fn _0033() {
 fn _0034() {
   let ctx = context(r#"{decisionService_002_input_1: ["foo"]}"#);
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision_ds_002", &ctx, r#""foo""#);
+}
+
+#[test]
+fn _0035() {
+  let invocable = "decision_context_01";
+  let expected = r#"{a: 1, b: 2}"#;
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
+}
+
+#[test]
+fn _0036() {
+  let invocable = "decision_context_02";
+  let expected = r#"{a: 1, b: 2}"#;
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
+}
+
+#[test]
+fn _0037() {
+  let invocable = "decision_context_03";
+  let expected = r#"{a: 1, b: 2}"#;
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }

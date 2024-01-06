@@ -81,7 +81,7 @@
 //! │ compliance-level-3/0065-feel-disjunction                               │     19 │    19 │      19 │
 //! │ compliance-level-3/0066-feel-negation                                  │      6 │     6 │       6 │
 //! │ compliance-level-3/0067-feel-split-function                            │      9 │     9 │       9 │
-//! │ compliance-level-3/0068-feel-equality                                  │    108 │   109 │      72 │  -37
+//! │ compliance-level-3/0068-feel-equality                                  │    108 │   109 │      72 │     -37
 //! │ compliance-level-3/0069-feel-list                                      │     35 │    35 │      27 │      -8
 //! │ compliance-level-3/0070-feel-instance-of                               │    142 │   154 │     154 │
 //! │ compliance-level-3/0071-feel-between                                   │     38 │    38 │      35 │      -3
@@ -94,17 +94,17 @@
 //! │ compliance-level-3/0078-feel-infinity                                  │      2 │     2 │       2 │
 //! │ compliance-level-3/0080-feel-getvalue-function                         │     14 │    14 │      12 │      -2
 //! │ compliance-level-3/0081-feel-getentries-function                       │      9 │     9 │       9 │
-//! │ compliance-level-3/0082-feel-coercion                                  │     36 │    34 │      33 │-2    -3
-//! │ compliance-level-3/0083-feel-unicode                                   │     14 │    18 │      11 │+4    -7
+//! │ compliance-level-3/0082-feel-coercion                                  │     36 │    34 │      33 │      -3
+//! │ compliance-level-3/0083-feel-unicode                                   │     14 │    18 │      11 │      -7
 //! │ compliance-level-3/0084-feel-for-loops                                 │     13 │    13 │      10 │      -3
-//! │ compliance-level-3/0085-decision-services                              │     17 │    26 │      10 │+9   -16
+//! │ compliance-level-3/0085-decision-services                              │     17 │    26 │      10 │     -16
 //! │ compliance-level-3/0086-import                                         │      2 │     2 │       2 │
 //! │ compliance-level-3/0087-chapter-11-example                             │      9 │     9 │       9 │
 //! │ compliance-level-3/0088-no-decision-logic                              │      1 │     1 │       1 │
-//! │ compliance-level-3/0089-nested-inputdata-imports                       │      1 │     9 │       4 │+8    -5
+//! │ compliance-level-3/0089-nested-inputdata-imports                       │      1 │     9 │       4 │      -5
 //! │ compliance-level-3/0090-feel-paths                                     │      4 │     4 │       4 │
 //! │ compliance-level-3/0091-local-hrefs                                    │      1 │     1 │       0 │      -1
-//! │ compliance-level-3/0092-feel-lambda                                    │     18 │    19 │       0 │+1   -19
+//! │ compliance-level-3/0092-feel-lambda                                    │     18 │    19 │       0 │     -19
 //! │ compliance-level-3/0093-feel-at-literals                               │     19 │    19 │       0 │     -19
 //! │ compliance-level-3/0094-feel-product-function                          │     13 │    13 │       0 │     -13
 //! │ compliance-level-3/0095-feel-day-of-year-function                      │     19 │    19 │       0 │     -19
@@ -125,7 +125,7 @@
 //! │ compliance-level-3/1108-feel-substring-after-function                  │     10 │    10 │      10 │
 //! │ compliance-level-3/1109-feel-replace-function                          │     28 │    28 │      28 │
 //! │ compliance-level-3/1110-feel-contains-function                         │     10 │    10 │      10 │
-//! │ compliance-level-3/1111-feel-matches-function                          │     40 │    44 │       0 │+4   -44
+//! │ compliance-level-3/1111-feel-matches-function                          │     40 │    44 │       0 │     -44
 //! │ compliance-level-3/1115-feel-date-function                             │     52 │    52 │      52 │
 //! │ compliance-level-3/1116-feel-time-function                             │     83 │    83 │      83 │
 //! │ compliance-level-3/1117-feel-date-and-time-function                    │     88 │    88 │      88 │
@@ -144,17 +144,17 @@
 //! │ compliance-level-3/1148-feel-now-function                              │      2 │     2 │       0 │      -2
 //! │ compliance-level-3/1149-feel-today-function                            │      2 │     2 │       0 │      -2
 //! │ compliance-level-3/1150-boxed-conditional                              │      3 │     3 │       0 │      -3
-//! │ compliance-level-3/1151-boxed-filter                                   │      4 │     6 │       0 │+2    -6
-//! │ compliance-level-3/1152-boxed-for                                      │      2 │     4 │       0 │+2    -4
-//! │ compliance-level-3/1153-boxed-some                                     │      5 │     7 │       0 │+2    -7
-//! │ compliance-level-3/1154-boxed-every                                    │      5 │     7 │       0 │+2    -7
+//! │ compliance-level-3/1151-boxed-filter                                   │      4 │     6 │       0 │      -6
+//! │ compliance-level-3/1152-boxed-for                                      │      2 │     4 │       0 │      -4
+//! │ compliance-level-3/1153-boxed-some                                     │      5 │     7 │       0 │      -7
+//! │ compliance-level-3/1154-boxed-every                                    │      5 │     7 │       0 │      -7
 //! │ non-compliant/0015-all-any                                             │     10 │    10 │       0 │     -10
-//! │ non-compliant/0019-flight-rebooking                                    │      1 │     2 │       0 │+1    -2
+//! │ non-compliant/0019-flight-rebooking                                    │      1 │     2 │       0 │      -2
 //! │ non-compliant/0079-feel-string-function                                │     37 │    37 │      37 │
-//! │ non-compliant/0088-recursion                                           │      2 │     1 │       0 │-1    -2
-//! ├────────────────────────────────────────────────────────────────────────┼────────┤
-//! │                                                                  Total │   3400 │
-//! └────────────────────────────────────────────────────────────────────────┴────────┘
+//! │ non-compliant/0088-recursion                                           │      2 │     1 │       0 │      -2
+//! ├────────────────────────────────────────────────────────────────────────┼────────┼───────┼─────────┤
+//! │                                                                  Total │   3400 │       │         │
+//! └────────────────────────────────────────────────────────────────────────┴────────┴───────┴─────────┘
 //! ```
 
 mod level_2;
