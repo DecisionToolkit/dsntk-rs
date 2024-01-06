@@ -7,7 +7,7 @@
 //! ├────────────────────────────────────────────────────────────────────────┼────────┼───────┼─────────┤
 //! │ compliance-level-2/0001-input-data-string                              │      1 │     1 │       1 │
 //! │ compliance-level-2/0002-input-data-number                              │      1 │     1 │       1 │
-//! │ compliance-level-2/0003-input-data-string-allowed-values               │      1 │ level_2/dmn_2_0003.rs                     2            2     0
+//! │ compliance-level-2/0003-input-data-string-allowed-values               │      1 │     2 │       2 │ // consider adding test to TCK
 //! │ compliance-level-2/0004-simpletable-U                                  │      3 │ level_2/dmn_2_0004.rs                     3            3     0
 //! │ compliance-level-2/0005-simpletable-A                                  │      3 │ level_2/dmn_2_0005.rs                     3            3     0
 //! │ compliance-level-2/0006-simpletable-P1                                 │      3 │ level_2/dmn_2_0006.rs                     3            3     0
