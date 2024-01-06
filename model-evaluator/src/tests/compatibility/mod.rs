@@ -2,7 +2,7 @@
 //!
 //! ```text
 //! ┌────────────────────────────────────────────────────────────────────────┬────────┬───────┬─────────┐
-//! │ TCK test directory                                                     │  XML   │ Rust  │ Rust    │
+//! │ TCK directory                                                          │  XML   │ Rust  │  Rust   │
 //! │                                                                        │ tests  │ tests │ benches │
 //! ├────────────────────────────────────────────────────────────────────────┼────────┼───────┼─────────┤
 //! │ compliance-level-2/0001-input-data-string                              │      1 │     1 │       1 │
@@ -136,8 +136,8 @@
 //! │ compliance-level-3/1140-feel-string-join-function                      │     22 │    22 │       0 │     -22
 //! │ compliance-level-3/1141-feel-round-up-function                         │     16 │    16 │      16 │
 //! │ compliance-level-3/1142-feel-round-down-function                       │     16 │    16 │      16 │
-//! │ compliance-level-3/1143-feel-round-half-up-function                    │     16 │     1 │       0 │-15  -16
-//! │ compliance-level-3/1144-feel-round-half-down-function                  │     16 │     1 │       0 │-15  -16
+//! │ compliance-level-3/1143-feel-round-half-up-function                    │     16 │    16 │      16 │
+//! │ compliance-level-3/1144-feel-round-half-down-function                  │     16 │    16 │      16 │
 //! │ compliance-level-3/1145-feel-context-function                          │     18 │    18 │       0 │     -18
 //! │ compliance-level-3/1146-feel-context-put-function                      │     30 │    30 │      30 │
 //! │ compliance-level-3/1147-feel-context-merge-function                    │     14 │    14 │       0 │     -14
