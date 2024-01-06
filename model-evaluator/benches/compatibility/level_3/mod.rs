@@ -90,6 +90,9 @@ mod dmn_3_1120;
 mod dmn_3_1121;
 mod dmn_3_1131;
 mod dmn_3_1141;
+mod dmn_3_1142;
+mod dmn_3_1143;
+mod dmn_3_1144;
 mod dmn_3_1146;
 
 use super::*;

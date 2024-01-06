@@ -135,7 +135,7 @@
 //! │ compliance-level-3/1131-feel-function-invocation                       │      8 │     8 │       8 │
 //! │ compliance-level-3/1140-feel-string-join-function                      │     22 │    22 │       0 │     -22
 //! │ compliance-level-3/1141-feel-round-up-function                         │     16 │    16 │      16 │
-//! │ compliance-level-3/1142-feel-round-down-function                       │     16 │     1 │       0 │-15  -16
+//! │ compliance-level-3/1142-feel-round-down-function                       │     16 │    16 │      16 │
 //! │ compliance-level-3/1143-feel-round-half-up-function                    │     16 │     1 │       0 │-15  -16
 //! │ compliance-level-3/1144-feel-round-half-down-function                  │     16 │     1 │       0 │-15  -16
 //! │ compliance-level-3/1145-feel-context-function                          │     18 │    18 │       0 │     -18
