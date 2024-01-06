@@ -116,7 +116,7 @@
 //! │ compliance-level-3/0103-feel-is-function                               │     50 │    50 │      50 │
 //! │ compliance-level-3/1100-feel-decimal-function                          │     10 │    10 │      10 │
 //! │ compliance-level-3/1101-feel-floor-function                            │     17 │    17 │       6 │     -11
-//! │ compliance-level-3/1102-feel-ceiling-function                          │     17 │     6 │       6 │-11  -17
+//! │ compliance-level-3/1102-feel-ceiling-function                          │     17 │    17 │      17 │
 //! │ compliance-level-3/1103-feel-substring-function                        │     11 │    11 │      11 │
 //! │ compliance-level-3/1104-feel-string-length-function                    │      6 │     6 │       6 │
 //! │ compliance-level-3/1105-feel-upper-case-function                       │      8 │     8 │       8 │
