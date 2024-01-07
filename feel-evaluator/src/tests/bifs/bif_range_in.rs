@@ -32,21 +32,31 @@ fn _0005() {
 
 #[test]
 fn _0006() {
-  te_bool(false, &scope!(), r#"1 in range("(..1]")"#, true);
+  te_bool(false, &scope!(), r#"2 in range("(..1]")"#, false);
 }
 
 #[test]
 fn _0007() {
-  te_bool(false, &scope!(), r#"-2024 in range("(..1]")"#, true);
+  te_bool(false, &scope!(), r#"1 in range("(..1]")"#, true);
 }
 
 #[test]
 fn _0008() {
-  te_bool(false, &scope!(), r#"1 in range("[1..)")"#, true);
+  te_bool(false, &scope!(), r#"-2024 in range("(..1]")"#, true);
 }
 
 #[test]
 fn _0009() {
+  te_bool(false, &scope!(), r#"0 in range("[1..)")"#, false);
+}
+
+#[test]
+fn _0010() {
+  te_bool(false, &scope!(), r#"1 in range("[1..)")"#, true);
+}
+
+#[test]
+fn _0011() {
   te_bool(false, &scope!(), r#"2024 in range("[1..)")"#, true);
 }
 
@@ -55,46 +65,351 @@ fn _0009() {
 //----------------------------------------------------------------------------------------------------------------------
 
 #[test]
-fn _0010() {
+fn _0012() {
   te_bool(false, &scope!(), r#" "a" in range("[\"b\"..\"d\"]") "#, false);
 }
 
 #[test]
-fn _0011() {
+fn _0013() {
   te_bool(false, &scope!(), r#" "b" in range("[\"b\"..\"d\"]") "#, true);
 }
 
 #[test]
-fn _0012() {
+fn _0014() {
   te_bool(false, &scope!(), r#" "c" in range("[\"b\"..\"d\"]") "#, true);
 }
 
 #[test]
-fn _0013() {
+fn _0015() {
   te_bool(false, &scope!(), r#" "d" in range("[\"b\"..\"d\"]") "#, true);
 }
 
 #[test]
-fn _0014() {
+fn _0016() {
   te_bool(false, &scope!(), r#" "e" in range("[\"b\"..\"d\"]") "#, false);
 }
 
 #[test]
-fn _0015() {
-  te_bool(false, &scope!(), r#" "d" in range("(..\"d\"]") "#, true);
-}
-
-#[test]
-fn _0016() {
-  te_bool(false, &scope!(), r#" "a" in range("(..\"d\"]") "#, true);
-}
-
-#[test]
 fn _0017() {
-  te_bool(false, &scope!(), r#" "b" in range("[\"b\"..)") "#, true);
+  te_bool(false, &scope!(), r#" "e" in range("(..\"d\"]") "#, false);
 }
 
 #[test]
 fn _0018() {
+  te_bool(false, &scope!(), r#" "d" in range("(..\"d\"]") "#, true);
+}
+
+#[test]
+fn _0019() {
+  te_bool(false, &scope!(), r#" "a" in range("(..\"d\"]") "#, true);
+}
+
+#[test]
+fn _0020() {
+  te_bool(false, &scope!(), r#" "a" in range("[\"b\"..)") "#, false);
+}
+
+#[test]
+fn _0021() {
+  te_bool(false, &scope!(), r#" "b" in range("[\"b\"..)") "#, true);
+}
+
+#[test]
+fn _0022() {
   te_bool(false, &scope!(), r#" "z" in range("[\"b\"..)") "#, true);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// DATE
+//----------------------------------------------------------------------------------------------------------------------
+
+#[test]
+fn _0023() {
+  te_bool(false, &scope!(), r#" @"2024-01-05" in range("[@\"2024-01-06\"..@\"2024-01-08\"]") "#, false);
+}
+
+#[test]
+fn _0024() {
+  te_bool(false, &scope!(), r#" @"2024-01-06" in range("[@\"2024-01-06\"..@\"2024-01-08\"]") "#, true);
+}
+
+#[test]
+fn _0025() {
+  te_bool(false, &scope!(), r#" @"2024-01-07" in range("[@\"2024-01-06\"..@\"2024-01-08\"]") "#, true);
+}
+
+#[test]
+fn _0026() {
+  te_bool(false, &scope!(), r#" @"2024-01-08" in range("[@\"2024-01-06\"..@\"2024-01-08\"]") "#, true);
+}
+
+#[test]
+fn _0027() {
+  te_bool(false, &scope!(), r#" @"2024-01-09" in range("[@\"2024-01-06\"..@\"2024-01-07\"]") "#, false);
+}
+
+#[test]
+fn _0028() {
+  te_bool(false, &scope!(), r#" @"2024-01-08" in range("(..@\"2024-01-07\"]") "#, false);
+}
+
+#[test]
+fn _0029() {
+  te_bool(false, &scope!(), r#" @"2024-01-07" in range("(..@\"2024-01-07\"]") "#, true);
+}
+
+#[test]
+fn _0030() {
+  te_bool(false, &scope!(), r#" @"2018-03-27" in range("(..@\"2024-01-07\"]") "#, true);
+}
+
+#[test]
+fn _0031() {
+  te_bool(false, &scope!(), r#" @"2024-01-05" in range("[@\"2024-01-06\"..)") "#, false);
+}
+
+#[test]
+fn _0032() {
+  te_bool(false, &scope!(), r#" @"2024-01-06" in range("[@\"2024-01-06\"..)") "#, true);
+}
+
+#[test]
+fn _0033() {
+  te_bool(false, &scope!(), r#" @"2052-01-06" in range("[@\"2024-01-06\"..)") "#, true);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// TIME
+//----------------------------------------------------------------------------------------------------------------------
+
+#[test]
+fn _0034() {
+  te_bool(false, &scope!(), r#"0 in range("[1..3]")"#, false);
+}
+
+#[test]
+fn _0035() {
+  te_bool(false, &scope!(), r#"1 in range("[1..3]")"#, true);
+}
+
+#[test]
+fn _0036() {
+  te_bool(false, &scope!(), r#"2 in range("[1..3]")"#, true);
+}
+
+#[test]
+fn _0037() {
+  te_bool(false, &scope!(), r#"3 in range("[1..3]")"#, true);
+}
+
+#[test]
+fn _0038() {
+  te_bool(false, &scope!(), r#"4 in range("[1..3]")"#, false);
+}
+
+#[test]
+fn _0039() {
+  te_bool(false, &scope!(), r#"2 in range("(..1]")"#, false);
+}
+
+#[test]
+fn _0040() {
+  te_bool(false, &scope!(), r#"1 in range("(..1]")"#, true);
+}
+
+#[test]
+fn _0041() {
+  te_bool(false, &scope!(), r#"-2024 in range("(..1]")"#, true);
+}
+
+#[test]
+fn _0042() {
+  te_bool(false, &scope!(), r#"0 in range("[1..)")"#, false);
+}
+
+#[test]
+fn _0043() {
+  te_bool(false, &scope!(), r#"1 in range("[1..)")"#, true);
+}
+
+#[test]
+fn _0044() {
+  te_bool(false, &scope!(), r#"2024 in range("[1..)")"#, true);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// DATE TIME
+//----------------------------------------------------------------------------------------------------------------------
+
+#[test]
+fn _0045() {
+  te_bool(false, &scope!(), r#"0 in range("[1..3]")"#, false);
+}
+
+#[test]
+fn _0046() {
+  te_bool(false, &scope!(), r#"1 in range("[1..3]")"#, true);
+}
+
+#[test]
+fn _0047() {
+  te_bool(false, &scope!(), r#"2 in range("[1..3]")"#, true);
+}
+
+#[test]
+fn _0048() {
+  te_bool(false, &scope!(), r#"3 in range("[1..3]")"#, true);
+}
+
+#[test]
+fn _0049() {
+  te_bool(false, &scope!(), r#"4 in range("[1..3]")"#, false);
+}
+
+#[test]
+fn _0050() {
+  te_bool(false, &scope!(), r#"2 in range("(..1]")"#, false);
+}
+
+#[test]
+fn _0051() {
+  te_bool(false, &scope!(), r#"1 in range("(..1]")"#, true);
+}
+
+#[test]
+fn _0052() {
+  te_bool(false, &scope!(), r#"-2024 in range("(..1]")"#, true);
+}
+
+#[test]
+fn _0053() {
+  te_bool(false, &scope!(), r#"0 in range("[1..)")"#, false);
+}
+
+#[test]
+fn _0054() {
+  te_bool(false, &scope!(), r#"1 in range("[1..)")"#, true);
+}
+
+#[test]
+fn _0055() {
+  te_bool(false, &scope!(), r#"2024 in range("[1..)")"#, true);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// YEARS AND MONTHS DURATION
+//----------------------------------------------------------------------------------------------------------------------
+
+#[test]
+fn _0056() {
+  te_bool(false, &scope!(), r#"0 in range("[1..3]")"#, false);
+}
+
+#[test]
+fn _0057() {
+  te_bool(false, &scope!(), r#"1 in range("[1..3]")"#, true);
+}
+
+#[test]
+fn _0058() {
+  te_bool(false, &scope!(), r#"2 in range("[1..3]")"#, true);
+}
+
+#[test]
+fn _0059() {
+  te_bool(false, &scope!(), r#"3 in range("[1..3]")"#, true);
+}
+
+#[test]
+fn _0060() {
+  te_bool(false, &scope!(), r#"4 in range("[1..3]")"#, false);
+}
+
+#[test]
+fn _0061() {
+  te_bool(false, &scope!(), r#"2 in range("(..1]")"#, false);
+}
+
+#[test]
+fn _0062() {
+  te_bool(false, &scope!(), r#"1 in range("(..1]")"#, true);
+}
+
+#[test]
+fn _0063() {
+  te_bool(false, &scope!(), r#"-2024 in range("(..1]")"#, true);
+}
+
+#[test]
+fn _0064() {
+  te_bool(false, &scope!(), r#"0 in range("[1..)")"#, false);
+}
+
+#[test]
+fn _0065() {
+  te_bool(false, &scope!(), r#"1 in range("[1..)")"#, true);
+}
+
+#[test]
+fn _0066() {
+  te_bool(false, &scope!(), r#"2024 in range("[1..)")"#, true);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// DAYS AND TIME DURATION
+//----------------------------------------------------------------------------------------------------------------------
+
+#[test]
+fn _0067() {
+  te_bool(false, &scope!(), r#"0 in range("[1..3]")"#, false);
+}
+
+#[test]
+fn _0068() {
+  te_bool(false, &scope!(), r#"1 in range("[1..3]")"#, true);
+}
+
+#[test]
+fn _0069() {
+  te_bool(false, &scope!(), r#"2 in range("[1..3]")"#, true);
+}
+
+#[test]
+fn _0070() {
+  te_bool(false, &scope!(), r#"3 in range("[1..3]")"#, true);
+}
+
+#[test]
+fn _0071() {
+  te_bool(false, &scope!(), r#"4 in range("[1..3]")"#, false);
+}
+
+#[test]
+fn _0072() {
+  te_bool(false, &scope!(), r#"2 in range("(..1]")"#, false);
+}
+
+#[test]
+fn _0073() {
+  te_bool(false, &scope!(), r#"1 in range("(..1]")"#, true);
+}
+
+#[test]
+fn _0074() {
+  te_bool(false, &scope!(), r#"-2024 in range("(..1]")"#, true);
+}
+
+#[test]
+fn _0075() {
+  te_bool(false, &scope!(), r#"0 in range("[1..)")"#, false);
+}
+
+#[test]
+fn _0076() {
+  te_bool(false, &scope!(), r#"1 in range("[1..)")"#, true);
+}
+
+#[test]
+fn _0077() {
+  te_bool(false, &scope!(), r#"2024 in range("[1..)")"#, true);
 }
