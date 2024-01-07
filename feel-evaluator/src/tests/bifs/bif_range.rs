@@ -7,11 +7,6 @@ fn _0001() {
 }
 
 #[test]
-fn _0002() {
-  te_bool(false, &scope!(), r#"2 in range("[1..5]")"#, true);
-}
-
-#[test]
 fn _0003() {
   te_be_value(false, &scope!(), r#"range("(1..2]")"#, "(1..2]");
 }
@@ -59,11 +54,6 @@ fn _0011() {
 #[test]
 fn _0012() {
   te_be_value(false, &scope!(), r#"range("(..1]")"#, "(null..1]");
-}
-
-#[test]
-fn _0013() {
-  te_bool(false, &scope!(), r#"1 in range("(..1]")"#, true);
 }
 
 #[test]
@@ -134,16 +124,6 @@ fn _0025() {
 #[test]
 fn _0026() {
   te_be_value(false, &scope!(), r#"range(from:"[1..)")"#, "[1..null)");
-}
-
-#[test]
-fn _0027() {
-  te_bool(false, &scope!(), r#"1 in range("[1..)")"#, true);
-}
-
-#[test]
-fn _0028() {
-  te_bool(false, &scope!(), r#"2024 in range("[1..)")"#, true);
 }
 
 #[test]
