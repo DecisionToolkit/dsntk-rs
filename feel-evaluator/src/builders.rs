@@ -2337,79 +2337,84 @@ fn eval_in_negated_list(left: &Value, items: &[Value]) -> Value {
 }
 
 ///
-fn eval_in_range(lhv: &Value, l: &Value, l_closed: bool, r: &Value, r_closed: bool) -> Value {
+fn eval_in_range(lhv: &Value, start: &Value, start_closed: bool, end: &Value, end_closed: bool) -> Value {
   match lhv {
-    Value::Number(value) => match l {
-      Value::Number(lv) => match r {
+    Value::Number(value) => match start {
+      Value::Number(lv) => match end {
         Value::Number(rv) => {
-          let l_ok = if l_closed { value >= lv } else { value > lv };
-          let r_ok = if r_closed { value <= rv } else { value < rv };
-          Value::Boolean(l_ok && r_ok)
+          let start_ok = if start_closed { value >= lv } else { value > lv };
+          let end_ok = if end_closed { value <= rv } else { value < rv };
+          Value::Boolean(start_ok && end_ok)
         }
+        Value::Null(_) if !end_closed => Value::Boolean(if start_closed { value >= lv } else { value > lv }),
+        _ => value_null!("eval_in_range"),
+      },
+      Value::Null(_) if !start_closed => match end {
+        Value::Number(rv) => Value::Boolean(if end_closed { value <= rv } else { value < rv }),
         _ => value_null!("eval_in_range"),
       },
       _ => value_null!("eval_in_range"),
     },
-    Value::String(value) => match l {
-      Value::String(lv) => match r {
+    Value::String(value) => match start {
+      Value::String(lv) => match end {
         Value::String(rv) => {
-          let l_ok = if l_closed { value >= lv } else { value > lv };
-          let r_ok = if r_closed { value <= rv } else { value < rv };
+          let l_ok = if start_closed { value >= lv } else { value > lv };
+          let r_ok = if end_closed { value <= rv } else { value < rv };
           Value::Boolean(l_ok && r_ok)
         }
         _ => value_null!("eval_in_range"),
       },
       _ => value_null!("eval_in_range"),
     },
-    Value::Date(value) => match l {
-      Value::Date(lv) => match r {
+    Value::Date(value) => match start {
+      Value::Date(lv) => match end {
         Value::Date(rv) => {
-          let l_ok = if l_closed { value >= lv } else { value > lv };
-          let r_ok = if r_closed { value <= rv } else { value < rv };
+          let l_ok = if start_closed { value >= lv } else { value > lv };
+          let r_ok = if end_closed { value <= rv } else { value < rv };
           Value::Boolean(l_ok && r_ok)
         }
         _ => value_null!("eval_in_range"),
       },
       _ => value_null!("eval_in_range"),
     },
-    Value::Time(value) => match l {
-      Value::Time(lv) => match r {
+    Value::Time(value) => match start {
+      Value::Time(lv) => match end {
         Value::Time(rv) => {
-          let l_ok = if l_closed { value >= lv } else { value > lv };
-          let r_ok = if r_closed { value <= rv } else { value < rv };
+          let l_ok = if start_closed { value >= lv } else { value > lv };
+          let r_ok = if end_closed { value <= rv } else { value < rv };
           Value::Boolean(l_ok && r_ok)
         }
         _ => value_null!("eval_in_range"),
       },
       _ => value_null!("eval_in_range"),
     },
-    Value::DateTime(value) => match l {
-      Value::DateTime(lv) => match r {
+    Value::DateTime(value) => match start {
+      Value::DateTime(lv) => match end {
         Value::DateTime(rv) => {
-          let l_ok = if l_closed { value >= lv } else { value > lv };
-          let r_ok = if r_closed { value <= rv } else { value < rv };
+          let l_ok = if start_closed { value >= lv } else { value > lv };
+          let r_ok = if end_closed { value <= rv } else { value < rv };
           Value::Boolean(l_ok && r_ok)
         }
         _ => value_null!("eval_in_range"),
       },
       _ => value_null!("eval_in_range"),
     },
-    Value::YearsAndMonthsDuration(value) => match l {
-      Value::YearsAndMonthsDuration(lv) => match r {
+    Value::YearsAndMonthsDuration(value) => match start {
+      Value::YearsAndMonthsDuration(lv) => match end {
         Value::YearsAndMonthsDuration(rv) => {
-          let l_ok = if l_closed { value >= lv } else { value > lv };
-          let r_ok = if r_closed { value <= rv } else { value < rv };
+          let l_ok = if start_closed { value >= lv } else { value > lv };
+          let r_ok = if end_closed { value <= rv } else { value < rv };
           Value::Boolean(l_ok && r_ok)
         }
         _ => value_null!("eval_in_range"),
       },
       _ => value_null!("eval_in_range"),
     },
-    Value::DaysAndTimeDuration(value) => match l {
-      Value::DaysAndTimeDuration(lv) => match r {
+    Value::DaysAndTimeDuration(value) => match start {
+      Value::DaysAndTimeDuration(lv) => match end {
         Value::DaysAndTimeDuration(rv) => {
-          let l_ok = if l_closed { value >= lv } else { value > lv };
-          let r_ok = if r_closed { value <= rv } else { value < rv };
+          let l_ok = if start_closed { value >= lv } else { value > lv };
+          let r_ok = if end_closed { value <= rv } else { value < rv };
           Value::Boolean(l_ok && r_ok)
         }
         _ => value_null!("eval_in_range"),
