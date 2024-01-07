@@ -3,7 +3,7 @@
 use super::*;
 
 #[test]
-fn test_0001() {
+fn _0001() {
   let scope = &te_scope(
     r#"
       {
@@ -41,7 +41,7 @@ fn test_0001() {
 }
 
 #[test]
-fn test_0002() {
+fn _0002() {
   let scope = &te_scope(
     r#"
         {

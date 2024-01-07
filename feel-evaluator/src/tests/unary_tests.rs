@@ -2,81 +2,81 @@ use super::*;
 use dsntk_feel::scope;
 
 #[test]
-fn test_0001() {
+fn _0001() {
   valid_unary_tests(false, &scope!(), "-");
 }
 
 #[test]
-fn test_0002() {
+fn _0002() {
   valid_unary_tests(false, &scope!(), "1");
 }
 
 #[test]
-fn test_0003() {
+fn _0003() {
   valid_unary_tests(false, &scope!(), "1,2");
 }
 
 #[test]
-fn test_0004() {
+fn _0004() {
   valid_unary_tests(false, &scope!(), "1,2,3");
 }
 
 #[test]
-fn test_0005() {
+fn _0005() {
   valid_unary_tests(false, &scope!(), "[]");
 }
 
 #[test]
-fn test_0006() {
+fn _0006() {
   valid_unary_tests(false, &scope!(), "[1]");
 }
 
 #[test]
-fn test_0007() {
+fn _0007() {
   valid_unary_tests(false, &scope!(), "[1,2]");
 }
 
 #[test]
-fn test_0008() {
+fn _0008() {
   valid_unary_tests(false, &scope!(), "[1,2,3]");
 }
 
 #[test]
-fn test_0009() {
+fn _0009() {
   valid_unary_tests(false, &scope!(), "[1..2]");
 }
 
 #[test]
-fn test_0010() {
+fn _0010() {
   valid_unary_tests(false, &scope!(), "not(1,2,3)");
 }
 
 #[test]
-fn test_0011() {
+fn _0011() {
   valid_unary_tests(false, &scope!(), "<1");
 }
 
 #[test]
-fn test_0012() {
+fn _0012() {
   valid_unary_tests(false, &scope!(), "<=1");
 }
 
 #[test]
-fn test_0013() {
+fn _0013() {
   valid_unary_tests(false, &scope!(), ">1");
 }
 
 #[test]
-fn test_0014() {
+fn _0014() {
   valid_unary_tests(false, &scope!(), ">=1");
 }
 
 #[test]
-fn test_0015() {
+fn _0015() {
   valid_unary_tests(false, &scope!(), "=1");
 }
 
 #[test]
-fn test_0016() {
+fn _0016() {
   valid_unary_tests(false, &scope!(), "!=1");
 }
