@@ -81,8 +81,8 @@
 //! │ compliance-level-3/0065-feel-disjunction                               │     19 │    19 │      19 │
 //! │ compliance-level-3/0066-feel-negation                                  │      6 │     6 │       6 │
 //! │ compliance-level-3/0067-feel-split-function                            │      9 │     9 │       9 │
-//! │ compliance-level-3/0068-feel-equality                                  │    108 │   109 │      72 │     -37
-//! │ compliance-level-3/0069-feel-list                                      │     35 │    35 │      27 │      -8
+//! │ compliance-level-3/0068-feel-equality                                  │    108 │   109 │     109 │
+//! │ compliance-level-3/0069-feel-list                                      │     35 │    35 │      35 │
 //! │ compliance-level-3/0070-feel-instance-of                               │    142 │   154 │     154 │
 //! │ compliance-level-3/0071-feel-between                                   │     38 │    38 │      35 │      -3
 //! │ compliance-level-3/0072-feel-in                                        │    274 │   274 │     274 │

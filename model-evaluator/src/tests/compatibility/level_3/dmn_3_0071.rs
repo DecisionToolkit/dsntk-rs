@@ -1,245 +1,270 @@
 use super::*;
 
 from_examples!(DMN_3_0071);
+static_context!(CTX, "{}");
 
 #[test]
 fn _0001() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "number_001", &ctx, r#"false"#);
+  let invocable = "number_001";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0002() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "number_002", &ctx, r#"true"#);
+  let invocable = "number_002";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0003() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "number_003", &ctx, r#"true"#);
+  let invocable = "number_003";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0004() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "number_004", &ctx, r#"true"#);
+  let invocable = "number_004";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0005() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "number_005", &ctx, r#"false"#);
+  let invocable = "number_005";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0006() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "string_001", &ctx, r#"false"#);
+  let invocable = "string_001";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0007() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "string_002", &ctx, r#"true"#);
+  let invocable = "string_002";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0008() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "string_003", &ctx, r#"true"#);
+  let invocable = "string_003";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0009() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "string_004", &ctx, r#"true"#);
+  let invocable = "string_004";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0010() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "string_005", &ctx, r#"false"#);
+  let invocable = "string_005";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0011() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "date_001", &ctx, r#"false"#);
+  let invocable = "date_001";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0012() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "date_002", &ctx, r#"true"#);
+  let invocable = "date_002";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0013() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "date_003", &ctx, r#"true"#);
+  let invocable = "date_003";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0014() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "date_004", &ctx, r#"true"#);
+  let invocable = "date_004";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0015() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "date_005", &ctx, r#"false"#);
+  let invocable = "date_005";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0016() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "time_001", &ctx, r#"false"#);
+  let invocable = "time_001";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0017() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "time_002", &ctx, r#"true"#);
+  let invocable = "time_002";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0018() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "time_003", &ctx, r#"true"#);
+  let invocable = "time_003";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0019() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "time_004", &ctx, r#"true"#);
+  let invocable = "time_004";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0020() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "time_005", &ctx, r#"false"#);
+  let invocable = "time_005";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0021() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "datetime_001", &ctx, r#"false"#);
+  let invocable = "datetime_001";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0022() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "datetime_002", &ctx, r#"true"#);
+  let invocable = "datetime_002";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0023() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "datetime_003", &ctx, r#"true"#);
+  let invocable = "datetime_003";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0024() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "datetime_004", &ctx, r#"true"#);
+  let invocable = "datetime_004";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0025() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "datetime_005", &ctx, r#"false"#);
+  let invocable = "datetime_005";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0026() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "ym_duration_001", &ctx, r#"false"#);
+  let invocable = "ym_duration_001";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0027() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "ym_duration_002", &ctx, r#"true"#);
+  let invocable = "ym_duration_002";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0028() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "ym_duration_003", &ctx, r#"true"#);
+  let invocable = "ym_duration_003";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0029() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "ym_duration_004", &ctx, r#"true"#);
+  let invocable = "ym_duration_004";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0030() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "ym_duration_005", &ctx, r#"false"#);
+  let invocable = "ym_duration_005";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0031() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "dt_duration_001", &ctx, r#"false"#);
+  let invocable = "dt_duration_001";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0032() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "dt_duration_002", &ctx, r#"true"#);
+  let invocable = "dt_duration_002";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0033() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "dt_duration_003", &ctx, r#"true"#);
+  let invocable = "dt_duration_003";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0034() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "dt_duration_004", &ctx, r#"true"#);
+  let invocable = "dt_duration_004";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0035() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "dt_duration_005", &ctx, r#"false"#);
+  let invocable = "dt_duration_005";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0036() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "null_001", &ctx, r#"null"#);
+  let invocable = "null_001";
+  let expected = "null";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0037() {
-  let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "null_002",
-    &ctx,
-    r#"null(expected number as a second argument in 'between' operator, actual value type is Null)"#,
-  );
+  let invocable = "null_002";
+  let expected = "null(expected number as a second argument in 'between' operator, actual value type is Null)";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0038() {
-  let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "null_003",
-    &ctx,
-    r#"null(expected number as a third argument in 'between' operator, actual value type is Null)"#,
-  );
+  let invocable = "null_003";
+  let expected = "null(expected number as a third argument in 'between' operator, actual value type is Null)";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }

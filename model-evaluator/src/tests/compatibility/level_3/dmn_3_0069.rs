@@ -1,255 +1,249 @@
 use super::*;
 
 from_examples!(DMN_3_0069);
+static_context!(CTX, "{}");
 
 #[test]
 fn _0001() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision001", &ctx, r#"[1, 2, 3]"#);
+  let invocable = "decision001";
+  let expected = "[1, 2, 3]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0002() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision001_a", &ctx, r#"[]"#);
+  let invocable = "decision001_a";
+  let expected = "[]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0003() {
-  let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision002",
-    &ctx,
-    r#"null(index in filter is out of range [1..3], actual index is 0)"#,
-  );
+  let invocable = "decision002";
+  let expected = "null(index in filter is out of range [1..3], actual index is 0)";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0004() {
-  let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision003",
-    &ctx,
-    r#"null(index in filter is out of range [1..3], actual index is 4)"#,
-  );
+  let invocable = "decision003";
+  let expected = "null(index in filter is out of range [1..3], actual index is 4)";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0005() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision004", &ctx, r#"1"#);
+  let invocable = "decision004";
+  let expected = "1";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0006() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision005", &ctx, r#"3"#);
+  let invocable = "decision005";
+  let expected = "3";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0007() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision006", &ctx, r#"3"#);
+  let invocable = "decision006";
+  let expected = "3";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0008() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision007", &ctx, r#"1"#);
+  let invocable = "decision007";
+  let expected = "1";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0009() {
-  let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision008",
-    &ctx,
-    r#"null(index in filter is out of range [-3..-1], actual index is -4)"#,
-  );
+  let invocable = "decision008";
+  let expected = "null(index in filter is out of range [-3..-1], actual index is -4)";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0010() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision009", &ctx, r#"[1, 2, 3]"#);
+  let invocable = "decision009";
+  let expected = "[1, 2, 3]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0011() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision010", &ctx, r#"[]"#);
+  let invocable = "decision010";
+  let expected = "[]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0012() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision011", &ctx, r#"[2, 3]"#);
+  let invocable = "decision011";
+  let expected = "[2, 3]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0013() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision012", &ctx, r#"[true]"#);
+  let invocable = "decision012";
+  let expected = "[true]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0014() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision013", &ctx, r#"[]"#);
+  let invocable = "decision013";
+  let expected = "[]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0015() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision014", &ctx, r#"[100]"#);
+  let invocable = "decision014";
+  let expected = "[100]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0016() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision015", &ctx, r#"[]"#);
+  let invocable = "decision015";
+  let expected = "[]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0017() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision016", &ctx, r#"["foo"]"#);
+  let invocable = "decision016";
+  let expected = r#"["foo"]"#;
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0018() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision017", &ctx, r#"[]"#);
+  let invocable = "decision017";
+  let expected = "[]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0019() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision018", &ctx, r#"true"#);
+  let invocable = "decision018";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0020() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision019", &ctx, r#"100"#);
+  let invocable = "decision019";
+  let expected = "100";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0021() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision020", &ctx, r#""foo""#);
+  let invocable = "decision020";
+  let expected = r#""foo""#;
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0022() {
-  let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision021",
-    &ctx,
-    r#"null(for singletons, only filter index with value 1 or -1 is accepted)"#,
-  );
+  let invocable = "decision021";
+  let expected = "null(for singletons, only filter index with value 1 or -1 is accepted)";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0023() {
-  let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision022",
-    &ctx,
-    r#"null(for singletons, only filter index with value 1 or -1 is accepted)"#,
-  );
+  let invocable = "decision022";
+  let expected = "null(for singletons, only filter index with value 1 or -1 is accepted)";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0024() {
-  let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision023",
-    &ctx,
-    r#"null(for singletons, only filter index with value 1 or -1 is accepted)"#,
-  );
+  let invocable = "decision023";
+  let expected = "null(for singletons, only filter index with value 1 or -1 is accepted)";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0025() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision024", &ctx, r#"[{a: 2}, {a: 3}]"#);
+  let invocable = "decision024";
+  let expected = "[{a: 2}, {a: 3}]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0026() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision025", &ctx, r#"[{a: 2}, {a: 3}]"#);
+  let invocable = "decision025";
+  let expected = "[{a: 2}, {a: 3}]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0027() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision026", &ctx, r#"[{item: 2}, {item: 3}]"#);
+  let invocable = "decision026";
+  let expected = "[{item: 2}, {item: 3}]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0028() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision027", &ctx, r#"[3, 4]"#);
+  let invocable = "decision027";
+  let expected = "[3, 4]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0029() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision028", &ctx, r#"[{x: 1, y: 2}]"#);
+  let invocable = "decision028";
+  let expected = "[{x: 1, y: 2}]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0030() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision029", &ctx, r#"[{x: 1, y: 2}]"#);
+  let invocable = "decision029";
+  let expected = "[{x: 1, y: 2}]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0031() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision030", &ctx, r#"[2, 3]"#);
+  let invocable = "decision030";
+  let expected = "[2, 3]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0032() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision031", &ctx, r#"[]"#);
+  let invocable = "decision031";
+  let expected = "[]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0033() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision032", &ctx, r#"[{y: 2}]"#);
+  let invocable = "decision032";
+  let expected = "[{y: 2}]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0034() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision033", &ctx, r#"[null]"#);
+  let invocable = "decision033";
+  let expected = "[null]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0035() {
-  let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision034", &ctx, r#"[null, 2]"#);
+  let invocable = "decision034";
+  let expected = "[null, 2]";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }

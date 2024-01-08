@@ -667,7 +667,8 @@ pub enum ExpressionInstance {
 }
 
 /// A [Context] is composed of any number of model context entries, which are instances of [ContextEntry].
-#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+#[expression]
+#[derive(Debug, Clone, PartialEq, DmnElement)]
 pub struct Context {
   /// Namespace the element belongs to.
   pub(crate) namespace: Uri,
@@ -683,8 +684,6 @@ pub struct Context {
   pub(crate) extension_elements: Vec<ExtensionElement>,
   /// Container to attach named extended attributes and model associations to any [LiteralExpression].
   pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Optional output type definition for this [LiteralExpression].
-  pub(crate) type_ref: Option<String>,
   /// This attribute lists the instances of [ContextEntry] that compose this [Context].
   pub(crate) context_entries: Vec<ContextEntry>,
 }
@@ -708,7 +707,8 @@ pub struct ContextEntry {
 
 /// [LiteralExpression] is used to model a value expression whose value
 /// is specified by text in some specified expression language.
-#[derive(Debug, Clone, PartialEq, Eq, DmnElement, Expression)]
+#[expression]
+#[derive(Debug, Clone, PartialEq, Eq, DmnElement)]
 pub struct LiteralExpression {
   /// Namespace the element belongs to.
   pub(crate) namespace: Uri,
@@ -724,8 +724,6 @@ pub struct LiteralExpression {
   pub(crate) extension_elements: Vec<ExtensionElement>,
   /// Container to attach named extended attributes and model associations to any [LiteralExpression].
   pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Optional output type definition for this [LiteralExpression].
-  pub(crate) type_ref: Option<String>,
   /// The text of this [LiteralExpression].
   /// It SHALL be a valid expression in the `expression_language`.
   pub(crate) text: Option<String>,
@@ -754,7 +752,8 @@ impl LiteralExpression {
 /// [Invocation] is a mechanism that permits the evaluation of one value expression – the invoked expression – inside
 /// another value expression – the invoking expression – by binding locally the input variables of the invoked
 /// expression to values inside the invoking expression.
-#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+#[expression]
+#[derive(Debug, Clone, PartialEq, DmnElement)]
 pub struct Invocation {
   /// Namespace the element belongs to.
   pub(crate) namespace: Uri,
@@ -770,8 +769,6 @@ pub struct Invocation {
   pub(crate) extension_elements: Vec<ExtensionElement>,
   /// Container to attach named extended attributes and model associations to any [Invocation].
   pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Optional output type definition for this [Invocation].
-  pub(crate) type_ref: Option<String>,
   /// An expression whose value is a function.
   pub(crate) called_function: ExpressionInstance,
   /// Instances of [Binding] used to bind the formal parameters of the called function in this [Invocation].
@@ -1304,7 +1301,8 @@ pub enum FunctionKind {
 
 /// [FunctionItem] defines the signature of a function:
 /// the parameters and the output type of the function.
-#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+#[expression]
+#[derive(Debug, Clone, PartialEq, DmnElement)]
 pub struct FunctionDefinition {
   /// Namespace the element belongs to.
   pub(crate) namespace: Uri,
@@ -1320,8 +1318,6 @@ pub struct FunctionDefinition {
   pub(crate) extension_elements: Vec<ExtensionElement>,
   /// Container to attach named extended attributes and model associations to any [FunctionDefinition].
   pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Optional base type of this [FunctionDefinition] identified by namespace-prefixed name.
-  pub(crate) type_ref: Option<String>,
   /// Container for instances of [InformationItem] that are the parameters of this [FunctionDefinition].
   pub(crate) formal_parameters: Vec<InformationItem>,
   /// The instance of [Expression] that is the body in this [FunctionDefinition].
@@ -1349,7 +1345,8 @@ impl FunctionDefinition {
 /// A [Relation] has a column instead of repeated `ContextEntry`s,
 /// and a `List` is used for every row, with one of the `List`’s
 /// expression for each column value.
-#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+#[expression]
+#[derive(Debug, Clone, PartialEq, DmnElement)]
 pub struct Relation {
   /// Namespace the element belongs to.
   pub(crate) namespace: Uri,
@@ -1365,8 +1362,6 @@ pub struct Relation {
   pub(crate) extension_elements: Vec<ExtensionElement>,
   /// Container to attach named extended attributes and model associations to any [Relation].
   pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Optional base type of this [Relation] identified by namespace-prefixed name.
-  pub(crate) type_ref: Option<String>,
   /// This attribute lists the instances of [List] that are the rows in this [Relation].
   pub(crate) rows: Vec<List>,
   /// This attributes lists the instances of [InformationItem] that define the columns in this [Relation].
@@ -1385,7 +1380,8 @@ impl Relation {
 }
 
 /// A [List] is simply a list of elements, which are instances of [Expression]s.
-#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+#[expression]
+#[derive(Debug, Clone, PartialEq, DmnElement)]
 pub struct List {
   /// Namespace the element belongs to.
   pub(crate) namespace: Uri,
@@ -1401,8 +1397,6 @@ pub struct List {
   pub(crate) extension_elements: Vec<ExtensionElement>,
   /// Container to attach named extended attributes and model associations to any [List].
   pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Optional base type of this [List] identified by namespace-prefixed name.
-  pub(crate) type_ref: Option<String>,
   /// This attribute lists the instances of [Expression] that are the elements of this [List].
   pub(crate) elements: Vec<ExpressionInstance>,
 }
@@ -1415,7 +1409,8 @@ impl List {
 }
 
 /// A [Conditional] is a representation of a visual way to express an if statement.
-#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+#[expression]
+#[derive(Debug, Clone, PartialEq, DmnElement)]
 pub struct Conditional {
   /// Namespace the element belongs to.
   pub(crate) namespace: Uri,
@@ -1431,8 +1426,6 @@ pub struct Conditional {
   pub(crate) extension_elements: Vec<ExtensionElement>,
   /// Container to attach named extended attributes and model associations to any [Conditional].
   pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Optional base type of this [Conditional] identified by namespace-prefixed name.
-  pub(crate) type_ref: Option<String>,
   /// This attribute holds the expression that is evaluated by the conditional expression.
   pub(crate) if_expression: ChildExpression,
   /// This attribute holds the expression that will be evaluated when the condition in the if statement evaluates to `true`.
@@ -1459,7 +1452,8 @@ impl Conditional {
 }
 
 /// A [Filter] is a visual way to express list filtering.
-#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+#[expression]
+#[derive(Debug, Clone, PartialEq, DmnElement)]
 pub struct Filter {
   /// Namespace the element belongs to.
   pub(crate) namespace: Uri,
@@ -1475,8 +1469,6 @@ pub struct Filter {
   pub(crate) extension_elements: Vec<ExtensionElement>,
   /// Container to attach named extended attributes and model associations to any [Filter].
   pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Optional base type of this [Filter] identified by namespace-prefixed name.
-  pub(crate) type_ref: Option<String>,
   /// This attribute holds the expression that is evaluate as the collection to be filtered.
   pub(crate) in_expression: ChildExpression,
   /// This attribute holds the expression that is used to filter the collection.
@@ -1496,7 +1488,8 @@ impl Filter {
 }
 
 /// A [For] is a visual representation of a loop.
-#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+#[expression]
+#[derive(Debug, Clone, PartialEq, DmnElement)]
 pub struct For {
   /// Namespace the element belongs to.
   pub(crate) namespace: Uri,
@@ -1512,8 +1505,6 @@ pub struct For {
   pub(crate) extension_elements: Vec<ExtensionElement>,
   /// Container to attach named extended attributes and model associations to any [For].
   pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Optional base type of this [For] identified by namespace-prefixed name.
-  pub(crate) type_ref: Option<String>,
   /// This attribute holds name of the iterator variable that will be populated at each iteration.
   pub(crate) iterator_variable: String,
   /// This attribute holds the expression that is evaluated as the collection to be processed.
@@ -1541,7 +1532,8 @@ impl For {
 
 /// A [Every] is a visual representation of an expression where all
 /// `satisfies` needs to be true for it to return true.
-#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+#[expression]
+#[derive(Debug, Clone, PartialEq, DmnElement)]
 pub struct Every {
   /// Namespace the element belongs to.
   pub(crate) namespace: Uri,
@@ -1557,8 +1549,6 @@ pub struct Every {
   pub(crate) extension_elements: Vec<ExtensionElement>,
   /// Container to attach named extended attributes and model associations to any [Every].
   pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Optional base type of this [Every] identified by namespace-prefixed name.
-  pub(crate) type_ref: Option<String>,
   /// This attribute holds name of the iterator variable that will be populated at each iteration.
   pub(crate) iterator_variable: String,
   /// This attribute holds the expression that is evaluated as the collection to be processed.
@@ -1586,7 +1576,8 @@ impl Every {
 
 /// A [Some] is a visual representation of an expression where at least one of the
 /// `satisfies` needs to be true for it to return true.
-#[derive(Debug, Clone, PartialEq, DmnElement, Expression)]
+#[expression]
+#[derive(Debug, Clone, PartialEq, DmnElement)]
 pub struct Some {
   /// Namespace the element belongs to.
   pub(crate) namespace: Uri,
@@ -1602,8 +1593,6 @@ pub struct Some {
   pub(crate) extension_elements: Vec<ExtensionElement>,
   /// Container to attach named extended attributes and model associations to any [Some].
   pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Optional base type of this [Some] identified by namespace-prefixed name.
-  pub(crate) type_ref: Option<String>,
   /// This attribute holds name of the iterator variable that will be populated at each iteration.
   pub(crate) iterator_variable: String,
   /// This attribute holds the expression that is evaluated as the collection to be processed.
@@ -1677,7 +1666,8 @@ impl TypedChildExpression {
 }
 
 /// Decision table.
-#[derive(Debug, Clone, PartialEq, Eq, DmnElement, Expression)]
+#[expression]
+#[derive(Debug, Clone, PartialEq, Eq, DmnElement)]
 pub struct DecisionTable {
   /// Namespace the element belongs to.
   pub(crate) namespace: Uri,
@@ -1693,8 +1683,6 @@ pub struct DecisionTable {
   pub(crate) extension_elements: Vec<ExtensionElement>,
   /// Container to attach named extended attributes and model associations to any [LiteralExpression].
   pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Optional output type definition for this [LiteralExpression].
-  pub(crate) type_ref: Option<String>,
   /// Information item name, for which the decision table is its value expression.
   /// This is usually the name of the decision or the name of business knowledge model for
   /// which the decision table provides the decision logic.
@@ -1855,8 +1843,8 @@ pub enum DecisionTableOrientation {
   CrossTable,
 }
 
-/// Implementation of [Display](fmt::Display) for [DecisionTableOrientation].
-impl fmt::Display for DecisionTableOrientation {
+impl Display for DecisionTableOrientation {
+  /// Implements [Display] trait for [DecisionTableOrientation].
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match self {
       DecisionTableOrientation::RuleAsRow => write!(f, "Rule-as-Row"),
@@ -1902,8 +1890,8 @@ pub enum HitPolicy {
   RuleOrder,
 }
 
-/// Implementation of [Display](fmt::Display) for [HitPolicy].
-impl fmt::Display for HitPolicy {
+impl Display for HitPolicy {
+  /// Implements [Display] trait for [HitPolicy].
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match self {
       HitPolicy::Unique => write!(f, "U"),
@@ -1953,8 +1941,8 @@ pub enum BuiltinAggregator {
   Max,
 }
 
-/// Implementation of [Display](fmt::Display) for [BuiltinAggregator].
-impl fmt::Display for BuiltinAggregator {
+impl Display for BuiltinAggregator {
+  /// Implements [Display] trait for [BuiltinAggregator].
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     write!(
       f,

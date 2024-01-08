@@ -5,6 +5,7 @@ extern crate proc_macro;
 extern crate quote;
 
 use proc_macro::TokenStream;
+use syn::parse::Parser;
 
 #[proc_macro_derive(ToErrorMessage)]
 pub fn to_error_message(input: TokenStream) -> TokenStream {
@@ -61,6 +62,36 @@ pub fn dmn_element(input: TokenStream) -> TokenStream {
   TokenStream::from(expanded)
 }
 
+/*
+/// Extends annotated struct with fields and methods required by DMN element.
+#[proc_macro_attribute]
+pub fn dmn_elements(_input: TokenStream, annotated_item: TokenStream) -> TokenStream {
+  let mut item = syn::parse_macro_input!(annotated_item as syn::DeriveInput);
+  let name = &item.ident;
+  if let syn::Data::Struct(ref mut data_struct) = item.data {
+    if let syn::Fields::Named(ref mut fields) = data_struct.fields {
+      // let tokens = quote! {
+      //   /// Optional type definition.
+      //   pub (crate) type_ref: Option<String>
+      // };
+      // let field: syn::Field = syn::Field::parse_named.parse2(tokens).unwrap();
+      // fields.named.push(field);
+      let expanded = quote! {
+        #item
+        // impl Expression for #name {
+        //   /// Returns a reference to optional type definition.
+        //   fn type_ref(&self) -> &Option<String> {
+        //     &self.type_ref
+        //   }
+        // }
+      };
+      return TokenStream::from(expanded);
+    }
+  }
+  panic!("Attribute macro 'dmn_element' is valid only for structs");
+}
+*/
+
 #[proc_macro_derive(NamedElement)]
 pub fn named_element(input: TokenStream) -> TokenStream {
   let input = syn::parse_macro_input!(input as syn::DeriveInput);
@@ -92,16 +123,30 @@ pub fn business_context_element(input: TokenStream) -> TokenStream {
   TokenStream::from(expanded)
 }
 
-#[proc_macro_derive(Expression)]
-pub fn expression(input: TokenStream) -> TokenStream {
-  let input = syn::parse_macro_input!(input as syn::DeriveInput);
-  let name = &input.ident;
-  let expanded = quote! {
-    impl Expression for #name {
-      fn type_ref(&self) -> &Option<String> {
-        &self.type_ref
-      }
+/// Extends annotated struct with fields and methods required by DMN expressions.
+#[proc_macro_attribute]
+pub fn expression(_input: TokenStream, annotated_item: TokenStream) -> TokenStream {
+  let mut item = syn::parse_macro_input!(annotated_item as syn::DeriveInput);
+  let name = &item.ident;
+  if let syn::Data::Struct(ref mut data_struct) = item.data {
+    if let syn::Fields::Named(ref mut fields) = data_struct.fields {
+      let tokens = quote! {
+        /// Optional type definition.
+        pub (crate) type_ref: Option<String>
+      };
+      let field: syn::Field = syn::Field::parse_named.parse2(tokens).unwrap();
+      fields.named.push(field);
+      let expanded = quote! {
+        #item
+        impl Expression for #name {
+          /// Returns a reference to optional type definition.
+          fn type_ref(&self) -> &Option<String> {
+            &self.type_ref
+          }
+        }
+      };
+      return TokenStream::from(expanded);
     }
-  };
-  TokenStream::from(expanded)
+  }
+  panic!("Attribute macro 'expression' is valid only for structs");
 }
