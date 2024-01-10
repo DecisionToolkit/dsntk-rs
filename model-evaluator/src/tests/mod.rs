@@ -2,6 +2,7 @@ use crate::model_evaluator::ModelEvaluator;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::Value;
 use dsntk_feel::FeelScope;
+use dsntk_model::DmnElement;
 use once_cell::sync::Lazy;
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
@@ -60,10 +61,10 @@ pub fn context(input: &str) -> FeelContext {
       let evaluator = dsntk_feel_evaluator::prepare(&node);
       match evaluator(&scope) {
         Value::Context(ctx) => ctx,
-        other => panic!("ERROR: expected context value, actual value is: {}", other as Value),
+        other => panic!("ERROR: expected context value, actual value is: {}", other),
       }
     }
-    Err(reason) => panic!("ERROR: parsing context failed with reason: {reason}"),
+    Err(reason) => panic!("ERROR: parsing context failed with reason: {}", reason),
   }
 }
 

@@ -159,76 +159,84 @@ fn _0021(b: &mut Bencher) {
 
 #[bench]
 fn _0022(b: &mut Bencher) {
+  let invocable = "invoke_007";
+  let expected = "null(argument not provided: arg)";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX));
+}
+
+#[bench]
+fn _0023(b: &mut Bencher) {
   let invocable = "fd_001";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, r#"10"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX));
 }
 
 #[bench]
-fn _0023(b: &mut Bencher) {
+fn _0024(b: &mut Bencher) {
   let invocable = "fd_002";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, r#"null(after coercion)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX));
 }
 
 #[bench]
-fn _0024(b: &mut Bencher) {
+fn _0025(b: &mut Bencher) {
   let invocable = "literal_001";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, r#"10"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX));
 }
 
 #[bench]
-fn _0025(b: &mut Bencher) {
+fn _0026(b: &mut Bencher) {
   let invocable = "literal_002";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, r#"null(after coercion)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX));
 }
 
 #[bench]
-fn _0026(b: &mut Bencher) {
+fn _0027(b: &mut Bencher) {
   let invocable = "literal_004";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, r#"null(after coercion)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX));
 }
 
 #[bench]
-fn _0027(b: &mut Bencher) {
+fn _0028(b: &mut Bencher) {
   let invocable = "literal_005";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, r#"10"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX));
 }
 
 #[bench]
-fn _0028(b: &mut Bencher) {
+fn _0029(b: &mut Bencher) {
   let invocable = "literal_006";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, r#"null(after coercion)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX));
 }
 
 #[bench]
-fn _0029(b: &mut Bencher) {
+fn _0030(b: &mut Bencher) {
   let invocable = "ds_invoke_002_with_number";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, r#"null(after coercion)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX));
 }
 
 #[bench]
-fn _0030(b: &mut Bencher) {
+fn _0031(b: &mut Bencher) {
   let invocable = "ds_invoke_002_with_singleton_list";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, r#""foo""#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX));
 }
 
 #[bench]
-fn _0031(b: &mut Bencher) {
+fn _0032(b: &mut Bencher) {
   let invocable = "decisionService_001";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, r#"null(after coercion)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX));
 }
 
 #[bench]
-fn _0032(b: &mut Bencher) {
+fn _0033(b: &mut Bencher) {
   let ctx = context(r#"{decisionService_002_input_1: 10}"#);
   let invocable = "decisionService_002";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx, r#"null(after coercion)"#);
@@ -236,7 +244,7 @@ fn _0032(b: &mut Bencher) {
 }
 
 #[bench]
-fn _0033(b: &mut Bencher) {
+fn _0034(b: &mut Bencher) {
   let ctx = context(r#"{decisionService_002_input_1: ["foo"]}"#);
   let invocable = "decision_ds_002";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx, r#""foo""#);
@@ -244,7 +252,7 @@ fn _0033(b: &mut Bencher) {
 }
 
 #[bench]
-fn _0034(b: &mut Bencher) {
+fn _0035(b: &mut Bencher) {
   let invocable = "decision_context_01";
   let expected = r#"{a: 1, b: 2}"#;
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
@@ -252,7 +260,7 @@ fn _0034(b: &mut Bencher) {
 }
 
 #[bench]
-fn _0035(b: &mut Bencher) {
+fn _0036(b: &mut Bencher) {
   let invocable = "decision_context_02";
   let expected = r#"{a: 1, b: 2}"#;
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
@@ -260,7 +268,7 @@ fn _0035(b: &mut Bencher) {
 }
 
 #[bench]
-fn _0036(b: &mut Bencher) {
+fn _0037(b: &mut Bencher) {
   let invocable = "decision_context_03";
   let expected = r#"{a: 1, b: 2}"#;
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);

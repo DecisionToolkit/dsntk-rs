@@ -84,17 +84,17 @@
 //! │ compliance-level-3/0068-feel-equality                                  │    108 │   109 │     109 │
 //! │ compliance-level-3/0069-feel-list                                      │     35 │    35 │      35 │
 //! │ compliance-level-3/0070-feel-instance-of                               │    142 │   154 │     154 │
-//! │ compliance-level-3/0071-feel-between                                   │     38 │    38 │      35 │      -3
+//! │ compliance-level-3/0071-feel-between                                   │     38 │    38 │      38 │
 //! │ compliance-level-3/0072-feel-in                                        │    274 │   274 │     274 │
 //! │ compliance-level-3/0073-feel-comments                                  │      3 │     3 │       3 │
-//! │ compliance-level-3/0074-feel-properties                                │     67 │    67 │      43 │     -24
+//! │ compliance-level-3/0074-feel-properties                                │     67 │    67 │      67 │
 //! │ compliance-level-3/0075-feel-exponent                                  │     12 │    12 │      12 │
 //! │ compliance-level-3/0076-feel-external-java                             │     18 │    18 │      18 │
 //! │ compliance-level-3/0077-feel-nan                                       │      1 │     1 │       1 │
 //! │ compliance-level-3/0078-feel-infinity                                  │      2 │     2 │       2 │
-//! │ compliance-level-3/0080-feel-getvalue-function                         │     14 │    14 │      12 │      -2
+//! │ compliance-level-3/0080-feel-getvalue-function                         │     14 │    14 │      14 │
 //! │ compliance-level-3/0081-feel-getentries-function                       │      9 │     9 │       9 │
-//! │ compliance-level-3/0082-feel-coercion                                  │     36 │    34 │      33 │      -3
+//! │ compliance-level-3/0082-feel-coercion                                  │     37 │    37 │      37 │
 //! │ compliance-level-3/0083-feel-unicode                                   │     14 │    18 │      11 │      -7
 //! │ compliance-level-3/0084-feel-for-loops                                 │     13 │    13 │      10 │      -3
 //! │ compliance-level-3/0085-decision-services                              │     17 │    26 │      10 │     -16

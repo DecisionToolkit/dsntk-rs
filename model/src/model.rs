@@ -62,7 +62,7 @@ pub trait NamedElement: DmnElement {
 
 /// [Expression] is an abstract class that describes the logic
 /// by which a modeled decision shall be made, or pieces of that logic.
-pub trait Expression: DmnElement {
+pub trait Expression {
   /// Optional namespace-prefixed name of the base type of this [Expression].
   fn type_ref(&self) -> &Option<String>;
 }
@@ -125,28 +125,11 @@ pub enum BusinessContextElementInstance {
 
 /// [PerformanceIndicator] is a placeholder, anticipating a definition to be
 /// adopted from other OMG meta-models, such as OMG OSM when it is further developed.
-#[derive(Debug, Clone, DmnElement, NamedElement, BusinessContextElement)]
+#[named_element]
+#[dmn_element]
+#[business_context_element]
+#[derive(Debug, Clone)]
 pub struct PerformanceIndicator {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [PerformanceIndicator].
-  pub(crate) id: DmnId,
-  /// Optional description of this [PerformanceIndicator].
-  pub(crate) description: Option<String>,
-  /// An optional alternative short description of this [PerformanceIndicator].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [PerformanceIndicator].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [PerformanceIndicator].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Name of this [PerformanceIndicator].
-  pub(crate) name: String,
-  /// `FEEL` name of this [PerformanceIndicator].
-  pub(crate) feel_name: Name,
-  /// The URI of this [PerformanceIndicator].
-  pub(crate) uri: Option<String>,
   /// Collection of [Decision] that impact this [PerformanceIndicator].
   /// This attribute stores references
   pub(crate) impacting_decisions: Vec<HRef>,
@@ -160,28 +143,11 @@ impl PerformanceIndicator {
 
 /// [OrganizationUnit] is a placeholder, anticipating a definition to be
 /// adopted from other OMG meta-models, such as OMG OSM when it is further developed.
-#[derive(Debug, Clone, DmnElement, NamedElement, BusinessContextElement)]
+#[named_element]
+#[dmn_element]
+#[business_context_element]
+#[derive(Debug, Clone)]
 pub struct OrganizationUnit {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [OrganizationUnit].
-  pub(crate) id: DmnId,
-  /// Optional description of this [OrganizationUnit].
-  pub(crate) description: Option<String>,
-  /// An optional alternative short description of this [OrganizationUnit].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [OrganizationUnit].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [OrganizationUnit].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Name of this [OrganizationUnit].
-  pub(crate) name: String,
-  /// `FEEL` name of this [OrganizationUnit].
-  pub(crate) feel_name: Name,
-  /// The URI of this [OrganizationUnit].
-  pub(crate) uri: Option<String>,
   /// Collection of [Decision] that are made by this [OrganizationUnit].
   pub(crate) decisions_made: Vec<HRef>,
   /// Collection of [Decision] that are owned by this [OrganizationUnit].
@@ -221,27 +187,10 @@ pub enum Requirement {
 /// for all elements of a DMN decision model.
 /// It defines the scope of visibility and the namespace
 /// for all contained elements.
-#[derive(Debug, Clone, DmnElement, NamedElement)]
+#[named_element]
+#[dmn_element]
+#[derive(Debug, Clone)]
 pub struct Definitions {
-  /// Identifies the namespace associated with this [Definitions]
-  /// and follows the convention established by XML Schema.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier for this [Definitions] derived from [DMNElement](DmnElement).
-  pub(crate) id: DmnId,
-  /// Optional description of this [Definitions] derived from [DMNElement](DmnElement).
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [Definitions] derived from [DMNElement](DmnElement).
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [Definitions] derived from [DMNElement](DmnElement).
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [Definitions] derived from [DMNElement](DmnElement).
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Name of this [Definitions] derived from [NamedElement].
-  pub(crate) name: String,
-  /// `FEEL` name of this [ItemDefinition].
-  pub(crate) feel_name: Name,
   /// This attribute identifies the expression language used in
   /// [LiteralExpressions](LiteralExpression) within the scope
   /// of this [Definitions]. The _Default_ is FEEL.
@@ -272,11 +221,6 @@ pub struct Definitions {
 }
 
 impl Definitions {
-  /// Returns the reference to the namespace associated with this [Definitions].
-  pub fn namespace(&self) -> &str {
-    &self.namespace
-  }
-
   /// Returns the reference to optional expression language used within the scope of this [Definitions].
   pub fn expression_language(&self) -> &Option<String> {
     &self.expression_language
@@ -511,26 +455,10 @@ impl Definitions {
   }
 }
 
-#[derive(Debug, Clone, PartialEq, DmnElement, NamedElement)]
+#[named_element]
+#[dmn_element]
+#[derive(Debug, Clone, PartialEq)]
 pub struct InformationItem {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [InformationItem].
-  pub(crate) id: DmnId,
-  /// Optional description of this [InformationItem].
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [InformationItem].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [InformationItem].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [InformationItem].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Name of this [InformationItem].
-  pub(crate) name: String,
-  /// `FEEL` name of this [ItemDefinition].
-  pub(crate) feel_name: Name,
   /// Qualified name of the type of this [InformationItem].
   pub(crate) type_ref: String,
   /// Optional `FEEL` type of this [InformationItem].
@@ -557,26 +485,10 @@ impl FeelTypedElement for InformationItem {
 
 /// [InputData] is used to model the inputs of a decision whose values
 /// are defined outside of the decision model.
-#[derive(Debug, Clone, DmnElement, NamedElement)]
+#[named_element]
+#[dmn_element]
+#[derive(Debug, Clone)]
 pub struct InputData {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [InputData].
-  pub(crate) id: DmnId,
-  /// Optional description of this [InputData].
-  pub(crate) description: Option<String>,
-  /// An optional alternative short description of this [InputData].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [InputData].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [InputData].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Name of this [InputData].
-  pub(crate) name: String,
-  /// `FEEL` name of this [ItemDefinition].
-  pub(crate) feel_name: Name,
   /// The instance of [InformationItem] that stores the result of this [InputData].
   pub(crate) variable: InformationItem,
 }
@@ -592,28 +504,10 @@ impl RequiredVariable for InputData {
 /// either DMN [DRGElement](DrgElement) or [ItemDefinition] instances contained
 /// in other [Definitions] elements, or non-DMN elements,
 /// such as an XML Schema or a PMML file.
-#[derive(Debug, Clone, PartialEq, Eq, DmnElement, NamedElement)]
+#[named_element]
+#[dmn_element]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Import {
-  /// Identifies the namespace of the imported element.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [Import].
-  pub(crate) id: DmnId,
-  /// Optional description of this [Import].
-  pub(crate) description: Option<String>,
-  /// An optional alternative short description of this [Import].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [Import].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [Import].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Name of this [Import]. Serves as a prefix in namespace-qualified names,
-  /// such as typeRefs specifying imported [ItemDefinitions](ItemDefinition)
-  /// and expressions referencing imported [InformationItems](InformationItem).
-  pub(crate) name: String,
-  /// Optional FEEL name of this [Import].
-  pub(crate) feel_name: Name,
   /// Specifies the style of import associated with this [Import].
   pub(crate) import_type: String,
   /// Identifies the location of the imported element.
@@ -667,23 +561,10 @@ pub enum ExpressionInstance {
 }
 
 /// A [Context] is composed of any number of model context entries, which are instances of [ContextEntry].
+#[dmn_element]
 #[expression]
-#[derive(Debug, Clone, PartialEq, DmnElement)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Context {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [LiteralExpression].
-  pub(crate) id: DmnId,
-  /// Optional description of this [LiteralExpression].
-  pub(crate) description: Option<String>,
-  /// An optional alternative short description of this [LiteralExpression].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [LiteralExpression].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [LiteralExpression].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// This attribute lists the instances of [ContextEntry] that compose this [Context].
   pub(crate) context_entries: Vec<ContextEntry>,
 }
@@ -707,23 +588,10 @@ pub struct ContextEntry {
 
 /// [LiteralExpression] is used to model a value expression whose value
 /// is specified by text in some specified expression language.
+#[dmn_element]
 #[expression]
-#[derive(Debug, Clone, PartialEq, Eq, DmnElement)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct LiteralExpression {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [LiteralExpression].
-  pub(crate) id: DmnId,
-  /// Optional description of this [LiteralExpression].
-  pub(crate) description: Option<String>,
-  /// An optional alternative short description of this [LiteralExpression].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [LiteralExpression].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [LiteralExpression].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// The text of this [LiteralExpression].
   /// It SHALL be a valid expression in the `expression_language`.
   pub(crate) text: Option<String>,
@@ -752,23 +620,10 @@ impl LiteralExpression {
 /// [Invocation] is a mechanism that permits the evaluation of one value expression – the invoked expression – inside
 /// another value expression – the invoking expression – by binding locally the input variables of the invoked
 /// expression to values inside the invoking expression.
+#[dmn_element]
 #[expression]
-#[derive(Debug, Clone, PartialEq, DmnElement)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Invocation {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [Invocation].
-  pub(crate) id: DmnId,
-  /// Optional description of this [Invocation].
-  pub(crate) description: Option<String>,
-  /// An optional alternative short description of this [Invocation].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [Invocation].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [Invocation].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// An expression whose value is a function.
   pub(crate) called_function: ExpressionInstance,
   /// Instances of [Binding] used to bind the formal parameters of the called function in this [Invocation].
@@ -808,26 +663,10 @@ impl Binding {
 }
 
 /// [Decision]
-#[derive(Debug, Clone, DmnElement, NamedElement)]
+#[named_element]
+#[dmn_element]
+#[derive(Debug, Clone)]
 pub struct Decision {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Identifier of the [Decision].
-  pub(crate) id: DmnId,
-  /// Description of the [Decision].
-  pub(crate) description: Option<String>,
-  /// An alternative short description of the [Decision].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [Decision].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [Decision].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Name of the [Decision].
-  pub(crate) name: String,
-  /// `FEEL` name of this [ItemDefinition].
-  pub(crate) feel_name: Name,
   /// A natural language question that characterizes the [Decision],
   /// such that the output of the [Decision] is an answer to the question.
   pub(crate) question: Option<String>,
@@ -886,22 +725,9 @@ impl Decision {
 
 /// The class [InformationRequirement] is used to model an information requirement,
 /// as represented by a plain arrow in a DRD.
-#[derive(Debug, Clone, DmnElement)]
+#[dmn_element]
+#[derive(Debug, Clone)]
 pub struct InformationRequirement {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of the [InformationRequirement].
-  pub(crate) id: DmnId,
-  /// Optional description of the [InformationRequirement].
-  pub(crate) description: Option<String>,
-  /// An optional alternative short description of the [InformationRequirement].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [InformationRequirement].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [InformationRequirement].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// Reference to [Decision] that this [InformationRequirement] associates
   /// with its containing  [Decision] element.
   pub(crate) required_decision: Option<HRef>,
@@ -924,22 +750,9 @@ impl InformationRequirement {
 
 /// The class [KnowledgeRequirement] is used to model a knowledge requirement,
 /// as represented by a dashed arrow in a DRD.
-#[derive(Debug, Clone, DmnElement)]
+#[dmn_element]
+#[derive(Debug, Clone)]
 pub struct KnowledgeRequirement {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of the [KnowledgeRequirement].
-  pub(crate) id: DmnId,
-  /// Optional description of the [KnowledgeRequirement].
-  pub(crate) description: Option<String>,
-  /// An optional alternative short description of the [KnowledgeRequirement].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [KnowledgeRequirement].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [KnowledgeRequirement].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// Reference to [Invocable] that this [KnowledgeRequirement] associates with
   /// its containing [Decision] or [BusinessKnowledgeModel] element.
   pub(crate) required_knowledge: HRef,
@@ -954,22 +767,9 @@ impl KnowledgeRequirement {
 
 /// The class [AuthorityRequirement] is used to model an authority requirement,
 /// as represented by an arrow drawn with a dashed line and a filled circular head in a DRD
-#[derive(Debug, Clone, DmnElement)]
+#[dmn_element]
+#[derive(Debug, Clone)]
 pub struct AuthorityRequirement {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of the [AuthorityRequirement].
-  pub(crate) id: DmnId,
-  /// Optional description of the [AuthorityRequirement].
-  pub(crate) description: Option<String>,
-  /// An optional alternative short description of the [AuthorityRequirement].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [AuthorityRequirement].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [AuthorityRequirement].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// The instance of [KnowledgeSource] that this [AuthorityRequirement] associates
   /// with its containing [KnowledgeSource], [Decision] or [BusinessKnowledgeModel] element.
   pub(crate) required_authority: Option<HRef>,
@@ -998,26 +798,10 @@ impl AuthorityRequirement {
 
 /// The class [KnowledgeSource] is used to model authoritative knowledge sources in a decision model.
 /// In a DRD, an instance of [KnowledgeSource] is represented by a `knowledge source` diagram element.
-#[derive(Debug, Clone, DmnElement, NamedElement)]
+#[named_element]
+#[dmn_element]
+#[derive(Debug, Clone)]
 pub struct KnowledgeSource {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [KnowledgeSource].
-  pub(crate) id: DmnId,
-  /// Optional description of this [KnowledgeSource].
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [KnowledgeSource].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [KnowledgeSource].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [KnowledgeSource].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Name of this [KnowledgeSource].
-  pub(crate) name: String,
-  /// `FEEL` name of this [KnowledgeSource].
-  pub(crate) feel_name: Name,
   /// Collection of the instances of [AuthorityRequirement] that compose this [Decision].
   pub(crate) authority_requirements: Vec<AuthorityRequirement>,
 }
@@ -1032,26 +816,10 @@ impl KnowledgeSource {
 /// A business knowledge model has an abstract part, representing reusable,
 /// invocable decision logic, and a concrete part, which mandates that the decision logic
 /// must be a single FEEL boxed function definition.
-#[derive(Debug, Clone, DmnElement, NamedElement)]
+#[named_element]
+#[dmn_element]
+#[derive(Debug, Clone)]
 pub struct BusinessKnowledgeModel {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [BusinessKnowledgeModel].
-  pub(crate) id: DmnId,
-  /// Optional description of this [BusinessKnowledgeModel].
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [BusinessKnowledgeModel].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [BusinessKnowledgeModel].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [BusinessKnowledgeModel].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Name of this [BusinessKnowledgeModel].
-  pub(crate) name: String,
-  /// `FEEL` name of this [ItemDefinition].
-  pub(crate) feel_name: Name,
   /// Variable that is bound to the function defined by the [FunctionDefinition] for this [BusinessKnowledgeModel].
   pub(crate) variable: InformationItem,
   /// The function that encapsulates the logic encapsulated by this [BusinessKnowledgeModel].
@@ -1086,26 +854,10 @@ impl RequiredVariable for BusinessKnowledgeModel {
 
 /// The [DecisionService] class is used to define named decision services
 /// against the decision model contained in an instance of [Definitions].
-#[derive(Debug, Clone, DmnElement, NamedElement)]
+#[named_element]
+#[dmn_element]
+#[derive(Debug, Clone)]
 pub struct DecisionService {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [DecisionService].
-  pub(crate) id: DmnId,
-  /// Optional description of this [DecisionService].
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [DecisionService].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [DecisionService].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [DecisionService].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Name of this [DecisionService].
-  pub(crate) name: String,
-  /// `FEEL` name of this [ItemDefinition].
-  pub(crate) feel_name: Name,
   /// Variable for this [DecisionService].
   pub(crate) variable: InformationItem,
   /// Collection of references to the instances of [Decision] required to be output by this [DecisionService].
@@ -1158,28 +910,11 @@ pub enum ItemDefinitionType {
 
 /// [ItemDefinition] is used to model the inputs of a decision,
 /// whose values are defined outside of the decision model.
-#[derive(Debug, Clone, DmnElement, NamedElement)]
+#[named_element]
+#[dmn_element]
+#[expression]
+#[derive(Debug, Clone)]
 pub struct ItemDefinition {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [ItemDefinition].
-  pub(crate) id: DmnId,
-  /// Optional description of this [ItemDefinition].
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [ItemDefinition].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [ItemDefinition].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [ItemDefinition].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
-  /// Name of this [ItemDefinition].
-  pub(crate) name: String,
-  /// `FEEL` name of this [ItemDefinition].
-  pub(crate) feel_name: Name,
-  /// Optional base type of this [ItemDefinition] identified by namespace-prefixed name.
-  pub(crate) type_ref: Option<String>,
   /// This attribute identifies the type language used to specify the base
   /// type of this [ItemDefinition]. This value overrides the type
   /// language specified in the [Definitions] element. The default is `FEEL`.
@@ -1233,12 +968,6 @@ impl ItemDefinition {
   /// Returns a reference to an optional [FunctionItem] that compose this [ItemDefinition].
   pub fn function_item(&self) -> &Option<FunctionItem> {
     &self.function_item
-  }
-}
-
-impl Expression for ItemDefinition {
-  fn type_ref(&self) -> &Option<String> {
-    &self.type_ref
   }
 }
 
@@ -1301,23 +1030,10 @@ pub enum FunctionKind {
 
 /// [FunctionItem] defines the signature of a function:
 /// the parameters and the output type of the function.
+#[dmn_element]
 #[expression]
-#[derive(Debug, Clone, PartialEq, DmnElement)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct FunctionDefinition {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [FunctionDefinition].
-  pub(crate) id: DmnId,
-  /// Optional description of this [FunctionDefinition].
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [FunctionDefinition].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [FunctionDefinition].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [FunctionDefinition].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// Container for instances of [InformationItem] that are the parameters of this [FunctionDefinition].
   pub(crate) formal_parameters: Vec<InformationItem>,
   /// The instance of [Expression] that is the body in this [FunctionDefinition].
@@ -1345,23 +1061,10 @@ impl FunctionDefinition {
 /// A [Relation] has a column instead of repeated `ContextEntry`s,
 /// and a `List` is used for every row, with one of the `List`’s
 /// expression for each column value.
+#[dmn_element]
 #[expression]
-#[derive(Debug, Clone, PartialEq, DmnElement)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Relation {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [Relation].
-  pub(crate) id: DmnId,
-  /// Optional description of this [Relation].
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [Relation].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [Relation].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [Relation].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// This attribute lists the instances of [List] that are the rows in this [Relation].
   pub(crate) rows: Vec<List>,
   /// This attributes lists the instances of [InformationItem] that define the columns in this [Relation].
@@ -1380,23 +1083,10 @@ impl Relation {
 }
 
 /// A [List] is simply a list of elements, which are instances of [Expression]s.
+#[dmn_element]
 #[expression]
-#[derive(Debug, Clone, PartialEq, DmnElement)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct List {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [List].
-  pub(crate) id: DmnId,
-  /// Optional description of this [List].
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [List].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [List].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [List].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// This attribute lists the instances of [Expression] that are the elements of this [List].
   pub(crate) elements: Vec<ExpressionInstance>,
 }
@@ -1409,23 +1099,10 @@ impl List {
 }
 
 /// A [Conditional] is a representation of a visual way to express an if statement.
+#[dmn_element]
 #[expression]
-#[derive(Debug, Clone, PartialEq, DmnElement)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Conditional {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [Conditional].
-  pub(crate) id: DmnId,
-  /// Optional description of this [Conditional].
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [Conditional].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [Conditional].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [Conditional].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// This attribute holds the expression that is evaluated by the conditional expression.
   pub(crate) if_expression: ChildExpression,
   /// This attribute holds the expression that will be evaluated when the condition in the if statement evaluates to `true`.
@@ -1452,23 +1129,10 @@ impl Conditional {
 }
 
 /// A [Filter] is a visual way to express list filtering.
+#[dmn_element]
 #[expression]
-#[derive(Debug, Clone, PartialEq, DmnElement)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Filter {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [Filter].
-  pub(crate) id: DmnId,
-  /// Optional description of this [Filter].
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [Filter].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [Filter].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [Filter].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// This attribute holds the expression that is evaluate as the collection to be filtered.
   pub(crate) in_expression: ChildExpression,
   /// This attribute holds the expression that is used to filter the collection.
@@ -1488,23 +1152,10 @@ impl Filter {
 }
 
 /// A [For] is a visual representation of a loop.
+#[dmn_element]
 #[expression]
-#[derive(Debug, Clone, PartialEq, DmnElement)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct For {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [For].
-  pub(crate) id: DmnId,
-  /// Optional description of this [For].
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [For].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [For].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [For].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// This attribute holds name of the iterator variable that will be populated at each iteration.
   pub(crate) iterator_variable: String,
   /// This attribute holds the expression that is evaluated as the collection to be processed.
@@ -1532,23 +1183,10 @@ impl For {
 
 /// A [Every] is a visual representation of an expression where all
 /// `satisfies` needs to be true for it to return true.
+#[dmn_element]
 #[expression]
-#[derive(Debug, Clone, PartialEq, DmnElement)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Every {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [Every].
-  pub(crate) id: DmnId,
-  /// Optional description of this [Every].
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [Every].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [Every].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [Every].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// This attribute holds name of the iterator variable that will be populated at each iteration.
   pub(crate) iterator_variable: String,
   /// This attribute holds the expression that is evaluated as the collection to be processed.
@@ -1576,23 +1214,10 @@ impl Every {
 
 /// A [Some] is a visual representation of an expression where at least one of the
 /// `satisfies` needs to be true for it to return true.
+#[dmn_element]
 #[expression]
-#[derive(Debug, Clone, PartialEq, DmnElement)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Some {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [Some].
-  pub(crate) id: DmnId,
-  /// Optional description of this [Some].
-  pub(crate) description: Option<String>,
-  /// Optional alternative short description of this [Some].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [Some].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [Some].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// This attribute holds name of the iterator variable that will be populated at each iteration.
   pub(crate) iterator_variable: String,
   /// This attribute holds the expression that is evaluated as the collection to be processed.
@@ -1638,14 +1263,13 @@ impl ChildExpression {
   }
 }
 
+#[expression]
 #[derive(Debug, Clone, PartialEq)]
 pub struct TypedChildExpression {
   /// Optional identifier of this this [TypedChildExpression].
   pub(crate) id: DmnId,
   /// The instance of [Expression] trait that is the expression in this [TypedChildExpression].
   pub(crate) value: ExpressionInstance,
-  /// Optional base type of this [TypedChildExpression] identified by namespace-prefixed name.
-  pub(crate) type_ref: Option<String>,
 }
 
 impl TypedChildExpression {
@@ -1658,31 +1282,13 @@ impl TypedChildExpression {
   pub fn value(&self) -> &ExpressionInstance {
     &self.value
   }
-
-  ///
-  pub fn type_ref(&self) -> &Option<String> {
-    &self.type_ref
-  }
 }
 
 /// Decision table.
+#[dmn_element]
 #[expression]
-#[derive(Debug, Clone, PartialEq, Eq, DmnElement)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct DecisionTable {
-  /// Namespace the element belongs to.
-  pub(crate) namespace: Uri,
-  /// Name of the model the element was defined in.
-  pub(crate) model_name: String,
-  /// Optional identifier of this this [LiteralExpression].
-  pub(crate) id: DmnId,
-  /// Optional description of this [LiteralExpression].
-  pub(crate) description: Option<String>,
-  /// An optional alternative short description of this [LiteralExpression].
-  pub(crate) label: Option<String>,
-  /// Container to attach additional elements to any [LiteralExpression].
-  pub(crate) extension_elements: Vec<ExtensionElement>,
-  /// Container to attach named extended attributes and model associations to any [LiteralExpression].
-  pub(crate) extension_attributes: Vec<ExtensionAttribute>,
   /// Information item name, for which the decision table is its value expression.
   /// This is usually the name of the decision or the name of business knowledge model for
   /// which the decision table provides the decision logic.

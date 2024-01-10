@@ -4,6 +4,7 @@ use dsntk_examples::*;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::Value;
 use dsntk_feel::FeelScope;
+use dsntk_model::DmnElement;
 use dsntk_model_evaluator::ModelEvaluator;
 use once_cell::sync::Lazy;
 use std::sync::atomic::AtomicUsize;
