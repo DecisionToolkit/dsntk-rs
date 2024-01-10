@@ -3,6 +3,7 @@
 mod ascii_model;
 mod compatibility;
 mod decision_tables;
+mod diagrams;
 
 use std::fs;
 use std::fs::File;

@@ -1,4 +1,4 @@
-//! # Test fro generating HTML export files from DMN models.
+//! # Tests for generating HTML export files from DMN models
 
 use super::*;
 
