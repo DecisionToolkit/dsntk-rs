@@ -17,7 +17,7 @@ fn diagram() -> DmnDiagram {
 #[test]
 fn default_width_and_height_should_work() {
   let auto_size = AutoSize::new();
-  let dimension = auto_size.dimension(&&diagram());
+  let dimension = auto_size.dimension(&diagram());
   assert_eq!("DcDimension { width: 300.0, height: 300.0 }", format!("{:?}", dimension));
 }
 
@@ -40,7 +40,7 @@ fn discovering_from_shape_should_work() {
     local_style: None,
     label: None,
   });
-  let dimension = auto_size.dimension(&&diagram());
+  let dimension = auto_size.dimension(&diagram());
   assert_eq!("DcDimension { width: 400.0, height: 440.0 }", format!("{:?}", dimension));
 }
 
@@ -57,6 +57,6 @@ fn discovering_from_edge_should_work() {
     local_style: None,
     label: None,
   });
-  let dimension = auto_size.dimension(&&diagram());
+  let dimension = auto_size.dimension(&diagram());
   assert_eq!("DcDimension { width: 210.0, height: 240.0 }", format!("{:?}", dimension));
 }

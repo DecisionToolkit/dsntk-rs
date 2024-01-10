@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
-             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
-             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
-             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
-             xmlns:modeler="http://camunda.org/schema/modeler/1.0"
-             xmlns:camunda="http://camunda.org/schema/1.0/dmn"
+<definitions namespace="http://camunda.org/schema/1.0/dmn"
              id="Definitions_10msz1z"
              name="DRD"
-             namespace="http://camunda.org/schema/1.0/dmn"
-             exporter="Camunda Web Modeler"
-             exporterVersion="5806939"
-             camunda:diagramRelationId="802a45b9-e19d-4254-a1bf-51e17daee121"
-             modeler:executionPlatform="Camunda Cloud"
-             modeler:executionPlatformVersion="8.3.0">
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/">
 
     <decision id="test-03sxhx8" name="Positive">
         <!-- Variable below was added by hand to make this example working. -->
