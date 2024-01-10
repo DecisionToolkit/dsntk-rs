@@ -1,5 +1,6 @@
 //! # Documentation generator for decision models
 
+use crate::auto_size::AutoSize;
 use crate::defs::*;
 use crate::horizontal_decision_table::create_horizontal_decision_table_elements;
 use crate::styles::{create_decision_table_style, create_document_style, create_model_style};
@@ -251,6 +252,7 @@ impl HTMLGenerator {
     let mut html_elements = vec![]; // collection of sections, each section contains singe diagram
     if let Some(dmndi) = definitions.dmndi() {
       for diagram in &dmndi.diagrams {
+        let mut size = AutoSize::new();
         let mut diagram_style = Style::new();
         if let Some(diagram_shared_style_id) = &diagram.shared_style {
           if let Some(diagram_shared_style) = self.diagram_shared_styles.get(diagram_shared_style_id) {
@@ -264,6 +266,7 @@ impl HTMLGenerator {
         for diagram_element in &diagram.diagram_elements {
           match diagram_element {
             DmnDiagramElement::DmnShape(shape) => {
+              size.discover_from_shape(shape);
               if let Some(dmn_element_ref) = &shape.dmn_element_ref {
                 if let Some(decision) = definitions.get_decision(dmn_element_ref.as_str()) {
                   html_svg_content.push(self.create_svg_decision(diagram_style.clone(), shape, decision));
@@ -277,6 +280,7 @@ impl HTMLGenerator {
               }
             }
             DmnDiagramElement::DmnEdge(edge) => {
+              size.discover_from_edge(edge);
               if let Some(id) = &edge.dmn_element_ref {
                 if let Some(requirement) = definitions.get_requirement(id) {
                   match requirement {
@@ -296,7 +300,7 @@ impl HTMLGenerator {
           }
         }
         let diagram_name = diagram.name.as_ref().unwrap_or(&"".to_string()).clone();
-        html_elements.push(create_svg_tag(&diagram_name, &diagram.size, html_svg_content));
+        html_elements.push(create_svg_tag(&diagram_name, size.dimension(diagram), html_svg_content));
       }
     }
     html_elements
@@ -781,14 +785,12 @@ fn build_knowledge_source_path(bounds: &DcBounds) -> String {
 }
 
 /// Creates `svg` tag with specified dimension and content.
-pub fn create_svg_tag(title: &str, dimension: &Option<DcDimension>, elements: Vec<HtmlElement>) -> HtmlElement {
+pub fn create_svg_tag(title: &str, dimension: DcDimension, elements: Vec<HtmlElement>) -> HtmlElement {
   let mut svg = HtmlElement::new("svg");
-  if let Some(size) = dimension {
-    let width = size.width.ceil();
-    let height = size.height.ceil();
-    svg.set_attribute("viewBox", &format!("0 0 {width} {height}"));
-    svg.set_attribute("width", &format!("{}", width));
-  }
+  let width = dimension.width.ceil();
+  let height = dimension.height.ceil();
+  svg.set_attribute("viewBox", &format!("0 0 {width} {height}"));
+  svg.set_attribute("width", &format!("{}", width));
   for element in elements {
     svg.add_child(element);
   }
