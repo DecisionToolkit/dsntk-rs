@@ -558,9 +558,9 @@ dependencies = [
 
 [[package]]
 name = "domrs"
-version = "0.0.15"
+version = "0.0.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af6b87aec1ee567b9ee75390ac723a20031033cbdcb7e92083dcfb7bfad00fff"
+checksum = "fdda6acc74f0bfd12b77f1f72b5dda9e4147137af9d4e5cd91fa395bf1aa91b4"
 
 [[package]]
 name = "dsntk"

@@ -199,7 +199,7 @@ impl HTMLGenerator {
           .stylesheet(FONT_NORMAL)
           .stylesheet(FONT_CONDENSED)
           .stylesheet(FONT_MONO)
-          .style(HtmlStyleElement::new(create_document_style() + create_model_style())),
+          .style(HtmlStyleElement::new(create_document_style() + create_model_style() + create_decision_table_style())),
       )
       .body(body)
       .to_string()

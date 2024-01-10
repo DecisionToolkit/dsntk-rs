@@ -43,7 +43,6 @@ pub fn create_document_style() -> CssDocument {
         .declaration(CssProperty::Overflow, CssValue::Hidden)
         .declaration(SvgAttribute::Stroke, CssColor::Black)
         .declaration(SvgAttribute::StrokeWidth, 1)
-        .declaration(CssProperty::Padding, (px!(8), px!(20)))
         .declaration(CssProperty::UserSelect, CssValue::None),
     )
     .ruleset(
