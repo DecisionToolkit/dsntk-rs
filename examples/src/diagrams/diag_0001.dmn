@@ -34,7 +34,7 @@
                     <text>&gt;0</text>
                 </inputEntry>
                 <outputEntry id="LiteralExpression_0hdl9n1">
-                    <text>True</text>
+                    <text>true</text>
                 </outputEntry>
             </rule>
             <rule id="DecisionRule_1xdi8mz">
@@ -42,7 +42,7 @@
                     <text>-</text>
                 </inputEntry>
                 <outputEntry id="LiteralExpression_1wzneoa">
-                    <text>False</text>
+                    <text>false</text>
                 </outputEntry>
             </rule>
         </decisionTable>
@@ -63,7 +63,7 @@
                 <dc:Bounds height="45" width="125" x="188" y="288"/>
             </dmndi:DMNShape>
             <dmndi:DMNEdge id="DMNEdge_0rsaeuq" dmnElementRef="InformationRequirement_0ww6pag">
-                <di:waypoint x="251" y="288"/>
+                <di:waypoint x="250" y="288"/>
                 <di:waypoint x="250" y="180"/>
                 <di:waypoint x="250" y="160"/>
             </dmndi:DMNEdge>

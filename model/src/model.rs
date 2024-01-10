@@ -1645,7 +1645,7 @@ pub enum DmnDiagramElement {
 
 /// [DmnDiagram] is the container of [DmnDiagramElement] ([DmnShape] (s) and [DmnEdge] (s)).
 /// [DmnDiagram] cannot include other [DmnDiagrams](DmnDiagram).
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct DmnDiagram {
   /// [DmnDiagram] id.
   pub id: Option<String>,
