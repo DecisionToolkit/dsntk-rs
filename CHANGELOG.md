@@ -5,11 +5,9 @@ Notable changes to **DSNTK** project are documented in this file.
 This format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v0.0.4] - ?
+## [v0.0.4] - 2024-02-04
 
-- ?
-- ?
-- ?
+Added DMN 1.5 functionalities.
 
 ## [v0.0.3] - 2023-12-31
 
