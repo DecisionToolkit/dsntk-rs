@@ -12,13 +12,13 @@ fn _0001() {
        If
        ├─ Gt
        │  ├─ Numeric
-       │  │  └─ `1.`
+       │  │  └─ `1`
        │  └─ Numeric
-       │     └─ `2.`
+       │     └─ `2`
        ├─ Numeric
-       │  └─ `5.`
+       │  └─ `5`
        └─ Numeric
-          └─ `8.`
+          └─ `8`
     "#,
     false,
   );
@@ -27,8 +27,8 @@ fn _0001() {
 #[test]
 fn _0002() {
   let scope = scope!();
-  scope.set_name("a".into());
-  scope.set_name("b".into());
+  scope.set_entry_name("a".into());
+  scope.set_entry_name("b".into());
   accept(
     &scope,
     StartExpression,

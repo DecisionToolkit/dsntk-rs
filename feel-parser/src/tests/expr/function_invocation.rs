@@ -35,7 +35,7 @@ fn _0002() {
              ├─ ParameterName
              │  └─ `a`
              └─ Numeric
-                └─ `2.`
+                └─ `2`
     "#,
     false,
   );
@@ -57,12 +57,12 @@ fn _0003() {
           │  ├─ ParameterName
           │  │  └─ `x`
           │  └─ Numeric
-          │     └─ `2.`
+          │     └─ `2`
           └─ NamedParameter
              ├─ ParameterName
              │  └─ `y`
              └─ Numeric
-                └─ `5.`
+                └─ `5`
     "#,
     false,
   );
@@ -81,9 +81,9 @@ fn _0004() {
        │  └─ `calculate`
        └─ PositionalParameters
           ├─ Numeric
-          │  └─ `56.`
+          │  └─ `56`
           └─ Numeric
-             └─ `34.`
+             └─ `34`
     "#,
     false,
   );

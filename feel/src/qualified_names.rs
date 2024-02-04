@@ -1,10 +1,11 @@
-//! `FEEL` qualified names.
+//! # FEEL qualified names
 
 use crate::Name;
 use std::fmt;
+use std::fmt::Display;
 use std::ops::Deref;
 
-/// FEEL `QualifiedName`.
+/// FEEL qualified name.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct QualifiedName(Vec<Name>);
 
@@ -15,8 +16,8 @@ impl QualifiedName {
   }
 }
 
-impl fmt::Display for QualifiedName {
-  /// Implements [Display](fmt::Display) trait for [QualifiedName].
+impl Display for QualifiedName {
+  /// Implements [Display] trait for [QualifiedName].
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     write!(f, "{}", self.0.iter().map(|v| v.to_string()).collect::<Vec<String>>().join("."))
   }
@@ -40,7 +41,7 @@ impl QualifiedName {
     self.0.insert(index, name);
   }
 
-  /// Returns last [Name] from [QualifiedName].
+  /// Returns the last [Name] from [QualifiedName].
   pub fn pop(&mut self) -> Option<Name> {
     self.0.pop()
   }

@@ -60,6 +60,7 @@ fn simple_type_context_evaluator(feel_type: FeelType) -> Result<ItemDefinitionCo
   if matches!(
     feel_type,
     FeelType::Any
+      | FeelType::Null
       | FeelType::String
       | FeelType::Number
       | FeelType::Boolean
@@ -108,6 +109,7 @@ fn collection_of_simple_type_context_evaluator(feel_type: FeelType) -> Result<It
   if matches!(
     feel_type,
     FeelType::Any
+      | FeelType::Null
       | FeelType::String
       | FeelType::Number
       | FeelType::Boolean
@@ -163,7 +165,7 @@ fn collection_of_component_type_context_evaluator(item_definition: &DefItemDefin
 ///
 fn function_type_context_evaluator(_item_definition: &DefItemDefinition) -> Result<ItemDefinitionContextEvaluatorFn> {
   Ok(Box::new(move |_name: &Name, _ctx: &mut FeelContext, _: &ItemDefinitionContextEvaluator| FeelType::Any))
-  //TODO implement function type
+  //TODO Implement function type.
 }
 
 #[cfg(test)]

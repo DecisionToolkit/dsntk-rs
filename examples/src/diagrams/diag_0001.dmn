@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions namespace="http://camunda.org/schema/1.0/dmn"
+             id="Definitions_10msz1z"
+             name="DRD"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/">
+
+    <decision id="test-03sxhx8" name="Positive">
+        <!-- Variable below was added by hand to make this example working. -->
+        <variable typeRef="boolean" name="output"/>
+
+        <informationRequirement id="InformationRequirement_0ww6pag">
+            <requiredInput href="#InputData_10fb1oz"/>
+        </informationRequirement>
+
+        <decisionTable id="DecisionTable_0jonwao" hitPolicy="FIRST">
+            <input id="Input_1" label="x">
+                <inputExpression id="InputExpression_1" typeRef="number">
+                    <text>x</text>
+                </inputExpression>
+            </input>
+            <output id="Output_1" label="Positive" name="Positive" typeRef="boolean"/>
+            <rule id="DecisionRule_0lsowyy">
+                <inputEntry id="UnaryTests_0eaelt8">
+                    <text>&gt;0</text>
+                </inputEntry>
+                <outputEntry id="LiteralExpression_0hdl9n1">
+                    <text>true</text>
+                </outputEntry>
+            </rule>
+            <rule id="DecisionRule_1xdi8mz">
+                <inputEntry id="UnaryTests_0bhj6ce">
+                    <text>-</text>
+                </inputEntry>
+                <outputEntry id="LiteralExpression_1wzneoa">
+                    <text>false</text>
+                </outputEntry>
+            </rule>
+        </decisionTable>
+
+    </decision>
+
+    <inputData id="InputData_10fb1oz" name="x">
+       <!-- Variable below was added by hand to make this example working. -->
+        <variable name="x" typeRef="number"/>
+    </inputData>
+
+    <dmndi:DMNDI>
+        <dmndi:DMNDiagram>
+            <dmndi:DMNShape dmnElementRef="test-03sxhx8">
+                <dc:Bounds height="80" width="180" x="160" y="80"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="DMNShape_0qjqjoi" dmnElementRef="InputData_10fb1oz">
+                <dc:Bounds height="45" width="125" x="188" y="288"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNEdge id="DMNEdge_0rsaeuq" dmnElementRef="InformationRequirement_0ww6pag">
+                <di:waypoint x="250" y="288"/>
+                <di:waypoint x="250" y="180"/>
+                <di:waypoint x="250" y="160"/>
+            </dmndi:DMNEdge>
+        </dmndi:DMNDiagram>
+    </dmndi:DMNDI>
+</definitions>

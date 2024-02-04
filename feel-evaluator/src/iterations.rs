@@ -1,8 +1,8 @@
 //! # FEEL iterator implementation
 
 use dsntk_feel::context::FeelContext;
-use dsntk_feel::values::{Value, Values};
-use dsntk_feel::{Evaluator, FeelScope, Name};
+use dsntk_feel::values::{Value, Values, VALUE_FALSE, VALUE_TRUE};
+use dsntk_feel::{value_null, Evaluator, FeelScope, Name};
 use std::num::NonZeroIsize;
 
 /// Iterator types.
@@ -241,6 +241,13 @@ pub struct ForExpressionEvaluator {
   name_partial: Name,
 }
 
+impl Default for ForExpressionEvaluator {
+  /// Implements [Default] trait for [ForExpressionEvaluator].
+  fn default() -> Self {
+    Self::new()
+  }
+}
+
 impl ForExpressionEvaluator {
   ///
   pub fn new() -> Self {
@@ -293,6 +300,13 @@ pub struct SomeExpressionEvaluator {
   iterator: FeelIterator,
 }
 
+impl Default for SomeExpressionEvaluator {
+  /// Implements [Default] trait for [SomeExpressionEvaluator].
+  fn default() -> Self {
+    Self::new()
+  }
+}
+
 impl SomeExpressionEvaluator {
   ///
   pub fn new() -> Self {
@@ -308,21 +322,40 @@ impl SomeExpressionEvaluator {
 
   ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Value {
-    let mut result = false;
+    let mut result = VALUE_FALSE;
+    let mut skip = false;
     self.iterator.iterate(|ctx| {
-      scope.push(ctx.clone());
-      if let Value::Boolean(value) = evaluator(scope) {
-        result = result || value;
+      if !skip {
+        scope.push(ctx.clone());
+        let value = evaluator(scope);
+        match value {
+          Value::Boolean(true) => {
+            result = VALUE_TRUE;
+            skip = true;
+          }
+          Value::Boolean(false) => {}
+          _ => {
+            result = value_null!();
+            skip = true;
+          }
+        }
+        scope.pop();
       }
-      scope.pop();
     });
-    Value::Boolean(result)
+    result
   }
 }
 
 ///
 pub struct EveryExpressionEvaluator {
   iterator: FeelIterator,
+}
+
+impl Default for EveryExpressionEvaluator {
+  /// Implements [Default] trait for [EveryExpressionEvaluator].
+  fn default() -> Self {
+    Self::new()
+  }
 }
 
 impl EveryExpressionEvaluator {
@@ -338,14 +371,26 @@ impl EveryExpressionEvaluator {
 
   ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Value {
-    let mut result = true;
+    let mut result = VALUE_TRUE;
+    let mut skip = false;
     self.iterator.iterate(|ctx| {
-      scope.push(ctx.clone());
-      if let Value::Boolean(value) = evaluator(scope) {
-        result = result && value;
+      if !skip {
+        scope.push(ctx.clone());
+        let value = evaluator(scope);
+        scope.pop();
+        match value {
+          Value::Boolean(false) => {
+            result = VALUE_FALSE;
+            skip = true;
+          }
+          Value::Boolean(true) => {}
+          _ => {
+            result = value_null!();
+            skip = true
+          }
+        }
       }
-      scope.pop();
     });
-    Value::Boolean(result)
+    result
   }
 }

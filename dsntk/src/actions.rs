@@ -7,7 +7,7 @@ use dsntk_common::*;
 use dsntk_feel::values::Value;
 use dsntk_feel::FeelScope;
 use dsntk_feel_parser::ast_tree;
-use dsntk_model::NamedElement;
+use dsntk_model::{DmnElement, NamedElement};
 use once_cell::sync::Lazy;
 use std::fs;
 use std::path::Path;

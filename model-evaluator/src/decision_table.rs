@@ -4,7 +4,6 @@ use dsntk_common::Result;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::Value;
 use dsntk_feel::{value_null, Evaluator, FeelScope, Name};
-use dsntk_feel_evaluator::BuildContext;
 use dsntk_feel_parser::AstNode;
 use dsntk_model::{BuiltinAggregator, DecisionTable, HitPolicy};
 use std::cmp::Ordering;
@@ -272,10 +271,10 @@ fn parse_decision_table(scope: &FeelScope, decision_table: &DecisionTable) -> Re
         let left = AstNode::In(Box::new(input_expression.clone()), Box::new(input_values_node.clone()));
         let right = AstNode::In(Box::new(input_expression.clone()), Box::new(input_entry_node));
         let node = AstNode::And(Box::new(left), Box::new(right));
-        input_entries_evaluators.push(dsntk_feel_evaluator::prepare(&BuildContext::default(), &node));
+        input_entries_evaluators.push(dsntk_feel_evaluator::prepare(&node));
       } else {
         let node = AstNode::In(Box::new(input_expression.clone()), Box::new(input_entry_node));
-        input_entries_evaluators.push(dsntk_feel_evaluator::prepare(&BuildContext::default(), &node));
+        input_entries_evaluators.push(dsntk_feel_evaluator::prepare(&node));
       }
     }
     // parse output clause
@@ -284,9 +283,9 @@ fn parse_decision_table(scope: &FeelScope, decision_table: &DecisionTable) -> Re
       let output_entry_node = dsntk_feel_parser::parse_expression(scope, &rule.output_entries[i].text, false)?;
       if let Some(output_value_node) = output_values {
         let node = AstNode::Out(Box::new(output_entry_node), Box::new(output_value_node.clone()));
-        output_entries_evaluators.push(dsntk_feel_evaluator::prepare(&BuildContext::default(), &node));
+        output_entries_evaluators.push(dsntk_feel_evaluator::prepare(&node));
       } else {
-        output_entries_evaluators.push(dsntk_feel_evaluator::prepare(&BuildContext::default(), &output_entry_node));
+        output_entries_evaluators.push(dsntk_feel_evaluator::prepare(&output_entry_node));
       }
     }
     parsed_rules.push(ParsedRule {
@@ -297,7 +296,7 @@ fn parse_decision_table(scope: &FeelScope, decision_table: &DecisionTable) -> Re
   let mut output_values_evaluators = vec![];
   for opt_node in output_values_nodes {
     if let Some(node) = opt_node {
-      output_values_evaluators.push(Some(dsntk_feel_evaluator::prepare(&BuildContext::default(), &node)));
+      output_values_evaluators.push(Some(dsntk_feel_evaluator::prepare(&node)));
     } else {
       output_values_evaluators.push(None);
     }
@@ -305,7 +304,7 @@ fn parse_decision_table(scope: &FeelScope, decision_table: &DecisionTable) -> Re
   let mut default_output_values_evaluators = vec![];
   for opt_node in default_output_values_nodes {
     if let Some(node) = opt_node {
-      default_output_values_evaluators.push(Some(dsntk_feel_evaluator::prepare(&BuildContext::default(), &node)));
+      default_output_values_evaluators.push(Some(dsntk_feel_evaluator::prepare(&node)));
     } else {
       default_output_values_evaluators.push(None);
     }

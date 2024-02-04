@@ -1,5 +1,4 @@
-use crate::builders::BuildContext;
-use crate::errors::err_not_a_context;
+use crate::errors::{err_not_a_context, err_not_a_range};
 use dsntk_common::Result;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::Value;
@@ -8,12 +7,12 @@ use dsntk_feel_parser::AstNode;
 
 /// Evaluates a [Value] from given [AstNode].
 pub fn evaluate(scope: &FeelScope, node: &AstNode) -> Value {
-  crate::builders::build_evaluator(&BuildContext::default(), node)(scope)
+  crate::builders::build_evaluator(node)(scope)
 }
 
 /// Prepares an evaluator for given [AstNode].
-pub fn prepare(bx: &BuildContext, node: &AstNode) -> Evaluator {
-  crate::builders::build_evaluator(bx, node)
+pub fn prepare(node: &AstNode) -> Evaluator {
+  crate::builders::build_evaluator(node)
 }
 
 /// Evaluates the sum of specified values.
@@ -44,10 +43,26 @@ pub fn evaluate_context(scope: &FeelScope, input: &str) -> Result<FeelContext> {
 
 /// Evaluates a context from AST node.
 pub fn evaluate_context_node(scope: &FeelScope, node: &AstNode) -> Result<FeelContext> {
-  let evaluator = crate::builders::build_evaluator(&BuildContext::default(), node);
+  let evaluator = crate::builders::build_evaluator(node);
   if let Value::Context(context) = evaluator(scope) {
     Ok(context)
   } else {
     Err(err_not_a_context())
+  }
+}
+
+/// Evaluates a range value from range literal expression.
+pub fn evaluate_range_literal(scope: &FeelScope, input: &str) -> Result<Value> {
+  let node = &dsntk_feel_parser::parse_range_literal(scope, input, false)?;
+  evaluate_range_literal_node(scope, node)
+}
+
+/// Evaluates a range value from AST node.
+pub fn evaluate_range_literal_node(scope: &FeelScope, node: &AstNode) -> Result<Value> {
+  let evaluator = crate::builders::build_evaluator(node);
+  if let value @ Value::Range(_, _, _, _) = evaluator(scope) {
+    Ok(value)
+  } else {
+    Err(err_not_a_range())
   }
 }

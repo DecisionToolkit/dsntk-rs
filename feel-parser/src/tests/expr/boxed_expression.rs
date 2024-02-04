@@ -103,7 +103,7 @@ fn _0006() {
     r#"
        List
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     false,
   );
@@ -119,11 +119,11 @@ fn _0007() {
     r#"
        List
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        ├─ Numeric
-       │  └─ `2.`
+       │  └─ `2`
        └─ Numeric
-          └─ `3.`
+          └─ `3`
     "#,
     false,
   );
@@ -157,7 +157,7 @@ fn _0009() {
           ├─ ContextEntryKey
           │  └─ `age`
           └─ Numeric
-             └─ `50.`
+             └─ `50`
     "#,
     false,
   );
@@ -190,7 +190,7 @@ fn _0010() {
        │        ├─ ContextEntryKey
        │        │  └─ `house no`
        │        └─ Numeric
-       │           └─ `15.`
+       │           └─ `15`
        └─ ContextEntry
           ├─ ContextEntryKey
           │  └─ `married`

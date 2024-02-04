@@ -14,7 +14,7 @@ fn _0001() {
        │  └─ `abs`
        └─ PositionalParameters
           └─ Numeric
-             └─ `1.`
+             └─ `1`
     "#,
     false,
   );
@@ -34,7 +34,7 @@ fn _0002() {
        └─ PositionalParameters
           └─ Neg
              └─ Numeric
-                └─ `1.`
+                └─ `1`
     "#,
     false,
   );

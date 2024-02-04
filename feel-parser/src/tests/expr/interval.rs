@@ -13,10 +13,10 @@ fn _0001() {
        Range
        ├─ IntervalStart (closed)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (closed)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -33,10 +33,10 @@ fn _0002() {
        Range
        ├─ IntervalStart (opened)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (closed)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -53,10 +53,10 @@ fn _0003() {
        Range
        ├─ IntervalStart (closed)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (opened)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -73,10 +73,10 @@ fn _0004() {
        Range
        ├─ IntervalStart (opened)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (opened)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -93,10 +93,10 @@ fn _0005() {
        Range
        ├─ IntervalStart (opened)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (closed)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -113,10 +113,10 @@ fn _0006() {
        Range
        ├─ IntervalStart (closed)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (opened)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -133,10 +133,10 @@ fn _0007() {
        Range
        ├─ IntervalStart (opened)
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ IntervalEnd (opened)
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -145,8 +145,8 @@ fn _0007() {
 #[test]
 fn _0008() {
   let scope = scope!();
-  scope.set_name("a".into());
-  scope.set_name("b".into());
+  scope.set_entry_name("a".into());
+  scope.set_entry_name("b".into());
   accept(
     &scope,
     StartExpression,
@@ -154,13 +154,11 @@ fn _0008() {
     r#"
        Range
        ├─ IntervalStart (closed)
-       │  └─ QualifiedName
-       │     └─ Name
-       │        └─ `a`
+       │  └─ Name
+       │     └─ `a`
        └─ IntervalEnd (closed)
-          └─ QualifiedName
-             └─ Name
-                └─ `b`
+          └─ Name
+             └─ `b`
     "#,
     false,
   );
@@ -180,13 +178,13 @@ fn _0009() {
     r#"
        Range
        ├─ IntervalStart (closed)
-       │  └─ QualifiedName
+       │  └─ Path
        │     ├─ Name
        │     │  └─ `r`
        │     └─ Name
        │        └─ `start`
        └─ IntervalEnd (closed)
-          └─ QualifiedName
+          └─ Path
              ├─ Name
              │  └─ `r`
              └─ Name
@@ -199,9 +197,9 @@ fn _0009() {
 #[test]
 fn _00010() {
   let scope = scope!();
-  scope.set_name("r".into());
-  scope.set_name("start".into());
-  scope.set_name("end".into());
+  scope.set_entry_name("r".into());
+  scope.set_entry_name("start".into());
+  scope.set_entry_name("end".into());
   accept(
     &scope,
     StartExpression,
@@ -209,13 +207,13 @@ fn _00010() {
     r#"
        Range
        ├─ IntervalStart (closed)
-       │  └─ QualifiedName
+       │  └─ Path
        │     ├─ Name
        │     │  └─ `r`
        │     └─ Name
        │        └─ `start`
        └─ IntervalEnd (closed)
-          └─ QualifiedName
+          └─ Path
              ├─ Name
              │  └─ `r`
              └─ Name
@@ -228,10 +226,10 @@ fn _00010() {
 #[test]
 fn _00011() {
   let scope = scope!();
-  scope.set_name("r".into());
-  scope.set_name("s".into());
-  scope.set_name("start".into());
-  scope.set_name("end".into());
+  scope.set_entry_name("r".into());
+  scope.set_entry_name("s".into());
+  scope.set_entry_name("start".into());
+  scope.set_entry_name("end".into());
   accept(
     &scope,
     StartExpression,
@@ -239,17 +237,18 @@ fn _00011() {
     r#"
        Range
        ├─ IntervalStart (closed)
-       │  └─ QualifiedName
+       │  └─ Path
        │     ├─ Name
        │     │  └─ `r`
        │     └─ Name
        │        └─ `start`
        └─ IntervalEnd (closed)
-          └─ QualifiedName
-             ├─ Name
-             │  └─ `r`
-             ├─ Name
-             │  └─ `s`
+          └─ Path
+             ├─ Path
+             │  ├─ Name
+             │  │  └─ `r`
+             │  └─ Name
+             │     └─ `s`
              └─ Name
                 └─ `end`
     "#,

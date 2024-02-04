@@ -523,5 +523,26 @@
             <text>decisionService_003("foo")</text>
         </literalExpression>
     </decision>
-    
+
+    <decision name="decision_context_01" id="_decision_context_01">
+        <variable name="decision_context_01" typeRef="exactContextType"/>
+        <literalExpression>
+            <text>context(entries: [{key:"a", value:1}, {key:"b", value:2}])</text>
+        </literalExpression>
+    </decision>
+
+    <decision name="decision_context_02" id="_decision_context_02">
+        <variable name="decision_context_02" typeRef="superContextType"/>
+        <literalExpression>
+            <text>context(entries: [{key:"a", value:1}, {key:"b", value:2}])</text>
+        </literalExpression>
+    </decision>
+
+    <decision name="decision_context_03" id="_decision_context_03">
+        <variable name="decision_context_03" typeRef="otherContextType"/>
+        <literalExpression>
+            <text>context(entries: [{key:"a", value:1}, {key:"b", value:2}])</text>
+        </literalExpression>
+    </decision>
+
 </definitions>

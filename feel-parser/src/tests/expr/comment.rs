@@ -1,5 +1,5 @@
 use super::super::*;
-use crate::lalr::TokenType::{StartContext, StartExpression};
+use crate::lalr::TokenType::*;
 
 #[test]
 fn _0001() {
@@ -12,9 +12,9 @@ fn _0001() {
     r#"
        Add
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     false,
   );
@@ -34,9 +34,9 @@ fn _0002() {
     r#"
        Add
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     false,
   );
@@ -52,9 +52,9 @@ fn _0003() {
     r#"
        Add
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     false,
   );
@@ -76,11 +76,11 @@ fn _0004() {
        Add
        ├─ Add
        │  ├─ Numeric
-       │  │  └─ `1.`
+       │  │  └─ `1`
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     false,
   );
@@ -102,9 +102,9 @@ fn _0005() {
     r#"
        Add
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     false,
   );
@@ -133,9 +133,9 @@ fn _0006() {
     r#"
        Mul
        ├─ Numeric
-       │  └─ `5.`
+       │  └─ `5`
        └─ Numeric
-          └─ `8.`
+          └─ `8`
     "#,
     false,
   );
@@ -146,7 +146,7 @@ fn _0007() {
   let scope = scope!();
   accept(
     &scope,
-    StartContext,
+    StartBoxedExpression,
     r#"
       /// Maybe this comment may be used
       /// for some documentation, like in Rust?
@@ -167,7 +167,7 @@ fn _0007() {
           ├─ ContextEntryKey
           │  └─ `A`
           └─ Numeric
-             └─ `15.`
+             └─ `15`
     "#,
     false,
   );

@@ -1,8 +1,10 @@
 #![cfg(test)]
 
 mod ascii_model;
+mod auto_size;
 mod compatibility;
 mod decision_tables;
+mod diagrams;
 
 use std::fs;
 use std::fs::File;

@@ -1,17 +1,16 @@
-use crate::{parse_context, parse_textual_expression, AstNode, ClosureBuilder};
+use super::*;
+use crate::{parse_context, parse_textual_expression, parse_unary_tests, AstNode, ClosureBuilder};
 use dsntk_feel::{scope, FeelScope};
 
 #[test]
 fn _0001() {
-  let scope = FeelScope::default();
-  let node = parse_context(&scope, r#" { x: 10, a: function(a) function(b) a * b + x } "#, false).unwrap();
+  let node = parse_context(&scope!(), r#" { x: 10, a: function(a) function(b) a * b + x } "#, false).unwrap();
   assert_eq!("[x]", format!("{}", ClosureBuilder::from_node(&node)));
 }
 
 #[test]
 fn _0002() {
-  let scope = FeelScope::default();
-  let node = parse_context(&scope, r#" { x: 10, a: function(a) function(b) a * b + x } "#, false).unwrap();
+  let node = parse_context(&scope!(), r#" { x: 10, a: function(a) function(b) a * b + x } "#, false).unwrap();
   assert_eq!(r#"Closure({QualifiedName([Name("x")])})"#, format!("{:?}", ClosureBuilder::from_node(&node)));
 }
 
@@ -89,13 +88,13 @@ fn _0014() {
 
 #[test]
 fn _0015() {
-  let node = AstNode::CommaList(vec![AstNode::Numeric("1".into(), "2".into())]);
+  let node = AstNode::CommaList(vec![_num!(s!("1"), s!("2"))]);
   assert_eq!("[]", format!("{}", ClosureBuilder::from_node(&node)));
 }
 
 #[test]
 fn _0016() {
-  let node = AstNode::NegatedList(vec![AstNode::Numeric("1".into(), "2".into())]);
+  let node = AstNode::NegatedList(vec![_num!(s!("1"), s!("2"))]);
   assert_eq!("[]", format!("{}", ClosureBuilder::from_node(&node)));
 }
 
@@ -125,7 +124,7 @@ fn _0020() {
 
 #[test]
 fn _0021() {
-  let node = AstNode::Out(Box::new(AstNode::Numeric("1".into(), "2".into())), Box::new(AstNode::Numeric("1".into(), "2".into())));
+  let node = AstNode::Out(b_num!(s!("1"), s!("2")), b_num!(s!("1"), s!("2")));
   assert_eq!("[]", format!("{}", ClosureBuilder::from_node(&node)));
 }
 
@@ -133,5 +132,41 @@ fn _0021() {
 fn _0022() {
   let scope = FeelScope::default();
   let node = parse_context(&scope, r#" { a: { b: 1, c: "heute" } } "#, false).unwrap();
+  assert_eq!("[]", format!("{}", ClosureBuilder::from_node(&node)));
+}
+
+#[test]
+fn _0023() {
+  let node = parse_unary_tests(&scope!(), "<5", false).unwrap();
+  assert_eq!("[]", format!("{}", ClosureBuilder::from_node(&node)));
+}
+
+#[test]
+fn _0024() {
+  let node = parse_unary_tests(&scope!(), "<=5", false).unwrap();
+  assert_eq!("[]", format!("{}", ClosureBuilder::from_node(&node)));
+}
+
+#[test]
+fn _0025() {
+  let node = parse_unary_tests(&scope!(), ">5", false).unwrap();
+  assert_eq!("[]", format!("{}", ClosureBuilder::from_node(&node)));
+}
+
+#[test]
+fn _0026() {
+  let node = parse_unary_tests(&scope!(), "=>5", false).unwrap();
+  assert_eq!("[]", format!("{}", ClosureBuilder::from_node(&node)));
+}
+
+#[test]
+fn _0027() {
+  let node = parse_unary_tests(&scope!(), "=5", false).unwrap();
+  assert_eq!("[]", format!("{}", ClosureBuilder::from_node(&node)));
+}
+
+#[test]
+fn _0028() {
+  let node = parse_unary_tests(&scope!(), "!=5", false).unwrap();
   assert_eq!("[]", format!("{}", ClosureBuilder::from_node(&node)));
 }

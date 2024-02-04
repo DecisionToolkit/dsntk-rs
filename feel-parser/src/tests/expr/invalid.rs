@@ -84,9 +84,15 @@ fn _0010() {
 
 #[test]
 fn _0011() {
-  let scope = scope!();
-  assert_eq!(
-    "<ParserError> syntax error: 1 += 2",
-    Parser::new(&scope, StartExpression, "1 += 2", false).parse().err().unwrap().to_string().as_str()
-  );
+  // There is no `+=` operator in FEEL, but this expression parses properly (will return null on execution).
+  let input = "1 += 2";
+  let expected = r#"
+       Add
+       ├─ Numeric
+       │  └─ `1`
+       └─ UnaryEq
+          └─ Numeric
+             └─ `2`
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
 }

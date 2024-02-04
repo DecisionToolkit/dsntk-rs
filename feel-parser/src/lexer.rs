@@ -60,7 +60,7 @@ pub enum TokenValue {
   NameDateTime(Name),
   Nq,
   Null,
-  Numeric(String, String),
+  Numeric(String, String, char, String),
   Of,
   Or,
   Plus,
@@ -74,6 +74,10 @@ pub enum TokenValue {
   Some,
   StartExpression,
   StartBoxedExpression,
+  StartRangeLiteral,
+  StartSimpleExpression,
+  StartSimpleExpressions,
+  StartSimpleValue,
   StartTextualExpression,
   StartTextualExpressions,
   StartUnaryTests,
@@ -157,7 +161,7 @@ impl<'lexer> Lexer<'lexer> {
 
   ///
   pub fn add_name_to_scope(&mut self, name: &Name) {
-    self.scope.set_name(name.to_owned());
+    self.scope.set_entry_name(name.to_owned());
   }
 
   /// Returns the next token from input.
@@ -167,7 +171,10 @@ impl<'lexer> Lexer<'lexer> {
       return Ok(match start_token_type {
         tt @ TokenType::StartExpression => (tt, TokenValue::StartExpression),
         tt @ TokenType::StartBoxedExpression => (tt, TokenValue::StartBoxedExpression),
-        tt @ TokenType::StartContext => (tt, TokenValue::StartBoxedExpression),
+        tt @ TokenType::StartRangeLiteral => (tt, TokenValue::StartRangeLiteral),
+        tt @ TokenType::StartSimpleExpression => (tt, TokenValue::StartSimpleExpression),
+        tt @ TokenType::StartSimpleExpressions => (tt, TokenValue::StartSimpleExpressions),
+        tt @ TokenType::StartSimpleValue => (tt, TokenValue::StartSimpleValue),
         tt @ TokenType::StartTextualExpression => (tt, TokenValue::StartTextualExpression),
         tt @ TokenType::StartTextualExpressions => (tt, TokenValue::StartTextualExpressions),
         tt @ TokenType::StartUnaryTests => (tt, TokenValue::StartUnaryTests),
@@ -290,7 +297,7 @@ impl<'lexer> Lexer<'lexer> {
       }
       ['!', '=', _, _, _, _, _, _, _, _, _, _] => {
         self.position += 2;
-        Ok((TokenType::Nq, TokenValue::Nq))
+        Ok((TokenType::Ne, TokenValue::Nq))
       }
       ['<', '=', _, _, _, _, _, _, _, _, _, _] => {
         self.position += 2;
@@ -304,10 +311,7 @@ impl<'lexer> Lexer<'lexer> {
         self.position += 2;
         Ok((TokenType::RightArrow, TokenValue::RightArrow))
       }
-      ['.', ch, _, _, _, _, _, _, _, _, _, _] if is_digit(ch) => {
-        self.position += 1;
-        Ok((TokenType::Numeric, TokenValue::Numeric("0".to_string(), self.consume_digits())))
-      }
+      ['.', ch, _, _, _, _, _, _, _, _, _, _] if is_digit(ch) => self.consume_number(),
       ['.', _, _, _, _, _, _, _, _, _, _, _] => {
         self.position += 1;
         Ok((TokenType::Dot, TokenValue::Dot))
@@ -377,16 +381,7 @@ impl<'lexer> Lexer<'lexer> {
         self.position += 1;
         Ok((TokenType::At, TokenValue::At))
       }
-      [ch, _, _, _, _, _, _, _, _, _, _, _] if is_digit(ch) => {
-        let mut digits_before = String::new();
-        let mut digits_after = String::new();
-        digits_before.push_str(&self.consume_digits());
-        if self.is_char_at(0, DECIMAL_SEPARATOR) && self.is_digit_at(1) {
-          self.position += 1;
-          digits_after.push_str(&self.consume_digits());
-        }
-        Ok((TokenType::Numeric, TokenValue::Numeric(digits_before, digits_after)))
-      }
+      [ch, _, _, _, _, _, _, _, _, _, _, _] if is_digit(ch) => self.consume_number(),
       [ch, _, _, _, _, _, _, _, _, _, _, _] if is_name_start_char(ch) => self.consume_name(),
       [WS, WS, WS, WS, WS, WS, WS, WS, WS, WS, WS, WS] => Ok((TokenType::YyEof, TokenValue::YyEof)),
       _ => Ok((TokenType::YyUndef, TokenValue::YyUndef)),
@@ -513,35 +508,114 @@ impl<'lexer> Lexer<'lexer> {
     Ok((TokenType::String, TokenValue::String(string)))
   }
 
-  /// Consumes all digits available on input starting from the current position.
-  /// When the digit is consumed, the current position is incremented by one.
-  /// The return value is resulting string containing consumed digits or
-  /// empty string, when encountered no digits.
-  fn consume_digits(&mut self) -> String {
-    let mut digits = "".to_string();
-    while let Some(ch) = self.char_at(0) {
-      if is_digit(ch) {
-        digits.push(ch);
-        self.position += 1;
-      } else {
-        break;
+  /// Consumes a number available on input starting from the current position.
+  /// When the number is consumed, the current position is incremented accordingly.
+  fn consume_number(&mut self) -> Result<(TokenType, TokenValue)> {
+    // storage for digits before decimal separator
+    let mut digits_before = String::new();
+    // storage for digits after decimal separator
+    let mut digits_after = String::new();
+    // storage for the sign of the exponent ('+' is the default)
+    let mut exponent_sign: char = '+';
+    // storage for digits of the exponent
+    let mut digits_exponent = String::new();
+    //------------------------------------------------------------------------------------------------------------------
+    // Parse number using a state machine.
+    //------------------------------------------------------------------------------------------------------------------
+    let mut state = 1;
+    loop {
+      let Some(ch) = self.char_at(0) else { break };
+      match state {
+        1 => match ch {
+          '0'..='9' => {
+            // consume a digit before decimal separator
+            digits_before.push(ch);
+            self.position += 1;
+          }
+          DECIMAL_SEPARATOR if self.is_digit_at(1) => {
+            // consume decimal separator
+            self.position += 1;
+            state = 2
+          }
+          'e' | 'E' => {
+            // consume exponent letter
+            self.position += 1;
+            state = 3
+          }
+          _ => break,
+        },
+        2 => match ch {
+          '0'..='9' => {
+            // consume a digit after decimal separator
+            digits_after.push(ch);
+            self.position += 1;
+          }
+          'e' | 'E' => {
+            // consume exponent letter
+            self.position += 1;
+            state = 3
+          }
+          _ => break,
+        },
+        3 => match ch {
+          '+' => {
+            // consume plus - this is the default exponent sign
+            self.position += 1;
+            state = 4;
+          }
+          '-' => {
+            // consume minus - change the exponent sign
+            exponent_sign = '-';
+            self.position += 1;
+            state = 4;
+          }
+          '0'..='9' => {
+            // consume the first digit of the exponent
+            digits_exponent.push(ch);
+            self.position += 1;
+            state = 4;
+          }
+          _ => break,
+        },
+        4 => match ch {
+          '0'..='9' => {
+            // consume digits of the exponent
+            digits_exponent.push(ch);
+            self.position += 1;
+            state = 4;
+          }
+          _ => break,
+        },
+        _ => break,
       }
     }
-    digits
+    if digits_before.is_empty() {
+      digits_before.push('0');
+    }
+    Ok((TokenType::Numeric, TokenValue::Numeric(digits_before, digits_after, exponent_sign, digits_exponent)))
   }
 
   /// Consumes a name.
   fn consume_name(&mut self) -> Result<(TokenType, TokenValue)> {
-    // collection of all name parts
+    // vector of all name parts
     let mut parts = vec![];
     // currently parsed name part
-    let mut current_part = "".to_string();
+    let mut current_part = String::new();
     // positions of consumed characters
     let mut consumed_positions = vec![];
-    // the current character on input is already a name start character, so consume it
+
+    //------------------------------------------------------------------------------------------------------------------
+    // The current character on input is already a name start character,
+    // so just consume it and advance the input position.
+    //------------------------------------------------------------------------------------------------------------------
     let mut ch = self.peek_character();
     current_part.push(ch);
-    // start parsing the rest of input using a state machine
+
+    //------------------------------------------------------------------------------------------------------------------
+    // First character of the name was just consumed.
+    // Now start parsing the rest of input using a state machine,
+    // looking for characters belonging to this name.
+    //------------------------------------------------------------------------------------------------------------------
     let mut state = 1;
     loop {
       match state {
@@ -605,43 +679,51 @@ impl<'lexer> Lexer<'lexer> {
       }
     }
 
-    // now the `parts` vector contains all parts of the longest possible name,
-    // now must be decides what kind of name it is, by checking the parsing scope
+    //==================================================================================================================
+    // Now the `parts` vector contains all parts of the longest possible name.
+    // Now decide, what kind of name it is.
+    //==================================================================================================================
 
-    // ------------------------------------------------------------------------
-    // tweak with name of the `item` in filter
-    // ------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
+    // Tweak with the name `item` used in filters.
+    // If the first part is `item`, then treat it as a resulting name.
+    //------------------------------------------------------------------------------------------------------------------
+    const ITEM: &str = "item";
     if let Some(part_name) = parts.first() {
-      if part_name == "item" {
+      if part_name == ITEM {
         self.position = consumed_positions[0] + 1;
-        return Ok((TokenType::Name, TokenValue::Name(Name::from("item"))));
+        return Ok((TokenType::Name, TokenValue::Name(ITEM.into())));
       }
     }
 
-    // ------------------------------------------------------------------------
-    // tweak with the name in `for` and `quantified` expressions
-    // variable name is the name before the keyword `in`
-    // ------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
+    // Tweak with the name in `for` and `quantified` expressions.
+    // The variable's name is the name before the keyword `in`.
+    // Return the name of the local variable before `in` keyword.
+    //------------------------------------------------------------------------------------------------------------------
+    const KEYWORD_IN: &str = "in";
     if self.till_in {
-      if let Some(index) = parts.iter().position(|value| value == "in") {
+      if let Some(index) = parts.iter().position(|value| value == KEYWORD_IN) {
         self.till_in = false;
         parts.truncate(index);
         self.position = consumed_positions[index - 1] + 1;
-        // return the name of the local variable before `in` keyword
-        return Ok((TokenType::Name, TokenValue::Name(parts.to_vec().into())));
+        let name: Name = parts.to_vec().into();
+        return Ok((TokenType::Name, TokenValue::Name(name)));
       }
     }
 
+    //------------------------------------------------------------------------------------------------------------------
     // begin with with the longest name containing all parts
+    //------------------------------------------------------------------------------------------------------------------
     let mut part_count = parts.len();
-    let flattened_keys = self.scope.flattened_keys();
+    let flattened = self.scope.flattened();
     while part_count > 0 {
       // take a sublist of the original part list until the list is empty
       let part_sublist = &parts[..part_count];
       // flatten the name parts to compare it with built-in names and keys in current scope
       let name = flatten_name_parts(part_sublist);
       // check if the flattened name exists as a key in the current context
-      if flattened_keys.contains(&name) {
+      if flattened.contains(&name) {
         // return to the input all characters that do not belong to the name that was found
         self.position = consumed_positions[part_count - 1] + 1;
         let part_vector = part_sublist.to_vec();
@@ -651,12 +733,15 @@ impl<'lexer> Lexer<'lexer> {
       part_count -= 1;
     }
 
-    // build the name from name parts
+    //------------------------------------------------------------------------------------------------------------------
+    // Build the name from name parts.
+    //------------------------------------------------------------------------------------------------------------------
     let name: Name = parts.to_vec().into();
 
-    // ------------------------------------------------------------------------
-    // tweak with built-in type names
-    // ------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
+    // Tweak with the names of built-in types.
+    // If the name is a built-in type name, then return a type name instead of regular name.
+    //------------------------------------------------------------------------------------------------------------------
     if self.type_name
       && matches!(
         name.to_string().as_str(),
@@ -667,25 +752,31 @@ impl<'lexer> Lexer<'lexer> {
       return Ok((TokenType::BuiltInTypeName, TokenValue::BuiltInTypeName(name)));
     }
 
-    // ------------------------------------------------------------------------
-    // tweak with "date and time" and "duration" literals
-    // when these names are encountered then treat them
-    // as the names of temporal functions
-    // ------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
+    // Tweak with `date and time` and `duration` literals.
+    // When these names are encountered, then treat them as the names of temporal functions.
+    //------------------------------------------------------------------------------------------------------------------
     let name_str = name.to_string();
     if matches!(name_str.as_str(), "date and time" | "duration") {
       return Ok((TokenType::NameDateTime, TokenValue::NameDateTime(name)));
     }
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Tweak with `date` and `time` literals.
+    // When a colon is encountered after these names, then treat them as a name of the parameter.
+    //------------------------------------------------------------------------------------------------------------------
     if matches!(name_str.as_str(), "date" | "time") {
       return if self.is_next_character(&[':'], 0) {
-        // when colon is after these names, than treat them as named parameters
         Ok((TokenType::Name, TokenValue::Name(name)))
       } else {
         Ok((TokenType::NameDateTime, TokenValue::NameDateTime(name)))
       };
     }
 
-    // by default return the name as it appears on input
+    //------------------------------------------------------------------------------------------------------------------
+    // By default, return the name as it appears on input.
+    //------------------------------------------------------------------------------------------------------------------
+    self.scope.add_name(name.clone());
     Ok((TokenType::Name, TokenValue::Name(name)))
   }
 
@@ -827,16 +918,6 @@ impl<'lexer> Lexer<'lexer> {
     }
   }
 
-  /// Checks if the next character on input is a decimal separator '.'.
-  /// The dot is treated as decimal separator only if it is followed by a digit.
-  fn is_char_at(&self, offset: usize, expected: char) -> bool {
-    if let Some(actual) = self.char_at(offset) {
-      actual == expected
-    } else {
-      false
-    }
-  }
-
   /// Returns `true` when the character at the current
   /// position advanced by the offset is a digit.
   fn is_digit_at(&self, offset: usize) -> bool {
@@ -910,7 +991,6 @@ fn is_additional_name_symbol(ch: char) -> bool {
 }
 
 /// Returns `true` when the specified character is name start character.
-/// Specification: 10.3.1.2 Grammar rules, p.120, grammar rule 28.
 fn is_name_start_char(ch: char) -> bool {
   matches!(ch, '?' | 'A'..='Z' | '_' | 'a'..='z' |
                '\u{00C0}'..='\u{00D6}' | '\u{00D8}'..='\u{00F6}' | '\u{00F8}'..='\u{02FF}' |
@@ -920,7 +1000,6 @@ fn is_name_start_char(ch: char) -> bool {
 }
 
 /// Returns `true` when the specified character is name start character.
-/// Specification: 10.3.1.2 Grammar rules, p.120, grammar rule 29.
 fn is_name_part_char(ch: char) -> bool {
   is_name_start_char(ch) || is_digit(ch) || matches!(ch, '\u{00B7}' | '\u{0300}'..='\u{036F}' | '\u{203F}'..='\u{2040}')
 }
@@ -936,7 +1015,6 @@ fn is_whitespace(ch: char) -> bool {
 }
 
 /// Returns `true` when the specified character is a vertical space.
-/// Specification: 10.3.1.2 Grammar rules, p.120, grammar rule 62.
 fn is_vertical_space(ch: char) -> bool {
   matches!(ch, '\u{000A}'..='\u{000D}')
 }
@@ -1013,7 +1091,6 @@ mod tests {
 
   #[test]
   fn test_is_additional_name_symbol() {
-    assert!(is_additional_name_symbol('.'));
     assert!(is_additional_name_symbol('/'));
     assert!(is_additional_name_symbol('-'));
     assert!(is_additional_name_symbol('\''));

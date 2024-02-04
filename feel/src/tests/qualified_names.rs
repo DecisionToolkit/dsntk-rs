@@ -40,6 +40,41 @@ fn test_push() {
 }
 
 #[test]
+fn test_insert() {
+  let name_a = Name::new(&["a"]);
+  let name_b = Name::new(&["b"]);
+  let name_c = Name::new(&["c"]);
+  let mut qname = QualifiedName::new(&[]);
+  assert_eq!("", qname.to_string().as_str());
+  qname.push(name_a.clone());
+  assert_eq!("a", qname.to_string().as_str());
+  qname.insert(0, name_b);
+  assert_eq!("b.a", qname.to_string().as_str());
+  qname.push(name_c);
+  assert_eq!("b.a.c", qname.to_string().as_str());
+  qname.insert(0, name_a);
+  assert_eq!("a.b.a.c", qname.to_string().as_str());
+}
+
+#[test]
+fn test_pop() {
+  let name_a = Name::new(&["a"]);
+  let name_b = Name::new(&["b"]);
+  let name_c = Name::new(&["c"]);
+  let mut qname = QualifiedName::new(&[]);
+  qname.push(name_a);
+  qname.push(name_b);
+  qname.push(name_c);
+  assert_eq!("a.b.c", qname.to_string().as_str());
+  qname.pop();
+  assert_eq!("a.b", qname.to_string().as_str());
+  qname.pop();
+  assert_eq!("a", qname.to_string().as_str());
+  qname.pop();
+  assert_eq!("", qname.to_string().as_str());
+}
+
+#[test]
 #[allow(clippy::redundant_clone)]
 fn test_clone() {
   let name_a = Name::new(&["a"]);

@@ -4,14 +4,16 @@
              id="_1111-feel-matches-function"
              xmlns="https://www.omg.org/spec/DMN/20211108/MODEL/">
 
-    <description>FEEL built-in function 'matches(input, pattern, flags?)' in category string functions</description>
+    <description>
+        Examples of FEEL built-in function `matches(input, pattern, flags?)` in category string functions.
+    </description>
 
     <itemDefinition name="booleanList" isCollection="true">
         <typeRef>boolean</typeRef>
     </itemDefinition>
 
     <decision name="decision001">
-        <description>Evaluates 'matches' function with null input</description>
+        <description>Evaluates `matches` function with null input.</description>
         <question>What is the result of FEEL expression 'matches(null, "pattern")'?</question>
         <allowedAnswers>null (boolean)</allowedAnswers>
         <variable typeRef="boolean" name="decision001"/>
@@ -21,7 +23,7 @@
     </decision>
 
     <decision name="decision002">
-        <description>Evaluates 'matches' function with null pattern</description>
+        <description>Evaluates `matches` function with null pattern.</description>
         <question>What is the result of FEEL expression 'matches("input", null)'?</question>
         <allowedAnswers>null (boolean)</allowedAnswers>
         <variable typeRef="boolean" name="decision002"/>
@@ -31,7 +33,7 @@
     </decision>
 
     <decision name="decision003">
-        <description>Evaluates 'matches' function with null flags</description>
+        <description>Evaluates `matches` function with null flags.</description>
         <question>What is the result of FEEL expression 'matches("abracadabra", "bra", null)'?</question>
         <allowedAnswers>true (boolean)</allowedAnswers>
         <variable typeRef="boolean" name="decision003"/>
@@ -270,7 +272,7 @@
         <description> whitespace in the regexp is collapsed, and should therefore compile. </description>
         <variable typeRef="boolean" name="K2-MatchesFunc-5"/>
         <literalExpression>
-            <text>matches("hello world", "\p{ IsBasicLatin}+", "x")</text>
+            <text>matches("hello world", "\p{ IsLatin}+", "x")</text>
         </literalExpression>
     </decision>
 
@@ -278,7 +280,7 @@
         <description> whitespace in the regexp is collapsed completely, and should therefore compile and match. </description>
         <variable typeRef="boolean" name="K2-MatchesFunc-6"/>
         <literalExpression>
-            <text>matches("hello world", "\p{ I s B a s i c L a t i n }+", "x")</text>
+            <text>matches("hello world", "\p{ I s L a t i n }+", "x")</text>
         </literalExpression>
     </decision>
 
@@ -286,7 +288,7 @@
         <description> whitespace in the regexp is not collapsed, and should therefore not compile. </description>
         <variable typeRef="boolean" name="K2-MatchesFunc-7"/>
         <literalExpression>
-            <text>matches("hello world", "\p{ IsBasicLatin}+")</text>
+            <text>matches("hello world", "\p{ IsLatin}+")</text>
         </literalExpression>
     </decision>
 
@@ -366,7 +368,7 @@
         <description> Caseless match with back-reference. </description>
         <variable typeRef="boolean" name="K2-MatchesFunc-17"/>
         <literalExpression>
-            <text>matches("aA", "(a)\1", "i")</text>
+            <text>matches("aA", "(a)(a)", "i")</text>
         </literalExpression>
     </decision>
 

@@ -1,5 +1,4 @@
 use crate::builders::build_evaluator;
-use crate::BuildContext;
 use dsntk_feel::values::Value;
 use dsntk_feel::{FeelNumber, FeelScope};
 use dsntk_feel_parser::AstNode;
@@ -36,11 +35,12 @@ mod iterations;
 mod join;
 mod literal_at;
 mod literal_boolean;
-mod literal_numeric;
+mod literal_number;
 mod multiline;
 mod multiplication;
 mod name;
 mod negation;
+mod nested_lists;
 mod out_operator;
 mod parentheses;
 mod path;
@@ -167,7 +167,7 @@ pub fn te_time(trace: bool, scope: &FeelScope, s: &str, expected: FeelTime) {
 pub fn te_context<Actual: ToString, Expected: ToString>(trace: bool, scope: &FeelScope, actual: Actual, expected: Expected) {
   match dsntk_feel_parser::parse_context(scope, &expected.to_string(), trace) {
     Ok(node) => {
-      let evaluator = build_evaluator(&BuildContext::default(), &node);
+      let evaluator = build_evaluator(&node);
       textual_expression(trace, scope, &actual.to_string(), evaluator(scope));
     }
     Err(reason) => {
@@ -181,7 +181,7 @@ pub fn te_context<Actual: ToString, Expected: ToString>(trace: bool, scope: &Fee
 pub fn te_value(trace: bool, scope: &FeelScope, actual: &str, expected: &str) {
   match dsntk_feel_parser::parse_textual_expression(scope, expected, trace) {
     Ok(node) => {
-      let evaluator = build_evaluator(&BuildContext::default(), &node);
+      let evaluator = build_evaluator(&node);
       textual_expression(trace, scope, actual, evaluator(scope));
     }
     Err(reason) => {
@@ -238,7 +238,7 @@ pub fn boxed_expression(trace: bool, scope: &FeelScope, text: &str, expected: Va
 fn textual_expression(trace: bool, scope: &FeelScope, text: &str, expected: Value) {
   match dsntk_feel_parser::parse_textual_expression(scope, text, trace) {
     Ok(node) => {
-      let evaluator = build_evaluator(&BuildContext::default(), &node);
+      let evaluator = build_evaluator(&node);
       let actual = evaluator(scope);
       assert_eq!(actual, expected, "ERROR\nexpected: {expected}\n  actual: {actual}\n");
     }
@@ -252,7 +252,7 @@ fn textual_expression(trace: bool, scope: &FeelScope, text: &str, expected: Valu
 pub fn valid_unary_tests(trace: bool, scope: &FeelScope, text: &str) {
   match dsntk_feel_parser::parse_unary_tests(scope, text, trace) {
     Ok(node) => {
-      let evaluator = build_evaluator(&BuildContext::default(), &node);
+      let evaluator = build_evaluator(&node);
       if let v @ Value::Null(_) = evaluator(scope) {
         panic!("evaluating unary tests failed, value: {}", v)
       }
@@ -300,7 +300,7 @@ pub fn te_date_time_local_after(trace: bool, scope: &FeelScope, expression: &str
   let range_end = FeelDateTime::local(year, month, day, hour, min, sec + seconds, nano);
   match dsntk_feel_parser::parse_textual_expression(scope, expression, trace) {
     Ok(node) => {
-      let evaluator = build_evaluator(&BuildContext::default(), &node);
+      let evaluator = build_evaluator(&node);
       let value = evaluator(scope);
       let Value::DateTime(actual) = value else {
         panic!("expected date and time, actual type is {}", value.type_of());

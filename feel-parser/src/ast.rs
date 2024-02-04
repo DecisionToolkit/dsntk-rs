@@ -3,7 +3,7 @@
 use dsntk_common::{write, AsciiLine, AsciiNode, ColorMode};
 use dsntk_feel::{FeelType, Name};
 use std::fmt;
-use std::fmt::Write;
+use std::fmt::{Display, Write};
 
 /// Node of the Abstract Syntax Tree for `FEEL` grammar.
 #[derive(Debug, Clone, PartialEq)]
@@ -221,7 +221,16 @@ pub enum AstNode {
   Null,
 
   /// Node representing a value of type `number`.
-  Numeric(String, String),
+  Numeric(
+    /// Digits before decimal separator.
+    String,
+    /// Digits after decimal separator.
+    String,
+    /// Sign of the exponent.
+    char,
+    /// Digits of the exponent.
+    String,
+  ),
 
   /// Node representing a logical operator `or` (disjunction).
   Or(Box<AstNode>, Box<AstNode>),
@@ -281,20 +290,26 @@ pub enum AstNode {
   /// Node representing an arithmetic operator `-` (subtraction).
   Sub(Box<AstNode>, Box<AstNode>),
 
-  /// Node representing unary comparison operator `greater or equal`.
+  /// Node representing unary comparison operator `>=`.
   UnaryGe(Box<AstNode>),
 
-  /// Node representing unary comparison operator `greater than`.
+  /// Node representing unary comparison operator `>`.
   UnaryGt(Box<AstNode>),
 
-  /// Node representing unary comparison operator `less or equal`.
+  /// Node representing unary comparison operator `<=>`.
   UnaryLe(Box<AstNode>),
 
-  /// Node representing unary comparison operator `less than`.
+  /// Node representing unary comparison operator `<less than>`.
   UnaryLt(Box<AstNode>),
+
+  /// Node representing unary comparison operator `=`.
+  UnaryEq(Box<AstNode>),
+
+  /// Node representing unary comparison operator `!=`.
+  UnaryNe(Box<AstNode>),
 }
 
-impl fmt::Display for AstNode {
+impl Display for AstNode {
   /// Converts [AstNode] to textual representation, including child nodes.
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     write!(f, "{}\n    ", ast_tree(self, &ColorMode::Off))
@@ -374,7 +389,7 @@ fn ast_node_to_tree(node: &AstNode) -> AsciiNode {
     AstNode::NegatedList(mid) => node_n("NegatedList", mid),
     AstNode::Nq(lhs, rhs) => node_2("Nq", lhs, rhs),
     AstNode::Null => leaf("Null"),
-    AstNode::Numeric(lhs, rhs) => node_and_leaf("Numeric", &format!("`{lhs}.{rhs}`")),
+    AstNode::Numeric(before, after, sign, exponent) => node_and_leaf("Numeric", &numeric_to_string(before, after, sign, exponent)),
     AstNode::Or(lhs, rhs) => node_2("Or", lhs, rhs),
     AstNode::Out(lhs, rhs) => node_2("Out", lhs, rhs),
     AstNode::ParameterName(lhs) => node_and_leaf("ParameterName", &format!("`{lhs}`")),
@@ -395,6 +410,8 @@ fn ast_node_to_tree(node: &AstNode) -> AsciiNode {
     AstNode::UnaryGt(mid) => node_1("UnaryGt", mid),
     AstNode::UnaryLe(mid) => node_1("UnaryLe", mid),
     AstNode::UnaryLt(mid) => node_1("UnaryLt", mid),
+    AstNode::UnaryEq(mid) => node_1("UnaryEq", mid),
+    AstNode::UnaryNe(mid) => node_1("UnaryNe", mid),
   }
 }
 
@@ -451,4 +468,18 @@ fn node_and_label(name: &str, lhs: &AstNode, label_true: &str, label_false: &str
 /// Creates a leaf node.
 fn leaf(leaf: &str) -> AsciiNode {
   AsciiNode::leaf_builder().line(AsciiLine::builder().text(leaf).build()).build()
+}
+
+/// Converts a numeric AST node into string representation used in tree visualisation.
+fn numeric_to_string(before: &str, after: &str, sign: &char, exponent: &str) -> String {
+  let mut output = String::new();
+  let _ = write!(&mut output, "`{before}");
+  if !after.is_empty() {
+    let _ = write!(&mut output, ".{after}");
+  }
+  if !exponent.is_empty() {
+    let _ = write!(&mut output, "e{sign}{exponent}");
+  }
+  let _ = write!(&mut output, "`");
+  output
 }

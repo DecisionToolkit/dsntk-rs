@@ -7,5 +7,9 @@ use dsntk_common::{DsntkError, ToErrorMessage};
 struct FeelEvaluatorError(String);
 
 pub fn err_not_a_context() -> DsntkError {
-  FeelEvaluatorError("expected FEEL context as an input".to_string()).into()
+  FeelEvaluatorError("expected FEEL context on input".to_string()).into()
+}
+
+pub fn err_not_a_range() -> DsntkError {
+  FeelEvaluatorError("expected FEEL range on input".to_string()).into()
 }

@@ -6,48 +6,48 @@ use dsntk_model::*;
 
 pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable) -> HtmlElement {
   // prepare an element containing the decision table
-  let mut decision_table_element = div!(CLASS_DECISION_TABLE);
+  let mut decision_table_element = div!(CLASS_DECISION_TABLE, NO_CONTENT);
 
   // prepare information item name
   if let Some(information_item_name) = decision_table.information_item_name() {
-    let mut html_information_item_name = div!(CLASS_INFORMATION_ITEM_NAME);
+    let mut html_information_item_name = div!(CLASS_INFORMATION_ITEM_NAME, NO_CONTENT);
     html_information_item_name.set_content(information_item_name);
     decision_table_element.add_child(html_information_item_name);
   }
 
   // prepare grid container
-  let mut html_grid_container = div!(CLASS_GRID_CONTAINER);
+  let mut html_grid_container = div!(CLASS_GRID_CONTAINER, NO_CONTENT);
 
   // prepare grid body
-  let mut html_grid_body = div!(CLASS_GRID_BODY);
+  let mut html_grid_body = div!(CLASS_GRID_BODY, NO_CONTENT);
   html_grid_body.set_style(&prepare_style_grid_template_columns(decision_table));
 
   // prepare horizontal double line
-  let mut html_horizontal_double_line = div!(CLASS_HORIZONTAL_DOUBLE_LINE);
+  let mut html_horizontal_double_line = div!(CLASS_HORIZONTAL_DOUBLE_LINE, NO_CONTENT);
   html_horizontal_double_line.set_style(&prepare_style_horizontal_double_line(decision_table));
   html_grid_body.add_child(html_horizontal_double_line);
 
   // prepare first vertical double line
-  let mut html_first_vertical_double_line = div!(CLASS_VERTICAL_DOUBLE_LINE);
+  let mut html_first_vertical_double_line = div!(CLASS_VERTICAL_DOUBLE_LINE, NO_CONTENT);
   html_first_vertical_double_line.set_style(&prepare_style_first_vertical_double_line(decision_table));
   html_grid_body.add_child(html_first_vertical_double_line);
 
   // prepare second vertical line when needed
   if decision_table.annotations().len() > 0 {
-    let mut html_second_vertical_double_line = div!(CLASS_VERTICAL_DOUBLE_LINE);
+    let mut html_second_vertical_double_line = div!(CLASS_VERTICAL_DOUBLE_LINE, NO_CONTENT);
     html_second_vertical_double_line.set_style(&prepare_style_second_vertical_double_line(decision_table));
     html_grid_body.add_child(html_second_vertical_double_line);
   }
 
   // add hit policy
-  let mut html_hit_policy = div!(CLASS_HIT_POLICY);
+  let mut html_hit_policy = div!(CLASS_HIT_POLICY, NO_CONTENT);
   html_hit_policy.set_style(&prepare_style_hit_policy(decision_table));
   html_hit_policy.set_content(&decision_table.hit_policy().to_string());
   html_grid_body.add_child(html_hit_policy);
 
   // add input clauses
   for input_clause in decision_table.input_clauses() {
-    let mut html_input_expression = div!(CLASS_INPUT_EXPRESSION);
+    let mut html_input_expression = div!(CLASS_INPUT_EXPRESSION, NO_CONTENT);
     html_input_expression.set_style(&prepare_style_input_expression(decision_table));
     html_input_expression.set_content(&input_clause.input_expression);
     html_grid_body.add_child(html_input_expression);
@@ -56,13 +56,13 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
   // add output clauses
   if decision_table.output_clauses().len() > 1 {
     if let Some(output_label) = &decision_table.output_label() {
-      let mut html_output_label = div!(CLASS_OUTPUT_LABEL);
+      let mut html_output_label = div!(CLASS_OUTPUT_LABEL, NO_CONTENT);
       html_output_label.set_style(&prepare_style_output_label(decision_table.output_clauses().len()));
       html_output_label.set_content(output_label);
       html_grid_body.add_child(html_output_label);
     } else {
       for output_clause in decision_table.output_clauses() {
-        let mut html_output_component = div!(CLASS_OUTPUT_COMPONENT);
+        let mut html_output_component = div!(CLASS_OUTPUT_COMPONENT, NO_CONTENT);
         if let Some(output_clause_name) = &output_clause.name {
           html_output_component.set_content(output_clause_name);
         } else {
@@ -72,7 +72,7 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
       }
     }
   } else {
-    let mut html_output_label = div!(CLASS_OUTPUT_LABEL);
+    let mut html_output_label = div!(CLASS_OUTPUT_LABEL, NO_CONTENT);
     if let Some(output_label) = &decision_table.output_label() {
       html_output_label.set_content(output_label);
     } else {
@@ -83,7 +83,7 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
 
   // add annotation clauses
   for annotation in decision_table.annotations() {
-    let mut html_annotation_label = div!(CLASS_ANNOTATION_LABEL);
+    let mut html_annotation_label = div!(CLASS_ANNOTATION_LABEL, NO_CONTENT);
     html_annotation_label.set_style(&prepare_style_annotation_label(decision_table));
     html_annotation_label.set_content(&annotation.name);
     html_grid_body.add_child(html_annotation_label);
@@ -91,7 +91,7 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
 
   if decision_table.output_label().is_some() && decision_table.output_clauses().len() > 1 {
     for output_clause in decision_table.output_clauses() {
-      let mut html_output_component = div!(CLASS_OUTPUT_COMPONENT);
+      let mut html_output_component = div!(CLASS_OUTPUT_COMPONENT, NO_CONTENT);
       if let Some(output_clause_name) = &output_clause.name {
         html_output_component.set_content(output_clause_name);
       } else {
@@ -103,7 +103,7 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
 
   if decision_table.allowed_values_present() {
     for input_clause in decision_table.input_clauses() {
-      let mut html_input_allowed_values = div!(CLASS_INPUT_ALLOWED_VALUES);
+      let mut html_input_allowed_values = div!(CLASS_INPUT_ALLOWED_VALUES, NO_CONTENT);
       if let Some(input_allowed_values) = &input_clause.allowed_input_values {
         html_input_allowed_values.set_content(input_allowed_values);
       } else {
@@ -112,7 +112,7 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
       html_grid_body.add_child(html_input_allowed_values);
     }
     for output_clause in decision_table.output_clauses() {
-      let mut html_output_allowed_values = div!(CLASS_OUTPUT_ALLOWED_VALUES);
+      let mut html_output_allowed_values = div!(CLASS_OUTPUT_ALLOWED_VALUES, NO_CONTENT);
       if let Some(output_allowed_values) = &output_clause.allowed_output_values {
         html_output_allowed_values.set_content(output_allowed_values);
       } else {
@@ -121,7 +121,7 @@ pub fn create_horizontal_decision_table_elements(decision_table: &DecisionTable)
       html_grid_body.add_child(html_output_allowed_values);
     }
     for _ in decision_table.annotations() {
-      html_grid_body.add_child(div!(CLASS_ANNOTATION_ALLOWED_VALUES));
+      html_grid_body.add_child(div!(CLASS_ANNOTATION_ALLOWED_VALUES, NO_CONTENT));
     }
   }
 

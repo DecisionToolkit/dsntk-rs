@@ -4,11 +4,11 @@ version = 3
 
 [[package]]
 name = "actix-codec"
-version = "0.5.1"
+version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "617a8268e3537fe1d8c9ead925fca49ef6400927ee7bc26750e90ecee14ce4b8"
+checksum = "5f7b0a21988c1bf877cf4759ef5ddaac04c1c9fe808c9142ecb78ba97d97a28a"
 dependencies = [
- "bitflags 1.3.2",
+ "bitflags 2.4.2",
  "bytes",
  "futures-core",
  "futures-sink",
@@ -21,9 +21,9 @@ dependencies = [
 
 [[package]]
 name = "actix-http"
-version = "3.5.1"
+version = "3.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "129d4c88e98860e1758c5de288d1632b07970a16d59bdf7b8d66053d582bb71f"
+checksum = "d223b13fd481fc0d1f83bb12659ae774d9e3601814c68a0bc539731698cca743"
 dependencies = [
  "actix-codec",
  "actix-rt",
@@ -31,7 +31,7 @@ dependencies = [
  "actix-utils",
  "ahash",
  "base64",
- "bitflags 2.4.1",
+ "bitflags 2.4.2",
  "brotli",
  "bytes",
  "bytestring",
@@ -65,7 +65,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e01ed3140b2f8d422c68afa1ed2e85d996ea619c988ac834d255db32138655cb"
 dependencies = [
  "quote",
- "syn 2.0.43",
+ "syn 2.0.48",
 ]
 
 [[package]]
@@ -131,9 +131,9 @@ dependencies = [
 
 [[package]]
 name = "actix-web"
-version = "4.4.1"
+version = "4.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e43428f3bf11dee6d166b00ec2df4e3aa8cc1606aaa0b7433c146852e2f4e03b"
+checksum = "43a6556ddebb638c2358714d853257ed226ece6023ef9364f23f0c70737ea984"
 dependencies = [
  "actix-codec",
  "actix-http",
@@ -178,7 +178,7 @@ dependencies = [
  "actix-router",
  "proc-macro2",
  "quote",
- "syn 2.0.43",
+ "syn 2.0.48",
 ]
 
 [[package]]
@@ -250,9 +250,9 @@ dependencies = [
 
 [[package]]
 name = "anstream"
-version = "0.6.5"
+version = "0.6.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d664a92ecae85fd0a7392615844904654d1d5f5514837f471ddef4a057aba1b6"
+checksum = "6e2e1ebcb11de5c03c67de28a7df593d32191b44939c482e97702baaaa6ab6a5"
 dependencies = [
  "anstyle",
  "anstyle-parse",
@@ -264,9 +264,9 @@ dependencies = [
 
 [[package]]
 name = "anstyle"
-version = "1.0.4"
+version = "1.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7079075b41f533b8c61d2a4d073c4676e1f8b249ff94a393b0595db304e0dd87"
+checksum = "2faccea4cc4ab4a667ce676a30e8ec13922a692c99bb8f5b11f1502c72e04220"
 
 [[package]]
 name = "anstyle-parse"
@@ -319,9 +319,9 @@ dependencies = [
 
 [[package]]
 name = "base64"
-version = "0.21.5"
+version = "0.21.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "35636a1494ede3b646cc98f74f8e62c773a38a659ebc777a2cf26b9b74171df9"
+checksum = "9d297deb1925b89f2ccc13d7635fa0714f12c87adce1c75356b39ca9b7178567"
 
 [[package]]
 name = "bitflags"
@@ -331,9 +331,9 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
 name = "bitflags"
-version = "2.4.1"
+version = "2.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "327762f6e5a765692301e5bb513e0d9fef63be86bbc14528052b1cd3e6f03e07"
+checksum = "ed570934406eb16438a4e976b1b4500774099c13b8cb96eec99f620f05090ddf"
 
 [[package]]
 name = "block-buffer"
@@ -404,16 +404,16 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "chrono"
-version = "0.4.31"
+version = "0.4.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f2c685bad3eb3d45a01354cedb7d5faa66194d1d58ba6e267a8de788f79db38"
+checksum = "9f13690e35a5e4ace198e7beea2895d29f3a9cc55015fcebe6336bd2010af9eb"
 dependencies = [
  "android-tzdata",
  "iana-time-zone",
  "js-sys",
  "num-traits",
  "wasm-bindgen",
- "windows-targets 0.48.5",
+ "windows-targets 0.52.0",
 ]
 
 [[package]]
@@ -440,18 +440,18 @@ dependencies = [
 
 [[package]]
 name = "clap"
-version = "4.4.12"
+version = "4.4.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dcfab8ba68f3668e89f6ff60f5b205cea56aa7b769451a59f34b8682f51c056d"
+checksum = "1e578d6ec4194633722ccf9544794b71b1385c3c027efe0c55db226fc880865c"
 dependencies = [
  "clap_builder",
 ]
 
 [[package]]
 name = "clap_builder"
-version = "4.4.12"
+version = "4.4.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fb7fb5e4e979aec3be7791562fcba452f94ad85e954da024396433e0e25a79e9"
+checksum = "4df4df40ec50c46000231c914968278b1eb05098cf8f1b3a518a95030e71d1c7"
 dependencies = [
  "anstream",
  "anstyle",
@@ -515,9 +515,9 @@ checksum = "06ea2b9bc92be3c2baa9334a323ebca2d6f074ff852cd1d7b11064035cd3868f"
 
 [[package]]
 name = "cpufeatures"
-version = "0.2.11"
+version = "0.2.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ce420fe07aecd3e67c5f910618fe65e94158f6dcc0adf44e00d69ce2bdfe0fd0"
+checksum = "53fe5e26ff1b7aef8bca9c6080520cfb8d9333c7568e1829cef191a9723e5504"
 dependencies = [
  "libc",
 ]
@@ -591,49 +591,36 @@ dependencies = [
 
 [[package]]
 name = "domrs"
-version = "0.0.15"
+version = "0.0.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af6b87aec1ee567b9ee75390ac723a20031033cbdcb7e92083dcfb7bfad00fff"
+checksum = "fdda6acc74f0bfd12b77f1f72b5dda9e4147137af9d4e5cd91fa395bf1aa91b4"
 
 [[package]]
 name = "dsntk"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "actix-web",
  "base64",
  "clap",
  "difference",
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-evaluator 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-parser 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-gendoc 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-recognizer 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-server 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-workspace 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-common",
+ "dsntk-evaluator",
+ "dsntk-feel",
+ "dsntk-feel-parser",
+ "dsntk-gendoc",
+ "dsntk-model",
+ "dsntk-recognizer",
+ "dsntk-server",
+ "dsntk-workspace",
  "once_cell",
  "serde",
 ]
 
 [[package]]
 name = "dsntk-common"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde",
- "uriparse",
- "url",
- "uuid",
-]
-
-[[package]]
-name = "dsntk-common"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ffccef11bf4c821976f8206b831cc90e7131f1673cb2f6cbf77d95525f7c9127"
-dependencies = [
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-macros",
  "serde",
  "uriparse",
  "url",
@@ -642,51 +629,32 @@ dependencies = [
 
 [[package]]
 name = "dsntk-evaluator"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-evaluator 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-parser 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model-evaluator 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "dsntk-evaluator"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e738b2effbd2bac17b39940f45e10ea14f0612312194fea25ca2536aa9f9aeec"
-dependencies = [
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-evaluator 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-parser 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model-evaluator 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-common",
+ "dsntk-feel",
+ "dsntk-feel-evaluator",
+ "dsntk-feel-parser",
+ "dsntk-model-evaluator",
 ]
 
 [[package]]
 name = "dsntk-examples"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "walkdir",
 ]
 
 [[package]]
-name = "dsntk-examples"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c10a3a0e64cb23a96aee7ebea2b1813e137e017b771149a39d3f42d44aca7ef1"
-
-[[package]]
 name = "dsntk-feel"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "chrono",
  "chrono-tz",
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-number 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-temporal 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-common",
+ "dsntk-feel-number",
+ "dsntk-feel-temporal",
+ "dsntk-macros",
  "once_cell",
  "regex",
  "serde",
@@ -694,49 +662,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "dsntk-feel"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ee6817c5f32a9316cdfc4d7454ee4f797fc4f5a25e5d866f224f5e773c59d598"
-dependencies = [
- "chrono",
- "chrono-tz",
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-number 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-temporal 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "regex",
- "serde",
- "serde_json",
-]
-
-[[package]]
 name = "dsntk-feel-evaluator"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-parser 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-temporal 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "once_cell",
- "regex",
- "reqwest",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "dsntk-feel-evaluator"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e2c903f495b860e4a4f1d5acd95f2c90d23bcbd4e30208f57943cc98882ebfe9"
-dependencies = [
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-parser 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-temporal 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-common",
+ "dsntk-feel",
+ "dsntk-feel-parser",
+ "dsntk-feel-regex",
+ "dsntk-feel-temporal",
+ "dsntk-macros",
  "once_cell",
  "regex",
  "reqwest",
@@ -746,17 +680,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-grammar"
-version = "0.0.3"
-dependencies = [
- "convert_case 0.6.0",
- "regex",
-]
-
-[[package]]
-name = "dsntk-feel-grammar"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "07a0f3b157e254c51894f0a31e1162e7efe104e21d5155b7f5fe596f1e93e6ca"
+version = "0.0.4"
 dependencies = [
  "convert_case 0.6.0",
  "regex",
@@ -764,264 +688,131 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-number"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "dfp-number-sys",
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "dsntk-feel-number"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4fba38a78c7aab6b7ea128440748b6c64709f2056b3e91e670a965a10b067ae5"
-dependencies = [
- "dfp-number-sys",
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-common",
+ "dsntk-macros",
 ]
 
 [[package]]
 name = "dsntk-feel-parser"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "difference",
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-grammar 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-common",
+ "dsntk-feel",
+ "dsntk-feel-grammar",
+ "dsntk-macros",
 ]
 
 [[package]]
-name = "dsntk-feel-parser"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6d2f501eaccfacfa2dba26c2640aadcd49c13573b008c2be9d8d0157d0a154cb"
-dependencies = [
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-grammar 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
-]
+name = "dsntk-feel-regex"
+version = "0.0.4"
 
 [[package]]
 name = "dsntk-feel-temporal"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "chrono",
  "chrono-tz",
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-number 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "once_cell",
- "regex",
-]
-
-[[package]]
-name = "dsntk-feel-temporal"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5f57570b25502903527357d0d713affc3ea45caa95658541375e52717b004180"
-dependencies = [
- "chrono",
- "chrono-tz",
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-number 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-common",
+ "dsntk-feel-number",
+ "dsntk-macros",
  "once_cell",
  "regex",
 ]
 
 [[package]]
 name = "dsntk-gendoc"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "domrs",
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-examples 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-recognizer 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "markdown",
- "once_cell",
-]
-
-[[package]]
-name = "dsntk-gendoc"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "739eb223efe114cbf5019b12f716cd6ae2f798568140c68bea7862987d92e242"
-dependencies = [
- "domrs",
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-examples 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-common",
+ "dsntk-examples",
+ "dsntk-feel",
+ "dsntk-model",
+ "dsntk-recognizer",
  "markdown",
  "once_cell",
 ]
 
 [[package]]
 name = "dsntk-macros"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
+ "proc-macro2",
  "quote",
- "syn 2.0.43",
-]
-
-[[package]]
-name = "dsntk-macros"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6fa139f83e278d40c6743c68fd996becf9e6b0a7b67d66e62615a6d0ca2220dc"
-dependencies = [
- "quote",
- "syn 2.0.43",
+ "syn 2.0.48",
 ]
 
 [[package]]
 name = "dsntk-model"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-examples 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-parser 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "petgraph",
- "roxmltree",
-]
-
-[[package]]
-name = "dsntk-model"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7e69c81f4d106da118a2d792df824d2d9bbc989f2d8942963299fe7e9907e537"
-dependencies = [
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-examples 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-parser 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-common",
+ "dsntk-examples",
+ "dsntk-feel",
+ "dsntk-feel-parser",
+ "dsntk-macros",
  "petgraph",
  "roxmltree",
 ]
 
 [[package]]
 name = "dsntk-model-evaluator"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-examples 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-evaluator 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-parser 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-temporal 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-recognizer 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-common",
+ "dsntk-examples",
+ "dsntk-feel",
+ "dsntk-feel-evaluator",
+ "dsntk-feel-parser",
+ "dsntk-feel-temporal",
+ "dsntk-macros",
+ "dsntk-model",
+ "dsntk-recognizer",
  "once_cell",
  "walkdir",
 ]
 
 [[package]]
-name = "dsntk-model-evaluator"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3fee9457c276d15b8a4a57ca05c4f704836e127059e7a3912a91c3885662c9ae"
-dependencies = [
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-evaluator 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-parser 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-temporal 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
 name = "dsntk-recognizer"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-examples 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "dsntk-recognizer"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "512f2c098f44377291f9986ad242bd27e095b144a53fd31d2cccd3ac213da530"
-dependencies = [
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-common",
+ "dsntk-examples",
+ "dsntk-macros",
+ "dsntk-model",
 ]
 
 [[package]]
 name = "dsntk-server"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "actix-web",
  "base64",
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-evaluator 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-workspace 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "dsntk-server"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fafa96faf421483331709db0dbe028006267cc348a9058a65669e76a95cc246b"
-dependencies = [
- "actix-web",
- "base64",
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-evaluator 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-workspace 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-common",
+ "dsntk-evaluator",
+ "dsntk-feel",
+ "dsntk-macros",
+ "dsntk-model",
+ "dsntk-workspace",
  "serde",
  "serde_json",
 ]
 
 [[package]]
 name = "dsntk-workspace"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-examples 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-evaluator 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model-evaluator 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "urlencoding",
- "walkdir",
-]
-
-[[package]]
-name = "dsntk-workspace"
-version = "0.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "927c2832b4f1a60397f773d50e9bc10a58f4a25f2406468c403af4ebb43dc68e"
-dependencies = [
- "dsntk-common 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-feel-evaluator 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-macros 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dsntk-model-evaluator 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dsntk-common",
+ "dsntk-examples",
+ "dsntk-feel",
+ "dsntk-feel-evaluator",
+ "dsntk-macros",
+ "dsntk-model",
+ "dsntk-model-evaluator",
  "urlencoding",
  "walkdir",
 ]
@@ -1132,9 +923,9 @@ dependencies = [
 
 [[package]]
 name = "getrandom"
-version = "0.2.11"
+version = "0.2.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fe9006bed769170c11f845cf00c7c1e9092aeb3f268e007c3e760ac68008070f"
+checksum = "190092ea657667030ac6a35e305e62fc4dd69fd98ac98631e5d3a2b1575a12b5"
 dependencies = [
  "cfg-if",
  "libc",
@@ -1149,9 +940,9 @@ checksum = "4271d37baee1b8c7e4b708028c57d816cf9d2434acb33a549475f78c181f6253"
 
 [[package]]
 name = "h2"
-version = "0.3.22"
+version = "0.3.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4d6250322ef6e60f93f9a2162799302cd6f68f79f6e5d85c8c16f14d1d958178"
+checksum = "bb2c4422095b67ee78da96fbb51a4cc413b3b25883c7717ff7ca1ab31022c9c9"
 dependencies = [
  "bytes",
  "fnv",
@@ -1174,9 +965,9 @@ checksum = "290f1a1d9242c78d09ce40a5e87e7554ee637af1351968159f4952f028f75604"
 
 [[package]]
 name = "hermit-abi"
-version = "0.3.3"
+version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d77f7ec81a6d05a3abb01ab6eb7590f6083d08449fe5a1c8b1e620283546ccb7"
+checksum = "5d3d0e0f38255e7fa3cf31335b3a56f05febd18025f4db5ef7a0cfb4f8da651f"
 
 [[package]]
 name = "http"
@@ -1252,9 +1043,9 @@ dependencies = [
 
 [[package]]
 name = "iana-time-zone"
-version = "0.1.59"
+version = "0.1.60"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b6a67363e2aa4443928ce15e57ebae94fd8949958fd1223c4cfc0cd473ad7539"
+checksum = "e7ffbb5a1b541ea2561f8c41c087286cc091e21e556a4f09a8f6cbf17b69b141"
 dependencies = [
  "android_system_properties",
  "core-foundation-sys",
@@ -1285,9 +1076,9 @@ dependencies = [
 
 [[package]]
 name = "indexmap"
-version = "2.1.0"
+version = "2.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d530e1a18b1cb4c484e6e34556a0d948706958449fca0cab753d649f2bce3d1f"
+checksum = "824b2ae422412366ba479e8111fd301f7b5faece8149317bb81925979a53f520"
 dependencies = [
  "equivalent",
  "hashbrown",
@@ -1316,9 +1107,9 @@ dependencies = [
 
 [[package]]
 name = "js-sys"
-version = "0.3.66"
+version = "0.3.67"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cee9c64da59eae3b50095c18d3e74f8b73c0b86d2792824ff01bbce68ba229ca"
+checksum = "9a1d36f1235bc969acba30b7f5990b864423a6068a10f7c90ae8f0112e3a59d1"
 dependencies = [
  "wasm-bindgen",
 ]
@@ -1337,9 +1128,9 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "libc"
-version = "0.2.151"
+version = "0.2.153"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "302d7ab3130588088d277783b1e2d2e10c9e9e4a16dd9050e6ec93fb3e7048f4"
+checksum = "9c198f91728a82281a64e1f4f9eeb25d82cb32a5de251c6bd1b5154d63a8e7bd"
 
 [[package]]
 name = "local-channel"
@@ -1397,9 +1188,9 @@ checksum = "6877bb514081ee2a7ff5ef9de3281f14a4dd4bceac4c09388074a6b5df8a139a"
 
 [[package]]
 name = "miniz_oxide"
-version = "0.7.1"
+version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e7810e0be55b428ada41041c41f32c9f1a42817901b4ccf45fa3d4b6561e74c7"
+checksum = "9d811f3e15f28568be3407c8e7fdb6514c1cda3cb30683f15b6a1a1dc4ea14a7"
 dependencies = [
  "adler",
 ]
@@ -1415,6 +1206,12 @@ dependencies = [
  "wasi",
  "windows-sys 0.48.0",
 ]
+
+[[package]]
+name = "num-conv"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "51d515d32fb182ee37cda2ccdcb92950d6a3c2893aa280e540671c2cd0f3b1d9"
 
 [[package]]
 name = "num-traits"
@@ -1556,9 +1353,9 @@ checksum = "8b870d8c151b6f2fb93e84a13146138f05d02ed11c7e7c54f8826aaaf7c9f184"
 
 [[package]]
 name = "pkg-config"
-version = "0.3.28"
+version = "0.3.29"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "69d3587f8a9e599cc7ec2c00e331f71c4e69a5f9a4b8a6efd5b07466b9736f9a"
+checksum = "2900ede94e305130c13ddd391e0ab7cbaeb783945ae07a279c268cb05109c6cb"
 
 [[package]]
 name = "powerfmt"
@@ -1574,18 +1371,18 @@ checksum = "5b40af805b3121feab8a3c29f04d8ad262fa8e0561883e7653e024ae4479e6de"
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.72"
+version = "1.0.78"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a293318316cf6478ec1ad2a21c49390a8d5b5eae9fab736467d93fbc0edc29c5"
+checksum = "e2422ad645d89c99f8f3e6b88a9fdeca7fabeac836b1002371c4367c8f984aae"
 dependencies = [
  "unicode-ident",
 ]
 
 [[package]]
 name = "quote"
-version = "1.0.33"
+version = "1.0.35"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5267fca4496028628a95160fc423a33e8b2e6af8a5302579e322e4b520293cae"
+checksum = "291ec9ab5efd934aaf503a6466c5d5251535d108ee747472c3977cc5acc868ef"
 dependencies = [
  "proc-macro2",
 ]
@@ -1631,9 +1428,9 @@ dependencies = [
 
 [[package]]
 name = "regex"
-version = "1.10.2"
+version = "1.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "380b951a9c5e80ddfd6136919eef32310721aa4aacd4889a8d39124b026ab343"
+checksum = "b62dbe01f0b06f9d8dc7d49e05a0785f153b00b2c227856282f671e0318c9b15"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -1643,9 +1440,9 @@ dependencies = [
 
 [[package]]
 name = "regex-automata"
-version = "0.4.3"
+version = "0.4.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5f804c7828047e88b2d32e2d7fe5a105da8ee3264f01902f796c8e067dc2483f"
+checksum = "5bb987efffd3c6d0d8f5f89510bb458559eab11e4f869acb20bf845e016259cd"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -1660,9 +1457,9 @@ checksum = "c08c74e62047bb2de4ff487b251e4a92e24f48745648451635cec7d591162d9f"
 
 [[package]]
 name = "reqwest"
-version = "0.11.23"
+version = "0.11.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "37b1ae8d9ac08420c66222fb9096fc5de435c3c48542bc5336c51892cffafb41"
+checksum = "c6920094eb85afde5e4a138be3f2de8bbdf28000f0029e72c45025a56b042251"
 dependencies = [
  "base64",
  "bytes",
@@ -1686,6 +1483,7 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_urlencoded",
+ "sync_wrapper",
  "system-configuration",
  "tokio",
  "tokio-rustls",
@@ -1797,35 +1595,35 @@ dependencies = [
 
 [[package]]
 name = "semver"
-version = "1.0.20"
+version = "1.0.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "836fa6a3e1e547f9a2c4040802ec865b5d85f4014efe00555d7090a3dcaa1090"
+checksum = "b97ed7a9823b74f99c7742f5336af7be5ecd3eeafcb1507d1fa93347b1d589b0"
 
 [[package]]
 name = "serde"
-version = "1.0.193"
+version = "1.0.196"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "25dd9975e68d0cb5aa1120c288333fc98731bd1dd12f561e468ea4728c042b89"
+checksum = "870026e60fa08c69f064aa766c10f10b1d62db9ccd4d0abb206472bee0ce3b32"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.193"
+version = "1.0.196"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "43576ca501357b9b071ac53cdc7da8ef0cbd9493d8df094cd821777ea6e894d3"
+checksum = "33c85360c95e7d137454dc81d9a4ed2b8efd8fbe19cee57357b32b9771fccb67"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.43",
+ "syn 2.0.48",
 ]
 
 [[package]]
 name = "serde_json"
-version = "1.0.108"
+version = "1.0.113"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d1c7e3eac408d115102c4c24ad393e0821bb3a5df4d506a80f85f7a742a526b"
+checksum = "69801b70b1c3dac963ecb03a364ba0ceda9cf60c71cfe475e99864759c8b8a79"
 dependencies = [
  "itoa",
  "ryu",
@@ -1881,9 +1679,9 @@ dependencies = [
 
 [[package]]
 name = "smallvec"
-version = "1.11.2"
+version = "1.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4dccd0940a2dcdf68d092b8cbab7dc0ad8fa938bf95787e1b916b0e3d0e8e970"
+checksum = "e6ecd384b10a64542d77071bd64bd7b231f4ed5940fba55e98c3de13824cf3d7"
 
 [[package]]
 name = "socket2"
@@ -1920,14 +1718,20 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "2.0.43"
+version = "2.0.48"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ee659fb5f3d355364e1f3e5bc10fb82068efbf824a1e9d1c9504244a6469ad53"
+checksum = "0f3531638e407dfc0814761abb7c00a5b54992b849452a0646b7f65c9f770f3f"
 dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
 ]
+
+[[package]]
+name = "sync_wrapper"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2047c6ded9c721764247e62cd3b03c09ffc529b2ba5b10ec482ae507a4a70160"
 
 [[package]]
 name = "system-configuration"
@@ -1952,12 +1756,13 @@ dependencies = [
 
 [[package]]
 name = "time"
-version = "0.3.31"
+version = "0.3.34"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f657ba42c3f86e7680e53c8cd3af8abbe56b5491790b46e22e19c0d57463583e"
+checksum = "c8248b6521bb14bc45b4067159b9b6ad792e2d6d754d6c41fb50e29fefe38749"
 dependencies = [
  "deranged",
  "itoa",
+ "num-conv",
  "powerfmt",
  "serde",
  "time-core",
@@ -1972,10 +1777,11 @@ checksum = "ef927ca75afb808a4d64dd374f00a2adf8d0fcff8e7b184af886c3c87ec4a3f3"
 
 [[package]]
 name = "time-macros"
-version = "0.2.16"
+version = "0.2.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "26197e33420244aeb70c3e8c78376ca46571bc4e701e4791c2cd9f57dcb3a43f"
+checksum = "7ba3a3ef41e6672a2f0f001392bb5dcd3ff0a9992d618ca761a11c3121547774"
 dependencies = [
+ "num-conv",
  "time-core",
 ]
 
@@ -1996,9 +1802,9 @@ checksum = "1f3ccbac311fea05f86f61904b462b55fb3df8837a366dfc601a0161d0532f20"
 
 [[package]]
 name = "tokio"
-version = "1.35.1"
+version = "1.36.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c89b4efa943be685f629b149f53829423f8f5531ea21249408e8e2f8671ec104"
+checksum = "61285f6515fa018fb2d1e46eb21223fff441ee8db5d0f1435e8ab4f5cdb80931"
 dependencies = [
  "backtrace",
  "bytes",
@@ -2076,9 +1882,9 @@ checksum = "42ff0bf0c66b8238c6f3b578df37d0b7848e55df8577b3f74f92a69acceeb825"
 
 [[package]]
 name = "unicode-bidi"
-version = "0.3.14"
+version = "0.3.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6f2528f27a9eb2b21e69c95319b30bd0efd85d09c379741b0f78ea1d86be2416"
+checksum = "08f95100a766bf4f8f28f90d77e0a5461bbdb219042e7679bebe79004fed8d75"
 
 [[package]]
 name = "unicode-id"
@@ -2148,9 +1954,9 @@ checksum = "711b9620af191e0cdc7468a8d14e709c3dcdb115b36f838e601583af800a370a"
 
 [[package]]
 name = "uuid"
-version = "1.6.1"
+version = "1.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e395fcf16a7a3d8127ec99782007af141946b4795001f876d54fb0d55978560"
+checksum = "f00cc9702ca12d3c81455259621e676d0f7251cec66a21e98fe2e9a37db93b2a"
 dependencies = [
  "getrandom",
 ]
@@ -2188,9 +1994,9 @@ checksum = "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
 
 [[package]]
 name = "wasm-bindgen"
-version = "0.2.89"
+version = "0.2.90"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0ed0d4f68a3015cc185aff4db9506a015f4b96f95303897bfa23f846db54064e"
+checksum = "b1223296a201415c7fad14792dbefaace9bd52b62d33453ade1c5b5f07555406"
 dependencies = [
  "cfg-if",
  "wasm-bindgen-macro",
@@ -2198,24 +2004,24 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-backend"
-version = "0.2.89"
+version = "0.2.90"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1b56f625e64f3a1084ded111c4d5f477df9f8c92df113852fa5a374dbda78826"
+checksum = "fcdc935b63408d58a32f8cc9738a0bffd8f05cc7c002086c6ef20b7312ad9dcd"
 dependencies = [
  "bumpalo",
  "log",
  "once_cell",
  "proc-macro2",
  "quote",
- "syn 2.0.43",
+ "syn 2.0.48",
  "wasm-bindgen-shared",
 ]
 
 [[package]]
 name = "wasm-bindgen-futures"
-version = "0.4.39"
+version = "0.4.40"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ac36a15a220124ac510204aec1c3e5db8a22ab06fd6706d881dc6149f8ed9a12"
+checksum = "bde2032aeb86bdfaecc8b261eef3cba735cc426c1f3a3416d1e0791be95fc461"
 dependencies = [
  "cfg-if",
  "js-sys",
@@ -2225,9 +2031,9 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-macro"
-version = "0.2.89"
+version = "0.2.90"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0162dbf37223cd2afce98f3d0785506dcb8d266223983e4b5b525859e6e182b2"
+checksum = "3e4c238561b2d428924c49815533a8b9121c664599558a5d9ec51f8a1740a999"
 dependencies = [
  "quote",
  "wasm-bindgen-macro-support",
@@ -2235,28 +2041,28 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-macro-support"
-version = "0.2.89"
+version = "0.2.90"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f0eb82fcb7930ae6219a7ecfd55b217f5f0893484b7a13022ebb2b2bf20b5283"
+checksum = "bae1abb6806dc1ad9e560ed242107c0f6c84335f1749dd4e8ddb012ebd5e25a7"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.43",
+ "syn 2.0.48",
  "wasm-bindgen-backend",
  "wasm-bindgen-shared",
 ]
 
 [[package]]
 name = "wasm-bindgen-shared"
-version = "0.2.89"
+version = "0.2.90"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7ab9b36309365056cd639da3134bf87fa8f3d86008abf99e612384a6eecd459f"
+checksum = "4d91413b1c31d7539ba5ef2451af3f0b833a005eb27a631cec32bc0635a8602b"
 
 [[package]]
 name = "web-sys"
-version = "0.3.66"
+version = "0.3.67"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50c24a44ec86bb68fbecd1b3efed7e85ea5621b39b35ef2766b66cd984f8010f"
+checksum = "58cd2333b6e0be7a39605f0e255892fd7418a682d8da8fe042fe25128794d2ed"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
@@ -2264,9 +2070,9 @@ dependencies = [
 
 [[package]]
 name = "webpki-roots"
-version = "0.25.3"
+version = "0.25.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1778a42e8b3b90bff8d0f5032bf22250792889a5cdc752aa0020c84abe3aaf10"
+checksum = "5f20c57d8d7db6d3b86154206ae5d8fba62dd39573114de97c2cb0578251f8e1"
 
 [[package]]
 name = "winapi"
@@ -2467,7 +2273,7 @@ checksum = "9ce1b18ccd8e73a9321186f97e46f9f04b778851177567b1975109d26a08d2a6"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.43",
+ "syn 2.0.48",
 ]
 
 [[package]]

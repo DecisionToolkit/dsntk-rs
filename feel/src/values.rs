@@ -14,6 +14,7 @@ use dsntk_feel_temporal::{FeelDate, FeelDateTime, FeelDaysAndTimeDuration, FeelT
 use std::collections::BTreeMap;
 use std::convert::TryFrom;
 use std::fmt;
+use std::fmt::Display;
 use std::ops::Deref;
 use std::str::FromStr;
 use std::string::ToString;
@@ -216,24 +217,51 @@ pub enum Value {
   /// Value for storing time as [FeelTime].
   Time(FeelTime),
 
-  /// `UnaryGreater` value...
-  UnaryGreater(Box<Value>),
+  /// Value representing unary `>`.
+  UnaryGreater(
+    /// Value on the right side of the unary `>` operator.
+    Box<Value>,
+  ),
 
-  /// `UnaryGreaterOrEqual` value...
-  UnaryGreaterOrEqual(Box<Value>),
+  /// Value representing unary `>=`.
+  UnaryGreaterOrEqual(
+    /// Value on the right side of the unary `>=` operator.
+    Box<Value>,
+  ),
 
-  /// `UnaryLess` value...
-  UnaryLess(Box<Value>),
+  /// Value representing unary `<`.
+  UnaryLess(
+    /// Value on the right side of the unary `<` operator.
+    Box<Value>,
+  ),
 
-  /// `UnaryLessOrEqual` value...
-  UnaryLessOrEqual(Box<Value>),
+  /// Value representing unary `<=`.
+  UnaryLessOrEqual(
+    /// Value on the right side of the unary `<=` operator.
+    Box<Value>,
+  ),
+
+  /// Value representing unary `=`.
+  UnaryEqual(
+    /// Value on the right side of the unary `=` operator.
+    Box<Value>,
+  ),
+
+  /// Value representing unary `!=`.
+  UnaryNotEqual(
+    /// Value on the right side of the unary `!=` operator.
+    Box<Value>,
+  ),
+
+  /// Value that is "bubbled-up" without any processing.
+  Transparent(Box<Value>),
 
   /// Value for storing years and months duration.
   YearsAndMonthsDuration(FeelYearsAndMonthsDuration),
 }
 
-impl fmt::Display for Value {
-  /// Converts [Value] into string.
+impl Display for Value {
+  /// Implements [Display] for a [Value].
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     match self {
       Value::Boolean(value) => write!(f, "{value}"),
@@ -277,6 +305,9 @@ impl fmt::Display for Value {
       Value::UnaryGreaterOrEqual(value) => write!(f, "UnaryGreaterOrEqual({value})"),
       Value::UnaryLess(value) => write!(f, "UnaryLess({value})"),
       Value::UnaryLessOrEqual(value) => write!(f, "UnaryLessOrEqual({value})"),
+      Value::UnaryEqual(value) => write!(f, "UnaryEqual({value})"),
+      Value::UnaryNotEqual(value) => write!(f, "UnaryNotEqual({value})"),
+      Value::Transparent(value) => write!(f, "Transparent({value})"),
       Value::YearsAndMonthsDuration(ym_duration) => write!(f, "{ym_duration}"),
     }
   }
@@ -352,6 +383,11 @@ impl Value {
   /// Returns `true` when the value is of type [Value::List].
   pub fn is_list(&self) -> bool {
     matches!(self, Value::List(_))
+  }
+
+  /// Returns `true` when the value is of type [Value::Range].
+  pub fn is_range(&self) -> bool {
+    matches!(self, Value::Range(_, _, _, _))
   }
 
   /// Returns `true` when the value is of type [Value::Null] indicating invalid coercion.
@@ -433,6 +469,9 @@ impl Value {
       Value::UnaryGreaterOrEqual(_) => FeelType::Boolean,
       Value::UnaryLess(_) => FeelType::Boolean,
       Value::UnaryLessOrEqual(_) => FeelType::Boolean,
+      Value::UnaryEqual(_) => FeelType::Boolean,
+      Value::UnaryNotEqual(_) => FeelType::Boolean,
+      Value::Transparent(value) => value.type_of(),
       Value::YearsAndMonthsDuration(_) => FeelType::YearsAndMonthsDuration,
     }
   }

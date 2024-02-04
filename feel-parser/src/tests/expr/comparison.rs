@@ -87,9 +87,9 @@ fn _0005() {
     r#"
        Gt
        ├─ Numeric
-       │  └─ `5.`
+       │  └─ `5`
        └─ Numeric
-          └─ `3.`
+          └─ `3`
     "#,
     false,
   );
@@ -105,9 +105,9 @@ fn _0006() {
     r#"
        Ge
        ├─ Numeric
-       │  └─ `5.`
+       │  └─ `5`
        └─ Numeric
-          └─ `3.`
+          └─ `3`
     "#,
     false,
   );
@@ -123,11 +123,11 @@ fn _0007() {
     r#"
        Between
        ├─ Numeric
-       │  └─ `5.`
+       │  └─ `5`
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `10.`
+          └─ `10`
     "#,
     false,
   );
@@ -143,9 +143,9 @@ fn _0008() {
     r#"
        In
        ├─ Numeric
-       │  └─ `5.`
+       │  └─ `5`
        └─ Numeric
-          └─ `10.`
+          └─ `10`
     "#,
     false,
   );
@@ -161,10 +161,10 @@ fn _0009() {
     r#"
        In
        ├─ Numeric
-       │  └─ `5.`
+       │  └─ `5`
        └─ UnaryLt
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -180,10 +180,10 @@ fn _0010() {
     r#"
        In
        ├─ Numeric
-       │  └─ `5.`
+       │  └─ `5`
        └─ UnaryLe
           └─ Numeric
-             └─ `10.`
+             └─ `10`
     "#,
     false,
   );
@@ -199,10 +199,10 @@ fn _0011() {
     r#"
        In
        ├─ Numeric
-       │  └─ `18.`
+       │  └─ `18`
        └─ UnaryGt
           └─ Numeric
-             └─ `8.`
+             └─ `8`
     "#,
     false,
   );
@@ -218,10 +218,10 @@ fn _0012() {
     r#"
        In
        ├─ Numeric
-       │  └─ `18.`
+       │  └─ `18`
        └─ UnaryGe
           └─ Numeric
-             └─ `8.`
+             └─ `8`
     "#,
     false,
   );
@@ -237,14 +237,14 @@ fn _0013() {
     r#"
        In
        ├─ Numeric
-       │  └─ `18.`
+       │  └─ `18`
        └─ Range
           ├─ IntervalStart (closed)
           │  └─ Numeric
-          │     └─ `1.`
+          │     └─ `1`
           └─ IntervalEnd (closed)
              └─ Numeric
-                └─ `100.`
+                └─ `100`
     "#,
     false,
   );
@@ -260,14 +260,14 @@ fn _0014() {
     r#"
        In
        ├─ Numeric
-       │  └─ `18.`
+       │  └─ `18`
        └─ Range
           ├─ IntervalStart (opened)
           │  └─ Numeric
-          │     └─ `1.`
+          │     └─ `1`
           └─ IntervalEnd (opened)
              └─ Numeric
-                └─ `100.`
+                └─ `100`
     "#,
     false,
   );
@@ -283,22 +283,22 @@ fn _0015() {
     r#"
        In
        ├─ Numeric
-       │  └─ `5.`
+       │  └─ `5`
        └─ ExpressionList
           ├─ Numeric
-          │  └─ `1.`
+          │  └─ `1`
           ├─ Numeric
-          │  └─ `2.`
+          │  └─ `2`
           ├─ Numeric
-          │  └─ `3.`
+          │  └─ `3`
           ├─ Numeric
-          │  └─ `4.`
+          │  └─ `4`
           ├─ Numeric
-          │  └─ `5.`
+          │  └─ `5`
           ├─ Numeric
-          │  └─ `6.`
+          │  └─ `6`
           └─ Numeric
-             └─ `7.`
+             └─ `7`
     "#,
     false,
   );

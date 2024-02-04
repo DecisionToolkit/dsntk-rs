@@ -3,12 +3,14 @@
 mod compatibility;
 pub mod decision_logic;
 pub mod decision_tables;
+mod diagrams;
 mod examples;
 mod full_model;
 pub mod input_data;
 pub mod item_definition;
 
 pub use compatibility::*;
+pub use diagrams::*;
 pub use examples::valid::*;
 pub use examples::*;
 pub use full_model::*;

@@ -15,15 +15,15 @@ fn _0001() {
        │     ├─ Name
        │     │  └─ `n`
        │     ├─ Numeric
-       │     │  └─ `1.`
+       │     │  └─ `1`
        │     └─ Numeric
-       │        └─ `10.`
+       │        └─ `10`
        └─ EvaluatedExpression
           └─ Add
              ├─ Name
              │  └─ `n`
              └─ Numeric
-                └─ `1.`
+                └─ `1`
     "#,
     false,
   );
@@ -44,17 +44,17 @@ fn _0002() {
        │     │  └─ `n`
        │     └─ List
        │        ├─ Numeric
-       │        │  └─ `1.`
+       │        │  └─ `1`
        │        ├─ Numeric
-       │        │  └─ `2.`
+       │        │  └─ `2`
        │        └─ Numeric
-       │           └─ `3.`
+       │           └─ `3`
        └─ EvaluatedExpression
           └─ Add
              ├─ Name
              │  └─ `n`
              └─ Numeric
-                └─ `1.`
+                └─ `1`
     "#,
     false,
   );
@@ -74,16 +74,16 @@ fn _0003() {
        │  │  ├─ Name
        │  │  │  └─ `n`
        │  │  ├─ Numeric
-       │  │  │  └─ `1.`
+       │  │  │  └─ `1`
        │  │  └─ Numeric
-       │  │     └─ `10.`
+       │  │     └─ `10`
        │  └─ IterationContextRange
        │     ├─ Name
        │     │  └─ `m`
        │     ├─ Numeric
-       │     │  └─ `100.`
+       │     │  └─ `100`
        │     └─ Numeric
-       │        └─ `200.`
+       │        └─ `200`
        └─ EvaluatedExpression
           └─ Add
              ├─ Name
@@ -110,22 +110,22 @@ fn _0004() {
        │  │  │  └─ `n`
        │  │  └─ List
        │  │     ├─ Numeric
-       │  │     │  └─ `1.`
+       │  │     │  └─ `1`
        │  │     ├─ Numeric
-       │  │     │  └─ `5.`
+       │  │     │  └─ `5`
        │  │     └─ Numeric
-       │  │        └─ `8.`
+       │  │        └─ `8`
        │  └─ IterationContextSingle
        │     ├─ Name
        │     │  └─ `m`
        │     └─ List
        │        ├─ Numeric
-       │        │  └─ `15.`
+       │        │  └─ `15`
        │        ├─ Numeric
-       │        │  └─ `18.`
+       │        │  └─ `18`
        │        └─ Neg
        │           └─ Numeric
-       │              └─ `3.`
+       │              └─ `3`
        └─ EvaluatedExpression
           └─ Mul
              ├─ Name
@@ -152,34 +152,34 @@ fn _0005() {
        │  │  │  └─ `n`
        │  │  └─ List
        │  │     ├─ Numeric
-       │  │     │  └─ `1.`
+       │  │     │  └─ `1`
        │  │     ├─ Numeric
-       │  │     │  └─ `5.`
+       │  │     │  └─ `5`
        │  │     └─ Numeric
-       │  │        └─ `8.`
+       │  │        └─ `8`
        │  └─ IterationContextSingle
        │     ├─ Name
        │     │  └─ `m`
        │     └─ List
        │        ├─ Numeric
-       │        │  └─ `15.`
+       │        │  └─ `15`
        │        ├─ Numeric
-       │        │  └─ `18.`
+       │        │  └─ `18`
        │        └─ Neg
        │           └─ Numeric
-       │              └─ `3.`
+       │              └─ `3`
        └─ EvaluatedExpression
           └─ Mul
              ├─ Add
              │  ├─ Name
              │  │  └─ `n`
              │  └─ Numeric
-             │     └─ `2.`
+             │     └─ `2`
              └─ Sub
                 ├─ Name
                 │  └─ `m`
                 └─ Numeric
-                   └─ `4.`
+                   └─ `4`
     "#,
     false,
   );
@@ -188,7 +188,7 @@ fn _0005() {
 #[test]
 fn _0006() {
   let scope = scope!();
-  scope.set_name("N".into());
+  scope.set_entry_name("N".into());
   accept(
     &scope,
     StartExpression,
@@ -200,7 +200,7 @@ fn _0006() {
        │     ├─ Name
        │     │  └─ `i`
        │     ├─ Numeric
-       │     │  └─ `0.`
+       │     │  └─ `0`
        │     └─ Name
        │        └─ `N`
        └─ EvaluatedExpression
@@ -209,9 +209,9 @@ fn _0006() {
              │  ├─ Name
              │  │  └─ `i`
              │  └─ Numeric
-             │     └─ `0.`
+             │     └─ `0`
              ├─ Numeric
-             │  └─ `1.`
+             │  └─ `1`
              └─ Mul
                 ├─ Name
                 │  └─ `i`
@@ -220,7 +220,7 @@ fn _0006() {
                    │  └─ `partial`
                    └─ Neg
                       └─ Numeric
-                         └─ `1.`
+                         └─ `1`
     "#,
     false,
   );
@@ -232,7 +232,7 @@ fn _0007() {
   // but only this way it is well tested, if this variable is properly defined
   // in local context during parsing the `return` expression.
   let scope = scope!();
-  scope.set_name("N".into());
+  scope.set_entry_name("N".into());
   accept(
     &scope,
     StartExpression,
@@ -244,7 +244,7 @@ fn _0007() {
        │     ├─ Name
        │     │  └─ `i`
        │     ├─ Numeric
-       │     │  └─ `0.`
+       │     │  └─ `0`
        │     └─ Name
        │        └─ `N`
        └─ EvaluatedExpression
@@ -253,9 +253,9 @@ fn _0007() {
              │  ├─ Name
              │  │  └─ `i`
              │  └─ Numeric
-             │     └─ `0.`
+             │     └─ `0`
              ├─ Numeric
-             │  └─ `1.`
+             │  └─ `1`
              └─ Mul
                 ├─ Name
                 │  └─ `i`
@@ -263,7 +263,7 @@ fn _0007() {
                    ├─ Name
                    │  └─ `partial`
                    └─ Numeric
-                      └─ `1.`
+                      └─ `1`
     "#,
     false,
   );

@@ -11,9 +11,9 @@ fn _0001() {
     r#"
        Sub
        ├─ Numeric
-       │  └─ `3.`
+       │  └─ `3`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     false,
   );
@@ -51,9 +51,9 @@ fn _0003() {
     r#"
        Sub
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     false,
   );
@@ -70,11 +70,11 @@ fn _0004() {
        Sub
        ├─ Sub
        │  ├─ Numeric
-       │  │  └─ `5.`
+       │  │  └─ `5`
        │  └─ Numeric
-       │     └─ `2.`
+       │     └─ `2`
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     false,
   );
@@ -83,8 +83,8 @@ fn _0004() {
 #[test]
 fn _0005() {
   let scope = scope!();
-  scope.set_name("Date-Time".into());
-  scope.set_name("Date-Time2".into());
+  scope.set_entry_name("Date-Time".into());
+  scope.set_entry_name("Date-Time2".into());
   accept(
     &scope,
     StartExpression,
@@ -103,8 +103,8 @@ fn _0005() {
 #[test]
 fn _0006() {
   let scope = scope!();
-  scope.set_name("Date  -  Time".into());
-  scope.set_name("Date     -   Time2".into());
+  scope.set_entry_name("Date  -  Time".into());
+  scope.set_entry_name("Date     -   Time2".into());
   accept(
     &scope,
     StartExpression,

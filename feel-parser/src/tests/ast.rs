@@ -1,57 +1,7 @@
+use super::*;
 use crate::AstNode;
 use dsntk_feel::{FeelType, Name};
 use std::collections::BTreeMap;
-
-macro_rules! s {
-  ($l:literal) => {
-    $l.to_string()
-  };
-  () => {
-    "".to_string()
-  };
-}
-
-macro_rules! _num {
-  ($a:literal, $b:literal) => {
-    AstNode::Numeric($a.to_string(), $b.to_string())
-  };
-  ($a:literal) => {
-    AstNode::Numeric($a.to_string(), "".to_string())
-  };
-}
-
-macro_rules! b_num {
-  ($a:literal, $b:literal) => {
-    Box::new(AstNode::Numeric($a.to_string(), $b.to_string()))
-  };
-  ($a:literal) => {
-    Box::new(AstNode::Numeric($a.to_string(), "".to_string()))
-  };
-}
-
-macro_rules! __name {
-  ($a:tt) => {
-    stringify!($a).into()
-  };
-}
-
-macro_rules! _name {
-  ($a:tt) => {
-    AstNode::Name(stringify!($a).into())
-  };
-}
-
-macro_rules! b_name {
-  ($a:tt) => {
-    Box::new(AstNode::Name(stringify!($a).into()))
-  };
-}
-
-macro_rules! b_bool {
-  ($a:literal) => {
-    Box::new(AstNode::Boolean($a))
-  };
-}
 
 /// Utility function for comparing debug strings.
 fn eqd(expected: &str, node: &AstNode) {
@@ -78,9 +28,9 @@ fn test_clone() {
     r#"
        Add
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     format!("{node_a}"),
   );
@@ -92,9 +42,9 @@ fn test_display() {
     r#"
        Add
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     format!("{}", AstNode::Add(b_num!(1), b_num!(2))),
   );
@@ -106,9 +56,9 @@ fn test_trace() {
     r#"      AST:
        Add
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     AstNode::Add(b_num!(1), b_num!(2)).trace()
   );
@@ -117,7 +67,7 @@ fn test_trace() {
 #[test]
 fn test_node_add() {
   let node = &AstNode::Add(b_num!(1, 23), b_num!(2, 34));
-  eqd(r#"Add(Numeric("1", "23"), Numeric("2", "34"))"#, node);
+  eqd(r#"Add(Numeric("1", "23", '+', ""), Numeric("2", "34", '+', ""))"#, node);
   eqs(
     r#"
        Add
@@ -128,8 +78,12 @@ fn test_node_add() {
     "#,
     node,
   );
+}
+
+#[test]
+fn test_node_add_string() {
   let node = &AstNode::Add(b_num!(1, 23), Box::new(AstNode::String("12".to_string())));
-  eqd(r#"Add(Numeric("1", "23"), String("12"))"#, node);
+  eqd(r#"Add(Numeric("1", "23", '+', ""), String("12"))"#, node);
   eqs(
     r#"
        Add
@@ -173,21 +127,17 @@ fn test_node_at() {
 
 #[test]
 fn test_node_between() {
-  let node = &AstNode::Between(
-    Box::new(AstNode::Name("x".into())),
-    Box::new(AstNode::Numeric(s!(1), s!())),
-    Box::new(AstNode::Numeric(s!(10), s!())),
-  );
-  eqd(r#"Between(Name(Name("x")), Numeric("1", ""), Numeric("10", ""))"#, node);
+  let node = &AstNode::Between(Box::new(AstNode::Name("x".into())), b_num!(s!(1), s!()), b_num!(s!(10), s!()));
+  eqd(r#"Between(Name(Name("x")), Numeric("1", "", '+', ""), Numeric("10", "", '+', ""))"#, node);
   eqs(
     r#"
        Between
        ├─ Name
        │  └─ `x`
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `10.`
+          └─ `10`
     "#,
     node,
   );
@@ -208,21 +158,17 @@ fn test_node_boolean() {
 
 #[test]
 fn test_node_comma_list() {
-  let node = &AstNode::CommaList(vec![
-    AstNode::Numeric("1".to_string(), "".to_string()),
-    AstNode::Numeric("2".to_string(), "".to_string()),
-    AstNode::Numeric("3".to_string(), "".to_string()),
-  ]);
-  eqd(r#"CommaList([Numeric("1", ""), Numeric("2", ""), Numeric("3", "")])"#, node);
+  let node = &AstNode::CommaList(vec![_num!("1"), _num!("2"), _num!("3")]);
+  eqd(r#"CommaList([Numeric("1", "", '+', ""), Numeric("2", "", '+', ""), Numeric("3", "", '+', "")])"#, node);
   eqs(
     r#"
        CommaList
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        ├─ Numeric
-       │  └─ `2.`
+       │  └─ `2`
        └─ Numeric
-          └─ `3.`
+          └─ `3`
     "#,
     node,
   );
@@ -231,11 +177,11 @@ fn test_node_comma_list() {
 #[test]
 fn test_node_context() {
   let node = &AstNode::Context(vec![
-    AstNode::ContextEntry(Box::new(AstNode::ContextEntryKey(s!("count").into())), Box::new(AstNode::Numeric(s!(1), s!()))),
-    AstNode::ContextEntry(Box::new(AstNode::ContextEntryKey(s!("amount").into())), Box::new(AstNode::Numeric(s!(99), s!(99)))),
+    AstNode::ContextEntry(Box::new(AstNode::ContextEntryKey(s!("count").into())), b_num!(s!(1), s!())),
+    AstNode::ContextEntry(Box::new(AstNode::ContextEntryKey(s!("amount").into())), b_num!(s!(99), s!(99))),
   ]);
   eqd(
-    r#"Context([ContextEntry(ContextEntryKey(Name("count")), Numeric("1", "")), ContextEntry(ContextEntryKey(Name("amount")), Numeric("99", "99"))])"#,
+    r#"Context([ContextEntry(ContextEntryKey(Name("count")), Numeric("1", "", '+', "")), ContextEntry(ContextEntryKey(Name("amount")), Numeric("99", "99", '+', ""))])"#,
     node,
   );
   eqs(
@@ -245,7 +191,7 @@ fn test_node_context() {
        │  ├─ ContextEntryKey
        │  │  └─ `count`
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ ContextEntry
           ├─ ContextEntryKey
           │  └─ `amount`
@@ -258,15 +204,15 @@ fn test_node_context() {
 
 #[test]
 fn test_node_context_entry() {
-  let node = &AstNode::ContextEntry(Box::new(AstNode::ContextEntryKey(s!("count").into())), Box::new(AstNode::Numeric(s!(1), s!())));
-  eqd(r#"ContextEntry(ContextEntryKey(Name("count")), Numeric("1", ""))"#, node);
+  let node = &AstNode::ContextEntry(Box::new(AstNode::ContextEntryKey(s!("count").into())), b_num!(s!(1), s!()));
+  eqd(r#"ContextEntry(ContextEntryKey(Name("count")), Numeric("1", "", '+', ""))"#, node);
   eqs(
     r#"
        ContextEntry
        ├─ ContextEntryKey
        │  └─ `count`
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     node,
   );
@@ -356,8 +302,8 @@ fn test_node_context_type_entry_key() {
 
 #[test]
 fn test_node_div() {
-  let node = &AstNode::Div(Box::new(AstNode::Numeric(s!(1), s!(23))), Box::new(AstNode::Numeric(s!(2), s!(34))));
-  eqd(r#"Div(Numeric("1", "23"), Numeric("2", "34"))"#, node);
+  let node = &AstNode::Div(b_num!(s!(1), s!(23)), b_num!(s!(2), s!(34)));
+  eqd(r#"Div(Numeric("1", "23", '+', ""), Numeric("2", "34", '+', ""))"#, node);
   eqs(
     r#"
        Div
@@ -402,16 +348,16 @@ fn test_node_evaluated_expression() {
 
 #[test]
 fn test_node_every() {
-  let node = &AstNode::Every(Box::new(AstNode::Numeric(s!(1), s!())), Box::new(AstNode::List(vec![AstNode::Numeric(s!(1), s!())])));
-  eqd(r#"Every(Numeric("1", ""), List([Numeric("1", "")]))"#, node);
+  let node = &AstNode::Every(b_num!(s!(1), s!()), Box::new(AstNode::List(vec![_num!(s!(1), s!())])));
+  eqd(r#"Every(Numeric("1", "", '+', ""), List([Numeric("1", "", '+', "")]))"#, node);
   eqs(
     r#"
        Every
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ List
           └─ Numeric
-             └─ `1.`
+             └─ `1`
     "#,
     node,
   );
@@ -419,8 +365,8 @@ fn test_node_every() {
 
 #[test]
 fn test_node_exp() {
-  let node = &AstNode::Exp(Box::new(AstNode::Numeric(s!(1), s!(23))), Box::new(AstNode::Numeric(s!(2), s!(34))));
-  eqd(r#"Exp(Numeric("1", "23"), Numeric("2", "34"))"#, node);
+  let node = &AstNode::Exp(b_num!(s!(1), s!(23)), b_num!(s!(2), s!(34)));
+  eqd(r#"Exp(Numeric("1", "23", '+', ""), Numeric("2", "34", '+', ""))"#, node);
   eqs(
     r#"
        Exp
@@ -444,13 +390,13 @@ fn test_node_expression_list() {
     "#,
     node,
   );
-  let node = &AstNode::ExpressionList(vec![AstNode::Numeric(s!(1), s!())]);
-  eqd(r#"ExpressionList([Numeric("1", "")])"#, node);
+  let node = &AstNode::ExpressionList(vec![_num!(s!(1), s!())]);
+  eqd(r#"ExpressionList([Numeric("1", "", '+', "")])"#, node);
   eqs(
     r#"
        ExpressionList
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     node,
   );
@@ -459,23 +405,26 @@ fn test_node_expression_list() {
 #[test]
 fn test_node_filter() {
   let node = &AstNode::Filter(
-    Box::new(AstNode::List(vec![AstNode::Numeric(s!(1), s!()), AstNode::Numeric(s!(2), s!())])),
-    Box::new(AstNode::Gt(Box::new(AstNode::Name(s!("count").into())), Box::new(AstNode::Numeric(s!(1), s!())))),
+    Box::new(AstNode::List(vec![_num!(s!(1), s!()), _num!(s!(2), s!())])),
+    Box::new(AstNode::Gt(Box::new(AstNode::Name(s!("count").into())), b_num!(s!(1), s!()))),
   );
-  eqd(r#"Filter(List([Numeric("1", ""), Numeric("2", "")]), Gt(Name(Name("count")), Numeric("1", "")))"#, node);
+  eqd(
+    r#"Filter(List([Numeric("1", "", '+', ""), Numeric("2", "", '+', "")]), Gt(Name(Name("count")), Numeric("1", "", '+', "")))"#,
+    node,
+  );
   eqs(
     r#"
        Filter
        ├─ List
        │  ├─ Numeric
-       │  │  └─ `1.`
+       │  │  └─ `1`
        │  └─ Numeric
-       │     └─ `2.`
+       │     └─ `2`
        └─ Gt
           ├─ Name
           │  └─ `count`
           └─ Numeric
-             └─ `1.`
+             └─ `1`
     "#,
     node,
   );
@@ -484,7 +433,7 @@ fn test_node_filter() {
 #[test]
 fn test_node_for() {
   let node = &AstNode::For(Box::new(AstNode::Name(s!("i").into())), Box::new(AstNode::List(vec![_num!(1), _num!(2)])));
-  eqd(r#"For(Name(Name("i")), List([Numeric("1", ""), Numeric("2", "")]))"#, node);
+  eqd(r#"For(Name(Name("i")), List([Numeric("1", "", '+', ""), Numeric("2", "", '+', "")]))"#, node);
   eqs(
     r#"
        For
@@ -492,9 +441,9 @@ fn test_node_for() {
        │  └─ `i`
        └─ List
           ├─ Numeric
-          │  └─ `1.`
+          │  └─ `1`
           └─ Numeric
-             └─ `2.`
+             └─ `2`
     "#,
     node,
   );
@@ -532,12 +481,12 @@ fn test_node_formal_parameters() {
 #[test]
 fn test_node_function_body() {
   let node = &AstNode::FunctionBody(b_num!(1), false);
-  eqd(r#"FunctionBody(Numeric("1", ""), false)"#, node);
+  eqd(r#"FunctionBody(Numeric("1", "", '+', ""), false)"#, node);
   eqs(
     r#"
        FunctionBody
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     node,
   );
@@ -546,7 +495,7 @@ fn test_node_function_body() {
 #[test]
 fn test_node_function_definition() {
   let node = &AstNode::FunctionDefinition(Box::new(AstNode::FormalParameters(vec![])), Box::new(AstNode::FunctionBody(b_num!(1), false)));
-  eqd(r#"FunctionDefinition(FormalParameters([]), FunctionBody(Numeric("1", ""), false))"#, node);
+  eqd(r#"FunctionDefinition(FormalParameters([]), FunctionBody(Numeric("1", "", '+', ""), false))"#, node);
   eqs(
     r#"
        FunctionDefinition
@@ -554,7 +503,7 @@ fn test_node_function_definition() {
        │  └─ (empty)
        └─ FunctionBody
           └─ Numeric
-             └─ `1.`
+             └─ `1`
     "#,
     node,
   );
@@ -655,15 +604,15 @@ fn test_node_gt() {
 #[test]
 fn test_node_if() {
   let node = &AstNode::If(Box::new(AstNode::Gt(b_num!(1), b_num!(2))), b_bool!(true), b_bool!(false));
-  eqd(r#"If(Gt(Numeric("1", ""), Numeric("2", "")), Boolean(true), Boolean(false))"#, node);
+  eqd(r#"If(Gt(Numeric("1", "", '+', ""), Numeric("2", "", '+', "")), Boolean(true), Boolean(false))"#, node);
   eqs(
     r#"
        If
        ├─ Gt
        │  ├─ Numeric
-       │  │  └─ `1.`
+       │  │  └─ `1`
        │  └─ Numeric
-       │     └─ `2.`
+       │     └─ `2`
        ├─ Boolean
        │  └─ `true`
        └─ Boolean
@@ -676,19 +625,22 @@ fn test_node_if() {
 #[test]
 fn test_node_in() {
   let node = &AstNode::In(b_num!(1), Box::new(AstNode::List(vec![_num!(1), _num!(2), _num!(3)])));
-  eqd(r#"In(Numeric("1", ""), List([Numeric("1", ""), Numeric("2", ""), Numeric("3", "")]))"#, node);
+  eqd(
+    r#"In(Numeric("1", "", '+', ""), List([Numeric("1", "", '+', ""), Numeric("2", "", '+', ""), Numeric("3", "", '+', "")]))"#,
+    node,
+  );
   eqs(
     r#"
        In
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ List
           ├─ Numeric
-          │  └─ `1.`
+          │  └─ `1`
           ├─ Numeric
-          │  └─ `2.`
+          │  └─ `2`
           └─ Numeric
-             └─ `3.`
+             └─ `3`
     "#,
     node,
   );
@@ -697,12 +649,12 @@ fn test_node_in() {
 #[test]
 fn test_node_instance_of() {
   let node = &AstNode::InstanceOf(b_num!(1), Box::new(AstNode::FeelType(FeelType::Number)));
-  eqd(r#"InstanceOf(Numeric("1", ""), FeelType(Number))"#, node);
+  eqd(r#"InstanceOf(Numeric("1", "", '+', ""), FeelType(Number))"#, node);
   eqs(
     r#"
        InstanceOf
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ FeelType
           └─ number
     "#,
@@ -713,12 +665,12 @@ fn test_node_instance_of() {
 #[test]
 fn test_node_interval_end() {
   let node = &AstNode::IntervalEnd(b_num!(1), false);
-  eqd(r#"IntervalEnd(Numeric("1", ""), false)"#, node);
+  eqd(r#"IntervalEnd(Numeric("1", "", '+', ""), false)"#, node);
   eqs(
     r#"
        IntervalEnd (opened)
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     node,
   );
@@ -727,12 +679,12 @@ fn test_node_interval_end() {
 #[test]
 fn test_node_interval_start() {
   let node = &AstNode::IntervalStart(b_num!(100), true);
-  eqd(r#"IntervalStart(Numeric("100", ""), true)"#, node);
+  eqd(r#"IntervalStart(Numeric("100", "", '+', ""), true)"#, node);
   eqs(
     r#"
        IntervalStart (closed)
        └─ Numeric
-          └─ `100.`
+          └─ `100`
     "#,
     node,
   );
@@ -742,7 +694,7 @@ fn test_node_interval_start() {
 fn test_node_iteration_contexts() {
   let node = &AstNode::IterationContexts(vec![AstNode::Range(b_num!(1), b_num!(10)), AstNode::Range(b_num!(100), b_num!(110))]);
   eqd(
-    r#"IterationContexts([Range(Numeric("1", ""), Numeric("10", "")), Range(Numeric("100", ""), Numeric("110", ""))])"#,
+    r#"IterationContexts([Range(Numeric("1", "", '+', ""), Numeric("10", "", '+', "")), Range(Numeric("100", "", '+', ""), Numeric("110", "", '+', ""))])"#,
     node,
   );
   eqs(
@@ -750,14 +702,14 @@ fn test_node_iteration_contexts() {
        IterationContexts
        ├─ Range
        │  ├─ Numeric
-       │  │  └─ `1.`
+       │  │  └─ `1`
        │  └─ Numeric
-       │     └─ `10.`
+       │     └─ `10`
        └─ Range
           ├─ Numeric
-          │  └─ `100.`
+          │  └─ `100`
           └─ Numeric
-             └─ `110.`
+             └─ `110`
     "#,
     node,
   );
@@ -767,7 +719,7 @@ fn test_node_iteration_contexts() {
 fn test_node_iteration_context_list() {
   let node = &AstNode::IterationContextList(b_name!(i), Box::new(AstNode::List(vec![_num!(1), _num!(2), _num!(3)])));
   eqd(
-    r#"IterationContextList(Name(Name("i")), List([Numeric("1", ""), Numeric("2", ""), Numeric("3", "")]))"#,
+    r#"IterationContextList(Name(Name("i")), List([Numeric("1", "", '+', ""), Numeric("2", "", '+', ""), Numeric("3", "", '+', "")]))"#,
     node,
   );
   eqs(
@@ -777,11 +729,11 @@ fn test_node_iteration_context_list() {
        │  └─ `i`
        └─ List
           ├─ Numeric
-          │  └─ `1.`
+          │  └─ `1`
           ├─ Numeric
-          │  └─ `2.`
+          │  └─ `2`
           └─ Numeric
-             └─ `3.`
+             └─ `3`
     "#,
     node,
   );
@@ -790,16 +742,16 @@ fn test_node_iteration_context_list() {
 #[test]
 fn test_node_iteration_context_range() {
   let node = &AstNode::IterationContextRange(b_name!(i), b_num!(1), b_num!(10));
-  eqd(r#"IterationContextRange(Name(Name("i")), Numeric("1", ""), Numeric("10", ""))"#, node);
+  eqd(r#"IterationContextRange(Name(Name("i")), Numeric("1", "", '+', ""), Numeric("10", "", '+', ""))"#, node);
   eqs(
     r#"
        IterationContextRange
        ├─ Name
        │  └─ `i`
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `10.`
+          └─ `10`
     "#,
     node,
   );
@@ -833,16 +785,16 @@ fn test_node_list() {
     node,
   );
   let node = &AstNode::List(vec![_num!(1), _num!(2), _num!(3)]);
-  eqd(r#"List([Numeric("1", ""), Numeric("2", ""), Numeric("3", "")])"#, node);
+  eqd(r#"List([Numeric("1", "", '+', ""), Numeric("2", "", '+', ""), Numeric("3", "", '+', "")])"#, node);
   eqs(
     r#"
        List
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        ├─ Numeric
-       │  └─ `2.`
+       │  └─ `2`
        └─ Numeric
-          └─ `3.`
+          └─ `3`
     "#,
     node,
   );
@@ -880,8 +832,8 @@ fn test_node_lt() {
 
 #[test]
 fn test_node_mul() {
-  let node = &AstNode::Mul(Box::new(AstNode::Numeric(s!(1), s!(23))), Box::new(AstNode::Numeric(s!(2), s!(34))));
-  eqd(r#"Mul(Numeric("1", "23"), Numeric("2", "34"))"#, node);
+  let node = &AstNode::Mul(b_num!(s!(1), s!(23)), b_num!(s!(2), s!(34)));
+  eqd(r#"Mul(Numeric("1", "23", '+', ""), Numeric("2", "34", '+', ""))"#, node);
   eqs(
     r#"
        Mul
@@ -963,8 +915,8 @@ fn test_node_named_parameters() {
 
 #[test]
 fn test_node_neg() {
-  let node = &AstNode::Neg(Box::new(AstNode::Numeric(s!(1), s!(99))));
-  eqd(r#"Neg(Numeric("1", "99"))"#, node);
+  let node = &AstNode::Neg(b_num!(s!(1), s!(99)));
+  eqd(r#"Neg(Numeric("1", "99", '+', ""))"#, node);
   eqs(
     r#"
        Neg
@@ -986,13 +938,13 @@ fn test_node_negated_list() {
     "#,
     node,
   );
-  let node = &AstNode::NegatedList(vec![AstNode::Numeric(s!(1), s!())]);
-  eqd(r#"NegatedList([Numeric("1", "")])"#, node);
+  let node = &AstNode::NegatedList(vec![_num!(s!(1), s!())]);
+  eqd(r#"NegatedList([Numeric("1", "", '+', "")])"#, node);
   eqs(
     r#"
        NegatedList
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     node,
   );
@@ -1016,8 +968,8 @@ fn test_node_nq() {
 
 #[test]
 fn test_node_number() {
-  let node = &AstNode::Numeric(s!(123), s!(456));
-  eqd(r#"Numeric("123", "456")"#, node);
+  let node = &_num!(s!(123), s!(456));
+  eqd(r#"Numeric("123", "456", '+', "")"#, node);
   eqs(
     r#"
        Numeric
@@ -1057,18 +1009,15 @@ fn test_node_or() {
 
 #[test]
 fn test_node_out() {
-  let node = &AstNode::Out(
-    Box::new(AstNode::Numeric("1".to_string(), "".to_string())),
-    Box::new(AstNode::Numeric("2".to_string(), "".to_string())),
-  );
-  eqd(r#"Out(Numeric("1", ""), Numeric("2", ""))"#, node);
+  let node = &AstNode::Out(b_num!(s!(1)), b_num!(s!(2)));
+  eqd(r#"Out(Numeric("1", "", '+', ""), Numeric("2", "", '+', ""))"#, node);
   eqs(
     r#"
        Out
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     node,
   );
@@ -1138,14 +1087,14 @@ fn test_node_positional_parameters() {
     node,
   );
   let node = &AstNode::PositionalParameters(vec![_num!(1), _num!(2)]);
-  eqd(r#"PositionalParameters([Numeric("1", ""), Numeric("2", "")])"#, node);
+  eqd(r#"PositionalParameters([Numeric("1", "", '+', ""), Numeric("2", "", '+', "")])"#, node);
   eqs(
     r#"
        PositionalParameters
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     node,
   );
@@ -1204,14 +1153,14 @@ fn test_node_qualified_name_segment() {
 #[test]
 fn test_node_quantified_context() {
   let node = &AstNode::QuantifiedContext(b_name!(a), b_num!(10));
-  eqd(r#"QuantifiedContext(Name(Name("a")), Numeric("10", ""))"#, node);
+  eqd(r#"QuantifiedContext(Name(Name("a")), Numeric("10", "", '+', ""))"#, node);
   eqs(
     r#"
        QuantifiedContext
        ├─ Name
        │  └─ `a`
        └─ Numeric
-          └─ `10.`
+          └─ `10`
     "#,
     node,
   );
@@ -1221,7 +1170,7 @@ fn test_node_quantified_context() {
 fn test_node_quantified_contexts() {
   let node = &AstNode::QuantifiedContexts(vec![AstNode::QuantifiedContext(b_name!(a), b_num!(10)), AstNode::QuantifiedContext(b_name!(b), b_num!(20))]);
   eqd(
-    r#"QuantifiedContexts([QuantifiedContext(Name(Name("a")), Numeric("10", "")), QuantifiedContext(Name(Name("b")), Numeric("20", ""))])"#,
+    r#"QuantifiedContexts([QuantifiedContext(Name(Name("a")), Numeric("10", "", '+', "")), QuantifiedContext(Name(Name("b")), Numeric("20", "", '+', ""))])"#,
     node,
   );
   eqs(
@@ -1231,12 +1180,12 @@ fn test_node_quantified_contexts() {
        │  ├─ Name
        │  │  └─ `a`
        │  └─ Numeric
-       │     └─ `10.`
+       │     └─ `10`
        └─ QuantifiedContext
           ├─ Name
           │  └─ `b`
           └─ Numeric
-             └─ `20.`
+             └─ `20`
     "#,
     node,
   );
@@ -1245,14 +1194,14 @@ fn test_node_quantified_contexts() {
 #[test]
 fn test_node_range() {
   let node = &AstNode::Range(b_num!(1), b_num!(10));
-  eqd(r#"Range(Numeric("1", ""), Numeric("10", ""))"#, node);
+  eqd(r#"Range(Numeric("1", "", '+', ""), Numeric("10", "", '+', ""))"#, node);
   eqs(
     r#"
        Range
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `10.`
+          └─ `10`
     "#,
     node,
   );
@@ -1288,16 +1237,16 @@ fn test_node_satisfies() {
 
 #[test]
 fn test_node_some() {
-  let node = &AstNode::Some(Box::new(AstNode::Numeric(s!(1), s!())), Box::new(AstNode::List(vec![AstNode::Numeric(s!(1), s!())])));
-  eqd(r#"Some(Numeric("1", ""), List([Numeric("1", "")]))"#, node);
+  let node = &AstNode::Some(b_num!(s!(1), s!()), Box::new(AstNode::List(vec![_num!(s!(1), s!())])));
+  eqd(r#"Some(Numeric("1", "", '+', ""), List([Numeric("1", "", '+', "")]))"#, node);
   eqs(
     r#"
        Some
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ List
           └─ Numeric
-             └─ `1.`
+             └─ `1`
     "#,
     node,
   );
@@ -1318,8 +1267,8 @@ fn test_node_string() {
 
 #[test]
 fn test_node_sub() {
-  let node = &AstNode::Sub(Box::new(AstNode::Numeric(s!(1), s!(23))), Box::new(AstNode::Numeric(s!(2), s!(34))));
-  eqd(r#"Sub(Numeric("1", "23"), Numeric("2", "34"))"#, node);
+  let node = &AstNode::Sub(b_num!(s!(1), s!(23)), b_num!(s!(2), s!(34)));
+  eqd(r#"Sub(Numeric("1", "23", '+', ""), Numeric("2", "34", '+', ""))"#, node);
   eqs(
     r#"
        Sub
@@ -1381,6 +1330,34 @@ fn test_node_unary_lt() {
   eqs(
     r#"
        UnaryLt
+       └─ String
+          └─ `a`
+    "#,
+    node,
+  );
+}
+
+#[test]
+fn test_node_unary_eq() {
+  let node = &AstNode::UnaryEq(Box::new(AstNode::String(s!("a"))));
+  eqd(r#"UnaryEq(String("a"))"#, node);
+  eqs(
+    r#"
+       UnaryEq
+       └─ String
+          └─ `a`
+    "#,
+    node,
+  );
+}
+
+#[test]
+fn test_node_unary_ne() {
+  let node = &AstNode::UnaryNe(Box::new(AstNode::String(s!("a"))));
+  eqd(r#"UnaryNe(String("a"))"#, node);
+  eqs(
+    r#"
+       UnaryNe
        └─ String
           └─ `a`
     "#,

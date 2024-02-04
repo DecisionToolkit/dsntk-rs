@@ -12,13 +12,64 @@ macro_rules! scope {
   }};
 }
 
+macro_rules! s {
+  ($l:literal) => {
+    $l.to_string()
+  };
+  () => {
+    "".to_string()
+  };
+}
+
+macro_rules! _num {
+  ($a:expr, $b:expr) => {
+    AstNode::Numeric($a.to_string(), $b.to_string(), '+', "".to_string())
+  };
+  ($a:expr) => {
+    AstNode::Numeric($a.to_string(), "".to_string(), '+', "".to_string())
+  };
+}
+
+macro_rules! b_num {
+  ($a:expr, $b:expr) => {
+    Box::new(AstNode::Numeric($a.to_string(), $b.to_string(), '+', "".to_string()))
+  };
+  ($a:expr) => {
+    Box::new(AstNode::Numeric($a.to_string(), "".to_string(), '+', "".to_string()))
+  };
+}
+
+macro_rules! __name {
+  ($a:tt) => {
+    stringify!($a).into()
+  };
+}
+
+macro_rules! _name {
+  ($a:tt) => {
+    AstNode::Name(stringify!($a).into())
+  };
+}
+
+macro_rules! b_name {
+  ($a:tt) => {
+    Box::new(AstNode::Name(stringify!($a).into()))
+  };
+}
+
+macro_rules! b_bool {
+  ($a:literal) => {
+    Box::new(AstNode::Boolean($a))
+  };
+}
+
 use crate::lalr::TokenType;
 use crate::lalr::TokenType::StartExpression;
 use crate::parser::Parser;
 use crate::ParsingScope;
 use difference::Changeset;
 use dsntk_feel::Name;
-pub(crate) use scope;
+pub(crate) use {__name, _name, _num, b_bool, b_name, b_num, s, scope};
 
 /// Parses the input text and compared the result with expected value.
 fn accept(scope: &ParsingScope, start_token_type: TokenType, input: &str, expected: &str, trace: bool) {
@@ -43,9 +94,9 @@ fn test_parse_textual_expression() {
     r#"
        Add
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     node.to_string()
   );
@@ -60,19 +111,19 @@ fn test_parse_textual_expressions() {
        ExpressionList
        ├─ Add
        │  ├─ Numeric
-       │  │  └─ `1.`
+       │  │  └─ `1`
        │  └─ Numeric
-       │     └─ `2.`
+       │     └─ `2`
        ├─ Add
        │  ├─ Numeric
-       │  │  └─ `2.`
+       │  │  └─ `2`
        │  └─ Numeric
-       │     └─ `3.`
+       │     └─ `3`
        └─ Mul
           ├─ Numeric
-          │  └─ `3.`
+          │  └─ `3`
           └─ Numeric
-             └─ `4.`
+             └─ `4`
     "#,
     node.to_string()
   );
@@ -86,13 +137,13 @@ fn test_parse_unary_tests() {
     r#"
        ExpressionList
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        ├─ Numeric
-       │  └─ `2.`
+       │  └─ `2`
        ├─ Numeric
-       │  └─ `3.`
+       │  └─ `3`
        └─ Numeric
-          └─ `4.`
+          └─ `4`
     "#,
     node.to_string()
   );
@@ -106,13 +157,13 @@ fn test_parse_boxed_expression() {
     r#"
        List
        ├─ Numeric
-       │  └─ `1.`
+       │  └─ `1`
        ├─ Numeric
-       │  └─ `2.`
+       │  └─ `2`
        ├─ Numeric
-       │  └─ `3.`
+       │  └─ `3`
        └─ Numeric
-          └─ `4.`
+          └─ `4`
     "#,
     node.to_string()
   );
@@ -130,7 +181,7 @@ fn test_parse_context() {
           ├─ ContextEntryKey
           │  └─ `age`
           └─ Numeric
-             └─ `50.`
+             └─ `50`
     "#,
     node.to_string()
   );

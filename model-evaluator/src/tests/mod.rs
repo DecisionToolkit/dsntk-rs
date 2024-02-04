@@ -2,6 +2,7 @@ use crate::model_evaluator::ModelEvaluator;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::Value;
 use dsntk_feel::FeelScope;
+use dsntk_model::DmnElement;
 use once_cell::sync::Lazy;
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
@@ -49,7 +50,6 @@ macro_rules! static_context {
   };
 }
 
-use dsntk_feel_evaluator::BuildContext;
 use dsntk_model::NamedElement;
 use {from_examples, model_evaluator, model_evaluator_from_examples, model_name_from_examples, model_namespace_from_examples, static_context};
 
@@ -58,13 +58,13 @@ pub fn context(input: &str) -> FeelContext {
   let scope = FeelScope::default();
   match dsntk_feel_parser::parse_context(&scope, input, false) {
     Ok(node) => {
-      let evaluator = dsntk_feel_evaluator::prepare(&BuildContext::default(), &node);
+      let evaluator = dsntk_feel_evaluator::prepare(&node);
       match evaluator(&scope) {
         Value::Context(ctx) => ctx,
-        other => panic!("ERROR: expected context value, actual value is: {}", other as Value),
+        other => panic!("ERROR: expected context value, actual value is: {}", other),
       }
     }
-    Err(reason) => panic!("ERROR: parsing context failed with reason: {reason}"),
+    Err(reason) => panic!("ERROR: parsing context failed with reason: {}", reason),
   }
 }
 
@@ -96,8 +96,8 @@ fn build_model_name(model_content: &str) -> String {
 }
 
 /// Utility function that evaluates a [Decision] specified by name and compares the result.
-fn assert_decision(model_evaluator: &ModelEvaluator, model_namespace: &str, model_name: &str, invocable_name: &str, input_data: &FeelContext, expected: &str) {
-  let actual = model_evaluator.evaluate_invocable(model_namespace, model_name, invocable_name, input_data).to_string();
+fn assert_decision(model_evaluator: &ModelEvaluator, model_namespace: &str, model_name: &str, invocable: &str, input_data: &FeelContext, expected: &str) {
+  let actual = model_evaluator.evaluate_invocable(model_namespace, model_name, invocable, input_data).to_string();
   assert_eq!(
     expected, actual,
     "Assertion error, actual value of the decision does not match the expected value:\n  expected: {expected}\n    actual: {actual}\n"

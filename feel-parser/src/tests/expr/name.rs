@@ -10,7 +10,7 @@ fn accept_name(scope: &ParsingScope, name: &str, expected: &str) {
 #[test]
 fn _0001() {
   let scope = scope!();
-  scope.set_name("hello world".into());
+  scope.set_entry_name("hello world".into());
   accept(
     &scope,
     StartExpression,
@@ -26,7 +26,7 @@ fn _0001() {
 #[test]
 fn _0002() {
   let scope = scope!();
-  scope.set_name("  \n  \n  \t  thing \n \t \t ".into());
+  scope.set_entry_name("  \n  \n  \t  thing \n \t \t ".into());
   accept(
     &scope,
     StartExpression,
@@ -42,7 +42,7 @@ fn _0002() {
 #[test]
 fn _0003() {
   let scope = scope!();
-  scope.set_name("income/loss".into());
+  scope.set_entry_name("income/loss".into());
   accept(
     &scope,
     StartExpression,
@@ -58,7 +58,7 @@ fn _0003() {
 #[test]
 fn _0004() {
   let scope = scope!();
-  scope.set_name("fr**n*s".into());
+  scope.set_entry_name("fr**n*s".into());
   accept(
     &scope,
     StartExpression,
@@ -104,7 +104,7 @@ fn _0006() {
 #[test]
 fn _0007() {
   let scope = scope!();
-  scope.set_name("before.after".into());
+  scope.set_entry_name("before.after".into());
   accept(
     &scope,
     StartExpression,
@@ -132,26 +132,26 @@ fn _0009() {
 #[test]
 fn _0010() {
   let scope = scope!();
-  scope.set_name("thing".into());
-  scope.set_name("one two three four".into());
-  scope.set_name("one and two".into());
-  scope.set_name("one or two".into());
-  scope.set_name("before.after".into());
-  scope.set_name("before.or.after".into());
-  scope.set_name("before.and.after".into());
-  scope.set_name("before.between.after".into());
-  scope.set_name("before.next to between.worm".into());
-  scope.set_name("income/loss".into());
-  scope.set_name("per/month/income/loss".into());
-  scope.set_name("a-b".into());
-  scope.set_name("to-be-or-not-to-be".into());
-  scope.set_name("that's".into());
-  scope.set_name("ok that's".into());
-  scope.set_name("bed+breakfast".into());
-  scope.set_name("night+and+day".into());
-  scope.set_name("fr**n*s".into());
-  scope.set_name("bo++e--m*".into());
-  scope.set_name("wh*t*v*r".into());
+  scope.set_entry_name("thing".into());
+  scope.set_entry_name("one two three four".into());
+  scope.set_entry_name("one and two".into());
+  scope.set_entry_name("one or two".into());
+  scope.set_entry_name("before.after".into());
+  scope.set_entry_name("before.or.after".into());
+  scope.set_entry_name("before.and.after".into());
+  scope.set_entry_name("before.between.after".into());
+  scope.set_entry_name("before.next to between.worm".into());
+  scope.set_entry_name("income/loss".into());
+  scope.set_entry_name("per/month/income/loss".into());
+  scope.set_entry_name("a-b".into());
+  scope.set_entry_name("to-be-or-not-to-be".into());
+  scope.set_entry_name("that's".into());
+  scope.set_entry_name("ok that's".into());
+  scope.set_entry_name("bed+breakfast".into());
+  scope.set_entry_name("night+and+day".into());
+  scope.set_entry_name("fr**n*s".into());
+  scope.set_entry_name("bo++e--m*".into());
+  scope.set_entry_name("wh*t*v*r".into());
   accept_name(&scope, "thing", "thing");
   accept_name(&scope, "one two three four", "one two three four");
   accept_name(&scope, "one and two", "one and two");
@@ -177,7 +177,7 @@ fn _0010() {
 #[test]
 fn _0011() {
   let scope = scope!();
-  scope.set_name("?".into());
+  scope.set_entry_name("?".into());
   accept(
     &scope,
     StartExpression,
@@ -190,7 +190,7 @@ fn _0011() {
        │  └─ Name
        │     └─ `Rating`
        └─ Numeric
-          └─ `0.`
+          └─ `0`
     "#,
     false,
   );
@@ -214,7 +214,7 @@ fn _0012() {
 #[test]
 fn _0013() {
   let scope = scope!();
-  scope.set_name("_0001-input-data-string".into());
+  scope.set_entry_name("_0001-input-data-string".into());
   accept(
     &scope,
     StartExpression,

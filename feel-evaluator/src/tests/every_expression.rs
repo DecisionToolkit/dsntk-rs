@@ -43,3 +43,9 @@ fn _0006() {
     crate::evaluate(&scope, &node).to_string()
   );
 }
+
+#[test]
+fn _0007() {
+  let scope = &te_scope("{}");
+  te_null(false, scope, r#"every element in 1 satisfies "not a boolean""#, "");
+}

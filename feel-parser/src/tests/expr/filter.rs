@@ -12,13 +12,13 @@ fn _0001() {
        Filter
        ├─ List
        │  ├─ Numeric
-       │  │  └─ `1.`
+       │  │  └─ `1`
        │  ├─ Numeric
-       │  │  └─ `2.`
+       │  │  └─ `2`
        │  └─ Numeric
-       │     └─ `3.`
+       │     └─ `3`
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     false,
   );
@@ -35,16 +35,16 @@ fn _0002() {
        Filter
        ├─ List
        │  ├─ Numeric
-       │  │  └─ `1.`
+       │  │  └─ `1`
        │  ├─ Numeric
-       │  │  └─ `2.`
+       │  │  └─ `2`
        │  └─ Numeric
-       │     └─ `3.`
+       │     └─ `3`
        └─ Ge
           ├─ Name
           │  └─ `item`
           └─ Numeric
-             └─ `2.`
+             └─ `2`
     "#,
     false,
   );
@@ -84,7 +84,7 @@ fn _0004() {
        │  ├─ Name
        │  │  └─ `EmployeeTable`
        │  └─ Numeric
-       │     └─ `1.`
+       │     └─ `1`
        └─ Name
           └─ `deptNum`
     "#,
@@ -121,11 +121,11 @@ fn _0005() {
        │  │        │  └─ Name
        │  │        │     └─ `deptNum`
        │  │        └─ Numeric
-       │  │           └─ `1.`
+       │  │           └─ `1`
        │  └─ Name
        │     └─ `manager`
        └─ Numeric
-          └─ `1.`
+          └─ `1`
     "#,
     false,
   );
@@ -134,8 +134,8 @@ fn _0005() {
 #[test]
 fn _0006() {
   let scope = scope!();
-  scope.set_name("?".into());
-  scope.set_name("Lender Name".into());
+  scope.set_entry_name("?".into());
+  scope.set_entry_name("Lender Name".into());
   accept(
     &scope,
     StartExpression,
@@ -162,9 +162,9 @@ fn _0006() {
        │              ├─ Name
        │              │  └─ `Customer Rating`
        │              └─ Numeric
-       │                 └─ `4.`
+       │                 └─ `4`
        └─ Numeric
-          └─ `0.`
+          └─ `0`
     "#,
     false,
   );

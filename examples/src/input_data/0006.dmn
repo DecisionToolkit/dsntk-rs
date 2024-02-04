@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions namespace="https://dsntk.io/"
+             name="_0006"
+             id="_0006"
+             xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+
+    <description>
+        Input data with reference type variable,
+        but no item definition is provided.
+    </description>
+
+    <inputData name="Employment Status" id="_input_1">
+        <variable typeRef="tEmploymentStatus" name="Employment Status"/>
+    </inputData>
+
+</definitions>

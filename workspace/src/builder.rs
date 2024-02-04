@@ -1,7 +1,7 @@
 //! # Workspace builder
 
 use dsntk_common::{to_rdnn, ColorPalette};
-use dsntk_model::Definitions;
+use dsntk_model::{Definitions, DmnElement};
 use dsntk_model_evaluator::ModelEvaluator;
 use std::collections::{HashMap, HashSet};
 use std::fs;
@@ -18,7 +18,7 @@ pub struct WorkspaceBuilder {
   verbose: bool,
   /// Total number of model files found.
   file_count: usize,
-  /// The number of sucessfully loaded models.
+  /// The number of successfully loaded models.
   loaded_count: usize,
   /// The number of models that failed to load.
   failed_loads_count: usize,

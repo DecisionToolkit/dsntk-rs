@@ -131,6 +131,7 @@ mod tests {
       % { Customer:"Private",    Order: 101.00 }, 0.05
       % { Customer:"Government", Order:  10.00 }, null
     "#;
+    println!("{:?}", evaluate_test_cases(input));
     assert_eq!(8, evaluate_test_cases(input).unwrap().len())
   }
 

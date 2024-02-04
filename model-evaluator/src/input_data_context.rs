@@ -79,110 +79,68 @@ mod tests {
   }
 
   #[test]
-  fn _0001_1() {
+  fn _0001() {
     let (evaluator, item_definition_context_evaluator) = build_evaluators(DMN_0001);
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
     let expected_type = FeelType::String;
     let mut ctx = FeelContext::default();
-    let actual_type = evaluator.eval(
-      &DefKey::new(NAMESPACE, "_cba86e4d-e91c-46a2-9176-e9adf88e15db"),
-      &mut ctx,
-      &item_definition_context_evaluator,
-    );
+    let actual_type = evaluator.eval(&def_key, &mut ctx, &item_definition_context_evaluator);
     assert_eq!(expected_type, actual_type);
     assert_eq!("{Full Name: type(string)}", ctx.to_string());
   }
 
-  /*
-    #[test]
-    fn _0001_2() {
-      let definitions = &dsntk_model::parse(DMN_0001).unwrap();
-      let input_data_evaluators = InputDataEvaluator::new(definitions).unwrap();
-      let item_definitions_evaluators = ItemDefinitionEvaluator::new(definitions).unwrap();
-      let context_str = r#"{ Full Name : 50.0 }"#;
-      let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-      assert_eq!(
-        Some((Name::new(&["Full", "Name"]), Value::Null(None))),
-        input_data_evaluators.eval("_cba86e4d-e91c-46a2-9176-e9adf88e15db", &Value::Context(context), &item_definitions_evaluators)
-      );
-    }
+  #[test]
+  fn _0002() {
+    let (evaluator, item_definition_context_evaluator) = build_evaluators(DMN_0002);
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
+    let expected_type = FeelType::Number;
+    let mut ctx = FeelContext::default();
+    let actual_type = evaluator.eval(&def_key, &mut ctx, &item_definition_context_evaluator);
+    assert_eq!(expected_type, actual_type);
+    assert_eq!("{Monthly Salary: type(number)}", ctx.to_string());
+  }
 
-    #[test]
-    fn _0002_1() {
-      let definitions = &dsntk_model::parse(DMN_0002).unwrap();
-      let input_data_evaluators = InputDataEvaluator::new(definitions).unwrap();
-      let item_definitions_evaluators = ItemDefinitionEvaluator::new(definitions).unwrap();
-      let context_str = r#"{ Monthly Salary : 12000.00 }"#;
-      let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-      assert_eq!(
-        Some((Name::new(&["Monthly", "Salary"]), Value::Number(12000.0))),
-        input_data_evaluators.eval("_b7a53bad-7a5b-4033-841d-5db6b25834ad", &Value::Context(context), &item_definitions_evaluators)
-      );
-      let context_str = r#"{ Monthly Salary : 8135.35 }"#;
-      let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-      assert_eq!(
-        Some((Name::new(&["Monthly", "Salary"]), Value::Number(8135.35))),
-        input_data_evaluators.eval("_b7a53bad-7a5b-4033-841d-5db6b25834ad", &Value::Context(context), &item_definitions_evaluators)
-      );
-    }
+  #[test]
+  fn _0003() {
+    let (evaluator, item_definition_context_evaluator) = build_evaluators(DMN_0003);
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
+    let expected_type = FeelType::Boolean;
+    let mut ctx = FeelContext::default();
+    let actual_type = evaluator.eval(&def_key, &mut ctx, &item_definition_context_evaluator);
+    assert_eq!(expected_type, actual_type);
+    assert_eq!("{Is Affordable: type(boolean)}", ctx.to_string());
+  }
 
-    #[test]
-    fn _0002_2() {
-      let definitions = &dsntk_model::parse(DMN_0002).unwrap();
-      let input_data_evaluators = InputDataEvaluator::new(definitions).unwrap();
-      let item_definitions_evaluators = ItemDefinitionEvaluator::new(definitions).unwrap();
-      let context_str = r#"{ Monthly Salary : "12000.00" }"#;
-      let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-      assert_eq!(
-        Some((Name::new(&["Monthly", "Salary"]), Value::Null(None))),
-        input_data_evaluators.eval("_b7a53bad-7a5b-4033-841d-5db6b25834ad", &Value::Context(context), &item_definitions_evaluators)
-      );
-    }
+  #[test]
+  fn _0004() {
+    let (evaluator, item_definition_context_evaluator) = build_evaluators(DMN_0004);
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
+    let expected_type = FeelType::String;
+    let mut ctx = FeelContext::default();
+    let actual_type = evaluator.eval(&def_key, &mut ctx, &item_definition_context_evaluator);
+    assert_eq!(expected_type, actual_type);
+    assert_eq!("{Employment Status: type(string)}", ctx.to_string());
+  }
 
-    #[test]
-    fn _0003_1() {
-      let definitions = &dsntk_model::parse(DMN_0003).unwrap();
-      let input_data_evaluators = InputDataEvaluator::new(definitions).unwrap();
-      let item_definitions_evaluators = ItemDefinitionEvaluator::new(definitions).unwrap();
-      let context_str = r#"{ Is Affordable : true }"#;
-      let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-      assert_eq!(
-        Some((Name::new(&["Is", "Affordable"]), Value::Boolean(true))),
-        input_data_evaluators.eval("_b7a53bad-7a5b-4033-841d-5db6b25834ad", &Value::Context(context), &item_definitions_evaluators)
-      );
-      let context_str = r#"{ Is Affordable : false }"#;
-      let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-      assert_eq!(
-        Some((Name::new(&["Is", "Affordable"]), Value::Boolean(false))),
-        input_data_evaluators.eval("_b7a53bad-7a5b-4033-841d-5db6b25834ad", &Value::Context(context), &item_definitions_evaluators)
-      );
-    }
+  #[test]
+  fn _0005() {
+    let (evaluator, item_definition_context_evaluator) = build_evaluators(DMN_0005);
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
+    let expected_type = FeelType::Any;
+    let mut ctx = FeelContext::default();
+    let actual_type = evaluator.eval(&def_key, &mut ctx, &item_definition_context_evaluator);
+    assert_eq!(expected_type, actual_type);
+    assert_eq!("{}", ctx.to_string()); //TODO Investigate this case.
+  }
 
-    #[test]
-    fn _0003_2() {
-      let definitions = &dsntk_model::parse(DMN_0003).unwrap();
-      let input_data_evaluators = InputDataEvaluator::new(definitions).unwrap();
-      let item_definitions_evaluators = ItemDefinitionEvaluator::new(definitions).unwrap();
-      let context_str = r#"{ Is Affordable : "no" }"#;
-      let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-      assert_eq!(
-        Some((Name::new(&["Is", "Affordable"]), Value::Null(None))),
-        input_data_evaluators.eval("_b7a53bad-7a5b-4033-841d-5db6b25834ad", &Value::Context(context), &item_definitions_evaluators)
-      );
-    }
-
-    #[test]
-    fn _0103_1() {
-      let definitions = &dsntk_model::parse(DMN_0103).unwrap();
-      let input_data_evaluators = InputDataEvaluator::new(definitions).unwrap();
-      let item_definitions_evaluators = ItemDefinitionEvaluator::new(definitions).unwrap();
-      let context_str = r#"{ Employment Status : "EMPLOYED" }"#;
-      let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-      let name = Name::new(&["Employment", "Status"]);
-      assert_eq!(
-        Some((name, Value::String("EMPLOYED".to_string()))),
-        input_data_evaluators.eval("_acfd4e1d-da0a-4842-aa35-ea50dd36fb01", &Value::Context(context), &item_definitions_evaluators)
-      );
-    }
-
-  */
+  #[test]
+  fn _0006() {
+    let (evaluator, item_definition_context_evaluator) = build_evaluators(DMN_0006);
+    let def_key = DefKey::new(NAMESPACE, "_input_1");
+    let expected_type = FeelType::Any;
+    let mut ctx = FeelContext::default();
+    let actual_type = evaluator.eval(&def_key, &mut ctx, &item_definition_context_evaluator);
+    assert_eq!(expected_type, actual_type);
+    assert_eq!("{}", ctx.to_string()); //TODO Investigate this case too.
+  }
 }

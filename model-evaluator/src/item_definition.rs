@@ -6,7 +6,6 @@ use dsntk_common::Result;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values};
 use dsntk_feel::{value_null, Evaluator, FeelScope, FeelType, Name};
-use dsntk_feel_evaluator::BuildContext;
 use dsntk_feel_parser::AstNode;
 use dsntk_model::ItemDefinitionType;
 use std::collections::HashMap;
@@ -65,7 +64,7 @@ fn build_allowed_values_evaluator(item_definition: &DefItemDefinition) -> Result
       let scope = FeelScope::default();
       let unary_tests_node = dsntk_feel_parser::parse_unary_tests(&scope, text, false)?;
       let node = AstNode::In(Box::new(AstNode::Name("?".into())), Box::new(unary_tests_node));
-      av_evaluator = Some(dsntk_feel_evaluator::prepare(&BuildContext::default(), &node));
+      av_evaluator = Some(dsntk_feel_evaluator::prepare(&node));
     }
   }
   Ok(av_evaluator)
@@ -91,6 +90,13 @@ fn build_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluat
   ///
   fn build_any_evaluator(av_evaluator: Option<Evaluator>) -> ItemDefinitionEvaluatorFn {
     Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| check_allowed_values(value.to_owned(), av_evaluator.as_ref()))
+  }
+  ///
+  fn build_null_evaluator(av_evaluator: Option<Evaluator>) -> ItemDefinitionEvaluatorFn {
+    Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| match value {
+      Value::Null(_) => check_allowed_values(value.to_owned(), av_evaluator.as_ref()),
+      _ => value_null!("expected type 'Null', actual type is '{}' in value '{}'", value.type_of(), value),
+    })
   }
   ///
   fn build_string_evaluator(av_evaluator: Option<Evaluator>) -> ItemDefinitionEvaluatorFn {
@@ -158,6 +164,7 @@ fn build_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluat
   }
   match feel_type {
     FeelType::Any => Ok(build_any_evaluator(av_evaluator)),
+    FeelType::Null => Ok(build_null_evaluator(av_evaluator)),
     FeelType::String => Ok(build_string_evaluator(av_evaluator)),
     FeelType::Number => Ok(build_number_evaluator(av_evaluator)),
     FeelType::Boolean => Ok(build_boolean_evaluator(av_evaluator)),
@@ -210,6 +217,24 @@ fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: 
         check_allowed_values(Value::List(values.clone()), av_evaluator.as_ref())
       } else {
         value_null!("item definition evaluator (CollectionOfSimpleType): expected list")
+      }
+    }))
+  }
+  ///
+  fn build_null_evaluator(av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
+    Ok(Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
+      if let Value::List(values) = value {
+        let mut evaluated_values = Values::default();
+        for item_value in values {
+          if let Value::Null(_) = item_value {
+            evaluated_values.push(item_value.clone());
+          } else {
+            return value_null!("item definition evaluator (CollectionOfSimpleType): expected null");
+          }
+        }
+        check_allowed_values(Value::List(evaluated_values), av_evaluator.as_ref())
+      } else {
+        value_null!("item definition evaluator (CollectionOfSimpleType): expected null")
       }
     }))
   }
@@ -360,6 +385,7 @@ fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: 
   // build evaluator based on FEEL type
   match feel_type {
     FeelType::Any => build_any_evaluator(av_evaluator),
+    FeelType::Null => build_null_evaluator(av_evaluator),
     FeelType::String => build_string_evaluator(av_evaluator),
     FeelType::Number => build_number_evaluator(av_evaluator),
     FeelType::Boolean => build_boolean_evaluator(av_evaluator),

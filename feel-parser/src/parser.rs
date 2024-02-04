@@ -327,11 +327,19 @@ impl<'parser> ReduceActions for Parser<'parser> {
   }
 
   ///
-  fn action_comparison_nq(&mut self) -> Result<()> {
+  fn action_comparison_ne(&mut self) -> Result<()> {
     trace_action!(self, "comparison_not_equal");
     let rhs = self.yy_node_stack.pop().unwrap();
     let lhs = self.yy_node_stack.pop().unwrap();
     self.yy_node_stack.push(AstNode::Nq(Box::new(lhs), Box::new(rhs)));
+    Ok(())
+  }
+
+  ///
+  fn action_comparison_unary_eq(&mut self) -> Result<()> {
+    trace_action!(self, "comparison_unary_eq");
+    let lhs = self.yy_node_stack.pop().unwrap();
+    self.yy_node_stack.push(AstNode::UnaryEq(Box::new(lhs)));
     Ok(())
   }
 
@@ -364,6 +372,14 @@ impl<'parser> ReduceActions for Parser<'parser> {
     trace_action!(self, "comparison_unary_lt");
     let lhs = self.yy_node_stack.pop().unwrap();
     self.yy_node_stack.push(AstNode::UnaryLt(Box::new(lhs)));
+    Ok(())
+  }
+
+  ///
+  fn action_comparison_unary_ne(&mut self) -> Result<()> {
+    trace_action!(self, "comparison_unary_ne");
+    let lhs = self.yy_node_stack.pop().unwrap();
+    self.yy_node_stack.push(AstNode::UnaryNe(Box::new(lhs)));
     Ok(())
   }
 
@@ -561,7 +577,7 @@ impl<'parser> ReduceActions for Parser<'parser> {
       self.yy_node_stack.push(AstNode::FormalParameter(parameter_name, parameter_type));
       // set the name of the parameter to local context on the top of the scope stack
       // this name will be properly interpreted as a name while parsing the function body
-      self.scope.set_name(name.to_owned());
+      self.scope.set_entry_name(name.to_owned());
     }
     Ok(())
   }
@@ -577,7 +593,7 @@ impl<'parser> ReduceActions for Parser<'parser> {
       self.yy_node_stack.push(AstNode::FormalParameter(parameter_name, parameter_type));
       // set the name of the parameter to local context on the top of the scope stack
       // this name will be properly interpreted as a name while parsing the function body
-      self.scope.set_name(name.to_owned());
+      self.scope.set_entry_name(name.to_owned());
     }
     Ok(())
   }
@@ -915,8 +931,8 @@ impl<'parser> ReduceActions for Parser<'parser> {
   ///
   fn action_literal_numeric(&mut self) -> Result<()> {
     trace_action!(self, "numeric_literal");
-    if let Some(TokenValue::Numeric(before, after)) = self.yy_value_stack.last() {
-      self.yy_node_stack.push(AstNode::Numeric(before.clone(), after.clone()));
+    if let Some(TokenValue::Numeric(before, after, sign, exponent)) = self.yy_value_stack.last() {
+      self.yy_node_stack.push(AstNode::Numeric(before.clone(), after.clone(), *sign, exponent.clone()));
     }
     Ok(())
   }
@@ -991,26 +1007,6 @@ impl<'parser> ReduceActions for Parser<'parser> {
     if let Some(TokenValue::Name(name)) = &self.yy_value_stack.last() {
       let rhs = AstNode::Name(name.clone());
       self.yy_node_stack.push(AstNode::Path(Box::new(lhs), Box::new(rhs)));
-    }
-    Ok(())
-  }
-
-  ///
-  fn action_path_segment(&mut self) -> Result<()> {
-    trace_action!(self, "path_segment");
-    let rhs = self.yy_node_stack.pop().unwrap();
-    if let TokenValue::Name(name) = &self.yy_value_stack[self.yy_value_stack.len() - 3] {
-      let lhs = AstNode::Name(name.clone());
-      self.yy_node_stack.push(AstNode::Path(Box::new(lhs), Box::new(rhs)));
-    }
-    Ok(())
-  }
-
-  ///
-  fn action_path_segment_tail(&mut self) -> Result<()> {
-    trace_action!(self, "path_segment_tail");
-    if let Some(TokenValue::Name(name)) = &self.yy_value_stack.last() {
-      self.yy_node_stack.push(AstNode::Name(name.clone()));
     }
     Ok(())
   }
@@ -1091,6 +1087,44 @@ impl<'parser> ReduceActions for Parser<'parser> {
       return Ok(());
     }
     self.yy_node_stack.push(AstNode::QuantifiedContexts(vec![node]));
+    Ok(())
+  }
+
+  fn action_range_literal(&mut self) -> Result<()> {
+    trace_action!(self, "range_literal");
+    let rhs = self.yy_node_stack.pop().unwrap();
+    let lhs = self.yy_node_stack.pop().unwrap();
+    self.yy_node_stack.push(AstNode::Range(Box::new(lhs), Box::new(rhs)));
+    Ok(())
+  }
+
+  fn action_range_literal_empty_end(&mut self) -> Result<()> {
+    trace_action!(self, "range_literal_end");
+    let closed = matches!(&self.yy_value_stack[self.yy_value_stack.len() - 1], TokenValue::RightBracket);
+    self.yy_node_stack.push(AstNode::IntervalEnd(AstNode::Null.into(), closed));
+    Ok(())
+  }
+
+  fn action_range_literal_end(&mut self) -> Result<()> {
+    trace_action!(self, "range_literal_end");
+    let closed = matches!(&self.yy_value_stack[self.yy_value_stack.len() - 1], TokenValue::RightBracket);
+    let lhs = self.yy_node_stack.pop().unwrap();
+    self.yy_node_stack.push(AstNode::IntervalEnd(Box::new(lhs), closed));
+    Ok(())
+  }
+
+  fn action_range_literal_empty_start(&mut self) -> Result<()> {
+    trace_action!(self, "range_literal_start");
+    let closed = matches!(&self.yy_value_stack[self.yy_value_stack.len() - self.yy_len as usize], TokenValue::LeftBracket);
+    self.yy_node_stack.push(AstNode::IntervalStart(AstNode::Null.into(), closed));
+    Ok(())
+  }
+
+  fn action_range_literal_start(&mut self) -> Result<()> {
+    trace_action!(self, "range_literal_start");
+    let closed = matches!(&self.yy_value_stack[self.yy_value_stack.len() - self.yy_len as usize], TokenValue::LeftBracket);
+    let lhs = self.yy_node_stack.pop().unwrap();
+    self.yy_node_stack.push(AstNode::IntervalStart(Box::new(lhs), closed));
     Ok(())
   }
 

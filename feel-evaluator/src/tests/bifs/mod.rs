@@ -56,6 +56,8 @@ mod bif_overlaps;
 mod bif_overlaps_after;
 mod bif_overlaps_before;
 mod bif_product;
+mod bif_range;
+mod bif_range_in;
 mod bif_remove;
 mod bif_replace;
 mod bif_reverse;

@@ -1,4 +1,5 @@
 mod ascii_model;
+mod auto_size;
 mod defs;
 mod generator;
 mod horizontal_decision_table;

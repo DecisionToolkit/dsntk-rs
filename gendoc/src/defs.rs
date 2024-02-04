@@ -1,4 +1,4 @@
-//! `CSS` common definitions.
+//! # HTML and CSS common definitions
 
 //--------------------------------------------------------------------------------------------------
 // FONTS
@@ -129,3 +129,10 @@ pub const HEADING_OUTPUT_DATA: &str = "Output data";
 
 /// Text of the heading displayed before the input variable properties.
 pub const HEADING_INPUT_DATA: &str = "Input data";
+
+//--------------------------------------------------------------------------------------------------
+// DATA DEFINITIONS
+//--------------------------------------------------------------------------------------------------
+
+/// Empty element content.
+pub const NO_CONTENT: &str = "";

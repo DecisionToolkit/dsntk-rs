@@ -12,6 +12,7 @@ members = [
     "feel-evaluator",
     "feel-number",
     "feel-parser",
+    "feel-regex",
     "feel-temporal",
     "gendoc",
     "macros",
@@ -23,49 +24,52 @@ members = [
 ]
 
 [workspace.package]
-version = "0.0.3"
+version = "0.0.4"
 authors = ["Dariusz Depta <dariusz.depta@dsntk.io>"]
+repository = "https://github.com/dsntk/dsntk-rs.git"
 license = "MIT OR Apache-2.0"
 edition = "2021"
 
 [workspace.dependencies]
 actix-web = "4.4.1"
-base64 = "0.21.5"
+base64 = "0.21.6"
 chrono = "0.4.31"
-chrono-tz = "0.8.4"
+chrono-tz = "0.8.5"
 convert_case = "0.6.0"
-clap = { version = "4.4.12", features = ["cargo"] }
+clap = { version = "4.4.14", features = ["cargo"] }
 dfp-number-sys = "0.0.19"
 difference = "2.0.0"
-domrs = "0.0.15"
+domrs = "0.0.16"
 markdown = "1.0.0-alpha.16"
 once_cell = "1.19.0"
 petgraph = "0.6.4"
-quote = "1.0.33"
+proc-macro2 = "1.0.76"
+quote = "1.0.35"
 regex = "1.10.2"
 reqwest = { version = "0.11.23", default-features = false, features = ["blocking", "json", "rustls-tls"] }
 roxmltree = "0.19.0"
-serde = { version = "1.0.193", features = ["derive"] }
-serde_json = "1.0.108"
-syn = "2.0.43"
+serde = { version = "1.0.195", features = ["derive"] }
+serde_json = "1.0.111"
+syn = { version = "2.0.48", features = ["fold", "full"] }
 uuid = { version = "1.6.1", features = ["v4"] }
 uriparse = "0.6.4"
 url = "2.5.0"
 urlencoding = "2.1.3"
 walkdir = "2.4.0"
-dsntk-common = "0.0.3"
-dsntk-evaluator = "0.0.3"
-dsntk-examples = "0.0.3"
-dsntk-feel = "0.0.3"
-dsntk-feel-evaluator = "0.0.3"
-dsntk-feel-grammar = "0.0.3"
-dsntk-feel-number = "0.0.3"
-dsntk-feel-parser = "0.0.3"
-dsntk-feel-temporal = "0.0.3"
-dsntk-gendoc = "0.0.3"
-dsntk-macros = "0.0.3"
-dsntk-model = "0.0.3"
-dsntk-model-evaluator = "0.0.3"
-dsntk-recognizer = "0.0.3"
-dsntk-server = "0.0.3"
-dsntk-workspace = "0.0.3"
+dsntk-common = { path = "common" }
+dsntk-evaluator = { path = "evaluator" }
+dsntk-examples = { path = "examples" }
+dsntk-feel = { path = "feel" }
+dsntk-feel-evaluator = { path = "feel-evaluator" }
+dsntk-feel-grammar = { path = "feel-grammar" }
+dsntk-feel-number = { path = "feel-number" }
+dsntk-feel-parser = { path = "feel-parser" }
+dsntk-feel-regex = { path = "feel-regex" }
+dsntk-feel-temporal = { path = "feel-temporal" }
+dsntk-gendoc = { path = "gendoc" }
+dsntk-macros = { path = "macros" }
+dsntk-model = { path = "model" }
+dsntk-model-evaluator = { path = "model-evaluator" }
+dsntk-recognizer = { path = "recognizer" }
+dsntk-server = { path = "server" }
+dsntk-workspace = { path = "workspace" }

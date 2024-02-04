@@ -13,7 +13,7 @@ fn _0001() {
     r#"
        UnaryLt
        └─ Numeric
-          └─ `2.`
+          └─ `2`
     "#,
     false,
   );
@@ -45,7 +45,7 @@ fn _0003() {
     r#"
        UnaryGt
        └─ Numeric
-          └─ `50.`
+          └─ `50`
     "#,
     false,
   );
@@ -78,13 +78,14 @@ fn _0005() {
   let name_power = Name::from("power");
   ctx.set_name(name_power);
   scope.set_context("engine".into(), ctx);
+  assert_eq!("[{engine: {power: <v>}}]", scope.to_string());
   accept(
     &scope,
     StartExpression,
     r#" >= engine.power"#,
     r#"
        UnaryGe
-       └─ QualifiedName
+       └─ Path
           ├─ Name
           │  └─ `engine`
           └─ Name
@@ -97,15 +98,15 @@ fn _0005() {
 #[test]
 fn _0006() {
   let scope = scope!();
-  scope.set_name("engine".into());
-  scope.set_name("power".into());
+  scope.set_entry_name("engine".into());
+  scope.set_entry_name("power".into());
   accept(
     &scope,
     StartExpression,
     r#" >= engine.power"#,
     r#"
        UnaryGe
-       └─ QualifiedName
+       └─ Path
           ├─ Name
           │  └─ `engine`
           └─ Name
@@ -116,8 +117,11 @@ fn _0006() {
 }
 
 #[test]
-#[should_panic]
 fn _0007() {
-  let scope = scope!();
-  accept(&scope, StartExpression, r#" < null"#, r#""#, false);
+  let input = " < null";
+  let expected = r#"
+       UnaryLt
+       └─ Null
+    "#;
+  accept(&scope!(), StartExpression, input, expected, false);
 }

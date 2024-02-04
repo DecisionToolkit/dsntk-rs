@@ -5,7 +5,7 @@ use crate::lalr::TokenType::StartExpression;
 #[test]
 fn _0001() {
   let scope = scope!();
-  scope.set_name("Person".into());
+  scope.set_entry_name("Person".into());
   accept(
     &scope,
     StartExpression,
@@ -24,7 +24,7 @@ fn _0001() {
 #[test]
 fn _0002() {
   let scope = scope!();
-  scope.set_name("Person".into());
+  scope.set_entry_name("Person".into());
   accept(
     &scope,
     StartExpression,
@@ -51,7 +51,7 @@ fn _0002() {
 #[test]
 fn _0003() {
   let scope = scope!();
-  scope.set_name("Person".into());
+  scope.set_entry_name("Person".into());
   accept(
     &scope,
     StartExpression,
@@ -74,7 +74,7 @@ fn _0003() {
 #[test]
 fn _0004() {
   let scope = scope!();
-  scope.set_name("Person".into());
+  scope.set_entry_name("Person".into());
   accept(
     &scope,
     StartExpression,
@@ -96,7 +96,7 @@ fn _0004() {
 #[test]
 fn _0005() {
   let scope = scope!();
-  scope.set_name("Numbers".into());
+  scope.set_entry_name("Numbers".into());
   accept(
     &scope,
     StartExpression,
@@ -116,7 +116,7 @@ fn _0005() {
 #[test]
 fn _0006() {
   let scope = scope!();
-  scope.set_name("Person".into());
+  scope.set_entry_name("Person".into());
   accept(
     &scope,
     StartExpression,
@@ -144,7 +144,7 @@ fn _0006() {
 #[test]
 fn _0006_1() {
   let scope = scope!();
-  scope.set_name("Person".into());
+  scope.set_entry_name("Person".into());
   accept(
     &scope,
     StartExpression,
@@ -172,7 +172,7 @@ fn _0006_1() {
 #[test]
 fn _0007() {
   let scope = scope!();
-  scope.set_name("Numbers".into());
+  scope.set_entry_name("Numbers".into());
   accept(
     &scope,
     StartExpression,
@@ -192,7 +192,7 @@ fn _0007() {
 #[test]
 fn _0008() {
   let scope = scope!();
-  scope.set_name("Power".into());
+  scope.set_entry_name("Power".into());
   let mut ctx = ParsingContext::default();
   ctx.set_name("power".into());
   scope.set_context("engine".into(), ctx);
@@ -217,10 +217,10 @@ fn _0008() {
 #[test]
 fn _0009() {
   let scope = scope!();
-  scope.set_name("Power".into());
+  scope.set_entry_name("Power".into());
   let mut ctx = ParsingContext::default();
   ctx.set_name("power".into());
-  scope.set_name("engine".into());
+  scope.set_entry_name("engine".into());
   accept(
     &scope,
     StartExpression,
@@ -242,7 +242,7 @@ fn _0009() {
 #[test]
 fn _0010() {
   let scope = scope!();
-  scope.set_name("Items".into());
+  scope.set_entry_name("Items".into());
   accept(
     &scope,
     StartExpression,
@@ -263,7 +263,7 @@ fn _0010() {
 #[test]
 fn _0011() {
   let scope = scope!();
-  scope.set_name("Numbers".into());
+  scope.set_entry_name("Numbers".into());
   accept(
     &scope,
     StartExpression,
@@ -283,7 +283,7 @@ fn _0011() {
 #[test]
 fn _0012() {
   let scope = scope!();
-  scope.set_name("Numbers".into());
+  scope.set_entry_name("Numbers".into());
   accept(
     &scope,
     StartExpression,
@@ -303,7 +303,7 @@ fn _0012() {
 #[test]
 fn _0013() {
   let scope = scope!();
-  scope.set_name("Numbers".into());
+  scope.set_entry_name("Numbers".into());
   accept(
     &scope,
     StartExpression,

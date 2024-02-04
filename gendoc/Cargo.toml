@@ -3,8 +3,8 @@ name = "dsntk-gendoc"
 version = { workspace = true }
 authors = { workspace = true }
 description = "DSNTK | Documentation generator"
-documentation = "https://docs.rs/dsntk-model"
-repository = "https://github.com/dsntk/dsntk-rs.git"
+documentation = "https://docs.rs/dsntk-gendoc"
+repository = { workspace = true }
 license = { workspace = true }
 edition = { workspace = true }
 
@@ -12,10 +12,10 @@ edition = { workspace = true }
 domrs = { workspace = true }
 markdown = { workspace = true }
 dsntk-common = { workspace = true }
-dsntk-examples = { workspace = true }
 dsntk-feel = { workspace = true }
 dsntk-model = { workspace = true }
-once_cell = "1.18.0"
+once_cell = { workspace = true }
 
 [dev-dependencies]
+dsntk-examples = { workspace = true }
 dsntk-recognizer = { workspace = true }
