@@ -3,8 +3,8 @@ name = "dsntk-gendoc"
 version = { workspace = true }
 authors = { workspace = true }
 description = "DSNTK | Documentation generator"
-documentation = "https://docs.rs/dsntk-model"
-repository = "https://github.com/dsntk/dsntk-rs.git"
+documentation = "https://docs.rs/dsntk-gendoc"
+repository = { workspace = true }
 license = { workspace = true }
 edition = { workspace = true }
 

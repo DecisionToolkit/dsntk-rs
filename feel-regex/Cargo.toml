@@ -4,13 +4,8 @@ version = { workspace = true }
 authors = { workspace = true }
 description = "DSNTK | FEEL regular expressions"
 documentation = "https://docs.rs/dsntk-feel-regex"
-repository = "https://github.com/dsntk/dsntk-rs.git"
+repository = { workspace = true }
 license = { workspace = true }
 edition = { workspace = true }
 
-[features]
-default = []
-oniguruma = ["onig"]
-
 [dependencies]
-onig = { version = "6.4.0", default-features = false, optional = true }

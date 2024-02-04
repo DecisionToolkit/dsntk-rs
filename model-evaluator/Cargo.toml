@@ -3,8 +3,8 @@ name = "dsntk-model-evaluator"
 version = { workspace = true }
 authors = { workspace = true }
 description = "DSNTK | DMN model evaluator"
-documentation = "https://docs.rs/dsntk-evaluator"
-repository = "https://github.com/dsntk/dsntk-rs.git"
+documentation = "https://docs.rs/dsntk-model-evaluator"
+repository = { workspace = true }
 license = { workspace = true }
 edition = { workspace = true }
 
