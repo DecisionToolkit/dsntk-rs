@@ -8,7 +8,6 @@ use chrono::{DateTime, Datelike, Days, FixedOffset, Local, LocalResult, Months, 
 use dsntk_common::DsntkError;
 use dsntk_feel_number::FeelNumber;
 use std::cmp::Ordering;
-use std::convert::{TryFrom, TryInto};
 use std::fmt;
 use std::fmt::Display;
 use std::ops::{Add, Sub};
@@ -373,8 +372,8 @@ mod tests {
     assert_eq!("99999-12-01", format!("{}", FeelDate(99999, 1, 1).add_months(11).unwrap()));
     assert_eq!("100000-01-01", format!("{}", FeelDate(99999, 1, 1).add_months(12).unwrap()));
     assert_eq!("199999-02-01", format!("{}", FeelDate(199999, 1, 1).add_months(1).unwrap()));
-    assert_eq!("262143-02-01", format!("{}", FeelDate(262143, 1, 1).add_months(1).unwrap()));
-    assert_eq!("+262143-12-31", NaiveDate::MAX.to_string())
+    assert_eq!("262142-12-01", format!("{}", FeelDate(262142, 11, 1).add_months(1).unwrap()));
+    assert_eq!("+262142-12-31", NaiveDate::MAX.to_string())
   }
 
   #[test]
@@ -384,8 +383,8 @@ mod tests {
     assert_eq!("-99999-12-01", format!("{}", FeelDate(-99998, 1, 1).sub_months(1).unwrap()));
     assert_eq!("-100000-01-01", format!("{}", FeelDate(-100000, 12, 1).sub_months(11).unwrap()));
     assert_eq!("-199999-11-01", format!("{}", FeelDate(-199999, 12, 1).sub_months(1).unwrap()));
-    assert_eq!("-262144-01-01", format!("{}", FeelDate(-262144, 2, 1).sub_months(1).unwrap()));
-    assert_eq!("-262144-01-01", NaiveDate::MIN.to_string())
+    assert_eq!("-262143-01-01", format!("{}", FeelDate(-262143, 2, 1).sub_months(1).unwrap()));
+    assert_eq!("-262143-01-01", NaiveDate::MIN.to_string())
   }
 
   #[test]

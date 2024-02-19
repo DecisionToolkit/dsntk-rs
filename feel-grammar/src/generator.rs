@@ -80,7 +80,6 @@ pub fn lalr_rust_tables(output_file: &str) {
 #[cfg(test)]
 mod tests {
   use super::*;
-  use std::fs;
 
   /// Executes all tests sequentially, because these tests access the same files.
   #[test]

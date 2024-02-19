@@ -279,8 +279,6 @@ impl FeelTime {
 
 #[cfg(test)]
 mod tests {
-  use super::super::feel_dt_duration::FeelDaysAndTimeDuration;
-  use super::super::feel_zone::FeelZone;
   use super::*;
 
   fn eq_time(h: u8, m: u8, s: u8, n: u64, z: FeelZone, time: &str) {

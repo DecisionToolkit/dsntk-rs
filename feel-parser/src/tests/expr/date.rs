@@ -1,5 +1,4 @@
 use super::super::*;
-use crate::lalr::TokenType::StartExpression;
 
 #[test]
 fn date_1() {

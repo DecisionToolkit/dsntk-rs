@@ -52,7 +52,6 @@ pub fn type_ref_to_feel_type(type_ref: &str) -> Option<TypeRef> {
 #[cfg(test)]
 mod tests {
   use super::*;
-  use dsntk_feel::FeelType;
 
   #[test]
   fn test_type_ref_to_feel_type() {

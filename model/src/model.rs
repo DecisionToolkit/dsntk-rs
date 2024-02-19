@@ -6,7 +6,6 @@
 use crate::errors::*;
 use dsntk_common::{gen_id, DsntkError, HRef, Result, Uri};
 use dsntk_feel::{FeelType, Name};
-use std::convert::TryFrom;
 use std::fmt;
 use std::fmt::Display;
 use std::slice::Iter;

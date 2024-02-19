@@ -9,7 +9,6 @@ use crate::values::Value;
 use dsntk_common::{DsntkError, Jsonify, Result};
 use std::collections::btree_map::Iter;
 use std::collections::BTreeMap;
-use std::convert::TryFrom;
 use std::fmt;
 use std::ops::Deref;
 

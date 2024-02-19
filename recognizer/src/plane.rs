@@ -6,7 +6,6 @@ use crate::rect::{Rect, RECT_ZERO};
 use dsntk_common::Result;
 use dsntk_model::HitPolicy;
 use std::collections::HashSet;
-use std::convert::TryFrom;
 use std::fmt;
 use std::str::FromStr;
 

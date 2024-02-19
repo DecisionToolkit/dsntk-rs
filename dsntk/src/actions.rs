@@ -11,7 +11,6 @@ use dsntk_model::{DmnElement, NamedElement};
 use once_cell::sync::Lazy;
 use std::fs;
 use std::path::Path;
-use std::string::ToString;
 
 /// Automatic color selection flag.
 const COLOR_MODE_AUTO: &str = "auto";

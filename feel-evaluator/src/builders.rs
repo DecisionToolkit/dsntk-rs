@@ -14,7 +14,6 @@ use dsntk_feel_parser::{AstNode, ClosureBuilder};
 use dsntk_feel_temporal::{FeelDate, FeelDateTime, FeelDaysAndTimeDuration, FeelTime, FeelYearsAndMonthsDuration};
 use std::borrow::Borrow;
 use std::collections::{BTreeMap, HashSet};
-use std::convert::TryFrom;
 use std::fmt::Write;
 use std::ops::Deref;
 use std::str::FromStr;
@@ -2774,7 +2773,7 @@ fn err_expected_name(actual: &AstNode) -> String {
 #[cfg(test)]
 mod tests {
   use super::*;
-  use dsntk_feel::{scope, FeelType};
+  use dsntk_feel::scope;
 
   #[test]
   fn test_unimplemented_external_function_kind() {

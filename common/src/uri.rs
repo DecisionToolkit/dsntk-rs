@@ -2,7 +2,6 @@
 
 use self::errors::*;
 use crate::Result;
-use std::convert::TryFrom;
 use uriparse::{URIReference, URI};
 
 pub type Uri = String;

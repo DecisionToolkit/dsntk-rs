@@ -11,7 +11,6 @@ use once_cell::sync::Lazy;
 use regex::Regex;
 use std::borrow::Borrow;
 use std::cmp::Ordering;
-use std::convert::TryFrom;
 use std::str::FromStr;
 
 /// Returns the absolute value of the argument.

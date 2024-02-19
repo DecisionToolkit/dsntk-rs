@@ -1,6 +1,4 @@
 use super::super::*;
-use crate::lalr::TokenType::StartExpression;
-use crate::scope::ParsingScope;
 
 /// Compares the given `name` with `expected` name after parsing.
 fn accept_name(scope: &ParsingScope, name: &str, expected: &str) {

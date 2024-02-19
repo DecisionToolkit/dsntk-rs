@@ -1,6 +1,5 @@
 use super::super::*;
 use crate::lalr::TokenType::StartUnaryTests;
-use crate::parser::Parser;
 use dsntk_common::DsntkError;
 
 #[test]

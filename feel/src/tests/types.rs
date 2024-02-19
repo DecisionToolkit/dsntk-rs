@@ -1,8 +1,7 @@
 use super::*;
 use crate::closure::Closure;
 use crate::context::FeelContext;
-use crate::names::Name;
-use crate::types::{is_built_in_type_name, FeelType};
+use crate::types::is_built_in_type_name;
 use crate::values::Value;
 use crate::{value_null, value_number, FeelScope, FunctionBody};
 use dsntk_feel_temporal::{FeelDate, FeelDateTime, FeelDaysAndTimeDuration, FeelTime, FeelYearsAndMonthsDuration};
