@@ -188,7 +188,7 @@ impl FeelContext {
   }
 
   /// Creates an entry with a value for specified [QualifiedName].
-  /// All non existing intermediary contexts will be created.
+  /// All non-existing intermediary contexts will be created.
   pub fn create_entry(&mut self, qname: &QualifiedName, value: Value) {
     self.create_entries(qname.as_slice(), value);
   }
