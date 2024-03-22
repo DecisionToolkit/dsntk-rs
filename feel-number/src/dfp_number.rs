@@ -75,7 +75,7 @@ impl FeelNumber {
 
   /// Returns an absolute value of this [FeelNumber].
   pub fn abs(&self) -> Self {
-    Self(bid128_abs(self.0,flags!()), false)
+    Self(bid128_abs(self.0, flags!()), false)
   }
 
   /// Returns a nearest integer greater or equal to this [FeelNumber].
