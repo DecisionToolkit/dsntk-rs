@@ -394,9 +394,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.0.83"
+version = "1.0.90"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f1174fb0b6ec23863f8b971027804a42614e347eafb0a95bf0b12cdae21fc4d0"
+checksum = "8cd6604a82acf3039f1144f54b8eb34e91ffba622051189e71b781822d5ee1f5"
 dependencies = [
  "jobserver",
  "libc",
@@ -561,9 +561,9 @@ dependencies = [
 
 [[package]]
 name = "dfp-number-sys"
-version = "0.0.19"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e31fcd557ceb6716bdb8321edf0704adaba78f78ac2eb304a61f0440a6d3aaab"
+checksum = "d38f75bdc540fb9ce5ed05bb455932b7489d76a5981825a5cbfbe2787239089a"
 dependencies = [
  "cc",
  "libc",
