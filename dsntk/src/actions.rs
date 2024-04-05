@@ -154,7 +154,7 @@ enum Action {
     /// Output HTML file name.
     String,
   ),
-  /// Starts DSNTK as a service.
+  /// Starts as a service.
   StartService(
     /// Optional host name.
     Option<String>,
@@ -439,7 +439,7 @@ fn get_matches() -> ArgMatches {
     // srv
     .subcommand(
       Command::new("srv")
-        .about("Run DSNTK as a service")
+        .about("Run as a service")
         .display_order(1)
         .arg(arg!(-H --host <HOST>).help("Host name").action(ArgAction::Set).display_order(1))
         .arg(arg!(-P --port <PORT>).help("Port number").action(ArgAction::Set).display_order(2))

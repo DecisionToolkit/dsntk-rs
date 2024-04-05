@@ -1,4 +1,4 @@
-**DSNTK** | Decision Toolkit
+> Decision Toolkit
 
 # Black-box tests
 
@@ -7,13 +7,21 @@
 [![Contributor Covenant][cc-badge]][cc-url]
 
 [mit-badge]: https://img.shields.io/badge/License-MIT-blue.svg
+
 [mit-url]: https://opensource.org/licenses/MIT
+
 [mit-license-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE-MIT
+
 [apache-badge]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+
 [apache-url]: https://www.apache.org/licenses/LICENSE-2.0
+
 [apache-license-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE
+
 [apache-notice-url]: https://github.com/dsntk/dsntk-rs/blob/main/NOTICE
+
 [cc-badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
+
 [cc-url]: https://github.com/dsntk/dsntk-rs/blob/main/CODE_OF_CONDUCT.md
 
 ## Overview
@@ -24,6 +32,7 @@ The **DSNTK** project is tested automatically with all types of tests provided b
 and additionally with test runner that executes all available compatibility tests.
 
 Nevertheless, this set of black-box tests is maintained in the following purposes:
+
 - testing the edge cases,
 - diagnostics of reported issues,
 - visualization of functionalities provided by **DSNTK**,
@@ -37,7 +46,7 @@ Run all tests:
 $ ./bbt.sh
 ```
 
-Run tests in specified directory, e.g. in `cli/noargs`: 
+Run tests in specified directory, e.g. in `cli/noargs`:
 
 ```
 $ ./bbt.sh cli/noargs
@@ -51,6 +60,7 @@ Each directory may contain either subdirectories or test files.
 ## Test files structure
 
 There are always four test files prepared for each test:
+
 1. Text file containing tested expression, decision table or DMN model, may have any name.
 2. Text file containing test execution context, may have any name.
 3. Text file containing expected result, should always be named `expected`.
@@ -59,6 +69,7 @@ There are always four test files prepared for each test:
 ## Example test
 
 Directory `tests/feel/addition/0001` contains a test that checks addition operation of two numbers:
+
 1. Tested expression is `1 + 1` and is saved in `0001.feel` file.
 2. Tested expression context is empty `{}` and is saved in `0001.ctx` file.
 3. Expected value is `2` and is saved in `expected` file.

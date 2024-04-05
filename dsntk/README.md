@@ -1,4 +1,4 @@
-# DSNTK | Decision Toolkit
+# Decision Toolkit
 
 [![Crates.io][crates-badge]][crates-url]
 [![docs][docs-badge]][docs-url]
