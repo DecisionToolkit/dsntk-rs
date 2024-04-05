@@ -1,4 +1,4 @@
-Decision Toolkit
+[Decision Toolkit](https://crates.io/crates/dsntk)
 
 # Documentation generator
 
@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-Documentation generator used by other components of [Decision Toolkit](https://github.com/dsntk) project.
+Documentation generator used by other components of [Decision Toolkit](https://crates.io/crates/dsntk).
 
 ## License
 

@@ -1,4 +1,4 @@
-Decision Toolkit
+[Decision Toolkit](https://crates.io/crates/dsntk)
 
 # API server
 
@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-API server used by other components of [Decision Toolkit](https://github.com/dsntk) project.
+API server used by other components of [Decision Toolkit](https://crates.io/crates/dsntk).
 
 ## License
 

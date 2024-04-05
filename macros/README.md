@@ -1,4 +1,4 @@
-Decision Toolkit
+[Decision Toolkit](https://crates.io/crates/dsntk)
 
 # Procedural and derive macros
 
@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-Procedural and derive macros used by other components of [Decision Toolkit](https://github.com/dsntk) project.
+Procedural and derive macros used by other components of [Decision Toolkit](https://crates.io/crates/dsntk).
 
 ## License
 

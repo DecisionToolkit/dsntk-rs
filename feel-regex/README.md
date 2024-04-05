@@ -1,4 +1,4 @@
-Decision Toolkit
+[Decision Toolkit](https://crates.io/crates/dsntk)
 
 # FEEL regular expressions
 
@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-FEEL regular expressions used by other components of [Decision Toolkit](https://github.com/dsntk) project.
+FEEL regular expressions used by other components of [Decision Toolkit](https://crates.io/crates/dsntk).
 
 ## License
 

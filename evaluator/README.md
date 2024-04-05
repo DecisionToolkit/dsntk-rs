@@ -1,4 +1,4 @@
-Decision Toolkit
+[Decision Toolkit](https://crates.io/crates/dsntk)
 
 # FEEL expressions and DMN model evaluator
 
@@ -48,8 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-FEEL expressions and DMN model evaluator used by other components of [Decision Toolkit](https://github.com/dsntk)
-project.
+FEEL expressions and DMN model evaluator used by other components of [Decision Toolkit](https://crates.io/crates/dsntk).
 
 ## License
 

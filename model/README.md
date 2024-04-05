@@ -1,4 +1,4 @@
-Decision Toolkit
+[Decision Toolkit](https://crates.io/crates/dsntk)
 
 # DMN model and parser
 
@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-DMN model used by other components of [Decision Toolkit](https://github.com/dsntk) project.
+DMN model used by other components of [Decision Toolkit](https://crates.io/crates/dsntk).
 
 This crate implements:
 

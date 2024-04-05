@@ -1,4 +1,4 @@
-Decision Toolkit
+[Decision Toolkit](https://crates.io/crates/dsntk)
 
 # FEEL number
 
@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-FEEL number type used by other components of [Decision Toolkit](https://github.com/dsntk) project.
+FEEL number type used by other components of [Decision Toolkit](https://crates.io/crates/dsntk).
 
 ## License
 

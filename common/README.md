@@ -1,4 +1,4 @@
-Decision Toolkit
+[Decision Toolkit](https://crates.io/crates/dsntk)
 
 ## Common definitions
 
@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-Common definitions used by other components of [Decision Toolkit](https://github.com/dsntk) project.
+Common definitions used by other components of [Decision Toolkit](https://crates.io/crates/dsntk).
 
 ## License
 

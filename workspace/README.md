@@ -1,4 +1,4 @@
-Decision Toolkit
+[Decision Toolkit](https://crates.io/crates/dsntk)
 
 # User workspace
 
@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-User workspace used by other components of [Decision Toolkit](https://github.com/dsntk) project.
+User workspace used by other components of [Decision Toolkit](https://crates.io/crates/dsntk).
 
 ## License
 

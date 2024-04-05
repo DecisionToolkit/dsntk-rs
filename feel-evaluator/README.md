@@ -1,4 +1,4 @@
-Decision Toolkit
+[Decision Toolkit](https://crates.io/crates/dsntk)
 
 # FEEL expressions evaluator
 
@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-FEEL expressions evaluator used by other components of [Decision Toolkit](https://github.com/dsntk) project.
+FEEL expressions evaluator used by other components of [Decision Toolkit](https://crates.io/crates/dsntk).
 
 ## License
 
