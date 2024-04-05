@@ -26,16 +26,16 @@
 
 ## Overview
 
-Black-box tests for **DSNTK** project.
+Black-box tests for **Decision Toolkit** project.
 
-The **DSNTK** project is tested automatically with all types of tests provided by Rust,
+The **Decision Toolkit** project is tested automatically with all types of tests provided by Rust,
 and additionally with test runner that executes all available compatibility tests.
 
 Nevertheless, this set of black-box tests is maintained in the following purposes:
 
 - testing the edge cases,
 - diagnostics of reported issues,
-- visualization of functionalities provided by **DSNTK**,
+- visualization of functionalities provided by **Decision Toolkit**,
 - preparing documentation ([dsntk.io](https://dsntk.io)).
 
 ## Running black-box tests
@@ -86,7 +86,7 @@ at your option.
 
 ## Contribution
 
-Any contributions are greatly appreciated.
+Any contributions to **Decision Toolkit** are greatly appreciated.
 If you would like to get involved, please don't hesitate to reach out to us.
 All contributions intentionally submitted for inclusion in the work by you,
 shall be dual licensed as above, without any additional terms or conditions.
