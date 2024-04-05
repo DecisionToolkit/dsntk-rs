@@ -1,6 +1,6 @@
-**DSNTK** | Decision Toolkit
+Decision Toolkit
 
-# dsntk-feel-regex
+# FEEL regular expressions
 
 [![Crates.io][crates-badge]][crates-url]
 [![docs][docs-badge]][docs-url]
@@ -13,21 +13,37 @@
 [![Contributor Covenant][cc-badge]][cc-url]
 
 [crates-badge]: https://img.shields.io/crates/v/dsntk-feel-regex.svg
+
 [crates-url]: https://crates.io/crates/dsntk-feel-regex
+
 [docs-badge]: https://docs.rs/dsntk-feel-regex/badge.svg
+
 [docs-url]: https://docs.rs/dsntk-feel-regex
+
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-100%25-green.svg
+
 [build-badge-linux]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-linux.yml/badge.svg
+
 [build-badge-windows]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-windows.yml/badge.svg
+
 [build-badge-macos]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-macos.yml/badge.svg
+
 [mit-badge]: https://img.shields.io/badge/License-MIT-blue.svg
+
 [mit-url]: https://opensource.org/licenses/MIT
+
 [mit-license-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE-MIT
+
 [apache-badge]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+
 [apache-url]: https://www.apache.org/licenses/LICENSE-2.0
+
 [apache-license-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE
+
 [apache-notice-url]: https://github.com/dsntk/dsntk-rs/blob/main/NOTICE
+
 [cc-badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
+
 [cc-url]: https://github.com/dsntk/dsntk-rs/blob/main/CODE_OF_CONDUCT.md
 
 ## Overview

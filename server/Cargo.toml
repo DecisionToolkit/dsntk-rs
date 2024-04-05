@@ -2,7 +2,7 @@
 name = "dsntk-server"
 version = { workspace = true }
 authors = { workspace = true }
-description = "DSNTK | API server"
+description = "Decision Toolkit | API server"
 documentation = "https://docs.rs/dsntk-server"
 repository = { workspace = true }
 license = { workspace = true }

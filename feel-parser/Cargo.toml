@@ -2,7 +2,7 @@
 name = "dsntk-feel-parser"
 version = { workspace = true }
 authors = { workspace = true }
-description = "DSNTK | FEEL parser"
+description = "Decision Toolkit | FEEL parser"
 documentation = "https://docs.rs/dsntk-feel-parser"
 repository = { workspace = true }
 license = { workspace = true }

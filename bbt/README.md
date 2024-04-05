@@ -1,4 +1,4 @@
-> Decision Toolkit
+Decision Toolkit
 
 # Black-box tests
 

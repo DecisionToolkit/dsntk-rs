@@ -2,7 +2,7 @@
 name = "dsntk-model"
 version = { workspace = true }
 authors = { workspace = true }
-description = "DSNTK | DMN model and parser"
+description = "Decision Toolkit | DMN model and parser"
 documentation = "https://docs.rs/dsntk-model"
 repository = { workspace = true }
 license = { workspace = true }
