@@ -21,28 +21,28 @@ const COLOR_MODE_ALWAYS: &str = "always";
 /// Color off-switching flag.
 const COLOR_MODE_NEVER: &str = "never";
 
-///
+/// Default name for context file.
 static DEFAULT_CTX: Lazy<String> = Lazy::new(|| "unknown.ctx".to_string());
 
-///
+/// Default name for expression file.
 static DEFAULT_FEEL: Lazy<String> = Lazy::new(|| "unknown.feel".to_string());
 
-///
+/// Default name for HTML file.
 static DEFAULT_HTML: Lazy<String> = Lazy::new(|| "unknown.html".to_string());
 
-///
+/// Default name for decision table file.
 static DEFAULT_DTB: Lazy<String> = Lazy::new(|| "unknown.dtb".to_string());
 
-///
+/// Default name for decision model file.
 static DEFAULT_DMN: Lazy<String> = Lazy::new(|| "unknown.dmn".to_string());
 
-///
+/// Default name for invocable.
 static DEFAULT_INVOCABLE: Lazy<String> = Lazy::new(|| "unknown".to_string());
 
-///
+/// Default name for color mode.
 static DEFAULT_COLOR: Lazy<String> = Lazy::new(|| "auto".to_string());
 
-///
+/// Default name for examples directory.
 static DEFAULT_EXAMPLES_DIR: Lazy<String> = Lazy::new(|| ".".to_string());
 
 /// Command-line actions.

@@ -88,7 +88,6 @@ impl TryFrom<&str> for FeelDateTime {
 }
 
 impl PartialEq for FeelDateTime {
-  ///
   fn eq(&self, rhs: &Self) -> bool {
     let lhs_zone = self.1.zone();
     let rhs_zone = rhs.1.zone();
@@ -234,7 +233,6 @@ impl Sub<FeelDaysAndTimeDuration> for FeelDateTime {
 
 impl Sub<FeelDateTime> for FeelDateTime {
   type Output = Option<FeelDaysAndTimeDuration>;
-  ///
   fn sub(self, other: FeelDateTime) -> Self::Output {
     let me_zone = self.1.zone();
     let other_zone = other.1.zone();
@@ -272,7 +270,6 @@ impl Sub<FeelDateTime> for FeelDateTime {
 
 impl TryFrom<FeelDateTime> for DateTime<FixedOffset> {
   type Error = DsntkError;
-  ///
   fn try_from(value: FeelDateTime) -> Result<Self, Self::Error> {
     let me_date_tuple = value.0.as_tuple();
     let me_time_tuple = ((value.1).hour() as u32, (value.1).minute() as u32, (value.1).second() as u32, (value.1).nanos() as u32);
@@ -331,67 +328,54 @@ impl FeelDateTime {
     self.1.clone()
   }
 
-  ///
   pub fn year(&self) -> Year {
     self.0.year()
   }
 
-  ///
   pub fn month(&self) -> Month {
     self.0.month()
   }
 
-  ///
   pub fn day(&self) -> Day {
     self.0.day()
   }
 
-  ///
   pub fn day_of_week(&self) -> Option<DayOfWeek> {
     self.0.day_of_week()
   }
 
-  ///
   pub fn day_of_year(&self) -> Option<DayOfYear> {
     self.0.day_of_year()
   }
 
-  ///
   pub fn week_of_year(&self) -> Option<WeekOfYear> {
     self.0.week_of_year()
   }
 
-  ///
   pub fn month_of_year(&self) -> Option<MonthOfYear> {
     self.0.month_of_year()
   }
 
-  ///
   pub fn hour(&self) -> u8 {
     self.1.hour()
   }
 
-  ///
   pub fn minute(&self) -> u8 {
     self.1.minute()
   }
 
-  ///
   pub fn second(&self) -> u8 {
     self.1.second()
   }
 
-  ///
   pub fn feel_time_offset(&self) -> Option<i32> {
     feel_time_offset(self)
   }
 
-  ///
   pub fn feel_time_zone(&self) -> Option<String> {
     feel_time_zone(self)
   }
 
-  ///
   pub fn is(&self, rhs: &FeelDateTime) -> bool {
     let lhs_zone = self.1.zone();
     let rhs_zone = rhs.1.zone();

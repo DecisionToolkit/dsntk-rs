@@ -56,7 +56,7 @@ pub struct Canvas {
 }
 
 impl Canvas {
-  ///
+  /// Recognizes information item name.
   fn recognize_information_item_name(&mut self) -> Result<()> {
     // search for information item name in the original text
     let layer = LAYER_TEXT;
@@ -96,7 +96,7 @@ impl Canvas {
     })
   }
 
-  ///
+  /// Recognizes crossings.
   fn recognize_crossings(&mut self) -> Result<()> {
     self.move_to(POINT_ZERO); // move to the top-left corner
     self.search(LAYER_TEXT, &['╬']).map(|(_, point)| {
@@ -113,7 +113,7 @@ impl Canvas {
     })
   }
 
-  ///
+  /// Recognizes a body rectangle.
   fn recognize_body_rect(&mut self) -> Result<Rect> {
     let layer = LAYER_TEXT;
     // move to the top-left corner
@@ -362,7 +362,7 @@ impl Canvas {
     })
   }
 
-  ///
+  /// Recognizes a rectangle.
   fn recognize_rectangle(&mut self, layer: Layer, top_left: Point) -> Result<Rect> {
     // start in the top left corner of the rectangle
     self.move_to(top_left);
@@ -381,7 +381,7 @@ impl Canvas {
     })
   }
 
-  ///
+  /// Verifies id the rectangle is properly closed.
   fn close_rectangle(&self, closing: Point, top_left: Point, bottom_right: Point) -> Result<Rect> {
     if closing == top_left {
       Ok(Rect::new(top_left.x, top_left.y, bottom_right.x + 1, bottom_right.y + 1))

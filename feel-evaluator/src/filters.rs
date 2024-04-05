@@ -4,7 +4,6 @@ use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values};
 use dsntk_feel::{value_null, Evaluator, FeelScope, Name};
 
-///
 pub struct FilterExpressionEvaluator {}
 
 impl Default for FilterExpressionEvaluator {
@@ -15,12 +14,10 @@ impl Default for FilterExpressionEvaluator {
 }
 
 impl FilterExpressionEvaluator {
-  ///
   pub fn new() -> Self {
     Self {}
   }
 
-  ///
   pub fn evaluate(&self, scope: &FeelScope, value: Value, evaluator: &Evaluator) -> Value {
     let name_item: Name = "item".into();
     match value {

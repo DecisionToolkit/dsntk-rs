@@ -1,5 +1,3 @@
-//!
-
 use crate::FeelDate;
 
 #[test]

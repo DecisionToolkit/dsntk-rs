@@ -22,7 +22,7 @@ pub enum TokenValue {
   YyEof,
   YyError,
   YyUndef,
-  YyState(usize),
+  YyState,
   And,
   At,
   Between,
@@ -129,37 +129,30 @@ impl<'lexer> Lexer<'lexer> {
     }
   }
 
-  ///
   pub fn set_unary_tests(&mut self) {
     self.unary_tests = true;
   }
 
-  ///
   pub fn set_between(&mut self) {
     self.between = true;
   }
 
-  ///
   pub fn set_type_name(&mut self) {
     self.type_name = true;
   }
 
-  ///
   pub fn set_till_in(&mut self) {
     self.till_in = true;
   }
 
-  ///
   pub fn push_to_scope(&mut self) {
     self.scope.push_default();
   }
 
-  ///
   pub fn pop_from_scope(&mut self) {
     self.scope.pop();
   }
 
-  ///
   pub fn add_name_to_scope(&mut self, name: &Name) {
     self.scope.set_entry_name(name.to_owned());
   }

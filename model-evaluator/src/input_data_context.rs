@@ -41,7 +41,6 @@ impl InputDataContextEvaluator {
   }
 }
 
-///
 pub fn input_data_context_evaluator(input_data: &DefInputData) -> InputDataContextEvaluatorFn {
   let namespace = input_data.variable().namespace().to_string();
   let type_ref = input_data.variable().type_ref().to_string();

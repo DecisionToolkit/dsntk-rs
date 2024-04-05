@@ -1039,7 +1039,6 @@ pub fn floor(n: &Value, scale: &Value) -> Value {
   }
 }
 
-///
 pub fn get_entries(context: &Value) -> Value {
   if let Value::Context(ctx) = context {
     let name_key: Name = "key".into();
@@ -1057,7 +1056,6 @@ pub fn get_entries(context: &Value) -> Value {
   }
 }
 
-///
 pub fn get_value(context: &Value, key: &Value) -> Value {
   if let Value::Context(ctx) = context {
     if let Value::String(entry_key) = key {
@@ -1089,7 +1087,6 @@ macro_rules! includes_rr {
   };
 }
 
-///
 pub fn includes(value1: &Value, value2: &Value) -> Value {
   if let Value::Range(range1_start, c1s, range1_end, c1e) = value1 {
     match (range1_start.borrow(), range1_end.borrow()) {
@@ -1366,7 +1363,7 @@ pub fn max(values: &[Value]) -> Value {
         match value {
           Value::String(v) => {
             if *v > max {
-              max = v.clone();
+              max.clone_from(v)
             }
           }
           Value::Null(_) => {}
@@ -1542,7 +1539,7 @@ pub fn min(values: &[Value]) -> Value {
       for value in values.iter().skip(1) {
         if let Value::String(v) = value {
           if *v < min {
-            min = v.clone();
+            min.clone_from(v)
           }
         } else {
           return invalid_argument_type!("min", "string", value.type_of());
@@ -2010,7 +2007,6 @@ pub fn replace(input_string_value: &Value, pattern_string_value: &Value, replace
   }
 }
 
-///
 pub fn reverse(list: &Value) -> Value {
   if let Value::List(mut items) = list.clone() {
     items.reverse();
@@ -2020,7 +2016,6 @@ pub fn reverse(list: &Value) -> Value {
   }
 }
 
-///
 pub fn round_down(n: &Value, scale: &Value) -> Value {
   let Value::Number(n) = n else {
     return invalid_argument_type!("round down", "number", n.type_of());
@@ -2037,7 +2032,6 @@ pub fn round_down(n: &Value, scale: &Value) -> Value {
   }
 }
 
-///
 pub fn round_half_down(n: &Value, scale: &Value) -> Value {
   let Value::Number(n) = n else {
     return invalid_argument_type!("round half down", "number", n.type_of());
@@ -2054,7 +2048,6 @@ pub fn round_half_down(n: &Value, scale: &Value) -> Value {
   }
 }
 
-///
 pub fn round_half_up(n: &Value, scale: &Value) -> Value {
   let Value::Number(n) = n else {
     return invalid_argument_type!("round half up", "number", n.type_of());
@@ -2071,7 +2064,6 @@ pub fn round_half_up(n: &Value, scale: &Value) -> Value {
   }
 }
 
-///
 pub fn round_up(n: &Value, scale: &Value) -> Value {
   let Value::Number(n) = n else {
     return invalid_argument_type!("round up", "number", n.type_of());
@@ -2088,7 +2080,6 @@ pub fn round_up(n: &Value, scale: &Value) -> Value {
   }
 }
 
-///
 pub fn sort(list: &Value, ordering_function: &Value) -> Value {
   if let Value::List(items) = list {
     if let Value::FunctionDefinition(parameters, body, false, _, closure_ctx, _) = ordering_function {
@@ -2121,7 +2112,6 @@ pub fn sort(list: &Value, ordering_function: &Value) -> Value {
   }
 }
 
-///
 pub fn split(input_string_value: &Value, delimiter_string_value: &Value) -> Value {
   if let Value::String(input_string) = input_string_value {
     if let Value::String(delimiter_string) = delimiter_string_value {
@@ -2256,7 +2246,6 @@ macro_rules! starts_rr {
   };
 }
 
-///
 pub fn starts(value1: &Value, value2: &Value) -> Value {
   match value1 {
     Value::Number(point) => {
@@ -2662,7 +2651,6 @@ pub fn substring_before(input_string_value: &Value, match_input_string: &Value) 
   }
 }
 
-///
 pub fn time_1(value: &Value) -> Value {
   match value {
     Value::String(text) => {
@@ -2678,7 +2666,6 @@ pub fn time_1(value: &Value) -> Value {
   value_null!("time_1")
 }
 
-///
 pub fn time_3(hour_value: &Value, minute_value: &Value, second_value: &Value) -> Value {
   if let Value::Number(hour) = hour_value {
     if let Value::Number(minute) = minute_value {
@@ -2715,7 +2702,6 @@ pub fn time_3(hour_value: &Value, minute_value: &Value, second_value: &Value) ->
   }
 }
 
-///
 pub fn time_4(hour_value: &Value, minute_value: &Value, second_value: &Value, offset_value: &Value) -> Value {
   if let Value::Number(hour) = hour_value {
     if let Value::Number(minute) = minute_value {

@@ -282,7 +282,7 @@ impl Plane {
     self.content.len()
   }
 
-  ///
+  /// Pivots the plane.
   pub fn pivot(&mut self) {
     let mut pivot_content: Vec<Vec<Cell>> = vec![];
     while !self.content[0].is_empty() {

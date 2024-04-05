@@ -70,7 +70,6 @@ pub fn feel_time_zone(me: &FeelDateTime) -> Option<String> {
   None
 }
 
-///
 pub fn date_time_offset_dt(date: (i32, u32, u32), time: (u32, u32, u32, u32), offset: i32) -> Option<DateTime<FixedOffset>> {
   if let Some(fixed_offset) = FixedOffset::east_opt(offset) {
     if let LocalResult::Single(offset_date_time) = fixed_offset.with_ymd_and_hms(date.0, date.1, date.2, time.0, time.1, time.2) {
@@ -82,7 +81,6 @@ pub fn date_time_offset_dt(date: (i32, u32, u32), time: (u32, u32, u32, u32), of
   None
 }
 
-///
 pub fn date_time_offset_t(time: (u32, u32, u32, u32), offset: i32) -> Option<DateTime<FixedOffset>> {
   let today = Local::now();
   date_time_offset_dt((today.year(), today.month(), today.day()), time, offset)

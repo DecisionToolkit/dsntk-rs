@@ -15,7 +15,6 @@ pub struct ClosureBuilder {
 }
 
 impl ClosureBuilder {
-  ///
   pub fn from_node(node: &AstNode) -> Closure {
     let mut closure_context = ClosureBuilder::default();
     closure_context.visit_1(node, 0);
@@ -27,7 +26,6 @@ impl ClosureBuilder {
       .into()
   }
 
-  ///
   pub fn from_function_definition(lhs: &AstNode, rhs: &AstNode) -> Closure {
     let mut closure_context = ClosureBuilder::default();
     closure_context.visit_2(lhs, rhs, 0);

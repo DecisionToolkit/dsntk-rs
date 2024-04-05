@@ -40,7 +40,6 @@ impl ItemDefinitionEvaluator {
   }
 }
 
-///
 pub fn build_item_definition_evaluator(item_definition: &DefItemDefinition) -> Result<ItemDefinitionEvaluatorFn> {
   // prepare optional allowed values evaluator
   let av_evaluator = build_allowed_values_evaluator(item_definition)?;
@@ -56,7 +55,6 @@ pub fn build_item_definition_evaluator(item_definition: &DefItemDefinition) -> R
   }
 }
 
-///
 fn build_allowed_values_evaluator(item_definition: &DefItemDefinition) -> Result<Option<Evaluator>> {
   let mut av_evaluator = None;
   if let Some(unary_tests) = item_definition.allowed_values() {
@@ -70,7 +68,6 @@ fn build_allowed_values_evaluator(item_definition: &DefItemDefinition) -> Result
   Ok(av_evaluator)
 }
 
-///
 fn check_allowed_values(value: Value, av_evaluator: Option<&Evaluator>) -> Value {
   if let Some(evaluator) = av_evaluator {
     let scope = FeelScope::default();
@@ -85,20 +82,18 @@ fn check_allowed_values(value: Value, av_evaluator: Option<&Evaluator>) -> Value
   }
 }
 
-///
 fn build_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
-  ///
   fn build_any_evaluator(av_evaluator: Option<Evaluator>) -> ItemDefinitionEvaluatorFn {
     Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| check_allowed_values(value.to_owned(), av_evaluator.as_ref()))
   }
-  ///
+
   fn build_null_evaluator(av_evaluator: Option<Evaluator>) -> ItemDefinitionEvaluatorFn {
     Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| match value {
       Value::Null(_) => check_allowed_values(value.to_owned(), av_evaluator.as_ref()),
       _ => value_null!("expected type 'Null', actual type is '{}' in value '{}'", value.type_of(), value),
     })
   }
-  ///
+
   fn build_string_evaluator(av_evaluator: Option<Evaluator>) -> ItemDefinitionEvaluatorFn {
     Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| match value {
       Value::String(_) => check_allowed_values(value.to_owned(), av_evaluator.as_ref()),
@@ -106,7 +101,7 @@ fn build_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluat
       _ => value_null!("expected type 'string', actual type is '{}' in value '{}'", value.type_of(), value),
     })
   }
-  ///
+
   fn build_number_evaluator(av_evaluator: Option<Evaluator>) -> ItemDefinitionEvaluatorFn {
     Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| match value {
       Value::Number(_) => check_allowed_values(value.to_owned(), av_evaluator.as_ref()),
@@ -114,7 +109,7 @@ fn build_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluat
       _ => value_null!("expected type 'number', actual type is '{}' in value '{}'", value.type_of(), value),
     })
   }
-  ///
+
   fn build_boolean_evaluator(av_evaluator: Option<Evaluator>) -> ItemDefinitionEvaluatorFn {
     Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| match value {
       Value::Boolean(_) => check_allowed_values(value.to_owned(), av_evaluator.as_ref()),
@@ -122,7 +117,7 @@ fn build_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluat
       _ => value_null!("expected type 'boolean', actual type is '{}' in value '{}'", value.type_of(), value),
     })
   }
-  ///
+
   fn build_date_evaluator(av_evaluator: Option<Evaluator>) -> ItemDefinitionEvaluatorFn {
     Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| match value {
       Value::Date(_) => check_allowed_values(value.to_owned(), av_evaluator.as_ref()),
@@ -130,7 +125,7 @@ fn build_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluat
       _ => value_null!("expected type 'date', actual type is '{}' in value '{}'", value.type_of(), value),
     })
   }
-  ///
+
   fn build_time_evaluator(av_evaluator: Option<Evaluator>) -> ItemDefinitionEvaluatorFn {
     Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| match value {
       Value::Time(_) => check_allowed_values(value.to_owned(), av_evaluator.as_ref()),
@@ -138,7 +133,7 @@ fn build_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluat
       _ => value_null!("expected type 'time', actual type is '{}' in value '{}'", value.type_of(), value),
     })
   }
-  ///
+
   fn build_date_time_evaluator(av_evaluator: Option<Evaluator>) -> ItemDefinitionEvaluatorFn {
     Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| match value {
       Value::DateTime(_) => check_allowed_values(value.to_owned(), av_evaluator.as_ref()),
@@ -146,7 +141,7 @@ fn build_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluat
       _ => value_null!("expected type 'date and time', actual type is '{}' in value '{}'", value.type_of(), value),
     })
   }
-  ///
+
   fn build_dt_duration_evaluator(av_evaluator: Option<Evaluator>) -> ItemDefinitionEvaluatorFn {
     Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| match value {
       Value::DaysAndTimeDuration(_) => check_allowed_values(value.to_owned(), av_evaluator.as_ref()),
@@ -154,7 +149,7 @@ fn build_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluat
       _ => value_null!("expected type 'days and time duration', actual type is '{}' in value '{}'", value.type_of(), value),
     })
   }
-  ///
+
   fn build_ym_duration_evaluator(av_evaluator: Option<Evaluator>) -> ItemDefinitionEvaluatorFn {
     Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| match value {
       Value::YearsAndMonthsDuration(_) => check_allowed_values(value.to_owned(), av_evaluator.as_ref()),
@@ -177,14 +172,12 @@ fn build_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluat
   }
 }
 
-///
 fn build_referenced_type_evaluator(def_key: DefKey) -> Result<ItemDefinitionEvaluatorFn> {
   Ok(Box::new(move |value: &Value, evaluators: &ItemDefinitionEvaluator| {
     evaluators.eval(&def_key, value).unwrap_or_else(|| value_null!("no evaluator"))
   }))
 }
 
-///
 fn build_component_type_evaluator(item_definition: &DefItemDefinition) -> Result<ItemDefinitionEvaluatorFn> {
   let mut component_evaluators: Vec<(Name, ItemDefinitionEvaluatorFn)> = vec![];
   for component_item_definition in item_definition.item_components() {
@@ -208,9 +201,7 @@ fn build_component_type_evaluator(item_definition: &DefItemDefinition) -> Result
   }))
 }
 
-///
 fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
-  ///
   fn build_any_evaluator(av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
     Ok(Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
       if let Value::List(values) = value {
@@ -220,7 +211,7 @@ fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: 
       }
     }))
   }
-  ///
+
   fn build_null_evaluator(av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
     Ok(Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
       if let Value::List(values) = value {
@@ -238,7 +229,7 @@ fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: 
       }
     }))
   }
-  ///
+
   fn build_string_evaluator(av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
     Ok(Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
       if let Value::List(values) = value {
@@ -256,7 +247,7 @@ fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: 
       }
     }))
   }
-  ///
+
   fn build_number_evaluator(av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
     Ok(Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
       if let Value::List(values) = value {
@@ -274,7 +265,7 @@ fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: 
       }
     }))
   }
-  ///
+
   fn build_boolean_evaluator(av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
     Ok(Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
       if let Value::List(values) = value {
@@ -292,7 +283,7 @@ fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: 
       }
     }))
   }
-  ///
+
   fn build_date_evaluator(av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
     Ok(Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
       if let Value::List(values) = value {
@@ -310,7 +301,7 @@ fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: 
       }
     }))
   }
-  ///
+
   fn build_time_evaluator(av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
     Ok(Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
       if let Value::List(values) = value {
@@ -328,7 +319,7 @@ fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: 
       }
     }))
   }
-  ///
+
   fn build_date_and_time_evaluator(av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
     Ok(Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
       if let Value::List(values) = value {
@@ -346,7 +337,7 @@ fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: 
       }
     }))
   }
-  ///
+
   fn build_days_and_time_duration_evaluator(av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
     Ok(Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
       if let Value::List(values) = value {
@@ -364,7 +355,7 @@ fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: 
       }
     }))
   }
-  ///
+
   fn build_months_and_years_duration_evaluator(av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
     Ok(Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
       if let Value::List(values) = value {
@@ -398,7 +389,6 @@ fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: 
   }
 }
 
-///
 fn build_collection_of_referenced_type_evaluator(def_key: DefKey, av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
   Ok(Box::new(move |value: &Value, evaluators: &ItemDefinitionEvaluator| {
     if let Value::List(values) = value {
@@ -417,7 +407,6 @@ fn build_collection_of_referenced_type_evaluator(def_key: DefKey, av_evaluator: 
   }))
 }
 
-///
 fn build_collection_of_component_type_evaluator(item_definition: &DefItemDefinition) -> Result<ItemDefinitionEvaluatorFn> {
   let mut component_evaluators: Vec<(Name, ItemDefinitionEvaluatorFn)> = vec![];
   for component_item_definition in item_definition.item_components() {
@@ -449,7 +438,6 @@ fn build_collection_of_component_type_evaluator(item_definition: &DefItemDefinit
   }))
 }
 
-///
 fn build_function_type_evaluator() -> Result<ItemDefinitionEvaluatorFn> {
   Ok(Box::new(move |_: &Value, _: &ItemDefinitionEvaluator| {
     value_null!("function type evaluator not implemented yet")

@@ -4,12 +4,10 @@ use dsntk_common::{DsntkError, ToErrorMessage};
 #[derive(ToErrorMessage)]
 struct ModelError(String);
 
-///
 pub fn err_invalid_decision_table_orientation(orientation: &str) -> DsntkError {
   ModelError(format!("invalid decision table orientation: {orientation}")).into()
 }
 
-///
 pub fn err_invalid_decision_table_hit_policy(hit_policy: &str) -> DsntkError {
   ModelError(format!("invalid decision table hit policy: {hit_policy}")).into()
 }
@@ -69,7 +67,6 @@ pub fn err_number_of_elements_in_row_differs_from_number_of_columns() -> DsntkEr
   ModelParserError("number of elements in a row differs from the number of columns defined in a relation".to_string()).into()
 }
 
-///
 pub fn err_xml_parsing_model_failed(s: &str) -> DsntkError {
   ModelParserError(format!("parsing model from XML failed with reason: {s}")).into()
 }
@@ -79,22 +76,18 @@ pub fn err_node_has_no_children(s: &str) -> DsntkError {
   ModelParserError(format!("node {s} has no children nodes")).into()
 }
 
-///
 pub fn err_xml_unexpected_node(s1: &str, s2: &str) -> DsntkError {
   ModelParserError(format!("unexpected XML node, expected: {s1}, actual: {s2}")).into()
 }
 
-///
 pub fn err_xml_expected_mandatory_attribute(s1: &str, s2: &str) -> DsntkError {
   ModelParserError(format!("expected value for mandatory attribute '{s2}' in node {s1}")).into()
 }
 
-///
 pub fn err_xml_expected_mandatory_child_node(s1: &str, s2: &str) -> DsntkError {
   ModelParserError(format!("expected mandatory child node '{s2}' in parent node {s1}")).into()
 }
 
-///
 pub fn err_xml_expected_mandatory_text_content(s: &str) -> DsntkError {
   ModelParserError(format!("expected mandatory text content in node '{s}'")).into()
 }
@@ -103,7 +96,6 @@ pub fn err_xml_expected_mandatory_text_content(s: &str) -> DsntkError {
 #[derive(ToErrorMessage)]
 struct ModelValidatorError(String);
 
-///
 pub fn err_item_definitions_cycle() -> DsntkError {
   ModelValidatorError("cyclic dependency between item definitions".to_string()).into()
 }

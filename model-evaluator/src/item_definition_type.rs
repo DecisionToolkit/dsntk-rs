@@ -67,7 +67,6 @@ impl ItemDefinitionTypeEvaluator {
   }
 }
 
-///
 pub fn build_item_definition_type_evaluator(item_definition: &DefItemDefinition) -> Result<ItemDefinitionTypeEvaluatorFn> {
   match item_definition.item_definition_type()? {
     ItemDefinitionType::SimpleType(feel_type) => simple_type(feel_type),
@@ -80,7 +79,6 @@ pub fn build_item_definition_type_evaluator(item_definition: &DefItemDefinition)
   }
 }
 
-///
 fn simple_type(feel_type: FeelType) -> Result<ItemDefinitionTypeEvaluatorFn> {
   match feel_type {
     FeelType::Any => Ok(Box::new(move |_: &ItemDefinitionTypeEvaluator| Some(FeelType::Any))),
@@ -96,12 +94,10 @@ fn simple_type(feel_type: FeelType) -> Result<ItemDefinitionTypeEvaluatorFn> {
   }
 }
 
-///
 fn referenced_type(def_key: DefKey) -> Result<ItemDefinitionTypeEvaluatorFn> {
   Ok(Box::new(move |evaluators: &ItemDefinitionTypeEvaluator| evaluators.eval(&def_key)))
 }
 
-///
 fn component_type(item_definition: &DefItemDefinition) -> Result<ItemDefinitionTypeEvaluatorFn> {
   let mut type_evaluators: Vec<(Name, ItemDefinitionTypeEvaluatorFn)> = vec![];
   for component_item_definition in item_definition.item_components() {
@@ -121,7 +117,6 @@ fn component_type(item_definition: &DefItemDefinition) -> Result<ItemDefinitionT
   }))
 }
 
-///
 fn collection_of_simple_type(feel_type: FeelType) -> Result<ItemDefinitionTypeEvaluatorFn> {
   match feel_type {
     FeelType::Any => Ok(Box::new(move |_: &ItemDefinitionTypeEvaluator| Some(FeelType::list(&FeelType::Any)))),
@@ -137,14 +132,12 @@ fn collection_of_simple_type(feel_type: FeelType) -> Result<ItemDefinitionTypeEv
   }
 }
 
-///
 fn collection_of_referenced_type(def_key: DefKey) -> Result<ItemDefinitionTypeEvaluatorFn> {
   Ok(Box::new(move |evaluators: &ItemDefinitionTypeEvaluator| {
     evaluators.eval(&def_key).map(|feel_type| FeelType::List(Box::new(feel_type)))
   }))
 }
 
-///
 fn collection_of_component_type(item_definition: &DefItemDefinition) -> Result<ItemDefinitionTypeEvaluatorFn> {
   let mut type_evaluators: Vec<(Name, ItemDefinitionTypeEvaluatorFn)> = vec![];
   for component_item_definition in item_definition.item_components() {
@@ -164,14 +157,13 @@ fn collection_of_component_type(item_definition: &DefItemDefinition) -> Result<I
   }))
 }
 
-///
 fn function_type(item_definition: &DefItemDefinition) -> Result<ItemDefinitionTypeEvaluatorFn> {
   let namespace = item_definition.namespace().to_string();
   let mut output_type_ref = FEEL_TYPE_NAME_ANY.to_string();
   let mut parameters_type_ref = vec![];
   if let Some(function_item) = item_definition.function_item() {
     if let Some(type_ref) = function_item.output_type_ref() {
-      output_type_ref = type_ref.to_owned();
+      type_ref.clone_into(&mut output_type_ref);
     }
     for parameter_information_item in function_item.parameters() {
       parameters_type_ref.push(parameter_information_item.type_ref().to_string());

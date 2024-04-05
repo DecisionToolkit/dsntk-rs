@@ -18,7 +18,6 @@ use std::sync::{Arc, RwLock};
 ///
 type DecisionServiceEvaluatorFn = Box<dyn Fn(&FeelContext, &FeelContext, &ModelEvaluator, &mut FeelContext) -> Name + Send + Sync>;
 
-///
 type DecisionServiceEvaluatorEntry = (Variable, Vec<(Name, FeelType)>, DecisionServiceEvaluatorFn, Option<Evaluator>);
 
 /// Decision service evaluator.
@@ -108,7 +107,6 @@ impl DecisionServiceEvaluator {
   }
 }
 
-///
 fn build_decision_service_evaluator(decision_service: &DefDecisionService, model_builder: &ModelBuilder) -> Result<DecisionServiceEvaluatorEntry> {
   let item_definition_type_evaluator = model_builder.item_definition_type_evaluator();
   let input_data_evaluator = model_builder.input_data_evaluator();

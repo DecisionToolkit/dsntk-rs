@@ -164,14 +164,12 @@ impl FeelContext {
     matches!(self.0.get(name), Some(Value::Context(_)))
   }
 
-  ///
   pub fn zip(&mut self, other: &FeelContext) {
     for (name, value) in &other.0 {
       self.0.insert(name.clone(), value.clone());
     }
   }
 
-  ///
   pub fn overwrite(&mut self, other: &FeelContext) {
     for (name, value) in &other.0 {
       if self.0.contains_key(name) {

@@ -83,7 +83,6 @@ impl IterationState {
     }
   }
 
-  /// ???
   fn bind_value(&mut self, ctx: &FeelContext) {
     if let IteratorType::Variable(bound_variable) = &self.iterator_type {
       if let Some(value) = ctx.get(bound_variable) {
@@ -130,7 +129,6 @@ impl IterationState {
     }
   }
 
-  ///
   fn set_value(&mut self, ctx: &mut FeelContext) {
     match self.iterator_type {
       IteratorType::Range => {
@@ -153,7 +151,6 @@ impl IterationState {
     self.empty = true;
   }
 
-  ///
   fn is_variable(&self) -> bool {
     matches!(self.iterator_type, IteratorType::Variable(_))
   }
@@ -171,17 +168,14 @@ impl FeelIterator {
     Self::default()
   }
 
-  ///
   pub fn add_range(&mut self, variable: Name, start: isize, end: isize) {
     self.states.push(IterationState::new_range(variable, start, end));
   }
 
-  ///
   pub fn add_list(&mut self, variable: Name, value: Value) {
     self.states.push(IterationState::new_list(variable, value));
   }
 
-  ///
   pub fn add_variable(&mut self, variable: Name, bound_variable: Name) {
     self.states.push(IterationState::new_variable(variable, bound_variable));
   }
@@ -219,23 +213,19 @@ impl FeelIterator {
     }
   }
 
-  ///
   fn iter_states_mut(&mut self) -> impl Iterator<Item = &mut IterationState> {
     self.states.iter_mut().rev()
   }
 
-  ///
   fn iter_states_non_variable_mut(&mut self) -> impl Iterator<Item = &mut IterationState> {
     self.states.iter_mut().rev().filter(|state| !state.is_variable())
   }
 
-  ///
   fn iter_states_variable_mut(&mut self) -> impl Iterator<Item = &mut IterationState> {
     self.states.iter_mut().filter(|state| state.is_variable())
   }
 }
 
-///
 pub struct ForExpressionEvaluator {
   iterator: FeelIterator,
   name_partial: Name,
@@ -249,7 +239,6 @@ impl Default for ForExpressionEvaluator {
 }
 
 impl ForExpressionEvaluator {
-  ///
   pub fn new() -> Self {
     Self {
       iterator: FeelIterator::default(),
@@ -257,12 +246,10 @@ impl ForExpressionEvaluator {
     }
   }
 
-  ///
   pub fn add_list(&mut self, name: Name, value: Value) {
     self.iterator.add_list(name, value);
   }
 
-  ///
   pub fn add_range(&mut self, name: Name, range_start: Value, range_end: Value) {
     if let Value::Number(start) = range_start {
       if let Value::Number(end) = range_end {
@@ -275,12 +262,10 @@ impl ForExpressionEvaluator {
     }
   }
 
-  ///
   pub fn add_variable(&mut self, name: Name, variable: Name) {
     self.iterator.add_variable(name, variable);
   }
 
-  ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Values {
     let mut results = vec![];
     self.iterator.iterate(|ctx| {
@@ -295,7 +280,6 @@ impl ForExpressionEvaluator {
   }
 }
 
-///
 pub struct SomeExpressionEvaluator {
   iterator: FeelIterator,
 }
@@ -308,19 +292,16 @@ impl Default for SomeExpressionEvaluator {
 }
 
 impl SomeExpressionEvaluator {
-  ///
   pub fn new() -> Self {
     Self {
       iterator: FeelIterator::default(),
     }
   }
 
-  ///
   pub fn add_list(&mut self, name: Name, value: Value) {
     self.iterator.add_list(name, value);
   }
 
-  ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Value {
     let mut result = VALUE_FALSE;
     let mut skip = false;
@@ -346,7 +327,6 @@ impl SomeExpressionEvaluator {
   }
 }
 
-///
 pub struct EveryExpressionEvaluator {
   iterator: FeelIterator,
 }
@@ -359,17 +339,14 @@ impl Default for EveryExpressionEvaluator {
 }
 
 impl EveryExpressionEvaluator {
-  ///
   pub fn new() -> Self {
     Self { iterator: FeelIterator::new() }
   }
 
-  ///
   pub fn add_list(&mut self, name: Name, value: Value) {
     self.iterator.add_list(name, value);
   }
 
-  ///
   pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Value {
     let mut result = VALUE_TRUE;
     let mut skip = false;

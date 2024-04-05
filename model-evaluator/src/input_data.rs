@@ -8,7 +8,6 @@ use dsntk_feel::Name;
 use std::collections::HashMap;
 use std::sync::Arc;
 
-///
 pub type InputDataEvaluatorEntry = (Variable, VariableEvaluatorFn);
 
 /// Input data evaluator.

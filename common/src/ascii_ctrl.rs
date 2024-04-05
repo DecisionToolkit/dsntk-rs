@@ -238,47 +238,38 @@ impl From<ColorMode> for ColorPalette {
 }
 
 impl ColorPalette {
-  ///
   pub fn black(&self) -> &str {
     &self.black
   }
 
-  ///
   pub fn red(&self) -> &str {
     &self.red
   }
 
-  ///
   pub fn green(&self) -> &str {
     &self.green
   }
 
-  ///
   pub fn yellow(&self) -> &str {
     &self.yellow
   }
 
-  ///
   pub fn blue(&self) -> &str {
     &self.blue
   }
 
-  ///
   pub fn magenta(&self) -> &str {
     &self.magenta
   }
 
-  ///
   pub fn cyan(&self) -> &str {
     &self.cyan
   }
 
-  ///
   pub fn white(&self) -> &str {
     &self.white
   }
 
-  ///
   pub fn reset(&self) -> &str {
     &self.reset
   }

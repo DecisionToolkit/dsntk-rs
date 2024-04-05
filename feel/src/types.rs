@@ -161,7 +161,6 @@ pub fn is_built_in_type_name(name: &str) -> bool {
 }
 
 impl FeelType {
-  ///
   pub fn get_conformant_value(&self, actual_value: &Value) -> Value {
     if let FeelType::Null = self {
       return value_null!();

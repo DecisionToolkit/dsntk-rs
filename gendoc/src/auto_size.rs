@@ -2,9 +2,13 @@
 
 use dsntk_model::{DcDimension, DmnDiagram, DmnEdge, DmnShape};
 
+/// Default diagram width.
 const DEFAULT_WIDTH: f64 = 300.0;
+
+/// Default diagram height.
 const DEFAULT_HEIGHT: f64 = 300.0;
 
+/// Auto-discovered diagram size.
 #[derive(Debug, Default)]
 pub struct AutoSize {
   min_x: f64,
@@ -24,7 +28,7 @@ impl AutoSize {
     }
   }
 
-  ///
+  /// Updates diagram size based on shape.
   pub fn discover_from_shape(&mut self, shape: &DmnShape) {
     if self.min_x > shape.bounds.x {
       self.min_x = shape.bounds.x;
@@ -40,7 +44,7 @@ impl AutoSize {
     }
   }
 
-  ///
+  /// Updates diagram size based on edge.
   pub fn discover_from_edge(&mut self, edge: &DmnEdge) {
     for point in &edge.way_points {
       if self.min_x > point.x {
@@ -58,7 +62,7 @@ impl AutoSize {
     }
   }
 
-  ///
+  /// Returns dimension of the diagram.
   pub fn dimension(mut self, diagram: &DmnDiagram) -> DcDimension {
     if let Some(size) = diagram.size {
       size
