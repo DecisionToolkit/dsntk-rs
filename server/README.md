@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-API server used by other components of [DSNTK](https://github.com/dsntk) project.
+API server used by other components of [Decision Toolkit](https://github.com/dsntk) project.
 
 ## License
 

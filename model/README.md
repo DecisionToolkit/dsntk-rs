@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-DMN model used by other components of [DSNTK](https://github.com/dsntk) project.
+DMN model used by other components of [Decision Toolkit](https://github.com/dsntk) project.
 
 This crate implements:
 

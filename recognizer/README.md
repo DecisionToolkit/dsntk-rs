@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-Decision table recognizer, used by other components of [DSNTK](https://github.com/dsntk) project.
+Decision table recognizer, used by other components of [Decision Toolkit](https://github.com/dsntk) project.
 
 Recognizes decision tables defined as Unicode text. To be properly recognized,
 the structure of the decision table must be conformant to DMN™ standard.

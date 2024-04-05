@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-Documentation generator used by other components of [DSNTK](https://github.com/dsntk) project.
+Documentation generator used by other components of [Decision Toolkit](https://github.com/dsntk) project.
 
 ## License
 

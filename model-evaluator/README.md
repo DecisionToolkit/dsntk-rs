@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-DMN model evaluator used by other components of [DSNTK](https://github.com/dsntk) project.
+DMN model evaluator used by other components of [Decision Toolkit](https://github.com/dsntk) project.
 
 Licensed under either of
 

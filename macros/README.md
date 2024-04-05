@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-Procedural and derive macros used by other components of [DSNTK](https://github.com/dsntk) project.
+Procedural and derive macros used by other components of [Decision Toolkit](https://github.com/dsntk) project.
 
 ## License
 

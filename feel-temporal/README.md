@@ -48,7 +48,7 @@ Decision Toolkit
 
 ## Overview
 
-FEEL temporal types used by other components of [DSNTK](https://github.com/dsntk) project.
+FEEL temporal types used by other components of [Decision Toolkit](https://github.com/dsntk) project.
 
 ## License
 

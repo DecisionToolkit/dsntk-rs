@@ -48,7 +48,8 @@ Decision Toolkit
 
 ## Overview
 
-FEEL grammar and parsing tables generator used by other components of [DSNTK](https://github.com/dsntk) project.
+FEEL grammar and parsing tables generator used by other components of [Decision Toolkit](https://github.com/dsntk)
+project.
 
 ## License
 
