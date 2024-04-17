@@ -710,7 +710,7 @@ fn evaluate_decision_table(input_file_name: &str, dectab_file_name: &str) {
       return;
     }
   };
-  let result = evaluator(&scope) as Value;
+  let result = evaluator(&scope);
   println!("{}", result.jsonify());
 }
 
@@ -755,7 +755,7 @@ fn test_decision_table(test_file_name: &str, dectab_file_name: &str, summary_onl
         return;
       }
     };
-    let actual = evaluator(&scope) as Value;
+    let actual = evaluator(&scope);
     display_test_case_result(&actual, expected, &test_no, &mut passed, &mut failed, summary_only, color_mode);
   }
   display_test_summary(passed, failed, summary_only, color_mode);
