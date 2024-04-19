@@ -1,6 +1,6 @@
 [Decision Toolkit](https://crates.io/crates/dsntk)
 
-# FEEL expressions and DMN model evaluator
+# FEEL expressions and DMN models evaluator
 
 [![Crates.io][crates-badge]][crates-url]
 [![docs][docs-badge]][docs-url]
@@ -22,33 +22,33 @@
 
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-100%25-green.svg
 
-[build-badge-linux]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-linux.yml/badge.svg
+[build-badge-linux]: https://github.com/DecisionToolkit/dsntk-rs/actions/workflows/build-linux.yml/badge.svg
 
-[build-badge-windows]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-windows.yml/badge.svg
+[build-badge-windows]: https://github.com/DecisionToolkit/dsntk-rs/actions/workflows/build-windows.yml/badge.svg
 
-[build-badge-macos]: https://github.com/dsntk/dsntk-rs/actions/workflows/build-macos.yml/badge.svg
+[build-badge-macos]: https://github.com/DecisionToolkit/dsntk-rs/actions/workflows/build-macos.yml/badge.svg
 
 [mit-badge]: https://img.shields.io/badge/License-MIT-blue.svg
 
 [mit-url]: https://opensource.org/licenses/MIT
 
-[mit-license-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE-MIT
+[mit-license-url]: https://github.com/DecisionToolkit/dsntk-rs/blob/main/LICENSE-MIT
 
 [apache-badge]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
 
 [apache-url]: https://www.apache.org/licenses/LICENSE-2.0
 
-[apache-license-url]: https://github.com/dsntk/dsntk-rs/blob/main/LICENSE
+[apache-license-url]: https://github.com/DecisionToolkit/dsntk-rs/blob/main/LICENSE
 
-[apache-notice-url]: https://github.com/dsntk/dsntk-rs/blob/main/NOTICE
+[apache-notice-url]: https://github.com/DecisionToolkit/dsntk-rs/blob/main/NOTICE
 
 [cc-badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
 
-[cc-url]: https://github.com/dsntk/dsntk-rs/blob/main/CODE_OF_CONDUCT.md
+[cc-url]: https://github.com/DecisionToolkit/dsntk-rs/blob/main/CODE_OF_CONDUCT.md
 
 ## Overview
 
-FEEL expressions and DMN model evaluator used by other components of [Decision Toolkit](https://crates.io/crates/dsntk).
+FEEL expressions and DMN models evaluator used by other components of [Decision Toolkit](https://crates.io/crates/dsntk).
 
 ## License
 
@@ -61,6 +61,6 @@ at your option.
 
 ## Contribution
 
-Any contributions to [**Decision Toolkit**](https://github.com/dsntk) are greatly appreciated.
+Any contributions to [**Decision Toolkit**](https://github.com/DecisionToolkit) are greatly appreciated.
 All contributions intentionally submitted for inclusion in the work by you,
 shall be dual licensed as above, without any additional terms or conditions.
