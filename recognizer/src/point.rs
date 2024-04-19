@@ -3,9 +3,6 @@
 use std::fmt;
 use std::fmt::{Debug, Display};
 
-/// Vector of points.
-pub type Points = Vec<Point>;
-
 /// Point.
 #[derive(Default, Copy, Clone, PartialEq, Eq)]
 pub struct Point {

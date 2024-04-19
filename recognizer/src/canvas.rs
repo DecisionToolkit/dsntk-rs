@@ -2,8 +2,8 @@
 
 use crate::errors::*;
 use crate::plane::{Cell, Plane};
-use crate::point::{Point, Points};
-use crate::rect::{Rect, Rectangles};
+use crate::point::Point;
+use crate::rect::Rect;
 use dsntk_common::Result;
 
 /// Number of layers in canvas.
@@ -331,7 +331,7 @@ impl Canvas {
   }
 
   /// Recognizes all rectangular regions in layer.
-  fn recognize_regions(&mut self) -> Result<Rectangles> {
+  fn recognize_regions(&mut self) -> Result<Vec<Rect>> {
     let layer = LAYER_THIN;
     let points = self.find_top_left_corners(layer);
     let mut rectangles = vec![];
@@ -393,7 +393,7 @@ impl Canvas {
   /// Searches for all characters that constitute a top-left corner of a rectangle.
   /// Position of this character is the starting point for recognizing rectangles.
   /// Returns a vector of all top-left corner points found in specified **layer**.
-  fn find_top_left_corners(&self, layer: Layer) -> Points {
+  fn find_top_left_corners(&self, layer: Layer) -> Vec<Point> {
     let mut points = vec![];
     for y in 0..self.content.len() {
       for x in 0..self.content[y].len() {
@@ -431,7 +431,7 @@ impl Canvas {
   /// and from top to bottom of specified layer in canvas.
   /// When any of the specified character is found, the cursor position is updated
   /// and the function returns successfully.
-  /// Otherwise the function reports an error.
+  /// Otherwise, the function reports an error.
   fn search(&mut self, layer: Layer, searched: &[char]) -> Result<(char, Point)> {
     let (x, y) = self.cursor.into_inner();
     for c in x..self.content[y].len() {
@@ -578,7 +578,7 @@ impl Canvas {
 }
 
 /// Prepares a `canvas` containing the textual definition of `decision table`.
-/// This function traverse the input text line-by-line and adds non empty lines of text to the canvas.
+/// This function traverse the input text line-by-line and adds non-empty lines of text to the canvas.
 /// Adding lines to canvas begins with the line starting with the `┌` character
 /// (U+250C BOX DRAWINGS LIGHT DOWN AND RIGHT), because this is the top-left corner of every decision table.
 /// Adding lines to canvas ends with the line that ends with the `┘` character

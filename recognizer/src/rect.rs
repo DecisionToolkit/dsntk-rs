@@ -3,9 +3,6 @@
 use std::fmt;
 use std::fmt::{Debug, Display};
 
-/// Vector of rectangles.
-pub type Rectangles = Vec<Rect>;
-
 /// Rectangle.
 #[derive(Default, Copy, Clone, PartialEq, Eq)]
 pub struct Rect {
