@@ -56,20 +56,20 @@ uriparse = "0.6.4"
 url = "2.5.0"
 urlencoding = "2.1.3"
 walkdir = "2.5.0"
-dsntk-common = { path = "common" }
-dsntk-evaluator = { path = "evaluator" }
-dsntk-examples = { path = "examples" }
-dsntk-feel = { path = "feel" }
-dsntk-feel-evaluator = { path = "feel-evaluator" }
-dsntk-feel-grammar = { path = "feel-grammar" }
-dsntk-feel-number = { path = "feel-number" }
-dsntk-feel-parser = { path = "feel-parser" }
-dsntk-feel-regex = { path = "feel-regex" }
-dsntk-feel-temporal = { path = "feel-temporal" }
-dsntk-gendoc = { path = "gendoc" }
-dsntk-macros = { path = "macros" }
-dsntk-model = { path = "model" }
-dsntk-model-evaluator = { path = "model-evaluator" }
-dsntk-recognizer = { path = "recognizer" }
-dsntk-server = { path = "server" }
-dsntk-workspace = { path = "workspace" }
+dsntk-common = "0.0.5"
+dsntk-evaluator = "0.0.5"
+dsntk-examples = "0.0.5"
+dsntk-feel = "0.0.5"
+dsntk-feel-evaluator = "0.0.5"
+dsntk-feel-grammar = "0.0.5"
+dsntk-feel-number = "0.0.5"
+dsntk-feel-parser = "0.0.5"
+dsntk-feel-regex = "0.0.5"
+dsntk-feel-temporal = "0.0.5"
+dsntk-gendoc = "0.0.5"
+dsntk-macros = "0.0.5"
+dsntk-model = "0.0.5"
+dsntk-model-evaluator = "0.0.5"
+dsntk-recognizer = "0.0.5"
+dsntk-server = "0.0.5"
+dsntk-workspace = "0.0.5"
