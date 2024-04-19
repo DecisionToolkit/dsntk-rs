@@ -30,13 +30,9 @@ fn test_rect_offset_top() {
 }
 
 #[test]
-fn test_rect_into_inner() {
+fn test_rect_conversion_into_tuple() {
   let r = Rect::new(10, 11, 12, 13);
-  let (left, top, right, bottom) = r.into_inner();
-  assert_eq!(left, 10);
-  assert_eq!(top, 11);
-  assert_eq!(right, 12);
-  assert_eq!(bottom, 13);
+  assert_eq!((10, 11, 12, 13), r.into());
 }
 
 #[test]

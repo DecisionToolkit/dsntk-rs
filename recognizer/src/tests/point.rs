@@ -37,8 +37,8 @@ fn test_point_compare() {
 }
 
 #[test]
-fn test_point_into_inner() {
-  assert_eq!((21, 22), Point::new(21, 22).into_inner());
+fn test_point_conversion_into_tuple() {
+  assert_eq!((21, 22), Point::new(21, 22).into());
 }
 
 #[test]

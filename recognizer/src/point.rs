@@ -31,9 +31,11 @@ impl Point {
   pub fn new(x: usize, y: usize) -> Self {
     Point { x, y }
   }
+}
 
-  /// Converts this point's coordinates to tuple of integers.
-  pub fn into_inner(self) -> (usize, usize) {
-    (self.x, self.y)
+impl From<Point> for (usize, usize) {
+  /// Converts this point into a tuple of coordinates.
+  fn from(value: Point) -> Self {
+    (value.x, value.y)
   }
 }

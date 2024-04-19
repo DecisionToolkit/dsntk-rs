@@ -161,7 +161,7 @@ impl Canvas {
   /// Removes the information item name region.
   fn remove_information_item_region(&mut self, src: Layer, dst: Layer) {
     if let Some(body_rect) = self.body_rect {
-      let (left, top, right, bottom) = body_rect.into_inner();
+      let (left, top, right, bottom) = body_rect.into();
       if top > 0 {
         for y in 0..top - 1 {
           for x in left..right {
@@ -192,7 +192,7 @@ impl Canvas {
   fn make_grid(&mut self, src: Layer, dst: Layer) {
     if let Some(body_rect) = self.body_rect {
       self.copy_layer(src, dst);
-      let (left, top, right, bottom) = body_rect.into_inner();
+      let (left, top, right, bottom) = body_rect.into();
       for y in top..bottom {
         let mut has_horz_line = false;
         for x in left..right {
@@ -433,7 +433,7 @@ impl Canvas {
   /// and the function returns successfully.
   /// Otherwise, the function reports an error.
   fn search(&mut self, layer: Layer, searched: &[char]) -> Result<(char, Point)> {
-    let (x, y) = self.cursor.into_inner();
+    let (x, y) = self.cursor.into();
     for c in x..self.content[y].len() {
       let ch = self.content[y][c][layer];
       if searched.contains(&ch) {
@@ -454,7 +454,7 @@ impl Canvas {
   }
 
   fn search_up(&mut self, layer: usize, searched: &[char], allowed: &[char]) -> Result<(char, Point)> {
-    let (x, mut y) = self.cursor.into_inner();
+    let (x, mut y) = self.cursor.into();
     while y > 0 {
       y -= 1;
       let ch = self.content[y][x][layer];
@@ -470,7 +470,7 @@ impl Canvas {
   }
 
   fn search_left(&mut self, layer: usize, searched: &[char], allowed: &[char]) -> Result<(char, Point)> {
-    let (mut x, y) = self.cursor.into_inner();
+    let (mut x, y) = self.cursor.into();
     while x > 0 {
       x -= 1;
       let ch = self.content[y][x][layer];
@@ -486,7 +486,7 @@ impl Canvas {
   }
 
   fn search_right(&mut self, layer: usize, searched: &[char], allowed: &[char]) -> Result<(char, Point)> {
-    let (mut x, y) = self.cursor.into_inner();
+    let (mut x, y) = self.cursor.into();
     while x < self.content[y].len() - 1 {
       x += 1;
       let ch = self.content[y][x][layer];
@@ -502,7 +502,7 @@ impl Canvas {
   }
 
   fn search_down(&mut self, layer: usize, searched: &[char], allowed: &[char]) -> Result<(char, Point)> {
-    let (x, mut y) = self.cursor.into_inner();
+    let (x, mut y) = self.cursor.into();
     while y < self.content.len() - 1 {
       y += 1;
       let ch = self.content[y][x][layer];

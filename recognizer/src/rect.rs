@@ -41,14 +41,9 @@ impl Rect {
     Self { top: self.top + offset, ..*self }
   }
 
-  /// Converts the rectangle's coordinates into tuple of integers.
-  pub fn into_inner(self) -> (usize, usize, usize, usize) {
-    (self.left, self.top, self.right, self.bottom)
-  }
-
   /// Checks if the specified rectangle is contained in this rectangle.
-  pub fn contains(&self, r: &Rect) -> bool {
-    r.left >= self.left && r.top >= self.top && r.right <= self.right && r.bottom <= self.bottom
+  pub fn contains(&self, other: &Rect) -> bool {
+    other.left >= self.left && other.top >= self.top && other.right <= self.right && other.bottom <= self.bottom
   }
 
   /// Returns the width of the rectangle.
@@ -59,5 +54,12 @@ impl Rect {
   /// Returns the height of the rectangle.
   pub fn height(&self) -> usize {
     self.bottom - self.top
+  }
+}
+
+impl From<Rect> for (usize, usize, usize, usize) {
+  /// Converts the rectangle's coordinates into tuple of unsigned integers.
+  fn from(value: Rect) -> Self {
+    (value.left, value.top, value.right, value.bottom)
   }
 }
