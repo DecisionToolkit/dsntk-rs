@@ -1,8 +1,8 @@
-use super::super::point::*;
+use crate::point::*;
 
 #[test]
 fn test_point_zero() {
-  let p = POINT_ZERO;
+  let p = Point::default();
   assert_eq!(p.x, 0);
   assert_eq!(p.y, 0);
 }

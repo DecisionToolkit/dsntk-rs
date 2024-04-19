@@ -2,7 +2,7 @@
 
 use crate::errors::*;
 use crate::plane::{Cell, Plane};
-use crate::point::{Point, Points, POINT_ZERO};
+use crate::point::{Point, Points};
 use crate::rect::{Rect, Rectangles};
 use dsntk_common::Result;
 
@@ -61,7 +61,7 @@ impl Canvas {
     // search for information item name in the original text
     let layer = LAYER_TEXT;
     // move to the beginning of the canvas
-    self.move_to(POINT_ZERO);
+    self.move_to(Point::default());
     // search for the top left corner of the decision table (must be present, error otherwise)
     self.search(layer, &['┌']).and_then(|(_, top_left)| {
       // search for the crossing of the top edge with double line (must be present, error otherwise)
@@ -98,7 +98,7 @@ impl Canvas {
 
   /// Recognizes crossings.
   fn recognize_crossings(&mut self) -> Result<()> {
-    self.move_to(POINT_ZERO); // move to the top-left corner
+    self.move_to(Point::default()); // move to the top-left corner
     self.search(LAYER_TEXT, &['╬']).map(|(_, point)| {
       self.cross = Some(point);
       self.move_to(point);
@@ -117,7 +117,7 @@ impl Canvas {
   fn recognize_body_rect(&mut self) -> Result<Rect> {
     let layer = LAYER_TEXT;
     // move to the top-left corner
-    self.move_to(POINT_ZERO);
+    self.move_to(Point::default());
     // find the first double line crossing
     self.search(layer, &['╬']).and_then(|(_, cross_point)| {
       // move up until the top edge of the body is reached
@@ -629,7 +629,7 @@ pub fn scan(text: &str) -> Result<Canvas> {
   // create the canvas
   let mut canvas = Canvas {
     content,
-    cursor: POINT_ZERO,
+    cursor: Point::default(),
     cross: None,
     cross_horz: None,
     cross_vert: None,

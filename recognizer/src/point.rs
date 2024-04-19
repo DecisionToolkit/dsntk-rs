@@ -3,14 +3,11 @@
 use std::fmt;
 use std::fmt::{Debug, Display};
 
-/// Point with coordinates set to `(0,0)`.
-pub const POINT_ZERO: Point = Point { x: 0, y: 0 };
-
 /// Vector of points.
 pub type Points = Vec<Point>;
 
 /// Point.
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone, PartialEq, Eq)]
 pub struct Point {
   /// Left coordinate.
   pub x: usize,
