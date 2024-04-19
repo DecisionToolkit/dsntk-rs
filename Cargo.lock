@@ -593,7 +593,7 @@ checksum = "fdda6acc74f0bfd12b77f1f72b5dda9e4147137af9d4e5cd91fa395bf1aa91b4"
 
 [[package]]
 name = "dsntk"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "actix-web",
  "base64 0.22.0",
@@ -614,7 +614,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-common"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "dsntk-macros",
  "serde",
@@ -625,7 +625,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-evaluator"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "dsntk-common",
  "dsntk-feel",
@@ -636,14 +636,14 @@ dependencies = [
 
 [[package]]
 name = "dsntk-examples"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "walkdir",
 ]
 
 [[package]]
 name = "dsntk-feel"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "chrono",
  "chrono-tz",
@@ -659,7 +659,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-evaluator"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "dsntk-common",
  "dsntk-feel",
@@ -676,7 +676,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-grammar"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "convert_case 0.6.0",
  "regex",
@@ -684,7 +684,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-number"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "dfp-number-sys",
  "dsntk-common",
@@ -693,7 +693,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-parser"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "difference",
  "dsntk-common",
@@ -704,11 +704,11 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-regex"
-version = "0.0.5"
+version = "0.0.6"
 
 [[package]]
 name = "dsntk-feel-temporal"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "chrono",
  "chrono-tz",
@@ -721,7 +721,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-gendoc"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "domrs",
  "dsntk-common",
@@ -735,7 +735,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-macros"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -744,7 +744,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-model"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "dsntk-common",
  "dsntk-examples",
@@ -757,7 +757,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-model-evaluator"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "dsntk-common",
  "dsntk-examples",
@@ -774,7 +774,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-recognizer"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "dsntk-common",
  "dsntk-examples",
@@ -784,7 +784,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-server"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "actix-web",
  "base64 0.22.0",
@@ -800,7 +800,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-workspace"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "dsntk-common",
  "dsntk-examples",
