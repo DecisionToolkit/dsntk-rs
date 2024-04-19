@@ -1,6 +1,7 @@
 //! # Rectangle
 
 use std::fmt;
+use std::fmt::{Debug, Display};
 
 /// Rectangle with coordinates set to zeros `(0,0,0,0)`.
 pub const RECT_ZERO: Rect = Rect {
@@ -26,17 +27,17 @@ pub struct Rect {
   pub bottom: usize,
 }
 
-impl fmt::Display for Rect {
-  /// Implements [Display](fmt::Display) trait for [Rect].
+impl Display for Rect {
+  /// Implements [Display] trait for [Rect].
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    write!(f, "{:?}", self)
+    write!(f, "({},{};{},{})", self.left, self.top, self.right, self.bottom)
   }
 }
 
-impl fmt::Debug for Rect {
-  /// Implements [Debug](fmt::Debug) trait for [Rect].
+impl Debug for Rect {
+  /// Implements [Debug] trait for [Rect].
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    write!(f, "({},{};{},{})", self.left, self.top, self.right, self.bottom)
+    write!(f, "{}", self)
   }
 }
 

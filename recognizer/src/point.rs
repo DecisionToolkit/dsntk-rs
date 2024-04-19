@@ -1,6 +1,7 @@
 //! # Point
 
 use std::fmt;
+use std::fmt::{Debug, Display};
 
 /// Point with coordinates set to `(0,0)`.
 pub const POINT_ZERO: Point = Point { x: 0, y: 0 };
@@ -17,23 +18,23 @@ pub struct Point {
   pub y: usize,
 }
 
-impl fmt::Display for Point {
-  /// Implements [Display](fmt::Display) trait for [Point].
-  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    write!(f, "{:?}", self)
-  }
-}
-
-impl fmt::Debug for Point {
-  /// Implements [Debug](fmt::Debug) trait for [Point].
+impl Display for Point {
+  /// Implements [Display] trait for [Point].
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     write!(f, "({},{})", self.x, self.y)
   }
 }
 
+impl Debug for Point {
+  /// Implements [Debug] trait for [Point].
+  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    write!(f, "{}", self)
+  }
+}
+
 impl Point {
   /// Creates a new point with specified coordinates.
-  pub fn new(x: usize, y: usize) -> Point {
+  pub fn new(x: usize, y: usize) -> Self {
     Point { x, y }
   }
 

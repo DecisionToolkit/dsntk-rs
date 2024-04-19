@@ -1,3 +1,5 @@
+#![cfg(test)]
+
 mod builder;
 mod canvas;
 mod plane;
