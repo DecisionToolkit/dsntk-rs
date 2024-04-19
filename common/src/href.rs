@@ -7,7 +7,6 @@
 
 use self::errors::*;
 use crate::DsntkError;
-use std::convert::TryFrom;
 use uriparse::{RelativeReference, URIReference, URI};
 
 /// URI reference used for utilizing `href` attribute.

@@ -12,12 +12,10 @@ use dsntk_common::{Jsonify, Result};
 use dsntk_feel_number::FeelNumber;
 use dsntk_feel_temporal::{FeelDate, FeelDateTime, FeelDaysAndTimeDuration, FeelTime, FeelYearsAndMonthsDuration};
 use std::collections::BTreeMap;
-use std::convert::TryFrom;
 use std::fmt;
 use std::fmt::Display;
 use std::ops::Deref;
 use std::str::FromStr;
-use std::string::ToString;
 
 /// Creates `Value::Null` with optional tracing message.
 ///

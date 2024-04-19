@@ -2,7 +2,7 @@
 name = "dsntk-feel-number"
 version = { workspace = true }
 authors = { workspace = true }
-description = "DSNTK | FEEL number"
+description = "Decision Toolkit | FEEL number"
 documentation = "https://docs.rs/dsntk-feel-number"
 repository = { workspace = true }
 license = { workspace = true }

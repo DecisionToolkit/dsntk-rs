@@ -1,6 +1,6 @@
 use super::*;
 use crate::AstNode;
-use dsntk_feel::{FeelType, Name};
+use dsntk_feel::FeelType;
 use std::collections::BTreeMap;
 
 /// Utility function for comparing debug strings.

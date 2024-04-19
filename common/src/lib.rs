@@ -1,4 +1,4 @@
-//! # Common definitions used by components of **DSNTK** project
+//! # Common definitions
 
 #[macro_use]
 extern crate dsntk_macros;

@@ -14,7 +14,6 @@ use dsntk_feel_parser::{parse_name, ClosureBuilder};
 use dsntk_model::*;
 use std::sync::Arc;
 
-///
 pub fn bring_knowledge_requirements_into_context(def_definitions: &DefDefinitions, knowledge_requirements: &[DefKnowledgeRequirement], ctx: &mut FeelContext) -> Result<()> {
   for knowledge_requirement in knowledge_requirements {
     let def_href = knowledge_requirement.required_knowledge();
@@ -40,7 +39,6 @@ pub fn bring_knowledge_requirements_into_context(def_definitions: &DefDefinition
   Ok(())
 }
 
-///
 pub fn build_expression_instance_evaluator(scope: &FeelScope, expression_instance: &ExpressionInstance, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   match expression_instance {
     ExpressionInstance::Conditional(conditional) => build_conditional_evaluator(scope, conditional, model_builder),
@@ -58,7 +56,6 @@ pub fn build_expression_instance_evaluator(scope: &FeelScope, expression_instanc
   }
 }
 
-///
 pub fn build_context_evaluator(scope: &FeelScope, context: &Context, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   let item_definition_type_evaluator = model_builder.item_definition_type_evaluator();
   let mut entry_evaluators = vec![];
@@ -99,7 +96,6 @@ pub fn build_context_evaluator(scope: &FeelScope, context: &Context, model_build
   ))
 }
 
-///
 pub fn build_decision_table_evaluator(scope: &FeelScope, decision_table: &DecisionTable, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   let evaluator = decision_table::build_decision_table_evaluator(scope, decision_table)?;
   let decision_table_evaluator = Box::new(move |scope: &FeelScope| evaluator(scope));
@@ -109,7 +105,6 @@ pub fn build_decision_table_evaluator(scope: &FeelScope, decision_table: &Decisi
   ))
 }
 
-///
 pub fn build_function_definition_evaluator(scope: &FeelScope, function_definition: &FunctionDefinition, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   let item_definition_type_evaluator = model_builder.item_definition_type_evaluator();
   // resolve function definition's formal parameters
@@ -223,7 +218,6 @@ pub fn build_function_definition_evaluator(scope: &FeelScope, function_definitio
   }
 }
 
-///
 pub fn build_invocation_evaluator(scope: &FeelScope, invocation: &Invocation, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   let item_definition_type_evaluator = model_builder.item_definition_type_evaluator();
   let mut bindings = vec![];
@@ -276,7 +270,6 @@ pub fn build_invocation_evaluator(scope: &FeelScope, invocation: &Invocation, mo
   ))
 }
 
-///
 pub fn build_literal_expression_evaluator(scope: &FeelScope, literal_expression: &LiteralExpression, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   let text = literal_expression.text().as_ref().ok_or_else(err_empty_literal_expression)?;
   let node = dsntk_feel_parser::parse_expression(scope, text, false)?;
@@ -288,7 +281,6 @@ pub fn build_literal_expression_evaluator(scope: &FeelScope, literal_expression:
   ))
 }
 
-///
 pub fn build_list_evaluator(scope: &FeelScope, list: &List, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   let mut item_evaluators = vec![];
   for list_item in list.elements() {
@@ -305,7 +297,6 @@ pub fn build_list_evaluator(scope: &FeelScope, list: &List, model_builder: &Mode
   Ok((build_coerced_result_evaluator(list_evaluator, list, list.namespace(), model_builder), Closure::default()))
 }
 
-///
 pub fn build_relation_evaluator(scope: &FeelScope, relation: &Relation, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   let mut rows = vec![];
   for row in relation.rows() {
@@ -336,7 +327,6 @@ pub fn build_relation_evaluator(scope: &FeelScope, relation: &Relation, model_bu
   ))
 }
 
-///
 pub fn build_conditional_evaluator(scope: &FeelScope, conditional: &Conditional, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   let (if_evaluator, _) = build_expression_instance_evaluator(scope, conditional.if_expression().value(), model_builder)?;
   let (then_evaluator, _) = build_expression_instance_evaluator(scope, conditional.then_expression().value(), model_builder)?;
@@ -357,7 +347,6 @@ pub fn build_conditional_evaluator(scope: &FeelScope, conditional: &Conditional,
   ))
 }
 
-///
 pub fn build_filter_evaluator(scope: &FeelScope, filter: &Filter, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   let (in_evaluator, _) = build_expression_instance_evaluator(scope, filter.in_expression().value(), model_builder)?;
   let (match_evaluator, _) = build_expression_instance_evaluator(scope, filter.match_expression().value(), model_builder)?;
@@ -369,7 +358,6 @@ pub fn build_filter_evaluator(scope: &FeelScope, filter: &Filter, model_builder:
   Ok((build_coerced_result_evaluator(evaluator, filter, filter.namespace(), model_builder), Closure::default()))
 }
 
-///
 pub fn build_for_evaluator(scope: &FeelScope, r#for: &For, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   // get the name of the iterator variable
   let iterator_variable = parse_name(scope, r#for.iterator_variable(), false)?;
@@ -396,7 +384,6 @@ pub fn build_for_evaluator(scope: &FeelScope, r#for: &For, model_builder: &Model
   Ok((build_coerced_result_evaluator(evaluator, r#for, r#for.namespace(), model_builder), Closure::default()))
 }
 
-///
 pub fn build_every_evaluator(scope: &FeelScope, every: &Every, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   // get the name of the iterator variable
   let iterator_variable = parse_name(scope, every.iterator_variable(), false)?;
@@ -420,7 +407,6 @@ pub fn build_every_evaluator(scope: &FeelScope, every: &Every, model_builder: &M
   Ok((build_coerced_result_evaluator(evaluator, every, every.namespace(), model_builder), Closure::default()))
 }
 
-///
 pub fn build_some_evaluator(scope: &FeelScope, some: &Some, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   // get the name of the iterator variable
   let iterator_variable = parse_name(scope, some.iterator_variable(), false)?;

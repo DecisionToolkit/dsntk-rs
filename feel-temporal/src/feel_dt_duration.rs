@@ -5,7 +5,6 @@ use crate::errors::*;
 use dsntk_common::DsntkError;
 use once_cell::sync::Lazy;
 use regex::Regex;
-use std::convert::TryFrom;
 use std::{fmt, ops};
 
 /// Regular expression pattern for parsing days and time duration.
@@ -214,7 +213,6 @@ impl TryFrom<&str> for FeelDaysAndTimeDuration {
 mod tests {
   use super::*;
   use std::cmp::Ordering;
-  use std::convert::TryFrom;
 
   /// Utility function for testing days and time durations equality.
   fn equals(neg: bool, sec: i64, nano: i64, text: &str) {

@@ -96,7 +96,7 @@ impl EvaluatedDecisionTable {
     }
     Value::List(values)
   }
-  ///
+
   fn evaluate_default_output_value(&self) -> Value {
     match self.default_output_values.len() {
       0 => value_null!("no rules matched, no output value defined"),
@@ -104,7 +104,7 @@ impl EvaluatedDecisionTable {
       _ => value_null!(),
     }
   }
-  ///
+
   fn evaluate_hit_policy_unique(&self) -> Value {
     let matching_rules = self.get_matching_rules();
     if matching_rules.is_empty() {
@@ -115,7 +115,7 @@ impl EvaluatedDecisionTable {
     }
     self.get_result(matching_rules[0])
   }
-  ///
+
   fn evaluate_hit_policy_any(&self) -> Value {
     let matching_rules = self.get_matching_rules();
     if matching_rules.is_empty() {
@@ -130,7 +130,7 @@ impl EvaluatedDecisionTable {
     }
     first_result
   }
-  ///
+
   fn evaluate_hit_policy_priority(&self) -> Value {
     let matching_rules = self.get_matching_rules_prioritized();
     if matching_rules.is_empty() {
@@ -138,7 +138,7 @@ impl EvaluatedDecisionTable {
     }
     self.get_result(matching_rules[0])
   }
-  ///
+
   fn evaluate_hit_policy_first(&self) -> Value {
     let matching_rules = self.get_matching_rules();
     if matching_rules.is_empty() {
@@ -146,7 +146,7 @@ impl EvaluatedDecisionTable {
     }
     self.get_result(matching_rules[0])
   }
-  ///
+
   fn evaluate_hit_policy_rule_order(&self) -> Value {
     let matching_rules = self.get_matching_rules();
     if matching_rules.is_empty() {
@@ -154,7 +154,7 @@ impl EvaluatedDecisionTable {
     }
     self.get_results(&matching_rules)
   }
-  ///
+
   fn evaluate_hit_policy_output_order(&self) -> Value {
     let matching_rules = self.get_matching_rules_prioritized();
     if matching_rules.is_empty() {
@@ -162,7 +162,7 @@ impl EvaluatedDecisionTable {
     }
     self.get_results(&matching_rules)
   }
-  ///
+
   fn evaluate_hit_policy_collect_list(&self) -> Value {
     let matching_rules = self.get_matching_rules();
     if matching_rules.is_empty() {
@@ -170,7 +170,7 @@ impl EvaluatedDecisionTable {
     }
     self.get_results(&matching_rules)
   }
-  ///
+
   fn evaluate_hit_policy_collect_count(&self) -> Value {
     let matching_rules = self.get_matching_rules();
     if matching_rules.is_empty() {
@@ -178,7 +178,7 @@ impl EvaluatedDecisionTable {
     }
     Value::Number(matching_rules.len().into())
   }
-  ///
+
   fn evaluate_hit_policy_collect_sum(&self) -> Value {
     if self.component_names.len() > 1 {
       return value_null!("err_aggregators_not_allowed_for_compound_outputs");
@@ -193,7 +193,7 @@ impl EvaluatedDecisionTable {
       .collect::<Vec<Value>>();
     dsntk_feel_evaluator::evaluate_sum(output_values)
   }
-  ///
+
   fn evaluate_hit_policy_collect_min(&self) -> Value {
     if self.component_names.len() > 1 {
       return value_null!("err_aggregators_not_allowed_for_compound_outputs");
@@ -208,7 +208,7 @@ impl EvaluatedDecisionTable {
       .collect::<Vec<Value>>();
     dsntk_feel_evaluator::evaluate_min(output_values)
   }
-  ///
+
   fn evaluate_hit_policy_collect_max(&self) -> Value {
     if self.component_names.len() > 1 {
       return value_null!("err_aggregators_not_allowed_for_compound_outputs");
@@ -225,7 +225,6 @@ impl EvaluatedDecisionTable {
   }
 }
 
-///
 fn parse_decision_table(scope: &FeelScope, decision_table: &DecisionTable) -> Result<ParsedDecisionTable> {
   // parse input expressions and input values
   let mut input_expressions_and_values = vec![];
@@ -317,7 +316,6 @@ fn parse_decision_table(scope: &FeelScope, decision_table: &DecisionTable) -> Re
   })
 }
 
-///
 fn evaluate_parsed_decision_table(scope: &FeelScope, parsed_decision_table: &ParsedDecisionTable) -> EvaluatedDecisionTable {
   // evaluate only non-empty output values
   let mut output_values = vec![];
@@ -360,7 +358,6 @@ fn evaluate_parsed_decision_table(scope: &FeelScope, parsed_decision_table: &Par
   }
 }
 
-///
 pub fn build_decision_table_evaluator(scope: &FeelScope, decision_table: &DecisionTable) -> Result<Evaluator> {
   let hit_policy = decision_table.hit_policy();
   let parsed_decision_table = parse_decision_table(scope, decision_table)?;

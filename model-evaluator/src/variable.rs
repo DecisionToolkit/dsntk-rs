@@ -62,7 +62,7 @@ impl Variable {
     &self.feel_type
   }
 
-  ///
+  /// Returns variable evaluator.
   pub fn build_evaluator(&self) -> VariableEvaluatorFn {
     let variable_namespace = self.namespace.clone();
     let variable_name = self.name.clone();

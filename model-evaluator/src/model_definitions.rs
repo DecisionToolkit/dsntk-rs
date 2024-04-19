@@ -98,7 +98,7 @@ impl fmt::Display for DefKey {
 }
 
 impl From<&DefHRef> for DefKey {
-  ///
+  /// Converts [DefKey] from reference to [DefHRef].
   fn from(value: &DefHRef) -> Self {
     Self::new(value.namespace(), value.id())
   }
@@ -370,7 +370,7 @@ impl DefBusinessKnowledgeModel {
   }
 }
 
-///
+/// Definitions for reference.
 pub struct DefHRef {
   /// Namespace of the reference, derived from definition or set explicitly.
   namespace: String,
@@ -404,7 +404,7 @@ impl DefHRef {
   }
 }
 
-///
+/// Definitions for information requirement.
 pub struct DefInformationRequirement {
   required_decision: Option<DefHRef>,
   required_input: Option<DefHRef>,
@@ -433,7 +433,7 @@ impl DefInformationRequirement {
   }
 }
 
-///
+/// Definitions for knowledge requirement.
 pub struct DefKnowledgeRequirement {
   required_knowledge: DefHRef,
 }
@@ -450,7 +450,7 @@ impl DefKnowledgeRequirement {
   }
 }
 
-///
+/// Definitions for decision.
 pub struct DefDecision {
   namespace: String,
   model_name: String,
@@ -528,7 +528,7 @@ impl DefDecision {
   }
 }
 
-///
+/// Definitions for decision service.
 pub struct DefDecisionService {
   namespace: String,
   model_name: String,

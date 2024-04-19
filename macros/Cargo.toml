@@ -2,7 +2,7 @@
 name = "dsntk-macros"
 version = { workspace = true }
 authors = { workspace = true }
-description = "DSNTK | Procedural and derive macros"
+description = "Decision Toolkit | Procedural and derive macros"
 documentation = "https://docs.rs/dsntk-macros"
 repository = { workspace = true }
 license = { workspace = true }

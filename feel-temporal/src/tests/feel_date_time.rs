@@ -1,5 +1,3 @@
-//!
-
 use crate::FeelDateTime;
 use chrono::{DateTime, FixedOffset};
 use dsntk_common::Result;

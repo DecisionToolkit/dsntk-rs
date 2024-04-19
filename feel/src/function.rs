@@ -66,7 +66,6 @@ impl FunctionBody {
 }
 
 impl Debug for FunctionBody {
-  ///
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     match self {
       FunctionBody::Conditional(_) => write!(f, "FunctionBodyConditional"),
@@ -88,7 +87,6 @@ impl Debug for FunctionBody {
 }
 
 impl PartialEq for FunctionBody {
-  ///
   fn eq(&self, other: &Self) -> bool {
     match self {
       FunctionBody::Conditional(_) => matches!(other, FunctionBody::Conditional(_)),

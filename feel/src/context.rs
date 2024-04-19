@@ -9,7 +9,6 @@ use crate::values::Value;
 use dsntk_common::{DsntkError, Jsonify, Result};
 use std::collections::btree_map::Iter;
 use std::collections::BTreeMap;
-use std::convert::TryFrom;
 use std::fmt;
 use std::ops::Deref;
 
@@ -165,14 +164,12 @@ impl FeelContext {
     matches!(self.0.get(name), Some(Value::Context(_)))
   }
 
-  ///
   pub fn zip(&mut self, other: &FeelContext) {
     for (name, value) in &other.0 {
       self.0.insert(name.clone(), value.clone());
     }
   }
 
-  ///
   pub fn overwrite(&mut self, other: &FeelContext) {
     for (name, value) in &other.0 {
       if self.0.contains_key(name) {
@@ -189,7 +186,7 @@ impl FeelContext {
   }
 
   /// Creates an entry with a value for specified [QualifiedName].
-  /// All non existing intermediary contexts will be created.
+  /// All non-existing intermediary contexts will be created.
   pub fn create_entry(&mut self, qname: &QualifiedName, value: Value) {
     self.create_entries(qname.as_slice(), value);
   }

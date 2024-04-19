@@ -8,7 +8,6 @@ use chrono::{DateTime, Datelike, Days, FixedOffset, Local, LocalResult, Months, 
 use dsntk_common::DsntkError;
 use dsntk_feel_number::FeelNumber;
 use std::cmp::Ordering;
-use std::convert::{TryFrom, TryInto};
 use std::fmt;
 use std::fmt::Display;
 use std::ops::{Add, Sub};
@@ -69,7 +68,6 @@ impl TryFrom<(FeelNumber, FeelNumber, FeelNumber)> for FeelDate {
 }
 
 impl PartialEq for FeelDate {
-  ///
   fn eq(&self, other: &Self) -> bool {
     self.0 == other.0 && self.1 == other.1 && self.2 == other.2
   }
@@ -78,14 +76,12 @@ impl PartialEq for FeelDate {
 impl Eq for FeelDate {}
 
 impl PartialOrd for FeelDate {
-  ///
   fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
     Some(self.cmp(other))
   }
 }
 
 impl Ord for FeelDate {
-  ///
   fn cmp(&self, other: &Self) -> Ordering {
     let y = self.0.cmp(&other.0);
     let m = self.1.cmp(&other.1);
@@ -230,7 +226,6 @@ impl FeelDate {
     Self(year, month, day)
   }
 
-  ///
   pub fn new_opt(year: Year, month: Month, day: Day) -> Option<Self> {
     if is_valid_date(year, month, day) {
       Some(Self(year, month, day))
@@ -245,22 +240,18 @@ impl FeelDate {
     Self(today.year(), today.month(), today.day())
   }
 
-  ///
   pub fn year(&self) -> Year {
     self.0
   }
 
-  ///
   pub fn month(&self) -> Month {
     self.1
   }
 
-  ///
   pub fn day(&self) -> Day {
     self.2
   }
 
-  ///
   pub fn day_of_week(&self) -> Option<DayOfWeek> {
     NaiveDate::from_ymd_opt(self.0, self.1, self.2).map(|naive_date| match naive_date.weekday() {
       Weekday::Mon => ("Monday".to_string(), 1_u8),
@@ -273,17 +264,14 @@ impl FeelDate {
     })
   }
 
-  ///
   pub fn day_of_year(&self) -> Option<DayOfYear> {
     NaiveDate::from_ymd_opt(self.0, self.1, self.2).map(|naive_date| naive_date.ordinal() as u16)
   }
 
-  ///
   pub fn week_of_year(&self) -> Option<WeekOfYear> {
     NaiveDate::from_ymd_opt(self.0, self.1, self.2).map(|naive_date| naive_date.iso_week().week() as u8)
   }
 
-  ///
   pub fn month_of_year(&self) -> Option<MonthOfYear> {
     if let Some(naive_date) = NaiveDate::from_ymd_opt(self.0, self.1, self.2) {
       month_of_year(naive_date.month())
@@ -292,12 +280,10 @@ impl FeelDate {
     }
   }
 
-  ///
   pub fn as_tuple(&self) -> (Year, Month, Day) {
     (self.0, self.1, self.2)
   }
 
-  ///
   pub fn add_days(&self, days: u64) -> Option<Self> {
     if let Some(naive_date) = NaiveDate::from_ymd_opt(self.0, self.1, self.2) {
       if let Some(updated_date) = naive_date.checked_add_days(Days::new(days)) {
@@ -307,7 +293,6 @@ impl FeelDate {
     None
   }
 
-  ///
   pub fn add_months(&self, months: u32) -> Option<Self> {
     if let Some(naive_date) = NaiveDate::from_ymd_opt(self.0, self.1, self.2) {
       if let Some(updated_date) = naive_date.checked_add_months(Months::new(months)) {
@@ -317,7 +302,6 @@ impl FeelDate {
     None
   }
 
-  ///
   pub fn sub_months(&self, months: u32) -> Option<Self> {
     if let Some(naive_date) = NaiveDate::from_ymd_opt(self.0, self.1, self.2) {
       if let Some(updated_date) = naive_date.checked_sub_months(Months::new(months)) {
@@ -373,8 +357,8 @@ mod tests {
     assert_eq!("99999-12-01", format!("{}", FeelDate(99999, 1, 1).add_months(11).unwrap()));
     assert_eq!("100000-01-01", format!("{}", FeelDate(99999, 1, 1).add_months(12).unwrap()));
     assert_eq!("199999-02-01", format!("{}", FeelDate(199999, 1, 1).add_months(1).unwrap()));
-    assert_eq!("262143-02-01", format!("{}", FeelDate(262143, 1, 1).add_months(1).unwrap()));
-    assert_eq!("+262143-12-31", NaiveDate::MAX.to_string())
+    assert_eq!("262142-12-01", format!("{}", FeelDate(262142, 11, 1).add_months(1).unwrap()));
+    assert_eq!("+262142-12-31", NaiveDate::MAX.to_string())
   }
 
   #[test]
@@ -384,8 +368,8 @@ mod tests {
     assert_eq!("-99999-12-01", format!("{}", FeelDate(-99998, 1, 1).sub_months(1).unwrap()));
     assert_eq!("-100000-01-01", format!("{}", FeelDate(-100000, 12, 1).sub_months(11).unwrap()));
     assert_eq!("-199999-11-01", format!("{}", FeelDate(-199999, 12, 1).sub_months(1).unwrap()));
-    assert_eq!("-262144-01-01", format!("{}", FeelDate(-262144, 2, 1).sub_months(1).unwrap()));
-    assert_eq!("-262144-01-01", NaiveDate::MIN.to_string())
+    assert_eq!("-262143-01-01", format!("{}", FeelDate(-262143, 2, 1).sub_months(1).unwrap()));
+    assert_eq!("-262143-01-01", NaiveDate::MIN.to_string())
   }
 
   #[test]

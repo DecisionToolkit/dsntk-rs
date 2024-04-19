@@ -6,7 +6,6 @@
 use crate::errors::*;
 use dsntk_common::{gen_id, DsntkError, HRef, Result, Uri};
 use dsntk_feel::{FeelType, Name};
-use std::convert::TryFrom;
 use std::fmt;
 use std::fmt::Display;
 use std::slice::Iter;
@@ -603,15 +602,14 @@ pub struct LiteralExpression {
 }
 
 impl LiteralExpression {
-  ///
   pub fn text(&self) -> &Option<String> {
     &self.text
   }
-  ///
+
   pub fn expression_language(&self) -> Option<String> {
     self.expression_language.clone()
   }
-  ///
+
   pub fn imported_values(&self) -> Option<Import> {
     self.imported_values.clone()
   }
@@ -1112,17 +1110,14 @@ pub struct Conditional {
 }
 
 impl Conditional {
-  ///
   pub fn if_expression(&self) -> &ChildExpression {
     &self.if_expression
   }
 
-  ///
   pub fn then_expression(&self) -> &ChildExpression {
     &self.then_expression
   }
 
-  ///
   pub fn else_expression(&self) -> &ChildExpression {
     &self.else_expression
   }
@@ -1140,12 +1135,10 @@ pub struct Filter {
 }
 
 impl Filter {
-  ///
   pub fn in_expression(&self) -> &ChildExpression {
     &self.in_expression
   }
 
-  ///
   pub fn match_expression(&self) -> &ChildExpression {
     &self.match_expression
   }
@@ -1165,17 +1158,14 @@ pub struct For {
 }
 
 impl For {
-  ///
   pub fn iterator_variable(&self) -> &String {
     &self.iterator_variable
   }
 
-  ///
   pub fn in_expression(&self) -> &TypedChildExpression {
     &self.in_expression
   }
 
-  ///
   pub fn return_expression(&self) -> &ChildExpression {
     &self.return_expression
   }
@@ -1196,17 +1186,14 @@ pub struct Every {
 }
 
 impl Every {
-  ///
   pub fn iterator_variable(&self) -> &String {
     &self.iterator_variable
   }
 
-  ///
   pub fn in_expression(&self) -> &TypedChildExpression {
     &self.in_expression
   }
 
-  ///
   pub fn satisfies_expression(&self) -> &ChildExpression {
     &self.satisfies_expression
   }
@@ -1227,17 +1214,14 @@ pub struct Some {
 }
 
 impl Some {
-  ///
   pub fn iterator_variable(&self) -> &String {
     &self.iterator_variable
   }
 
-  ///
   pub fn in_expression(&self) -> &TypedChildExpression {
     &self.in_expression
   }
 
-  ///
   pub fn satisfies_expression(&self) -> &ChildExpression {
     &self.satisfies_expression
   }
@@ -1245,19 +1229,17 @@ impl Some {
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct ChildExpression {
-  /// Optional identifier of this this [ChildExpression].
+  /// Optional identifier of this [ChildExpression].
   pub(crate) id: DmnId,
   /// The instance of [Expression] trait that is the expression in this [ChildExpression].
   pub(crate) value: ExpressionInstance,
 }
 
 impl ChildExpression {
-  ///
   pub fn id(&self) -> &DmnId {
     &self.id
   }
 
-  ///
   pub fn value(&self) -> &ExpressionInstance {
     &self.value
   }
@@ -1266,19 +1248,17 @@ impl ChildExpression {
 #[expression]
 #[derive(Debug, Clone, PartialEq)]
 pub struct TypedChildExpression {
-  /// Optional identifier of this this [TypedChildExpression].
+  /// Optional identifier of this [TypedChildExpression].
   pub(crate) id: DmnId,
   /// The instance of [Expression] trait that is the expression in this [TypedChildExpression].
   pub(crate) value: ExpressionInstance,
 }
 
 impl TypedChildExpression {
-  ///
   pub fn id(&self) -> &DmnId {
     &self.id
   }
 
-  ///
   pub fn value(&self) -> &ExpressionInstance {
     &self.value
   }
@@ -1564,7 +1544,6 @@ impl Display for BuiltinAggregator {
   }
 }
 
-///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct InputClause {
   /// The subject of this input clause, text representation of unary tests.
@@ -1573,7 +1552,6 @@ pub struct InputClause {
   pub allowed_input_values: Option<String>,
 }
 
-///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct OutputClause {
   /// Type reference may specify the type to be used as decision table's output when more than one output clause is present.
@@ -1586,14 +1564,12 @@ pub struct OutputClause {
   pub default_output_entry: Option<String>,
 }
 
-///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RuleAnnotationClause {
   /// Name that is used as the name of the rule annotation column of the containing decision table.
   pub name: String,
 }
 
-///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct DecisionRule {
   /// Ordered list of input entries that compose this decision rule.
@@ -1604,21 +1580,18 @@ pub struct DecisionRule {
   pub annotation_entries: Vec<AnnotationEntry>,
 }
 
-///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct InputEntry {
   /// Text representation of unary test that composes this input entry.
   pub text: String,
 }
 
-///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct OutputEntry {
   /// Text representation of literal expression that composes this output entry.
   pub text: String,
 }
 
-///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AnnotationEntry {
   /// Text representing this rule annotation.
@@ -1801,7 +1774,6 @@ pub struct DcColor {
 }
 
 impl DcColor {
-  ///
   pub fn white() -> Self {
     Self {
       red: 0xFF,
@@ -1810,7 +1782,6 @@ impl DcColor {
     }
   }
 
-  ///
   pub fn black() -> Self {
     Self { red: 0x0, green: 0x0, blue: 0x0 }
   }

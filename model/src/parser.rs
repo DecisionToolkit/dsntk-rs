@@ -378,7 +378,6 @@ impl ModelParser {
     Ok(drg_elements)
   }
 
-  ///
   fn required_hrefs_in_child_nodes(&self, node: &Node, child_name: &str) -> Result<Vec<HRef>> {
     let mut hrefs = vec![];
     for ref child_node in node.children().filter(|n| n.tag_name().name() == child_name) {
@@ -389,7 +388,6 @@ impl ModelParser {
     Ok(hrefs)
   }
 
-  ///
   fn parse_function_definition_child(&self, node: &Node, child_name: &str) -> Result<Option<FunctionDefinition>> {
     if let Some(child_node) = node.children().find(|n| n.tag_name().name() == child_name) {
       Ok(Some(self.parse_function_definition(&child_node)?))
@@ -398,7 +396,6 @@ impl ModelParser {
     }
   }
 
-  ///
   fn parse_optional_function_definition(&self, node: &Node) -> Result<Option<FunctionDefinition>> {
     if let Some(child_node) = node.children().find(|n| n.tag_name().name() == NODE_FUNCTION_DEFINITION) {
       Ok(Some(self.parse_function_definition(&child_node)?))
@@ -407,7 +404,6 @@ impl ModelParser {
     }
   }
 
-  ///
   fn parse_function_definition(&self, node: &Node) -> Result<FunctionDefinition> {
     Ok(FunctionDefinition {
       namespace: self.namespace.clone(),
@@ -424,7 +420,6 @@ impl ModelParser {
     })
   }
 
-  ///
   fn parse_function_kind(&self, node: &Node) -> Result<FunctionKind> {
     if let Some(function_kind_text) = optional_attribute(node, ATTR_KIND) {
       match function_kind_text.trim() {
@@ -856,7 +851,6 @@ impl ModelParser {
     Ok(context_entries)
   }
 
-  ///
   fn parse_optional_invocation(&self, node: &Node) -> Result<Option<Invocation>> {
     if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_INVOCATION) {
       return Ok(Some(self.parse_invocation(child_node)?));
@@ -864,7 +858,6 @@ impl ModelParser {
     Ok(None)
   }
 
-  ///
   fn parse_invocation(&self, node: &Node) -> Result<Invocation> {
     Ok(Invocation {
       namespace: self.namespace.clone(),
@@ -952,7 +945,6 @@ impl ModelParser {
     }
   }
 
-  ///
   fn parse_optional_relation(&self, node: &Node) -> Result<Option<Relation>> {
     if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_RELATION) {
       return Ok(Some(self.parse_relation(child_node)?));
@@ -960,7 +952,6 @@ impl ModelParser {
     Ok(None)
   }
 
-  ///
   fn parse_relation(&self, node: &Node) -> Result<Relation> {
     let mut columns = vec![];
     for ref column_node in node.children().filter(|n| n.tag_name().name() == NODE_COLUMN) {
@@ -1004,7 +995,6 @@ impl ModelParser {
     })
   }
 
-  ///
   fn parse_optional_conditional(&self, node: &Node) -> Result<Option<Conditional>> {
     if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_CONDITIONAL) {
       return Ok(Some(self.parse_conditional(child_node)?));
@@ -1012,7 +1002,6 @@ impl ModelParser {
     Ok(None)
   }
 
-  ///
   fn parse_conditional(&self, node: &Node) -> Result<Conditional> {
     let node_if = required_child(node, NODE_IF)?;
     let node_then = required_child(node, NODE_THEN)?;
@@ -1032,7 +1021,6 @@ impl ModelParser {
     })
   }
 
-  ///
   fn parse_optional_filter(&self, node: &Node) -> Result<Option<Filter>> {
     if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_FILTER) {
       return Ok(Some(self.parse_filter(child_node)?));
@@ -1040,7 +1028,6 @@ impl ModelParser {
     Ok(None)
   }
 
-  ///
   fn parse_filter(&self, node: &Node) -> Result<Filter> {
     let node_in = required_child(node, NODE_IN)?;
     let node_match = required_child(node, NODE_MATCH)?;
@@ -1058,7 +1045,6 @@ impl ModelParser {
     })
   }
 
-  ///
   fn parse_optional_for(&self, node: &Node) -> Result<Option<For>> {
     if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_FOR) {
       return Ok(Some(self.parse_for(child_node)?));
@@ -1066,7 +1052,6 @@ impl ModelParser {
     Ok(None)
   }
 
-  ///
   fn parse_for(&self, node: &Node) -> Result<For> {
     let node_in = required_child(node, NODE_IN)?;
     let node_return = required_child(node, NODE_RETURN)?;
@@ -1085,7 +1070,6 @@ impl ModelParser {
     })
   }
 
-  ///
   fn parse_optional_every(&self, node: &Node) -> Result<Option<Every>> {
     if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_EVERY) {
       return Ok(Some(self.parse_every(child_node)?));
@@ -1093,7 +1077,6 @@ impl ModelParser {
     Ok(None)
   }
 
-  ///
   fn parse_every(&self, node: &Node) -> Result<Every> {
     let node_in = required_child(node, NODE_IN)?;
     let node_satisfies = required_child(node, NODE_SATISFIES)?;
@@ -1112,7 +1095,6 @@ impl ModelParser {
     })
   }
 
-  ///
   fn parse_optional_some(&self, node: &Node) -> Result<Option<Some>> {
     if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_SOME) {
       return Ok(Some(self.parse_some(child_node)?));
@@ -1120,7 +1102,6 @@ impl ModelParser {
     Ok(None)
   }
 
-  ///
   fn parse_some(&self, node: &Node) -> Result<Some> {
     let node_in = required_child(node, NODE_IN)?;
     let node_satisfies = required_child(node, NODE_SATISFIES)?;

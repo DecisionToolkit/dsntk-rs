@@ -11,7 +11,6 @@ use dsntk_model::{DmnElement, NamedElement};
 use once_cell::sync::Lazy;
 use std::fs;
 use std::path::Path;
-use std::string::ToString;
 
 /// Automatic color selection flag.
 const COLOR_MODE_AUTO: &str = "auto";
@@ -22,28 +21,28 @@ const COLOR_MODE_ALWAYS: &str = "always";
 /// Color off-switching flag.
 const COLOR_MODE_NEVER: &str = "never";
 
-///
+/// Default name for context file.
 static DEFAULT_CTX: Lazy<String> = Lazy::new(|| "unknown.ctx".to_string());
 
-///
+/// Default name for expression file.
 static DEFAULT_FEEL: Lazy<String> = Lazy::new(|| "unknown.feel".to_string());
 
-///
+/// Default name for HTML file.
 static DEFAULT_HTML: Lazy<String> = Lazy::new(|| "unknown.html".to_string());
 
-///
+/// Default name for decision table file.
 static DEFAULT_DTB: Lazy<String> = Lazy::new(|| "unknown.dtb".to_string());
 
-///
+/// Default name for decision model file.
 static DEFAULT_DMN: Lazy<String> = Lazy::new(|| "unknown.dmn".to_string());
 
-///
+/// Default name for invocable.
 static DEFAULT_INVOCABLE: Lazy<String> = Lazy::new(|| "unknown".to_string());
 
-///
+/// Default name for color mode.
 static DEFAULT_COLOR: Lazy<String> = Lazy::new(|| "auto".to_string());
 
-///
+/// Default name for examples directory.
 static DEFAULT_EXAMPLES_DIR: Lazy<String> = Lazy::new(|| ".".to_string());
 
 /// Command-line actions.
@@ -155,7 +154,7 @@ enum Action {
     /// Output HTML file name.
     String,
   ),
-  /// Starts DSNTK as a service.
+  /// Starts as a service.
   StartService(
     /// Optional host name.
     Option<String>,
@@ -440,7 +439,7 @@ fn get_matches() -> ArgMatches {
     // srv
     .subcommand(
       Command::new("srv")
-        .about("Run DSNTK as a service")
+        .about("Run as a service")
         .display_order(1)
         .arg(arg!(-H --host <HOST>).help("Host name").action(ArgAction::Set).display_order(1))
         .arg(arg!(-P --port <PORT>).help("Port number").action(ArgAction::Set).display_order(2))
@@ -711,7 +710,7 @@ fn evaluate_decision_table(input_file_name: &str, dectab_file_name: &str) {
       return;
     }
   };
-  let result = evaluator(&scope) as Value;
+  let result = evaluator(&scope);
   println!("{}", result.jsonify());
 }
 
@@ -756,7 +755,7 @@ fn test_decision_table(test_file_name: &str, dectab_file_name: &str, summary_onl
         return;
       }
     };
-    let actual = evaluator(&scope) as Value;
+    let actual = evaluator(&scope);
     display_test_case_result(&actual, expected, &test_no, &mut passed, &mut failed, summary_only, color_mode);
   }
   display_test_summary(passed, failed, summary_only, color_mode);

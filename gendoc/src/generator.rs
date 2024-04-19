@@ -86,7 +86,7 @@ impl Style {
     }
   }
 
-  ///
+  /// Returns style for all figures.
   fn svg_figure_style(&self) -> String {
     let mut buffer = String::new();
     let _ = write!(&mut buffer, "fill:{};", Self::rgb(&self.fill_color));
@@ -94,7 +94,7 @@ impl Style {
     buffer
   }
 
-  ///
+  /// Returns style for span.
   fn svg_text_span_style(&self) -> String {
     let mut buffer = String::new();
     let _ = write!(&mut buffer, "color:{};", Self::rgb(&self.font_color));
@@ -130,7 +130,7 @@ impl Style {
     buffer
   }
 
-  ///
+  /// Returns a style for text.
   fn svg_text_div_style(&self) -> String {
     let mut buffer = String::new();
     let _ = write!(
@@ -145,7 +145,7 @@ impl Style {
     buffer
   }
 
-  ///
+  /// Returns RGB color definition.
   fn rgb(color: &DcColor) -> String {
     format!("rgb({},{},{})", color.red, color.green, color.blue)
   }
@@ -750,7 +750,7 @@ fn get_angle(start: &DcPoint, end: &DcPoint) -> f64 {
   }
 }
 
-///
+/// Returns the path for drawing knowledge source symbol.
 fn build_knowledge_source_path(bounds: &DcBounds) -> String {
   let period_div_2 = AMPLITUDE / 2.0;
   let curve_base_height = bounds.y + bounds.height - period_div_2;

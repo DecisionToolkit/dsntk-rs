@@ -4,7 +4,6 @@ use dsntk_feel::bif::Bif;
 use dsntk_feel::values::Value;
 use dsntk_feel::{value_null, FeelNumber};
 
-///
 pub fn evaluate_bif(bif: Bif, parameters: &[Value]) -> Value {
   match bif {
     Bif::Abs => bif_abs(parameters),

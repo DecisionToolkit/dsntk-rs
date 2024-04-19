@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# display currently tested DSNTK version
+# display currently tested version
 echo " "
 echo "────────────────────────────────────"
 echo " Tested version: $(dsntk -V)"

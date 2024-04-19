@@ -66,42 +66,34 @@ impl ModelBuilder {
     Ok(())
   }
 
-  ///
   pub fn input_data_evaluator(&self) -> &InputDataEvaluator {
     &self.input_data_evaluator
   }
 
-  ///
   pub fn input_data_context_evaluator(&self) -> &InputDataContextEvaluator {
     &self.input_data_context_evaluator
   }
 
-  ///
   pub fn item_definition_context_evaluator(&self) -> &ItemDefinitionContextEvaluator {
     &self.item_definition_context_evaluator
   }
 
-  ///
   pub fn item_definition_evaluator(&self) -> &ItemDefinitionEvaluator {
     &self.item_definition_evaluator
   }
 
-  ///
   pub fn item_definition_type_evaluator(&self) -> &ItemDefinitionTypeEvaluator {
     &self.item_definition_type_evaluator
   }
 
-  ///
   pub fn decision_evaluator(&self) -> &DecisionEvaluator {
     &self.decision_evaluator
   }
 
-  ///
   pub fn add_decision_invocable(&self, model_namespace: String, model_name: String, invocable_name: String, def_key: DefKey) {
     self.invocables.borrow_mut().add_decision(model_namespace, model_name, invocable_name, def_key);
   }
 
-  ///
   pub fn add_bkm_invocable(&self, model_namespace: String, model_name: String, invocable_name: String, def_key: DefKey, output_variable_name: Name) {
     self
       .invocables
@@ -109,7 +101,6 @@ impl ModelBuilder {
       .add_bkm(model_namespace, model_name, invocable_name, def_key, output_variable_name);
   }
 
-  ///
   pub fn add_decision_service_invocable(&self, model_namespace: String, model_name: String, invocable_name: String, def_key: DefKey) {
     self.invocables.borrow_mut().add_decision_service(model_namespace, model_name, invocable_name, def_key);
   }

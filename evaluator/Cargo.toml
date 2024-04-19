@@ -2,7 +2,7 @@
 name = "dsntk-evaluator"
 version = { workspace = true }
 authors = { workspace = true }
-description = "DSNTK | FEEL and DMN model evaluator"
+description = "Decision Toolkit | FEEL expressions and DMN model evaluator"
 documentation = "https://docs.rs/dsntk-evaluator"
 repository = { workspace = true }
 license = { workspace = true }

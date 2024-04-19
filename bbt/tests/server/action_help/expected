@@ -1,9 +1,9 @@
-DSNTK | Decision Toolkit
+Decision Toolkit
 
 Usage: dsntk [COMMAND]
 
 Commands:
-  srv   Run DSNTK as a service
+  srv   Run as a service
   edm   Evaluate DMN Model
   edt   Evaluate Decision Table
   efe   Evaluate FEEL Expression

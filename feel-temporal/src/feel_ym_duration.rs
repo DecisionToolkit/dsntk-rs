@@ -4,7 +4,6 @@ use crate::errors::*;
 use dsntk_common::DsntkError;
 use once_cell::sync::Lazy;
 use regex::Regex;
-use std::convert::TryFrom;
 use std::{fmt, ops};
 
 /// Regular expression pattern for parsing years and months duration.
@@ -143,7 +142,6 @@ impl TryFrom<&str> for FeelYearsAndMonthsDuration {
 #[cfg(test)]
 mod tests {
   use super::*;
-  use std::convert::TryFrom;
 
   /// Utility function for testing years and months durations equality.
   fn equals(months: i64, text: &str) {

@@ -2,7 +2,7 @@
 name = "dsntk-recognizer"
 version = { workspace = true }
 authors = { workspace = true }
-description = "DSNTK | Decision Table Recognizer"
+description = "Decision Toolkit | Decision table recognizer"
 documentation = "https://docs.rs/dsntk-recognizer"
 repository = { workspace = true }
 license = { workspace = true }

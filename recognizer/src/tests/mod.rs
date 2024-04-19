@@ -1,5 +1,3 @@
-//!
-
 mod builder;
 mod canvas;
 mod plane;

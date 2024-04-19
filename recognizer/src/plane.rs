@@ -6,7 +6,6 @@ use crate::rect::{Rect, RECT_ZERO};
 use dsntk_common::Result;
 use dsntk_model::HitPolicy;
 use std::collections::HashSet;
-use std::convert::TryFrom;
 use std::fmt;
 use std::str::FromStr;
 
@@ -283,7 +282,7 @@ impl Plane {
     self.content.len()
   }
 
-  ///
+  /// Pivots the plane.
   pub fn pivot(&mut self) {
     let mut pivot_content: Vec<Vec<Cell>> = vec![];
     while !self.content[0].is_empty() {

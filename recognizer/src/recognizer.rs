@@ -3,7 +3,6 @@
 #![doc = include_str!("../docs/algorithm.md")]
 
 use crate::canvas;
-use crate::canvas::Canvas;
 use crate::errors::*;
 use crate::plane::{HitPolicyPlacement, Plane, RuleNumbersPlacement};
 use dsntk_common::Result;
@@ -11,8 +10,8 @@ use dsntk_model::{DecisionTableOrientation, HitPolicy};
 
 /// Decision table recognizer.
 pub struct Recognizer {
-  /// Canvas used during recognition process.
-  pub canvas: Canvas,
+  // /// Canvas used during recognition process.
+  // pub canvas: Canvas,
   /// Plane used during recognition process.
   pub plane: Plane,
   /// Optional information item name.
@@ -69,7 +68,6 @@ impl Recognizer {
       println!("PLANE\n{plane}");
     }
     let mut recognizer = Recognizer {
-      canvas,
       plane,
       information_item_name,
       hit_policy_placement: HitPolicyPlacement::NotPresent,

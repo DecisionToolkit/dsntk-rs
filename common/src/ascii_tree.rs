@@ -54,19 +54,16 @@ impl Display for AsciiText {
 pub struct AsciiLine(Vec<AsciiText>);
 
 impl AsciiLine {
-  ///
   pub fn builder() -> AsciiLineBuilder {
     AsciiLineBuilder(vec![])
   }
 
-  ///
   pub fn mode(&self, color_mode: &ColorMode) -> Self {
     AsciiLine(self.0.iter().map(|ascii_text| ascii_text.mode(color_mode)).collect())
   }
 }
 
 impl Display for AsciiLine {
-  ///
   fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
     for text in &self.0 {
       write!(f, "{}", text)?
@@ -79,37 +76,31 @@ impl Display for AsciiLine {
 pub struct AsciiLineBuilder(Vec<AsciiText>);
 
 impl AsciiLineBuilder {
-  ///
   pub fn text(mut self, text: &str) -> Self {
     self.0.push(AsciiText::new(text));
     self
   }
 
-  ///
   pub fn with_color(mut self, text: &str, color: &str) -> Self {
     self.0.push(AsciiText::with_color(text, color));
     self
   }
 
-  ///
   pub fn indent(mut self) -> Self {
     self.0.push(AsciiText::new("  "));
     self
   }
 
-  ///
   pub fn colon(mut self) -> Self {
     self.0.push(AsciiText::new(":"));
     self
   }
 
-  ///
   pub fn colon_space(mut self) -> Self {
     self.0.push(AsciiText::new(": "));
     self
   }
 
-  ///
   pub fn build(self) -> AsciiLine {
     AsciiLine(self.0)
   }
@@ -124,12 +115,10 @@ pub enum AsciiNode {
 }
 
 impl AsciiNode {
-  ///
   pub fn leaf_builder() -> AsciiLeafBuilder {
     AsciiLeafBuilder(vec![])
   }
 
-  ///
   pub fn node_builder(line: AsciiLine) -> AsciiNodeBuilder {
     AsciiNodeBuilder(line, vec![])
   }
@@ -139,18 +128,15 @@ impl AsciiNode {
 pub struct AsciiLeafBuilder(Vec<AsciiLine>);
 
 impl AsciiLeafBuilder {
-  ///
   pub fn line(mut self, line: AsciiLine) -> Self {
     self.0.push(line);
     self
   }
 
-  ///
   pub fn add_line(&mut self, line: AsciiLine) {
     self.0.push(line);
   }
 
-  ///
   pub fn build(self) -> AsciiNode {
     AsciiNode::Leaf(self.0)
   }
@@ -160,13 +146,11 @@ impl AsciiLeafBuilder {
 pub struct AsciiNodeBuilder(AsciiLine, Vec<AsciiNode>);
 
 impl AsciiNodeBuilder {
-  ///
   pub fn child(mut self, child: AsciiNode) -> Self {
     self.1.push(child);
     self
   }
 
-  ///
   pub fn opt_child(mut self, opt_child: Option<AsciiNode>) -> Self {
     if let Some(child) = opt_child {
       self.1.push(child);
@@ -174,12 +158,10 @@ impl AsciiNodeBuilder {
     self
   }
 
-  ///
   pub fn add_child(&mut self, child: AsciiNode) {
     self.1.push(child);
   }
 
-  ///
   pub fn build(self) -> AsciiNode {
     AsciiNode::Node(self.0, self.1)
   }

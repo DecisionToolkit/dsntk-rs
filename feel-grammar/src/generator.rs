@@ -21,7 +21,6 @@ const TABLES_FILE_NAME: &str = "feel.tab.c";
 /// Name of the target directory.
 const TARGET_DIR: &str = "../target/feel-grammar";
 
-///
 #[cfg(target_os = "linux")]
 fn set_file_permissions(file_name: &str) {
   use std::fs::Permissions;
@@ -29,7 +28,6 @@ fn set_file_permissions(file_name: &str) {
   fs::set_permissions(file_name, Permissions::from_mode(0o755)).expect("setting script permissions failed");
 }
 
-///
 #[cfg(not(target_os = "linux"))]
 fn set_file_permissions(_file_name: &str) {
   // do nothing
@@ -80,7 +78,6 @@ pub fn lalr_rust_tables(output_file: &str) {
 #[cfg(test)]
 mod tests {
   use super::*;
-  use std::fs;
 
   /// Executes all tests sequentially, because these tests access the same files.
   #[test]

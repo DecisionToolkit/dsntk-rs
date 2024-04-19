@@ -1,6 +1,5 @@
 use super::super::*;
 use crate::context::ParsingContext;
-use crate::lalr::TokenType::StartExpression;
 
 #[test]
 fn _0001() {

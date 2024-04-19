@@ -1,8 +1,6 @@
 //! Testing parsing of invalid statements.
 
 use super::super::*;
-use crate::lalr::TokenType::StartExpression;
-use crate::parser::Parser;
 use dsntk_common::DsntkError;
 use std::str::from_utf8;
 

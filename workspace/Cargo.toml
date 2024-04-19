@@ -2,7 +2,7 @@
 name = "dsntk-workspace"
 version = { workspace = true }
 authors = { workspace = true }
-description = "DSNTK | Workspace"
+description = "Decision Toolkit | User workspace"
 documentation = "https://docs.rs/dsntk-workspace"
 repository = { workspace = true }
 license = { workspace = true }

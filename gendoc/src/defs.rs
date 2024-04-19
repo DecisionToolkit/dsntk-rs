@@ -42,76 +42,76 @@ pub const CLASS_EXPRESSION_INSTANCE_CONTAINER: &str = "expression-instance-conta
 /// Class name for literal expression.
 pub const CLASS_LITERAL_EXPRESSION: &str = "literal-expression";
 
-///
+/// Class name for decision table.
 pub const CLASS_DECISION_TABLE: &str = "decision-table";
 
-///
+/// Class name for information item name.
 pub const CLASS_INFORMATION_ITEM_NAME: &str = "information-item-name";
 
-///
+/// Class name for grid container.
 pub const CLASS_GRID_CONTAINER: &str = "grid-container";
 
-///
+/// Class name for grid body.
 pub const CLASS_GRID_BODY: &str = "grid-body";
 
-///
+/// Class name for horizontal double line.
 pub const CLASS_HORIZONTAL_DOUBLE_LINE: &str = "horizontal-double-line";
 
-///
+/// Class name for vertical double line.
 pub const CLASS_VERTICAL_DOUBLE_LINE: &str = "vertical-double-line";
 
-///
+/// Class name for hit policy.
 pub const CLASS_HIT_POLICY: &str = "hit-policy";
 
-///
+/// Class name for input expression.
 pub const CLASS_INPUT_EXPRESSION: &str = "input-expression";
 
-///
+/// Class name for input allowed values.
 pub const CLASS_INPUT_ALLOWED_VALUES: &str = "input-allowed-values";
 
-///
+/// Class name for input entry.
 pub const CLASS_INPUT_ENTRY: &str = "input-entry";
 
-///
+/// Class name for output label.
 pub const CLASS_OUTPUT_LABEL: &str = "output-label";
 
-///
+/// Class name for output component.
 pub const CLASS_OUTPUT_COMPONENT: &str = "output-component";
 
-///
+/// Class name for output allowed values.
 pub const CLASS_OUTPUT_ALLOWED_VALUES: &str = "output-allowed-values";
 
-///
+/// Class name for output entry.
 pub const CLASS_OUTPUT_ENTRY: &str = "output-entry";
 
-///
+/// Class name for rule number.
 pub const CLASS_RULE_NUMBER: &str = "rule-number";
 
-///
+/// Class name for annotation label.
 pub const CLASS_ANNOTATION_LABEL: &str = "annotation-label";
 
-///
+/// Class name for annotation allowed values.
 pub const CLASS_ANNOTATION_ALLOWED_VALUES: &str = "annotation-allowed-values";
 
-///
+/// Class name for annotation entry.
 pub const CLASS_ANNOTATION_ENTRY: &str = "annotation-entry";
 
-///
+/// Class name for variable details' container.
 pub const CLASS_VARIABLE_DETAILS_CONTAINER: &str = "variable-details-container";
 
-///
+/// Class name for variable details heading.
 pub const CLASS_VARIABLE_DETAILS_HEADING: &str = "variable-details-heading";
 
-///
+/// Class name for variable details properties.
 pub const CLASS_VARIABLE_DETAILS_PROPERTIES: &str = "variable-details-properties";
 
-///
+/// Class name for variable details property name.
 pub const CLASS_VARIABLE_DETAILS_PROPERTY_NAME: &str = "variable-details-property-name";
 
-///
+/// Class name for variable details property value.
 pub const CLASS_VARIABLE_DETAILS_PROPERTY_VALUE: &str = "variable-details-property-value";
 
-///
+/// Class name for variable details property value type.
 pub const CLASS_VARIABLE_DETAILS_PROPERTY_VALUE_TYPE: &str = "variable-details-property-value-type";
 
 //--------------------------------------------------------------------------------------------------
