@@ -3,19 +3,11 @@
 use std::fmt;
 use std::fmt::{Debug, Display};
 
-/// Rectangle with coordinates set to zeros `(0,0,0,0)`.
-pub const RECT_ZERO: Rect = Rect {
-  left: 0,
-  top: 0,
-  right: 0,
-  bottom: 0,
-};
-
 /// Vector of rectangles.
 pub type Rectangles = Vec<Rect>;
 
 /// Rectangle.
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone, PartialEq, Eq)]
 pub struct Rect {
   /// Left edge coordinate (inclusive).
   pub left: usize,

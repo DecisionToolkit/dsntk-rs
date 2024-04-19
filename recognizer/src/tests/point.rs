@@ -32,8 +32,8 @@ fn test_point_compare() {
   let p1 = Point::new(1, 2);
   let p2 = Point::new(1, 2);
   let p3 = Point::new(2, 1);
-  assert!((p1 == p2));
-  assert!((p1 != p3));
+  assert!(p1.eq(&p2));
+  assert!(p1.ne(&p3));
 }
 
 #[test]
@@ -42,9 +42,7 @@ fn test_point_into_inner() {
 }
 
 #[test]
-#[allow(clippy::clone_on_copy)]
 fn test_point_clone() {
   let p1 = Point::new(1, 2);
-  let p2 = p1.clone();
-  assert!((p1 == p2));
+  assert!(p1.eq(&p1.clone()));
 }
