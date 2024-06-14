@@ -8,6 +8,10 @@ use dsntk_common::{DsntkError, ToErrorMessage};
 #[derive(ToErrorMessage)]
 struct RecognizerError(String);
 
+pub fn err_mandatory_top_left_corner_not_present() -> DsntkError {
+  RecognizerError("mandatory top-left corner character '┌' is not present".to_string()).into()
+}
+
 pub fn err_canvas_expected_characters_not_found(chars: Vec<char>) -> DsntkError {
   RecognizerError(format!("expected characters not found: {chars:?}")).into()
 }

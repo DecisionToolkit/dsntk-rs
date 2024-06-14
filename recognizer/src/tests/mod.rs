@@ -3,9 +3,9 @@
 mod builder;
 mod canvas;
 mod plane;
-mod recognizer;
 mod rect;
 mod test_point;
+mod test_recognizer;
 
 fn eq_vectors(actual: &[String], expected: &[&str]) {
   assert_eq!(actual.len(), expected.len());

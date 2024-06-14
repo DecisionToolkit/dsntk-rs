@@ -142,7 +142,7 @@ impl RuleNumbersPlacement {
 }
 
 /// Plane.
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct Plane {
   /// Matrix of cells.
   content: Vec<Vec<Cell>>,

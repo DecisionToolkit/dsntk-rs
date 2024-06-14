@@ -56,43 +56,45 @@ pub struct Canvas {
 }
 
 impl Canvas {
-  /// Recognizes information item name.
+  /// Recognizes the information item name.
   fn recognize_information_item_name(&mut self) -> Result<()> {
     // search for information item name in the original text
     let layer = LAYER_TEXT;
-    // move to the beginning of the canvas
+    // move cursor to the beginning of the canvas (top-left corner with (0,0) coordinates)
     self.move_to(Point::zero());
-    // search for the top left corner of the decision table (must be present, error otherwise)
-    self.search(layer, &['┌']).and_then(|(_, top_left)| {
-      // search for the crossing of the top edge with double line (must be present, error otherwise)
-      self.search(layer, &['╥']).and_then(|(_, top_edge)| {
-        // if the edge is below the corner than the information item region is present
-        // so try to recognize the whole information item name
-        if top_left.y < top_edge.y {
-          // move to the top-left corner of the decision table
-          self.move_to(top_left);
-          // move right along the top information item name edge until the corner is encountered
-          self.search_right(layer, &['┐'], &['─']).and_then(|_| {
-            // move down to the nearest crossing
-            self.search_down(layer, &['┴', '┤', '┼'], &['│']).and_then(|(_, bottom_right)| {
-              // move left until the left body edge
-              self.search_left(layer, &['├'], &['─', '┬', '╥']).and_then(|_| {
-                // move up until the original top-left corner is reached
-                self.search_up(layer, &['┌'], &['│']).and_then(|(_, closing)| {
-                  // verify if the rectangle may be closed and retrieve the text
-                  self.close_rectangle(closing, top_left, bottom_right).map(|rect| {
-                    let text = self.text_from_rect(layer, &rect);
-                    self.information_item_name = Some(text);
-                  })
+    // search for '┌' character representing the top left corner of every the decision table,
+    // this character must be present, otherwise the decision table is malformed
+    let Ok((_, top_left)) = self.search(layer, &['┌']) else {
+      return Err(err_mandatory_top_left_corner_not_present());
+    };
+    // search for the crossing of the top edge with double line (must be present, error otherwise)
+    self.search(layer, &['╥']).and_then(|(_, top_edge)| {
+      // if the edge is below the corner than the information item region is present
+      // so try to recognize the whole information item name
+      if top_left.y < top_edge.y {
+        // move to the top-left corner of the decision table
+        self.move_to(top_left);
+        // move right along the top information item name edge until the corner is encountered
+        self.search_right(layer, &['┐'], &['─']).and_then(|_| {
+          // move down to the nearest crossing
+          self.search_down(layer, &['┴', '┤', '┼'], &['│']).and_then(|(_, bottom_right)| {
+            // move left until the left body edge
+            self.search_left(layer, &['├'], &['─', '┬', '╥']).and_then(|_| {
+              // move up until the original top-left corner is reached
+              self.search_up(layer, &['┌'], &['│']).and_then(|(_, closing)| {
+                // verify if the rectangle may be closed and retrieve the text
+                self.close_rectangle(closing, top_left, bottom_right).map(|rect| {
+                  let text = self.text_from_rect(layer, &rect);
+                  self.information_item_name = Some(text);
                 })
               })
             })
           })
-        } else {
-          // TODO Report an error when the left top corner is below top edge.
-          Ok(())
-        }
-      })
+        })
+      } else {
+        // TODO Report an error when the left top corner is below top edge.
+        Ok(())
+      }
     })
   }
 

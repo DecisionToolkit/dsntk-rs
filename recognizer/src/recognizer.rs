@@ -9,6 +9,7 @@ use dsntk_common::Result;
 use dsntk_model::{DecisionTableOrientation, HitPolicy};
 
 /// Decision table recognizer.
+#[derive(Debug)]
 pub struct Recognizer {
   // /// Canvas used during recognition process.
   // pub canvas: Canvas,

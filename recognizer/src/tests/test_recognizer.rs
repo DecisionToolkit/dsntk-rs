@@ -61,6 +61,67 @@ fn eq_annotation_entries(recognizer: &Recognizer, expected: &[&[&str]]) {
 }
 
 #[test]
+fn test_invalid_0001() {
+  // this decision table is invalid, because the top-left corner character
+  // of the information item name should be '┌'
+  let input = r#"
+    │──────────┐
+    │ Weekdays │
+    ├───╥──────┴──────┐
+    │ C ║   Weekday   │
+    ╞═══╬═════════════╡
+    │ 1 ║  "Monday"   │
+    ├───╫─────────────┤
+    │ 2 ║  "Tuesday"  │
+    └───╨─────────────┘
+  "#;
+  assert_eq!(
+    "<RecognizerError> mandatory top-left corner character '┌' is not present",
+    Recognizer::recognize(input, false).unwrap_err().to_string()
+  );
+}
+
+#[test]
+fn test_invalid_0001_() {
+  // this decision table is invalid, because the top-left corner character
+  // of the information item name should be '┌'
+  let input = r#"
+    │──────────┐
+    │ Weekdays │
+    ├───╥──────┴──────┐
+    │ C ║   Weekday   │
+    ╞═══╬═════════════╡
+    │ 1 ║  "Monday"   │
+    ├───╫─────────────┤
+    │ 2 ║  "Tuesday"  │
+    └───╨─────────────┘
+  "#;
+  assert_eq!(
+    "<RecognizerError> mandatory top-left corner character '┌' is not present",
+    Recognizer::recognize(input, false).unwrap_err().to_string()
+  );
+}
+
+#[test]
+fn test_invalid_0002() {
+  // this decision table is invalid, because the top-left corner character
+  // of the decision table (when information item name is not present) should be '┌'
+  let input = r#"
+    │───╥─────────────┐
+    │ C ║   Weekday   │
+    ╞═══╬═════════════╡
+    │ 1 ║  "Monday"   │
+    ├───╫─────────────┤
+    │ 2 ║  "Tuesday"  │
+    └───╨─────────────┘
+  "#;
+  assert_eq!(
+    "<RecognizerError> mandatory top-left corner character '┌' is not present",
+    Recognizer::recognize(input, false).unwrap_err().to_string()
+  );
+}
+
+#[test]
 fn test_dt_0001() {
   let recognizer = &Recognizer::recognize(&String::from(H_110010), false).unwrap();
   eq_orientation(recognizer, DecisionTableOrientation::RuleAsRow);
