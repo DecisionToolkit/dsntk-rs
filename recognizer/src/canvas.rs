@@ -56,6 +56,74 @@ pub struct Canvas {
 }
 
 impl Canvas {
+  /// Prepares a [Canvas] containing the textual definition of decision table.
+  /// This function traverses the input text line-by-line and adds non-empty lines to the canvas.
+  /// Adding lines to canvas begins with the first line starting with the `┌` character
+  /// (U+250C BOX DRAWINGS LIGHT DOWN AND RIGHT), because this is the top-left corner of every decision table.
+  /// Adding lines to canvas ends with the line that ends with the `┘` character
+  /// (U+2518 BOX DRAWINGS LIGHT UP AND LEFT), because this is the bottom right corner of every decision table.
+  /// Shorter lines are filled up with additional characters to form a rectangular area.
+  pub fn scan(text: &str) -> Result<Self> {
+    let mut width: usize = 0;
+    let mut height: usize = 0;
+    let mut content = vec![vec![]];
+    // iterate the text line by line
+    let mut start_adding = false;
+    let mut end_adding = false;
+    for line in text.lines() {
+      // remove white characters
+      let line = line.trim();
+      if !line.is_empty() {
+        if line.starts_with(CORNER_TOP_LEFT) && !start_adding && !end_adding {
+          start_adding = true;
+        }
+        if start_adding && !end_adding {
+          // add new, empty line
+          content.push(vec![]);
+          height += 1;
+          let mut count = 0;
+          let mut layers = [CHAR_WS; LAYER_COUNT];
+          for chr in line.chars() {
+            layers[0] = chr;
+            content[height - 1].push(layers);
+            count += 1;
+          }
+          if count > width {
+            width = count;
+          }
+        }
+        if line.ends_with(CORNER_BOTTOM_RIGHT) && start_adding && !end_adding {
+          end_adding = true;
+        }
+      }
+    }
+    // fill shorter lines up to the width of the longest line
+    if height > 0 && width > 0 {
+      for row in &mut content {
+        while row.len() < width {
+          row.push([CHAR_OUTER; LAYER_COUNT]);
+        }
+      }
+    }
+    // create the canvas
+    let mut canvas = Canvas {
+      content,
+      cursor: Point::zero(),
+      cross: None,
+      cross_horz: None,
+      cross_vert: None,
+      information_item_name: None,
+      body_rect: None,
+    };
+    canvas.recognize_information_item_name()?;
+    canvas.recognize_crossings()?;
+    canvas.body_rect = Some(canvas.recognize_body_rect()?);
+    canvas.prepare_regions(LAYER_TEXT, LAYER_THIN);
+    canvas.remove_information_item_region(LAYER_THIN, LAYER_BODY);
+    canvas.make_grid(LAYER_BODY, LAYER_GRID);
+    Ok(canvas)
+  }
+
   /// Recognizes the information item name.
   fn recognize_information_item_name(&mut self) -> Result<()> {
     // search for information item name in the original text
@@ -577,72 +645,4 @@ impl Canvas {
       }
     }
   }
-}
-
-/// Prepares a `canvas` containing the textual definition of `decision table`.
-/// This function traverse the input text line-by-line and adds non-empty lines of text to the canvas.
-/// Adding lines to canvas begins with the line starting with the `┌` character
-/// (U+250C BOX DRAWINGS LIGHT DOWN AND RIGHT), because this is the top-left corner of every decision table.
-/// Adding lines to canvas ends with the line that ends with the `┘` character
-/// (U+2518 BOX DRAWINGS LIGHT UP AND LEFT), because this is the bottom right corner of every decision table.
-/// Shorter lines are filled up with additional characters to form a rectangular area.
-pub fn scan(text: &str) -> Result<Canvas> {
-  let mut width: usize = 0;
-  let mut height: usize = 0;
-  let mut content = vec![vec![]];
-  // iterate the text line by line
-  let mut start_adding = false;
-  let mut end_adding = false;
-  for line in text.lines() {
-    // remove white characters
-    let line = line.trim();
-    if !line.is_empty() {
-      if line.starts_with(CORNER_TOP_LEFT) && !start_adding && !end_adding {
-        start_adding = true;
-      }
-      if start_adding && !end_adding {
-        // add new, empty line
-        content.push(vec![]);
-        height += 1;
-        let mut count = 0;
-        let mut layers = [CHAR_WS; LAYER_COUNT];
-        for chr in line.chars() {
-          layers[0] = chr;
-          content[height - 1].push(layers);
-          count += 1;
-        }
-        if count > width {
-          width = count;
-        }
-      }
-      if line.ends_with(CORNER_BOTTOM_RIGHT) && start_adding && !end_adding {
-        end_adding = true;
-      }
-    }
-  }
-  // fill shorter lines up to the width of the longest line
-  if height > 0 && width > 0 {
-    for row in &mut content {
-      while row.len() < width {
-        row.push([CHAR_OUTER; LAYER_COUNT]);
-      }
-    }
-  }
-  // create the canvas
-  let mut canvas = Canvas {
-    content,
-    cursor: Point::zero(),
-    cross: None,
-    cross_horz: None,
-    cross_vert: None,
-    information_item_name: None,
-    body_rect: None,
-  };
-  canvas.recognize_information_item_name()?;
-  canvas.recognize_crossings()?;
-  canvas.body_rect = Some(canvas.recognize_body_rect()?);
-  canvas.prepare_regions(LAYER_TEXT, LAYER_THIN);
-  canvas.remove_information_item_region(LAYER_THIN, LAYER_BODY);
-  canvas.make_grid(LAYER_BODY, LAYER_GRID);
-  Ok(canvas)
 }
