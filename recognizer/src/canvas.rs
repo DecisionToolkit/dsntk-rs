@@ -61,7 +61,7 @@ impl Canvas {
     // search for information item name in the original text
     let layer = LAYER_TEXT;
     // move to the beginning of the canvas
-    self.move_to(Point::default());
+    self.move_to(Point::zero());
     // search for the top left corner of the decision table (must be present, error otherwise)
     self.search(layer, &['┌']).and_then(|(_, top_left)| {
       // search for the crossing of the top edge with double line (must be present, error otherwise)
@@ -98,7 +98,8 @@ impl Canvas {
 
   /// Recognizes crossings.
   fn recognize_crossings(&mut self) -> Result<()> {
-    self.move_to(Point::default()); // move to the top-left corner
+    // move cursor to the top-left corner
+    self.move_to(Point::zero());
     self.search(LAYER_TEXT, &['╬']).map(|(_, point)| {
       self.cross = Some(point);
       self.move_to(point);
@@ -117,7 +118,7 @@ impl Canvas {
   fn recognize_body_rect(&mut self) -> Result<Rect> {
     let layer = LAYER_TEXT;
     // move to the top-left corner
-    self.move_to(Point::default());
+    self.move_to(Point::zero());
     // find the first double line crossing
     self.search(layer, &['╬']).and_then(|(_, cross_point)| {
       // move up until the top edge of the body is reached
@@ -405,7 +406,7 @@ impl Canvas {
     points
   }
 
-  /// Moves the cursor to the specified position defined as a **point**.
+  /// Moves the cursor to the specified position defined as a [Point].
   fn move_to(&mut self, point: Point) {
     let row_count = self.content.len();
     let y = if point.y < row_count {
@@ -426,12 +427,11 @@ impl Canvas {
     self.cursor = Point::new(x, y);
   }
 
-  /// Searches for characters specified in `searched` array.
+  /// Searches for characters specified in `searched`.
   /// The search starts at the current cursor position and continues from left to right
-  /// and from top to bottom of specified layer in canvas.
-  /// When any of the specified character is found, the cursor position is updated
-  /// and the function returns successfully.
-  /// Otherwise, the function reports an error.
+  /// and from top to bottom inside specified layer of the canvas.
+  /// When any of the specified characters is found, the cursor position is updated
+  /// and the function returns successfully. Otherwise, this function returns an error.
   fn search(&mut self, layer: Layer, searched: &[char]) -> Result<(char, Point)> {
     let (x, y) = self.cursor.into();
     for c in x..self.content[y].len() {
@@ -629,7 +629,7 @@ pub fn scan(text: &str) -> Result<Canvas> {
   // create the canvas
   let mut canvas = Canvas {
     content,
-    cursor: Point::default(),
+    cursor: Point::zero(),
     cross: None,
     cross_horz: None,
     cross_vert: None,

@@ -4,7 +4,7 @@ use std::fmt;
 use std::fmt::{Debug, Display};
 
 /// Point.
-#[derive(Default, Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub struct Point {
   /// Left coordinate.
   pub x: usize,
@@ -27,14 +27,26 @@ impl Debug for Point {
 }
 
 impl Point {
-  /// Creates a new point with specified coordinates.
+  /// Creates a zero point.
+  pub fn zero() -> Self {
+    Self { x: 0, y: 0 }
+  }
+
+  /// Creates a point with specified coordinates.
   pub fn new(x: usize, y: usize) -> Self {
-    Point { x, y }
+    Self { x, y }
+  }
+}
+
+impl From<(usize, usize)> for Point {
+  /// Converts a tuple of coordinates into [Point].
+  fn from(value: (usize, usize)) -> Self {
+    Self { x: value.0, y: value.1 }
   }
 }
 
 impl From<Point> for (usize, usize) {
-  /// Converts this point into a tuple of coordinates.
+  /// Converts this [Point] into a tuple of coordinates.
   fn from(value: Point) -> Self {
     (value.x, value.y)
   }
