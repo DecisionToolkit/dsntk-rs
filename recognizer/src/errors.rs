@@ -8,11 +8,11 @@ use dsntk_common::{DsntkError, ToErrorMessage};
 #[derive(ToErrorMessage)]
 struct RecognizerError(String);
 
-pub fn err_canvas_expected_characters_not_found(chars: Vec<char>) -> DsntkError {
-  RecognizerError(format!("expected characters not found: {chars:?}")).into()
+pub fn err_canvas_expected_characters_not_found(searched: &[char]) -> DsntkError {
+  RecognizerError(format!("expected characters not found: {searched:?}")).into()
 }
 
-pub fn err_canvas_character_is_not_allowed(ch: char, allowed: Vec<char>) -> DsntkError {
+pub fn err_canvas_character_is_not_allowed(ch: char, allowed: &[char]) -> DsntkError {
   RecognizerError(format!("character '{ch}' is not allowed in {allowed:?}")).into()
 }
 

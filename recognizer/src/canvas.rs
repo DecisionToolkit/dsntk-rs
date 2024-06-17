@@ -514,7 +514,7 @@ impl Canvas {
       }
     }
     // return and error when no character was found
-    Err(err_canvas_expected_characters_not_found(searched.to_vec()))
+    Err(err_canvas_expected_characters_not_found(searched))
   }
 
   fn search_up(&mut self, layer: usize, searched: &[char], allowed: &[char]) -> Result<(char, Point)> {
@@ -527,10 +527,10 @@ impl Canvas {
         return Ok((ch, self.cursor));
       }
       if !allowed.contains(&ch) {
-        return Err(err_canvas_character_is_not_allowed(ch, allowed.to_vec()));
+        return Err(err_canvas_character_is_not_allowed(ch, allowed));
       }
     }
-    Err(err_canvas_expected_characters_not_found(searched.to_vec()))
+    Err(err_canvas_expected_characters_not_found(searched))
   }
 
   fn search_left(&mut self, layer: usize, searched: &[char], allowed: &[char]) -> Result<(char, Point)> {
@@ -543,10 +543,10 @@ impl Canvas {
         return Ok((ch, self.cursor));
       }
       if !allowed.contains(&ch) {
-        return Err(err_canvas_character_is_not_allowed(ch, allowed.to_vec()));
+        return Err(err_canvas_character_is_not_allowed(ch, allowed));
       }
     }
-    Err(err_canvas_expected_characters_not_found(searched.to_vec()))
+    Err(err_canvas_expected_characters_not_found(searched))
   }
 
   fn search_right(&mut self, layer: usize, searched: &[char], allowed: &[char]) -> Result<(char, Point)> {
@@ -559,10 +559,10 @@ impl Canvas {
         return Ok((ch, self.cursor));
       }
       if !allowed.contains(&ch) {
-        return Err(err_canvas_character_is_not_allowed(ch, allowed.to_vec()));
+        return Err(err_canvas_character_is_not_allowed(ch, allowed));
       }
     }
-    Err(err_canvas_expected_characters_not_found(searched.to_vec()))
+    Err(err_canvas_expected_characters_not_found(searched))
   }
 
   fn search_down(&mut self, layer: usize, searched: &[char], allowed: &[char]) -> Result<(char, Point)> {
@@ -575,10 +575,10 @@ impl Canvas {
         return Ok((ch, self.cursor));
       }
       if !allowed.contains(&ch) {
-        return Err(err_canvas_character_is_not_allowed(ch, allowed.to_vec()));
+        return Err(err_canvas_character_is_not_allowed(ch, allowed));
       }
     }
-    Err(err_canvas_expected_characters_not_found(searched.to_vec()))
+    Err(err_canvas_expected_characters_not_found(searched))
   }
 
   /// Retrieves the text enclosed inside a rectangle `r` in selected `layer`.
