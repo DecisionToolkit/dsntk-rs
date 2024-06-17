@@ -299,7 +299,7 @@ impl Canvas {
   /// Generates matrix plane describing parts of the analyzed decision table.
   /// The matrix is a rectangular set of cells, where each cell represents
   /// a single graphical element of a decision table like region with text,
-  /// double line or double line crossing.
+  /// double line or double-line crossing.
   pub fn plane(&mut self) -> Result<Plane> {
     let regions = self.recognize_regions()?;
     let mut plane: Plane = Default::default(); // the plane to be generated

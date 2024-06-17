@@ -77,7 +77,7 @@ fn test_invalid_0001() {
     └───╨─────────────┘
   "#;
   assert_eq!(
-    "<RecognizerError> expected characters not found: ['┌']",
+    "<RecognizerError> expected characters not found: ┌",
     Recognizer::recognize(input, false).unwrap_err().to_string()
   );
 }
@@ -97,7 +97,7 @@ fn test_invalid_0002() {
     └───╨─────────────┘
   "#;
   assert_eq!(
-    "<RecognizerError> expected characters not found: ['┌']",
+    "<RecognizerError> expected characters not found: ┌",
     Recognizer::recognize(input, false).unwrap_err().to_string()
   );
 }
@@ -290,7 +290,7 @@ fn general_cross_tab() {
 #[test]
 fn test_err_01() {
   assert_eq!(
-    "<RecognizerError> expected characters not found: ['╬']",
+    "<RecognizerError> expected characters not found: ╬",
     Recognizer::recognize(EX_ERR_01, false).err().unwrap().to_string()
   );
 }
@@ -298,7 +298,7 @@ fn test_err_01() {
 #[test]
 fn test_err_02() {
   assert_eq!(
-    "<RecognizerError> character ' ' is not allowed in ['─', '┴']",
+    "<RecognizerError> character ' ' is not allowed in ─, ┴",
     Recognizer::recognize(EX_ERR_02, false).err().unwrap().to_string()
   );
 }

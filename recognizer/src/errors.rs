@@ -3,25 +3,26 @@
 use crate::point::Point;
 use crate::rect::Rect;
 use dsntk_common::{DsntkError, ToErrorMessage};
+use std::fmt::Write;
 
 /// Recognizer errors.
 #[derive(ToErrorMessage)]
 struct RecognizerError(String);
 
 pub fn err_canvas_expected_characters_not_found(searched: &[char]) -> DsntkError {
-  RecognizerError(format!("expected characters not found: {searched:?}")).into()
+  RecognizerError(format!("expected characters not found: {}", fmt_chars(searched))).into()
 }
 
 pub fn err_canvas_character_is_not_allowed(ch: char, allowed: &[char]) -> DsntkError {
-  RecognizerError(format!("character '{ch}' is not allowed in {allowed:?}")).into()
+  RecognizerError(format!("character '{ch}' is not allowed in {}", fmt_chars(allowed))).into()
 }
 
 pub fn err_canvas_rectangle_not_closed(p1: Point, p2: Point) -> DsntkError {
   RecognizerError(format!("rectangle is not closed, start point: {p1}, end point: {p2}")).into()
 }
 
-pub fn err_canvas_region_not_found(r: Rect) -> DsntkError {
-  RecognizerError(format!("region not found, rect: {r}")).into()
+pub fn err_canvas_region_not_found(rect: Rect) -> DsntkError {
+  RecognizerError(format!("region not found, rect: {rect}")).into()
 }
 
 pub fn err_plane_is_empty() -> DsntkError {
@@ -94,4 +95,21 @@ pub fn err_too_many_rows_in_output_clause() -> DsntkError {
 
 pub fn err_invalid_size(details: &str) -> DsntkError {
   RecognizerError(format!("invalid size: {details}")).into()
+}
+
+/// Utility function that formats a slice of characters into a readable form,
+/// making it more suitable for error reporting.
+fn fmt_chars(input: &[char]) -> String {
+  let mut buffer = String::new();
+  for (index, ch) in input.iter().enumerate() {
+    if index > 0 {
+      let _ = write!(&mut buffer, ", ");
+    }
+    if ch.is_whitespace() || *ch == ',' {
+      let _ = write!(&mut buffer, "'{}'", ch);
+    } else {
+      let _ = write!(&mut buffer, "{}", ch);
+    }
+  }
+  buffer
 }
