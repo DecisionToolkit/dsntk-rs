@@ -12,6 +12,7 @@ extern crate dsntk_macros;
 mod builder;
 mod canvas;
 mod errors;
+pub mod model;
 mod plane;
 mod point;
 mod recognizer;
