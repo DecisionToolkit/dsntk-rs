@@ -1,20 +1,10 @@
 //! # Rectangle
 
 use std::fmt;
-
-/// Rectangle with coordinates set to zeros `(0,0,0,0)`.
-pub const RECT_ZERO: Rect = Rect {
-  left: 0,
-  top: 0,
-  right: 0,
-  bottom: 0,
-};
-
-/// Vector of rectangles.
-pub type Rectangles = Vec<Rect>;
+use std::fmt::{Debug, Display};
 
 /// Rectangle.
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Default, Copy, Clone, PartialEq, Eq)]
 pub struct Rect {
   /// Left edge coordinate (inclusive).
   pub left: usize,
@@ -26,17 +16,17 @@ pub struct Rect {
   pub bottom: usize,
 }
 
-impl fmt::Display for Rect {
-  /// Implements [Display](fmt::Display) trait for [Rect].
+impl Display for Rect {
+  /// Implements [Display] trait for [Rect].
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    write!(f, "{:?}", self)
+    write!(f, "({},{};{},{})", self.left, self.top, self.right, self.bottom)
   }
 }
 
-impl fmt::Debug for Rect {
-  /// Implements [Debug](fmt::Debug) trait for [Rect].
+impl Debug for Rect {
+  /// Implements [Debug] trait for [Rect].
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    write!(f, "({},{};{},{})", self.left, self.top, self.right, self.bottom)
+    write!(f, "{}", self)
   }
 }
 
@@ -51,14 +41,9 @@ impl Rect {
     Self { top: self.top + offset, ..*self }
   }
 
-  /// Converts the rectangle's coordinates into tuple of integers.
-  pub fn into_inner(self) -> (usize, usize, usize, usize) {
-    (self.left, self.top, self.right, self.bottom)
-  }
-
   /// Checks if the specified rectangle is contained in this rectangle.
-  pub fn contains(&self, r: &Rect) -> bool {
-    r.left >= self.left && r.top >= self.top && r.right <= self.right && r.bottom <= self.bottom
+  pub fn contains(&self, other: &Rect) -> bool {
+    other.left >= self.left && other.top >= self.top && other.right <= self.right && other.bottom <= self.bottom
   }
 
   /// Returns the width of the rectangle.
@@ -69,5 +54,12 @@ impl Rect {
   /// Returns the height of the rectangle.
   pub fn height(&self) -> usize {
     self.bottom - self.top
+  }
+}
+
+impl From<Rect> for (usize, usize, usize, usize) {
+  /// Converts the rectangle's coordinates into tuple of unsigned integers.
+  fn from(value: Rect) -> Self {
+    (value.left, value.top, value.right, value.bottom)
   }
 }

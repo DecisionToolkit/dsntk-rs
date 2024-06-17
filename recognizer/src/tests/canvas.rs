@@ -1,9 +1,9 @@
-use super::super::canvas;
+use crate::canvas::Canvas;
 use crate::tests::EX_01;
 
 #[test]
 fn development() {
-  let mut canvas = canvas::scan(&String::from(EX_01)).unwrap();
+  let mut canvas = Canvas::scan(&String::from(EX_01)).unwrap();
 
   // canvas.display_text_layer();
   // canvas.display_layer(LAYER_THIN);

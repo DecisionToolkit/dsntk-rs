@@ -1,8 +1,8 @@
-use super::super::rect::*;
+use crate::rect::*;
 
 #[test]
 fn test_rect_zero() {
-  let r = RECT_ZERO;
+  let r = Rect::default();
   assert_eq!(r.left, 0);
   assert_eq!(r.top, 0);
   assert_eq!(r.right, 0);
@@ -30,13 +30,9 @@ fn test_rect_offset_top() {
 }
 
 #[test]
-fn test_rect_into_inner() {
+fn test_rect_conversion_into_tuple() {
   let r = Rect::new(10, 11, 12, 13);
-  let (left, top, right, bottom) = r.into_inner();
-  assert_eq!(left, 10);
-  assert_eq!(top, 11);
-  assert_eq!(right, 12);
-  assert_eq!(bottom, 13);
+  assert_eq!((10, 11, 12, 13), r.into());
 }
 
 #[test]
@@ -56,11 +52,11 @@ fn test_rect_contains() {
 
 #[test]
 fn test_rect_width_height() {
-  assert_eq!(RECT_ZERO.width(), 0);
+  assert_eq!(Rect::default().width(), 0);
   assert_eq!(Rect::new(0, 0, 0, 0).width(), 0);
   assert_eq!(Rect::new(0, 0, 1, 0).width(), 1);
   assert_eq!(Rect::new(0, 0, 10, 0).width(), 10);
-  assert_eq!(RECT_ZERO.height(), 0);
+  assert_eq!(Rect::default().height(), 0);
   assert_eq!(Rect::new(0, 0, 0, 0).height(), 0);
   assert_eq!(Rect::new(0, 0, 0, 1).height(), 1);
   assert_eq!(Rect::new(0, 0, 0, 10).height(), 10);
@@ -84,14 +80,12 @@ fn test_rect_compare() {
   let r1 = Rect::new(10, 10, 20, 20);
   let r2 = Rect::new(10, 10, 20, 20);
   let r3 = Rect::new(15, 15, 19, 19);
-  assert!((r1 == r2));
-  assert!((r1 != r3));
+  assert!(r1.eq(&r2));
+  assert!(r1.ne(&r3));
 }
 
 #[test]
-#[allow(clippy::clone_on_copy)]
 fn test_rect_clone() {
   let r1 = Rect::new(10, 10, 20, 20);
-  let r2 = r1.clone();
-  assert!((r1 == r2));
+  assert!(r1.eq(&r1.clone()));
 }
