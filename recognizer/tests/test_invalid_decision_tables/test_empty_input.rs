@@ -31,3 +31,18 @@ fn _0004() {
     recognize_decision_table("  \t        \r    ", false).unwrap_err().to_string()
   );
 }
+
+#[test]
+fn _0005() {
+  let input = r#"
+
+    There is some text,
+
+    but no decision table.
+
+  "#;
+  assert_eq!(
+    "<RecognizerError> expected characters not found: ┌",
+    recognize_decision_table(input, false).unwrap_err().to_string()
+  );
+}
