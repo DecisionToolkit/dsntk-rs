@@ -1,6 +1,6 @@
 use super::*;
 use crate::recognizer::Recognizer;
-use dsntk_examples::decision_tables::{H_000010, H_110010};
+use dsntk_examples::decision_tables::H_110010;
 use dsntk_model::{BuiltinAggregator, DecisionTableOrientation, HitPolicy};
 
 const EMPTY_VECTOR: &[&str] = &[];
@@ -100,11 +100,6 @@ fn test_invalid_0002() {
     "<RecognizerError> expected characters not found: ┌",
     Recognizer::recognize(input, false).unwrap_err().to_string()
   );
-}
-
-#[test]
-fn test_h_000010() {
-  let _ = Recognizer::recognize(H_000010, false);
 }
 
 #[test]

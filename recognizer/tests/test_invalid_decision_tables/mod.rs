@@ -1,1 +1,1 @@
-mod test_empty_input;
+mod empty_input;
