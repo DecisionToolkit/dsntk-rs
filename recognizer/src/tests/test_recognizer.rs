@@ -1,6 +1,6 @@
 use super::*;
 use crate::recognizer::Recognizer;
-use dsntk_examples::decision_tables::H_110010;
+use dsntk_examples::decision_tables::{H_000010, H_110010};
 use dsntk_model::{BuiltinAggregator, DecisionTableOrientation, HitPolicy};
 
 const EMPTY_VECTOR: &[&str] = &[];
@@ -62,30 +62,10 @@ fn eq_annotation_entries(recognizer: &Recognizer, expected: &[&[&str]]) {
 
 #[test]
 fn test_invalid_0001() {
-  // this decision table is invalid, because the top-left corner character
-  // of the information item name should be '┌'
   let input = r#"
-    │──────────┐
-    │ Weekdays │
-    ├───╥──────┴──────┐
-    │ C ║   Weekday   │
-    ╞═══╬═════════════╡
-    │ 1 ║  "Monday"   │
-    ├───╫─────────────┤
-    │ 2 ║  "Tuesday"  │
-    └───╨─────────────┘
-  "#;
-  assert_eq!(
-    "<RecognizerError> mandatory top-left corner character '┌' is not present",
-    Recognizer::recognize(input, false).unwrap_err().to_string()
-  );
-}
+    // This decision table is invalid, because the top-left corner character
+    // of the information item name should be '┌'.
 
-#[test]
-fn test_invalid_0001_() {
-  // this decision table is invalid, because the top-left corner character
-  // of the information item name should be '┌'
-  let input = r#"
     │──────────┐
     │ Weekdays │
     ├───╥──────┴──────┐
@@ -97,16 +77,17 @@ fn test_invalid_0001_() {
     └───╨─────────────┘
   "#;
   assert_eq!(
-    "<RecognizerError> mandatory top-left corner character '┌' is not present",
+    "<RecognizerError> expected characters not found: ['┌']",
     Recognizer::recognize(input, false).unwrap_err().to_string()
   );
 }
 
 #[test]
 fn test_invalid_0002() {
-  // this decision table is invalid, because the top-left corner character
-  // of the decision table (when information item name is not present) should be '┌'
   let input = r#"
+    // This decision table is invalid, because the top-left corner character
+    // of the decision table (when information item name is not present) should be '┌'.
+
     │───╥─────────────┐
     │ C ║   Weekday   │
     ╞═══╬═════════════╡
@@ -116,14 +97,19 @@ fn test_invalid_0002() {
     └───╨─────────────┘
   "#;
   assert_eq!(
-    "<RecognizerError> mandatory top-left corner character '┌' is not present",
+    "<RecognizerError> expected characters not found: ['┌']",
     Recognizer::recognize(input, false).unwrap_err().to_string()
   );
 }
 
 #[test]
+fn test_h_000010() {
+  let _ = Recognizer::recognize(H_000010, false);
+}
+
+#[test]
 fn test_dt_0001() {
-  let recognizer = &Recognizer::recognize(&String::from(H_110010), false).unwrap();
+  let recognizer = &Recognizer::recognize(H_110010, false).unwrap();
   eq_orientation(recognizer, DecisionTableOrientation::RuleAsRow);
   eq_information_item_name(recognizer, " Weekdays ");
   eq_hit_policy(recognizer, HitPolicy::Collect(BuiltinAggregator::List));
@@ -150,6 +136,7 @@ fn test_dt_0001() {
   );
   eq_annotations(recognizer, EMPTY_VECTOR);
   eq_annotation_entries(recognizer, EMPTY_MATRIX);
+  println!("DDD: kuku");
 }
 
 #[test]

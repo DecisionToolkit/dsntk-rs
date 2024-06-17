@@ -5,6 +5,7 @@ use crate::plane::{Cell, Plane};
 use crate::point::Point;
 use crate::rect::Rect;
 use dsntk_common::Result;
+use std::cmp::max;
 
 /// Number of layers in canvas.
 pub const LAYER_COUNT: usize = 4;
@@ -64,45 +65,31 @@ impl Canvas {
   /// (U+2518 BOX DRAWINGS LIGHT UP AND LEFT), because this is the bottom right corner of every decision table.
   /// Shorter lines are filled up with additional characters to form a rectangular area.
   pub fn scan(text: &str) -> Result<Self> {
-    let mut width: usize = 0;
-    let mut height: usize = 0;
-    let mut content = vec![vec![]];
-    // iterate the text line by line
-    let mut start_adding = false;
-    let mut end_adding = false;
-    for line in text.lines() {
-      // remove white characters
-      let line = line.trim();
-      if !line.is_empty() {
-        if line.starts_with(CORNER_TOP_LEFT) && !start_adding && !end_adding {
-          start_adding = true;
-        }
-        if start_adding && !end_adding {
-          // add new, empty line
-          content.push(vec![]);
-          height += 1;
-          let mut count = 0;
-          let mut layers = [CHAR_WS; LAYER_COUNT];
-          for chr in line.chars() {
-            layers[0] = chr;
-            content[height - 1].push(layers);
-            count += 1;
-          }
-          if count > width {
-            width = count;
-          }
-        }
-        if line.ends_with(CORNER_BOTTOM_RIGHT) && start_adding && !end_adding {
-          end_adding = true;
-        }
+    #[derive(PartialEq, Eq)]
+    enum State {
+      Before = 0,
+      Appending = 1,
+      After = 2,
+    }
+    let mut state = State::Before;
+    let mut max_row_length: usize = 0;
+    let mut content = vec![];
+    for line in text.lines().map(|line| line.trim()).filter(|line| !line.is_empty()) {
+      if state == State::Before && line.starts_with(CORNER_TOP_LEFT) {
+        state = State::Appending;
+      }
+      if state == State::Appending {
+        let row = line.chars().map(|ch| [ch, CHAR_WS, CHAR_WS, CHAR_WS]).collect::<Vec<Layers>>();
+        max_row_length = max(max_row_length, row.len());
+        content.push(row);
+      }
+      if state == State::Appending && line.ends_with(CORNER_BOTTOM_RIGHT) {
+        state = State::After;
       }
     }
-    // fill shorter lines up to the width of the longest line
-    if height > 0 && width > 0 {
-      for row in &mut content {
-        while row.len() < width {
-          row.push([CHAR_OUTER; LAYER_COUNT]);
-        }
+    for row in &mut content {
+      while row.len() < max_row_length {
+        row.push([CHAR_OUTER; LAYER_COUNT]);
       }
     }
     // create the canvas
@@ -132,9 +119,7 @@ impl Canvas {
     self.move_to(Point::zero());
     // search for '┌' character representing the top left corner of every the decision table,
     // this character must be present, otherwise the decision table is malformed
-    let Ok((_, top_left)) = self.search(layer, &['┌']) else {
-      return Err(err_mandatory_top_left_corner_not_present());
-    };
+    let (_, top_left) = self.search(layer, &['┌'])?;
     // search for the crossing of the top edge with double line (must be present, error otherwise)
     self.search(layer, &['╥']).and_then(|(_, top_edge)| {
       // if the edge is below the corner than the information item region is present
@@ -463,7 +448,7 @@ impl Canvas {
 
   /// Searches for all characters that constitute a top-left corner of a rectangle.
   /// Position of this character is the starting point for recognizing rectangles.
-  /// Returns a vector of all top-left corner points found in specified **layer**.
+  /// Returns a vector of all top-left corner points found in specified [Layer].
   fn find_top_left_corners(&self, layer: Layer) -> Vec<Point> {
     let mut points = vec![];
     for y in 0..self.content.len() {
@@ -486,15 +471,18 @@ impl Canvas {
     } else {
       0
     };
-    let col_count = self.content[y].len();
-    let x = if point.x < col_count {
-      point.x
-    } else if col_count > 0 {
-      col_count - 1
+    let x = if let Some(col_count) = self.content.get(y).map(|row| row.len()) {
+      if point.x < col_count {
+        point.x
+      } else if col_count > 0 {
+        col_count - 1
+      } else {
+        0
+      }
     } else {
       0
     };
-    self.cursor = Point::new(x, y);
+    self.cursor = (x, y).into();
   }
 
   /// Searches for characters specified in `searched`.
@@ -503,23 +491,29 @@ impl Canvas {
   /// When any of the specified characters is found, the cursor position is updated
   /// and the function returns successfully. Otherwise, this function returns an error.
   fn search(&mut self, layer: Layer, searched: &[char]) -> Result<(char, Point)> {
-    let (x, y) = self.cursor.into();
-    for c in x..self.content[y].len() {
-      let ch = self.content[y][c][layer];
-      if searched.contains(&ch) {
-        self.cursor = Point::new(c, y);
-        return Ok((ch, self.cursor));
-      }
-    }
-    for r in y + 1..self.content.len() {
-      for c in 0..self.content[r].len() {
-        let ch = self.content[r][c][layer];
+    // start searching from the current cursor position
+    let (col_position, row_position) = self.cursor.into();
+    // first, search in the current row starting from current column
+    for (row_index, row_data) in self.content.iter().skip(row_position).take(1).enumerate() {
+      for (col_index, layers) in row_data.iter().skip(col_position).enumerate() {
+        let ch = layers[layer];
         if searched.contains(&ch) {
-          self.cursor = Point::new(c, r);
+          self.cursor = (col_index + col_position, row_index + row_position).into();
           return Ok((ch, self.cursor));
         }
       }
     }
+    // next, search in the consecutive rows
+    for (row_index, row_data) in self.content.iter().skip(row_position + 1).enumerate() {
+      for (col_index, layers) in row_data.iter().enumerate() {
+        let ch = layers[layer];
+        if searched.contains(&ch) {
+          self.cursor = (col_index, row_index + row_position + 1).into();
+          return Ok((ch, self.cursor));
+        }
+      }
+    }
+    // return and error when no character was found
     Err(err_canvas_expected_characters_not_found(searched.to_vec()))
   }
 
