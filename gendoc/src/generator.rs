@@ -789,8 +789,8 @@ pub fn create_svg_tag(title: &str, dimension: DcDimension, elements: Vec<HtmlEle
   let mut svg = HtmlElement::new("svg");
   let width = dimension.width.ceil();
   let height = dimension.height.ceil();
-  svg.set_attribute("viewBox", &format!("0 0 {width} {height}"));
-  svg.set_attribute("width", &format!("{}", width));
+  svg.set_attribute("viewBox", format!("0 0 {width} {height}"));
+  svg.set_attribute("width", format!("{}", width));
   for element in elements {
     svg.add_child(element);
   }
