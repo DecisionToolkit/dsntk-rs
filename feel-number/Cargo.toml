@@ -2,7 +2,9 @@
 name = "dsntk-feel-number"
 version = { workspace = true }
 authors = { workspace = true }
-description = "Decision Toolkit | FEEL number"
+description = "dsntk | Decision Toolkit | FEEL number"
+categories = ["development-tools", "command-line-utilities", "finance", "parsing"]
+keywords = ["dmn", "decision", "toolkit", "feel"]
 documentation = "https://docs.rs/dsntk-feel-number"
 repository = { workspace = true }
 license = { workspace = true }

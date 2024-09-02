@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.0.7
+
+2024-09-02
+
+- [x] Fixed documentation links.
+
 ## v0.0.6
 
 2024-09-01

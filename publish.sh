@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-#============================================================
-# Utility script for publishing crates.
-#============================================================
+#==============================================================================
+# Utility script for publishing crates of Decision Toolkit project
+#==============================================================================
 
-# Published version number.
-PUBLISHED_VERSION="0.0.6"
+# Number of the version to be published.
+PUBLISH_VERSION="0.0.7"
 
 publish() {
   echo "┌─────────────────────────────────────────────────────────────────────"
@@ -14,13 +14,13 @@ publish() {
   cargo update
   cd "$1" && cargo publish && cd ..
   if [ "$1" != "dsntk" ]; then
-    sed -i -E "s/$2 = .+/$2 = \"$PUBLISHED_VERSION\"/g" Cargo.toml
+    sed -i -E "s/$2 = .+/$2 = \"$PUBLISH_VERSION\"/g" Cargo.toml
   fi
   echo "┌─────────────────────────────────────────────────────────────────────"
   echo "│ Published $1 ($3/18) "
   echo "└─────────────────────────────────────────────────────────────────────"
-  echo "...sleeping 20s..."
-  sleep 20s
+  echo "...sleeping 5s..."
+  sleep 5s
 }
 
 publish_all() {
