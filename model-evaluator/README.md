@@ -34,7 +34,7 @@
 
 ## Overview
 
-DMN models evaluator used by components of [**dsntk**][dsntk-url] crate.
+DMN™ model evaluator used by components of [**dsntk**][dsntk-url] crate.
 
 Licensed under either of
 
