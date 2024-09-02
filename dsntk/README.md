@@ -62,7 +62,7 @@ and export them to HTML.
 - [Exporting FEEL expressions](https://decision-toolkit.org/guide/commands/command-xfe.html)
 - [Saving examples](https://decision-toolkit.org/guide/commands/command-exs.html)
 
-# Status
+## Status
 
 **Decision Toolkit** is **PRODUCTION-READY**, although some features
 may still be refined or changed based on testing and user feedback.
