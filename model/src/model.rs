@@ -16,9 +16,10 @@ pub const URI_UNINTERPRETED: &str = "http://www.omg.org/spec/DMN/uninterpreted/2
 pub const URI_XML_SCHEMA: &str = "http://www.w3.org/2001/XMLSchema";
 
 /// [DmnId] defines possible types of unique identifiers in model.
-/// Specification defines this identifier as optional, but this implementation
-/// makes it mandatory, just for simplicity. When this identifier is not provided in the model,
-/// a new unique UUID identifier is generated. This SHALL not be conflicting with any other identifiers.
+///
+/// Specification defines this identifier as optional, so when this identifier
+/// is not provided in the model, a new unique UUID identifier is generated.
+/// This SHALL not be conflicting with any other identifier.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum DmnId {
   /// Identifier was provided in model.
@@ -87,12 +88,14 @@ pub trait RequiredVariable {
 }
 
 /// `Invocable` is used to model the inputs of a decision whose values
-/// are defined outside of the decision model.
+/// are defined outside the decision model.
 pub trait Invocable: DmnElement + NamedElement + RequiredVariable {}
 
+/// The abstract class [BusinessContextElement].
+///
 /// The abstract class [BusinessContextElement], and its concrete specializations
 /// [PerformanceIndicator] and [OrganizationUnit] are placeholders,
-/// anticipating a definition to be adopted from other OMG meta-models,
+/// anticipating a definition to be adopted from other OMG metamodels,
 /// such as OMG OSM when it is further developed.
 pub trait BusinessContextElement: NamedElement {
   /// The URI of this [BusinessContextElement].
@@ -106,6 +109,8 @@ pub trait BusinessContextElement: NamedElement {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ExtensionElement;
 
+/// The [ExtensionAttribute] element.
+///
 /// The [ExtensionAttribute] element contains an [ExtensionElement]
 /// or a reference to an [ExtensionElement] from another metamodel.
 /// An [ExtensionAttribute] also has a name
@@ -123,7 +128,7 @@ pub enum BusinessContextElementInstance {
 }
 
 /// [PerformanceIndicator] is a placeholder, anticipating a definition to be
-/// adopted from other OMG meta-models, such as OMG OSM when it is further developed.
+/// adopted from other OMG metamodels, such as OMG OSM when it is further developed.
 #[named_element]
 #[dmn_element]
 #[business_context_element]
@@ -141,7 +146,7 @@ impl PerformanceIndicator {
 }
 
 /// [OrganizationUnit] is a placeholder, anticipating a definition to be
-/// adopted from other OMG meta-models, such as OMG OSM when it is further developed.
+/// adopted from other OMG metamodels, such as OMG OSM when it is further developed.
 #[named_element]
 #[dmn_element]
 #[business_context_element]
@@ -162,9 +167,11 @@ impl OrganizationUnit {
   }
 }
 
-/// In DMN model, the [DrgElement] is the abstract superclass for all DMN elements
-/// that are contained within [Definitions] and that have a graphical representation in a DRD.
-/// This enumeration specifies the list of [DRGElements](DrgElement) contained in [Definitions].
+/// In DMN model, the [DrgElement] is the abstract superclass for all DMN elements.
+///
+/// All DMN elements are contained within [Definitions] and that have a graphical
+/// representation in a DRD. This enumeration specifies the list
+/// of [DRGElements](DrgElement) contained in [Definitions].
 #[derive(Debug, Clone)]
 #[allow(clippy::large_enum_variant)]
 pub enum DrgElement {
@@ -483,7 +490,7 @@ impl FeelTypedElement for InformationItem {
 }
 
 /// [InputData] is used to model the inputs of a decision whose values
-/// are defined outside of the decision model.
+/// are defined outside the decision model.
 #[named_element]
 #[dmn_element]
 #[derive(Debug, Clone)]
@@ -499,9 +506,10 @@ impl RequiredVariable for InputData {
   }
 }
 
-/// `Import` class is used when referencing external elements,
-/// either DMN [DRGElement](DrgElement) or [ItemDefinition] instances contained
-/// in other [Definitions] elements, or non-DMN elements,
+/// `Import` class is used when referencing external elements.
+///
+/// These elements can either be a DMN [DRGElement](DrgElement) or [ItemDefinition]
+/// instances contained in other [Definitions] elements, or non-DMN elements,
 /// such as an XML Schema or a PMML file.
 #[named_element]
 #[dmn_element]
@@ -615,8 +623,11 @@ impl LiteralExpression {
   }
 }
 
-/// [Invocation] is a mechanism that permits the evaluation of one value expression – the invoked expression – inside
-/// another value expression – the invoking expression – by binding locally the input variables of the invoked
+/// [Invocation] is a mechanism for the evaluation of value expressions.
+///
+/// [Invocation] is a mechanism that permits the evaluation of one value expression
+/// – the invoked expression – inside another value expression
+/// – the invoking expression – by binding locally the input variables of the invoked
 /// expression to values inside the invoking expression.
 #[dmn_element]
 #[expression]
@@ -811,6 +822,8 @@ impl KnowledgeSource {
   }
 }
 
+/// A business knowledge model.
+///
 /// A business knowledge model has an abstract part, representing reusable,
 /// invocable decision logic, and a concrete part, which mandates that the decision logic
 /// must be a single FEEL boxed function definition.
@@ -907,7 +920,7 @@ pub enum ItemDefinitionType {
 }
 
 /// [ItemDefinition] is used to model the inputs of a decision,
-/// whose values are defined outside of the decision model.
+/// whose values are defined outside the decision model.
 #[named_element]
 #[dmn_element]
 #[expression]
@@ -916,7 +929,7 @@ pub struct ItemDefinition {
   /// This attribute identifies the type language used to specify the base
   /// type of this [ItemDefinition]. This value overrides the type
   /// language specified in the [Definitions] element. The default is `FEEL`.
-  /// The language `SHALL` be specified in an URI format.
+  /// The language `SHALL` be specified in URI format.
   pub(crate) type_language: Option<String>,
   /// This attribute contains `FEEL` built-in type only when the `type_language` attribute
   /// is `FEEL` and the `type_ref` attribute defines one of the built-in `FEEL` types.
@@ -1055,7 +1068,8 @@ impl FunctionDefinition {
   }
 }
 
-/// A [Relation] is convenient shorthand for a list of similar contexts.
+/// A [Relation] is convenient a shorthand for a list of similar contexts.
+///
 /// A [Relation] has a column instead of repeated `ContextEntry`s,
 /// and a `List` is used for every row, with one of the `List`’s
 /// expression for each column value.
@@ -1128,7 +1142,7 @@ impl Conditional {
 #[expression]
 #[derive(Debug, Clone, PartialEq)]
 pub struct Filter {
-  /// This attribute holds the expression that is evaluate as the collection to be filtered.
+  /// This attribute holds the expression that is evaluated as the collection to be filtered.
   pub(crate) in_expression: ChildExpression,
   /// This attribute holds the expression that is used to filter the collection.
   pub(crate) match_expression: ChildExpression,
@@ -1377,7 +1391,7 @@ impl DecisionTable {
     self.annotations.iter()
   }
 
-  /// Returns an iterator over rules.
+  /// Returns an iterator over the rules.
   pub fn rules(&self) -> Iter<DecisionRule> {
     self.rules.iter()
   }
@@ -1425,7 +1439,7 @@ pub enum DecisionTableOrientation {
   RuleAsRow,
   /// Decision table is presented vertically, rules are presented as columns.
   RuleAsColumn,
-  /// Decision table is presented as crosstab, rules are composed from two input dimensions.
+  /// Decision table is presented as crosstab, rules are composed of two input dimensions.
   CrossTable,
 }
 
@@ -1741,13 +1755,13 @@ pub struct DmnStyle {
   pub font_bold: Option<bool>,
   /// If the text should be underlined. Default is `false`.
   pub font_underline: Option<bool>,
-  /// If the text should be stroke through. Default is `false`.
+  /// If the text should be stroked through. Default is `false`.
   pub font_strike_through: Option<bool>,
   /// How text should be positioned horizontally within the Label bounds.
-  /// Default depends of the [DmnDiagramElement] the label is attached to (see 13.5).
+  /// Default depends on the [DmnDiagramElement] the label is attached to (see 13.5).
   pub label_horizontal_alignment: Option<DcAlignmentKind>,
   /// How  the  text  should  be  positioned  vertically  inside  the  Label  bounds.
-  /// Default depends of the [DmnDiagramElement] the label is attached to (see 13.5).
+  /// Default depends on the [DmnDiagramElement] the label is attached to (see 13.5).
   /// Start means `top` and end means `bottom`.
   pub label_vertical_alignment: Option<DcAlignmentKind>,
 }

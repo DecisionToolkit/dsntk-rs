@@ -2,7 +2,9 @@
 name = "dsntk-common"
 version = { workspace = true }
 authors = { workspace = true }
-description = "Decision Toolkit | Common definitions"
+description = "dsntk | Decision Toolkit | Common definitions"
+categories = ["development-tools", "command-line-utilities", "finance", "parsing"]
+keywords = ["dmn", "decision", "toolkit", "commons"]
 documentation = "https://docs.rs/dsntk-common"
 repository = { workspace = true }
 license = { workspace = true }

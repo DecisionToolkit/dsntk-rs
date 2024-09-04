@@ -2,7 +2,9 @@
 name = "dsntk-feel-temporal"
 version = { workspace = true }
 authors = { workspace = true }
-description = "Decision Toolkit | FEEL temporal"
+description = "dsntk | Decision Toolkit | FEEL temporal"
+categories = ["development-tools", "command-line-utilities", "finance", "parsing"]
+keywords = ["dmn", "decision", "toolkit", "temporal"]
 documentation = "https://docs.rs/dsntk-feel-temporal"
 repository = { workspace = true }
 license = { workspace = true }

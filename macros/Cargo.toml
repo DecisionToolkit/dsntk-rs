@@ -2,7 +2,9 @@
 name = "dsntk-macros"
 version = { workspace = true }
 authors = { workspace = true }
-description = "Decision Toolkit | Procedural and derive macros"
+description = "dsntk | Decision Toolkit | Procedural and derive macros"
+categories = ["development-tools", "command-line-utilities", "finance", "parsing"]
+keywords = ["dmn", "decision", "toolkit", "macros"]
 documentation = "https://docs.rs/dsntk-macros"
 repository = { workspace = true }
 license = { workspace = true }
