@@ -2,7 +2,9 @@
 name = "dsntk-feel-parser"
 version = { workspace = true }
 authors = { workspace = true }
-description = "Decision Toolkit | FEEL parser"
+description = "dsntk | Decision Toolkit | FEEL parser"
+categories = ["development-tools", "command-line-utilities", "finance", "parsing"]
+keywords = ["dmn", "decision", "toolkit", "parser"]
 documentation = "https://docs.rs/dsntk-feel-parser"
 repository = { workspace = true }
 license = { workspace = true }
