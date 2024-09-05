@@ -4,7 +4,7 @@
 NAME=dsntk
 
 # container version
-VERSION=0.0.7
+VERSION=0.0.8-rc
 
 # stop existing Docker container
 docker stop $NAME
