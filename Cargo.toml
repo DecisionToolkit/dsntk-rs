@@ -24,7 +24,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.0.8-dev"
+version = "0.0.8-rc"
 authors = ["Dariusz Depta <depta@engos.de>"]
 repository = "https://github.com/DecisionToolkit/dsntk-rs.git"
 license = "MIT OR Apache-2.0"
@@ -36,7 +36,7 @@ base64 = "0.22.1"
 chrono = "0.4.38"
 chrono-tz = "0.9.0"
 convert_case = "0.6.0"
-clap = { version = "4.5.16", features = ["cargo"] }
+clap = { version = "4.5.17", features = ["cargo"] }
 dfp-number-sys = "0.1.0"
 difference = "2.0.0"
 domrs = "0.0.16"
@@ -49,7 +49,7 @@ regex = "1.10.6"
 reqwest = { version = "0.12.7", default-features = false, features = ["blocking", "json", "rustls-tls"] }
 roxmltree = "0.20.0"
 serde = { version = "1.0.209", features = ["derive"] }
-serde_json = "1.0.127"
+serde_json = "1.0.128"
 syn = { version = "2.0.77", features = ["fold", "full"] }
 uuid = { version = "1.10.0", features = ["v4"] }
 uriparse = "0.6.4"
