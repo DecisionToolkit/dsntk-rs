@@ -3,7 +3,7 @@
 use crate::errors::err_invalid_hit_policy;
 use dsntk_common::DsntkError;
 
-/// A struct representing a decision table.
+/// Represents a decision table.
 #[derive(Debug)]
 pub struct DecisionTable {
   /// Information item name.
@@ -13,15 +13,15 @@ pub struct DecisionTable {
   /// List of instances of output clause that compose this decision table.
   pub output_clauses: Vec<OutputClause>,
   /// List of instances of rule annotation clause that compose this decision table.
-  pub annotations: Vec<RuleAnnotationClause>,
+  pub rule_annotations: Vec<RuleAnnotationClause>,
   /// List of instances of decision rule that compose this decision table.
   pub rules: Vec<DecisionRule>,
   /// Hit policy associated with the instance of the decision table.
   pub hit_policy: HitPolicy,
   /// Optional aggregation type when the hit policy is `COLLECT`.
   pub aggregation: Option<BuiltinAggregator>,
-  /// Preferred representation of the instance of the decision table.
-  pub orientation: DecisionTableOrientation,
+  /// Preferred orientation representation of the instance of the decision table.
+  pub preferred_orientation: DecisionTableOrientation,
   /// Optional output label for the description of the decision table output.
   pub output_label: Option<String>,
 }
@@ -33,28 +33,28 @@ impl DecisionTable {
     information_item_name: Option<String>,
     input_clauses: Vec<InputClause>,
     output_clauses: Vec<OutputClause>,
-    annotations: Vec<RuleAnnotationClause>,
+    rule_annotations: Vec<RuleAnnotationClause>,
     rules: Vec<DecisionRule>,
     hit_policy: HitPolicy,
     aggregation: Option<BuiltinAggregator>,
-    orientation: DecisionTableOrientation,
+    preferred_orientation: DecisionTableOrientation,
     output_label: Option<String>,
   ) -> Self {
     Self {
       information_item_name,
       input_clauses,
       output_clauses,
-      annotations,
+      rule_annotations,
       rules,
       hit_policy,
       aggregation,
-      orientation,
+      preferred_orientation,
       output_label,
     }
   }
 }
 
-/// A struct representing an input clause.
+/// Represents an input clause.
 #[derive(Debug)]
 pub struct InputClause {
   /// The subject of this input clause, text representation of unary tests.
@@ -63,7 +63,7 @@ pub struct InputClause {
   pub allowed_input_values: Option<String>,
 }
 
-/// A struct representing an output clause.
+/// Represents an output clause.
 #[derive(Debug)]
 pub struct OutputClause {
   /// The name of the output component when the decision table contains more than one output clause.
@@ -74,14 +74,14 @@ pub struct OutputClause {
   pub default_output_entry: Option<String>,
 }
 
-/// A struct representing an annotation clause.
+/// Represents a rule annotation clause.
 #[derive(Debug)]
 pub struct RuleAnnotationClause {
   /// Name that is used as the name of the rule annotation column of the containing decision table.
   pub name: String,
 }
 
-/// A struct representing a decision rule.
+/// Represents a decision rule.
 #[derive(Debug)]
 pub struct DecisionRule {
   /// Ordered list of input entries that compose decision rule.
@@ -92,28 +92,28 @@ pub struct DecisionRule {
   pub annotation_entries: Vec<AnnotationEntry>,
 }
 
-/// A struct representing an input entry.
+/// Represents an input entry.
 #[derive(Debug)]
 pub struct InputEntry {
   /// Text representation of unary test that composes recognized input entry.
   pub text: String,
 }
 
-/// A struct representing an output entry.
+/// Represents an output entry.
 #[derive(Debug)]
 pub struct OutputEntry {
   /// Text representation of literal expression that composes recognized output entry.
   pub text: String,
 }
 
-/// A struct representing an annotation entry.
+/// Represents a rule annotation entry.
 #[derive(Debug)]
 pub struct AnnotationEntry {
-  /// Text representing rule annotation.
+  /// Text representation of the rule annotation.
   pub text: String,
 }
 
-/// An enumeration of hit policies.
+/// Enumeration of hit policies.
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum HitPolicy {
   /// `UNIQUE` hit policy.
@@ -153,7 +153,7 @@ impl TryFrom<&str> for HitPolicy {
   }
 }
 
-/// An enumeration representing the built-in aggregator.
+/// Enumeration of built-in aggregators.
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum BuiltinAggregator {
   /// The result is a list of matching output entries.
@@ -168,7 +168,7 @@ pub enum BuiltinAggregator {
   Max,
 }
 
-/// An enumeration representing the orientation of the decision table.
+/// Enumeration of preferred decision table orientations.
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum DecisionTableOrientation {
   /// Decision table is presented horizontally, rules are presented as rows.

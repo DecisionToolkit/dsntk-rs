@@ -15,11 +15,11 @@ impl From<RecognizedDecisionTable> for DecisionTable {
       information_item_name,
       mut input_clauses,
       mut output_clauses,
-      mut annotations,
+      rule_annotations: mut annotations,
       mut rules,
       hit_policy,
       aggregation,
-      orientation,
+      preferred_orientation: orientation,
       output_label,
     } = value;
     Self {

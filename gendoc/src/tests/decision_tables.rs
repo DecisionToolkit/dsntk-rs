@@ -6,7 +6,7 @@ use dsntk_model::DecisionTable;
 
 /// Utility function for generating HTML file for decision table defined as text.
 fn generate_html(dec_tab: &str, output_file_name: &str) {
-  let decision_table: DecisionTable = dsntk_recognizer::recognize_decision_table(dec_tab, false).expect("building decision table failed").into();
+  let decision_table: DecisionTable = dsntk_recognizer::recognize(dec_tab, false).expect("building decision table failed").into();
   let html = crate::decision_table_to_html(&decision_table);
   assert_eq!("<!DOCTYPE html>", &html[0..15]);
   fs::create_dir_all(TARGET_DIR).expect("creating target directories failed");

@@ -1,26 +1,20 @@
-use dsntk_recognizer::recognize_decision_table;
+use dsntk_recognizer::recognize;
 
 #[test]
 fn _0001() {
-  assert_eq!(
-    "<RecognizerError> expected characters not found: ┌",
-    recognize_decision_table("", false).unwrap_err().to_string()
-  );
+  assert_eq!("<RecognizerError> expected characters not found: ┌", recognize("", false).unwrap_err().to_string());
 }
 
 #[test]
 fn _0002() {
-  assert_eq!(
-    "<RecognizerError> expected characters not found: ┌",
-    recognize_decision_table("        ", false).unwrap_err().to_string()
-  );
+  assert_eq!("<RecognizerError> expected characters not found: ┌", recognize("        ", false).unwrap_err().to_string());
 }
 
 #[test]
 fn _0003() {
   assert_eq!(
     "<RecognizerError> expected characters not found: ┌",
-    recognize_decision_table("    \n          \n        ", false).unwrap_err().to_string()
+    recognize("    \n          \n        ", false).unwrap_err().to_string()
   );
 }
 
@@ -28,7 +22,7 @@ fn _0003() {
 fn _0004() {
   assert_eq!(
     "<RecognizerError> expected characters not found: ┌",
-    recognize_decision_table("  \t        \r    ", false).unwrap_err().to_string()
+    recognize("  \t        \r    ", false).unwrap_err().to_string()
   );
 }
 
@@ -41,8 +35,5 @@ fn _0005() {
     but no decision table.
 
   "#;
-  assert_eq!(
-    "<RecognizerError> expected characters not found: ┌",
-    recognize_decision_table(input, false).unwrap_err().to_string()
-  );
+  assert_eq!("<RecognizerError> expected characters not found: ┌", recognize(input, false).unwrap_err().to_string());
 }
