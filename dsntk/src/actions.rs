@@ -7,7 +7,7 @@ use dsntk_common::*;
 use dsntk_feel::values::Value;
 use dsntk_feel::FeelScope;
 use dsntk_feel_parser::ast_tree;
-use dsntk_model::{DmnElement, NamedElement};
+use dsntk_model::{DecisionTable, DmnElement, NamedElement};
 use once_cell::sync::Lazy;
 use std::fs;
 use std::path::Path;
@@ -675,7 +675,7 @@ fn export_feel_expression(_ctx_file_name: &str, _feel_file_name: &str, html_file
 /// Parses decision table loaded from text file.
 fn parse_decision_table(dectab_file_name: &str) {
   match fs::read_to_string(dectab_file_name) {
-    Ok(text) => match dsntk_recognizer::recognize_decision_table(&text, true) {
+    Ok(text) => match dsntk_recognizer::recognize(&text, true) {
       Ok(_) => {}
       Err(reason) => eprintln!("ERROR: {reason}"),
     },
@@ -706,7 +706,7 @@ fn evaluate_decision_table(input_file_name: &str, dectab_file_name: &str) {
       return;
     }
   };
-  let decision_table = match dsntk_recognizer::recognize_decision_table(&dtb_file_content, false) {
+  let recognized_decision_table = match dsntk_recognizer::recognize(&dtb_file_content, false) {
     Ok(decision_table) => decision_table,
     Err(reason) => {
       eprintln!("building decision table failed with reason: {reason}");
@@ -714,7 +714,7 @@ fn evaluate_decision_table(input_file_name: &str, dectab_file_name: &str) {
     }
   };
   let scope = input_data.into();
-  let evaluator = match dsntk_evaluator::build_decision_table_evaluator(&scope, &decision_table) {
+  let evaluator = match dsntk_evaluator::build_decision_table_evaluator(&scope, &recognized_decision_table.into()) {
     Ok(evaluator) => evaluator,
     Err(reason) => {
       eprintln!("building decision table evaluator failed with reason: {reason}");
@@ -734,8 +734,8 @@ fn test_decision_table(test_file_name: &str, dectab_file_name: &str, summary_onl
       return;
     }
   };
-  let decision_table = match dsntk_recognizer::recognize_decision_table(&dtb_file_content, false) {
-    Ok(decision_table) => decision_table,
+  let decision_table: DecisionTable = match dsntk_recognizer::recognize(&dtb_file_content, false) {
+    Ok(decision_table) => decision_table.into(),
     Err(reason) => {
       eprintln!("building decision table failed with reason: {reason}");
       return;
@@ -775,9 +775,9 @@ fn test_decision_table(test_file_name: &str, dectab_file_name: &str, summary_onl
 /// Exports decision table loaded from text file to HTML output file.
 fn export_decision_table(dectab_file_name: &str, html_file_name: &str) {
   match fs::read_to_string(dectab_file_name) {
-    Ok(text) => match dsntk_recognizer::recognize_decision_table(&text, false) {
-      Ok(decision_table) => {
-        let html_output = dsntk_gendoc::decision_table_to_html(&decision_table);
+    Ok(text) => match dsntk_recognizer::recognize(&text, false) {
+      Ok(recognized_decision_table) => {
+        let html_output = dsntk_gendoc::decision_table_to_html(&recognized_decision_table.into());
         if let Err(reason) = fs::write(html_file_name, html_output) {
           println!("writing output HTML file `{html_file_name}` failed with reason: {reason}")
         }
@@ -792,7 +792,7 @@ fn export_decision_table(dectab_file_name: &str, html_file_name: &str) {
 /// and generates DMN model containing recognized decision table.
 fn recognize_decision_table(dtb_file_name: &str) {
   match fs::read_to_string(dtb_file_name) {
-    Ok(text) => match dsntk_recognizer::recognize_decision_table(&text, false) {
+    Ok(text) => match dsntk_recognizer::recognize(&text, false) {
       Ok(_decision_table) => {
         println!("Recognized.");
         //TODO Generate DMN model with recognized decision table to be ready to deploy on server.

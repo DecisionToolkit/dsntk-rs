@@ -1,7 +1,8 @@
 use super::*;
+use crate::model::{BuiltinAggregator, DecisionTableOrientation};
 use crate::recognizer::Recognizer;
+use crate::HitPolicy;
 use dsntk_examples::decision_tables::H_110010;
-use dsntk_model::{BuiltinAggregator, DecisionTableOrientation, HitPolicy};
 
 const EMPTY_VECTOR: &[&str] = &[];
 const EMPTY_OPT_VECTOR: &[Option<&str>] = &[];
@@ -61,8 +62,50 @@ fn eq_annotation_entries(recognizer: &Recognizer, expected: &[&[&str]]) {
 }
 
 #[test]
+fn test_invalid_0001() {
+  let input = r#"
+    // This decision table is invalid, because the top-left corner character
+    // of the information item name should be '┌'.
+
+    │──────────┐
+    │ Weekdays │
+    ├───╥──────┴──────┐
+    │ C ║   Weekday   │
+    ╞═══╬═════════════╡
+    │ 1 ║  "Monday"   │
+    ├───╫─────────────┤
+    │ 2 ║  "Tuesday"  │
+    └───╨─────────────┘
+  "#;
+  assert_eq!(
+    "<RecognizerError> expected characters not found: ┌",
+    Recognizer::recognize(input, false).unwrap_err().to_string()
+  );
+}
+
+#[test]
+fn test_invalid_0002() {
+  let input = r#"
+    // This decision table is invalid, because the top-left corner character
+    // of the decision table (when information item name is not present) should be '┌'.
+
+    │───╥─────────────┐
+    │ C ║   Weekday   │
+    ╞═══╬═════════════╡
+    │ 1 ║  "Monday"   │
+    ├───╫─────────────┤
+    │ 2 ║  "Tuesday"  │
+    └───╨─────────────┘
+  "#;
+  assert_eq!(
+    "<RecognizerError> expected characters not found: ┌",
+    Recognizer::recognize(input, false).unwrap_err().to_string()
+  );
+}
+
+#[test]
 fn test_dt_0001() {
-  let recognizer = &Recognizer::recognize(&String::from(H_110010), false).unwrap();
+  let recognizer = &Recognizer::recognize(H_110010, false).unwrap();
   eq_orientation(recognizer, DecisionTableOrientation::RuleAsRow);
   eq_information_item_name(recognizer, " Weekdays ");
   eq_hit_policy(recognizer, HitPolicy::Collect(BuiltinAggregator::List));
@@ -89,6 +132,7 @@ fn test_dt_0001() {
   );
   eq_annotations(recognizer, EMPTY_VECTOR);
   eq_annotation_entries(recognizer, EMPTY_MATRIX);
+  println!("DDD: kuku");
 }
 
 #[test]
@@ -227,7 +271,7 @@ fn general_cross_tab() {
   assert!(&Recognizer::recognize(EX_10, false).is_err());
   // eq_information_item_name(rec, " information item name                                          ");
   // eq_hit_policy(rec, HitPolicy::Unique);
-  // eq_orientation(rec, DecisionTableOrientation::Crosstab);
+  // eq_orientation(rec, Orientation::Crosstab);
   // eq_input_expressions(rec, EMPTY_VECTOR);
   // eq_input_values(rec, EMPTY_VECTOR);
   // eq_input_entries(rec, EMPTY_MATRIX);
@@ -242,7 +286,7 @@ fn general_cross_tab() {
 #[test]
 fn test_err_01() {
   assert_eq!(
-    "<RecognizerError> expected characters not found: ['╬']",
+    "<RecognizerError> expected characters not found: ╬",
     Recognizer::recognize(EX_ERR_01, false).err().unwrap().to_string()
   );
 }
@@ -250,7 +294,7 @@ fn test_err_01() {
 #[test]
 fn test_err_02() {
   assert_eq!(
-    "<RecognizerError> character ' ' is not allowed in ['─', '┴']",
+    "<RecognizerError> character ' ' is not allowed in ─, ┴",
     Recognizer::recognize(EX_ERR_02, false).err().unwrap().to_string()
   );
 }

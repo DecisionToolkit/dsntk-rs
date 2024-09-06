@@ -749,6 +749,7 @@ dependencies = [
  "dsntk-feel",
  "dsntk-feel-parser",
  "dsntk-macros",
+ "dsntk-recognizer",
  "petgraph",
  "roxmltree",
 ]
@@ -777,7 +778,6 @@ dependencies = [
  "dsntk-common",
  "dsntk-examples",
  "dsntk-macros",
- "dsntk-model",
 ]
 
 [[package]]

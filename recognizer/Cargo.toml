@@ -13,7 +13,6 @@ edition = { workspace = true }
 [dependencies]
 dsntk-common = { workspace = true }
 dsntk-macros = { workspace = true }
-dsntk-model = { workspace = true }
 
 [dev-dependencies]
 dsntk-examples = { workspace = true }

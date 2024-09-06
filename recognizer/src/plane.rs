@@ -2,9 +2,9 @@
 
 use crate::errors::*;
 use crate::point::Point;
-use crate::rect::{Rect, RECT_ZERO};
+use crate::rect::Rect;
+use crate::HitPolicy;
 use dsntk_common::Result;
-use dsntk_model::HitPolicy;
 use std::collections::HashSet;
 use std::fmt;
 use std::str::FromStr;
@@ -49,17 +49,17 @@ pub enum Cell {
 }
 
 impl Cell {
-  /// Checks whether this cell is a main double crossing.
+  /// Checks whether this cell is a main double-crossing.
   pub fn is_main_double_crossing(&self) -> bool {
     matches!(self, Cell::MainDoubleCrossing)
   }
 
-  /// Checks whether this cell is a horizontal double crossing.
+  /// Checks whether this cell is a horizontal double-crossing.
   pub fn is_horz_double_crossing(&self) -> bool {
     matches!(self, Cell::HorizontalDoubleCrossing)
   }
 
-  /// Checks whether this cell is a vertical double crossing.
+  /// Checks whether this cell is a vertical double-crossing.
   pub fn is_vert_double_crossing(&self) -> bool {
     matches!(self, Cell::VerticalDoubleCrossing)
   }
@@ -142,7 +142,7 @@ impl RuleNumbersPlacement {
 }
 
 /// Plane.
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct Plane {
   /// Matrix of cells.
   content: Vec<Vec<Cell>>,
@@ -342,7 +342,7 @@ impl Plane {
     if let Some(p) = self.horizontal_double_crossing() {
       Ok(Rect::new(p.x + 1, 0, self.width(), p.y))
     } else {
-      Ok(RECT_ZERO)
+      Ok(Rect::default())
     }
   }
 
@@ -351,12 +351,12 @@ impl Plane {
     if let Some(p) = self.horizontal_double_crossing() {
       Ok(Rect::new(p.x + 1, p.y + 1, self.width(), self.height()))
     } else {
-      Ok(RECT_ZERO)
+      Ok(Rect::default())
     }
   }
 
-  /// Checks if the plane contains main double crossing.
-  /// If the main double crossing was found on this plane, its position is returned.
+  /// Checks if the plane contains main double-crossing.
+  /// If the main double-crossing was found on this plane, its position is returned.
   pub fn main_double_crossing(&self) -> Result<Point> {
     for (y, row) in self.content.iter().enumerate() {
       for (x, cell) in row.iter().enumerate() {
@@ -368,8 +368,8 @@ impl Plane {
     Err(err_plane_no_main_double_crossing())
   }
 
-  /// Checks if the plane contains horizontal double crossing.
-  /// If the horizontal double crossing was found on this plane, its position is returned.
+  /// Checks if the plane contains horizontal double-crossing.
+  /// If the horizontal double-crossing was found on this plane, its position is returned.
   pub fn horizontal_double_crossing(&self) -> Option<Point> {
     for (y, row) in self.content.iter().enumerate() {
       for (x, cell) in row.iter().enumerate() {
@@ -381,8 +381,8 @@ impl Plane {
     None
   }
 
-  /// Checks if the plane contains vertical double crossing.
-  /// If the vertical double crossing was found on this plane, its position is returned.
+  /// Checks if the plane contains vertical double-crossing.
+  /// If the vertical double-crossing was found on this plane, its position is returned.
   pub fn vertical_double_crossing(&self) -> Option<Point> {
     for (y, row) in self.content.iter().enumerate() {
       for (x, cell) in row.iter().enumerate() {

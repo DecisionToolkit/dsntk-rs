@@ -2,8 +2,8 @@
 
 use crate::errors::*;
 use crate::recognizer::Recognizer;
+use crate::{AnnotationEntry, DecisionRule, DecisionTable, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry, RuleAnnotationClause};
 use dsntk_common::Result;
-use dsntk_model::*;
 
 struct Size {
   input_clauses_count: usize,
@@ -130,8 +130,8 @@ fn validate_size(recognizer: &Recognizer) -> Result<Size> {
   })
 }
 
-/// Recognizes a decision table from plain Unicode text.
-pub fn recognize_decision_table(text: &str, trace: bool) -> Result<DecisionTable> {
+/// Recognizes a decision table defined as plain Unicode text.
+pub fn recognize(text: &str, trace: bool) -> Result<DecisionTable> {
   // recognize the decision table
   let recognizer = Recognizer::recognize(text, trace)?;
 
@@ -163,7 +163,6 @@ pub fn recognize_decision_table(text: &str, trace: bool) -> Result<DecisionTable
   let mut output_clauses = vec![];
   for i in 0..size.output_clauses_count {
     output_clauses.push(OutputClause {
-      type_ref: None,
       name: if size.output_components_count > 0 {
         recognizer.output_components[i].clone()
       } else {
