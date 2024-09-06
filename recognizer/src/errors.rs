@@ -10,11 +10,11 @@ use std::fmt::Write;
 struct RecognizerError(String);
 
 pub fn err_canvas_expected_characters_not_found(searched: &[char]) -> DsntkError {
-  RecognizerError(format!("expected characters not found: {}", fmt_chars(searched))).into()
+  RecognizerError(format!("expected characters not found: {}", chars_to_list(searched))).into()
 }
 
 pub fn err_canvas_character_is_not_allowed(ch: char, allowed: &[char]) -> DsntkError {
-  RecognizerError(format!("character '{ch}' is not allowed in {}", fmt_chars(allowed))).into()
+  RecognizerError(format!("character '{ch}' is not allowed in: {}", chars_to_list(allowed))).into()
 }
 
 pub fn err_canvas_rectangle_not_closed(p1: Point, p2: Point) -> DsntkError {
@@ -101,9 +101,9 @@ pub fn err_invalid_hit_policy(hit_policy: &str) -> DsntkError {
   RecognizerError(format!("invalid hit policy: {hit_policy}")).into()
 }
 
-/// Utility function that formats a slice of characters into a readable form,
-/// making it more suitable for error reporting.
-fn fmt_chars(input: &[char]) -> String {
+/// Utility function that formats a slice of characters into a list of characters,
+/// making it more readable in error messages.
+fn chars_to_list(input: &[char]) -> String {
   let mut buffer = String::new();
   for (index, ch) in input.iter().enumerate() {
     if index > 0 {

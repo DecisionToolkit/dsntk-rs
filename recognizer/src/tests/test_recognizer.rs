@@ -294,7 +294,7 @@ fn test_err_01() {
 #[test]
 fn test_err_02() {
   assert_eq!(
-    "<RecognizerError> character ' ' is not allowed in ─, ┴",
+    "<RecognizerError> character ' ' is not allowed in: ─, ┴",
     Recognizer::recognize(EX_ERR_02, false).err().unwrap().to_string()
   );
 }
