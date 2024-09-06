@@ -12,7 +12,7 @@ extern crate dsntk_macros;
 mod builder;
 mod canvas;
 mod errors;
-pub mod model;
+mod model;
 mod plane;
 mod point;
 mod recognizer;
@@ -20,3 +20,5 @@ mod rect;
 mod tests;
 
 pub use builder::recognize_decision_table;
+
+pub use model::DecisionTable;

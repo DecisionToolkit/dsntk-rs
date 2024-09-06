@@ -1,81 +1,109 @@
-//! # Recognized decision table model
+//! # Decision table model
 
-/// Recognized decision table.
-pub struct RecognizedDecisionTable {
+/// A struct representing a decision table.
+pub struct DecisionTable {
   /// Information item name.
   pub information_item_name: Option<String>,
   /// List of instances of input clause that compose this decision table.
-  pub input_clauses: Vec<RecognizedInputClause>,
+  pub input_clauses: Vec<InputClause>,
   /// List of instances of output clause that compose this decision table.
-  pub output_clauses: Vec<RecognizedOutputClause>,
+  pub output_clauses: Vec<OutputClause>,
   /// List of instances of rule annotation clause that compose this decision table.
-  pub annotations: Vec<RecognizedAnnotationClause>,
+  pub annotations: Vec<RuleAnnotationClause>,
   /// List of instances of decision rule that compose this decision table.
-  pub rules: Vec<RecognizedDecisionRule>,
+  pub rules: Vec<DecisionRule>,
   /// Hit policy associated with the instance of the decision table.
-  pub hit_policy: RecognizedHitPolicy,
+  pub hit_policy: HitPolicy,
   /// Optional aggregation type when the hit policy is `COLLECT`.
-  pub aggregation: Option<RecognizedAggregation>,
+  pub aggregation: Option<Aggregator>,
   /// Preferred representation of the instance of the decision table.
-  pub preferred_orientation: RecognizedOrientation,
+  pub orientation: Orientation,
   /// Optional output label for the description of the decision table output.
   pub output_label: Option<String>,
 }
 
-/// Recognized input clause.
-pub struct RecognizedInputClause {
+impl DecisionTable {
+  /// Creates a new decision table.
+  #[allow(clippy::too_many_arguments)]
+  pub fn new(
+    information_item_name: Option<String>,
+    input_clauses: Vec<InputClause>,
+    output_clauses: Vec<OutputClause>,
+    annotations: Vec<RuleAnnotationClause>,
+    rules: Vec<DecisionRule>,
+    hit_policy: HitPolicy,
+    aggregation: Option<Aggregator>,
+    orientation: Orientation,
+    output_label: Option<String>,
+  ) -> Self {
+    Self {
+      information_item_name,
+      input_clauses,
+      output_clauses,
+      annotations,
+      rules,
+      hit_policy,
+      aggregation,
+      orientation,
+      output_label,
+    }
+  }
+}
+
+/// A struct representing an input clause.
+pub struct InputClause {
   /// The subject of this input clause, text representation of unary tests.
   pub input_expression: String,
   /// Optional unary tests that constrain the result of input expression of this input clause.
   pub allowed_input_values: Option<String>,
 }
 
-/// Recognized output clause.
-pub struct RecognizedOutputClause {
+/// A struct representing an output clause.
+pub struct OutputClause {
   /// The name of the output component when the decision table contains more than one output clause.
   pub name: Option<String>,
-  /// Unary tests that constrain the result of output entries corresponding to recognized output clause.
+  /// Unary tests that constrain the result of output entries corresponding to output clause.
   pub allowed_output_values: Option<String>,
   /// Default output expression, selected in incomplete table when no rules match for the decision table.
   pub default_output_entry: Option<String>,
 }
 
-/// Recognized annotation clause.
-pub struct RecognizedAnnotationClause {
+/// A struct representing an annotation clause.
+pub struct RuleAnnotationClause {
   /// Name that is used as the name of the rule annotation column of the containing decision table.
   pub name: String,
 }
 
-/// Recognized decision rule.
-pub struct RecognizedDecisionRule {
-  /// Ordered list of input entries that compose recognized decision rule.
-  pub input_entries: Vec<RecognizedInputEntry>,
-  /// Ordered list of output entries that compose recognized decision rule.
-  pub output_entries: Vec<RecognizedOutputEntry>,
-  /// Ordered list of rule annotations that compose recognized decision rule.
-  pub annotation_entries: Vec<RecognizedAnnotationEntry>,
+/// A struct representing a decision rule.
+pub struct DecisionRule {
+  /// Ordered list of input entries that compose decision rule.
+  pub input_entries: Vec<InputEntry>,
+  /// Ordered list of output entries that compose decision rule.
+  pub output_entries: Vec<OutputEntry>,
+  /// Ordered list of rule annotations that compose decision rule.
+  pub annotation_entries: Vec<AnnotationEntry>,
 }
 
-/// Recognized input entry.
-pub struct RecognizedInputEntry {
+/// A struct representing an input entry.
+pub struct InputEntry {
   /// Text representation of unary test that composes recognized input entry.
   pub text: String,
 }
 
-/// Recognized output entry.
-pub struct RecognizedOutputEntry {
+/// A struct representing an output entry.
+pub struct OutputEntry {
   /// Text representation of literal expression that composes recognized output entry.
   pub text: String,
 }
 
-/// Recognized annotation entry.
-pub struct RecognizedAnnotationEntry {
-  /// Text representing recognized rule annotation.
+/// A struct representing an annotation entry.
+pub struct AnnotationEntry {
+  /// Text representing rule annotation.
   pub text: String,
 }
 
-/// Recognized hit policy.
-pub enum RecognizedHitPolicy {
+/// An enumeration of hit policies.
+pub enum HitPolicy {
   /// `UNIQUE` hit policy.
   Unique,
   /// `ANY` hit policy.
@@ -85,33 +113,33 @@ pub enum RecognizedHitPolicy {
   /// `FIRST` hit policy.
   First,
   /// `COLLECT` hit policy.
-  Collect(RecognizedAggregation),
+  Collect(Aggregator),
   /// `OUTPUT ORDER` hit policy.
   OutputOrder,
   /// `RULE ORDER` hit policy.
   RuleOrder,
 }
 
-/// Recognized aggregation.
-pub enum RecognizedAggregation {
-  /// The result of the decision table is a list of output entries.
+/// An enumeration representing the built-in aggregator.
+pub enum Aggregator {
+  /// The result is a list of matching output entries.
   List,
-  /// The result of the decision table is the number of outputs.
+  /// The result is the number of matching outputs.
   Count,
-  /// The result of the decision table is the sum of all the outputs.
+  /// The result is the sum of all matching outputs.
   Sum,
-  /// The result of the decision table is the smallest value of all the outputs.
+  /// The result is the smallest value of matching outputs.
   Min,
-  /// The result of the decision table is the largest value of all the outputs.
+  /// The result is the largest value of matching outputs.
   Max,
 }
 
-/// Recognized orientation.
-pub enum RecognizedOrientation {
+/// An enumeration representing the orientation of the decision table.
+pub enum Orientation {
   /// Decision table is presented horizontally, rules are presented as rows.
   RuleAsRow,
   /// Decision table is presented vertically, rules are presented as columns.
   RuleAsColumn,
-  /// Decision table is presented as crosstab, rules are composed of two input dimensions.
+  /// Decision table is presented as crosstab, rules are composed of two dimensions.
   CrossTable,
 }
