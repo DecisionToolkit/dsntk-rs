@@ -1,7 +1,7 @@
 //! # Command-line actions
 
 use crate::examples::*;
-use clap::{arg, command, crate_description, crate_version, ArgAction, ArgMatches, Command};
+use clap::{arg, command, crate_description, crate_version, Arg, ArgAction, ArgMatches, Command};
 use difference::Changeset;
 use dsntk_common::*;
 use dsntk_feel::values::Value;
@@ -262,6 +262,10 @@ pub async fn do_action() -> std::io::Result<()> {
 /// Parses CLI argument matches.
 fn get_matches() -> ArgMatches {
   command!()
+    // disable the built-in version flag
+    .disable_version_flag(true)
+    // handle the version flag in a custom way
+    .arg(Arg::new("version").short('V').long("version").help("Print version").action(ArgAction::SetTrue))
     // pfe
     .subcommand(
       Command::new("pfe")
@@ -469,9 +473,16 @@ fn get_matches() -> ArgMatches {
 }
 
 /// Checks the list of arguments passed from the command line
-/// and returns an action related to valid argument.
+/// and returns an action related to a valid argument.
 fn get_cli_action() -> Action {
-  match get_matches().subcommand() {
+  let matches = get_matches();
+  // replaces built-in version flag with the custom handler
+  if matches.get_flag("version") {
+    // displays only the version number, without the name of the crate
+    println!("{}", crate_version!());
+    return Action::DoNothing;
+  }
+  match matches.subcommand() {
     // parse FEEL expression subcommand
     Some(("pfe", matches)) => {
       return Action::ParseFeelExpression(
