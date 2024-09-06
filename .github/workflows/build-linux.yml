@@ -1,4 +1,4 @@
-# linux-musl-x86_64
+# Linux Musl x86_64
 
 name: Linux
 
@@ -6,9 +6,7 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+      - releases/**
 
 env:
   CARGO_TERM_COLOR: always

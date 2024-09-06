@@ -1,4 +1,4 @@
-# apple-macos-x86_64
+# Apple macOS x86_64
 
 name: macOs
 
@@ -6,9 +6,7 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+      - releases/**
 
 env:
   CARGO_TERM_COLOR: always

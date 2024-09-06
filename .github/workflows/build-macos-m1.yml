@@ -1,4 +1,4 @@
-# apple-macos-arm64
+# Apple macOS ARM64
 
 name: macOS M1
 
@@ -6,9 +6,7 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+      - releases/**
 
 env:
   CARGO_TERM_COLOR: always
