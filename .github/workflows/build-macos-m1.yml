@@ -22,5 +22,5 @@ jobs:
       - run: cargo +stable build --release --target=aarch64-apple-darwin
       - uses: actions/upload-artifact@v3
         with:
-          name: dsntk-apple-macos-arm64
+          name: dsntk-0.0.5-apple-macos-arm64
           path: target/aarch64-apple-darwin/release/dsntk
