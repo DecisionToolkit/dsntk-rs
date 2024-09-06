@@ -1,4 +1,4 @@
-//! # Error definitions for recognizer
+//! # Error definitions for decision table recognizer
 
 use crate::point::Point;
 use crate::rect::Rect;
@@ -95,6 +95,10 @@ pub fn err_too_many_rows_in_output_clause() -> DsntkError {
 
 pub fn err_invalid_size(details: &str) -> DsntkError {
   RecognizerError(format!("invalid size: {details}")).into()
+}
+
+pub fn err_invalid_hit_policy(hit_policy: &str) -> DsntkError {
+  RecognizerError(format!("invalid hit policy: {hit_policy}")).into()
 }
 
 /// Utility function that formats a slice of characters into a readable form,

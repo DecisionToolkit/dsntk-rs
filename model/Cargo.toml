@@ -18,3 +18,4 @@ dsntk-examples = { workspace = true }
 dsntk-feel = { workspace = true }
 dsntk-feel-parser = { workspace = true }
 dsntk-macros = { workspace = true }
+dsntk-recognizer = { workspace = true }

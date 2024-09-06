@@ -21,4 +21,6 @@ mod tests;
 
 pub use builder::recognize_decision_table;
 
-pub use model::DecisionTable;
+pub use model::{
+  AnnotationEntry, BuiltinAggregator, DecisionRule, DecisionTable, DecisionTableOrientation, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry, RuleAnnotationClause,
+};

@@ -3,8 +3,8 @@
 use crate::errors::*;
 use crate::point::Point;
 use crate::rect::Rect;
+use crate::HitPolicy;
 use dsntk_common::Result;
-use dsntk_model::HitPolicy;
 use std::collections::HashSet;
 use std::fmt;
 use std::str::FromStr;

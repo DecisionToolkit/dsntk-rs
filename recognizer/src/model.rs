@@ -1,6 +1,10 @@
 //! # Decision table model
 
+use crate::errors::err_invalid_hit_policy;
+use dsntk_common::DsntkError;
+
 /// A struct representing a decision table.
+#[derive(Debug)]
 pub struct DecisionTable {
   /// Information item name.
   pub information_item_name: Option<String>,
@@ -15,9 +19,9 @@ pub struct DecisionTable {
   /// Hit policy associated with the instance of the decision table.
   pub hit_policy: HitPolicy,
   /// Optional aggregation type when the hit policy is `COLLECT`.
-  pub aggregation: Option<Aggregator>,
+  pub aggregation: Option<BuiltinAggregator>,
   /// Preferred representation of the instance of the decision table.
-  pub orientation: Orientation,
+  pub orientation: DecisionTableOrientation,
   /// Optional output label for the description of the decision table output.
   pub output_label: Option<String>,
 }
@@ -32,8 +36,8 @@ impl DecisionTable {
     annotations: Vec<RuleAnnotationClause>,
     rules: Vec<DecisionRule>,
     hit_policy: HitPolicy,
-    aggregation: Option<Aggregator>,
-    orientation: Orientation,
+    aggregation: Option<BuiltinAggregator>,
+    orientation: DecisionTableOrientation,
     output_label: Option<String>,
   ) -> Self {
     Self {
@@ -51,6 +55,7 @@ impl DecisionTable {
 }
 
 /// A struct representing an input clause.
+#[derive(Debug)]
 pub struct InputClause {
   /// The subject of this input clause, text representation of unary tests.
   pub input_expression: String,
@@ -59,6 +64,7 @@ pub struct InputClause {
 }
 
 /// A struct representing an output clause.
+#[derive(Debug)]
 pub struct OutputClause {
   /// The name of the output component when the decision table contains more than one output clause.
   pub name: Option<String>,
@@ -69,12 +75,14 @@ pub struct OutputClause {
 }
 
 /// A struct representing an annotation clause.
+#[derive(Debug)]
 pub struct RuleAnnotationClause {
   /// Name that is used as the name of the rule annotation column of the containing decision table.
   pub name: String,
 }
 
 /// A struct representing a decision rule.
+#[derive(Debug)]
 pub struct DecisionRule {
   /// Ordered list of input entries that compose decision rule.
   pub input_entries: Vec<InputEntry>,
@@ -85,24 +93,28 @@ pub struct DecisionRule {
 }
 
 /// A struct representing an input entry.
+#[derive(Debug)]
 pub struct InputEntry {
   /// Text representation of unary test that composes recognized input entry.
   pub text: String,
 }
 
 /// A struct representing an output entry.
+#[derive(Debug)]
 pub struct OutputEntry {
   /// Text representation of literal expression that composes recognized output entry.
   pub text: String,
 }
 
 /// A struct representing an annotation entry.
+#[derive(Debug)]
 pub struct AnnotationEntry {
   /// Text representing rule annotation.
   pub text: String,
 }
 
 /// An enumeration of hit policies.
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum HitPolicy {
   /// `UNIQUE` hit policy.
   Unique,
@@ -113,15 +125,37 @@ pub enum HitPolicy {
   /// `FIRST` hit policy.
   First,
   /// `COLLECT` hit policy.
-  Collect(Aggregator),
+  Collect(BuiltinAggregator),
   /// `OUTPUT ORDER` hit policy.
   OutputOrder,
   /// `RULE ORDER` hit policy.
   RuleOrder,
 }
 
+impl TryFrom<&str> for HitPolicy {
+  type Error = DsntkError;
+  /// Creates a hit policy from text.
+  fn try_from(value: &str) -> dsntk_common::Result<Self, Self::Error> {
+    match value.trim() {
+      "U" => Ok(HitPolicy::Unique),
+      "A" => Ok(HitPolicy::Any),
+      "P" => Ok(HitPolicy::Priority),
+      "F" => Ok(HitPolicy::First),
+      "R" => Ok(HitPolicy::RuleOrder),
+      "O" => Ok(HitPolicy::OutputOrder),
+      "C" => Ok(HitPolicy::Collect(BuiltinAggregator::List)),
+      "C+" => Ok(HitPolicy::Collect(BuiltinAggregator::Sum)),
+      "C#" => Ok(HitPolicy::Collect(BuiltinAggregator::Count)),
+      "C<" => Ok(HitPolicy::Collect(BuiltinAggregator::Min)),
+      "C>" => Ok(HitPolicy::Collect(BuiltinAggregator::Max)),
+      other => Err(err_invalid_hit_policy(other)),
+    }
+  }
+}
+
 /// An enumeration representing the built-in aggregator.
-pub enum Aggregator {
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+pub enum BuiltinAggregator {
   /// The result is a list of matching output entries.
   List,
   /// The result is the number of matching outputs.
@@ -135,7 +169,8 @@ pub enum Aggregator {
 }
 
 /// An enumeration representing the orientation of the decision table.
-pub enum Orientation {
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+pub enum DecisionTableOrientation {
   /// Decision table is presented horizontally, rules are presented as rows.
   RuleAsRow,
   /// Decision table is presented vertically, rules are presented as columns.

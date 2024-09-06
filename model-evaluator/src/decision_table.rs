@@ -388,10 +388,11 @@ mod tests {
   use dsntk_examples::decision_tables::H_000210;
   use dsntk_feel::values::Value;
   use dsntk_feel::{value_number, FeelNumber};
+  use dsntk_model::DecisionTable;
 
   #[test]
   fn test() {
-    let decision_table = dsntk_recognizer::recognize_decision_table(H_000210, false).unwrap();
+    let decision_table: DecisionTable = dsntk_recognizer::recognize_decision_table(H_000210, false).unwrap().into();
     let scope = context(r#"{Customer:"Business", Order:-3.23 }"#).into();
     let evaluator = build_decision_table_evaluator(&scope, &decision_table).unwrap();
     assert_eq!(value_number!(10, 2), evaluator(&scope));

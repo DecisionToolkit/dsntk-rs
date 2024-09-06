@@ -4,9 +4,10 @@
 
 use crate::canvas::Canvas;
 use crate::errors::*;
+use crate::model::DecisionTableOrientation;
 use crate::plane::{HitPolicyPlacement, Plane, RuleNumbersPlacement};
+use crate::HitPolicy;
 use dsntk_common::Result;
-use dsntk_model::{DecisionTableOrientation, HitPolicy};
 
 /// Decision table recognizer.
 #[derive(Debug)]

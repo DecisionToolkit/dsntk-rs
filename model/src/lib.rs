@@ -2,13 +2,12 @@
 extern crate dsntk_macros;
 
 mod errors;
+mod mapper;
 mod model;
 mod parser;
+mod tests;
 mod validator;
 mod xml_utils;
-
-#[cfg(test)]
-mod tests;
 
 pub use model::*;
 pub use parser::parse;

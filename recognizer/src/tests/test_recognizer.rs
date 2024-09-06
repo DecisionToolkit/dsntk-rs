@@ -1,7 +1,8 @@
 use super::*;
+use crate::model::{BuiltinAggregator, DecisionTableOrientation};
 use crate::recognizer::Recognizer;
+use crate::HitPolicy;
 use dsntk_examples::decision_tables::H_110010;
-use dsntk_model::{BuiltinAggregator, DecisionTableOrientation, HitPolicy};
 
 const EMPTY_VECTOR: &[&str] = &[];
 const EMPTY_OPT_VECTOR: &[Option<&str>] = &[];
@@ -270,7 +271,7 @@ fn general_cross_tab() {
   assert!(&Recognizer::recognize(EX_10, false).is_err());
   // eq_information_item_name(rec, " information item name                                          ");
   // eq_hit_policy(rec, HitPolicy::Unique);
-  // eq_orientation(rec, DecisionTableOrientation::Crosstab);
+  // eq_orientation(rec, Orientation::Crosstab);
   // eq_input_expressions(rec, EMPTY_VECTOR);
   // eq_input_values(rec, EMPTY_VECTOR);
   // eq_input_entries(rec, EMPTY_MATRIX);
