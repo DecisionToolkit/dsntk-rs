@@ -11,17 +11,16 @@ test 8 ... ok
 
 test result: FAILED. 7 passed; 1 failed.
 
-test 1 ... ok
-test 2 ... ok
-test 3 ... FAILED
-    expected: 0.16
-      actual: 0.15
-  difference: 0.165
-test 4 ... ok
-test 5 ... ok
-test 6 ... ok
-test 7 ... ok
-test 8 ... ok
+test 1 ... [32mok[0m
+test 2 ... [32mok[0m
+test 3 ... [31mFAILED[0m
+    expected: [32m0.16[0m
+      actual: [31m0.15[0m
+test 4 ... [32mok[0m
+test 5 ... [32mok[0m
+test 6 ... [32mok[0m
+test 7 ... [32mok[0m
+test 8 ... [32mok[0m
 
-test result: FAILED. 7 passed; 1 failed.
+test result: [31mFAILED[0m. 7 passed; 1 failed.
 

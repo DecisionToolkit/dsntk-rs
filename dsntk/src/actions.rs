@@ -2,7 +2,6 @@
 
 use crate::examples::*;
 use clap::{arg, command, crate_description, crate_version, Arg, ArgAction, ArgMatches, Command};
-use difference::Changeset;
 use dsntk_common::*;
 use dsntk_feel::values::Value;
 use dsntk_feel::FeelScope;
@@ -179,68 +178,55 @@ enum Action {
 /// Executes command-line action.
 pub async fn do_action() -> std::io::Result<()> {
   match get_cli_action() {
-    Action::ParseFeelExpression(ctx_file_name, feel_file_name, color) => {
-      // parse FEEL expression
-      parse_feel_expression(&ctx_file_name, &feel_file_name, color);
+    Action::ParseFeelExpression(ctx_file_name, feel_file_name, color_mode) => {
+      parse_feel_expression(&ctx_file_name, &feel_file_name, color_mode);
       Ok(())
     }
     Action::EvaluateFeelExpression(input_file_name, feel_file_name) => {
-      //
       evaluate_feel_expression(&input_file_name, &feel_file_name);
       Ok(())
     }
-    Action::TestFeelExpression(test_file_name, feel_file_name, summary_only, color) => {
-      //
-      test_feel_expression(&test_file_name, &feel_file_name, summary_only, color);
+    Action::TestFeelExpression(test_file_name, feel_file_name, summary_only, color_mode) => {
+      test_feel_expression(&test_file_name, &feel_file_name, summary_only, color_mode);
       Ok(())
     }
     Action::ExportFeelExpression(ctx_file_name, feel_file_name, html_file_name) => {
-      //
       export_feel_expression(&ctx_file_name, &feel_file_name, &html_file_name);
       Ok(())
     }
     Action::ParseDecisionTable(dectab_file_name) => {
-      //
       parse_decision_table(&dectab_file_name);
       Ok(())
     }
     Action::EvaluateDecisionTable(input_file_name, dectab_file_name) => {
-      //
       evaluate_decision_table(&input_file_name, &dectab_file_name);
       Ok(())
     }
-    Action::TestDecisionTable(test_file_name, dectab_file_name, summary_only, color) => {
-      //
-      test_decision_table(&test_file_name, &dectab_file_name, summary_only, color);
+    Action::TestDecisionTable(test_file_name, dectab_file_name, summary_only, color_mode) => {
+      test_decision_table(&test_file_name, &dectab_file_name, summary_only, color_mode);
       Ok(())
     }
     Action::ExportDecisionTable(dectab_file_name, html_file_name) => {
-      //
       export_decision_table(&dectab_file_name, &html_file_name);
       Ok(())
     }
     Action::RecognizeDecisionTable(dectab_file_name) => {
-      //
       recognize_decision_table(&dectab_file_name);
       Ok(())
     }
-    Action::ParseDmnModel(dmn_file_name, color) => {
-      //
-      parse_dmn_model(&dmn_file_name, color);
+    Action::ParseDmnModel(dmn_file_name, color_mode) => {
+      parse_dmn_model(&dmn_file_name, color_mode);
       Ok(())
     }
     Action::EvaluateDmnModel(dmn_file_name, ctx_file_name, invocable_name) => {
-      //
       evaluate_dmn_model(&dmn_file_name, &ctx_file_name, &invocable_name);
       Ok(())
     }
-    Action::TestDmnModel(test_file_name, dmn_file_name, invocable_name, summary_only, color) => {
-      //
-      test_dmn_model(&test_file_name, &dmn_file_name, &invocable_name, summary_only, color);
+    Action::TestDmnModel(test_file_name, dmn_file_name, invocable_name, summary_only, color_mode) => {
+      test_dmn_model(&test_file_name, &dmn_file_name, &invocable_name, summary_only, color_mode);
       Ok(())
     }
     Action::ExportDmnModel(dmn_file_name, html_file_name) => {
-      //
       export_dmn_model(&dmn_file_name, &html_file_name);
       Ok(())
     }
@@ -939,7 +925,6 @@ fn generate_examples(root_dir: &str) -> std::io::Result<()> {
 fn display_test_case_result(actual: &Value, expected: &Value, test_no: &usize, passed: &mut usize, failed: &mut usize, summary_only: bool, color_mode: ColorMode) {
   let color_red = color_red!(color_mode);
   let color_green = color_green!(color_mode);
-  let color_magenta = color_magenta!(color_mode);
   let color_reset = color_reset!(color_mode);
   if dsntk_evaluator::evaluate_equals(actual, expected) {
     *passed += 1;
@@ -950,17 +935,8 @@ fn display_test_case_result(actual: &Value, expected: &Value, test_no: &usize, p
     *failed += 1;
     if !summary_only {
       println!("test {} ... {color_red}FAILED{color_reset}", test_no + 1);
-      println!("    {color_green}expected{color_reset}: {expected}");
-      println!("      {color_red}actual{color_reset}: {actual}");
-      if color_mode == ColorMode::On {
-        // showing the difference is reasonable only with colors enabled
-        println!(
-          "  {1}difference{0}: {2}",
-          color_reset,
-          color_magenta,
-          Changeset::new(&expected.jsonify(), &actual.jsonify(), "")
-        );
-      }
+      println!("    expected: {color_green}{expected}{color_reset}");
+      println!("      actual: {color_red}{actual}{color_reset}");
     }
   }
 }

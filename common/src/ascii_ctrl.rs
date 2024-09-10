@@ -74,18 +74,25 @@ pub const ASCII_RESET: &str = "\u{1b}[0m";
 /// Color mode to switch terminal colouring on and off.
 #[derive(Copy, Clone, PartialEq)]
 pub enum ColorMode {
-  /// Switch the terminal color on.
+  /// Switch colouring **on**.
   On,
-  /// Switch the terminal color off.
+  /// Switch colouring **off**.
   Off,
 }
 
 impl From<String> for ColorMode {
-  /// Converts a sting into [ColorMode].
+  /// Converts a string into [ColorMode].
   fn from(value: String) -> Self {
     match value.to_lowercase().trim() {
       "never" => Self::Off,
-      _ => Self::On,
+      "always" => Self::On,
+      _ => {
+        if atty::is(atty::Stream::Stdout) {
+          Self::On
+        } else {
+          Self::Off
+        }
+      }
     }
   }
 }
