@@ -30,6 +30,19 @@ values properly set, like shown below:
 | DC_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DC/     | 2018.05.21 | =1.4 =1.3 |
 | DI_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DI/     | 2018.05.21 | =1.4 =1.3 |
 
+### Example
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20230324/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20230324/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+             id="example"
+             name="example">
+</definitions>
+```
+
 ## Version 1.4
 
 | Namespace        | Value                                        | Date       | Remarks |
@@ -39,6 +52,19 @@ values properly set, like shown below:
 | DC_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DC/     | 2018.05.21 | =1.3    |
 | DI_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DI/     | 2018.05.21 | =1.3    |
 
+### Example
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20211108/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+             id="example"
+             name="example">
+</definitions>
+```
+
 ## Version 1.3
 
 | Namespace        | Value                                        | Date       | Remarks |
@@ -47,3 +73,16 @@ values properly set, like shown below:
 | DMNDI_NAMESPACE  | https://www.omg.org/spec/DMN/20191111/DMNDI/ | 2019.11.11 |         |
 | DC_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DC/     | 2018.05.21 |         |
 | DI_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DI/     | 2018.05.21 |         |
+
+### Example
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+             id="example"
+             name="example">
+</definitions>
+```
