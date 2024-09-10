@@ -11,6 +11,7 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
+atty = { workspace = true }
 serde = { workspace = true }
 uuid = { workspace = true }
 uriparse = { workspace = true }
