@@ -1,5 +1,7 @@
 # XML Schema definitions for DMN models
 
+## Target namespaces
+
 The following subdirectories contain XSDs for validating DMN models in versions:
 
 - [**1.5**](./1.5) - version 1.5 of the DMN standard (newest)
@@ -81,3 +83,36 @@ values properly set, like shown below:
 </definitions>
 ```
 
+## Validation examples
+
+Command:
+
+```shell
+xmllint --noout --schema ./1.3/DMN13.xsd ./examples/simulation13.dmn
+```
+
+Output:
+
+```text
+./examples/simulation13.dmn validates
+```
+
+```shell
+xmllint --noout --schema ./1.4/DMN14.xsd ./examples/simulation14.dmn
+```
+
+Output:
+
+```text
+./examples/simulation14.dmn validates
+```
+
+```shell
+xmllint --noout --schema ./1.5/DMN15.xsd ./examples/simulation15.dmn
+```
+
+Output:
+
+```text
+./examples/simulation15.dmn validates
+```
