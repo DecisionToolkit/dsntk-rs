@@ -1,3 +1,5 @@
+//! # Built-in examples
+
 pub const E1_CTX: &str = include_str!("e1/e1.ctx");
 pub const E1_FEEL: &str = include_str!("e1/e1.feel");
 
