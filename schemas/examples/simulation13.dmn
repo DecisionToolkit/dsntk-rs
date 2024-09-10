@@ -3,10 +3,9 @@
              xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
              xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
              xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
-             xmlns:camunda="http://camunda.org/schema/1.0/dmn"
              id="dinnerDecisions"
              name="Dinner Decisions"
-             namespace="http://camunda.org/schema/1.0/dmn"
+             namespace="https://camunda.org/schema/1.0/dmn"
              exporter="Camunda Modeler"
              exporterVersion="4.0.0">
     <decision id="beverages" name="Beverages">
@@ -19,12 +18,12 @@
         </informationRequirement>
 
         <decisionTable id="DecisionTable_07q05jb" hitPolicy="COLLECT">
-            <input id="InputClause_1acmlkd" label="Dish" camunda:inputVariable="">
+            <input id="InputClause_1acmlkd" label="Dish">
                 <inputExpression id="LiteralExpression_0bqgrlg" typeRef="string">
                     <text>desiredDish</text>
                 </inputExpression>
             </input>
-            <input id="InputClause_0bo3uen" label="Guests with children" camunda:inputVariable="">
+            <input id="InputClause_0bo3uen" label="Guests with children">
                 <inputExpression id="LiteralExpression_0d6l79o" typeRef="boolean">
                     <text>guestsWithChildren</text>
                 </inputExpression>
@@ -77,7 +76,7 @@
             </rule>
             <rule id="row-506282952-11">
                 <inputEntry id="UnaryTests_11o8pqj">
-                    <text></text>
+                    <text/>
                 </inputEntry>
                 <inputEntry id="UnaryTests_1298ow3">
                     <text>true</text>
@@ -88,7 +87,7 @@
             </rule>
             <rule id="row-506282952-12">
                 <inputEntry id="UnaryTests_0shocr0">
-                    <text></text>
+                    <text/>
                 </inputEntry>
                 <inputEntry id="UnaryTests_0nblyrk">
                     <text>false</text>
@@ -114,12 +113,12 @@
         </authorityRequirement>
 
         <decisionTable id="DecisionTable_040j91i">
-            <input id="InputClause_0bbq1z8" label="Season" camunda:inputVariable="">
+            <input id="InputClause_0bbq1z8" label="Season">
                 <inputExpression id="LiteralExpression_1iwaqcz" typeRef="string">
                     <text>season</text>
                 </inputExpression>
             </input>
-            <input id="InputClause_0pcbpc9" label="How many guests" camunda:inputVariable="">
+            <input id="InputClause_0pcbpc9" label="How many guests">
                 <inputExpression id="LiteralExpression_1uu3xe6" typeRef="integer">
                     <text>guestCount</text>
                 </inputExpression>
@@ -200,7 +199,7 @@
                     <text>"Summer"</text>
                 </inputEntry>
                 <inputEntry id="UnaryTests_1nuzyri">
-                    <text></text>
+                    <text/>
                 </inputEntry>
                 <outputEntry id="LiteralExpression_0nspzk1">
                     <text>"Light Salad and a nice Steak"</text>
