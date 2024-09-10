@@ -242,3 +242,25 @@ tasks:
     desc: Runs tests in debug and quiet mode
     cmds:
       - cmd: cargo +stable test --workspace -q
+
+  validate:
+    desc: Validates specified DMN model against all XDS schemas
+    cmds:
+      - task: validate13
+      - task: validate14
+      - task: validate15
+
+  validate13:
+    desc: Validates specified DMN model against XSD schema in version 1.3
+    cmds:
+      - cmd: xmllint --noout --schema ./schemas/1.3/DMN13.xsd {{.CLI_ARGS}}
+
+  validate14:
+    desc: Validates specified DMN model against XSD schema in version 1.4
+    cmds:
+      - cmd: xmllint --noout --schema ./schemas/1.4/DMN14.xsd {{.CLI_ARGS}}
+
+  validate15:
+    desc: Validates specified DMN model against XSD schema in version 1.5
+    cmds:
+      - cmd: xmllint --noout --schema ./schemas/1.5/DMN15.xsd {{.CLI_ARGS}}
