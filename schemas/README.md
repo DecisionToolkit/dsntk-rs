@@ -20,3 +20,30 @@ values properly set, like shown below:
              name="example">
 </definitions>
 ```
+
+## Version 1.5
+
+| Namespace        | Value                                        | Date       | Remarks   |
+|------------------|----------------------------------------------|------------|-----------|
+| DMN_NAMESPACE    | https://www.omg.org/spec/DMN/20230324/MODEL/ | 2023.03.24 | new       |
+| DMNDI_NAMESPACE  | https://www.omg.org/spec/DMN/20230324/DMNDI/ | 2023.03.24 | new       |
+| DC_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DC/     | 2018.05.21 | =1.4 =1.3 |
+| DI_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DI/     | 2018.05.21 | =1.4 =1.3 |
+
+## Version 1.4
+
+| Namespace        | Value                                        | Date       | Remarks |
+|------------------|----------------------------------------------|------------|---------|
+| DMN_NAMESPACE    | https://www.omg.org/spec/DMN/20211108/MODEL/ | 2021.11.08 | new     |
+| DMNDI_NAMESPACE  | https://www.omg.org/spec/DMN/20191111/DMNDI/ | 2019.11.11 | =1.3    |
+| DC_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DC/     | 2018.05.21 | =1.3    |
+| DI_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DI/     | 2018.05.21 | =1.3    |
+
+## Version 1.3
+
+| Namespace        | Value                                        | Date       | Remarks |
+|------------------|----------------------------------------------|------------|---------|
+| DMN_NAMESPACE    | https://www.omg.org/spec/DMN/20191111/MODEL/ | 2019.11.11 |         |
+| DMNDI_NAMESPACE  | https://www.omg.org/spec/DMN/20191111/DMNDI/ | 2019.11.11 |         |
+| DC_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DC/     | 2018.05.21 |         |
+| DI_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DI/     | 2018.05.21 |         |
