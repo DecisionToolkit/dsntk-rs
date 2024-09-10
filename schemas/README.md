@@ -30,8 +30,6 @@ values properly set, like shown below:
 | DC_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DC/     | 2018.05.21 | =1.4 =1.3 |
 | DI_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DI/     | 2018.05.21 | =1.4 =1.3 |
 
-#### Example
-
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20230324/MODEL/"
@@ -51,8 +49,6 @@ values properly set, like shown below:
 | DMNDI_NAMESPACE  | https://www.omg.org/spec/DMN/20191111/DMNDI/ | 2019.11.11 | =1.3    |
 | DC_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DC/     | 2018.05.21 | =1.3    |
 | DI_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DI/     | 2018.05.21 | =1.3    |
-
-#### Example
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -74,8 +70,6 @@ values properly set, like shown below:
 | DC_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DC/     | 2018.05.21 |         |
 | DI_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DI/     | 2018.05.21 |         |
 
-#### Example
-
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
@@ -86,3 +80,4 @@ values properly set, like shown below:
              name="example">
 </definitions>
 ```
+
