@@ -85,6 +85,8 @@ values properly set, like shown below:
 
 ## Validation examples
 
+Example simulation files were generated from [Camunda DMN simulator](https://consulting.camunda.com/dmn-simulator/) (at 2024-09-10).
+
 Command:
 
 ```shell
