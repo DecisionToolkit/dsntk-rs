@@ -30,7 +30,7 @@ values properly set, like shown below:
 | DC_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DC/     | 2018.05.21 | =1.4 =1.3 |
 | DI_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DI/     | 2018.05.21 | =1.4 =1.3 |
 
-### Example
+#### Example
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -52,7 +52,7 @@ values properly set, like shown below:
 | DC_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DC/     | 2018.05.21 | =1.3    |
 | DI_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DI/     | 2018.05.21 | =1.3    |
 
-### Example
+#### Example
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -74,7 +74,7 @@ values properly set, like shown below:
 | DC_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DC/     | 2018.05.21 |         |
 | DI_NAMESPACE     | http://www.omg.org/spec/DMN/20180521/DI/     | 2018.05.21 |         |
 
-### Example
+#### Example
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
