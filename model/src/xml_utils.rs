@@ -5,9 +5,13 @@ use dsntk_common::Result;
 use roxmltree::Node;
 use std::str::FromStr;
 
-pub const NS_MODEL_13: &str = "https://www.omg.org/spec/DMN/20191111/MODEL/";
-pub const NS_MODEL_14: &str = "https://www.omg.org/spec/DMN/20211108/MODEL/";
-pub const NS_MODEL_15: &str = "https://www.omg.org/spec/DMN/20230324/MODEL/";
+pub const NAMESPACE_DMN_13: &str = "https://www.omg.org/spec/DMN/20191111/MODEL/";
+pub const NAMESPACE_DMN_14: &str = "https://www.omg.org/spec/DMN/20211108/MODEL/";
+pub const NAMESPACE_DMN_15: &str = "https://www.omg.org/spec/DMN/20230324/MODEL/";
+pub const NAMESPACE_DMNDI_13: &str = "https://www.omg.org/spec/DMN/20191111/DMNDI/";
+pub const NAMESPACE_DMNDI_15: &str = "https://www.omg.org/spec/DMN/20230324/DMNDI/";
+pub const NAMESPACE_DC_13: &str = "http://www.omg.org/spec/DMN/20180521/DC/";
+pub const NAMESPACE_DI_13: &str = "http://www.omg.org/spec/DMN/20180521/DI/";
 
 // XML node names
 pub const NODE_ALLOWED_ANSWERS: &str = "allowedAnswers";

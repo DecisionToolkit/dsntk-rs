@@ -65,3 +65,5 @@ pub const _0009: &str = include_str!("_0009.dmn");
 pub const _0030: &str = include_str!("_0030.dmn");
 
 pub const _0031: &str = include_str!("_0031.dmn");
+
+pub const _0032: &str = include_str!("_0032.dmn");

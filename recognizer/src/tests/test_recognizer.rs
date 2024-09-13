@@ -132,7 +132,6 @@ fn test_dt_0001() {
   );
   eq_annotations(recognizer, EMPTY_VECTOR);
   eq_annotation_entries(recognizer, EMPTY_MATRIX);
-  println!("DDD: kuku");
 }
 
 #[test]

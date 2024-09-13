@@ -48,19 +48,38 @@ pub fn validate_schema<'a>(document: &'a Document) -> Result<Node<'a, 'a>> {
 #[derive(Default)]
 struct Namespaces {
   dmn: Option<String>,
+  dmndi: Option<String>,
+  dc: Option<String>,
+  di: Option<String>,
 }
 
 impl Namespaces {
   /// Adds a namespace.
   fn add(&mut self, uri: &str) -> Result<()> {
     match uri {
-      NS_MODEL_15 | NS_MODEL_14 | NS_MODEL_13 => {
-        if let Some(dmn_uri) = &self.dmn {
-          if dmn_uri == uri {
-            return Err(err_duplicated_namespace(uri));
-          }
+      NAMESPACE_DMN_13 | NAMESPACE_DMN_14 | NAMESPACE_DMN_15 => {
+        if self.dmn.as_ref().map(|v| v == uri).unwrap_or(false) {
+          return Err(err_duplicated_namespace(uri));
         }
         self.dmn = Some(uri.to_string());
+      }
+      NAMESPACE_DMNDI_13 | NAMESPACE_DMNDI_15 => {
+        if self.dmndi.as_ref().map(|v| v == uri).unwrap_or(false) {
+          return Err(err_duplicated_namespace(uri));
+        }
+        self.dmndi = Some(uri.to_string());
+      }
+      NAMESPACE_DC_13 => {
+        if self.dc.as_ref().map(|v| v == uri).unwrap_or(false) {
+          return Err(err_duplicated_namespace(uri));
+        }
+        self.dc = Some(uri.to_string());
+      }
+      NAMESPACE_DI_13 => {
+        if self.di.as_ref().map(|v| v == uri).unwrap_or(false) {
+          return Err(err_duplicated_namespace(uri));
+        }
+        self.di = Some(uri.to_string());
       }
       _ => {}
     }
@@ -73,19 +92,18 @@ impl Namespaces {
       return Err(err_no_supported_namespace());
     };
     match dmn_uri.as_str() {
-      NS_MODEL_15 => Ok(DmnVersion::V15),
-      NS_MODEL_14 => Ok(DmnVersion::V14),
-      NS_MODEL_13 => Ok(DmnVersion::V13),
+      NAMESPACE_DMN_15 => Ok(DmnVersion::V15),
+      NAMESPACE_DMN_14 => Ok(DmnVersion::V14),
+      NAMESPACE_DMN_13 => Ok(DmnVersion::V13),
       _ => Err(err_no_supported_namespace()),
     }
   }
 
-  fn is_dmn(&self, uri: &str) -> bool {
-    if let Some(dmn_uri) = &self.dmn {
-      uri == dmn_uri
-    } else {
-      false
-    }
+  fn is_valid(&self, uri: &str) -> bool {
+    self.dmn.as_ref().map(|v| v == uri).unwrap_or(false)
+      || self.dmndi.as_ref().map(|v| v == uri).unwrap_or(false)
+      || self.dc.as_ref().map(|v| v == uri).unwrap_or(false)
+      || self.di.as_ref().map(|v| v == uri).unwrap_or(false)
   }
 }
 
@@ -177,8 +195,11 @@ impl SchemaValidator {
     for child_node in node.children() {
       if child_node.node_type() == NodeType::Element {
         let child_node_name = child_node.tag_name().name();
-        let child_node_namespace = child_node.tag_name().namespace().unwrap_or("");
-        println!("DDDC: '{}:{}'", child_node_name, child_node_namespace);
+        if let Some(child_node_namespace) = child_node.tag_name().namespace() {
+          if !self.namespaces.is_valid(child_node_namespace) {
+            return Err(err_not_allowed_child_node(child_node_name, node));
+          }
+        }
         if !allowed.contains(&child_node_name) {
           return Err(err_not_allowed_child_node(child_node_name, node));
         }
