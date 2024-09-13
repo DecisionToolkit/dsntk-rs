@@ -23,11 +23,12 @@ impl Default for SchemaValidator {
 }
 
 impl SchemaValidator {
-  /// Creates new schema validator.
+  /// Creates a new schema validator.
   fn new() -> Self {
     Self { dmn_version: DmnVersion::V13 }
   }
 
+  /// Validates provided document against XML Schema.
   fn validate<'a>(&mut self, document: &'a Document) -> Result<Node<'a, 'a>> {
     let root_element = document.root_element();
     self.validate_root_element(&root_element)?;
@@ -59,6 +60,23 @@ impl SchemaValidator {
     required_attribute(node, ATTR_NAMESPACE)?;
     // root element must have required attribute `name`
     required_attribute(node, ATTR_NAME)?;
+    // reject not allowed attributes
+    allowed_attributes(
+      node,
+      &[ATTR_NAME, ATTR_NAMESPACE, ATTR_ID, ATTR_TYPE_LANGUAGE, ATTR_LABEL, ATTR_EXPORTER, ATTR_EXPORTER_VERSION],
+    )?;
     Ok(())
   }
+}
+
+fn allowed_attributes(node: &Node, allowed: &[&str]) -> Result<()> {
+  for attribute in node.attributes() {
+    if attribute.namespace().is_none() {
+      let attribute_name = attribute.name();
+      if !allowed.contains(&attribute_name) {
+        return Err(err_not_allowed_attribute(attribute_name, node));
+      }
+    }
+  }
+  Ok(())
 }

@@ -29,3 +29,13 @@ pub const _0004: &str = include_str!("_0004.dmn");
 /// _0005.dmn:2: element definitions: Schemas validity error : Element '{https://www.omg.org/spec/DMN/20191111/MODEL/}definitions': The attribute 'name' is required but missing.
 /// ```
 pub const _0005: &str = include_str!("_0005.dmn");
+
+/// ```text
+/// _0006.dmn:5: element definitions: Schemas validity error : Element '{https://www.omg.org/spec/DMN/20191111/MODEL/}definitions', attribute 'revision': The attribute 'revision' is not allowed.
+/// ```
+pub const _0006: &str = include_str!("_0006.dmn");
+
+/// ```text
+/// _0007.dmn:5: element definitions: Schemas validity error : Element '{https://www.omg.org/spec/DMN/20191111/MODEL/}definitions', attribute 'revision': The attribute 'revision' is not allowed.
+/// ```
+pub const _0007: &str = include_str!("_0007.dmn");

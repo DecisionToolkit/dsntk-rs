@@ -3,8 +3,7 @@
                  namespace="https://decistion-toolkit.org/namespace">
     <!--
         This model is invalid.
-        Missing required attributes in 'definitions':
-        - namespace
+        Missing required attribute in 'definitions':
         - name
     -->
 </dmn:definitions>

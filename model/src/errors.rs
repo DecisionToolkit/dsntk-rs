@@ -1,4 +1,6 @@
+use crate::xml_utils::node_name_pos;
 use dsntk_common::{DsntkError, ToErrorMessage};
+use roxmltree::Node;
 
 /// Errors related to the DMN model.
 #[derive(ToErrorMessage)]
@@ -110,4 +112,8 @@ pub fn err_no_default_namespace() -> DsntkError {
 
 pub fn err_unsupported_schema(ns: &str) -> DsntkError {
   SchemaValidatorError(format!("unsupported schema: {}", ns)).into()
+}
+
+pub fn err_not_allowed_attribute(attribute_name: &str, node: &Node) -> DsntkError {
+  ModelError(format!("not allowed attribute: '{}' in node {}", attribute_name, node_name_pos(node))).into()
 }
