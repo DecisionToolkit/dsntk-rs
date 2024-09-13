@@ -10,6 +10,7 @@ use std::sync::Arc;
 use walkdir::WalkDir;
 
 mod compatibility;
+mod input_data;
 mod various;
 
 macro_rules! from_examples {
