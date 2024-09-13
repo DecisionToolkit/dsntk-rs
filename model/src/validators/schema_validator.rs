@@ -105,12 +105,10 @@ fn allowed_attributes(node: &Node, allowed: &[&str]) -> Result<()> {
 fn allowed_children(node: &Node, allowed: &[&str]) -> Result<()> {
   for child_node in node.children() {
     if child_node.node_type() == NodeType::Element {
-      //if child_node.tag_name().namespace().is_none() {
       let child_node_name = child_node.tag_name().name();
       if !allowed.contains(&child_node_name) {
         return Err(err_not_allowed_child_node(child_node_name, node));
       }
-      //}
     }
   }
   Ok(())
