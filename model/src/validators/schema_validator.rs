@@ -6,9 +6,18 @@ use crate::DmnVersion;
 use dsntk_common::Result;
 use roxmltree::{Document, Node, NodeType};
 
-const V_DEFINITIONS: ([&str; 2], [&str; 7], [&str; 16]) = (
+const V_DEFINITIONS: ([&str; 2], [&str; 8], [&str; 16]) = (
   [ATTR_NAME, ATTR_NAMESPACE],
-  [ATTR_EXPORTER, ATTR_EXPORTER_VERSION, ATTR_ID, ATTR_LABEL, ATTR_NAME, ATTR_NAMESPACE, ATTR_TYPE_LANGUAGE],
+  [
+    ATTR_EXPORTER,
+    ATTR_EXPORTER_VERSION,
+    ATTR_EXPRESSION_LANGUAGE,
+    ATTR_ID,
+    ATTR_LABEL,
+    ATTR_NAME,
+    ATTR_NAMESPACE,
+    ATTR_TYPE_LANGUAGE,
+  ],
   [
     NODE_ASSOCIATION,
     NODE_BUSINESS_KNOWLEDGE_MODEL,
