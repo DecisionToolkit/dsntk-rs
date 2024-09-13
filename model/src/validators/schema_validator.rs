@@ -80,10 +80,6 @@ impl SchemaValidator {
       NS_MODEL_15 => DmnVersion::V15,
       other => return Err(err_unsupported_schema(other)),
     };
-    // // root element must have required attribute `namespace`
-    // required_attribute(node, ATTR_NAMESPACE)?;
-    // // root element must have required attribute `name`
-    // required_attribute(node, ATTR_NAME)?;
     // check if required attributes are present
     self.required_attributes(node, &DEFINITIONS.0)?;
     // reject not allowed attributes
