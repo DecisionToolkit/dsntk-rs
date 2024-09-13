@@ -117,3 +117,7 @@ pub fn err_unsupported_schema(ns: &str) -> DsntkError {
 pub fn err_not_allowed_attribute(attribute_name: &str, node: &Node) -> DsntkError {
   ModelError(format!("not allowed attribute: '{}' in node {}", attribute_name, node_name_pos(node))).into()
 }
+
+pub fn err_not_allowed_child_node(child_node_name: &str, node: &Node) -> DsntkError {
+  ModelError(format!("not allowed child node: '{}' in node {}", child_node_name, node_name_pos(node))).into()
+}

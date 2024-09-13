@@ -4,7 +4,29 @@ use crate::errors::*;
 use crate::xml_utils::*;
 use crate::DmnVersion;
 use dsntk_common::Result;
-use roxmltree::{Document, Node};
+use roxmltree::{Document, Node, NodeType};
+
+const DEFINITIONS: ([&str; 7], [&str; 16]) = (
+  [ATTR_NAME, ATTR_NAMESPACE, ATTR_ID, ATTR_TYPE_LANGUAGE, ATTR_LABEL, ATTR_EXPORTER, ATTR_EXPORTER_VERSION],
+  [
+    NODE_ASSOCIATION,
+    NODE_BUSINESS_KNOWLEDGE_MODEL,
+    NODE_DECISION,
+    NODE_DECISION_SERVICE,
+    NODE_DESCRIPTION,
+    NODE_DMNDI,
+    NODE_ELEMENT_COLLECTION,
+    NODE_EXTENSION_ELEMENTS,
+    NODE_GROUP,
+    NODE_IMPORT,
+    NODE_INPUT_DATA,
+    NODE_ITEM_DEFINITION,
+    NODE_KNOWLEDGE_SOURCE,
+    NODE_ORGANISATION_UNIT,
+    NODE_PERFORMANCE_INDICATOR,
+    NODE_TEXT_ANNOTATION,
+  ],
+);
 
 /// Validates a document containing DMN model against XML Schema Definitions.
 pub fn validate_schema<'a>(document: &'a Document) -> Result<Node<'a, 'a>> {
@@ -61,10 +83,9 @@ impl SchemaValidator {
     // root element must have required attribute `name`
     required_attribute(node, ATTR_NAME)?;
     // reject not allowed attributes
-    allowed_attributes(
-      node,
-      &[ATTR_NAME, ATTR_NAMESPACE, ATTR_ID, ATTR_TYPE_LANGUAGE, ATTR_LABEL, ATTR_EXPORTER, ATTR_EXPORTER_VERSION],
-    )?;
+    allowed_attributes(node, &DEFINITIONS.0)?;
+    // reject not allowed child nodes
+    allowed_children(node, &DEFINITIONS.1)?;
     Ok(())
   }
 }
@@ -76,6 +97,20 @@ fn allowed_attributes(node: &Node, allowed: &[&str]) -> Result<()> {
       if !allowed.contains(&attribute_name) {
         return Err(err_not_allowed_attribute(attribute_name, node));
       }
+    }
+  }
+  Ok(())
+}
+
+fn allowed_children(node: &Node, allowed: &[&str]) -> Result<()> {
+  for child_node in node.children() {
+    if child_node.node_type() == NodeType::Element {
+      //if child_node.tag_name().namespace().is_none() {
+      let child_node_name = child_node.tag_name().name();
+      if !allowed.contains(&child_node_name) {
+        return Err(err_not_allowed_child_node(child_node_name, node));
+      }
+      //}
     }
   }
   Ok(())

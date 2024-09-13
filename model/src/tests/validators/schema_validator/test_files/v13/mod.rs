@@ -39,3 +39,20 @@ pub const _0006: &str = include_str!("_0006.dmn");
 /// _0007.dmn:5: element definitions: Schemas validity error : Element '{https://www.omg.org/spec/DMN/20191111/MODEL/}definitions', attribute 'revision': The attribute 'revision' is not allowed.
 /// ```
 pub const _0007: &str = include_str!("_0007.dmn");
+
+/// ```text
+/// _0008.dmn:5: element revisions: Schemas validity error : Element '{https://www.omg.org/spec/DMN/20191111/MODEL/}revisions': This element is not expected.
+/// Expected is one of (
+///  {https://www.omg.org/spec/DMN/20191111/MODEL/}description,
+///  {https://www.omg.org/spec/DMN/20191111/MODEL/}extensionElements,
+///  {https://www.omg.org/spec/DMN/20191111/MODEL/}import,
+///  {https://www.omg.org/spec/DMN/20191111/MODEL/}itemDefinition,
+///  {https://www.omg.org/spec/DMN/20191111/MODEL/}drgElement,
+///  {https://www.omg.org/spec/DMN/20191111/MODEL/}decision,
+///  {https://www.omg.org/spec/DMN/20191111/MODEL/}businessKnowledgeModel,
+///  {https://www.omg.org/spec/DMN/20191111/MODEL/}inputData,
+///  {https://www.omg.org/spec/DMN/20191111/MODEL/}knowledgeSource,
+///  {https://www.omg.org/spec/DMN/20191111/MODEL/}decisionService
+/// )
+/// ```
+pub const _0008: &str = include_str!("_0008.dmn");

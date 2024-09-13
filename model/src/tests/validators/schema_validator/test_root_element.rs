@@ -48,4 +48,12 @@ mod v13 {
   fn _0007() {
     assert_eq!("<ModelError> not allowed attribute: 'revision' in node 'definitions' at [2:1]", expect_err_str(v13::_0007));
   }
+
+  #[test]
+  fn _0008() {
+    assert_eq!(
+      "<ModelError> not allowed child node: 'revisions' in node 'definitions' at [2:1]",
+      expect_err_str(v13::_0008)
+    );
+  }
 }
