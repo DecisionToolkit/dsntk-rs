@@ -4,4 +4,4 @@
 
 mod model;
 mod parser;
-mod validator;
+mod validators;

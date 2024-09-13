@@ -6,7 +6,7 @@ mod mapper;
 mod model;
 mod parser;
 mod tests;
-mod validator;
+mod validators;
 mod xml_utils;
 
 pub use model::*;

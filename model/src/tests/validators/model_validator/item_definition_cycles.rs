@@ -1,6 +1,6 @@
 //! # Test cases for cyclic dependencies between item definitions
 
-use super::input_files::*;
+use super::test_files::*;
 use crate::parse;
 
 #[test]

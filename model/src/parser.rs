@@ -2,149 +2,25 @@
 
 use crate::errors::*;
 use crate::model::*;
-use crate::validator::validate;
+use crate::validators::{validate_model, validate_schema};
 use crate::xml_utils::*;
 use dsntk_common::{gen_id, to_uri, HRef, Result, Uri};
 use dsntk_feel::{Name, FEEL_TYPE_NAME_ANY};
 use roxmltree::{Node, NodeType};
 
-// XML node names
-const NODE_ALLOWED_ANSWERS: &str = "allowedAnswers";
-const NODE_ALLOWED_VALUES: &str = "allowedValues";
-const NODE_AUTHORITY_REQUIREMENT: &str = "authorityRequirement";
-const NODE_BINDING: &str = "binding";
-const NODE_BUSINESS_KNOWLEDGE_MODEL: &str = "businessKnowledgeModel";
-const NODE_COLUMN: &str = "column";
-const NODE_CONDITIONAL: &str = "conditional";
-const NODE_CONTEXT: &str = "context";
-const NODE_CONTEXT_ENTRY: &str = "contextEntry";
-const NODE_DEFAULT_OUTPUT_ENTRY: &str = "defaultOutputEntry";
-const NODE_DEFINITIONS: &str = "definitions";
-const NODE_DECISION: &str = "decision";
-const NODE_DECISION_MADE: &str = "decisionMade";
-const NODE_DECISION_OWNED: &str = "decisionOwned";
-const NODE_DECISION_TABLE: &str = "decisionTable";
-const NODE_DECISION_SERVICE: &str = "decisionService";
-const NODE_DMNDI: &str = "DMNDI";
-const NODE_DMNDI_DMN_DIAGRAM: &str = "DMNDiagram";
-const NODE_DMNDI_SIZE: &str = "Size";
-const NODE_DMNDI_STYLE: &str = "DMNStyle";
-const NODE_DMNDI_DMN_SHAPE: &str = "DMNShape";
-const NODE_DMNDI_BOUNDS: &str = "Bounds";
-const NODE_DMNDI_DMN_EDGE: &str = "DMNEdge";
-const NODE_DMNDI_WAYPOINT: &str = "waypoint";
-const NODE_DMNDI_FILL_COLOR: &str = "FillColor";
-const NODE_DMNDI_STROKE_COLOR: &str = "StrokeColor";
-const NODE_DMNDI_FONT_COLOR: &str = "FontColor";
-const NODE_DMNDI_LABEL_HORIZONTAL_ALIGNMENT: &str = "labelHorizontalAlignment";
-const NODE_DMNDI_LABEL_VERTICAL_ALIGNMENT: &str = "labelVerticalAlignment";
-const NODE_DMNDI_LABEL: &str = "DMNLabel";
-const NODE_DMNDI_DECISION_SERVICE_DIVIDER_LINE: &str = "DMNDecisionServiceDividerLine";
-const NODE_DESCRIPTION: &str = "description";
-const NODE_ELSE: &str = "else";
-const NODE_ENCAPSULATED_DECISION: &str = "encapsulatedDecision";
-const NODE_ENCAPSULATED_LOGIC: &str = "encapsulatedLogic";
-const NODE_EVERY: &str = "every";
-const NODE_FILTER: &str = "filter";
-const NODE_FOR: &str = "for";
-const NODE_FORMAL_PARAMETER: &str = "formalParameter";
-const NODE_FUNCTION_DEFINITION: &str = "functionDefinition";
-const NODE_FUNCTION_ITEM: &str = "functionItem";
-const NODE_IF: &str = "if";
-const NODE_IMPACTING_DECISION: &str = "impactingDecision";
-const NODE_IMPORT: &str = "import";
-const NODE_IN: &str = "in";
-const NODE_INFORMATION_REQUIREMENT: &str = "informationRequirement";
-const NODE_INPUT_DATA: &str = "inputData";
-const NODE_INPUT: &str = "input";
-const NODE_INPUT_DECISION: &str = "inputDecision";
-const NODE_INPUT_ENTRY: &str = "inputEntry";
-const NODE_INPUT_EXPRESSION: &str = "inputExpression";
-const NODE_INPUT_VALUES: &str = "inputValues";
-const NODE_INVOCATION: &str = "invocation";
-const NODE_ITEM_DEFINITION: &str = "itemDefinition";
-const NODE_ITEM_COMPONENT: &str = "itemComponent";
-const NODE_KNOWLEDGE_REQUIREMENT: &str = "knowledgeRequirement";
-const NODE_KNOWLEDGE_SOURCE: &str = "knowledgeSource";
-const NODE_LIST: &str = "list";
-const NODE_LITERAL_EXPRESSION: &str = "literalExpression";
-const NODE_MATCH: &str = "match";
-const NODE_OUTPUT: &str = "output";
-const NODE_OUTPUT_DECISION: &str = "outputDecision";
-const NODE_OUTPUT_ENTRY: &str = "outputEntry";
-const NODE_OUTPUT_VALUES: &str = "outputValues";
-const NODE_PARAMETER: &str = "parameter";
-const NODE_PARAMETERS: &str = "parameters";
-const NODE_PERFORMANCE_INDICATOR: &str = "performanceIndicator";
-const NODE_ORGANISATION_UNIT: &str = "organizationUnit";
-const NODE_QUESTION: &str = "question";
-const NODE_RELATION: &str = "relation";
-const NODE_REQUIRED_AUTHORITY: &str = "requiredAuthority";
-const NODE_REQUIRED_DECISION: &str = "requiredDecision";
-const NODE_REQUIRED_KNOWLEDGE: &str = "requiredKnowledge";
-const NODE_REQUIRED_INPUT: &str = "requiredInput";
-const NODE_RETURN: &str = "return";
-const NODE_ROW: &str = "row";
-const NODE_RULE: &str = "rule";
-const NODE_SATISFIES: &str = "satisfies";
-const NODE_SOME: &str = "some";
-const NODE_TEXT: &str = "text";
-const NODE_THEN: &str = "then";
-const NODE_TYPE_REF: &str = "typeRef";
-const NODE_VARIABLE: &str = "variable";
-
-// XML attribute names
-const ATTR_BLUE: &str = "blue";
-const ATTR_DMN_ELEMENT_REF: &str = "dmnElementRef";
-const ATTR_EXPORTER: &str = "exporter";
-const ATTR_EXPORTER_VERSION: &str = "exporterVersion";
-const ATTR_EXPRESSION_LANGUAGE: &str = "expressionLanguage";
-const ATTR_FONT_BOLD: &str = "fontBold";
-const ATTR_FONT_FAMILY: &str = "fontFamily";
-const ATTR_FONT_ITALIC: &str = "fontItalic";
-const ATTR_FONT_SIZE: &str = "fontSize";
-const ATTR_FONT_STRIKE_THROUGH: &str = "fontStrikeThrough";
-const ATTR_FONT_UNDERLINE: &str = "fontUnderline";
-const ATTR_GREEN: &str = "green";
-const ATTR_HIT_POLICY: &str = "hitPolicy";
-const ATTR_AGGREGATION: &str = "aggregation";
-const ATTR_PREFERRED_ORIENTATION: &str = "preferredOrientation";
-const ATTR_HEIGHT: &str = "height";
-const ATTR_HREF: &str = "href";
-const ATTR_ID: &str = "id";
-const ATTR_IMPORT_TYPE: &str = "importType";
-const ATTR_IS_COLLAPSED: &str = "isCollapsed";
-const ATTR_IS_COLLECTION: &str = "isCollection";
-const ATTR_ITERATOR_VARIABLE: &str = "iteratorVariable";
-const ATTR_KIND: &str = "kind";
-const ATTR_LABEL: &str = "label";
-const ATTR_LABEL_TEXT: &str = "Text";
-const ATTR_LOCATION_URI: &str = "locationURI";
-const ATTR_NAME: &str = "name";
-const ATTR_NAMESPACE: &str = "namespace";
-const ATTR_OUTPUT_LABEL: &str = "outputLabel";
-const ATTR_OUTPUT_TYPE_REF: &str = "outputTypeRef";
-const ATTR_RED: &str = "red";
-const ATTR_RESOLUTION: &str = "resolution";
-const ATTR_SHARED_STYLE: &str = "sharedStyle";
-const ATTR_TYPE_LANGUAGE: &str = "typeLanguage";
-const ATTR_TYPE_REF: &str = "typeRef";
-const ATTR_URI: &str = "URI";
-const ATTR_WIDTH: &str = "width";
-const ATTR_X: &str = "x";
-const ATTR_Y: &str = "y";
-
-/// Parses the XML document containing DMN model.
-pub fn parse(xml: &str) -> Result<Definitions> {
+/// Parses the XML input document containing DMN model into [Definitions].
+pub fn parse(input: &str) -> Result<Definitions> {
   // parse document
-  match roxmltree::Document::parse(xml) {
+  match roxmltree::Document::parse(input) {
     Ok(document) => {
-      let definitions_node = document.root_element();
-      if definitions_node.tag_name().name() != NODE_DEFINITIONS {
-        return Err(err_xml_unexpected_node(NODE_DEFINITIONS, definitions_node.tag_name().name()));
-      }
+      // firstly validate the document against the XML Schema
+      let node = validate_schema(&document)?;
+      // initialize the model parser
       let mut model_parser = ModelParser::new();
-      validate(model_parser.parse_definitions(&definitions_node)?)
+      // parse the model into definitions
+      let definitions = model_parser.parse_definitions(&node)?;
+      // validate the final model against several rules defined in specification
+      validate_model(definitions)
     }
     Err(reason) => Err(err_xml_parsing_model_failed(&reason.to_string())),
   }
@@ -152,9 +28,9 @@ pub fn parse(xml: &str) -> Result<Definitions> {
 
 /// XML parser for DMN model.
 pub struct ModelParser {
-  /// Model namespace in parsed definitions.
+  /// Model namespace used in parsed definitions.
   namespace: String,
-  /// Model name in parsed definitions.
+  /// Model name used in parsed definitions.
   model_name: String,
 }
 
