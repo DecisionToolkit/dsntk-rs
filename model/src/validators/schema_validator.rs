@@ -6,8 +6,9 @@ use crate::DmnVersion;
 use dsntk_common::Result;
 use roxmltree::{Document, Node, NodeType};
 
-const DEFINITIONS: ([&str; 7], [&str; 16]) = (
-  [ATTR_NAME, ATTR_NAMESPACE, ATTR_ID, ATTR_TYPE_LANGUAGE, ATTR_LABEL, ATTR_EXPORTER, ATTR_EXPORTER_VERSION],
+const DEFINITIONS: ([&str; 2], [&str; 7], [&str; 16]) = (
+  [ATTR_NAME, ATTR_NAMESPACE],
+  [ATTR_EXPORTER, ATTR_EXPORTER_VERSION, ATTR_ID, ATTR_LABEL, ATTR_NAME, ATTR_NAMESPACE, ATTR_TYPE_LANGUAGE],
   [
     NODE_ASSOCIATION,
     NODE_BUSINESS_KNOWLEDGE_MODEL,
@@ -54,6 +55,7 @@ impl SchemaValidator {
   fn validate<'a>(&mut self, document: &'a Document) -> Result<Node<'a, 'a>> {
     let root_element = document.root_element();
     self.validate_root_element(&root_element)?;
+    self.validate_input_data(&root_element)?;
     Ok(root_element)
   }
 
@@ -78,38 +80,59 @@ impl SchemaValidator {
       NS_MODEL_15 => DmnVersion::V15,
       other => return Err(err_unsupported_schema(other)),
     };
-    // root element must have required attribute `namespace`
-    required_attribute(node, ATTR_NAMESPACE)?;
-    // root element must have required attribute `name`
-    required_attribute(node, ATTR_NAME)?;
+    // // root element must have required attribute `namespace`
+    // required_attribute(node, ATTR_NAMESPACE)?;
+    // // root element must have required attribute `name`
+    // required_attribute(node, ATTR_NAME)?;
+    // check if required attributes are present
+    self.required_attributes(node, &DEFINITIONS.0)?;
     // reject not allowed attributes
-    allowed_attributes(node, &DEFINITIONS.0)?;
+    self.allowed_attributes(node, &DEFINITIONS.1)?;
     // reject not allowed child nodes
-    allowed_children(node, &DEFINITIONS.1)?;
+    self.allowed_children(node, &DEFINITIONS.2)?;
+    Ok(())
+  }
+
+  /// Validates the input data nodes defined in the root node.
+  fn validate_input_data(&mut self, node: &Node) -> Result<()> {
+    for child in node.children().filter(|n| is(n, NODE_INPUT_DATA)) {}
+    Ok(())
+  }
+
+  fn required_attributes(&mut self, node: &Node, required: &[&str]) -> Result<()> {
+    for required_name in required {
+      required_attribute(node, required_name)?;
+    }
+    Ok(())
+  }
+
+  /// Verifies if only allowed attributes are defined in the specified node.
+  fn allowed_attributes(&mut self, node: &Node, allowed: &[&str]) -> Result<()> {
+    for attribute in node.attributes() {
+      if attribute.namespace().is_none() {
+        let attribute_name = attribute.name();
+        if !allowed.contains(&attribute_name) {
+          return Err(err_not_allowed_attribute(attribute_name, node));
+        }
+      }
+    }
+    Ok(())
+  }
+
+  /// Verifies if only allowed child nodes are present in the specified node.
+  fn allowed_children(&mut self, node: &Node, allowed: &[&str]) -> Result<()> {
+    for child_node in node.children() {
+      if child_node.node_type() == NodeType::Element {
+        let child_node_name = child_node.tag_name().name();
+        if !allowed.contains(&child_node_name) {
+          return Err(err_not_allowed_child_node(child_node_name, node));
+        }
+      }
+    }
     Ok(())
   }
 }
 
-fn allowed_attributes(node: &Node, allowed: &[&str]) -> Result<()> {
-  for attribute in node.attributes() {
-    if attribute.namespace().is_none() {
-      let attribute_name = attribute.name();
-      if !allowed.contains(&attribute_name) {
-        return Err(err_not_allowed_attribute(attribute_name, node));
-      }
-    }
-  }
-  Ok(())
-}
-
-fn allowed_children(node: &Node, allowed: &[&str]) -> Result<()> {
-  for child_node in node.children() {
-    if child_node.node_type() == NodeType::Element {
-      let child_node_name = child_node.tag_name().name();
-      if !allowed.contains(&child_node_name) {
-        return Err(err_not_allowed_child_node(child_node_name, node));
-      }
-    }
-  }
-  Ok(())
+fn is(node: &Node, name: &str) -> bool {
+  node.tag_name().name() == name
 }

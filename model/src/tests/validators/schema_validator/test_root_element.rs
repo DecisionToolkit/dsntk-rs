@@ -26,7 +26,7 @@ mod v13 {
   #[test]
   fn _0004() {
     assert_eq!(
-      "<ModelParserError> expected value for mandatory attribute 'namespace' in node 'definitions' at [2:1]",
+      "<ModelParserError> expected value for mandatory attribute 'name' in node 'definitions' at [2:1]",
       expect_err_str(v13::_0004)
     );
   }
@@ -34,7 +34,7 @@ mod v13 {
   #[test]
   fn _0005() {
     assert_eq!(
-      "<ModelParserError> expected value for mandatory attribute 'name' in node 'definitions' at [2:1]",
+      "<ModelParserError> expected value for mandatory attribute 'namespace' in node 'definitions' at [2:1]",
       expect_err_str(v13::_0005)
     );
   }

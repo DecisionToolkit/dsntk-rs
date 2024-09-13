@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <dmn:definitions xmlns:dmn="https://www.omg.org/spec/DMN/20191111/MODEL/"
-                 namespace="https://decistion-toolkit.org/namespace">
+                 name="name">
     <!--
         This model is invalid.
         Missing required attribute in 'definitions':
