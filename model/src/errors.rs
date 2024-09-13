@@ -102,10 +102,6 @@ pub fn err_item_definitions_cycle() -> DsntkError {
   ModelValidatorError("cyclic dependency between item definitions".to_string()).into()
 }
 
-pub fn err_duplicated_namespace(uri: &str) -> DsntkError {
-  ModelError(format!("duplicated namespace URI: {}", uri)).into()
-}
-
 pub fn err_no_supported_namespace() -> DsntkError {
   ModelError("no supported namespace found".to_string()).into()
 }

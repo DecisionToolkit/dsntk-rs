@@ -58,27 +58,15 @@ impl Namespaces {
   fn add(&mut self, uri: &str) -> Result<()> {
     match uri {
       NAMESPACE_DMN_13 | NAMESPACE_DMN_14 | NAMESPACE_DMN_15 => {
-        if self.dmn.as_ref().map(|v| v == uri).unwrap_or(false) {
-          return Err(err_duplicated_namespace(uri));
-        }
         self.dmn = Some(uri.to_string());
       }
       NAMESPACE_DMNDI_13 | NAMESPACE_DMNDI_15 => {
-        if self.dmndi.as_ref().map(|v| v == uri).unwrap_or(false) {
-          return Err(err_duplicated_namespace(uri));
-        }
         self.dmndi = Some(uri.to_string());
       }
       NAMESPACE_DC_13 => {
-        if self.dc.as_ref().map(|v| v == uri).unwrap_or(false) {
-          return Err(err_duplicated_namespace(uri));
-        }
         self.dc = Some(uri.to_string());
       }
       NAMESPACE_DI_13 => {
-        if self.di.as_ref().map(|v| v == uri).unwrap_or(false) {
-          return Err(err_duplicated_namespace(uri));
-        }
         self.di = Some(uri.to_string());
       }
       _ => {}

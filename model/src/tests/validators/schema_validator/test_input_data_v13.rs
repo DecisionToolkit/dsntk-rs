@@ -16,11 +16,3 @@ fn _0031() {
     expect_err_str(v13::_0031)
   );
 }
-
-#[test]
-fn _0032() {
-  assert_eq!(
-    "<ModelError> duplicated namespace URI: https://www.omg.org/spec/DMN/20191111/MODEL/",
-    expect_err_str(v13::_0032)
-  );
-}
