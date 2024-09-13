@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<definitions xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
              xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
              id="_4dacb45e-9b17-48e0-9518-8cd1b47d445b"
              name="DMN13 Intervals"
              namespace="http://www.trisotech.com/definitions/_4dacb45e-9b17-48e0-9518-8cd1b47d445b">
-    
+
     <decisionService id="_4dacb45e-9b17-48e0-9518-8cd1b47d445b_DS" name="Whole Model Decision Service">
         <variable name="Whole Model Decision Service" id="_4dacb45e-9b17-48e0-9518-8cd1b47d445b_DS_VAR" typeRef="Any"/>
         <outputDecision href="#_80e62ec8-7db3-4ef1-ad00-115058ee1cf7"/>
@@ -22,7 +23,7 @@
         <outputDecision href="#_324b7ce1-0b42-4534-9f6a-71ceb356721c"/>
         <outputDecision href="#_028a365e-be96-4311-b7a3-80b1786e18e3"/>
     </decisionService>
-    
+
     <decisionService id="_0715f55f-40c7-43b1-a32a-e2cfce010f20_DS" name="Diagram DMN13">
         <variable name="Diagram DMN13" id="_0715f55f-40c7-43b1-a32a-e2cfce010f20_DS_VAR" typeRef="Any"/>
         <outputDecision href="#_80e62ec8-7db3-4ef1-ad00-115058ee1cf7"/>
@@ -40,7 +41,7 @@
         <outputDecision href="#_324b7ce1-0b42-4534-9f6a-71ceb356721c"/>
         <outputDecision href="#_028a365e-be96-4311-b7a3-80b1786e18e3"/>
     </decisionService>
-    
+
     <decision id="_80e62ec8-7db3-4ef1-ad00-115058ee1cf7" name="before">
         <variable name="before" id="_b910d507-43c2-4cfd-8bf1-87f11bb2a58c" typeRef="Any"/>
         <context id="_95da4bcf-c864-411a-936f-f381558f3d67" typeRef="Any">
@@ -119,7 +120,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <decision id="_fac80212-e8cf-4940-9f0e-49b6edaf30c1" name="after">
         <variable name="after" id="_9028b72d-c375-42e5-9a51-c84635229c16" typeRef="Any"/>
         <context id="_f8b770a9-b767-461b-8a48-5cfe3b0cc212" typeRef="Any">
@@ -205,7 +206,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <decision id="_5724b910-e954-403b-aba8-411035af6792" name="meets">
         <variable name="meets" id="_a2ba05cb-37ae-40b4-9d69-90273c2e7ac1" typeRef="Any"/>
         <context id="_75fde4d4-67d9-492b-a6f9-ef170b4885f8" typeRef="Any">
@@ -235,7 +236,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <decision id="_faf79323-ca20-458f-b257-30bf63a87678" name="met by">
         <variable name="met by" id="_dd762d69-f32e-4801-b043-7b8ef6b0079f" typeRef="Any"/>
         <context id="_c260ef1c-0a2c-4b8a-b18c-d741ee3555b0" typeRef="Any">
@@ -265,7 +266,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <decision id="_20e70d27-7e01-4171-bb3f-eb81aa497ebe" name="overlaps before">
         <variable name="overlaps before" id="_f905478a-db05-4e08-9b9a-65826cb37cd9" typeRef="Any"/>
         <context id="_cec1fe19-05d5-44ee-9438-05b9405911e0" typeRef="Any">
@@ -326,7 +327,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <decision id="_27eb4c36-b482-49a9-a0d5-75f986581e02" name="overlaps after">
         <variable name="overlaps after" id="_8739098f-06ef-4721-a03f-b3e546bb4910" typeRef="Any"/>
         <context id="_682a4857-363c-4ac2-a7fc-9dffcc901107" typeRef="Any">
@@ -395,7 +396,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <decision id="_37232b74-0615-47e4-9d05-875742a5a4d7" name="finishes">
         <variable name="finishes" id="_69236fe8-463f-413f-9647-3a86a8d10660" typeRef="Any"/>
         <context id="_d98e0f6c-88ac-4388-ab33-cd8a17a70dcf" typeRef="Any">
@@ -450,7 +451,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <decision id="_9d5d273e-8b4a-48dd-b788-e0eeb2b712cd" name="finished by">
         <variable name="finished by" id="_0a853dd0-1116-4bbc-9a96-a471c6deea0c" typeRef="Any"/>
         <context id="_a8163ecc-af52-4538-a638-7f1c78993eb6" typeRef="Any">
@@ -505,7 +506,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <decision id="_31e16c94-a1ca-4fa0-b51b-1d5a1400f727" name="includes">
         <variable name="includes" id="_e9384afb-75c1-4e76-a9f4-901c93a0094a" typeRef="Any"/>
         <context id="_bd9d7486-5674-4792-84d9-27e2e43c88e3" typeRef="Any">
@@ -609,7 +610,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <decision id="_7cfd72fa-fc8d-474c-bd87-9ddd67c0994d" name="during">
         <variable name="during" id="_8dc438e6-33d7-402e-820c-18d9493c885a" typeRef="Any"/>
         <context id="_0ecfff0d-8a4c-45bb-997b-4b4eb58ff8c5" typeRef="Any">
@@ -707,7 +708,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <decision id="_9388274a-d284-4ac8-8c5e-0bf1a471db10" name="starts">
         <variable name="starts" id="_53c4e441-6623-4e00-96b6-005eebc690b8" typeRef="Any"/>
         <context id="_aa0d3b55-66bf-4f52-83df-b1575719a1e5" typeRef="Any">
@@ -783,7 +784,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <decision id="_0100930c-32a9-47be-b977-cc5ef3076b7c" name="started by">
         <variable name="started by" id="_ff8f9298-d645-4e8a-8266-0b3a63a0ab2e" typeRef="Any"/>
         <context id="_c9458df2-63fd-43d1-9e78-82304da267e0" typeRef="Any">
@@ -849,7 +850,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <decision id="_324b7ce1-0b42-4534-9f6a-71ceb356721c" name="coincides">
         <variable name="coincides" id="_8bbb6a48-dfb6-4c72-b5c8-733b3e9af396" typeRef="Any"/>
         <context id="_4aef12b4-1e40-48b7-b454-3b7c447baa30" typeRef="Any">
@@ -885,7 +886,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <decision id="_028a365e-be96-4311-b7a3-80b1786e18e3" name="overlaps">
         <variable name="overlaps" id="_43347072-7bb3-45c8-8e73-5d63f85b6a64" typeRef="Any"/>
         <context id="_92b05524-6ee6-4f80-9637-043512f549a2" typeRef="Any">
@@ -975,7 +976,7 @@
             </contextEntry>
         </context>
     </decision>
-    
+
     <dmndi:DMNDI>
         <dmndi:DMNDiagram id="_0715f55f-40c7-43b1-a32a-e2cfce010f20" name="DMN13">
             <dmndi:Size height="1050" width="1485"/>

@@ -99,3 +99,15 @@ struct ModelValidatorError(String);
 pub fn err_item_definitions_cycle() -> DsntkError {
   ModelValidatorError("cyclic dependency between item definitions".to_string()).into()
 }
+
+/// Errors related with validating the decision model against XML Schema.
+#[derive(ToErrorMessage)]
+struct SchemaValidatorError(String);
+
+pub fn err_no_default_namespace() -> DsntkError {
+  SchemaValidatorError("no default namespace provided".to_string()).into()
+}
+
+pub fn err_unsupported_schema(ns: &str) -> DsntkError {
+  SchemaValidatorError(format!("unsupported schema: {}", ns)).into()
+}

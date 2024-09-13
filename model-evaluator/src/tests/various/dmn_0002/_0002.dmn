@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<definitions namespace="https://dsntk.io/coercion"
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             namespace="https://dsntk.io/coercion"
              name="coercion"
              id="_159e8ab3-8fba-437e-98c4-23ec4d2bac37">
     <description>

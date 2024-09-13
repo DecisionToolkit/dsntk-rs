@@ -10,10 +10,11 @@ use std::fmt;
 use std::fmt::Display;
 use std::slice::Iter;
 
-pub const URI_FEEL: &str = "https://www.omg.org/spec/DMN/20191111/FEEL/";
-pub const URI_MODEL: &str = "https://www.omg.org/spec/DMN/20191111/MODEL/";
-pub const URI_UNINTERPRETED: &str = "http://www.omg.org/spec/DMN/uninterpreted/20140801";
-pub const URI_XML_SCHEMA: &str = "http://www.w3.org/2001/XMLSchema";
+pub enum DmnVersion {
+  V13,
+  V14,
+  V15,
+}
 
 /// [DmnId] defines possible types of unique identifiers in model.
 ///

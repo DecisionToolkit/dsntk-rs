@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dmn:definitions xmlns:dmn="https://www.omg.org/spec/DMN/20191111/MODEL/"
+                 namespace="https://decistion-toolkit.org/namespace">
+    <!--
+        This model is invalid.
+        Missing required attributes in 'definitions':
+        - namespace
+        - name
+    -->
+</dmn:definitions>
