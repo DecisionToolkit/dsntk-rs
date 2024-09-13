@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dmn:definitions xmlns:dmn="https://www.omg.org/spec/DMN/20191111/MODEL/"
+                 namespace="namespace"
+                 name="name">
+    <dmn:association>
+        <dmn:sourceRef href=""/>
+        <dmn:targetRef href=""/>
+    </dmn:association>
+    <dmn:revisions/>
+    <!--
+        This model is invalid.
+        Element 'definitions' contains not allowed child element `revisions`.
+    -->
+</dmn:definitions>

@@ -102,20 +102,17 @@ pub fn err_item_definitions_cycle() -> DsntkError {
   ModelValidatorError("cyclic dependency between item definitions".to_string()).into()
 }
 
-/// Errors related with validating the decision model against XML Schema.
-#[derive(ToErrorMessage)]
-struct SchemaValidatorError(String);
-
-pub fn err_no_default_namespace() -> DsntkError {
-  SchemaValidatorError("no default namespace provided".to_string()).into()
+pub fn err_duplicated_namespace(uri: &str) -> DsntkError {
+  ModelError(format!("duplicated namespace URI: {}", uri)).into()
 }
 
-pub fn err_unsupported_schema(ns: &str) -> DsntkError {
-  SchemaValidatorError(format!("unsupported schema: {}", ns)).into()
+pub fn err_no_supported_namespace() -> DsntkError {
+  ModelError("no supported namespace found".to_string()).into()
 }
 
-pub fn err_not_allowed_attribute(attribute_name: &str, node: &Node) -> DsntkError {
-  ModelError(format!("not allowed attribute: '{}' in node {}", attribute_name, node_name_pos(node))).into()
+pub fn err_not_allowed_attribute(namespace: &str, name: &str, node: &Node) -> DsntkError {
+  let namespace = if namespace.is_empty() { "" } else { &format!("{}:", namespace) };
+  ModelError(format!("not allowed attribute: '{}{}' in node {}", namespace, name, node_name_pos(node))).into()
 }
 
 pub fn err_not_allowed_child_node(child_node_name: &str, node: &Node) -> DsntkError {

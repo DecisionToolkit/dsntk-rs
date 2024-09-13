@@ -45,15 +45,53 @@ pub fn validate_schema<'a>(document: &'a Document) -> Result<Node<'a, 'a>> {
   SchemaValidator::default().validate(document)
 }
 
-/// Namespace.
-struct Namespace {
-  name: String,
-  uri: String,
+#[derive(Default)]
+struct Namespaces {
+  dmn: Option<String>,
+}
+
+impl Namespaces {
+  /// Adds a namespace.
+  fn add(&mut self, uri: &str) -> Result<()> {
+    match uri {
+      NS_MODEL_15 | NS_MODEL_14 | NS_MODEL_13 => {
+        if let Some(dmn_uri) = &self.dmn {
+          if dmn_uri == uri {
+            return Err(err_duplicated_namespace(uri));
+          }
+        }
+        self.dmn = Some(uri.to_string());
+      }
+      _ => {}
+    }
+    Ok(())
+  }
+
+  /// Returns the DMN version based on namespace URI defined in the standard.
+  fn dmn_version(&self) -> Result<DmnVersion> {
+    let Some(dmn_uri) = &self.dmn else {
+      return Err(err_no_supported_namespace());
+    };
+    match dmn_uri.as_str() {
+      NS_MODEL_15 => Ok(DmnVersion::V15),
+      NS_MODEL_14 => Ok(DmnVersion::V14),
+      NS_MODEL_13 => Ok(DmnVersion::V13),
+      _ => Err(err_no_supported_namespace()),
+    }
+  }
+
+  fn is_dmn(&self, uri: &str) -> bool {
+    if let Some(dmn_uri) = &self.dmn {
+      uri == dmn_uri
+    } else {
+      false
+    }
+  }
 }
 
 /// XSD Schema validator.
 struct SchemaValidator {
-  namespaces: Vec<Namespace>,
+  namespaces: Namespaces,
   dmn_version: DmnVersion,
 }
 
@@ -67,7 +105,7 @@ impl SchemaValidator {
   /// Creates a new schema validator.
   fn new() -> Self {
     Self {
-      namespaces: vec![],
+      namespaces: Namespaces::default(),
       dmn_version: DmnVersion::V13,
     }
   }
@@ -86,21 +124,12 @@ impl SchemaValidator {
     if node.tag_name().name() != NODE_DEFINITIONS {
       return Err(err_xml_unexpected_node(NODE_DEFINITIONS, node.tag_name().name()));
     }
-    // check the presence of the required `xmlns` attribute (default namespace) or prefixed namespace
-    let dmn_namespace = if let Some(namespace) = node.default_namespace() {
-      namespace.to_string()
-    } else if let Some(namespace) = node.namespaces().next() {
-      namespace.uri().to_string()
-    } else {
-      return Err(err_no_default_namespace());
-    };
-    // check supported DMN schema versions
-    self.dmn_version = match dmn_namespace.as_str() {
-      NS_MODEL_13 => DmnVersion::V13,
-      NS_MODEL_14 => DmnVersion::V14,
-      NS_MODEL_15 => DmnVersion::V15,
-      other => return Err(err_unsupported_schema(other)),
-    };
+    // check the presence of namespaces
+    for namespace in node.namespaces() {
+      self.namespaces.add(namespace.uri())?;
+    }
+    // check the DMN version
+    self.dmn_version = self.namespaces.dmn_version()?;
     // check if required attributes are present
     self.required_attributes(node, &V_DEFINITIONS.0)?;
     // reject not allowed attributes
@@ -133,10 +162,10 @@ impl SchemaValidator {
   /// Verifies if only allowed attributes are defined in the specified node.
   fn allowed_attributes(&mut self, node: &Node, allowed: &[&str]) -> Result<()> {
     for attribute in node.attributes() {
+      let attribute_name = attribute.name();
       if attribute.namespace().is_none() {
-        let attribute_name = attribute.name();
         if !allowed.contains(&attribute_name) {
-          return Err(err_not_allowed_attribute(attribute_name, node));
+          return Err(err_not_allowed_attribute("", attribute_name, node));
         }
       }
     }
@@ -148,6 +177,8 @@ impl SchemaValidator {
     for child_node in node.children() {
       if child_node.node_type() == NodeType::Element {
         let child_node_name = child_node.tag_name().name();
+        let child_node_namespace = child_node.tag_name().namespace().unwrap_or("");
+        println!("DDDC: '{}:{}'", child_node_name, child_node_namespace);
         if !allowed.contains(&child_node_name) {
           return Err(err_not_allowed_child_node(child_node_name, node));
         }

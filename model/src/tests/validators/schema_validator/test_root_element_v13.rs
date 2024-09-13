@@ -11,15 +11,12 @@ fn _0001() {
 
 #[test]
 fn _0002() {
-  assert_eq!("<SchemaValidatorError> no default namespace provided", expect_err_str(v13::_0002));
+  assert_eq!("<ModelError> no supported namespace found", expect_err_str(v13::_0002));
 }
 
 #[test]
 fn _0003() {
-  assert_eq!(
-    "<SchemaValidatorError> unsupported schema: https://www.omg.org/spec/DMN/20191111/MODEL/invalid",
-    expect_err_str(v13::_0003)
-  );
+  assert_eq!("<ModelError> no supported namespace found", expect_err_str(v13::_0003));
 }
 
 #[test]
@@ -53,5 +50,13 @@ fn _0008() {
   assert_eq!(
     "<ModelError> not allowed child node: 'revisions' in node 'definitions' at [2:1]",
     expect_err_str(v13::_0008)
+  );
+}
+
+#[test]
+fn _0009() {
+  assert_eq!(
+    "<ModelError> not allowed child node: 'revisions' in node 'definitions' at [2:1]",
+    expect_err_str(v13::_0009)
   );
 }

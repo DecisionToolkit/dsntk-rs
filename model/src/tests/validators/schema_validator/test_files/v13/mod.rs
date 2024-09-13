@@ -57,7 +57,11 @@ pub const _0007: &str = include_str!("_0007.dmn");
 /// ```
 pub const _0008: &str = include_str!("_0008.dmn");
 
+pub const _0009: &str = include_str!("_0009.dmn");
+
 /// ```text
 /// v13/_0030.dmn:5: element inputData: Schemas validity error : Element '{https://www.omg.org/spec/DMN/20191111/MODEL/}inputData': The attribute 'name' is required but missing.
 /// ```
 pub const _0030: &str = include_str!("_0030.dmn");
+
+pub const _0031: &str = include_str!("_0031.dmn");
