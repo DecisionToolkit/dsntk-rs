@@ -45,8 +45,15 @@ pub fn validate_schema<'a>(document: &'a Document) -> Result<Node<'a, 'a>> {
   SchemaValidator::default().validate(document)
 }
 
+/// Namespace.
+struct Namespace {
+  name: String,
+  uri: String,
+}
+
 /// XSD Schema validator.
-pub struct SchemaValidator {
+struct SchemaValidator {
+  namespaces: Vec<Namespace>,
   dmn_version: DmnVersion,
 }
 
@@ -59,7 +66,10 @@ impl Default for SchemaValidator {
 impl SchemaValidator {
   /// Creates a new schema validator.
   fn new() -> Self {
-    Self { dmn_version: DmnVersion::V13 }
+    Self {
+      namespaces: vec![],
+      dmn_version: DmnVersion::V13,
+    }
   }
 
   /// Validates provided document against XML Schema.
