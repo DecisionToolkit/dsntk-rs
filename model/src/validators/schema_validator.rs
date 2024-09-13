@@ -6,7 +6,7 @@ use crate::DmnVersion;
 use dsntk_common::Result;
 use roxmltree::{Document, Node, NodeType};
 
-const DEFINITIONS: ([&str; 2], [&str; 7], [&str; 16]) = (
+const V_DEFINITIONS: ([&str; 2], [&str; 7], [&str; 16]) = (
   [ATTR_NAME, ATTR_NAMESPACE],
   [ATTR_EXPORTER, ATTR_EXPORTER_VERSION, ATTR_ID, ATTR_LABEL, ATTR_NAME, ATTR_NAMESPACE, ATTR_TYPE_LANGUAGE],
   [
@@ -28,6 +28,8 @@ const DEFINITIONS: ([&str; 2], [&str; 7], [&str; 16]) = (
     NODE_TEXT_ANNOTATION,
   ],
 );
+
+const V_INPUT_DATA: ([&str; 1], [&str; 3], [&str; 3]) = ([ATTR_NAME], [ATTR_ID, ATTR_LABEL, ATTR_NAME], [NODE_DESCRIPTION, NODE_EXTENSION_ELEMENTS, NODE_VARIABLE]);
 
 /// Validates a document containing DMN model against XML Schema Definitions.
 pub fn validate_schema<'a>(document: &'a Document) -> Result<Node<'a, 'a>> {
@@ -81,17 +83,24 @@ impl SchemaValidator {
       other => return Err(err_unsupported_schema(other)),
     };
     // check if required attributes are present
-    self.required_attributes(node, &DEFINITIONS.0)?;
+    self.required_attributes(node, &V_DEFINITIONS.0)?;
     // reject not allowed attributes
-    self.allowed_attributes(node, &DEFINITIONS.1)?;
+    self.allowed_attributes(node, &V_DEFINITIONS.1)?;
     // reject not allowed child nodes
-    self.allowed_children(node, &DEFINITIONS.2)?;
+    self.allowed_children(node, &V_DEFINITIONS.2)?;
     Ok(())
   }
 
   /// Validates the input data nodes defined in the root node.
   fn validate_input_data(&mut self, node: &Node) -> Result<()> {
-    for child in node.children().filter(|n| is(n, NODE_INPUT_DATA)) {}
+    for ref child_node in node.children().filter(|n| is(n, NODE_INPUT_DATA)) {
+      // check if required attributes are present
+      self.required_attributes(child_node, &V_INPUT_DATA.0)?;
+      // reject not allowed attributes
+      self.allowed_attributes(child_node, &V_INPUT_DATA.1)?;
+      // reject not allowed child nodes
+      self.allowed_children(child_node, &V_INPUT_DATA.2)?;
+    }
     Ok(())
   }
 

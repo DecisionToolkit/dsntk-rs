@@ -3,7 +3,9 @@ use dsntk_common::DsntkError;
 use roxmltree::Document;
 
 mod test_files;
-mod test_root_element;
+mod test_input_data_v13;
+mod test_input_data_v14;
+mod test_root_element_v13;
 
 fn document(input: &str) -> Document {
   Document::parse(input).unwrap()

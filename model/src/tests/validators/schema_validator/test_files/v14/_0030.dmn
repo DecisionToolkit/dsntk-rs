@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20211108/MODEL/"
+             namespace="namespace"
+             name="name">
+    <inputData>
+        <!--
+            This model is invalid.
+            Element 'inputData' has no required attribute `name`.
+        -->
+    </inputData>
+</definitions>
