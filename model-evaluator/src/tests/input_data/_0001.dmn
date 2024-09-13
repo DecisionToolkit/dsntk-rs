@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
-             namespace="https://www.decision-toolkit.org/input-data"
+             namespace="https://www.decision-toolkit.org/input-data/"
              name="Adder">
 
     <decision name="Add">
