@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+<definitions xmlns="https://www.omg.org/spec/DMN/20211108/MODEL/"
              namespace="namespace"
              name="name">
     <decision name="decision">
-        
+
     </decision>
     <inputData name="input-data"/>
 </definitions>
