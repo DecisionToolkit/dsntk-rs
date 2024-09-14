@@ -6,7 +6,7 @@ use crate::DmnVersion;
 use dsntk_common::Result;
 use roxmltree::{Document, Node, NodeType};
 
-const V_DEFINITIONS: ([&str; 2], [&str; 8], [&str; 16]) = (
+const V_DEFINITIONS: ([&str; 2], [&str; 8], [&str; 0], [&str; 16]) = (
   [ATTR_NAME, ATTR_NAMESPACE],
   [
     ATTR_EXPORTER,
@@ -18,6 +18,7 @@ const V_DEFINITIONS: ([&str; 2], [&str; 8], [&str; 16]) = (
     ATTR_NAMESPACE,
     ATTR_TYPE_LANGUAGE,
   ],
+  [],
   [
     NODE_ASSOCIATION,
     NODE_BUSINESS_KNOWLEDGE_MODEL,
@@ -38,7 +39,12 @@ const V_DEFINITIONS: ([&str; 2], [&str; 8], [&str; 16]) = (
   ],
 );
 
-const V_INPUT_DATA: ([&str; 1], [&str; 3], [&str; 3]) = ([ATTR_NAME], [ATTR_ID, ATTR_LABEL, ATTR_NAME], [NODE_DESCRIPTION, NODE_EXTENSION_ELEMENTS, NODE_VARIABLE]);
+const V_INPUT_DATA: ([&str; 1], [&str; 3], [&str; 0], [&str; 3]) = (
+  [ATTR_NAME],
+  [ATTR_ID, ATTR_LABEL, ATTR_NAME],
+  [],
+  [NODE_DESCRIPTION, NODE_EXTENSION_ELEMENTS, NODE_VARIABLE],
+);
 
 /// Validates a document containing DMN model against XML Schema Definitions.
 pub fn validate_schema<'a>(document: &'a Document) -> Result<Node<'a, 'a>> {
@@ -140,8 +146,10 @@ impl SchemaValidator {
     self.required_attributes(node, &V_DEFINITIONS.0)?;
     // reject not allowed attributes
     self.allowed_attributes(node, &V_DEFINITIONS.1)?;
+    // check if required child nodes are present
+    self.required_children(node, &V_INPUT_DATA.2)?;
     // reject not allowed child nodes
-    self.allowed_children(node, &V_DEFINITIONS.2)?;
+    self.allowed_children(node, &V_DEFINITIONS.3)?;
     Ok(())
   }
 
@@ -152,12 +160,15 @@ impl SchemaValidator {
       self.required_attributes(child_node, &V_INPUT_DATA.0)?;
       // reject not allowed attributes
       self.allowed_attributes(child_node, &V_INPUT_DATA.1)?;
+      // check if required child nodes are present
+      self.required_children(child_node, &V_INPUT_DATA.2)?;
       // reject not allowed child nodes
-      self.allowed_children(child_node, &V_INPUT_DATA.2)?;
+      self.allowed_children(child_node, &V_INPUT_DATA.3)?;
     }
     Ok(())
   }
 
+  /// Verifies if required attributes are present in specified node.
   fn required_attributes(&mut self, node: &Node, required: &[&str]) -> Result<()> {
     for required_name in required {
       required_attribute(node, required_name)?;
@@ -175,6 +186,11 @@ impl SchemaValidator {
         }
       }
     }
+    Ok(())
+  }
+
+  /// Verifies if required child nodes are present in the specified node.
+  fn required_children(&mut self, _node: &Node, _required: &[&str]) -> Result<()> {
     Ok(())
   }
 
