@@ -128,16 +128,16 @@ impl ModelParser {
   /// Parses DRG elements.
   fn parse_drg_elements(&mut self, node: &Node) -> Result<Vec<DrgElement>> {
     let mut drg_elements = vec![];
-    drg_elements.append(&mut self.parse_input_data(node)?);
-    drg_elements.append(&mut self.parse_decisions(node)?);
-    drg_elements.append(&mut self.parse_bkm(node)?);
+    drg_elements.append(&mut self.parse_input_data_nodes(node)?);
+    drg_elements.append(&mut self.parse_decision_nodes(node)?);
+    drg_elements.append(&mut self.parse_business_knowledge_model_nodes(node)?);
     drg_elements.append(&mut self.parse_decision_services(node)?);
     drg_elements.append(&mut self.parse_knowledge_sources(node)?);
     Ok(drg_elements)
   }
 
-  /// Parses input data.
-  fn parse_input_data(&self, node: &Node) -> Result<Vec<DrgElement>> {
+  /// Parses `inputData` nodes.
+  fn parse_input_data_nodes(&self, node: &Node) -> Result<Vec<DrgElement>> {
     let mut input_data_items = vec![];
     for ref child_node in node.children().filter(f_name(NODE_INPUT_DATA)) {
       let name = required_name(child_node)?;
@@ -162,8 +162,8 @@ impl ModelParser {
     Ok(input_data_items)
   }
 
-  /// Parses decisions.
-  fn parse_decisions(&mut self, node: &Node) -> Result<Vec<DrgElement>> {
+  /// Parses `decision` nodes.
+  fn parse_decision_nodes(&mut self, node: &Node) -> Result<Vec<DrgElement>> {
     let mut decision_items = vec![];
     for ref child_node in node.children().filter(f_name(NODE_DECISION)) {
       let name = required_name(child_node)?;
@@ -194,21 +194,26 @@ impl ModelParser {
     Ok(decision_items)
   }
 
-  /// Parses business knowledge models.
-  fn parse_bkm(&mut self, node: &Node) -> Result<Vec<DrgElement>> {
+  /// Parses `businessKnowledgeModel` nodes.
+  fn parse_business_knowledge_model_nodes(&mut self, node: &Node) -> Result<Vec<DrgElement>> {
     let mut parsed_items = vec![];
     for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_BUSINESS_KNOWLEDGE_MODEL) {
+      let name = required_name(child_node)?;
+      let feel_name = required_feel_name(child_node)?;
+      let variable = self
+        .parse_opt_information_item_child(child_node, NODE_VARIABLE)?
+        .unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
       let business_knowledge_model = BusinessKnowledgeModel {
         namespace: self.namespace.clone(),
         model_name: self.model_name.clone(),
-        name: required_name(child_node)?,
-        feel_name: required_feel_name(child_node)?,
+        name,
+        feel_name,
         id: optional_id(child_node),
         description: optional_child_optional_content(child_node, NODE_DESCRIPTION),
         label: optional_attribute(child_node, ATTR_LABEL),
         extension_elements: self.parse_extension_elements(child_node),
         extension_attributes: self.parse_extension_attributes(child_node),
-        variable: self.parse_req_information_item_child(child_node, NODE_VARIABLE)?,
+        variable,
         encapsulated_logic: self.parse_function_definition_child(child_node, NODE_ENCAPSULATED_LOGIC)?,
         knowledge_requirements: self.parse_knowledge_requirements(child_node, NODE_KNOWLEDGE_REQUIREMENT)?,
         authority_requirements: self.parse_authority_requirements(child_node, NODE_AUTHORITY_REQUIREMENT)?,
@@ -222,17 +227,22 @@ impl ModelParser {
   fn parse_decision_services(&self, node: &Node) -> Result<Vec<DrgElement>> {
     let mut drg_elements = vec![];
     for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_DECISION_SERVICE) {
+      let name = required_name(child_node)?;
+      let feel_name = required_feel_name(child_node)?;
+      let variable = self
+        .parse_opt_information_item_child(child_node, NODE_VARIABLE)?
+        .unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
       let decision_service = DecisionService {
         namespace: self.namespace.clone(),
         model_name: self.model_name.clone(),
-        name: required_name(child_node)?,
-        feel_name: required_feel_name(child_node)?,
+        name,
+        feel_name,
         id: optional_id(child_node),
         description: optional_child_optional_content(child_node, NODE_DESCRIPTION),
         label: optional_attribute(child_node, ATTR_LABEL),
         extension_elements: self.parse_extension_elements(child_node),
         extension_attributes: self.parse_extension_attributes(child_node),
-        variable: self.parse_req_information_item_child(child_node, NODE_VARIABLE)?,
+        variable,
         output_decisions: self.required_hrefs_in_child_nodes(child_node, NODE_OUTPUT_DECISION)?,
         encapsulated_decisions: self.required_hrefs_in_child_nodes(child_node, NODE_ENCAPSULATED_DECISION)?,
         input_decisions: self.required_hrefs_in_child_nodes(child_node, NODE_INPUT_DECISION)?,
