@@ -129,7 +129,7 @@ impl SchemaValidator {
 
   /// Validates the `inputData` nodes.
   fn validate_input_data_nodes(&mut self, node: &Node) -> Result<()> {
-    for ref child_node in node.children().filter(|n| is(n, NODE_INPUT_DATA)) {
+    for ref child_node in node.children().filter(name_eq(NODE_INPUT_DATA)) {
       match self.dmn_version {
         DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(child_node, chk!(v13, V_INPUT_DATA))?,
       }
@@ -139,7 +139,7 @@ impl SchemaValidator {
 
   /// Validates the `decision` nodes.
   fn validate_decision_nodes(&mut self, node: &Node) -> Result<()> {
-    for ref child_node in node.children().filter(|n| is(n, NODE_DECISION)) {
+    for ref child_node in node.children().filter(name_eq(NODE_DECISION)) {
       match self.dmn_version {
         DmnVersion::V13 => self.standard_checks(child_node, chk!(v13, V_DECISION))?,
         DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(child_node, chk!(v14, V_DECISION))?,
@@ -150,7 +150,7 @@ impl SchemaValidator {
 
   /// Validates the `businessKnowledgeModel` nodes.
   fn validate_business_knowledge_model_nodes(&mut self, node: &Node) -> Result<()> {
-    for ref child_node in node.children().filter(|n| is(n, NODE_BUSINESS_KNOWLEDGE_MODEL)) {
+    for ref child_node in node.children().filter(name_eq(NODE_BUSINESS_KNOWLEDGE_MODEL)) {
       match self.dmn_version {
         DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(child_node, chk!(v13, V_BUSINESS_KNOWLEDGE_MODEL))?,
       }
@@ -160,7 +160,7 @@ impl SchemaValidator {
 
   /// Validates the `decisionService` nodes.
   fn validate_decision_service_nodes(&mut self, node: &Node) -> Result<()> {
-    for ref child_node in node.children().filter(|n| is(n, NODE_DECISION_SERVICE)) {
+    for ref child_node in node.children().filter(name_eq(NODE_DECISION_SERVICE)) {
       match self.dmn_version {
         DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(child_node, chk!(v13, V_DECISION_SERVICE))?,
       }
@@ -222,10 +222,6 @@ impl SchemaValidator {
     }
     Ok(())
   }
-}
-
-fn is(node: &Node, name: &str) -> bool {
-  node.tag_name().name() == name
 }
 
 mod v13 {

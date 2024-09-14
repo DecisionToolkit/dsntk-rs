@@ -223,7 +223,7 @@ pub fn req_child_req_content(node: &Node, child_name: &str) -> Result<String> {
 
 /// Returns the optional text contained in the required child node with specified name.
 pub fn req_child_opt_content(node: &Node, child_name: &str) -> Result<Option<String>> {
-  if let Some(child_node) = node.children().find(f_name(child_name)) {
+  if let Some(child_node) = node.children().find(name_eq(child_name)) {
     Ok(opt_content(&child_node))
   } else {
     Err(err_xml_expected_mandatory_child_node(&node_name_pos(node), child_name))
@@ -253,7 +253,7 @@ pub fn node_name_pos(node: &Node) -> String {
   format!("'{}' at [{}]", node.tag_name().name(), node.document().text_pos_at(node.range().start))
 }
 
-/// Returns a closure that checks if the node has specified name.
-pub fn f_name(name: &str) -> impl Fn(&Node) -> bool + '_ {
+/// Returns a closure that checks if the node's name is equal with specified value.
+pub fn name_eq(name: &str) -> impl Fn(&Node) -> bool + '_ {
   move |node: &Node| node.tag_name().name() == name
 }
