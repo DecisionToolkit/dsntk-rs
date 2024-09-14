@@ -5,16 +5,15 @@
              id="_v13">
 
     <decision name="decision">
-
     </decision>
 
     <businessKnowledgeModel name="business-knowledge-model">
-
-
     </businessKnowledgeModel>
 
-    <inputData name="input-data">
+    <decisionService name="decision-service">
+    </decisionService>
 
+    <inputData name="input-data">
     </inputData>
 
 

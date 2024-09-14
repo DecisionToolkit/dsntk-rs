@@ -90,6 +90,7 @@ impl SchemaValidator {
     self.validate_input_data_nodes(&root_element)?;
     self.validate_decision_nodes(&root_element)?;
     self.validate_business_knowledge_model_nodes(&root_element)?;
+    self.validate_decision_service_nodes(&root_element)?;
     Ok(root_element)
   }
 
@@ -151,6 +152,22 @@ impl SchemaValidator {
           &v13::V_BUSINESS_KNOWLEDGE_MODEL.1,
           &v13::V_BUSINESS_KNOWLEDGE_MODEL.2,
           &v13::V_BUSINESS_KNOWLEDGE_MODEL.3,
+        )?,
+      }
+    }
+    Ok(())
+  }
+
+  /// Validates the `decisionService` nodes.
+  fn validate_decision_service_nodes(&mut self, node: &Node) -> Result<()> {
+    for ref child_node in node.children().filter(|n| is(n, NODE_DECISION_SERVICE)) {
+      match self.dmn_version {
+        DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(
+          child_node,
+          &v13::V_DECISION_SERVICE.0,
+          &v13::V_DECISION_SERVICE.1,
+          &v13::V_DECISION_SERVICE.2,
+          &v13::V_DECISION_SERVICE.3,
         )?,
       }
     }
@@ -298,6 +315,21 @@ mod v13 {
       NODE_ENCAPSULATED_LOGIC,
       NODE_EXTENSION_ELEMENTS,
       NODE_KNOWLEDGE_REQUIREMENT,
+      NODE_VARIABLE,
+    ],
+  );
+
+  pub const V_DECISION_SERVICE: ([&str; 1], [&str; 3], [&str; 0], [&str; 7]) = (
+    [ATTR_NAME],
+    [ATTR_ID, ATTR_LABEL, ATTR_NAME],
+    [],
+    [
+      NODE_INPUT_DATA,
+      NODE_DESCRIPTION,
+      NODE_ENCAPSULATED_DECISION,
+      NODE_EXTENSION_ELEMENTS,
+      NODE_INPUT_DECISION,
+      NODE_OUTPUT_DECISION,
       NODE_VARIABLE,
     ],
   );
