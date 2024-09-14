@@ -7,3 +7,5 @@
 /// v14/_0030.dmn:5: element inputData: Schemas validity error : Element '{https://www.omg.org/spec/DMN/20211108/MODEL/}inputData': The attribute 'name' is required but missing.
 /// ```
 pub const _0030: &str = include_str!("_0030.dmn");
+
+pub const _9999: &str = include_str!("_9999.dmn");

@@ -88,7 +88,7 @@ impl SchemaValidator {
     self.validate_root_element(&root_element)?;
     self.validate_definitions_node(&root_element)?;
     self.validate_input_data_nodes(&root_element)?;
-    //self.validate_decision_nodes(&root_element)?;
+    self.validate_decision_nodes(&root_element)?;
     Ok(root_element)
   }
 
@@ -110,7 +110,9 @@ impl SchemaValidator {
   /// Validates the `definitions` node.
   fn validate_definitions_node(&mut self, node: &Node) -> Result<()> {
     match self.dmn_version {
-      _ => self.standard_checks(node, &v13::V_DEFINITIONS.0, &v13::V_DEFINITIONS.1, &v13::V_DEFINITIONS.2, &v13::V_DEFINITIONS.3)?,
+      DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => {
+        self.standard_checks(node, &v13::V_DEFINITIONS.0, &v13::V_DEFINITIONS.1, &v13::V_DEFINITIONS.2, &v13::V_DEFINITIONS.3)?
+      }
     }
     Ok(())
   }
@@ -119,7 +121,9 @@ impl SchemaValidator {
   fn validate_input_data_nodes(&mut self, node: &Node) -> Result<()> {
     for ref child_node in node.children().filter(|n| is(n, NODE_INPUT_DATA)) {
       match self.dmn_version {
-        _ => self.standard_checks(child_node, &v13::V_INPUT_DATA.0, &v13::V_INPUT_DATA.1, &v13::V_INPUT_DATA.2, &v13::V_INPUT_DATA.3)?,
+        DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => {
+          self.standard_checks(child_node, &v13::V_INPUT_DATA.0, &v13::V_INPUT_DATA.1, &v13::V_INPUT_DATA.2, &v13::V_INPUT_DATA.3)?
+        }
       }
     }
     Ok(())
@@ -130,7 +134,7 @@ impl SchemaValidator {
     for ref child_node in node.children().filter(|n| is(n, NODE_DECISION)) {
       match self.dmn_version {
         DmnVersion::V13 => self.standard_checks(child_node, &v13::V_DECISION.0, &v13::V_DECISION.1, &v13::V_DECISION.2, &v13::V_DECISION.3)?,
-        _ => self.standard_checks(child_node, &v14::V_DECISION.0, &v14::V_DECISION.1, &v14::V_DECISION.2, &v14::V_DECISION.3)?,
+        DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(child_node, &v14::V_DECISION.0, &v14::V_DECISION.1, &v14::V_DECISION.2, &v14::V_DECISION.3)?,
       }
     }
     Ok(())
@@ -160,10 +164,8 @@ impl SchemaValidator {
   fn allowed_attributes(&self, node: &Node, allowed: &[&str]) -> Result<()> {
     for attribute in node.attributes() {
       let attribute_name = attribute.name();
-      if attribute.namespace().is_none() {
-        if !allowed.contains(&attribute_name) {
-          return Err(err_not_allowed_attribute("", attribute_name, node));
-        }
+      if attribute.namespace().is_none() && !allowed.contains(&attribute_name) {
+        return Err(err_not_allowed_attribute("", attribute_name, node));
       }
     }
     Ok(())
