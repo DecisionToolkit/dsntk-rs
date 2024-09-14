@@ -193,8 +193,8 @@ pub fn required_content(node: &Node) -> Result<String> {
   }
 }
 
-/// Returns optional textual content of the node.
-pub fn optional_content(node: &Node) -> Option<String> {
+/// Returns optional text content of the node with specified name.
+pub fn opt_content(node: &Node) -> Option<String> {
   node.text().map(|text| text.to_owned())
 }
 
@@ -212,10 +212,19 @@ pub fn optional_child<'a>(node: &'a Node, child_name: &str) -> Option<Node<'a, '
   node.children().find(|n| n.tag_name().name() == child_name)
 }
 
-/// Returns the required text content of the required child node.
-pub fn required_child_required_content(node: &Node, child_name: &str) -> Result<String> {
+/// Returns the required text contained in the required child node with specified name.
+pub fn req_child_req_content(node: &Node, child_name: &str) -> Result<String> {
   if let Some(child_node) = node.children().find(|n| n.tag_name().name() == child_name) {
     required_content(&child_node)
+  } else {
+    Err(err_xml_expected_mandatory_child_node(&node_name_pos(node), child_name))
+  }
+}
+
+/// Returns the optional text contained in the required child node with specified name.
+pub fn req_child_opt_content(node: &Node, child_name: &str) -> Result<Option<String>> {
+  if let Some(child_node) = node.children().find(f_name(child_name)) {
+    Ok(opt_content(&child_node))
   } else {
     Err(err_xml_expected_mandatory_child_node(&node_name_pos(node), child_name))
   }
@@ -233,7 +242,7 @@ pub fn optional_child_required_content(node: &Node, child_name: &str) -> Result<
 /// Returns the optional content of the optional child node.
 pub fn optional_child_optional_content(node: &Node, child_name: &str) -> Option<String> {
   if let Some(child_node) = node.children().find(|n| n.tag_name().name() == child_name) {
-    optional_content(&child_node)
+    opt_content(&child_node)
   } else {
     None
   }
@@ -242,4 +251,9 @@ pub fn optional_child_optional_content(node: &Node, child_name: &str) -> Option<
 /// Utility function that returns the node's name with its position in the original document.
 pub fn node_name_pos(node: &Node) -> String {
   format!("'{}' at [{}]", node.tag_name().name(), node.document().text_pos_at(node.range().start))
+}
+
+/// Returns a closure that checks if the node has specified name.
+pub fn f_name(name: &str) -> impl Fn(&Node) -> bool + '_ {
+  move |node: &Node| node.tag_name().name() == name
 }
