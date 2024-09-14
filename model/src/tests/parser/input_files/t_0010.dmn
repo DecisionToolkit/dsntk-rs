@@ -5,10 +5,10 @@
 
     <description>
         This is an example of invalid model.
-        No variable defined in decision.
+        No required 'name' attribute is defined in decision.
     </description>
 
-    <decision name="one">
+    <decision>
         <literalExpression>
             <text>1</text>
         </literalExpression>

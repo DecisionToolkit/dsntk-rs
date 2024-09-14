@@ -93,7 +93,7 @@ fn _0010() {
   let definitions = parse(T_DMN_0010);
   assert!(definitions.is_err());
   assert_eq!(
-    r#"<ModelParserError> expected mandatory child node 'variable' in parent node 'decision' at [11:5]"#,
+    r#"<ModelParserError> expected value for mandatory attribute 'name' in node 'decision' at [11:5]"#,
     format!("{}", definitions.err().unwrap())
   )
 }

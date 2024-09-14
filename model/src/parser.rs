@@ -73,7 +73,7 @@ impl ModelParser {
   /// Parses a collection of [ItemDefinition].
   fn parse_item_definitions(&mut self, node: &Node, child_name: &str) -> Result<Vec<ItemDefinition>> {
     let mut items = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == child_name) {
+    for ref child_node in node.children().filter(name_eq(child_name)) {
       items.push(self.parse_item_definition(child_node)?);
     }
     Ok(items)
@@ -103,10 +103,10 @@ impl ModelParser {
 
   /// Parses optional function item.
   fn parse_function_item(&self, node: &Node) -> Result<Option<FunctionItem>> {
-    if let Some(ref n) = node.children().find(|n| n.tag_name().name() == NODE_FUNCTION_ITEM) {
+    if let Some(ref n) = node.children().find(name_eq(NODE_FUNCTION_ITEM)) {
       Ok(Some(FunctionItem {
         output_type_ref: optional_attribute(n, ATTR_OUTPUT_TYPE_REF),
-        parameters: self.parse_information_items_from_child(n, NODE_PARAMETERS)?,
+        parameters: self.parse_vec_information_item_child(n, NODE_PARAMETERS)?,
       }))
     } else {
       Ok(None)
@@ -115,7 +115,7 @@ impl ModelParser {
 
   /// Parsers unary tests.
   fn parse_unary_tests(&self, node: &Node, child_name: &str) -> Result<Option<UnaryTests>> {
-    if let Some(child_node) = node.children().find(|n| n.tag_name().name() == child_name) {
+    if let Some(child_node) = node.children().find(name_eq(child_name)) {
       Ok(Some(UnaryTests {
         text: optional_child_required_content(&child_node, NODE_TEXT)?,
         expression_language: optional_attribute(&child_node, ATTR_EXPRESSION_LANGUAGE),
@@ -128,18 +128,23 @@ impl ModelParser {
   /// Parses DRG elements.
   fn parse_drg_elements(&mut self, node: &Node) -> Result<Vec<DrgElement>> {
     let mut drg_elements = vec![];
-    drg_elements.append(&mut self.parse_input_data(node)?);
-    drg_elements.append(&mut self.parse_decisions(node)?);
-    drg_elements.append(&mut self.parse_bkm(node)?);
+    drg_elements.append(&mut self.parse_input_data_nodes(node)?);
+    drg_elements.append(&mut self.parse_decision_nodes(node)?);
+    drg_elements.append(&mut self.parse_business_knowledge_model_nodes(node)?);
     drg_elements.append(&mut self.parse_decision_services(node)?);
     drg_elements.append(&mut self.parse_knowledge_sources(node)?);
     Ok(drg_elements)
   }
 
-  /// Parses input data.
-  fn parse_input_data(&self, node: &Node) -> Result<Vec<DrgElement>> {
+  /// Parses `inputData` nodes.
+  fn parse_input_data_nodes(&self, node: &Node) -> Result<Vec<DrgElement>> {
     let mut input_data_items = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_INPUT_DATA) {
+    for ref child_node in node.children().filter(name_eq(NODE_INPUT_DATA)) {
+      let name = required_name(child_node)?;
+      let feel_name = required_feel_name(child_node)?;
+      let variable = self
+        .parse_opt_information_item_child(child_node, NODE_VARIABLE)?
+        .unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
       let input_data = InputData {
         namespace: self.namespace.clone(),
         model_name: self.model_name.clone(),
@@ -148,24 +153,29 @@ impl ModelParser {
         label: optional_attribute(child_node, ATTR_LABEL),
         extension_elements: self.parse_extension_elements(child_node),
         extension_attributes: self.parse_extension_attributes(child_node),
-        name: required_name(child_node)?,
-        feel_name: required_feel_name(child_node)?,
-        variable: self.parse_information_item_child(child_node, NODE_VARIABLE)?,
+        name,
+        feel_name,
+        variable,
       };
       input_data_items.push(DrgElement::InputData(input_data));
     }
     Ok(input_data_items)
   }
 
-  /// Parses decisions.
-  fn parse_decisions(&mut self, node: &Node) -> Result<Vec<DrgElement>> {
+  /// Parses `decision` nodes.
+  fn parse_decision_nodes(&mut self, node: &Node) -> Result<Vec<DrgElement>> {
     let mut decision_items = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_DECISION) {
+    for ref child_node in node.children().filter(name_eq(NODE_DECISION)) {
+      let name = required_name(child_node)?;
+      let feel_name = required_feel_name(child_node)?;
+      let variable = self
+        .parse_opt_information_item_child(child_node, NODE_VARIABLE)?
+        .unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
       let decision = Decision {
         namespace: self.namespace.clone(),
         model_name: self.model_name.clone(),
-        name: required_name(child_node)?,
-        feel_name: required_feel_name(child_node)?,
+        name,
+        feel_name,
         id: optional_id(child_node),
         description: optional_child_optional_content(child_node, NODE_DESCRIPTION),
         label: optional_attribute(child_node, ATTR_LABEL),
@@ -173,7 +183,7 @@ impl ModelParser {
         extension_attributes: self.parse_extension_attributes(child_node),
         question: optional_child_optional_content(child_node, NODE_QUESTION),
         allowed_answers: optional_child_optional_content(child_node, NODE_ALLOWED_ANSWERS),
-        variable: self.parse_information_item_child(child_node, NODE_VARIABLE)?,
+        variable,
         decision_logic: self.parse_optional_child_expression_instance(child_node)?,
         information_requirements: self.parse_information_requirements(child_node, NODE_INFORMATION_REQUIREMENT)?,
         knowledge_requirements: self.parse_knowledge_requirements(child_node, NODE_KNOWLEDGE_REQUIREMENT)?,
@@ -184,21 +194,26 @@ impl ModelParser {
     Ok(decision_items)
   }
 
-  /// Parses business knowledge models.
-  fn parse_bkm(&mut self, node: &Node) -> Result<Vec<DrgElement>> {
+  /// Parses `businessKnowledgeModel` nodes.
+  fn parse_business_knowledge_model_nodes(&mut self, node: &Node) -> Result<Vec<DrgElement>> {
     let mut parsed_items = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_BUSINESS_KNOWLEDGE_MODEL) {
+    for ref child_node in node.children().filter(name_eq(NODE_BUSINESS_KNOWLEDGE_MODEL)) {
+      let name = required_name(child_node)?;
+      let feel_name = required_feel_name(child_node)?;
+      let variable = self
+        .parse_opt_information_item_child(child_node, NODE_VARIABLE)?
+        .unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
       let business_knowledge_model = BusinessKnowledgeModel {
         namespace: self.namespace.clone(),
         model_name: self.model_name.clone(),
-        name: required_name(child_node)?,
-        feel_name: required_feel_name(child_node)?,
+        name,
+        feel_name,
         id: optional_id(child_node),
         description: optional_child_optional_content(child_node, NODE_DESCRIPTION),
         label: optional_attribute(child_node, ATTR_LABEL),
         extension_elements: self.parse_extension_elements(child_node),
         extension_attributes: self.parse_extension_attributes(child_node),
-        variable: self.parse_information_item_child(child_node, NODE_VARIABLE)?,
+        variable,
         encapsulated_logic: self.parse_function_definition_child(child_node, NODE_ENCAPSULATED_LOGIC)?,
         knowledge_requirements: self.parse_knowledge_requirements(child_node, NODE_KNOWLEDGE_REQUIREMENT)?,
         authority_requirements: self.parse_authority_requirements(child_node, NODE_AUTHORITY_REQUIREMENT)?,
@@ -211,18 +226,23 @@ impl ModelParser {
   /// Parses decision services.
   fn parse_decision_services(&self, node: &Node) -> Result<Vec<DrgElement>> {
     let mut drg_elements = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_DECISION_SERVICE) {
+    for ref child_node in node.children().filter(name_eq(NODE_DECISION_SERVICE)) {
+      let name = required_name(child_node)?;
+      let feel_name = required_feel_name(child_node)?;
+      let variable = self
+        .parse_opt_information_item_child(child_node, NODE_VARIABLE)?
+        .unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
       let decision_service = DecisionService {
         namespace: self.namespace.clone(),
         model_name: self.model_name.clone(),
-        name: required_name(child_node)?,
-        feel_name: required_feel_name(child_node)?,
+        name,
+        feel_name,
         id: optional_id(child_node),
         description: optional_child_optional_content(child_node, NODE_DESCRIPTION),
         label: optional_attribute(child_node, ATTR_LABEL),
         extension_elements: self.parse_extension_elements(child_node),
         extension_attributes: self.parse_extension_attributes(child_node),
-        variable: self.parse_information_item_child(child_node, NODE_VARIABLE)?,
+        variable,
         output_decisions: self.required_hrefs_in_child_nodes(child_node, NODE_OUTPUT_DECISION)?,
         encapsulated_decisions: self.required_hrefs_in_child_nodes(child_node, NODE_ENCAPSULATED_DECISION)?,
         input_decisions: self.required_hrefs_in_child_nodes(child_node, NODE_INPUT_DECISION)?,
@@ -236,7 +256,7 @@ impl ModelParser {
   /// Parses knowledge sources.
   fn parse_knowledge_sources(&mut self, node: &Node) -> Result<Vec<DrgElement>> {
     let mut drg_elements = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_KNOWLEDGE_SOURCE) {
+    for ref child_node in node.children().filter(name_eq(NODE_KNOWLEDGE_SOURCE)) {
       let knowledge_source = KnowledgeSource {
         namespace: self.namespace.clone(),
         model_name: self.model_name.clone(),
@@ -256,7 +276,7 @@ impl ModelParser {
 
   fn required_hrefs_in_child_nodes(&self, node: &Node, child_name: &str) -> Result<Vec<HRef>> {
     let mut hrefs = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == child_name) {
+    for ref child_node in node.children().filter(name_eq(child_name)) {
       let text = required_attribute(child_node, ATTR_HREF)?;
       let href = HRef::try_from(text.as_str())?;
       hrefs.push(href);
@@ -265,7 +285,7 @@ impl ModelParser {
   }
 
   fn parse_function_definition_child(&self, node: &Node, child_name: &str) -> Result<Option<FunctionDefinition>> {
-    if let Some(child_node) = node.children().find(|n| n.tag_name().name() == child_name) {
+    if let Some(child_node) = node.children().find(name_eq(child_name)) {
       Ok(Some(self.parse_function_definition(&child_node)?))
     } else {
       Ok(None)
@@ -273,7 +293,7 @@ impl ModelParser {
   }
 
   fn parse_optional_function_definition(&self, node: &Node) -> Result<Option<FunctionDefinition>> {
-    if let Some(child_node) = node.children().find(|n| n.tag_name().name() == NODE_FUNCTION_DEFINITION) {
+    if let Some(child_node) = node.children().find(name_eq(NODE_FUNCTION_DEFINITION)) {
       Ok(Some(self.parse_function_definition(&child_node)?))
     } else {
       Ok(None)
@@ -290,7 +310,7 @@ impl ModelParser {
       extension_elements: self.parse_extension_elements(node),
       extension_attributes: self.parse_extension_attributes(node),
       type_ref: optional_attribute(node, ATTR_TYPE_REF),
-      formal_parameters: self.parse_information_items_from_child(node, NODE_FORMAL_PARAMETER)?,
+      formal_parameters: self.parse_vec_information_item_child(node, NODE_FORMAL_PARAMETER)?,
       body: self.parse_optional_child_expression_instance(node)?,
       kind: self.parse_function_kind(node)?,
     })
@@ -312,7 +332,7 @@ impl ModelParser {
   /// Parses business context elements like performance indicators and organisational units.
   fn parse_business_context_elements(&self, node: &Node) -> Result<Vec<BusinessContextElementInstance>> {
     let mut business_context_elements = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_PERFORMANCE_INDICATOR) {
+    for ref child_node in node.children().filter(name_eq(NODE_PERFORMANCE_INDICATOR)) {
       let performance_indicator = PerformanceIndicator {
         namespace: self.namespace.clone(),
         model_name: self.model_name.clone(),
@@ -328,7 +348,7 @@ impl ModelParser {
       };
       business_context_elements.push(BusinessContextElementInstance::PerformanceIndicator(performance_indicator));
     }
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_ORGANISATION_UNIT) {
+    for ref child_node in node.children().filter(name_eq(NODE_ORGANISATION_UNIT)) {
       let organisation_unit = OrganizationUnit {
         namespace: self.namespace.clone(),
         model_name: self.model_name.clone(),
@@ -351,7 +371,7 @@ impl ModelParser {
   /// Parses a collection of [Imports](Import).
   fn parse_imports(&self, node: &Node) -> Result<Vec<Import>> {
     let mut imports = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_IMPORT) {
+    for ref child_node in node.children().filter(name_eq(NODE_IMPORT)) {
       let import = Import {
         namespace: required_uri(child_node, ATTR_NAMESPACE)?,
         model_name: self.model_name.clone(),
@@ -370,33 +390,34 @@ impl ModelParser {
     Ok(imports)
   }
 
-  /// Parses a mandatory [InformationItem] contained in a child node having specified name.
-  fn parse_information_item_child(&self, node: &Node, child_name: &str) -> Result<InformationItem> {
-    if let Some(child_node) = node.children().find(|n| n.tag_name().name() == child_name) {
+  /// Parses a required [InformationItem], contained in a child node having the specified name.
+  fn parse_req_information_item_child(&self, node: &Node, child_name: &str) -> Result<InformationItem> {
+    if let Some(child_node) = node.children().find(name_eq(child_name)) {
       self.parse_information_item(&child_node)
     } else {
       Err(err_xml_expected_mandatory_child_node(&node_name_pos(node), child_name))
     }
   }
 
-  /// Parses an optional [InformationItem] contained in a child node having specified name.
-  fn parse_optional_information_item_child(&self, node: &Node, child_name: &str) -> Result<Option<InformationItem>> {
-    if let Some(child_node) = node.children().find(|n| n.tag_name().name() == child_name) {
-      return Ok(Some(self.parse_information_item(&child_node)?));
-    }
-    Ok(None)
+  /// Parses an optional [InformationItem], contained in a child node having the specified name.
+  fn parse_opt_information_item_child(&self, node: &Node, child_name: &str) -> Result<Option<InformationItem>> {
+    Ok(if let Some(child_node) = node.children().find(name_eq(child_name)) {
+      Some(self.parse_information_item(&child_node)?)
+    } else {
+      None
+    })
   }
 
-  /// Parses a collection of [InformationItem] contained in multiple child nodes having specified name.
-  fn parse_information_items_from_child(&self, node: &Node, child_name: &str) -> Result<Vec<InformationItem>> {
+  /// Parses a collection of [InformationItem]s contained in multiple child nodes having the specified name.
+  fn parse_vec_information_item_child(&self, node: &Node, child_name: &str) -> Result<Vec<InformationItem>> {
     let mut information_items = vec![];
-    for child_node in node.children().filter(|n| n.tag_name().name() == child_name) {
+    for child_node in node.children().filter(name_eq(child_name)) {
       information_items.push(self.parse_information_item(&child_node)?);
     }
     Ok(information_items)
   }
 
-  /// Parses the attributes of [InformationItem].
+  /// Parses the attributes of the [InformationItem] element.
   fn parse_information_item(&self, node: &Node) -> Result<InformationItem> {
     Ok(InformationItem {
       namespace: self.namespace.clone(),
@@ -413,10 +434,27 @@ impl ModelParser {
     })
   }
 
+  /// Creates a new [InformationItem] element populated with name.
+  fn create_information_item(&self, name: String, feel_name: Name) -> Result<InformationItem> {
+    Ok(InformationItem {
+      namespace: self.namespace.clone(),
+      model_name: self.model_name.clone(),
+      id: DmnId::Generated(gen_id()),
+      description: None,
+      label: None,
+      extension_elements: vec![],
+      extension_attributes: vec![],
+      name,
+      feel_name,
+      type_ref: FEEL_TYPE_NAME_ANY.to_string(),
+      feel_type: None,
+    })
+  }
+
   /// Parses information requirements.
   fn parse_information_requirements(&mut self, node: &Node, child_name: &str) -> Result<Vec<InformationRequirement>> {
     let mut information_requirement_items = vec![];
-    for child_node in node.children().filter(|n| n.tag_name().name() == child_name) {
+    for child_node in node.children().filter(name_eq(child_name)) {
       information_requirement_items.push(self.parse_information_requirement(&child_node)?);
     }
     Ok(information_requirement_items)
@@ -441,7 +479,7 @@ impl ModelParser {
   /// Parses knowledge requirements.
   fn parse_knowledge_requirements(&mut self, node: &Node, child_name: &str) -> Result<Vec<KnowledgeRequirement>> {
     let mut knowledge_requirement_items = vec![];
-    for child_node in node.children().filter(|n| n.tag_name().name() == child_name) {
+    for child_node in node.children().filter(name_eq(child_name)) {
       knowledge_requirement_items.push(self.parse_knowledge_requirement(&child_node)?);
     }
     Ok(knowledge_requirement_items)
@@ -465,7 +503,7 @@ impl ModelParser {
   /// Parses authority requirements.
   fn parse_authority_requirements(&mut self, node: &Node, child_name: &str) -> Result<Vec<AuthorityRequirement>> {
     let mut authority_requirement_items = vec![];
-    for child_node in node.children().filter(|n| n.tag_name().name() == child_name) {
+    for child_node in node.children().filter(name_eq(child_name)) {
       authority_requirement_items.push(self.parse_authority_requirement(&child_node)?);
     }
     Ok(authority_requirement_items)
@@ -571,7 +609,7 @@ impl ModelParser {
   }
 
   fn parse_optional_decision_table(&self, node: &Node) -> Result<Option<DecisionTable>> {
-    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_DECISION_TABLE) {
+    if let Some(ref child_node) = node.children().find(name_eq(NODE_DECISION_TABLE)) {
       return Ok(Some(self.parse_decision_table(child_node)?));
     }
     Ok(None)
@@ -601,7 +639,7 @@ impl ModelParser {
 
   fn parse_decision_table_inputs(&self, node: &Node) -> Result<Vec<InputClause>> {
     let mut input_clauses = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_INPUT) {
+    for ref child_node in node.children().filter(name_eq(NODE_INPUT)) {
       input_clauses.push(self.parse_decision_table_input(child_node)?);
     }
     Ok(input_clauses)
@@ -609,7 +647,7 @@ impl ModelParser {
 
   fn parse_decision_table_input(&self, node: &Node) -> Result<InputClause> {
     let input_expression = if let Ok(ref child_node) = required_child(node, NODE_INPUT_EXPRESSION) {
-      required_child_required_content(child_node, NODE_TEXT)?
+      req_child_req_content(child_node, NODE_TEXT)?
     } else {
       return Err(err_required_input_expression_is_missing());
     };
@@ -626,7 +664,7 @@ impl ModelParser {
 
   fn parse_decision_table_outputs(&self, node: &Node) -> Result<Vec<OutputClause>> {
     let mut output_clauses = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_OUTPUT) {
+    for ref child_node in node.children().filter(name_eq(NODE_OUTPUT)) {
       output_clauses.push(self.parse_decision_table_output(child_node)?);
     }
     Ok(output_clauses)
@@ -653,7 +691,7 @@ impl ModelParser {
 
   fn parse_decision_table_rules(&self, node: &Node) -> Result<Vec<DecisionRule>> {
     let mut rules = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_RULE) {
+    for ref child_node in node.children().filter(name_eq(NODE_RULE)) {
       rules.push(self.parse_decision_table_rule(child_node)?);
     }
     Ok(rules)
@@ -669,21 +707,30 @@ impl ModelParser {
 
   fn parse_decision_table_input_entries(&self, node: &Node) -> Result<Vec<InputEntry>> {
     let mut input_entries = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_INPUT_ENTRY) {
+    for ref child_node in node.children().filter(name_eq(NODE_INPUT_ENTRY)) {
       input_entries.push(self.parse_decision_table_input_entry(child_node)?);
     }
     Ok(input_entries)
   }
 
+  /// Parses the content of the input entry in decision table.
+  ///
+  /// The content of the input entry is placed in `text` element which is required,
+  /// but the string inside this element may be empty. Some tools, like Camunda,
+  /// generate decision tables with empty string here, although in the graphical
+  /// interface there is `-` character representing FEEL `irrelevant` operator.
+  ///
+  /// So, long story short, when the string in `text` element is empty,
+  /// it is replaced by `irrelevant` operator.
   fn parse_decision_table_input_entry(&self, node: &Node) -> Result<InputEntry> {
     Ok(InputEntry {
-      text: required_child_required_content(node, NODE_TEXT)?,
+      text: req_child_opt_content(node, NODE_TEXT)?.unwrap_or("-".to_string()),
     })
   }
 
   fn parse_decision_table_output_entries(&self, node: &Node) -> Result<Vec<OutputEntry>> {
     let mut output_entries = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_OUTPUT_ENTRY) {
+    for ref child_node in node.children().filter(name_eq(NODE_OUTPUT_ENTRY)) {
       output_entries.push(self.parse_decision_table_output_entry(child_node)?);
     }
     Ok(output_entries)
@@ -691,12 +738,12 @@ impl ModelParser {
 
   fn parse_decision_table_output_entry(&self, node: &Node) -> Result<OutputEntry> {
     Ok(OutputEntry {
-      text: required_child_required_content(node, NODE_TEXT)?,
+      text: req_child_req_content(node, NODE_TEXT)?,
     })
   }
 
   fn parse_optional_context(&self, node: &Node) -> Result<Option<Context>> {
-    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_CONTEXT) {
+    if let Some(ref child_node) = node.children().find(name_eq(NODE_CONTEXT)) {
       return Ok(Some(self.parse_context(child_node)?));
     }
     Ok(None)
@@ -718,9 +765,9 @@ impl ModelParser {
 
   fn parse_context_entries(&self, node: &Node) -> Result<Vec<ContextEntry>> {
     let mut context_entries = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_CONTEXT_ENTRY) {
+    for ref child_node in node.children().filter(name_eq(NODE_CONTEXT_ENTRY)) {
       context_entries.push(ContextEntry {
-        variable: self.parse_optional_information_item_child(child_node, NODE_VARIABLE)?,
+        variable: self.parse_opt_information_item_child(child_node, NODE_VARIABLE)?,
         value: self.parse_required_child_expression_instance(child_node)?,
       });
     }
@@ -728,7 +775,7 @@ impl ModelParser {
   }
 
   fn parse_optional_invocation(&self, node: &Node) -> Result<Option<Invocation>> {
-    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_INVOCATION) {
+    if let Some(ref child_node) = node.children().find(name_eq(NODE_INVOCATION)) {
       return Ok(Some(self.parse_invocation(child_node)?));
     }
     Ok(None)
@@ -751,9 +798,9 @@ impl ModelParser {
 
   fn parse_bindings(&self, node: &Node) -> Result<Vec<Binding>> {
     let mut bindings = vec![];
-    for ref child_node in node.children().filter(|n| n.tag_name().name() == NODE_BINDING) {
+    for ref child_node in node.children().filter(name_eq(NODE_BINDING)) {
       bindings.push(Binding {
-        parameter: self.parse_information_item_child(child_node, NODE_PARAMETER)?,
+        parameter: self.parse_req_information_item_child(child_node, NODE_PARAMETER)?,
         binding_formula: self.parse_optional_child_expression_instance(child_node)?,
       });
     }
@@ -763,7 +810,7 @@ impl ModelParser {
   /// Searches for the first node named 'list' among children of the specified `node`.
   /// When such node is found, then parses a list and returns it, otherwise returns [None].
   fn parse_optional_list(&self, node: &Node) -> Result<Option<List>> {
-    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_LIST) {
+    if let Some(ref child_node) = node.children().find(name_eq(NODE_LIST)) {
       return Ok(Some(self.parse_list(child_node)?));
     }
     Ok(None)
@@ -797,7 +844,7 @@ impl ModelParser {
   /// Searches for the first node named 'literalExpression' among children of the specified `node`.
   /// When such node is found, then parses literal expression and returns it, otherwise returns [None].
   fn parse_optional_literal_expression(&self, node: &Node) -> Option<LiteralExpression> {
-    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_LITERAL_EXPRESSION) {
+    if let Some(ref child_node) = node.children().find(name_eq(NODE_LITERAL_EXPRESSION)) {
       return Some(self.parse_literal_expression(child_node));
     }
     None
@@ -822,7 +869,7 @@ impl ModelParser {
   }
 
   fn parse_optional_relation(&self, node: &Node) -> Result<Option<Relation>> {
-    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_RELATION) {
+    if let Some(ref child_node) = node.children().find(name_eq(NODE_RELATION)) {
       return Ok(Some(self.parse_relation(child_node)?));
     }
     Ok(None)
@@ -830,11 +877,11 @@ impl ModelParser {
 
   fn parse_relation(&self, node: &Node) -> Result<Relation> {
     let mut columns = vec![];
-    for ref column_node in node.children().filter(|n| n.tag_name().name() == NODE_COLUMN) {
+    for ref column_node in node.children().filter(name_eq(NODE_COLUMN)) {
       columns.push(self.parse_information_item(column_node)?);
     }
     let mut rows = vec![];
-    for ref row_node in node.children().filter(|n| n.tag_name().name() == NODE_ROW) {
+    for ref row_node in node.children().filter(name_eq(NODE_ROW)) {
       let mut elements = vec![];
       for ref expression_instance_node in row_node.children() {
         if expression_instance_node.tag_name().name() == NODE_LITERAL_EXPRESSION {
@@ -872,7 +919,7 @@ impl ModelParser {
   }
 
   fn parse_optional_conditional(&self, node: &Node) -> Result<Option<Conditional>> {
-    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_CONDITIONAL) {
+    if let Some(ref child_node) = node.children().find(name_eq(NODE_CONDITIONAL)) {
       return Ok(Some(self.parse_conditional(child_node)?));
     }
     Ok(None)
@@ -898,7 +945,7 @@ impl ModelParser {
   }
 
   fn parse_optional_filter(&self, node: &Node) -> Result<Option<Filter>> {
-    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_FILTER) {
+    if let Some(ref child_node) = node.children().find(name_eq(NODE_FILTER)) {
       return Ok(Some(self.parse_filter(child_node)?));
     }
     Ok(None)
@@ -922,7 +969,7 @@ impl ModelParser {
   }
 
   fn parse_optional_for(&self, node: &Node) -> Result<Option<For>> {
-    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_FOR) {
+    if let Some(ref child_node) = node.children().find(name_eq(NODE_FOR)) {
       return Ok(Some(self.parse_for(child_node)?));
     }
     Ok(None)
@@ -947,7 +994,7 @@ impl ModelParser {
   }
 
   fn parse_optional_every(&self, node: &Node) -> Result<Option<Every>> {
-    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_EVERY) {
+    if let Some(ref child_node) = node.children().find(name_eq(NODE_EVERY)) {
       return Ok(Some(self.parse_every(child_node)?));
     }
     Ok(None)
@@ -972,7 +1019,7 @@ impl ModelParser {
   }
 
   fn parse_optional_some(&self, node: &Node) -> Result<Option<Some>> {
-    if let Some(ref child_node) = node.children().find(|n| n.tag_name().name() == NODE_SOME) {
+    if let Some(ref child_node) = node.children().find(name_eq(NODE_SOME)) {
       return Ok(Some(self.parse_some(child_node)?));
     }
     Ok(None)
@@ -1078,7 +1125,7 @@ impl ModelParser {
 
   /// Parse DMNDI part of the diagram definitions.
   fn parse_dmndi(&self, node: &Node) -> Result<Option<Dmndi>> {
-    if let Some(child_node) = node.children().find(|n| n.tag_name().name() == NODE_DMNDI) {
+    if let Some(child_node) = node.children().find(name_eq(NODE_DMNDI)) {
       let dmndi = Dmndi {
         styles: self.parse_styles(&child_node)?,
         diagrams: self.parse_diagrams(&child_node)?,
@@ -1091,7 +1138,7 @@ impl ModelParser {
   /// Parses shared styles defined in diagram.
   fn parse_styles(&self, node: &Node) -> Result<Vec<DmnStyle>> {
     let mut styles = vec![];
-    for child_node in node.children().filter(|n| n.tag_name().name() == NODE_DMNDI_STYLE) {
+    for child_node in node.children().filter(name_eq(NODE_DMNDI_STYLE)) {
       styles.push(self.parse_style(&child_node)?);
     }
     Ok(styles)
@@ -1117,7 +1164,7 @@ impl ModelParser {
 
   /// Parses the color definition.
   fn parse_optional_color(&self, node: &Node, child_name: &str) -> Result<Option<DcColor>> {
-    if let Some(color_node) = node.children().find(|n| n.tag_name().name() == child_name) {
+    if let Some(color_node) = node.children().find(name_eq(child_name)) {
       Ok(Some(DcColor {
         red: required_color_part(&color_node, ATTR_RED)?,
         green: required_color_part(&color_node, ATTR_GREEN)?,
@@ -1141,7 +1188,7 @@ impl ModelParser {
   /// Parses diagrams defined in [Dmndi].
   fn parse_diagrams(&self, node: &Node) -> Result<Vec<DmnDiagram>> {
     let mut diagrams = vec![];
-    for child_node in node.children().filter(|n| n.tag_name().name() == NODE_DMNDI_DMN_DIAGRAM) {
+    for child_node in node.children().filter(name_eq(NODE_DMNDI_DMN_DIAGRAM)) {
       diagrams.push(self.parse_diagram(&child_node)?);
     }
     Ok(diagrams)
@@ -1163,7 +1210,7 @@ impl ModelParser {
 
   /// Parses dimension.
   fn parse_dimension(&self, size_node: &Node) -> Result<Option<DcDimension>> {
-    if let Some(node) = size_node.children().find(|n| n.tag_name().name() == NODE_DMNDI_SIZE) {
+    if let Some(node) = size_node.children().find(name_eq(NODE_DMNDI_SIZE)) {
       Ok(Some(DcDimension {
         width: required_double(&node, ATTR_WIDTH)?,
         height: required_double(&node, ATTR_HEIGHT)?,
@@ -1176,10 +1223,10 @@ impl ModelParser {
   /// Parses diagram elements
   fn parse_diagram_elements(&self, size_node: &Node) -> Result<Vec<DmnDiagramElement>> {
     let mut diagram_element = vec![];
-    for child_node in size_node.children().filter(|n| n.tag_name().name() == NODE_DMNDI_DMN_SHAPE) {
+    for child_node in size_node.children().filter(name_eq(NODE_DMNDI_DMN_SHAPE)) {
       diagram_element.push(self.parse_shape(&child_node)?);
     }
-    for child_node in size_node.children().filter(|n| n.tag_name().name() == NODE_DMNDI_DMN_EDGE) {
+    for child_node in size_node.children().filter(name_eq(NODE_DMNDI_DMN_EDGE)) {
       diagram_element.push(self.parse_edge(&child_node)?);
     }
     Ok(diagram_element)
@@ -1210,7 +1257,7 @@ impl ModelParser {
 
   /// Parses bounds.
   fn parse_optional_bounds(&self, node: &Node) -> Result<Option<DcBounds>> {
-    if let Some(child_node) = node.children().find(|n| n.tag_name().name() == NODE_DMNDI_BOUNDS) {
+    if let Some(child_node) = node.children().find(name_eq(NODE_DMNDI_BOUNDS)) {
       Ok(Some(DcBounds {
         x: required_double(&child_node, ATTR_X)?,
         y: required_double(&child_node, ATTR_Y)?,
@@ -1224,7 +1271,7 @@ impl ModelParser {
 
   /// Parses divider line.
   fn parse_divider_line(&self, node: &Node) -> Result<Option<DmnDecisionServiceDividerLine>> {
-    if let Some(child_node) = node.children().find(|n| n.tag_name().name() == NODE_DMNDI_DECISION_SERVICE_DIVIDER_LINE) {
+    if let Some(child_node) = node.children().find(name_eq(NODE_DMNDI_DECISION_SERVICE_DIVIDER_LINE)) {
       Ok(Some(DmnDecisionServiceDividerLine {
         id: optional_attribute(&child_node, ATTR_ID),
         way_points: self.parse_way_points(&child_node)?,
@@ -1253,7 +1300,7 @@ impl ModelParser {
   /// Parses way points.
   fn parse_way_points(&self, node: &Node) -> Result<Vec<DcPoint>> {
     let mut way_points = vec![];
-    for child_node in node.children().filter(|n| n.tag_name().name() == NODE_DMNDI_WAYPOINT) {
+    for child_node in node.children().filter(name_eq(NODE_DMNDI_WAYPOINT)) {
       way_points.push(self.parse_point(&child_node)?)
     }
     Ok(way_points)
@@ -1269,7 +1316,7 @@ impl ModelParser {
 
   /// Parses the label of the element.
   fn parse_label(&self, node: &Node) -> Result<Option<DmnLabel>> {
-    if let Some(child_node) = node.children().find(|n| n.tag_name().name() == NODE_DMNDI_LABEL) {
+    if let Some(child_node) = node.children().find(name_eq(NODE_DMNDI_LABEL)) {
       Ok(Some(DmnLabel {
         bounds: self.parse_optional_bounds(&child_node)?,
         text: optional_child_optional_content(&child_node, ATTR_LABEL_TEXT),
@@ -1344,7 +1391,7 @@ pub fn optional_child_required_href(node: &Node, child_name: &str) -> Result<Opt
 /// Returns required `href` attributes collected from optional child nodes.
 pub fn optional_children_required_href(node: &Node, child_name: &str) -> Result<Vec<HRef>> {
   let mut hrefs = vec![];
-  for ref child_node in node.children().filter(|n| n.tag_name().name() == child_name) {
+  for ref child_node in node.children().filter(name_eq(child_name)) {
     hrefs.push(required_href(child_node)?);
   }
   Ok(hrefs)

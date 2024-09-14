@@ -11,6 +11,7 @@ use walkdir::WalkDir;
 
 mod compatibility;
 mod input_data;
+mod simulation;
 mod various;
 
 macro_rules! from_examples {
