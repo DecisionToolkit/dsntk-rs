@@ -1,6 +1,6 @@
-//! # Decision model validator
+//! # Model validator
 //!
-//! Validations at the single decision model level:
+//! Validations at the single model level:
 //!
 //! - Cycles in item definitions.
 //!
@@ -17,7 +17,7 @@ use petgraph::graph::{DiGraph, NodeIndex};
 use std::collections::HashMap;
 
 /// Validates the decision model.
-pub fn validate(definitions: Definitions) -> Result<Definitions> {
+pub fn validate_model(definitions: Definitions) -> Result<Definitions> {
   let mut model_validator = ModelValidator::new();
   model_validator.validate(definitions)
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             namespace="https://www.decision-toolkit.org/input-data/"
+             name="Adder">
+
+    <decision name="Add">
+        <variable name="Sum"/>
+        <informationRequirement>
+            <requiredInput href="#input-data-a"/>
+        </informationRequirement>
+        <informationRequirement>
+            <requiredInput href="#input-data-b"/>
+        </informationRequirement>
+        <literalExpression>
+            <text>a + b</text>
+        </literalExpression>
+    </decision>
+
+    <inputData name="a" id="input-data-a">
+        <variable name="a"/>
+    </inputData>
+
+    <inputData name="b" id="input-data-b">
+        <variable name="b"/>
+    </inputData>
+
+</definitions>

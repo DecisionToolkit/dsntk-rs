@@ -1,4 +1,6 @@
+use crate::xml_utils::node_name_pos;
 use dsntk_common::{DsntkError, ToErrorMessage};
+use roxmltree::Node;
 
 /// Errors related to the DMN model.
 #[derive(ToErrorMessage)]
@@ -98,4 +100,17 @@ struct ModelValidatorError(String);
 
 pub fn err_item_definitions_cycle() -> DsntkError {
   ModelValidatorError("cyclic dependency between item definitions".to_string()).into()
+}
+
+pub fn err_no_supported_namespace() -> DsntkError {
+  ModelError("no supported namespace found".to_string()).into()
+}
+
+pub fn err_not_allowed_attribute(namespace: &str, name: &str, node: &Node) -> DsntkError {
+  let namespace = if namespace.is_empty() { "" } else { &format!("{}:", namespace) };
+  ModelError(format!("not allowed attribute: '{}{}' in node {}", namespace, name, node_name_pos(node))).into()
+}
+
+pub fn err_not_allowed_child_node(child_node_name: &str, node: &Node) -> DsntkError {
+  ModelError(format!("not allowed child node: '{}' in node {}", child_node_name, node_name_pos(node))).into()
 }

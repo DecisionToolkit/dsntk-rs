@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<definitions namespace="https://dsntk.io/selector"
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             namespace="https://dsntk.io/selector"
              name="selector"
              id="_c15e2771-36a4-438b-8a65-00dc261bdca5">
     <description>

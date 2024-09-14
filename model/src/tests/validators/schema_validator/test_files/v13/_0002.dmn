@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions>
+    <!--
+        This model is invalid.
+        Although the root element is 'definitions',
+        but global definitions are not present,
+        especially required `xmlns` attribute.
+    -->
+</definitions>

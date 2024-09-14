@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<definitions namespace="https://dsntk.io/services"
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             namespace="https://dsntk.io/services"
              name="services"
              id="_80bf0f7e-f6fb-4e95-b974-0da1e4e00651">
     <description>
