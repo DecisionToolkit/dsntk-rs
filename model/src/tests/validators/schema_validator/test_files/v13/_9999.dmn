@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
              namespace="namespace"
-             name="name">
+             name="name"
+             id="_v13">
+
     <decision name="decision">
 
     </decision>
 
+    <businessKnowledgeModel name="business-knowledge-model">
+
+
+    </businessKnowledgeModel>
+
     <inputData name="input-data">
 
     </inputData>
+
+
 </definitions>

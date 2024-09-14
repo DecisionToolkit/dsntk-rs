@@ -89,6 +89,7 @@ impl SchemaValidator {
     self.validate_definitions_node(&root_element)?;
     self.validate_input_data_nodes(&root_element)?;
     self.validate_decision_nodes(&root_element)?;
+    self.validate_business_knowledge_model_nodes(&root_element)?;
     Ok(root_element)
   }
 
@@ -135,6 +136,22 @@ impl SchemaValidator {
       match self.dmn_version {
         DmnVersion::V13 => self.standard_checks(child_node, &v13::V_DECISION.0, &v13::V_DECISION.1, &v13::V_DECISION.2, &v13::V_DECISION.3)?,
         DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(child_node, &v14::V_DECISION.0, &v14::V_DECISION.1, &v14::V_DECISION.2, &v14::V_DECISION.3)?,
+      }
+    }
+    Ok(())
+  }
+
+  /// Validates the `businessKnowledgeModel` nodes.
+  fn validate_business_knowledge_model_nodes(&mut self, node: &Node) -> Result<()> {
+    for ref child_node in node.children().filter(|n| is(n, NODE_BUSINESS_KNOWLEDGE_MODEL)) {
+      match self.dmn_version {
+        DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(
+          child_node,
+          &v13::V_BUSINESS_KNOWLEDGE_MODEL.0,
+          &v13::V_BUSINESS_KNOWLEDGE_MODEL.1,
+          &v13::V_BUSINESS_KNOWLEDGE_MODEL.2,
+          &v13::V_BUSINESS_KNOWLEDGE_MODEL.3,
+        )?,
       }
     }
     Ok(())
@@ -244,7 +261,7 @@ mod v13 {
 
   pub const V_DECISION: ([&str; 1], [&str; 3], [&str; 0], [&str; 21]) = (
     [ATTR_NAME],
-    [ATTR_ID, NODE_AUTHORITY_REQUIREMENT, ATTR_NAME],
+    [ATTR_ID, ATTR_LABEL, ATTR_NAME],
     [],
     [
       NODE_ALLOWED_ANSWERS,
@@ -267,6 +284,20 @@ mod v13 {
       NODE_SUPPORTED_OBJECTIVE,
       NODE_USING_PROCESS,
       NODE_USING_TASK,
+      NODE_VARIABLE,
+    ],
+  );
+
+  pub const V_BUSINESS_KNOWLEDGE_MODEL: ([&str; 1], [&str; 3], [&str; 0], [&str; 6]) = (
+    [ATTR_NAME],
+    [ATTR_ID, ATTR_LABEL, ATTR_NAME],
+    [],
+    [
+      NODE_AUTHORITY_REQUIREMENT,
+      NODE_DESCRIPTION,
+      NODE_ENCAPSULATED_LOGIC,
+      NODE_EXTENSION_ELEMENTS,
+      NODE_KNOWLEDGE_REQUIREMENT,
       NODE_VARIABLE,
     ],
   );
