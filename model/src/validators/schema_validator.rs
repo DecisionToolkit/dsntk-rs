@@ -11,6 +11,16 @@ pub fn validate_schema<'a>(document: &'a Document) -> Result<Node<'a, 'a>> {
   SchemaValidator::default().validate(document)
 }
 
+//--------------------------------------------------------------------------------------------------
+// BELOW ARE ONLY PRIVATE DEFINITIONS
+//--------------------------------------------------------------------------------------------------
+
+macro_rules! chk {
+  ($v:tt, $c:tt) => {
+    (&$v::$c.0, &$v::$c.1, &$v::$c.2, &$v::$c.3)
+  };
+}
+
 #[derive(Default)]
 struct Namespaces {
   dmn: Option<String>,
@@ -112,9 +122,7 @@ impl SchemaValidator {
   /// Validates the `definitions` node.
   fn validate_definitions_node(&mut self, node: &Node) -> Result<()> {
     match self.dmn_version {
-      DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => {
-        self.standard_checks(node, &v13::V_DEFINITIONS.0, &v13::V_DEFINITIONS.1, &v13::V_DEFINITIONS.2, &v13::V_DEFINITIONS.3)?
-      }
+      DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(node, chk!(v13, V_DEFINITIONS))?,
     }
     Ok(())
   }
@@ -123,9 +131,7 @@ impl SchemaValidator {
   fn validate_input_data_nodes(&mut self, node: &Node) -> Result<()> {
     for ref child_node in node.children().filter(|n| is(n, NODE_INPUT_DATA)) {
       match self.dmn_version {
-        DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => {
-          self.standard_checks(child_node, &v13::V_INPUT_DATA.0, &v13::V_INPUT_DATA.1, &v13::V_INPUT_DATA.2, &v13::V_INPUT_DATA.3)?
-        }
+        DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(child_node, chk!(v13, V_INPUT_DATA))?,
       }
     }
     Ok(())
@@ -135,8 +141,8 @@ impl SchemaValidator {
   fn validate_decision_nodes(&mut self, node: &Node) -> Result<()> {
     for ref child_node in node.children().filter(|n| is(n, NODE_DECISION)) {
       match self.dmn_version {
-        DmnVersion::V13 => self.standard_checks(child_node, &v13::V_DECISION.0, &v13::V_DECISION.1, &v13::V_DECISION.2, &v13::V_DECISION.3)?,
-        DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(child_node, &v14::V_DECISION.0, &v14::V_DECISION.1, &v14::V_DECISION.2, &v14::V_DECISION.3)?,
+        DmnVersion::V13 => self.standard_checks(child_node, chk!(v13, V_DECISION))?,
+        DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(child_node, chk!(v14, V_DECISION))?,
       }
     }
     Ok(())
@@ -146,13 +152,7 @@ impl SchemaValidator {
   fn validate_business_knowledge_model_nodes(&mut self, node: &Node) -> Result<()> {
     for ref child_node in node.children().filter(|n| is(n, NODE_BUSINESS_KNOWLEDGE_MODEL)) {
       match self.dmn_version {
-        DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(
-          child_node,
-          &v13::V_BUSINESS_KNOWLEDGE_MODEL.0,
-          &v13::V_BUSINESS_KNOWLEDGE_MODEL.1,
-          &v13::V_BUSINESS_KNOWLEDGE_MODEL.2,
-          &v13::V_BUSINESS_KNOWLEDGE_MODEL.3,
-        )?,
+        DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(child_node, chk!(v13, V_BUSINESS_KNOWLEDGE_MODEL))?,
       }
     }
     Ok(())
@@ -162,27 +162,22 @@ impl SchemaValidator {
   fn validate_decision_service_nodes(&mut self, node: &Node) -> Result<()> {
     for ref child_node in node.children().filter(|n| is(n, NODE_DECISION_SERVICE)) {
       match self.dmn_version {
-        DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(
-          child_node,
-          &v13::V_DECISION_SERVICE.0,
-          &v13::V_DECISION_SERVICE.1,
-          &v13::V_DECISION_SERVICE.2,
-          &v13::V_DECISION_SERVICE.3,
-        )?,
+        DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(child_node, chk!(v13, V_DECISION_SERVICE))?,
       }
     }
     Ok(())
   }
 
-  fn standard_checks(&self, node: &Node, ra: &[&str], aa: &[&str], rc: &[&str], ac: &[&str]) -> Result<()> {
+  /// Verifies required and allowed attributes and required and allowed child nodes.
+  fn standard_checks(&self, node: &Node, checks: (&[&str], &[&str], &[&str], &[&str])) -> Result<()> {
     // check if required attributes are present
-    self.required_attributes(node, ra)?;
+    self.required_attributes(node, checks.0)?;
     // reject not allowed attributes
-    self.allowed_attributes(node, aa)?;
+    self.allowed_attributes(node, checks.1)?;
     // check if required child nodes are present
-    self.required_children(node, rc)?;
+    self.required_children(node, checks.2)?;
     // reject not allowed child nodes
-    self.allowed_children(node, ac)?;
+    self.allowed_children(node, checks.3)?;
     Ok(())
   }
 
