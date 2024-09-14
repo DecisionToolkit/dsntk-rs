@@ -3,6 +3,7 @@ use dsntk_common::DsntkError;
 use roxmltree::Document;
 
 mod test_files;
+mod test_full_model_v13;
 mod test_input_data_v13;
 mod test_input_data_v14;
 mod test_root_element_v13;
