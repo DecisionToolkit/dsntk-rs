@@ -8,7 +8,10 @@
              xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/">
     <description>Compliance level 2. Test 0003.</description>
     <itemDefinition name="tEmploymentStatus">
-      <!-- no required typeRef element -->
+        <!-- typeRef and itemComponent can not be used together -->
+        <typeRef>string</typeRef>
+        <itemComponent name="age">
+        </itemComponent>
     </itemDefinition>
     <decision name="Employment Status Statement" id="d_EmploymentStatusStatement">
         <variable typeRef="string" name="Employment Status Statement"/>
