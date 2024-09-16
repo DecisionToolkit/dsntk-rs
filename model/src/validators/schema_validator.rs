@@ -96,6 +96,7 @@ impl SchemaValidator {
   fn validate<'a>(&mut self, document: &'a Document) -> Result<Node<'a, 'a>> {
     let root_element = document.root_element();
     self.validate_root_element(&root_element)?;
+    self.validate_item_definition_nodes(&root_element)?;
     self.validate_definitions_node(&root_element)?;
     self.validate_input_data_nodes(&root_element)?;
     self.validate_decision_nodes(&root_element)?;
@@ -123,6 +124,16 @@ impl SchemaValidator {
   fn validate_definitions_node(&mut self, node: &Node) -> Result<()> {
     match self.dmn_version {
       DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(node, chk!(v13, V_DEFINITIONS))?,
+    }
+    Ok(())
+  }
+
+  /// Validates the `itemDefinition` nodes.
+  fn validate_item_definition_nodes(&mut self, node: &Node) -> Result<()> {
+    for ref child_node in node.children().filter(name_eq(NODE_ITEM_DEFINITION)) {
+      match self.dmn_version {
+        DmnVersion::V13 | DmnVersion::V14 | DmnVersion::V15 => self.standard_checks(child_node, chk!(v13, V_ITEM_DEFINITION))?,
+      }
     }
     Ok(())
   }
@@ -260,11 +271,18 @@ mod v13 {
     ],
   );
 
-  pub const V_INPUT_DATA: ([&str; 1], [&str; 4], [&str; 0], [&str; 3]) = (
+  pub const V_ITEM_DEFINITION: ([&str; 1], [&str; 5], [&str; 0], [&str; 6]) = (
     [ATTR_NAME],
-    [ATTR_ID, ATTR_LABEL, ATTR_NAME, NODE_VARIABLE],
+    [ATTR_ID, ATTR_LABEL, ATTR_NAME, ATTR_TYPE_LANGUAGE, ATTR_IS_COLLECTION],
     [],
-    [NODE_DESCRIPTION, NODE_EXTENSION_ELEMENTS, NODE_VARIABLE],
+    [
+      NODE_ALLOWED_VALUES,
+      NODE_DESCRIPTION,
+      NODE_EXTENSION_ELEMENTS,
+      NODE_FUNCTION_ITEM,
+      NODE_ITEM_COMPONENT,
+      NODE_TYPE_REF,
+    ],
   );
 
   pub const V_DECISION: ([&str; 1], [&str; 3], [&str; 0], [&str; 21]) = (
@@ -323,6 +341,13 @@ mod v13 {
       NODE_OUTPUT_DECISION,
       NODE_VARIABLE,
     ],
+  );
+
+  pub const V_INPUT_DATA: ([&str; 1], [&str; 3], [&str; 0], [&str; 3]) = (
+    [ATTR_NAME],
+    [ATTR_ID, ATTR_LABEL, ATTR_NAME],
+    [],
+    [NODE_DESCRIPTION, NODE_EXTENSION_ELEMENTS, NODE_VARIABLE],
   );
 }
 

@@ -7,18 +7,10 @@
              xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
              xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/">
     <itemDefinition name="tFnLibrary" id="_fKdL0IDJEee-MeWXoLgrYg">
-        <itemComponent name="sumFn" id="_gtkkYIDJEee-MeWXoLgrYg">
-            <typeRef>Any</typeRef>
-        </itemComponent>
-        <itemComponent name="subFn" id="_pRj-sIDJEee-MeWXoLgrYg">
-            <typeRef>Any</typeRef>
-        </itemComponent>
-        <itemComponent name="multiplyFn" id="_l_GGYIDfEee-MeWXoLgrYg">
-            <typeRef>Any</typeRef>
-        </itemComponent>
-        <itemComponent name="divideFn" id="_pOrn0IDfEee-MeWXoLgrYg">
-            <typeRef>Any</typeRef>
-        </itemComponent>
+        <itemComponent name="sumFn" id="_gtkkYIDJEee-MeWXoLgrYg"/>
+        <itemComponent name="subFn" id="_pRj-sIDJEee-MeWXoLgrYg"/>
+        <itemComponent name="multiplyFn" id="_l_GGYIDfEee-MeWXoLgrYg"/>
+        <itemComponent name="divideFn" id="_pOrn0IDfEee-MeWXoLgrYg"/>
     </itemDefinition>
     <itemDefinition name="tFnInvocationPositionalResult" id="_xuQ0YIJtEee4zOLdFxCBaA">
         <itemComponent name="sumResult" id="_GDzKIIJuEee4zOLdFxCBaA">
@@ -183,7 +175,7 @@
             <contextEntry>
                 <variable name="functionInvocationLiteralExpressionInParameter" id="_eA6Ak4DiEee-MeWXoLgrYg"/>
                 <literalExpression id="_eA6AlYDiEee-MeWXoLgrYg">
-                    <text>fn library.multiplyFn(inputA * inputA, if fn library.subFn(inputA,inputB)  in [0..10] then 5 else 10 )</text>
+                    <text>fn library.multiplyFn(inputA * inputA, if fn library.subFn(inputA,inputB) in [0..10] then 5 else 10 )</text>
                 </literalExpression>
             </contextEntry>
             <contextEntry>

@@ -61,7 +61,7 @@ impl ModelParser {
       type_language: optional_attribute(node, ATTR_TYPE_LANGUAGE),
       exporter: optional_attribute(node, ATTR_EXPORTER),
       exporter_version: optional_attribute(node, ATTR_EXPORTER_VERSION),
-      item_definitions: self.parse_item_definitions(node, NODE_ITEM_DEFINITION)?,
+      item_definitions: self.parse_item_definition_nodes(node, NODE_ITEM_DEFINITION)?,
       drg_elements: self.parse_drg_elements(node)?,
       business_context_elements: self.parse_business_context_elements(node)?,
       imports: self.parse_imports(node)?,
@@ -70,8 +70,8 @@ impl ModelParser {
     Ok(definitions)
   }
 
-  /// Parses a collection of [ItemDefinition].
-  fn parse_item_definitions(&mut self, node: &Node, child_name: &str) -> Result<Vec<ItemDefinition>> {
+  /// Parses a collection of [ItemDefinition] nodes.
+  fn parse_item_definition_nodes(&mut self, node: &Node, child_name: &str) -> Result<Vec<ItemDefinition>> {
     let mut items = vec![];
     for ref child_node in node.children().filter(name_eq(child_name)) {
       items.push(self.parse_item_definition(child_node)?);
@@ -79,25 +79,43 @@ impl ModelParser {
     Ok(items)
   }
 
-  /// Parses a single [ItemDefinition].
+  /// Parses a single [ItemDefinition] node.
   fn parse_item_definition(&mut self, node: &Node) -> Result<ItemDefinition> {
+    let namespace = self.namespace.clone();
+    let model_name = self.model_name.clone();
+    let name = required_name(node)?;
+    let feel_name = required_feel_name(node)?;
+    let id = optional_id(node);
+    let description = optional_child_optional_content(node, NODE_DESCRIPTION);
+    let label = optional_attribute(node, ATTR_LABEL);
+    let extension_elements = self.parse_extension_elements(node);
+    let extension_attributes = self.parse_extension_attributes(node);
+    let type_language = optional_attribute(node, ATTR_TYPE_LANGUAGE);
+    let allowed_values = self.parse_unary_tests(node, NODE_ALLOWED_VALUES)?;
+    let item_components = self.parse_item_definition_nodes(node, NODE_ITEM_COMPONENT)?;
+    let is_collection = self.parse_boolean_attribute(node, ATTR_IS_COLLECTION, false);
+    let function_item = self.parse_function_item(node)?;
+    let mut type_ref = optional_child_required_content(node, NODE_TYPE_REF)?;
+    if type_ref.is_none() && item_components.is_empty() && !is_collection && function_item.is_none() {
+      type_ref = Some(FEEL_TYPE_NAME_ANY.to_string());
+    }
     Ok(ItemDefinition {
-      namespace: self.namespace.clone(),
-      model_name: self.model_name.clone(),
-      name: required_name(node)?,
-      feel_name: required_feel_name(node)?,
-      id: optional_id(node),
-      description: optional_child_optional_content(node, NODE_DESCRIPTION),
-      label: optional_attribute(node, ATTR_LABEL),
-      extension_elements: self.parse_extension_elements(node),
-      extension_attributes: self.parse_extension_attributes(node),
-      type_ref: optional_child_required_content(node, NODE_TYPE_REF)?,
-      type_language: optional_attribute(node, ATTR_TYPE_LANGUAGE),
+      namespace,
+      model_name,
+      name,
+      feel_name,
+      id,
+      description,
+      label,
+      extension_elements,
+      extension_attributes,
+      type_ref,
+      type_language,
       feel_type: None,
-      allowed_values: self.parse_unary_tests(node, NODE_ALLOWED_VALUES)?,
-      item_components: self.parse_item_definitions(node, NODE_ITEM_COMPONENT)?,
-      is_collection: self.parse_boolean_attribute(node, ATTR_IS_COLLECTION, false),
-      function_item: self.parse_function_item(node)?,
+      allowed_values,
+      item_components,
+      is_collection,
+      function_item,
     })
   }
 
