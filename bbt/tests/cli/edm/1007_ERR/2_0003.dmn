@@ -9,11 +9,14 @@
     <description>
         Example of invalid item definition.
     </description>
-    
+
     <itemDefinition name="tEmploymentStatus">
-       <!-- INVALID ITEM DEFINITION -->
+        <!-- typeRef and itemComponent can not be used together -->
+        <typeRef>string</typeRef>
+        <itemComponent name="age">
+        </itemComponent>
     </itemDefinition>
-    
+
     <decision name="Employment Status Statement" id="d_EmploymentStatusStatement">
         <variable typeRef="string" name="Employment Status Statement"/>
         <informationRequirement id="f4a0451b-8db5-401a-b9b4-dc31416b6e7d">
@@ -23,11 +26,11 @@
             <text>"You are " + Employment Status</text>
         </literalExpression>
     </decision>
-    
+
     <inputData name="Employment Status" id="i_EmploymentStatus">
         <variable typeRef="tEmploymentStatus" name="Employment Status"/>
     </inputData>
-    
+
     <dmndi:DMNDI>
         <dmndi:DMNDiagram id="_0003-input-data-string-allowed-values_D1">
             <dmndi:Size height="650.0" width="650.0"/>

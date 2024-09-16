@@ -11,7 +11,10 @@
     </description>
 
     <itemDefinition name="tEmploymentStatus">
-        <!-- INVALID ITEM DEFINITION -->
+        <!-- typeRef and itemComponent can not be used together -->
+        <typeRef>string</typeRef>
+        <itemComponent name="age">
+        </itemComponent>
     </itemDefinition>
 
     <decision name="Employment Status Statement" id="d_EmploymentStatusStatement">
