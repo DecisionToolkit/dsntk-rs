@@ -82,8 +82,7 @@
         </context>
     </decision>
     <decision name="fn invocation positional parameters" id="_AfhOEH6QEeePe9Zmt-encA">
-        <variable typeRef="tFnInvocationPositionalResult" name="fn invocation positional parameters"
-                  id="_rwrh8YDIEee-MeWXoLgrYg"/>
+        <variable typeRef="tFnInvocationPositionalResult" name="fn invocation positional parameters" id="_rwrh8YDIEee-MeWXoLgrYg"/>
         <informationRequirement id="f1a77547-c863-4c5c-8c40-c7118c9c56a7">
             <requiredDecision href="#_q2qzIH6LEeePe9Zmt-encA"/>
         </informationRequirement>
@@ -115,8 +114,7 @@
         </context>
     </decision>
     <decision name="fn invocation named parameters" id="_yHl3UIDhEee-MeWXoLgrYg">
-        <variable typeRef="tFnInvocationNamedResult" name="fn invocation named parameters"
-                  id="_eApsUYDjEee-MeWXoLgrYg"/>
+        <variable typeRef="tFnInvocationNamedResult" name="fn invocation named parameters" id="_eApsUYDjEee-MeWXoLgrYg"/>
         <informationRequirement id="_821bbeda-972a-489b-9467-9bdefd14b793">
             <requiredInput href="#_5eBhQH6PEeePe9Zmt-encA"/>
         </informationRequirement>
@@ -154,8 +152,7 @@
         </context>
     </decision>
     <decision name="fn invocation complex parameters" id="_b-gD0IDiEee-MeWXoLgrYg">
-        <variable typeRef="tFnInvocationComplexParamsResult" name="fn invocation complex parameters"
-                  id="_vU2_EYDjEee-MeWXoLgrYg"/>
+        <variable typeRef="tFnInvocationComplexParamsResult" name="fn invocation complex parameters" id="_vU2_EYDjEee-MeWXoLgrYg"/>
         <informationRequirement id="_9c0d7e05-550b-4b5d-a99f-455c098509f5">
             <requiredInput href="#_48BAYH6PEeePe9Zmt-encA"/>
         </informationRequirement>
@@ -172,16 +169,13 @@
             <contextEntry>
                 <variable name="functionInvocationInParameter" id="_eA6Aj4DiEee-MeWXoLgrYg"/>
                 <literalExpression id="_eA6AkYDiEee-MeWXoLgrYg">
-                    <text>fn library.multiplyFn(fn library.sumFn(inputA,inputA), fn library.sumFn(a:inputB, b:inputB))
-                    </text>
+                    <text>fn library.multiplyFn(fn library.sumFn(inputA,inputA), fn library.sumFn(a:inputB, b:inputB))</text>
                 </literalExpression>
             </contextEntry>
             <contextEntry>
                 <variable name="functionInvocationLiteralExpressionInParameter" id="_eA6Ak4DiEee-MeWXoLgrYg"/>
                 <literalExpression id="_eA6AlYDiEee-MeWXoLgrYg">
-                    <text>fn library.multiplyFn(inputA * inputA, if fn library.subFn(inputA,inputB) in [0..10] then 5
-                        else 10 )
-                    </text>
+                    <text>fn library.multiplyFn(inputA * inputA, if fn library.subFn(inputA,inputB) in [0..10] then 5 else 10 )</text>
                 </literalExpression>
             </contextEntry>
             <contextEntry>
