@@ -4,6 +4,10 @@
              name="name"
              id="_v14">
 
+    <itemDefinition name="item-definition">
+        <itemComponent name="component-1"/>
+    </itemDefinition>
+
     <decision name="decision">
     </decision>
 
