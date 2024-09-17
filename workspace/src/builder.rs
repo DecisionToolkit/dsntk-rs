@@ -1,13 +1,12 @@
 //! # Workspace builder
 
-use dsntk_common::{to_rdnn, ColorPalette};
+use dsntk_common::{encode_segments, to_rdnn, ColorPalette};
 use dsntk_model::{Definitions, DmnElement};
 use dsntk_model_evaluator::ModelEvaluator;
 use std::collections::{HashMap, HashSet};
 use std::fs;
 use std::path::Path;
 use std::sync::Arc;
-use urlencoding::encode;
 use walkdir::WalkDir;
 
 /// Workspace builder.
@@ -173,7 +172,7 @@ impl WorkspaceBuilder {
   fn display_summary(&self) {
     println!(
       "{1}Found {2} {3}.{0}",
-      self.colors.reset(),
+      self.colors.clear(),
       if self.file_count > 0 { self.colors.green() } else { self.colors.red() },
       self.file_count,
       Self::plural("model", self.file_count)
@@ -181,7 +180,7 @@ impl WorkspaceBuilder {
     if self.loaded_count > 0 {
       println!(
         "{1}Loaded {2} {3}.{0}",
-        self.colors.reset(),
+        self.colors.clear(),
         self.colors.green(),
         self.loaded_count,
         Self::plural("model", self.loaded_count)
@@ -190,7 +189,7 @@ impl WorkspaceBuilder {
     if self.failed_loads_count > 0 {
       println!(
         "{1}Failed to load {2} {3}.{0}",
-        self.colors.reset(),
+        self.colors.clear(),
         self.colors.red(),
         self.failed_loads_count,
         Self::plural("model", self.failed_loads_count)
@@ -199,7 +198,7 @@ impl WorkspaceBuilder {
     let deployed_invocables_count = self.evaluators.values().map(|evaluator| evaluator.invocables().len()).sum();
     println!(
       "{1}Deployed {2} {3}.{0}",
-      self.colors.reset(),
+      self.colors.clear(),
       self.colors.green(),
       deployed_invocables_count,
       Self::plural("invocable", deployed_invocables_count)
@@ -207,7 +206,7 @@ impl WorkspaceBuilder {
     if self.failed_deployments_count > 0 {
       println!(
         "{1}Failed to deploy {2} {3}.{0}",
-        self.colors.reset(),
+        self.colors.clear(),
         self.colors.red(),
         self.failed_deployments_count,
         Self::plural("workspace", self.failed_deployments_count)
@@ -224,22 +223,33 @@ impl WorkspaceBuilder {
     invocable_paths.sort();
     let invocable_count = invocable_paths.len();
     if invocable_count > 0 {
-      println!("{1}\nDeployed invocables:{0}", self.colors.reset(), self.colors.yellow());
+      println!("{1}\nDeployed invocables:{0}", self.colors.clear(), self.colors.yellow());
     }
     for key in invocable_paths {
       if let Some((workspace_name, model_namespace, model_name, invocable_name)) = self.invocables.get(&key) {
-        println!(
-          "  {1}{5}{0}{2}{6}{0}{3}{7}{0}/{4}{8}{0}",
-          self.colors.reset(),
-          self.colors.magenta(),
-          self.colors.blue(),
-          self.colors.cyan(),
-          self.colors.green(),
-          Self::encoded_segments(workspace_name),
-          Self::encoded_segments(&to_rdnn(model_namespace).unwrap()),
-          encode(model_name),
-          encode(invocable_name)
-        );
+        print!("  ");
+        // workspace name containing the directory structure, URL encoded
+        let segment_1 = encode_segments(workspace_name);
+        if !segment_1.is_empty() {
+          print!("{1}{2}{0}/", self.colors.clear(), self.colors.magenta(), segment_1);
+        }
+        // model namespace converted to DNN, URL encoded
+        let rdnn = to_rdnn(model_namespace).unwrap_or_default();
+        let segment_2 = encode_segments(&rdnn);
+        if !segment_2.is_empty() {
+          print!("{1}{2}{0}/", self.colors.clear(), self.colors.cyan(), segment_2);
+        }
+        // model name, URL encoded
+        let segment_3 = encode_segments(model_name);
+        if !segment_3.is_empty() {
+          print!("{1}{2}{0}/", self.colors.clear(), self.colors.magenta(), segment_3);
+        }
+        // invocable name, URL encoded
+        let segment_4 = encode_segments(invocable_name);
+        if !segment_4.is_empty() {
+          print!("{1}{2}{0}", self.colors.clear(), self.colors.cyan(), segment_4);
+        }
+        println!();
       }
     }
     if invocable_count > 0 {
@@ -270,21 +280,11 @@ impl WorkspaceBuilder {
     }
   }
 
-  /// Returns a string with URL encoded path segments.
-  fn encoded_segments(path: &str) -> String {
-    let encoded_path = path.split('/').map(|s| encode(s).to_string()).collect::<Vec<String>>().join("/");
-    if encoded_path.is_empty() {
-      "".to_string()
-    } else {
-      format!("{}/", encoded_path)
-    }
-  }
-
   /// Prints file loading error details.
   fn err_file_load(&self, file: &Path, reason: String) {
     eprintln!(
       "[{1}error{0}][{2}{3}{0}] {1}{4}{0}",
-      self.colors.reset(),
+      self.colors.clear(),
       self.colors.red(),
       self.colors.blue(),
       file.display(),
@@ -296,7 +296,7 @@ impl WorkspaceBuilder {
   fn err_duplicated_namespace(&self, file: &Path, namespace: &str, file_name: &str) {
     eprintln!(
       "[{1}error{0}][{2}{3}{0}] {1}duplicated namespace {4} in file {5}{0}",
-      self.colors.reset(),
+      self.colors.clear(),
       self.colors.red(),
       self.colors.blue(),
       file.display(),
@@ -309,7 +309,7 @@ impl WorkspaceBuilder {
   fn err_invalid_namespace(&self, file: &Path, namespace: &str) {
     eprintln!(
       "[{1}error{0}][{2}{3}{0}] {1}invalid namespace {4}{0}",
-      self.colors.reset(),
+      self.colors.clear(),
       self.colors.red(),
       self.colors.blue(),
       file.display(),
@@ -321,7 +321,7 @@ impl WorkspaceBuilder {
   fn err_deployment_failure(&self, workspace_name: &str, reason: String) {
     eprintln!(
       "[{1}error{0}][{2}{3}{0}] {1}deployment failed with reason: {4}{0}",
-      self.colors.reset(),
+      self.colors.clear(),
       self.colors.red(),
       self.colors.blue(),
       if workspace_name.is_empty() { "." } else { workspace_name },
@@ -331,6 +331,6 @@ impl WorkspaceBuilder {
 
   /// Prints file operation error details.
   fn err_file_operation(&self, reason: String) {
-    eprintln!("[{1}error{0}] {1}{2}{0}", self.colors.reset(), self.colors.red(), reason);
+    eprintln!("[{1}error{0}] {1}{2}{0}", self.colors.clear(), self.colors.red(), reason);
   }
 }

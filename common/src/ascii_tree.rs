@@ -1,6 +1,6 @@
 //! # ASCII tree with colors
 
-use crate::{ColorMode, ASCII_RESET};
+use crate::{ColorMode, ASCII_CLEAR};
 use std::fmt;
 use std::fmt::{Display, Formatter, Write};
 
@@ -43,7 +43,7 @@ impl Display for AsciiText {
   /// Prints a text with associated color control sequence.
   fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
     if let Some(color) = &self.color {
-      write!(f, "{}{}{}", color, self.text, ASCII_RESET)
+      write!(f, "{}{}{}", color, self.text, ASCII_CLEAR)
     } else {
       write!(f, "{}", self.text)
     }

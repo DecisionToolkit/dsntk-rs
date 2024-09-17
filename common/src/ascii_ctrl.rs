@@ -68,10 +68,10 @@ pub const ASCII_BG_BRIGHT_CYAN: &str = "\u{1b}[46;1m";
 /// Control sequence for background color _**bright white**_.
 pub const ASCII_BG_BRIGHT_WHITE: &str = "\u{1b}[47;1m";
 
-/// Control sequence for cancelling the previously set color.
-pub const ASCII_RESET: &str = "\u{1b}[0m";
+/// Control sequence for cancelling all the previously used settings.
+pub const ASCII_CLEAR: &str = "\u{1b}[0m";
 
-/// Color mode to switch terminal colouring on and off.
+/// Color mode to switch terminal colouring `ON` and `OFF`.
 #[derive(Copy, Clone, PartialEq)]
 pub enum ColorMode {
   /// Switch colouring **on**.
@@ -184,7 +184,7 @@ make_color_macro!(ASCII_BG_BRIGHT_MAGENTA, color_bg_bright_magenta);
 make_color_macro!(ASCII_BG_BRIGHT_CYAN, color_bg_bright_cyan);
 make_color_macro!(ASCII_BG_BRIGHT_WHITE, color_bg_bright_white);
 
-make_color_macro!(ASCII_RESET, color_reset);
+make_color_macro!(ASCII_CLEAR, color_clear);
 
 /// Color palette.
 #[derive(Clone)]
@@ -237,7 +237,7 @@ impl From<ColorMode> for ColorPalette {
         _ => "".to_string(),
       },
       reset: match value {
-        ColorMode::On => ASCII_RESET.to_string(),
+        ColorMode::On => ASCII_CLEAR.to_string(),
         _ => "".to_string(),
       },
     }
@@ -277,7 +277,7 @@ impl ColorPalette {
     &self.white
   }
 
-  pub fn reset(&self) -> &str {
+  pub fn clear(&self) -> &str {
     &self.reset
   }
 }
@@ -290,21 +290,21 @@ mod tests {
   #[test]
   fn test_8_colors() {
     let color_mode = ColorMode::On;
-    let color_reset = color_reset!(color_mode);
-    assert_eq!("\u{1b}[30m0\u{1b}[0m", format!("{1}0{0}", color_reset, color_black!(color_mode)));
-    assert_eq!("\u{1b}[31m1\u{1b}[0m", format!("{1}1{0}", color_reset, color_red!(color_mode)));
-    assert_eq!("\u{1b}[32m2\u{1b}[0m", format!("{1}2{0}", color_reset, color_green!(color_mode)));
-    assert_eq!("\u{1b}[33m3\u{1b}[0m", format!("{1}3{0}", color_reset, color_yellow!(color_mode)));
-    assert_eq!("\u{1b}[34m4\u{1b}[0m", format!("{1}4{0}", color_reset, color_blue!(color_mode)));
-    assert_eq!("\u{1b}[35m5\u{1b}[0m", format!("{1}5{0}", color_reset, color_magenta!(color_mode)));
-    assert_eq!("\u{1b}[36m6\u{1b}[0m", format!("{1}6{0}", color_reset, color_cyan!(color_mode)));
-    assert_eq!("\u{1b}[37m7\u{1b}[0m", format!("{1}7{0}", color_reset, color_white!(color_mode)));
+    let color_clear = color_clear!(color_mode);
+    assert_eq!("\u{1b}[30m0\u{1b}[0m", format!("{1}0{0}", color_clear, color_black!(color_mode)));
+    assert_eq!("\u{1b}[31m1\u{1b}[0m", format!("{1}1{0}", color_clear, color_red!(color_mode)));
+    assert_eq!("\u{1b}[32m2\u{1b}[0m", format!("{1}2{0}", color_clear, color_green!(color_mode)));
+    assert_eq!("\u{1b}[33m3\u{1b}[0m", format!("{1}3{0}", color_clear, color_yellow!(color_mode)));
+    assert_eq!("\u{1b}[34m4\u{1b}[0m", format!("{1}4{0}", color_clear, color_blue!(color_mode)));
+    assert_eq!("\u{1b}[35m5\u{1b}[0m", format!("{1}5{0}", color_clear, color_magenta!(color_mode)));
+    assert_eq!("\u{1b}[36m6\u{1b}[0m", format!("{1}6{0}", color_clear, color_cyan!(color_mode)));
+    assert_eq!("\u{1b}[37m7\u{1b}[0m", format!("{1}7{0}", color_clear, color_white!(color_mode)));
   }
 
   #[test]
   fn test_8_color_palette() {
     let colors: ColorPalette = (ColorMode::On).into();
-    let color_reset = &mut colors.reset();
+    let color_reset = &mut colors.clear();
     assert_eq!("\u{1b}[30m0\u{1b}[0m", format!("{1}0{0}", color_reset, colors.black()));
     assert_eq!("\u{1b}[31m1\u{1b}[0m", format!("{1}1{0}", color_reset, colors.red()));
     assert_eq!("\u{1b}[32m2\u{1b}[0m", format!("{1}2{0}", color_reset, colors.green()));
@@ -318,90 +318,90 @@ mod tests {
   #[test]
   fn test_8_bright_colors() {
     let color_mode = ColorMode::On;
-    let color_reset = color_reset!(color_mode);
-    assert_eq!("\u{1b}[30;1m0\u{1b}[0m", format!("{1}0{0}", color_reset, color_bright_black!(color_mode)));
-    assert_eq!("\u{1b}[31;1m1\u{1b}[0m", format!("{1}1{0}", color_reset, color_bright_red!(color_mode)));
-    assert_eq!("\u{1b}[32;1m2\u{1b}[0m", format!("{1}2{0}", color_reset, color_bright_green!(color_mode)));
-    assert_eq!("\u{1b}[33;1m3\u{1b}[0m", format!("{1}3{0}", color_reset, color_bright_yellow!(color_mode)));
-    assert_eq!("\u{1b}[34;1m4\u{1b}[0m", format!("{1}4{0}", color_reset, color_bright_blue!(color_mode)));
-    assert_eq!("\u{1b}[35;1m5\u{1b}[0m", format!("{1}5{0}", color_reset, color_bright_magenta!(color_mode)));
-    assert_eq!("\u{1b}[36;1m6\u{1b}[0m", format!("{1}6{0}", color_reset, color_bright_cyan!(color_mode)));
-    assert_eq!("\u{1b}[37;1m7\u{1b}[0m", format!("{1}7{0}", color_reset, color_bright_white!(color_mode)));
+    let color_clear = color_clear!(color_mode);
+    assert_eq!("\u{1b}[30;1m0\u{1b}[0m", format!("{1}0{0}", color_clear, color_bright_black!(color_mode)));
+    assert_eq!("\u{1b}[31;1m1\u{1b}[0m", format!("{1}1{0}", color_clear, color_bright_red!(color_mode)));
+    assert_eq!("\u{1b}[32;1m2\u{1b}[0m", format!("{1}2{0}", color_clear, color_bright_green!(color_mode)));
+    assert_eq!("\u{1b}[33;1m3\u{1b}[0m", format!("{1}3{0}", color_clear, color_bright_yellow!(color_mode)));
+    assert_eq!("\u{1b}[34;1m4\u{1b}[0m", format!("{1}4{0}", color_clear, color_bright_blue!(color_mode)));
+    assert_eq!("\u{1b}[35;1m5\u{1b}[0m", format!("{1}5{0}", color_clear, color_bright_magenta!(color_mode)));
+    assert_eq!("\u{1b}[36;1m6\u{1b}[0m", format!("{1}6{0}", color_clear, color_bright_cyan!(color_mode)));
+    assert_eq!("\u{1b}[37;1m7\u{1b}[0m", format!("{1}7{0}", color_clear, color_bright_white!(color_mode)));
   }
 
   #[test]
   fn test_8_bg_colors() {
     let color_mode = ColorMode::On;
-    let color_reset = color_reset!(color_mode);
-    assert_eq!("\u{1b}[40m0\u{1b}[0m", format!("{1}0{0}", color_reset, color_bg_black!(color_mode)));
-    assert_eq!("\u{1b}[41m1\u{1b}[0m", format!("{1}1{0}", color_reset, color_bg_red!(color_mode)));
-    assert_eq!("\u{1b}[42m2\u{1b}[0m", format!("{1}2{0}", color_reset, color_bg_green!(color_mode)));
-    assert_eq!("\u{1b}[43m3\u{1b}[0m", format!("{1}3{0}", color_reset, color_bg_yellow!(color_mode)));
-    assert_eq!("\u{1b}[44m4\u{1b}[0m", format!("{1}4{0}", color_reset, color_bg_blue!(color_mode)));
-    assert_eq!("\u{1b}[45m5\u{1b}[0m", format!("{1}5{0}", color_reset, color_bg_magenta!(color_mode)));
-    assert_eq!("\u{1b}[46m6\u{1b}[0m", format!("{1}6{0}", color_reset, color_bg_cyan!(color_mode)));
-    assert_eq!("\u{1b}[47m7\u{1b}[0m", format!("{1}7{0}", color_reset, color_bg_white!(color_mode)));
+    let color_clear = color_clear!(color_mode);
+    assert_eq!("\u{1b}[40m0\u{1b}[0m", format!("{1}0{0}", color_clear, color_bg_black!(color_mode)));
+    assert_eq!("\u{1b}[41m1\u{1b}[0m", format!("{1}1{0}", color_clear, color_bg_red!(color_mode)));
+    assert_eq!("\u{1b}[42m2\u{1b}[0m", format!("{1}2{0}", color_clear, color_bg_green!(color_mode)));
+    assert_eq!("\u{1b}[43m3\u{1b}[0m", format!("{1}3{0}", color_clear, color_bg_yellow!(color_mode)));
+    assert_eq!("\u{1b}[44m4\u{1b}[0m", format!("{1}4{0}", color_clear, color_bg_blue!(color_mode)));
+    assert_eq!("\u{1b}[45m5\u{1b}[0m", format!("{1}5{0}", color_clear, color_bg_magenta!(color_mode)));
+    assert_eq!("\u{1b}[46m6\u{1b}[0m", format!("{1}6{0}", color_clear, color_bg_cyan!(color_mode)));
+    assert_eq!("\u{1b}[47m7\u{1b}[0m", format!("{1}7{0}", color_clear, color_bg_white!(color_mode)));
   }
 
   #[test]
   fn test_8_bg_bright_colors() {
     let color_mode = ColorMode::On;
-    let color_reset = color_reset!(color_mode);
-    assert_eq!("\u{1b}[40;1m0\u{1b}[0m", format!("{1}0{0}", color_reset, color_bg_bright_black!(color_mode)));
-    assert_eq!("\u{1b}[41;1m1\u{1b}[0m", format!("{1}1{0}", color_reset, color_bg_bright_red!(color_mode)));
-    assert_eq!("\u{1b}[42;1m2\u{1b}[0m", format!("{1}2{0}", color_reset, color_bg_bright_green!(color_mode)));
-    assert_eq!("\u{1b}[43;1m3\u{1b}[0m", format!("{1}3{0}", color_reset, color_bg_bright_yellow!(color_mode)));
-    assert_eq!("\u{1b}[44;1m4\u{1b}[0m", format!("{1}4{0}", color_reset, color_bg_bright_blue!(color_mode)));
-    assert_eq!("\u{1b}[45;1m5\u{1b}[0m", format!("{1}5{0}", color_reset, color_bg_bright_magenta!(color_mode)));
-    assert_eq!("\u{1b}[46;1m6\u{1b}[0m", format!("{1}6{0}", color_reset, color_bg_bright_cyan!(color_mode)));
-    assert_eq!("\u{1b}[47;1m7\u{1b}[0m", format!("{1}7{0}", color_reset, color_bg_bright_white!(color_mode)));
+    let color_clear = color_clear!(color_mode);
+    assert_eq!("\u{1b}[40;1m0\u{1b}[0m", format!("{1}0{0}", color_clear, color_bg_bright_black!(color_mode)));
+    assert_eq!("\u{1b}[41;1m1\u{1b}[0m", format!("{1}1{0}", color_clear, color_bg_bright_red!(color_mode)));
+    assert_eq!("\u{1b}[42;1m2\u{1b}[0m", format!("{1}2{0}", color_clear, color_bg_bright_green!(color_mode)));
+    assert_eq!("\u{1b}[43;1m3\u{1b}[0m", format!("{1}3{0}", color_clear, color_bg_bright_yellow!(color_mode)));
+    assert_eq!("\u{1b}[44;1m4\u{1b}[0m", format!("{1}4{0}", color_clear, color_bg_bright_blue!(color_mode)));
+    assert_eq!("\u{1b}[45;1m5\u{1b}[0m", format!("{1}5{0}", color_clear, color_bg_bright_magenta!(color_mode)));
+    assert_eq!("\u{1b}[46;1m6\u{1b}[0m", format!("{1}6{0}", color_clear, color_bg_bright_cyan!(color_mode)));
+    assert_eq!("\u{1b}[47;1m7\u{1b}[0m", format!("{1}7{0}", color_clear, color_bg_bright_white!(color_mode)));
   }
 
   fn test_display_8_colors() {
-    print!("{ASCII_BLACK}0{ASCII_RESET} ");
-    print!("{ASCII_RED}1{ASCII_RESET} ");
-    print!("{ASCII_GREEN}2{ASCII_RESET} ");
-    print!("{ASCII_YELLOW}3{ASCII_RESET} ");
-    print!("{ASCII_BLUE}4{ASCII_RESET} ");
-    print!("{ASCII_MAGENTA}5{ASCII_RESET} ");
-    print!("{ASCII_CYAN}6{ASCII_RESET} ");
-    print!("{ASCII_WHITE}7{ASCII_RESET} ");
+    print!("{ASCII_BLACK}0{ASCII_CLEAR} ");
+    print!("{ASCII_RED}1{ASCII_CLEAR} ");
+    print!("{ASCII_GREEN}2{ASCII_CLEAR} ");
+    print!("{ASCII_YELLOW}3{ASCII_CLEAR} ");
+    print!("{ASCII_BLUE}4{ASCII_CLEAR} ");
+    print!("{ASCII_MAGENTA}5{ASCII_CLEAR} ");
+    print!("{ASCII_CYAN}6{ASCII_CLEAR} ");
+    print!("{ASCII_WHITE}7{ASCII_CLEAR} ");
     print!("\n\n");
   }
 
   fn test_display_8_bright_colors() {
-    print!("{ASCII_BRIGHT_BLACK}0{ASCII_RESET} ");
-    print!("{ASCII_BRIGHT_RED}1{ASCII_RESET} ");
-    print!("{ASCII_BRIGHT_GREEN}2{ASCII_RESET} ");
-    print!("{ASCII_BRIGHT_YELLOW}3{ASCII_RESET} ");
-    print!("{ASCII_BRIGHT_BLUE}4{ASCII_RESET} ");
-    print!("{ASCII_BRIGHT_MAGENTA}5{ASCII_RESET} ");
-    print!("{ASCII_BRIGHT_CYAN}6{ASCII_RESET} ");
-    print!("{ASCII_BRIGHT_WHITE}7{ASCII_RESET} ");
+    print!("{ASCII_BRIGHT_BLACK}0{ASCII_CLEAR} ");
+    print!("{ASCII_BRIGHT_RED}1{ASCII_CLEAR} ");
+    print!("{ASCII_BRIGHT_GREEN}2{ASCII_CLEAR} ");
+    print!("{ASCII_BRIGHT_YELLOW}3{ASCII_CLEAR} ");
+    print!("{ASCII_BRIGHT_BLUE}4{ASCII_CLEAR} ");
+    print!("{ASCII_BRIGHT_MAGENTA}5{ASCII_CLEAR} ");
+    print!("{ASCII_BRIGHT_CYAN}6{ASCII_CLEAR} ");
+    print!("{ASCII_BRIGHT_WHITE}7{ASCII_CLEAR} ");
     print!("\n\n");
   }
 
   fn test_display_8_bg_colors() {
-    print!("{ASCII_BG_BLACK} 0 {ASCII_RESET} ");
-    print!("{ASCII_BG_RED} 1 {ASCII_RESET} ");
-    print!("{ASCII_BG_GREEN} 2 {ASCII_RESET} ");
-    print!("{ASCII_BG_YELLOW} 3 {ASCII_RESET} ");
-    print!("{ASCII_BG_BLUE} 4 {ASCII_RESET} ");
-    print!("{ASCII_BG_MAGENTA} 5 {ASCII_RESET} ");
-    print!("{ASCII_BG_CYAN} 6 {ASCII_RESET} ");
-    print!("{ASCII_BG_WHITE} 7 {ASCII_RESET} ");
+    print!("{ASCII_BG_BLACK} 0 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_RED} 1 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_GREEN} 2 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_YELLOW} 3 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_BLUE} 4 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_MAGENTA} 5 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_CYAN} 6 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_WHITE} 7 {ASCII_CLEAR} ");
     print!("\n\n");
   }
 
   fn test_display_8_bg_bright_colors() {
-    print!("{ASCII_BG_BRIGHT_BLACK} 0 {ASCII_RESET} ");
-    print!("{ASCII_BG_BRIGHT_RED} 1 {ASCII_RESET} ");
-    print!("{ASCII_BG_BRIGHT_GREEN} 2 {ASCII_RESET} ");
-    print!("{ASCII_BG_BRIGHT_YELLOW} 3 {ASCII_RESET} ");
-    print!("{ASCII_BG_BRIGHT_BLUE} 4 {ASCII_RESET} ");
-    print!("{ASCII_BG_BRIGHT_MAGENTA} 5 {ASCII_RESET} ");
-    print!("{ASCII_BG_BRIGHT_CYAN} 6 {ASCII_RESET} ");
-    print!("{ASCII_BG_BRIGHT_WHITE} 7 {ASCII_RESET} ");
+    print!("{ASCII_BG_BRIGHT_BLACK} 0 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_BRIGHT_RED} 1 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_BRIGHT_GREEN} 2 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_BRIGHT_YELLOW} 3 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_BRIGHT_BLUE} 4 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_BRIGHT_MAGENTA} 5 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_BRIGHT_CYAN} 6 {ASCII_CLEAR} ");
+    print!("{ASCII_BG_BRIGHT_WHITE} 7 {ASCII_CLEAR} ");
     print!("\n\n");
   }
 
@@ -409,7 +409,7 @@ mod tests {
     for i in 0..16 {
       for j in 0..16 {
         let code = format!("{}", i * 16 + j);
-        print!("\u{1b}[38;5;{code}m{code:>4}{ASCII_RESET}")
+        print!("\u{1b}[38;5;{code}m{code:>4}{ASCII_CLEAR}")
       }
       println!();
     }

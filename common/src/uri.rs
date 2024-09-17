@@ -18,6 +18,11 @@ pub fn to_uri(value: &str) -> Result<Uri> {
   Err(err_invalid_uri(value))
 }
 
+/// Returns a string with URL encoded path segments.
+pub fn encode_segments(input: &str) -> String {
+  input.split('/').map(|s| urlencoding::encode(s).to_string()).collect::<Vec<String>>().join("/")
+}
+
 mod errors {
   use crate::{DsntkError, ToErrorMessage};
 
