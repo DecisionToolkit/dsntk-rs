@@ -1,6 +1,6 @@
 //! # Command-line actions
 
-use crate::examples::*;
+use crate::built_in_examples::*;
 use clap::{arg, command, crate_description, crate_version, Arg, ArgAction, ArgMatches, Command};
 use dsntk_common::*;
 use dsntk_feel::values::Value;
@@ -236,7 +236,7 @@ pub async fn do_action() -> std::io::Result<()> {
     }
     Action::SaveExamples(root_dir) => {
       // save the examples in the specified root directory
-      generate_examples(&root_dir)
+      save_builtin_examples(&root_dir)
     }
     Action::DoNothing => {
       // no specific action was requested
@@ -893,8 +893,9 @@ fn export_dmn_model(dmn_file_name: &str, html_file_name: &str) {
   }
 }
 
-/// Generates examples in current directory.
-fn generate_examples(root_dir: &str) -> std::io::Result<()> {
+/// Saves built-in examples in specified directory.
+fn save_builtin_examples(root_dir: &str) -> std::io::Result<()> {
+  // utility function for creating (sub)directories
   let create_dir = |root_dir: &str, child_dir: &str| -> std::io::Result<()> {
     let root_path = Path::new(root_dir);
     let child_path = Path::new(child_dir);
@@ -902,6 +903,7 @@ fn generate_examples(root_dir: &str) -> std::io::Result<()> {
     fs::create_dir_all(path)?;
     Ok(())
   };
+  // utility function for saving the file content
   let write_file = |root_dir: &str, child_dir, contents| -> std::io::Result<()> {
     let root_path = Path::new(root_dir);
     let child_path = Path::new(child_dir);
@@ -909,15 +911,20 @@ fn generate_examples(root_dir: &str) -> std::io::Result<()> {
     fs::write(path, contents)?;
     Ok(())
   };
-  create_dir(root_dir, "e1")?;
-  write_file(root_dir, "e1/e1.ctx", E1_CTX)?;
-  write_file(root_dir, "e1/e1.feel", E1_FEEL)?;
-  create_dir(root_dir, "e2")?;
-  write_file(root_dir, "e2/e2.ctx", E2_CTX)?;
-  write_file(root_dir, "e2/e2.dmn", E2_DMN)?;
-  create_dir(root_dir, "e3")?;
-  write_file(root_dir, "e3/e3.ctx", E3_CTX)?;
-  write_file(root_dir, "e3/e3.dtb", E3_DTB)?;
+  // save example decision model
+  create_dir(root_dir, "dm")?;
+  write_file(root_dir, "dm/dm.ctx", EXAMPLE_DM_CTX)?;
+  write_file(root_dir, "dm/dm.dmn", EXAMPLE_DM)?;
+  // save example decision table
+  create_dir(root_dir, "dt")?;
+  write_file(root_dir, "dt/dt.ctx", EXAMPLE_DT_CTX)?;
+  write_file(root_dir, "dt/dt.dtb", EXAMPLE_DT)?;
+  // save example FEEL expression
+  create_dir(root_dir, "fe")?;
+  write_file(root_dir, "fe/fe.ctx", EXAMPLE_FE_CTX)?;
+  write_file(root_dir, "fe/fe.feel", EXAMPLE_FE)?;
+  // display summary message
+  //TODO display saved directory tree
   Ok(())
 }
 

@@ -4,27 +4,27 @@ rm -rf examples
 
 dsntk exs examples
 
-cat ./examples/e1/e1.ctx
+cat ./examples/fe/fe.ctx
 echo ""
 echo "------------------------------------------------------------------------------------------------------------------"
 echo ""
-cat ./examples/e1/e1.feel
+cat ./examples/fe/fe.feel
 echo ""
 echo "=================================================================================================================="
 echo ""
-cat ./examples/e2/e2.ctx
+cat ./examples/dm/dm.ctx
 echo ""
 echo "------------------------------------------------------------------------------------------------------------------"
 echo ""
-cat ./examples/e2/e2.dmn
+cat ./examples/dm/dm.dmn
 echo ""
 echo "=================================================================================================================="
 echo ""
-cat ./examples/e3/e3.ctx
+cat ./examples/dt/dt.ctx
 echo ""
 echo "------------------------------------------------------------------------------------------------------------------"
 echo ""
-cat ./examples/e3/e3.dtb
+cat ./examples/dt/dt.dtb
 echo ""
 
 rm -rf examples
