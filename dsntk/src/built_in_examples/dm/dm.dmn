@@ -3,14 +3,16 @@
              xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
              xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
              xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
-             namespace="https://dsntk.io/2_0001"
-             name="compliance-level-2-test-0001"
-             id="_c910c9ba-c584-4ac9-a773-1e6de185cd85">
+             namespace="https://decision-toolkit.org"
+             name="greetings"
+             id="_2bfbf913-4418-4865-b628-258850b1749b">
+
     <description>
         Compliance level 2. Test 0001.
         This example is based on original file taken from:
         https://github.com/dmn-tck/tck/blob/master/TestCases/compliance-level-2/0001-input-data-string/0001-input-data-string.dmn
     </description>
+
     <decision name="Greeting Message" id="_75b3add2-4d36-4a19-a76c-268b49b2f436">
         <variable typeRef="string" name="Greeting Message"/>
         <informationRequirement id="_8c935b50-10b7-426b-80a9-dddb4264b4a9">
@@ -20,9 +22,11 @@
             <text>"Hello " + Full Name</text>
         </literalExpression>
     </decision>
+
     <inputData name="Full Name" id="_cba86e4d-e91c-46a2-9176-e9adf88e15db">
         <variable typeRef="string" name="Full Name"/>
     </inputData>
+
     <dmndi:DMNDI>
         <dmndi:DMNDiagram id="_d3a3312e-5924-4f7b-ac0e-232ef9203ff6">
             <dmndi:Size height="650.0" width="650.0"/>

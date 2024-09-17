@@ -5,7 +5,7 @@
 //! which is an industry standard governed by the [Object Management Group](https://www.omg.org) (OMG®).
 
 mod actions;
-mod examples;
+mod built_in_examples;
 
 /// Main entrypoint of **Decision Toolkit** application.
 #[actix_web::main]

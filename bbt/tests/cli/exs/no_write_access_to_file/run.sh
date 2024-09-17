@@ -3,10 +3,10 @@
 rm -rf examples
 
 mkdir examples
-mkdir examples/e1
-touch examples/e1/e1.ctx
+mkdir examples/fe
+touch examples/fe/fe.ctx
 
-chmod -w examples/e1/e1.ctx
+chmod -w examples/fe/fe.ctx
 
 dsntk exs examples 2>&1
 

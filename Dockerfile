@@ -1,10 +1,10 @@
 FROM scratch
 
-# copy the binary file of Decision Toolkit to container's root directory
+# copy compiled binary to container's root directory
 COPY ./target/x86_64-unknown-linux-musl/release/dsntk /
 
-# copy example model to container's root directory
-COPY ./dsntk/src/examples/e2/e2.dmn /
+# save built-in examples
+CMD ["/dsntk", "exs", "/examples"]
 
-# start as a service and display all deployed invocables
-CMD ["/dsntk", "srv", "--verbose"]
+# start the service listing all deployed invocables
+CMD ["/dsntk", "srv", "-v"]
