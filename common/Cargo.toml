@@ -16,4 +16,5 @@ serde = { workspace = true }
 uuid = { workspace = true }
 uriparse = { workspace = true }
 url = { workspace = true }
+urlencoding = { workspace = true }
 dsntk-macros = { workspace = true }

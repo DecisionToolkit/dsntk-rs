@@ -925,18 +925,18 @@ fn generate_examples(root_dir: &str) -> std::io::Result<()> {
 fn display_test_case_result(actual: &Value, expected: &Value, test_no: &usize, passed: &mut usize, failed: &mut usize, summary_only: bool, color_mode: ColorMode) {
   let color_red = color_red!(color_mode);
   let color_green = color_green!(color_mode);
-  let color_reset = color_reset!(color_mode);
+  let color_clear = color_clear!(color_mode);
   if dsntk_evaluator::evaluate_equals(actual, expected) {
     *passed += 1;
     if !summary_only {
-      println!("test {} ... {}ok{}", test_no + 1, color_green, color_reset);
+      println!("test {} ... {}ok{}", test_no + 1, color_green, color_clear);
     }
   } else {
     *failed += 1;
     if !summary_only {
-      println!("test {} ... {color_red}FAILED{color_reset}", test_no + 1);
-      println!("    expected: {color_green}{expected}{color_reset}");
-      println!("      actual: {color_red}{actual}{color_reset}");
+      println!("test {} ... {color_red}FAILED{color_clear}", test_no + 1);
+      println!("    expected: {color_green}{expected}{color_clear}");
+      println!("      actual: {color_red}{actual}{color_clear}");
     }
   }
 }
@@ -945,16 +945,16 @@ fn display_test_case_result(actual: &Value, expected: &Value, test_no: &usize, p
 fn display_test_summary(passed: usize, failed: usize, summary_only: bool, color_mode: ColorMode) {
   let color_red = color_red!(color_mode);
   let color_green = color_green!(color_mode);
-  let color_reset = color_reset!(color_mode);
+  let color_clear = color_clear!(color_mode);
   if failed > 0 {
     if summary_only {
-      println!("test result: {color_red}FAILED{color_reset}. {passed} passed; {failed} failed.\n");
+      println!("test result: {color_red}FAILED{color_clear}. {passed} passed; {failed} failed.\n");
     } else {
-      println!("\ntest result: {color_red}FAILED{color_reset}. {passed} passed; {failed} failed.\n");
+      println!("\ntest result: {color_red}FAILED{color_clear}. {passed} passed; {failed} failed.\n");
     }
   } else if summary_only {
-    println!("test result: {color_green}ok{color_reset}. {passed} passed; {failed} failed.\n");
+    println!("test result: {color_green}ok{color_clear}. {passed} passed; {failed} failed.\n");
   } else {
-    println!("\ntest result: {color_green}ok{color_reset}. {passed} passed; {failed} failed.\n");
+    println!("\ntest result: {color_green}ok{color_clear}. {passed} passed; {failed} failed.\n");
   }
 }

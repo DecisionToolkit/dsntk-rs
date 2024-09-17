@@ -49,7 +49,7 @@ pub async fn start_server(opt_host: Option<String>, opt_port: Option<String>, op
     workspaces: Arc::new(Workspaces::new(&get_root_dir(opt_dir), colors.clone(), verbose)),
   });
   let address = get_server_address(opt_host, opt_port);
-  println!("{1}dsntk{0} {2}{address}{0}", colors.reset(), colors.blue(), colors.yellow());
+  println!("{1}dsntk{0} {2}{address}{0}", colors.clear(), colors.blue(), colors.yellow());
   HttpServer::new(move || {
     App::new()
       .app_data(application_data.clone())
