@@ -54,10 +54,9 @@ impl<T> Default for TckResultDto<T> {
   }
 }
 
-impl<T: Serialize> ToString for TckResultDto<T> {
-  /// Converts result to JSON string.
-  fn to_string(&self) -> String {
-    serde_json::to_string(self).unwrap_or("conversion to JSON failed for ResultDto".to_string())
+impl<T: Serialize> fmt::Display for TckResultDto<T> {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    write!(f, "{}", serde_json::to_string(self).unwrap_or("conversion to JSON failed for ResultDto".to_string()))
   }
 }
 
