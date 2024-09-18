@@ -5,7 +5,7 @@
 #==============================================================================
 
 # Number of the version to be published.
-PUBLISH_VERSION="0.0.8"
+PUBLISHED_VERSION=""
 
 publish() {
   echo "┌─────────────────────────────────────────────────────────────────────"
@@ -14,13 +14,13 @@ publish() {
   cargo update
   cd "$1" && cargo publish && cd ..
   if [ "$1" != "dsntk" ]; then
-    sed -i -E "s/$2 = .+/$2 = \"$PUBLISH_VERSION\"/g" Cargo.toml
+    sed -i -E "s/$2 = .+/$2 = \"$PUBLISHED_VERSION\"/g" Cargo.toml
   fi
   echo "┌─────────────────────────────────────────────────────────────────────"
   echo "│ Published $1 ($3/18) "
   echo "└─────────────────────────────────────────────────────────────────────"
-  echo "...sleeping 5s..."
-  sleep 5s
+  echo "sleeping 10s..."
+  sleep 10s
 }
 
 publish_all() {
@@ -34,8 +34,8 @@ publish_all() {
   publish "feel"              "dsntk-feel"                 8
   publish "feel-parser"       "dsntk-feel-parser"          9
   publish "feel-evaluator"    "dsntk-feel-evaluator"      10
-  publish "model"             "dsntk-model"               11
-  publish "recognizer"        "dsntk-recognizer"          12
+  publish "recognizer"        "dsntk-recognizer"          11
+  publish "model"             "dsntk-model"               12
   publish "model-evaluator"   "dsntk-model-evaluator"     13
   publish "evaluator"         "dsntk-evaluator"           14
   publish "gendoc"            "dsntk-gendoc"              15
@@ -44,4 +44,9 @@ publish_all() {
   publish "dsntk"             "dsntk"                     18
 }
 
-publish_all
+if [ -z "$PUBLISHED_VERSION" ]; then
+  echo "Set the publish version variable."
+  exit 1;
+else
+  publish_all
+fi
