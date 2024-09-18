@@ -24,16 +24,16 @@ publish() {
 }
 
 publish_all() {
-#  publish "examples"          "dsntk-examples"             1
-#  publish "macros"            "dsntk-macros"               2
-#  publish "common"            "dsntk-common"               3
-#  publish "feel-regex"        "dsntk-feel-regex"           4
-#  publish "feel-number"       "dsntk-feel-number"          5
-#  publish "feel-temporal"     "dsntk-feel-temporal"        6
-#  publish "feel-grammar"      "dsntk-feel-grammar"         7
-#  publish "feel"              "dsntk-feel"                 8
-#  publish "feel-parser"       "dsntk-feel-parser"          9
-#  publish "feel-evaluator"    "dsntk-feel-evaluator"      10
+  publish "examples"          "dsntk-examples"             1
+  publish "macros"            "dsntk-macros"               2
+  publish "common"            "dsntk-common"               3
+  publish "feel-regex"        "dsntk-feel-regex"           4
+  publish "feel-number"       "dsntk-feel-number"          5
+  publish "feel-temporal"     "dsntk-feel-temporal"        6
+  publish "feel-grammar"      "dsntk-feel-grammar"         7
+  publish "feel"              "dsntk-feel"                 8
+  publish "feel-parser"       "dsntk-feel-parser"          9
+  publish "feel-evaluator"    "dsntk-feel-evaluator"      10
   publish "recognizer"        "dsntk-recognizer"          11
   publish "model"             "dsntk-model"               12
   publish "model-evaluator"   "dsntk-model-evaluator"     13
