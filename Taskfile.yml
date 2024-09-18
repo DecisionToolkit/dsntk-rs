@@ -60,11 +60,13 @@ tasks:
   clippy:
     desc: Runs clippy for all targets
     cmds:
+      - cmd: cargo +nightly clippy --workspace
       - cmd: cargo +stable clippy --workspace
 
   clippy-all:
     desc: Runs clippy for all targets
     cmds:
+      - cmd: cargo +stable clippy --workspace --all-targets
       - cmd: cargo +nightly clippy --workspace --all-targets
 
   clippy-tck:
