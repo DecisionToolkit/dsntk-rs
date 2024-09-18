@@ -83,7 +83,7 @@ impl<T> TckResultDto<T> {
 /// defined in [Technology Compatibility Kit for DMN standard](https://github.com/dmn-tck/tck).
 #[derive(Deserialize)]
 pub struct TckEvaluateParams {
-  /// Path to invocable to be evaluated.
+  /// Path of the invocable to be evaluated.
   #[serde(rename = "invocable")]
   invocable_path: Option<String>,
   /// Collection of input values.
