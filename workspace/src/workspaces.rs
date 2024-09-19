@@ -7,7 +7,7 @@ use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::Value;
 use dsntk_model_evaluator::ModelEvaluator;
 use std::collections::HashMap;
-use std::path::Path;
+use std::path::PathBuf;
 use std::sync::Arc;
 
 /// Container for decision model evaluators.
@@ -20,9 +20,12 @@ pub struct Workspaces {
 
 impl Workspaces {
   /// Creates a new [Workspaces] and loads decision models from specified directory.
-  pub fn new(dir: &Path, colors: ColorPalette, verbose: bool) -> Self {
+  pub fn new(dirs: Vec<PathBuf>, colors: ColorPalette, verbose: bool) -> Self {
     let mut builder = WorkspaceBuilder::new(colors, verbose);
-    builder.load_decision_models(dir);
+    for dir in dirs {
+      builder.load_decision_models(&dir);
+    }
+    builder.display_summary();
     Self {
       invocables: builder.invocables,
       evaluators: builder.evaluators,

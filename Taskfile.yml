@@ -205,12 +205,7 @@ tasks:
   tck:
     desc: Runs the server in release mode and musl target with flags for running TCK test cases
     cmds:
-      - cmd: cargo +stable run --release --features tck --target=x86_64-unknown-linux-musl -- srv -H 127.0.0.1 -D ../tck/TestCases
-
-  tck-debug:
-    desc: Runs the server in debug mode with flags for running TCK test cases
-    cmds:
-      - cmd: cargo +stable run --features tck -- srv -H 127.0.0.1 -D ../tck/TestCases
+      - cmd: cargo +stable run --release --features tck --target=x86_64-unknown-linux-musl -- srv -H 127.0.0.1 -D ../tck/TestCases/compliance-level-2 -D ../tck/TestCases/compliance-level-3
 
   test:
     desc: Runs tests in debug mode

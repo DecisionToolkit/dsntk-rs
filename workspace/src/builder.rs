@@ -55,7 +55,7 @@ impl WorkspaceBuilder {
 
   /// Loads decision models from files and builds the workspaces.
   pub fn load_decision_models(&mut self, dir: &Path) {
-    // load models
+    // load model files
     for entry_result in WalkDir::new(dir).into_iter() {
       match entry_result {
         Ok(entry) => {
@@ -96,8 +96,6 @@ impl WorkspaceBuilder {
           .insert(invocable_path, (workspace_name.clone(), model_namespace, model_name, invocable_name));
       }
     }
-    // display summary
-    self.display_summary();
   }
 
   /// Checks if namespaces are duplicated in workspace.
@@ -169,7 +167,7 @@ impl WorkspaceBuilder {
   }
 
   /// Displays loading process summary.
-  fn display_summary(&self) {
+  pub fn display_summary(&self) {
     println!(
       "{1}Found {2} {3}.{0}",
       self.colors.clear(),
@@ -259,10 +257,11 @@ impl WorkspaceBuilder {
 
   /// Returns workspace name created from parent and child paths.
   fn workspace_name(&self, parent_path: &Path, child_path: &Path) -> String {
-    let canonical_parent_path = parent_path.canonicalize().unwrap();
     let canonical_child_path = child_path.canonicalize().unwrap();
-    let workspace_path = canonical_child_path.parent().unwrap();
-    let workspace_name = workspace_path.strip_prefix(&canonical_parent_path).unwrap();
+    let mut workspace_name = canonical_child_path.parent().unwrap();
+    if let Some(parent_path) = parent_path.canonicalize().unwrap().parent() {
+      workspace_name = workspace_name.strip_prefix(&parent_path).unwrap();
+    }
     workspace_name
       .to_string_lossy()
       .replace('\\', "/")
