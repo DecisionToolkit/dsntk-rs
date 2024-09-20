@@ -1,4 +1,4 @@
-[error][.] deployment failed with reason: <ModelEvaluatorError> invalid item definition type for 'tEmploymentStatus'
+[error][invalid_deployment] deployment failed with reason: <ModelEvaluatorError> invalid item definition type for 'tEmploymentStatus'
 Found 1 model.
 Loaded 1 model.
 Deployed 0 invocables.

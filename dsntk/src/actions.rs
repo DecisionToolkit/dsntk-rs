@@ -160,7 +160,7 @@ enum Action {
     /// Optional port number
     Option<String>,
     /// Optional directory containing models to be loaded on start.
-    Option<String>,
+    Vec<String>,
     /// Requested color mode.
     ColorMode,
     /// Flag indicating if more detailed information should be displayed during startup.
@@ -433,7 +433,12 @@ fn get_matches() -> ArgMatches {
         .display_order(1)
         .arg(arg!(-H --host <HOST>).help("Host name").action(ArgAction::Set).display_order(1))
         .arg(arg!(-P --port <PORT>).help("Port number").action(ArgAction::Set).display_order(2))
-        .arg(arg!(-D --dir <DIR>).help("Directory where DMN files are searched").action(ArgAction::Set).display_order(3))
+        .arg(
+          arg!(-D --dir <DIR>)
+            .help("Directory where DMN files are searched")
+            .action(ArgAction::Append)
+            .display_order(3),
+        )
         .arg(
           arg!(-v - -verbose)
             .help("Displays model deployment details during startup")
@@ -569,7 +574,7 @@ fn get_cli_action() -> Action {
       return Action::StartService(
         matches.get_one::<String>("host").map(|host| host.to_string()),
         matches.get_one::<String>("port").map(|port| port.to_string()),
-        matches.get_one::<String>("dir").map(|dir| dir.to_string()),
+        matches.get_many("dir").unwrap_or_default().cloned().collect(),
         matches.get_one::<String>("color").unwrap_or(&DEFAULT_COLOR).to_string().into(),
         matches.get_flag("verbose"),
       );

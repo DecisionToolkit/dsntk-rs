@@ -1,5 +1,7 @@
 //! # TCK definitions
 
+#![cfg(feature = "tck")]
+
 mod errors;
 mod handlers;
 

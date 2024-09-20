@@ -1,4 +1,4 @@
-invalid directory specified in environment variable DSNTK_DIR: ./model
+invalid directory specified in environment variable 'DSNTK_DIR': [./model]
 Found 1 model.
 Loaded 1 model.
 Deployed 1 invocable.
