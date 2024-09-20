@@ -2,16 +2,8 @@ use std::env;
 use std::path::{Path, PathBuf};
 
 /// Returns canonical current directory.
-pub fn current_dir() -> Option<PathBuf> {
-  let Ok(current_dir) = env::current_dir() else {
-    eprintln!("failed to retrieve current directory from operating system");
-    return None;
-  };
-  let Ok(current_dir_path) = current_dir.canonicalize() else {
-    eprintln!("failed to canonicalize the current directory");
-    return None;
-  };
-  Some(current_dir_path)
+pub fn current_dir() -> Vec<PathBuf> {
+  vec![env::current_dir().expect("failed to access the current directory").canonicalize().unwrap()]
 }
 
 pub fn paths_from_variable(variable: &str) -> Vec<PathBuf> {
@@ -73,35 +65,31 @@ mod tests {
 
   #[test]
   fn getting_current_dir_should_work() {
-    assert!(current_dir().unwrap().to_string_lossy().ends_with("/dsntk-rs/server"));
+    assert!(current_dir().first().unwrap().to_string_lossy().ends_with("/dsntk-rs/server"));
   }
 
-  #[test]
-  fn getting_paths_from_non_existing_variable_should_work() {
+  fn getting_paths_from_variable_01() {
     assert_eq!(Vec::<PathBuf>::new(), paths_from_variable("non_existing_variable_name"));
   }
 
-  #[test]
-  fn getting_paths_from_empty_variable_should_work() {
+  fn getting_paths_from_variable_02() {
     env::set_var(DSNTK_DIR_TEST, "");
     assert_eq!(Vec::<PathBuf>::new(), paths_from_variable(DSNTK_DIR_TEST));
   }
 
-  #[test]
-  fn getting_single_path_from_variable_should_work() {
-    env::set_var(DSNTK_DIR_TEST, current_dir().unwrap());
+  fn getting_paths_from_variable_03() {
+    env::set_var(DSNTK_DIR_TEST, current_dir().first().unwrap());
     assert!(paths_from_variable(DSNTK_DIR_TEST).first().unwrap().to_string_lossy().ends_with("/dsntk-rs/server"));
   }
 
-  #[test]
-  fn getting_multiple_paths_from_variable_should_work() {
+  fn getting_paths_from_variable_04() {
     env::set_var(
       DSNTK_DIR_TEST,
       format!(
         "{}{}{}",
-        current_dir().unwrap().to_string_lossy(),
+        current_dir().first().unwrap().to_string_lossy(),
         list_separator(),
-        current_dir().unwrap().to_string_lossy()
+        current_dir().first().unwrap().to_string_lossy()
       ),
     );
     let paths = paths_from_variable(DSNTK_DIR_TEST);
@@ -110,12 +98,22 @@ mod tests {
     assert!(paths.get(1).unwrap().to_string_lossy().ends_with("/dsntk-rs/server"));
   }
 
-  #[test]
-  fn getting_multiple_paths_from_variable_should_work_1() {
-    env::set_var(DSNTK_DIR_TEST, format!("{}{}{}", current_dir().unwrap().to_string_lossy(), list_separator(), ""));
+  fn getting_paths_from_variable_05() {
+    env::set_var(DSNTK_DIR_TEST, format!("{}{}{}", current_dir().first().unwrap().to_string_lossy(), list_separator(), ""));
     let paths = paths_from_variable(DSNTK_DIR_TEST);
     assert_eq!(1, paths.len());
     assert!(paths.first().unwrap().to_string_lossy().ends_with("/dsntk-rs/server"));
+  }
+
+  /// All these test cases have to be run sequentially
+  /// to avoid environment variable interference.
+  #[test]
+  fn getting_paths_from_variable_should_work() {
+    getting_paths_from_variable_01();
+    getting_paths_from_variable_02();
+    getting_paths_from_variable_03();
+    getting_paths_from_variable_04();
+    getting_paths_from_variable_05();
   }
 
   #[test]
@@ -127,7 +125,7 @@ mod tests {
 
   #[test]
   fn getting_single_path_from_command_line_arguments_should_work() {
-    let args = vec![current_dir().unwrap().to_string_lossy().to_string()];
+    let args = vec![current_dir().first().unwrap().to_string_lossy().to_string()];
     let paths = paths_from_arguments(args);
     assert_eq!(1, paths.len());
     assert!(paths.first().unwrap().to_string_lossy().ends_with("/dsntk-rs/server"));
@@ -135,7 +133,10 @@ mod tests {
 
   #[test]
   fn getting_multiple_paths_from_command_line_arguments_should_work() {
-    let args = vec![current_dir().unwrap().to_string_lossy().to_string(), current_dir().unwrap().to_string_lossy().to_string()];
+    let args = vec![
+      current_dir().first().unwrap().to_string_lossy().to_string(),
+      current_dir().first().unwrap().to_string_lossy().to_string(),
+    ];
     let paths = paths_from_arguments(args);
     assert_eq!(2, paths.len());
     assert!(paths.first().unwrap().to_string_lossy().ends_with("/dsntk-rs/server"));

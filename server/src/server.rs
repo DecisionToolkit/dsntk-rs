@@ -135,9 +135,5 @@ fn resolve_search_paths(args: Vec<String>) -> Vec<PathBuf> {
     return paths;
   }
   // PRIORITY 3: the search path is the current directory
-  if let Some(current_dir) = utils::current_dir() {
-    return vec![current_dir];
-  }
-  // PRIORITY 4: no search path
-  vec![]
+  utils::current_dir()
 }
