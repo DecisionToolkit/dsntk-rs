@@ -3,6 +3,6 @@ Loaded 1 model.
 Deployed 1 invocable.
 
 Deployed invocables:
-  io/dsntk/2_0001/compliance-level-2-test-0001/Greeting%20Message
+  verbose/io/dsntk/2_0001/compliance-level-2-test-0001/Greeting%20Message
 
 dsntk 127.0.0.1:11011
