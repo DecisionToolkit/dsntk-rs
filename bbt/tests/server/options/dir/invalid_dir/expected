@@ -1,4 +1,4 @@
-invalid directory specified as command option: ./model
+invalid directory specified as command line argument: [./model]
 Found 1 model.
 Loaded 1 model.
 Deployed 1 invocable.

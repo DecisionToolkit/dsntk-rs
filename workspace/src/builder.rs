@@ -103,7 +103,7 @@ impl WorkspaceBuilder {
     if let Some(namespaces) = self.workspace_namespaces.get(workspace_name) {
       if namespaces.contains(namespace) {
         let file_name = self.workspace_models.get(workspace_name).unwrap().get(namespace).unwrap();
-        self.err_duplicated_namespace(file, namespace, file_name);
+        self.err_duplicated_namespace(workspace_name, file, namespace, file_name);
         return false;
       }
     }
@@ -150,17 +150,17 @@ impl WorkspaceBuilder {
               self.loaded_count += 1;
             }
           } else {
-            self.err_invalid_namespace(file, &namespace);
+            self.err_invalid_namespace(workspace_name, file, &namespace);
             self.failed_loads_count += 1;
           }
         }
         Err(reason) => {
-          self.err_file_load(file, reason.to_string());
+          self.err_file_load(workspace_name, file, reason.to_string());
           self.failed_loads_count += 1;
         }
       },
       Err(reason) => {
-        self.err_file_load(file, reason.to_string());
+        self.err_file_load(workspace_name, file, reason.to_string());
         self.failed_loads_count += 1;
       }
     }
@@ -260,7 +260,7 @@ impl WorkspaceBuilder {
     let canonical_child_path = child_path.canonicalize().unwrap();
     let mut workspace_name = canonical_child_path.parent().unwrap();
     if let Some(parent_path) = parent_path.canonicalize().unwrap().parent() {
-      workspace_name = workspace_name.strip_prefix(&parent_path).unwrap();
+      workspace_name = workspace_name.strip_prefix(parent_path).unwrap();
     }
     workspace_name
       .to_string_lossy()
@@ -280,38 +280,38 @@ impl WorkspaceBuilder {
   }
 
   /// Prints file loading error details.
-  fn err_file_load(&self, file: &Path, reason: String) {
+  fn err_file_load(&self, workspace_name: &str, file: &Path, reason: String) {
     eprintln!(
       "[{1}error{0}][{2}{3}{0}] {1}{4}{0}",
       self.colors.clear(),
       self.colors.red(),
       self.colors.blue(),
-      file.display(),
+      self.join_names(workspace_name, file),
       reason
     );
   }
 
   /// Prints duplicated namespace error details.
-  fn err_duplicated_namespace(&self, file: &Path, namespace: &str, file_name: &str) {
+  fn err_duplicated_namespace(&self, workspace_name: &str, file: &Path, namespace: &str, file_name: &str) {
     eprintln!(
-      "[{1}error{0}][{2}{3}{0}] {1}duplicated namespace {4} in file {5}{0}",
+      "[{1}error{0}][{2}{3}{0}] {1}duplicated namespace '{4}' in file {5}{0}",
       self.colors.clear(),
       self.colors.red(),
       self.colors.blue(),
-      file.display(),
+      self.join_names(workspace_name, file),
       namespace,
-      file_name
+      self.join_names(workspace_name, Path::new(file_name)),
     );
   }
 
   /// Prints invalid namespace error details.
-  fn err_invalid_namespace(&self, file: &Path, namespace: &str) {
+  fn err_invalid_namespace(&self, workspace_name: &str, file: &Path, namespace: &str) {
     eprintln!(
-      "[{1}error{0}][{2}{3}{0}] {1}invalid namespace {4}{0}",
+      "[{1}error{0}][{2}{3}{0}] {1}invalid namespace: '{4}'{0}",
       self.colors.clear(),
       self.colors.red(),
       self.colors.blue(),
-      file.display(),
+      self.join_names(workspace_name, file),
       namespace,
     );
   }
@@ -331,5 +331,10 @@ impl WorkspaceBuilder {
   /// Prints file operation error details.
   fn err_file_operation(&self, reason: String) {
     eprintln!("[{1}error{0}] {1}{2}{0}", self.colors.clear(), self.colors.red(), reason);
+  }
+
+  /// Joins the workspace name with the name of the file.
+  fn join_names(&self, workspace_name: &str, file: &Path) -> String {
+    format!("{}/{}", workspace_name, file.file_name().unwrap().to_string_lossy())
   }
 }

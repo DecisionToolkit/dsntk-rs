@@ -1,4 +1,4 @@
-[error][./2_0001_invalid.dmn] <ModelParserError> parsing model from XML failed with reason: expected 'description' tag, not 'definitions' at 37:1
+[error][invalid_model/2_0001_invalid.dmn] <ModelParserError> parsing model from XML failed with reason: expected 'description' tag, not 'definitions' at 37:1
 Found 1 model.
 Failed to load 1 model.
 Deployed 0 invocables.

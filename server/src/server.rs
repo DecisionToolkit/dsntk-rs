@@ -1,20 +1,21 @@
 use crate::data::ApplicationData;
+use crate::utils;
 use actix_web::{post, web, App, HttpResponse, HttpServer};
 use dsntk_common::{ColorPalette, Jsonify};
 use dsntk_feel::FeelScope;
 use dsntk_workspace::Workspaces;
 use std::borrow::Borrow;
 use std::net::IpAddr;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::str::FromStr;
 use std::sync::Arc;
 use std::{env, io};
 
-const DSNTK_DEFAULT_PORT: u16 = 22022;
-const DSNTK_DEFAULT_HOST: &str = "0.0.0.0";
-const DSNTK_HOST_VARIABLE: &str = "DSNTK_HOST";
-const DSNTK_PORT_VARIABLE: &str = "DSNTK_PORT";
-const DSNTK_DIR_VARIABLE: &str = "DSNTK_DIR";
+const DEFAULT_PORT: u16 = 22022;
+const DEFAULT_HOST: &str = "0.0.0.0";
+const VARIABLE_HOST: &str = "DSNTK_HOST";
+const VARIABLE_PORT: &str = "DSNTK_PORT";
+const VARIABLE_DIR: &str = "DSNTK_DIR";
 const CONTENT_TYPE: &str = "application/json";
 
 /// Handler for evaluating invocable identified
@@ -46,7 +47,7 @@ fn config(cfg: &mut web::ServiceConfig) {
 /// Starts the server.
 pub async fn start_server(opt_host: Option<String>, opt_port: Option<String>, dirs: Vec<String>, colors: ColorPalette, verbose: bool) -> io::Result<()> {
   let application_data = web::Data::new(ApplicationData {
-    workspaces: Arc::new(Workspaces::new(get_directories(dirs), colors.clone(), verbose)),
+    workspaces: Arc::new(Workspaces::new(resolve_search_paths(dirs), colors.clone(), verbose)),
   });
   let address = get_server_address(opt_host, opt_port);
   println!("{1}dsntk{0} {2}{address}{0}", colors.clear(), colors.blue(), colors.yellow());
@@ -77,12 +78,12 @@ pub async fn start_server(opt_host: Option<String>, opt_port: Option<String>, di
 ///
 fn get_server_address(opt_host: Option<String>, opt_port: Option<String>) -> String {
   // resolve IP address
-  let mut host = DSNTK_DEFAULT_HOST.to_string();
-  if let Ok(host_ip_address) = env::var(DSNTK_HOST_VARIABLE) {
+  let mut host = DEFAULT_HOST.to_string();
+  if let Ok(host_ip_address) = env::var(VARIABLE_HOST) {
     if is_valid_ip_address(&host_ip_address) {
       host = host_ip_address;
     } else {
-      eprintln!("invalid host address specified in environment variable {}: {}", DSNTK_HOST_VARIABLE, host_ip_address);
+      eprintln!("invalid host address specified in environment variable {}: {}", VARIABLE_HOST, host_ip_address);
     }
   }
   if let Some(host_ip_address) = opt_host {
@@ -93,12 +94,12 @@ fn get_server_address(opt_host: Option<String>, opt_port: Option<String>) -> Str
     }
   }
   // resolve IP port
-  let mut port: u16 = DSNTK_DEFAULT_PORT;
-  if let Ok(p_str) = env::var(DSNTK_PORT_VARIABLE) {
+  let mut port: u16 = DEFAULT_PORT;
+  if let Ok(p_str) = env::var(VARIABLE_PORT) {
     if let Ok(p) = u16::from_str(&p_str) {
       port = p;
     } else {
-      eprintln!("invalid port number specified in environment variable {}: {}", DSNTK_PORT_VARIABLE, p_str);
+      eprintln!("invalid port number specified in environment variable {}: {}", VARIABLE_PORT, p_str);
     }
   }
   if let Some(p_str) = opt_port {
@@ -122,42 +123,21 @@ fn is_valid_ip_address(ip: &str) -> bool {
 }
 
 /// Returns directories for loading workspaces.
-fn get_directories(dirs: Vec<String>) -> Vec<PathBuf> {
-  // make sure the current directory is accessible
-  let Ok(current_dir_path) = env::current_dir() else {
-    return vec![];
-  };
-  // PRIORITY 1 is the environment variable
-  // firstly check, if the environment variable contains a valid path
-  if let Ok(dir_variable) = env::var(DSNTK_DIR_VARIABLE) {
-    let dir_path = Path::new(&dir_variable);
-    if dir_path.exists() && dir_path.is_dir() {
-      return vec![dir_path.into()];
-    } else {
-      // just print the error and continue processing
-      eprintln!("invalid directory specified in environment variable {}: {}", DSNTK_DIR_VARIABLE, dir_variable);
-    }
-  }
-  // PRIORITY 2 are command line arguments
-  // secondly check the paths provided as arguments
-  let paths: Vec<PathBuf> = dirs
-    .iter()
-    .filter_map(|dir| {
-      let dir_path = Path::new(&dir);
-      if dir_path.exists() && dir_path.is_dir() {
-        Some(dir_path.into())
-      } else {
-        // just print the error and continue processing
-        eprintln!("invalid directory specified as command option: {}", dir);
-        None
-      }
-    })
-    .collect();
+fn resolve_search_paths(args: Vec<String>) -> Vec<PathBuf> {
+  // PRIORITY 1: get search paths from the environment variable
+  let paths = utils::paths_from_variable(VARIABLE_DIR);
   if !paths.is_empty() {
-    // return paths parsed from arguments
     return paths;
   }
-  // PRIORITY 3 is the current directory
-  // return the current working directory when other options did not work
-  vec![current_dir_path]
+  // PRIORITY 2: get search paths from the command line arguments
+  let paths = utils::paths_from_arguments(args);
+  if !paths.is_empty() {
+    return paths;
+  }
+  // PRIORITY 3: the search path is the current directory
+  if let Some(current_dir) = utils::current_dir() {
+    return vec![current_dir];
+  }
+  // PRIORITY 4: no search path
+  vec![]
 }
