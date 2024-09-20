@@ -231,28 +231,33 @@ impl WorkspaceBuilder {
     invocable_paths.sort();
     let invocable_count = invocable_paths.len();
     if invocable_count > 0 {
-      println!("{1}\nDeployed invocables:{0}", self.colors.clear(), self.colors.yellow());
+      println!(
+        "{1}\nDeployed {2}:{0}",
+        self.colors.clear(),
+        self.colors.yellow(),
+        self.plural("invocable", invocable_count)
+      );
     }
     for key in invocable_paths {
       if let Some((workspace_name, model_namespace, model_name, invocable_name)) = self.invocables.get(&key) {
         print!("  ");
-        // workspace name containing the directory structure, URL encoded
+        // print workspace name containing the directory structure (URL encoded)
         let segment_1 = encode_segments(workspace_name);
         if !segment_1.is_empty() {
           print!("{1}{2}{0}/", self.colors.clear(), self.colors.magenta(), segment_1);
         }
-        // model namespace converted to DNN, URL encoded
+        // print model namespace converted to DNN (URL encoded)
         let rdnn = to_rdnn(model_namespace).unwrap_or_default();
         let segment_2 = encode_segments(&rdnn);
         if !segment_2.is_empty() {
           print!("{1}{2}{0}/", self.colors.clear(), self.colors.cyan(), segment_2);
         }
-        // model name, URL encoded
+        // print model name (URL encoded)
         let segment_3 = encode_segments(model_name);
         if !segment_3.is_empty() {
           print!("{1}{2}{0}/", self.colors.clear(), self.colors.magenta(), segment_3);
         }
-        // invocable name, URL encoded
+        // print invocable name (URL encoded)
         let segment_4 = encode_segments(invocable_name);
         if !segment_4.is_empty() {
           print!("{1}{2}{0}", self.colors.clear(), self.colors.cyan(), segment_4);

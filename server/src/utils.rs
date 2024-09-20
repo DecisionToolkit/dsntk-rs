@@ -26,16 +26,7 @@ pub fn paths_from_variable(variable: &str) -> Vec<PathBuf> {
     .filter_map(|dir| {
       let path = Path::new(&dir);
       if path.exists() && path.is_dir() {
-        if let Ok(canonical_path) = path.canonicalize() {
-          Some(canonical_path)
-        } else {
-          eprintln!(
-            "failed to canonicalize directory specified in environment variable '{}': [{}]",
-            variable,
-            path.to_string_lossy()
-          );
-          None
-        }
+        Some(path.canonicalize().unwrap())
       } else {
         eprintln!("invalid directory specified in environment variable '{}': [{}]", variable, dir);
         None
@@ -53,12 +44,7 @@ pub fn paths_from_arguments(args: Vec<String>) -> Vec<PathBuf> {
     .filter_map(|dir| {
       let path = Path::new(&dir);
       if path.exists() && path.is_dir() {
-        if let Ok(canonical_path) = path.canonicalize() {
-          Some(canonical_path)
-        } else {
-          eprintln!("failed to canonicalize directory specified as command line argument: [{}]", path.to_string_lossy());
-          None
-        }
+        Some(path.canonicalize().unwrap())
       } else {
         eprintln!("invalid directory specified as command line argument: [{}]", dir);
         None
