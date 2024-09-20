@@ -2086,44 +2086,56 @@ pub fn eval_ternary_equality(lhs: &Value, rhs: &Value) -> Option<bool> {
       Value::Null(_) => Some(false),
       _ => None,
     },
-    Value::UnaryGreater(end) => match rhs {
+    Value::UnaryEqual(l_end) => match rhs {
+      Value::UnaryEqual(r_end) => eval_ternary_equality(l_end, r_end),
+      _ => Some(false),
+    },
+    Value::UnaryNotEqual(l_end) => match rhs {
+      Value::UnaryNotEqual(r_end) => eval_ternary_equality(l_end, r_end),
+      _ => Some(false),
+    },
+    Value::UnaryGreater(l_end) => match rhs {
       Value::Range(rs, cs, re, ce) => {
-        if !*cs && !*ce && re.is_null() {
-          eval_ternary_equality(end, rs)
+        if !*cs && !*ce && !re.is_null() {
+          eval_ternary_equality(l_end, rs)
         } else {
           Some(false)
         }
       }
+      Value::UnaryGreater(r_end) => eval_ternary_equality(l_end, r_end),
       _ => None,
     },
-    Value::UnaryLess(end) => match rhs {
+    Value::UnaryLess(l_end) => match rhs {
       Value::Range(rs, cs, re, ce) => {
-        if !*cs && !*ce && rs.is_null() {
-          eval_ternary_equality(end, re)
+        if !*cs && !*ce && !rs.is_null() {
+          eval_ternary_equality(l_end, re)
         } else {
           Some(false)
         }
       }
+      Value::UnaryLess(r_end) => eval_ternary_equality(l_end, r_end),
       _ => None,
     },
-    Value::UnaryGreaterOrEqual(end) => match rhs {
+    Value::UnaryGreaterOrEqual(l_end) => match rhs {
       Value::Range(rs, cs, re, ce) => {
-        if *cs && !*ce && re.is_null() {
-          eval_ternary_equality(end, rs)
+        if *cs && !*ce && !re.is_null() {
+          eval_ternary_equality(l_end, rs)
         } else {
           Some(false)
         }
       }
+      Value::UnaryGreaterOrEqual(r_end) => eval_ternary_equality(l_end, r_end),
       _ => None,
     },
-    Value::UnaryLessOrEqual(end) => match rhs {
+    Value::UnaryLessOrEqual(l_end) => match rhs {
       Value::Range(rs, cs, re, ce) => {
-        if !*cs && *ce && rs.is_null() {
-          eval_ternary_equality(end, re)
+        if !*cs && *ce && !rs.is_null() {
+          eval_ternary_equality(l_end, re)
         } else {
           Some(false)
         }
       }
+      Value::UnaryLessOrEqual(r_end) => eval_ternary_equality(l_end, r_end),
       _ => None,
     },
     Value::Range(r1s, c1s, r1e, c1e) => match rhs {

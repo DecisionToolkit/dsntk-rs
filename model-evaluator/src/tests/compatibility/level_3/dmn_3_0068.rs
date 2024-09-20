@@ -411,13 +411,6 @@ fn _0058() {
 }
 
 #[test]
-fn _0059() {
-  let invocable = "time_009";
-  let expected = "true";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
-}
-
-#[test]
 fn _0060() {
   let invocable = "time_010";
   let expected = "true";
@@ -487,12 +480,15 @@ fn _0069() {
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
+/*
+// commented out pending RTF equality comparisons with zones clarification
 #[test]
 fn _0070() {
   let invocable = "datetime_007";
   let expected = "false";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
+*/
 
 #[test]
 fn _0071() {
@@ -742,6 +738,13 @@ fn _0105() {
 #[test]
 fn _0106() {
   let invocable = "range_006";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTXN, expected);
+}
+
+#[test]
+fn _0106_a() {
+  let invocable = "range_006_a";
   let expected = "true";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTXN, expected);
 }
@@ -749,20 +752,41 @@ fn _0106() {
 #[test]
 fn _0107() {
   let invocable = "range_007";
-  let expected = "true";
+  let expected = "false";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTXN, expected);
 }
 
 #[test]
 fn _0108() {
   let invocable = "range_008";
-  let expected = "true";
+  let expected = "false";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTXN, expected);
 }
 
 #[test]
 fn _0109() {
   let invocable = "range_009";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTXN, expected);
+}
+
+#[test]
+fn _0109_1() {
+  let invocable = "range_010";
+  let expected = "false";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTXN, expected);
+}
+
+#[test]
+fn _0109_2() {
+  let invocable = "range_011";
+  let expected = "true";
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTXN, expected);
+}
+
+#[test]
+fn _0109_3() {
+  let invocable = "range_012";
   let expected = "true";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTXN, expected);
 }

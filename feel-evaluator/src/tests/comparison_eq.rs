@@ -243,82 +243,72 @@ fn _0045() {
 
 #[test]
 fn _0046() {
-  let scope = te_scope("{ start: null }");
-  te_bool(false, &scope, r#" <= 10 = (start..10]" "#, true);
+  te_bool(false, &scope!(), r#" <= 10 = (null..10] "#, false);
 }
 
 #[test]
 fn _0047() {
-  te_null(false, &scope!(), r#" <= 10 = (null)" "#, "equal err 'UnaryLessOrEqual(10)' =?= 'null'");
+  te_null(false, &scope!(), r#" <= 10 = (null) "#, "equal err 'UnaryLessOrEqual(10)' =?= 'null'");
 }
 
 #[test]
 fn _0048() {
-  let scope = te_scope("{ start: null }");
-  te_bool(false, &scope, r#" <= 10 = [start..10]" "#, false);
+  te_bool(false, &scope!(), r#" <= 10 = [null..10] "#, false);
 }
 
 #[test]
 fn _0049() {
-  let scope = te_scope("{ start: null }");
-  te_bool(false, &scope, r#" < 10 = (start..10)" "#, true);
+  te_bool(false, &scope!(), r#" < 10 = (null..10) "#, false);
 }
 
 #[test]
 fn _0050() {
-  te_null(false, &scope!(), r#" < 10 = (null)" "#, "equal err 'UnaryLess(10)' =?= 'null'");
+  te_null(false, &scope!(), r#" < 10 = (null) "#, "equal err 'UnaryLess(10)' =?= 'null'");
 }
 
 #[test]
 fn _0051() {
-  let scope = te_scope("{ start: null }");
-  te_bool(false, &scope, r#" < 10 = (start..10]" "#, false);
+  te_bool(false, &scope!(), r#" < 10 = (null..10] "#, false);
 }
 
 #[test]
 fn _0052() {
-  let scope = te_scope("{ end: null }");
-  te_bool(false, &scope, r#" >= 10 = [10..end)" "#, true);
+  te_bool(false, &scope!(), r#" >= 10 = [10..null) "#, false);
 }
 
 #[test]
 fn _0053() {
-  te_null(false, &scope!(), r#" >= 10 = (null)" "#, "equal err 'UnaryGreaterOrEqual(10)' =?= 'null'");
+  te_null(false, &scope!(), r#" >= 10 = (null) "#, "equal err 'UnaryGreaterOrEqual(10)' =?= 'null'");
 }
 
 #[test]
 fn _0054() {
-  let scope = te_scope("{ end: null }");
-  te_bool(false, &scope, r#" >= 10 = [10..end]" "#, false);
+  te_bool(false, &scope!(), r#" >= 10 = [10..null] "#, false);
 }
 
 #[test]
 fn _0055() {
-  let scope = te_scope("{ end: null }");
-  te_bool(false, &scope, r#" >= 10 = [10..end)" "#, true);
+  te_bool(false, &scope!(), r#" >= 10 = [10..null) "#, false);
 }
 
 #[test]
 fn _0056() {
-  let scope = te_scope("{ end: null }");
-  te_bool(false, &scope, r#" >= 10 = [10..end]" "#, false);
+  te_bool(false, &scope!(), r#" >= 10 = [10..null] "#, false);
 }
 
 #[test]
 fn _0057() {
-  let scope = te_scope("{ end: null }");
-  te_bool(false, &scope, r#" > 10 = (10..end)" "#, true);
+  te_bool(false, &scope!(), r#" > 10 = (10..null) "#, false);
 }
 
 #[test]
 fn _0058() {
-  te_null(false, &scope!(), r#" > 10 = (null)" "#, "equal err 'UnaryGreater(10)' =?= 'null'");
+  te_null(false, &scope!(), r#" > 10 = (null) "#, "equal err 'UnaryGreater(10)' =?= 'null'");
 }
 
 #[test]
 fn _0059() {
-  let scope = te_scope("{ end: null }");
-  te_bool(false, &scope, r#" > 10 = (10..end]" "#, false);
+  te_bool(false, &scope!(), r#" > 10 = (10..null] "#, false);
 }
 
 #[test]
