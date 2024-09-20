@@ -23,11 +23,11 @@ pub struct WorkspaceBuilder {
   failed_loads_count: usize,
   /// The number of workspaces that failed to load.
   failed_deployments_count: usize,
-  /// Map: workspace name -> model_definitions
+  /// Map: workspace name -> model definitions.
   workspace_definitions: HashMap<String, Vec<Definitions>>,
   /// Map: workspace name -> namespaces in workspace
   workspace_namespaces: HashMap<String, HashSet<String>>,
-  /// Map: workspace name -> namespace -> (file_name, rdnn)
+  /// Map: workspace name -> (file_name, rdnn)
   workspace_models: HashMap<String, HashMap<String, String>>,
   /// Map: invocable path -> (workspace name, model namespace, model name, invocable name)
   pub(crate) invocables: HashMap<String, (String, String, String, String)>,
@@ -98,7 +98,7 @@ impl WorkspaceBuilder {
     }
   }
 
-  /// Checks if namespaces are duplicated in workspace.
+  /// Checks if namespaces are duplicated in the workspace.
   fn check_namespace_duplicates(&self, file: &Path, workspace_name: &str, namespace: &str) -> bool {
     if let Some(namespaces) = self.workspace_namespaces.get(workspace_name) {
       if namespaces.contains(namespace) {
