@@ -47,7 +47,7 @@ fn config(cfg: &mut web::ServiceConfig) {
 /// Starts the server.
 pub async fn start_server(opt_host: Option<String>, opt_port: Option<String>, dirs: Vec<String>, colors: ColorPalette, verbose: bool) -> io::Result<()> {
   let application_data = web::Data::new(ApplicationData {
-    workspaces: Arc::new(Workspaces::new(resolve_search_paths(dirs), colors.clone(), verbose)),
+    workspaces: Arc::new(Workspaces::new(&resolve_search_paths(dirs), colors.clone(), verbose)),
   });
   let address = get_server_address(opt_host, opt_port);
   println!("{1}dsntk{0} {2}{address}{0}", colors.clear(), colors.blue(), colors.yellow());

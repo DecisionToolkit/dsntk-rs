@@ -20,12 +20,8 @@ pub struct Workspaces {
 
 impl Workspaces {
   /// Creates a new [Workspaces] and loads decision models from specified directory.
-  pub fn new(dirs: Vec<PathBuf>, colors: ColorPalette, verbose: bool) -> Self {
-    let mut builder = WorkspaceBuilder::new(colors, verbose);
-    for dir in dirs {
-      builder.load_decision_models(&dir);
-    }
-    builder.display_summary();
+  pub fn new(dirs: &[PathBuf], colors: ColorPalette, verbose: bool) -> Self {
+    let builder = WorkspaceBuilder::new(dirs, colors, verbose);
     Self {
       invocables: builder.invocables,
       evaluators: builder.evaluators,

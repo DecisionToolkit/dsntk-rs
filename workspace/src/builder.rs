@@ -5,7 +5,7 @@ use dsntk_model::{Definitions, DmnElement};
 use dsntk_model_evaluator::ModelEvaluator;
 use std::collections::{HashMap, HashSet};
 use std::fs;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use walkdir::WalkDir;
 
@@ -37,8 +37,8 @@ pub struct WorkspaceBuilder {
 
 impl WorkspaceBuilder {
   /// Creates a new workspace builder.
-  pub fn new(colors: ColorPalette, verbose: bool) -> Self {
-    Self {
+  pub fn new(dirs: &[PathBuf], colors: ColorPalette, verbose: bool) -> Self {
+    let mut builder = Self {
       colors,
       verbose,
       file_count: 0,
@@ -50,11 +50,21 @@ impl WorkspaceBuilder {
       workspace_models: Default::default(),
       invocables: Default::default(),
       evaluators: Default::default(),
-    }
+    };
+    builder.load(dirs);
+    builder
   }
 
-  /// Loads decision models from files and builds the workspaces.
-  pub fn load_decision_models(&mut self, dir: &Path) {
+  /// Loads models from multiple directories.
+  fn load(&mut self, dirs: &[PathBuf]) {
+    for dir in dirs {
+      self.load_from_dir(dir);
+    }
+    self.display_summary();
+  }
+
+  /// Scans the specified directory and loads decision models from files, builds the workspaces.
+  fn load_from_dir(&mut self, dir: &Path) {
     // load model files
     for entry_result in WalkDir::new(dir).into_iter() {
       match entry_result {
@@ -63,7 +73,7 @@ impl WorkspaceBuilder {
           if path.is_file() && path.extension().map_or(false, |ext| ext == "dmn") {
             self.file_count += 1;
             let workspace_name = self.workspace_name(dir, path);
-            self.load_file(&workspace_name, path);
+            self.load_model(&workspace_name, path);
           }
         }
         Err(reason) => self.err_file_operation(reason.to_string()),
@@ -110,8 +120,8 @@ impl WorkspaceBuilder {
     true
   }
 
-  /// Loads decision model from file.
-  fn load_file(&mut self, workspace_name: &str, file: &Path) {
+  /// Loads decision model from specified file.
+  fn load_model(&mut self, workspace_name: &str, file: &Path) {
     match fs::read_to_string(file) {
       Ok(xml) => match dsntk_model::parse(&xml) {
         Ok(definitions) => {
@@ -166,14 +176,14 @@ impl WorkspaceBuilder {
     }
   }
 
-  /// Displays loading process summary.
-  pub fn display_summary(&self) {
+  /// Displays the summary of the loading process.
+  fn display_summary(&self) {
     println!(
       "{1}Found {2} {3}.{0}",
       self.colors.clear(),
       if self.file_count > 0 { self.colors.green() } else { self.colors.red() },
       self.file_count,
-      Self::plural("model", self.file_count)
+      self.plural("model", self.file_count)
     );
     if self.loaded_count > 0 {
       println!(
@@ -181,7 +191,7 @@ impl WorkspaceBuilder {
         self.colors.clear(),
         self.colors.green(),
         self.loaded_count,
-        Self::plural("model", self.loaded_count)
+        self.plural("model", self.loaded_count)
       );
     }
     if self.failed_loads_count > 0 {
@@ -190,7 +200,7 @@ impl WorkspaceBuilder {
         self.colors.clear(),
         self.colors.red(),
         self.failed_loads_count,
-        Self::plural("model", self.failed_loads_count)
+        self.plural("model", self.failed_loads_count)
       );
     }
     let deployed_invocables_count = self.evaluators.values().map(|evaluator| evaluator.invocables().len()).sum();
@@ -199,7 +209,7 @@ impl WorkspaceBuilder {
       self.colors.clear(),
       self.colors.green(),
       deployed_invocables_count,
-      Self::plural("invocable", deployed_invocables_count)
+      self.plural("invocable", deployed_invocables_count)
     );
     if self.failed_deployments_count > 0 {
       println!(
@@ -207,7 +217,7 @@ impl WorkspaceBuilder {
         self.colors.clear(),
         self.colors.red(),
         self.failed_deployments_count,
-        Self::plural("workspace", self.failed_deployments_count)
+        self.plural("workspace", self.failed_deployments_count)
       );
     }
     if self.verbose {
@@ -271,7 +281,7 @@ impl WorkspaceBuilder {
   }
 
   /// Returns a noun in plural form, depending on specified numeric value.
-  fn plural(noun: &str, number: usize) -> String {
+  fn plural(&self, noun: &str, number: usize) -> String {
     if number == 1 {
       noun.to_string()
     } else {
