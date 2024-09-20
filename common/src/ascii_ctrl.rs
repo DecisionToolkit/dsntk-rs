@@ -83,6 +83,13 @@ pub enum ColorMode {
 impl From<String> for ColorMode {
   /// Converts a string into [ColorMode].
   fn from(value: String) -> Self {
+    Self::from(&value)
+  }
+}
+
+impl From<&String> for ColorMode {
+  /// Converts a string into [ColorMode].
+  fn from(value: &String) -> Self {
     match value.to_lowercase().trim() {
       "never" => Self::Off,
       "always" => Self::On,
