@@ -1,6 +1,6 @@
 use crate::data::ApplicationData;
 use crate::utils;
-use actix_web::{post, web, App, HttpResponse, HttpServer};
+use actix_web::{get, post, web, App, HttpResponse, HttpServer};
 use dsntk_common::{ColorPalette, Jsonify};
 use dsntk_feel::FeelScope;
 use dsntk_workspace::Workspaces;
@@ -18,10 +18,21 @@ const VARIABLE_PORT: &str = "DSNTK_PORT";
 const VARIABLE_DIR: &str = "DSNTK_DIR";
 const CONTENT_TYPE: &str = "application/json";
 
-/// Handler for evaluating invocable identified
-/// by unique name in namespace represented by RDNN.
-#[post("/evaluate/{path:.*}")]
-async fn evaluate(path: web::Path<String>, request_body: String, data: web::Data<ApplicationData>) -> HttpResponse {
+/// GET handler for evaluating the invocable.
+#[get("/{path:.*}")]
+async fn get_evaluate(path: web::Path<String>, request_body: String, data: web::Data<ApplicationData>) -> HttpResponse {
+  println!("GET");
+  evaluate(path, request_body, data)
+}
+
+/// POST handler for evaluating the invocable.
+#[post("/{path:.*}")]
+async fn post_evaluate(path: web::Path<String>, request_body: String, data: web::Data<ApplicationData>) -> HttpResponse {
+  println!("POST");
+  evaluate(path, request_body, data)
+}
+
+fn evaluate(path: web::Path<String>, request_body: String, data: web::Data<ApplicationData>) -> HttpResponse {
   let workspace: &Workspaces = data.workspaces.borrow();
   match dsntk_evaluator::evaluate_context(&FeelScope::default(), &request_body).and_then(|input_data| workspace.evaluate(&path, &input_data)) {
     Ok(value) => HttpResponse::Ok().content_type(CONTENT_TYPE).body(format!(r#"{{"data":{}}}"#, value.jsonify())),
@@ -41,7 +52,8 @@ fn config(cfg: &mut web::ServiceConfig) {
 
 #[cfg(not(feature = "tck"))]
 fn config(cfg: &mut web::ServiceConfig) {
-  cfg.service(evaluate);
+  cfg.service(get_evaluate);
+  cfg.service(post_evaluate);
 }
 
 /// Starts the server.
