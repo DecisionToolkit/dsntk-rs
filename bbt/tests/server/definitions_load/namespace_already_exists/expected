@@ -1,4 +1,4 @@
-[error][namespace_already_exists/2_0002.dmn] duplicated namespace 'https://dsntk.io/2_0001' in file namespace_already_exists/2_0001.dmn
+[error][2_0002.dmn] duplicated namespace 'https://decision-toolkit.org/2_0001' in file 2_0001.dmn
 Found 2 models.
 Loaded 1 model.
 Deployed 1 invocable.

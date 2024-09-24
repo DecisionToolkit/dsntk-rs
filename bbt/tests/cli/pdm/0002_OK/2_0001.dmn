@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
-             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
-             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
-             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
-             namespace="https://dsntk.io/2_0001"
+             namespace="https://decision-toolkit.org/2_0001"
              name="compliance-level-2-test-0001"
              id="_c910c9ba-c584-4ac9-a773-1e6de185cd85">
     <description>Compliance level 2. Test 0001.</description>

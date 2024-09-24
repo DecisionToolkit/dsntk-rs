@@ -270,13 +270,12 @@ impl WorkspaceBuilder {
     }
   }
 
-  /// Returns workspace name created from parent and child paths.
+  /// Returns workspace name created from provided parent and child paths.
   fn workspace_name(&self, parent_path: &Path, child_path: &Path) -> String {
+    let canonical_parent_path = parent_path.canonicalize().unwrap();
     let canonical_child_path = child_path.canonicalize().unwrap();
     let mut workspace_name = canonical_child_path.parent().unwrap();
-    if let Some(parent_path) = parent_path.canonicalize().unwrap().parent() {
-      workspace_name = workspace_name.strip_prefix(parent_path).unwrap();
-    }
+    workspace_name = workspace_name.strip_prefix(canonical_parent_path).unwrap();
     workspace_name
       .to_string_lossy()
       .replace('\\', "/")
@@ -338,7 +337,7 @@ impl WorkspaceBuilder {
       self.colors.clear(),
       self.colors.red(),
       self.colors.blue(),
-      if workspace_name.is_empty() { "." } else { workspace_name },
+      if workspace_name.is_empty() { "/" } else { workspace_name },
       reason
     );
   }
@@ -350,6 +349,10 @@ impl WorkspaceBuilder {
 
   /// Joins the workspace name with the name of the file.
   fn join_names(&self, workspace_name: &str, file: &Path) -> String {
-    format!("{}/{}", workspace_name, file.file_name().unwrap().to_string_lossy())
+    if workspace_name.is_empty() {
+      format!("{}", file.file_name().unwrap().to_string_lossy())
+    } else {
+      format!("{}/{}", workspace_name, file.file_name().unwrap().to_string_lossy())
+    }
   }
 }
