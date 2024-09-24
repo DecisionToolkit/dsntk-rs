@@ -1,7 +1,8 @@
 //! # Command-line actions
 
 use crate::built_in_examples::*;
-use clap::{arg, command, crate_description, crate_version, Arg, ArgAction, ArgMatches, Command};
+use antex::text::Text;
+use clap::{arg, command, crate_version, Arg, ArgAction, ArgMatches, Command};
 use dsntk_common::*;
 use dsntk_feel::values::Value;
 use dsntk_feel::FeelScope;
@@ -535,10 +536,32 @@ fn get_cli_action() -> Action {
     }
     _ => {}
   }
-  println!("dsntk {}", crate_version!());
-  println!("{}", crate_description!());
-  println!("Run 'dsntk --help' to see available options.");
-  println!("For more information, visit https://decision-toolkit.org");
+  Text::default()
+    .bold()
+    .green()
+    .append("dsntk")
+    .clear()
+    .append(" | ")
+    .green()
+    .append("Decision Toolkit")
+    .yellow()
+    .append(" v")
+    .append(crate_version!())
+    .clear()
+    .nl()
+    .append("Run ")
+    .bold()
+    .blue()
+    .append("dsntk --help")
+    .clear()
+    .append(" to see all available options.")
+    .nl()
+    .yellow()
+    .append("For more information, visit ")
+    .blue()
+    .append("https://decision-toolkit.org")
+    .clear()
+    .println();
   Action::DoNothing
 }
 
