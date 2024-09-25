@@ -26,7 +26,7 @@ pub use model_evaluator::ModelEvaluator;
 
 #[cfg(test)]
 mod utilities {
-  use dsntk_common::{color_clear, color_red, ColorMode};
+  use antex::{ColorMode, Text};
   use std::collections::{BTreeMap, BTreeSet};
   use std::fs;
   use walkdir::WalkDir;
@@ -86,11 +86,9 @@ mod utilities {
 
   /// Prepares the difference in text format.
   fn diff(a: usize, b: usize) -> String {
-    let color_red = color_red!(ColorMode::On);
-    let color_clear = color_clear!(ColorMode::On);
     let diff = if a > b { a - b } else { b - a };
     if diff > 0 {
-      format!("{1}{2:>9}{0}", color_clear, color_red, diff)
+      Text::new(ColorMode::On).red().s(format!("{:>9}", diff)).clear().to_string()
     } else {
       "".to_string()
     }

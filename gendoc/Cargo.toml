@@ -11,6 +11,7 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
+antex = { workspace = true }
 domrs = { workspace = true }
 markdown = { workspace = true }
 dsntk-common = { workspace = true }

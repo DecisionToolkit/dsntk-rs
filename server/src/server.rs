@@ -1,7 +1,8 @@
 use crate::data::ApplicationData;
 use crate::utils;
 use actix_web::{post, web, App, HttpResponse, HttpServer};
-use dsntk_common::{ColorPalette, Jsonify};
+use antex::{ColorMode, Text};
+use dsntk_common::Jsonify;
 use dsntk_feel::FeelScope;
 use dsntk_workspace::Workspaces;
 use std::borrow::Borrow;
@@ -45,12 +46,12 @@ fn config(cfg: &mut web::ServiceConfig) {
 }
 
 /// Starts the server.
-pub async fn start_server(opt_host: Option<String>, opt_port: Option<String>, dirs: Vec<String>, colors: ColorPalette, verbose: bool) -> io::Result<()> {
+pub async fn start_server(opt_host: Option<String>, opt_port: Option<String>, dirs: Vec<String>, cm: ColorMode, verbose: bool) -> io::Result<()> {
   let application_data = web::Data::new(ApplicationData {
-    workspaces: Arc::new(Workspaces::new(&resolve_search_paths(dirs), colors.clone(), verbose)),
+    workspaces: Arc::new(Workspaces::new(&resolve_search_paths(dirs), cm, verbose)),
   });
   let address = get_server_address(opt_host, opt_port);
-  println!("{1}dsntk{0} {2}{address}{0}", colors.clear(), colors.blue(), colors.yellow());
+  Text::new(cm).blue().s("dsntk").clear().space().yellow().s(&address).clear().println();
   HttpServer::new(move || {
     App::new()
       .app_data(application_data.clone())

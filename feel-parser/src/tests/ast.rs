@@ -3,28 +3,18 @@ use crate::AstNode;
 use dsntk_feel::FeelType;
 use std::collections::BTreeMap;
 
-/// Utility function for comparing debug strings.
-fn eqd(expected: &str, node: &AstNode) {
-  assert_eq!(expected, format!("{node:?}"));
-}
-
-/// Utility function for comparing ASCII tree strings.
-fn eqs(expected: &str, node: &AstNode) {
-  let actual = format!("{node}");
-  assert_eq!(expected, actual);
-}
-
 #[test]
 fn test_equal() {
   let node_a = AstNode::Add(b_num!(1), b_num!(2));
   let node_b = AstNode::Add(b_num!(1), b_num!(2));
-  assert!((node_a == node_b));
+  let result = node_a == node_b;
+  assert!(result);
 }
 
 #[test]
 fn test_clone() {
   let node_a = AstNode::Add(b_num!(1), b_num!(2));
-  assert_eq!(
+  eqs(
     r#"
        Add
        ├─ Numeric
@@ -32,35 +22,20 @@ fn test_clone() {
        └─ Numeric
           └─ `2`
     "#,
-    format!("{node_a}"),
+    &node_a.clone(),
   );
 }
 
 #[test]
 fn test_display() {
   assert_eq!(
-    r#"
-       Add
-       ├─ Numeric
-       │  └─ `1`
-       └─ Numeric
-          └─ `2`
-    "#,
+    r#" Add
+ ├─ Numeric
+ │  └─ `1`
+ └─ Numeric
+    └─ `2`
+"#,
     format!("{}", AstNode::Add(b_num!(1), b_num!(2))),
-  );
-}
-
-#[test]
-fn test_trace() {
-  assert_eq!(
-    r#"      AST:
-       Add
-       ├─ Numeric
-       │  └─ `1`
-       └─ Numeric
-          └─ `2`
-    "#,
-    AstNode::Add(b_num!(1), b_num!(2)).trace()
   );
 }
 

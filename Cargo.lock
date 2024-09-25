@@ -303,9 +303,9 @@ dependencies = [
 
 [[package]]
 name = "antex"
-version = "0.0.4"
+version = "0.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7771dcd4611c12a710e61e06c05b2cf7a988e34c4b7d174e0c287b89c8b859c8"
+checksum = "237b4c7ec736a0fbc75bfeea525ea4220bacfb5da426dd69790d53e639b1574b"
 
 [[package]]
 name = "atty"
@@ -713,6 +713,7 @@ dependencies = [
 name = "dsntk-feel-parser"
 version = "0.0.9-dev"
 dependencies = [
+ "antex",
  "difference",
  "dsntk-common",
  "dsntk-feel",
@@ -741,6 +742,7 @@ dependencies = [
 name = "dsntk-gendoc"
 version = "0.0.9-dev"
 dependencies = [
+ "antex",
  "domrs",
  "dsntk-common",
  "dsntk-examples",
@@ -778,6 +780,7 @@ dependencies = [
 name = "dsntk-model-evaluator"
 version = "0.0.9-dev"
 dependencies = [
+ "antex",
  "dsntk-common",
  "dsntk-examples",
  "dsntk-feel",
@@ -805,6 +808,7 @@ name = "dsntk-server"
 version = "0.0.9-dev"
 dependencies = [
  "actix-web",
+ "antex",
  "base64",
  "dsntk-common",
  "dsntk-evaluator",
@@ -820,6 +824,7 @@ dependencies = [
 name = "dsntk-workspace"
 version = "0.0.9-dev"
 dependencies = [
+ "antex",
  "dsntk-common",
  "dsntk-examples",
  "dsntk-feel",

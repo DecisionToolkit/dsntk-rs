@@ -12,5 +12,5 @@ fn _0001() {
        └─ Numeric
           └─ `3`
     "#;
-  assert_eq!(expected, node.to_string());
+  assert_eq!(expected, node.trace());
 }
