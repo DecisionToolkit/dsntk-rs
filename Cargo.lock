@@ -304,6 +304,8 @@ dependencies = [
 [[package]]
 name = "antex"
 version = "0.0.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "237b4c7ec736a0fbc75bfeea525ea4220bacfb5da426dd69790d53e639b1574b"
 
 [[package]]
 name = "atty"
