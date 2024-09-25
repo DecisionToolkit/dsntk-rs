@@ -1,12 +1,11 @@
 //! # Command-line actions
 
 use crate::built_in_examples::*;
-use antex::text::Text;
+use antex::{ColorMode, Text};
 use clap::{arg, command, crate_version, Arg, ArgAction, ArgMatches, Command};
 use dsntk_common::*;
 use dsntk_feel::values::Value;
 use dsntk_feel::FeelScope;
-use dsntk_feel_parser::ast_tree;
 use dsntk_model::{DecisionTable, DmnElement, NamedElement};
 use std::fs;
 use std::path::Path;
@@ -539,28 +538,28 @@ fn get_cli_action() -> Action {
   Text::default()
     .bold()
     .green()
-    .str("dsntk ")
+    .s("dsntk ")
     .clear()
-    .chr('|')
+    .s('|')
     .green()
-    .str(" Decision Toolkit ")
+    .s(" Decision Toolkit ")
     .yellow()
-    .chr('v')
-    .str(crate_version!())
+    .s('v')
+    .s(crate_version!())
     .clear()
     .nl()
-    .str("Try running '")
+    .s("Try running '")
     .bold()
     .blue()
-    .str("dsntk --help")
+    .s("dsntk --help")
     .clear()
-    .str("' to see all available commands.")
+    .s("' to see all available commands.")
     .nl()
     .yellow()
-    .str("For more information, visit ")
+    .s("For more information, visit ")
     .blue()
     .underline()
-    .str("https://decision-toolkit.org")
+    .s("https://decision-toolkit.org")
     .clear()
     .println();
   Action::DoNothing
@@ -592,13 +591,13 @@ fn match_verbose(matches: &ArgMatches) -> bool {
 }
 
 /// Parses `FEEL` expression loaded from file and prints the parsed `AST` to standard output.
-fn parse_feel_expression(ctx_file_name: &str, feel_file_name: &str, color_mode: ColorMode) {
+fn parse_feel_expression(ctx_file_name: &str, feel_file_name: &str, cm: ColorMode) {
   match fs::read_to_string(feel_file_name) {
     Ok(feel_expression) => match fs::read_to_string(ctx_file_name) {
       Ok(context_definition) => match dsntk_evaluator::evaluate_context(&FeelScope::default(), &context_definition) {
         Ok(ctx) => match dsntk_feel_parser::parse_expression(&ctx.into(), &feel_expression, false) {
-          Ok(ast_root_node) => {
-            println!("    AST:{}", ast_tree(&ast_root_node, &color_mode).trim_end());
+          Ok(node) => {
+            println!("    AST:\n{}", node.tree(6, cm));
           }
           Err(reason) => eprintln!("parsing expression failed with reason: {reason}"),
         },
@@ -933,39 +932,32 @@ fn save_builtin_examples(root_dir: &str) -> std::io::Result<()> {
 }
 
 /// Utility function for displaying test case result.
-fn display_test_case_result(actual: &Value, expected: &Value, test_no: &usize, passed: &mut usize, failed: &mut usize, summary_only: bool, color_mode: ColorMode) {
-  let color_red = color_red!(color_mode);
-  let color_green = color_green!(color_mode);
-  let color_clear = color_clear!(color_mode);
+fn display_test_case_result(actual: &Value, expected: &Value, test_no: &usize, passed: &mut usize, failed: &mut usize, summary_only: bool, cm: ColorMode) {
   if dsntk_evaluator::evaluate_equals(actual, expected) {
     *passed += 1;
     if !summary_only {
-      println!("test {} ... {}ok{}", test_no + 1, color_green, color_clear);
+      Text::new(cm).s("test ").s(test_no + 1).space().dots().space().green().s("ok").cprintln();
     }
   } else {
     *failed += 1;
     if !summary_only {
-      println!("test {} ... {color_red}FAILED{color_clear}", test_no + 1);
-      println!("    expected: {color_green}{expected}{color_clear}");
-      println!("      actual: {color_red}{actual}{color_clear}");
+      Text::new(cm).s("test ").s(test_no + 1).space().dots().space().red().s("FAILED").cprintln();
+      Text::new(cm).s("    expected: ").green().s(expected).cprintln();
+      Text::new(cm).s("      actual: ").red().s(actual).cprintln();
     }
   }
 }
 
 /// Utility function for displaying test summary.
-fn display_test_summary(passed: usize, failed: usize, summary_only: bool, color_mode: ColorMode) {
-  let color_red = color_red!(color_mode);
-  let color_green = color_green!(color_mode);
-  let color_clear = color_clear!(color_mode);
-  if failed > 0 {
-    if summary_only {
-      println!("test result: {color_red}FAILED{color_clear}. {passed} passed; {failed} failed.\n");
-    } else {
-      println!("\ntest result: {color_red}FAILED{color_clear}. {passed} passed; {failed} failed.\n");
-    }
-  } else if summary_only {
-    println!("test result: {color_green}ok{color_clear}. {passed} passed; {failed} failed.\n");
-  } else {
-    println!("\ntest result: {color_green}ok{color_clear}. {passed} passed; {failed} failed.\n");
+fn display_test_summary(passed: usize, failed: usize, summary_only: bool, cm: ColorMode) {
+  if !summary_only {
+    println!();
   }
+  let mut text = Text::new(cm).s("test result: ");
+  if failed > 0 {
+    text = text.red().s("FAILED");
+  } else {
+    text = text.green().s("ok");
+  }
+  text.clear().dot().space().s(passed).s(" passed; ").s(failed).s(" failed.").nl().println();
 }

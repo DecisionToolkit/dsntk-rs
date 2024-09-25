@@ -1,7 +1,7 @@
 //! # Tests for generating ASCII report for DMN models
 
 use crate::ascii_model::print_model;
-use dsntk_common::ColorMode;
+use antex::ColorMode;
 
 macro_rules! test_print_model {
   ($test_name:tt,$model_name:tt) => {

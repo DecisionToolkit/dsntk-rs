@@ -66,7 +66,7 @@ macro_rules! b_bool {
 use crate::lalr::TokenType;
 use crate::lalr::TokenType::StartExpression;
 use crate::parser::Parser;
-use crate::ParsingScope;
+use crate::{AstNode, ParsingScope};
 use difference::Changeset;
 use dsntk_feel::Name;
 pub(crate) use {__name, _name, _num, b_bool, b_name, b_num, s, scope};
@@ -74,7 +74,7 @@ pub(crate) use {__name, _name, _num, b_bool, b_name, b_num, s, scope};
 /// Parses the input text and compared the result with expected value.
 fn accept(scope: &ParsingScope, start_token_type: TokenType, input: &str, expected: &str, trace: bool) {
   let node = Parser::new(scope, start_token_type, input, trace).parse().unwrap();
-  let actual = node.to_string();
+  let actual = node.trace();
   if actual != expected {
     println!("EXPECTED:\n------------------------------------------------------------{expected}\n");
     println!("ACTUAL:\n------------------------------------------------------------{actual}\n");
@@ -86,11 +86,21 @@ fn accept(scope: &ParsingScope, start_token_type: TokenType, input: &str, expect
   assert_eq!(expected, actual);
 }
 
+/// Utility function for comparing AST trees in debug mode.
+fn eqd(expected: &str, node: &AstNode) {
+  assert_eq!(expected, format!("{node:?}"));
+}
+
+/// Utility function for comparing AST trees in display mode.
+fn eqs(expected: &str, node: &AstNode) {
+  assert_eq!(expected, node.trace());
+}
+
 #[test]
 fn test_parse_textual_expression() {
   let scope = dsntk_feel::FeelScope::default();
   let node = crate::parse_textual_expression(&scope, "1+2", false).unwrap();
-  assert_eq!(
+  eqs(
     r#"
        Add
        ├─ Numeric
@@ -98,7 +108,7 @@ fn test_parse_textual_expression() {
        └─ Numeric
           └─ `2`
     "#,
-    node.to_string()
+    &node,
   );
 }
 
@@ -106,7 +116,7 @@ fn test_parse_textual_expression() {
 fn test_parse_textual_expressions() {
   let scope = dsntk_feel::FeelScope::default();
   let node = crate::parse_textual_expressions(&scope, "1+2,2+3,3*4", false).unwrap();
-  assert_eq!(
+  eqs(
     r#"
        ExpressionList
        ├─ Add
@@ -125,7 +135,7 @@ fn test_parse_textual_expressions() {
           └─ Numeric
              └─ `4`
     "#,
-    node.to_string()
+    &node,
   );
 }
 
@@ -133,7 +143,7 @@ fn test_parse_textual_expressions() {
 fn test_parse_unary_tests() {
   let scope = dsntk_feel::FeelScope::default();
   let node = crate::parse_unary_tests(&scope, "1,2,3,4", false).unwrap();
-  assert_eq!(
+  eqs(
     r#"
        ExpressionList
        ├─ Numeric
@@ -145,7 +155,7 @@ fn test_parse_unary_tests() {
        └─ Numeric
           └─ `4`
     "#,
-    node.to_string()
+    &node,
   );
 }
 
@@ -153,7 +163,7 @@ fn test_parse_unary_tests() {
 fn test_parse_boxed_expression() {
   let scope = dsntk_feel::FeelScope::default();
   let node = crate::parse_boxed_expression(&scope, "[1,2,3,4]", false).unwrap();
-  assert_eq!(
+  eqs(
     r#"
        List
        ├─ Numeric
@@ -165,7 +175,7 @@ fn test_parse_boxed_expression() {
        └─ Numeric
           └─ `4`
     "#,
-    node.to_string()
+    &node,
   );
 }
 
@@ -173,8 +183,7 @@ fn test_parse_boxed_expression() {
 fn test_parse_context() {
   let scope = dsntk_feel::FeelScope::default();
   let node = crate::parse_context(&scope, "{age: 50}", false).unwrap();
-
-  assert_eq!(
+  eqs(
     r#"
        Context
        └─ ContextEntry
@@ -183,7 +192,7 @@ fn test_parse_context() {
           └─ Numeric
              └─ `50`
     "#,
-    node.to_string()
+    &node,
   );
 }
 
