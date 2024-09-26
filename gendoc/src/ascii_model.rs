@@ -87,18 +87,18 @@ impl Colors {
 }
 
 /// Prints the model report to standard output.
-pub fn print_model(definitions: &Definitions, cm: ColorMode) {
+pub fn print_model(definitions: Definitions, cm: ColorMode) {
   let colors = &Colors::new();
   let indent = 2;
   let mut output = String::new();
-  write_model(&mut output, definitions, cm, colors, indent);
-  write_decisions(&mut output, definitions, cm, colors, indent);
-  write_business_knowledge_models(&mut output, definitions, cm, colors, indent);
-  write_decision_services(&mut output, definitions, cm, colors, indent);
-  write_knowledge_sources(&mut output, definitions, cm, colors, indent);
-  write_input_data(&mut output, definitions, cm, colors, indent);
-  write_performance_indicators(&mut output, definitions, cm, colors, indent);
-  write_organisation_units(&mut output, definitions, cm, colors, indent);
+  write_model(&mut output, &definitions, cm, colors, indent);
+  write_decisions(&mut output, &definitions, cm, colors, indent);
+  write_business_knowledge_models(&mut output, &definitions, cm, colors, indent);
+  write_decision_services(&mut output, &definitions, cm, colors, indent);
+  write_knowledge_sources(&mut output, &definitions, cm, colors, indent);
+  write_input_data(&mut output, &definitions, cm, colors, indent);
+  write_performance_indicators(&mut output, &definitions, cm, colors, indent);
+  write_organisation_units(&mut output, &definitions, cm, colors, indent);
   println!("{}", output);
 }
 

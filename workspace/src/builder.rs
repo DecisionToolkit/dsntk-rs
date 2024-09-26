@@ -14,7 +14,7 @@ use walkdir::WalkDir;
 /// Workspace builder.
 pub struct WorkspaceBuilder {
   /// Color mode.
-  color_mode: ColorMode,
+  cm: ColorMode,
   /// Flag indicating the level of verbosity.
   verbose: bool,
   /// Total number of model files found.
@@ -39,9 +39,9 @@ pub struct WorkspaceBuilder {
 
 impl WorkspaceBuilder {
   /// Creates a new workspace builder.
-  pub fn new(dirs: &[PathBuf], color_mode: ColorMode, verbose: bool) -> Self {
+  pub fn new(dirs: &[PathBuf], cm: ColorMode, verbose: bool) -> Self {
     let mut builder = Self {
-      color_mode,
+      cm,
       verbose,
       file_count: 0,
       loaded_count: 0,
@@ -181,7 +181,7 @@ impl WorkspaceBuilder {
   /// Displays the summary of the loading process.
   fn display_summary(&self) {
     // display the number of found files
-    Text::new(self.color_mode)
+    Text::new(self.cm)
       .color(if self.file_count > 0 { Color::Green } else { Color::Red })
       .s("Found ")
       .s(self.file_count)
@@ -190,7 +190,7 @@ impl WorkspaceBuilder {
       .cprintln();
     // display the number of successfully loaded files
     if self.loaded_count > 0 {
-      Text::new(self.color_mode)
+      Text::new(self.cm)
         .green()
         .s("Loaded ")
         .s(self.loaded_count)
@@ -200,7 +200,7 @@ impl WorkspaceBuilder {
     }
     // display the number of failed loads
     if self.failed_loads_count > 0 {
-      Text::new(self.color_mode)
+      Text::new(self.cm)
         .red()
         .s("Failed to load ")
         .s(self.failed_loads_count)
@@ -210,7 +210,7 @@ impl WorkspaceBuilder {
     }
     // display the number of successfully deployed invocables
     let deployed_count = self.evaluators.values().map(|evaluator| evaluator.invocables().len()).sum();
-    Text::new(self.color_mode)
+    Text::new(self.cm)
       .color(if deployed_count > 0 { Color::Green } else { Color::Red })
       .s("Deployed ")
       .s(deployed_count)
@@ -219,7 +219,7 @@ impl WorkspaceBuilder {
       .cprintln();
     // display the number of failed deployments
     if self.failed_deployments_count > 0 {
-      Text::new(self.color_mode)
+      Text::new(self.cm)
         .red()
         .s("Failed to deploy ")
         .s(self.failed_deployments_count)
@@ -352,6 +352,6 @@ impl WorkspaceBuilder {
 
   /// Utility function for instantiating a styled text with preset color mode.
   fn text(&self) -> Text {
-    Text::new(self.color_mode)
+    Text::new(self.cm)
   }
 }
