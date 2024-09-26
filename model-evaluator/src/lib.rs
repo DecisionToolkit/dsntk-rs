@@ -26,7 +26,7 @@ pub use model_evaluator::ModelEvaluator;
 
 #[cfg(test)]
 mod utilities {
-  use antex::{ColorMode, Text};
+  use antex::{ColorMode, StyledText, Text};
   use std::collections::{BTreeMap, BTreeSet};
   use std::fs;
   use walkdir::WalkDir;

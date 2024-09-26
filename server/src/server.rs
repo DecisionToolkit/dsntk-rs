@@ -1,7 +1,7 @@
 use crate::data::ApplicationData;
 use crate::utils;
 use actix_web::{post, web, App, HttpResponse, HttpServer};
-use antex::{ColorMode, Text};
+use antex::{ColorMode, StyledText, Text};
 use dsntk_common::Jsonify;
 use dsntk_feel::FeelScope;
 use dsntk_workspace::Workspaces;

@@ -1,6 +1,6 @@
 //! # ASCII report of the DMN model
 
-use antex::{ColorMode, NodeBuilder, Text, TreeNode};
+use antex::{leaf, node, Color, ColorMode, NodeBuilder, StyledText, Text, TreeNode};
 use dsntk_common::HRef;
 use dsntk_feel::Name;
 use dsntk_model::*;
@@ -30,6 +30,9 @@ const LABEL_TYPE: &str = "type";
 const LABEL_TYPE_LANGUAGE: &str = "type language";
 const LABEL_URI: &str = "URI";
 const LABEL_VARIABLE: &str = "variable (output)";
+
+/// Default color of the tree arms.
+const DEFAULT_COLOR: Color = Color::White;
 
 /// Color palette.
 struct Colors {
@@ -130,7 +133,7 @@ fn write_model(w: &mut dyn Write, definitions: &Definitions, cm: ColorMode, colo
     .opt_child(build_description(definitions.description(), cm, colors))
     .opt_child(build_extension_elements(definitions.extension_elements(), colors))
     .opt_child(build_extension_attributes(definitions.extension_attributes(), colors))
-    .done();
+    .end();
   let _ = node_model.write_indent(w, indent);
 }
 
@@ -152,7 +155,7 @@ fn write_decisions(w: &mut dyn Write, definitions: &Definitions, cm: ColorMode, 
       .opt_child(build_authority_requirements(decision.authority_requirements(), cm, colors))
       .opt_child(build_extension_elements(decision.extension_elements(), colors))
       .opt_child(build_extension_attributes(decision.extension_attributes(), colors))
-      .done();
+      .end();
     write_empty_line(w, i);
     let _ = node_decision.write_indent(w, indent);
   }
@@ -174,7 +177,7 @@ fn write_business_knowledge_models(w: &mut dyn Write, definitions: &Definitions,
       .opt_child(build_authority_requirements(bkm.authority_requirements(), cm, colors))
       .opt_child(build_extension_elements(bkm.extension_elements(), colors))
       .opt_child(build_extension_attributes(bkm.extension_attributes(), colors))
-      .done();
+      .end();
     write_empty_line(w, i);
     let _ = node_decision.write_indent(w, indent);
   }
@@ -195,7 +198,7 @@ fn write_decision_services(w: &mut dyn Write, definitions: &Definitions, cm: Col
       .child(build_variable(decision_service.variable(), cm, colors))
       .opt_child(build_extension_elements(decision_service.extension_elements(), colors))
       .opt_child(build_extension_attributes(decision_service.extension_attributes(), colors))
-      .done();
+      .end();
     write_empty_line(w, i);
     let _ = node_decision.write_indent(w, indent);
   }
@@ -216,7 +219,7 @@ fn write_knowledge_sources(w: &mut dyn Write, definitions: &Definitions, cm: Col
       .opt_child(build_extension_elements(knowledge_source.extension_elements(), colors))
       .opt_child(build_extension_attributes(knowledge_source.extension_attributes(), colors))
       .opt_child(build_authority_requirements(knowledge_source.authority_requirements(), cm, colors))
-      .done();
+      .end();
     write_empty_line(w, i);
     let _ = node_decision.write_indent(w, indent);
   }
@@ -237,7 +240,7 @@ fn write_input_data(w: &mut dyn Write, definitions: &Definitions, cm: ColorMode,
       .child(build_variable(input.variable(), cm, colors))
       .opt_child(build_extension_elements(input.extension_elements(), colors))
       .opt_child(build_extension_attributes(input.extension_attributes(), colors))
-      .done();
+      .end();
     write_empty_line(w, i);
     let _ = node_input.write_indent(w, indent);
   }
@@ -251,11 +254,11 @@ fn write_performance_indicators(w: &mut dyn Write, definitions: &Definitions, cm
   }
   for (i, performance_indicator) in performance_indicators.iter().enumerate() {
     // prepare a node with impacting decisions
-    let mut impacting_decisions_builder = TreeNode::node().line(Text::new(cm).s(LABEL_IMPACTING_DECISIONS).colon());
+    let mut impacting_decisions_builder = node(DEFAULT_COLOR, cm).line().s(LABEL_IMPACTING_DECISIONS).colon().end();
     for impacting_decision in performance_indicator.impacting_decisions() {
       impacting_decisions_builder.add_child(build_href(impacting_decision, cm, colors));
     }
-    let node_impacting_decisions = impacting_decisions_builder.done();
+    let node_impacting_decisions = impacting_decisions_builder.end();
     let node_performance_indicator = builder_name(performance_indicator.name(), cm, colors)
       .child(build_feel_name(performance_indicator.feel_name(), cm, colors))
       .opt_child(build_label(performance_indicator.label(), cm, colors))
@@ -265,7 +268,7 @@ fn write_performance_indicators(w: &mut dyn Write, definitions: &Definitions, cm
       .child(node_impacting_decisions)
       .opt_child(build_extension_elements(performance_indicator.extension_elements(), colors))
       .opt_child(build_extension_attributes(performance_indicator.extension_attributes(), colors))
-      .done();
+      .end();
     write_empty_line(w, i);
     let _ = node_performance_indicator.write_indent(w, indent);
   }
@@ -279,17 +282,17 @@ fn write_organisation_units(w: &mut dyn Write, definitions: &Definitions, cm: Co
   }
   for (i, organisation_units) in definitions.organisation_units().iter().enumerate() {
     // prepare a node with decisions made
-    let mut decisions_made_builder = TreeNode::node().line(Text::new(cm).s(LABEL_DECISIONS_MADE).colon());
+    let mut decisions_made_builder = node(DEFAULT_COLOR, cm).line().s(LABEL_DECISIONS_MADE).colon().end();
     for decision_made in organisation_units.decisions_made() {
       decisions_made_builder.add_child(build_href(decision_made, cm, colors));
     }
-    let node_decisions_made = decisions_made_builder.done();
+    let node_decisions_made = decisions_made_builder.end();
     // prepare a node with decisions owned
-    let mut decisions_made_builder = TreeNode::node().line(Text::new(cm).s(LABEL_DECISIONS_OWNED).colon());
+    let mut decisions_made_builder = node(DEFAULT_COLOR, cm).line().s(LABEL_DECISIONS_OWNED).colon().end();
     for decision_owned in organisation_units.decisions_owned() {
       decisions_made_builder.add_child(build_href(decision_owned, cm, colors));
     }
-    let node_decisions_owned = decisions_made_builder.done();
+    let node_decisions_owned = decisions_made_builder.end();
     let node_organisation_unit = builder_name(organisation_units.name(), cm, colors)
       .child(build_feel_name(organisation_units.feel_name(), cm, colors))
       .opt_child(build_label(organisation_units.label(), cm, colors))
@@ -300,7 +303,7 @@ fn write_organisation_units(w: &mut dyn Write, definitions: &Definitions, cm: Co
       .child(node_decisions_owned)
       .opt_child(build_extension_elements(organisation_units.extension_elements(), colors))
       .opt_child(build_extension_attributes(organisation_units.extension_attributes(), colors))
-      .done();
+      .end();
     write_empty_line(w, i);
     let _ = node_organisation_unit.write_indent(w, indent);
   }
@@ -308,7 +311,7 @@ fn write_organisation_units(w: &mut dyn Write, definitions: &Definitions, cm: Co
 
 /// Prepares a node builder containing a name as a root element.
 fn builder_name(text: &str, cm: ColorMode, colors: &Colors) -> NodeBuilder {
-  TreeNode::node().line(Text::new(cm).color_256(colors.name()).s(text).clear())
+  node(DEFAULT_COLOR, cm).line().color_256(colors.name()).s(text).clear().end()
 }
 
 /// Builds a leaf node containing a name.
@@ -339,7 +342,7 @@ fn build_label(opt_text: &Option<String>, cm: ColorMode, colors: &Colors) -> Opt
 /// Builds a leaf node containing a label.
 fn build_href(href: &HRef, cm: ColorMode, colors: &Colors) -> TreeNode {
   let text = href.id();
-  TreeNode::leaf().line(Text::new(cm).color_256(colors.href()).s('#').s(text).clear()).done()
+  leaf(cm).line().color_256(colors.href()).s('#').s(text).clear().end().end()
 }
 
 /// Builds a leaf node containing URI.
@@ -364,8 +367,10 @@ fn build_type(text: &str, cm: ColorMode, colors: &Colors) -> TreeNode {
 
 /// Builds a node containing output variable properties.
 fn build_variable(variable: &InformationItem, cm: ColorMode, colors: &Colors) -> TreeNode {
-  TreeNode::node()
-    .line(Text::new(cm).s(LABEL_VARIABLE))
+  node(DEFAULT_COLOR, cm)
+    .line()
+    .s(LABEL_VARIABLE)
+    .end()
     .child(build_name(variable.name(), cm, colors))
     .child(build_feel_name(variable.feel_name(), cm, colors))
     .opt_child(build_id(variable.opt_id(), cm, colors))
@@ -374,7 +379,7 @@ fn build_variable(variable: &InformationItem, cm: ColorMode, colors: &Colors) ->
     .opt_child(build_description(variable.description(), cm, colors))
     .opt_child(build_extension_elements(variable.extension_elements(), colors))
     .opt_child(build_extension_attributes(variable.extension_attributes(), colors))
-    .done()
+    .end()
 }
 
 fn build_extension_elements(_extension_elements: &[ExtensionElement], _colors: &Colors) -> Option<TreeNode> {
@@ -387,33 +392,35 @@ fn build_extension_attributes(_extension_attributes: &[ExtensionAttribute], _col
 
 fn build_authority_requirements(authority_requirements: &Vec<AuthorityRequirement>, cm: ColorMode, colors: &Colors) -> Option<TreeNode> {
   if !authority_requirements.is_empty() {
-    let mut authority_requirements_builder = TreeNode::node().line(Text::new(cm).s("authority requirements:"));
+    let mut authority_requirements_builder = node(DEFAULT_COLOR, cm).line().s("authority requirements:").end();
     for authority_requirement in authority_requirements {
-      let a = TreeNode::node()
-        .line(Text::new(cm).s("authority requirement"))
+      let node_authority = node(DEFAULT_COLOR, cm)
+        .line()
+        .s("authority requirement")
+        .end()
         .opt_child(build_id(authority_requirement.opt_id(), cm, colors))
         .opt_child(build_label(authority_requirement.label(), cm, colors))
         .opt_child(build_description(authority_requirement.description(), cm, colors))
         .opt_child(build_extension_elements(authority_requirement.extension_elements(), colors))
         .opt_child(build_extension_attributes(authority_requirement.extension_attributes(), colors))
-        .done();
-      authority_requirements_builder.add_child(a);
+        .end();
+      authority_requirements_builder.add_child(node_authority);
     }
-    return Some(authority_requirements_builder.done());
+    return Some(authority_requirements_builder.end());
   }
   None
 }
 
 /// Builds a leaf with a single line containing label and coloured value.
 fn build_labeled_text(label: &str, text: &str, cm: ColorMode, color: u8) -> TreeNode {
-  TreeNode::leaf().line(Text::new(cm).s(label).colon().space().color_256(color).s(text).clear()).done()
+  leaf(cm).line().s(label).colon().space().color_256(color).s(text).clear().end().end()
 }
 
 /// Builds optional a leaf with a single line containing label and coloured value.
 fn build_opt_labeled_text(label: &str, opt_text: &Option<String>, cm: ColorMode, color: u8) -> Option<TreeNode> {
   opt_text
     .as_ref()
-    .map(|text| TreeNode::leaf().line(Text::new(cm).s(label).colon().space().color_256(color).s(text).clear()).done())
+    .map(|text| leaf(cm).line().s(label).colon().space().color_256(color).s(text).clear().end().end())
 }
 
 /// Builds a node containing optional labeled multiline text.
@@ -422,7 +429,7 @@ fn build_opt_labeled_multiline_text(label: &str, text: &Option<String>, cm: Colo
     // prepare the label of the node
     let label = Text::new(cm).s(label).colon();
     // prepare the leaf node builder
-    let mut leaf_builder = TreeNode::leaf().line(label);
+    let mut leaf_builder = leaf(cm).line().s(label).end();
     // calculate the left margin of the multiline text
     let mut left_margin = if text.is_empty() { 0 } else { usize::MAX };
     for line in text.lines().filter(|s| !s.trim().is_empty()) {
@@ -437,6 +444,6 @@ fn build_opt_labeled_multiline_text(label: &str, text: &Option<String>, cm: Colo
       leaf_builder.add_line(indented_line);
     }
     // return the leaf node
-    leaf_builder.done()
+    leaf_builder.end()
   })
 }

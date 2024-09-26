@@ -1,7 +1,7 @@
 //! # Command-line actions
 
 use crate::built_in_examples::*;
-use antex::{ColorMode, Text};
+use antex::{ColorMode, StyledText, Text};
 use clap::{arg, command, crate_version, Arg, ArgAction, ArgMatches, Command};
 use dsntk_common::*;
 use dsntk_feel::values::Value;
@@ -935,12 +935,12 @@ fn display_test_case_result(actual: &Value, expected: &Value, test_no: &usize, p
   if dsntk_evaluator::evaluate_equals(actual, expected) {
     *passed += 1;
     if !summary_only {
-      Text::new(cm).s("test ").s(test_no + 1).space().dots().space().green().s("ok").cprintln();
+      Text::new(cm).s("test ").s(test_no + 1).space().dots(3).space().green().s("ok").cprintln();
     }
   } else {
     *failed += 1;
     if !summary_only {
-      Text::new(cm).s("test ").s(test_no + 1).space().dots().space().red().s("FAILED").cprintln();
+      Text::new(cm).s("test ").s(test_no + 1).space().dots(3).space().red().s("FAILED").cprintln();
       Text::new(cm).s("    expected: ").green().s(expected).cprintln();
       Text::new(cm).s("      actual: ").red().s(actual).cprintln();
     }

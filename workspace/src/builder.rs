@@ -1,6 +1,6 @@
 //! # Workspace builder
 
-use antex::{ColorMode, Text, GREEN, RED};
+use antex::{Color, ColorMode, StyledText, Text};
 use dsntk_common::{encode_segments, to_rdnn};
 use dsntk_model::{Definitions, DmnElement};
 use dsntk_model_evaluator::ModelEvaluator;
@@ -182,7 +182,7 @@ impl WorkspaceBuilder {
   fn display_summary(&self) {
     // display the number of found files
     Text::new(self.color_mode)
-      .color(if self.file_count > 0 { GREEN } else { RED })
+      .color(if self.file_count > 0 { Color::Green } else { Color::Red })
       .s("Found ")
       .s(self.file_count)
       .plural(" model", self.file_count)
@@ -211,7 +211,7 @@ impl WorkspaceBuilder {
     // display the number of successfully deployed invocables
     let deployed_count = self.evaluators.values().map(|evaluator| evaluator.invocables().len()).sum();
     Text::new(self.color_mode)
-      .color(if deployed_count > 0 { GREEN } else { RED })
+      .color(if deployed_count > 0 { Color::Green } else { Color::Red })
       .s("Deployed ")
       .s(deployed_count)
       .plural(" invocable", deployed_count)
@@ -326,7 +326,7 @@ impl WorkspaceBuilder {
     }
   }
 
-  /// Utility function for printing styled error message with one arguments.
+  /// Utility function for printing styled error message with one argument.
   fn error_1<T: Display>(&self, s1: T) {
     self.text().s('[').red().s("error").clear().s(']').space().red().s(s1).cprintln();
   }

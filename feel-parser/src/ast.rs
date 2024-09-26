@@ -1,9 +1,12 @@
 //! Implementation of a node in Abstract Syntax Tree for `FEEL` grammar.
 
-use antex::{ColorMode, Text, TreeNode};
+use antex::{leaf, node, Color, ColorMode, StyledText, TreeNode};
 use dsntk_feel::{FeelType, Name};
 use std::fmt;
 use std::fmt::{Display, Write};
+
+/// Default color of the tree arms.
+const DEFAULT_COLOR: Color = Color::White;
 
 /// Node of the Abstract Syntax Tree for `FEEL` grammar.
 #[derive(Debug, Clone, PartialEq)]
@@ -338,136 +341,137 @@ impl AstNode {
 /// Converts [AstNode] into ASCII [TreeNode] node.
 fn ast_node_to_tree(node: &AstNode, cm: ColorMode) -> TreeNode {
   match node {
-    AstNode::Add(lhs, rhs) => node_2("Add", lhs, rhs, cm),
-    AstNode::And(lhs, rhs) => node_2("And", lhs, rhs, cm),
-    AstNode::At(mid) => node_and_leaf("At", &format!("`{mid}`"), cm),
-    AstNode::Between(lhs, mid, rhs) => node_3("Between", lhs, mid, rhs, cm),
-    AstNode::Boolean(mid) => node_and_leaf("Boolean", &format!("`{mid}`"), cm),
-    AstNode::CommaList(mid) => node_n("CommaList", mid, cm),
-    AstNode::Context(items) => node_n("Context", items, cm),
-    AstNode::ContextEntry(lhs, rhs) => node_2("ContextEntry", lhs, rhs, cm),
-    AstNode::ContextEntryKey(mid) => node_and_leaf("ContextEntryKey", &format!("`{mid}`"), cm),
-    AstNode::ContextType(items) => node_n("ContextType", items, cm),
-    AstNode::ContextTypeEntry(lhs, rhs) => node_2("ContextTypeEntry", lhs, rhs, cm),
-    AstNode::ContextTypeEntryKey(mid) => node_and_leaf("Name", &format!("`{mid}`"), cm),
-    AstNode::Div(lhs, rhs) => node_2("Div", lhs, rhs, cm),
-    AstNode::Eq(lhs, rhs) => node_2("Eq", lhs, rhs, cm),
-    AstNode::EvaluatedExpression(mid) => node_1("EvaluatedExpression", mid, cm),
-    AstNode::Every(lhs, rhs) => node_2("Every", lhs, rhs, cm),
-    AstNode::Exp(lhs, rhs) => node_2("Exp", lhs, rhs, cm),
-    AstNode::ExpressionList(items) => node_n("ExpressionList", items, cm),
-    AstNode::FeelType(lhs) => node_and_leaf("FeelType", &lhs.to_string(), cm),
-    AstNode::Filter(lhs, rhs) => node_2("Filter", lhs, rhs, cm),
-    AstNode::For(lhs, rhs) => node_2("For", lhs, rhs, cm),
-    AstNode::FormalParameter(lhs, rhs) => node_2("FormalParameter", lhs, rhs, cm),
-    AstNode::FormalParameters(items) => node_n("FormalParameters", items, cm),
-    AstNode::FunctionBody(lhs, external) => node_and_label("FunctionBody", lhs, " (external)", "", *external, cm),
-    AstNode::FunctionDefinition(lhs, rhs) => node_2("FunctionDefinition", lhs, rhs, cm),
-    AstNode::FunctionInvocation(lhs, rhs) => node_2("FunctionInvocation", lhs, rhs, cm),
-    AstNode::FunctionType(lhs, rhs) => node_2("FunctionType", lhs, rhs, cm),
-    AstNode::Ge(lhs, rhs) => node_2("Ge", lhs, rhs, cm),
-    AstNode::Gt(lhs, rhs) => node_2("Gt", lhs, rhs, cm),
-    AstNode::If(lhs, mid, rhs) => node_3("If", lhs, mid, rhs, cm),
-    AstNode::In(lhs, rhs) => node_2("In", lhs, rhs, cm),
-    AstNode::InstanceOf(lhs, rhs) => node_2("InstanceOf", lhs, rhs, cm),
-    AstNode::IntervalEnd(lhs, closed) => node_and_label("IntervalEnd", lhs, " (closed)", " (opened)", *closed, cm),
-    AstNode::IntervalStart(lhs, closed) => node_and_label("IntervalStart", lhs, " (closed)", " (opened)", *closed, cm),
-    AstNode::Irrelevant => leaf("Irrelevant", cm),
-    AstNode::IterationContexts(items) => node_n("IterationContexts", items, cm),
-    AstNode::IterationContextList(lhs, rhs) => node_2("IterationContextSingle", lhs, rhs, cm),
-    AstNode::IterationContextRange(lhs, mid, rhs) => node_3("IterationContextRange", lhs, mid, rhs, cm),
-    AstNode::Le(lhs, rhs) => node_2("Le", lhs, rhs, cm),
-    AstNode::List(mid) => node_n("List", mid, cm),
-    AstNode::ListType(lhs) => node_1("ListType", lhs, cm),
-    AstNode::Lt(lhs, rhs) => node_2("Lt", lhs, rhs, cm),
-    AstNode::Mul(lhs, rhs) => node_2("Mul", lhs, rhs, cm),
-    AstNode::Name(mid) => node_and_leaf("Name", &format!("`{mid}`"), cm),
-    AstNode::NamedParameter(lhs, rhs) => node_2("NamedParameter", lhs, rhs, cm),
-    AstNode::NamedParameters(items) => node_n("NamedParameters", items, cm),
-    AstNode::Neg(mid) => node_1("Neg", mid, cm),
-    AstNode::NegatedList(mid) => node_n("NegatedList", mid, cm),
-    AstNode::Nq(lhs, rhs) => node_2("Nq", lhs, rhs, cm),
-    AstNode::Null => leaf("Null", cm),
-    AstNode::Numeric(before, after, sign, exponent) => node_and_leaf("Numeric", &numeric_to_string(before, after, sign, exponent), cm),
-    AstNode::Or(lhs, rhs) => node_2("Or", lhs, rhs, cm),
-    AstNode::Out(lhs, rhs) => node_2("Out", lhs, rhs, cm),
-    AstNode::ParameterName(lhs) => node_and_leaf("ParameterName", &format!("`{lhs}`"), cm),
-    AstNode::ParameterTypes(items) => node_n("ParameterTypes", items, cm),
-    AstNode::Path(lhs, rhs) => node_2("Path", lhs, rhs, cm),
-    AstNode::PositionalParameters(items) => node_n("PositionalParameters", items, cm),
-    AstNode::QualifiedName(items) => node_n("QualifiedName", items, cm),
-    AstNode::QualifiedNameSegment(lhs) => node_and_leaf("Name", &format!("`{lhs}`"), cm),
-    AstNode::QuantifiedContext(lhs, rhs) => node_2("QuantifiedContext", lhs, rhs, cm),
-    AstNode::QuantifiedContexts(items) => node_n("QuantifiedContexts", items, cm),
-    AstNode::Range(lhs, rhs) => node_2("Range", lhs, rhs, cm),
-    AstNode::RangeType(lhs) => node_1("RangeType", lhs, cm),
-    AstNode::Satisfies(mid) => node_1("Satisfies", mid, cm),
-    AstNode::Some(lhs, rhs) => node_2("Some", lhs, rhs, cm),
-    AstNode::String(mid) => node_and_leaf("String", &format!("`{mid}`"), cm),
-    AstNode::Sub(lhs, rhs) => node_2("Sub", lhs, rhs, cm),
-    AstNode::UnaryGe(mid) => node_1("UnaryGe", mid, cm),
-    AstNode::UnaryGt(mid) => node_1("UnaryGt", mid, cm),
-    AstNode::UnaryLe(mid) => node_1("UnaryLe", mid, cm),
-    AstNode::UnaryLt(mid) => node_1("UnaryLt", mid, cm),
-    AstNode::UnaryEq(mid) => node_1("UnaryEq", mid, cm),
-    AstNode::UnaryNe(mid) => node_1("UnaryNe", mid, cm),
+    AstNode::Add(lhs, rhs) => ast_node_2("Add", lhs, rhs, cm),
+    AstNode::And(lhs, rhs) => ast_node_2("And", lhs, rhs, cm),
+    AstNode::At(mid) => ast_node_and_leaf("At", &format!("`{mid}`"), cm),
+    AstNode::Between(lhs, mid, rhs) => ast_node_3("Between", lhs, mid, rhs, cm),
+    AstNode::Boolean(mid) => ast_node_and_leaf("Boolean", &format!("`{mid}`"), cm),
+    AstNode::CommaList(mid) => ast_node_n("CommaList", mid, cm),
+    AstNode::Context(items) => ast_node_n("Context", items, cm),
+    AstNode::ContextEntry(lhs, rhs) => ast_node_2("ContextEntry", lhs, rhs, cm),
+    AstNode::ContextEntryKey(mid) => ast_node_and_leaf("ContextEntryKey", &format!("`{mid}`"), cm),
+    AstNode::ContextType(items) => ast_node_n("ContextType", items, cm),
+    AstNode::ContextTypeEntry(lhs, rhs) => ast_node_2("ContextTypeEntry", lhs, rhs, cm),
+    AstNode::ContextTypeEntryKey(mid) => ast_node_and_leaf("Name", &format!("`{mid}`"), cm),
+    AstNode::Div(lhs, rhs) => ast_node_2("Div", lhs, rhs, cm),
+    AstNode::Eq(lhs, rhs) => ast_node_2("Eq", lhs, rhs, cm),
+    AstNode::EvaluatedExpression(mid) => ast_node_1("EvaluatedExpression", mid, cm),
+    AstNode::Every(lhs, rhs) => ast_node_2("Every", lhs, rhs, cm),
+    AstNode::Exp(lhs, rhs) => ast_node_2("Exp", lhs, rhs, cm),
+    AstNode::ExpressionList(items) => ast_node_n("ExpressionList", items, cm),
+    AstNode::FeelType(lhs) => ast_node_and_leaf("FeelType", &lhs.to_string(), cm),
+    AstNode::Filter(lhs, rhs) => ast_node_2("Filter", lhs, rhs, cm),
+    AstNode::For(lhs, rhs) => ast_node_2("For", lhs, rhs, cm),
+    AstNode::FormalParameter(lhs, rhs) => ast_node_2("FormalParameter", lhs, rhs, cm),
+    AstNode::FormalParameters(items) => ast_node_n("FormalParameters", items, cm),
+    AstNode::FunctionBody(lhs, external) => ast_node_and_label("FunctionBody", lhs, " (external)", "", *external, cm),
+    AstNode::FunctionDefinition(lhs, rhs) => ast_node_2("FunctionDefinition", lhs, rhs, cm),
+    AstNode::FunctionInvocation(lhs, rhs) => ast_node_2("FunctionInvocation", lhs, rhs, cm),
+    AstNode::FunctionType(lhs, rhs) => ast_node_2("FunctionType", lhs, rhs, cm),
+    AstNode::Ge(lhs, rhs) => ast_node_2("Ge", lhs, rhs, cm),
+    AstNode::Gt(lhs, rhs) => ast_node_2("Gt", lhs, rhs, cm),
+    AstNode::If(lhs, mid, rhs) => ast_node_3("If", lhs, mid, rhs, cm),
+    AstNode::In(lhs, rhs) => ast_node_2("In", lhs, rhs, cm),
+    AstNode::InstanceOf(lhs, rhs) => ast_node_2("InstanceOf", lhs, rhs, cm),
+    AstNode::IntervalEnd(lhs, closed) => ast_node_and_label("IntervalEnd", lhs, " (closed)", " (opened)", *closed, cm),
+    AstNode::IntervalStart(lhs, closed) => ast_node_and_label("IntervalStart", lhs, " (closed)", " (opened)", *closed, cm),
+    AstNode::Irrelevant => ast_leaf("Irrelevant", cm),
+    AstNode::IterationContexts(items) => ast_node_n("IterationContexts", items, cm),
+    AstNode::IterationContextList(lhs, rhs) => ast_node_2("IterationContextSingle", lhs, rhs, cm),
+    AstNode::IterationContextRange(lhs, mid, rhs) => ast_node_3("IterationContextRange", lhs, mid, rhs, cm),
+    AstNode::Le(lhs, rhs) => ast_node_2("Le", lhs, rhs, cm),
+    AstNode::List(mid) => ast_node_n("List", mid, cm),
+    AstNode::ListType(lhs) => ast_node_1("ListType", lhs, cm),
+    AstNode::Lt(lhs, rhs) => ast_node_2("Lt", lhs, rhs, cm),
+    AstNode::Mul(lhs, rhs) => ast_node_2("Mul", lhs, rhs, cm),
+    AstNode::Name(mid) => ast_node_and_leaf("Name", &format!("`{mid}`"), cm),
+    AstNode::NamedParameter(lhs, rhs) => ast_node_2("NamedParameter", lhs, rhs, cm),
+    AstNode::NamedParameters(items) => ast_node_n("NamedParameters", items, cm),
+    AstNode::Neg(mid) => ast_node_1("Neg", mid, cm),
+    AstNode::NegatedList(mid) => ast_node_n("NegatedList", mid, cm),
+    AstNode::Nq(lhs, rhs) => ast_node_2("Nq", lhs, rhs, cm),
+    AstNode::Null => ast_leaf("Null", cm),
+    AstNode::Numeric(before, after, sign, exponent) => ast_node_and_leaf("Numeric", &numeric_to_string(before, after, sign, exponent), cm),
+    AstNode::Or(lhs, rhs) => ast_node_2("Or", lhs, rhs, cm),
+    AstNode::Out(lhs, rhs) => ast_node_2("Out", lhs, rhs, cm),
+    AstNode::ParameterName(lhs) => ast_node_and_leaf("ParameterName", &format!("`{lhs}`"), cm),
+    AstNode::ParameterTypes(items) => ast_node_n("ParameterTypes", items, cm),
+    AstNode::Path(lhs, rhs) => ast_node_2("Path", lhs, rhs, cm),
+    AstNode::PositionalParameters(items) => ast_node_n("PositionalParameters", items, cm),
+    AstNode::QualifiedName(items) => ast_node_n("QualifiedName", items, cm),
+    AstNode::QualifiedNameSegment(lhs) => ast_node_and_leaf("Name", &format!("`{lhs}`"), cm),
+    AstNode::QuantifiedContext(lhs, rhs) => ast_node_2("QuantifiedContext", lhs, rhs, cm),
+    AstNode::QuantifiedContexts(items) => ast_node_n("QuantifiedContexts", items, cm),
+    AstNode::Range(lhs, rhs) => ast_node_2("Range", lhs, rhs, cm),
+    AstNode::RangeType(lhs) => ast_node_1("RangeType", lhs, cm),
+    AstNode::Satisfies(mid) => ast_node_1("Satisfies", mid, cm),
+    AstNode::Some(lhs, rhs) => ast_node_2("Some", lhs, rhs, cm),
+    AstNode::String(mid) => ast_node_and_leaf("String", &format!("`{mid}`"), cm),
+    AstNode::Sub(lhs, rhs) => ast_node_2("Sub", lhs, rhs, cm),
+    AstNode::UnaryGe(mid) => ast_node_1("UnaryGe", mid, cm),
+    AstNode::UnaryGt(mid) => ast_node_1("UnaryGt", mid, cm),
+    AstNode::UnaryLe(mid) => ast_node_1("UnaryLe", mid, cm),
+    AstNode::UnaryLt(mid) => ast_node_1("UnaryLt", mid, cm),
+    AstNode::UnaryEq(mid) => ast_node_1("UnaryEq", mid, cm),
+    AstNode::UnaryNe(mid) => ast_node_1("UnaryNe", mid, cm),
   }
 }
 
 /// Creates a tree node with one child node.
-fn node_1(name: &str, mid: &AstNode, cm: ColorMode) -> TreeNode {
-  TreeNode::node().line(Text::new(cm).s(name)).child(ast_node_to_tree(mid, cm)).done()
+fn ast_node_1(name: &str, mid: &AstNode, cm: ColorMode) -> TreeNode {
+  node(DEFAULT_COLOR, cm).line().s(name).end().child(ast_node_to_tree(mid, cm)).end()
 }
 
 /// Creates a tree node with two child nodes.
-fn node_2(name: &str, lhs: &AstNode, rhs: &AstNode, cm: ColorMode) -> TreeNode {
-  TreeNode::node()
-    .line(Text::new(cm).s(name))
+fn ast_node_2(name: &str, lhs: &AstNode, rhs: &AstNode, cm: ColorMode) -> TreeNode {
+  node(DEFAULT_COLOR, cm)
+    .line()
+    .s(name)
+    .end()
     .child(ast_node_to_tree(lhs, cm))
     .child(ast_node_to_tree(rhs, cm))
-    .done()
+    .end()
 }
 
 /// Creates a tree node with three child nodes.
-fn node_3(name: &str, lhs: &AstNode, mid: &AstNode, rhs: &AstNode, cm: ColorMode) -> TreeNode {
-  TreeNode::node()
-    .line(Text::new(cm).s(name))
+fn ast_node_3(name: &str, lhs: &AstNode, mid: &AstNode, rhs: &AstNode, cm: ColorMode) -> TreeNode {
+  node(DEFAULT_COLOR, cm)
+    .line()
+    .s(name)
+    .end()
     .child(ast_node_to_tree(lhs, cm))
     .child(ast_node_to_tree(mid, cm))
     .child(ast_node_to_tree(rhs, cm))
-    .done()
+    .end()
 }
 
 /// Creates a tree node with multiple child nodes.
-fn node_n(name: &str, items: &[AstNode], cm: ColorMode) -> TreeNode {
-  let mut node_builder = TreeNode::node().line(Text::new(cm).s(name));
+fn ast_node_n(name: &str, items: &[AstNode], cm: ColorMode) -> TreeNode {
+  let mut node_builder = node(DEFAULT_COLOR, cm).line().s(name).end();
   if items.is_empty() {
-    node_builder.add_child(TreeNode::leaf().line(Text::new(cm).s("(empty)")).done());
+    node_builder.add_child(leaf(cm).line().s("(empty)").end().end());
   } else {
     for item in items {
       node_builder.add_child(ast_node_to_tree(item, cm));
     }
   }
-  node_builder.done()
+  node_builder.end()
 }
 
 /// Creates a node with single leaf node.
-fn node_and_leaf(name: &str, leaf: &str, cm: ColorMode) -> TreeNode {
-  TreeNode::node()
-    .line(Text::new(cm).s(name))
-    .child(TreeNode::leaf().line(Text::new(cm).s(leaf)).done())
-    .done()
+fn ast_node_and_leaf(name: &str, leaf_caption: &str, cm: ColorMode) -> TreeNode {
+  node(DEFAULT_COLOR, cm).line().s(name).end().child(leaf(cm).line().s(leaf_caption).end().end()).end()
 }
 
 /// Creates a single node with additional label.
-fn node_and_label(name: &str, lhs: &AstNode, label_true: &str, label_false: &str, label_flag: bool, cm: ColorMode) -> TreeNode {
+fn ast_node_and_label(name: &str, lhs: &AstNode, label_true: &str, label_false: &str, label_flag: bool, cm: ColorMode) -> TreeNode {
   let name_label = if label_flag { label_true } else { label_false };
-  TreeNode::node().line(Text::new(cm).s(name).s(name_label)).child(ast_node_to_tree(lhs, cm)).done()
+  node(DEFAULT_COLOR, cm).line().s(name).s(name_label).end().child(ast_node_to_tree(lhs, cm)).end()
 }
 
 /// Creates a leaf node.
-fn leaf(leaf: &str, cm: ColorMode) -> TreeNode {
-  TreeNode::leaf().line(Text::new(cm).s(leaf)).done()
+fn ast_leaf(leaf_caption: &str, cm: ColorMode) -> TreeNode {
+  leaf(cm).line().s(leaf_caption).end().end()
 }
 
 /// Converts a numeric AST node into string representation used in tree visualisation.
