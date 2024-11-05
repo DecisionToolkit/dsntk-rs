@@ -1,4 +1,4 @@
-Decision Toolkit
+[dsntk][dsntk-url] | [Decision Toolkit][github-url]
 
 # Black-box tests
 
@@ -16,6 +16,8 @@ Decision Toolkit
 [cc-badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
 [cc-url]: https://github.com/DecisionToolkit/dsntk-rs/blob/main/CODE_OF_CONDUCT.md
 [Decision Toolkit]: https://github.com/DecisionToolkit
+[github-url]: https://github.com/DecisionToolkit
+[dsntk-url]: https://crates.io/crates/dsntk
 
 ## Overview
 

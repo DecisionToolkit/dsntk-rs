@@ -53,7 +53,7 @@ grcov . \
      -t lcov \
      --branch \
      --ignore-not-existing \
-     --ignore "*cargo*" --ignore "*chrono-tz*" --ignore "*tests*" \
+     --ignore "*cargo*" --ignore "*chrono-tz*" --ignore "*serde*" --ignore "*tests*" \
      -o ./target/lcov/lcov.info
 
 # generate coverage report in HTML format
