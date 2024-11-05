@@ -1,23 +1,14 @@
 #!/usr/bin/env bash
 
-set -e
-
 ###############################################################################
-#
-# Dependencies:
-#
-# $ sudo dnf install lcov
-# $ rustup component add llvm-tools-preview
-# $ cargo install grcov
-# $ cargo install htop
-# $ cargo install cargo-nextest
-#
-# REMARKS:
-#
-# Run this script when the dependencies to particular crates are specified
-# by path. For some reason, code coverage is not accurate when crates
-# versions are in place.
-#
+#                                                                             #
+# Dependencies:                                                               #
+#                                                                             #
+# $ sudo dnf install lcov                                                     #
+# $ rustup component add llvm-tools-preview                                   #
+# $ cargo install grcov                                                       #
+# $ cargo install htop                                                        #
+#                                                                             #
 ###############################################################################
 
 WORKING_DIRECTORY=$(pwd)
@@ -30,7 +21,8 @@ cargo clean
 # set instrumenting variables
 export CARGO_INCREMENTAL=0
 export RUSTDOCFLAGS="-Cpanic=unwind"
-export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Copt-level=0 -Coverflow-checks=off -Zpanic_abort_tests -Cpanic=unwind"
+export RUSTFLAGS="-Cinstrument-coverage -Ccodegen-units=1 -Copt-level=0 -Coverflow-checks=off -Zpanic_abort_tests -Cpanic=unwind"
+export LLVM_PROFILE_FILE="$WORKING_DIRECTORY/target/profraw/dsntk-%p-%m.profraw"
 
 # set features for parsing tables
 export CARGO_FEATURE_PARSING_TABLES=1
@@ -54,8 +46,13 @@ mkdir ./target/lcov
 mkdir ./target/coverage
 
 # generate coverage info
-grcov . --llvm -s . -t lcov --ignore-not-existing \
-     --excl-line='\s*\}+\)*;?$|\s*/\*\s*$|\s*\} else \{$|\s*\);$|\s*\},$|\s*\)\)+$' \
+grcov . \
+     --llvm \
+     -s . \
+     --binary-path ./target/debug/ \
+     -t lcov \
+     --branch \
+     --ignore-not-existing \
      --ignore "*cargo*" --ignore "*chrono-tz*" --ignore "*tests*" \
      -o ./target/lcov/lcov.info
 
