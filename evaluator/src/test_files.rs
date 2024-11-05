@@ -136,7 +136,7 @@ mod tests {
   }
 
   #[test]
-  #[should_panic(expected = r#"DsntkError("<Evaluator> expected expression list, but found '\n       Irrelevant\n    '"#)]
+  #[should_panic(expected = r#"DsntkError("<Evaluator> expected expression list, but found ' Irrelevant\n'"#)]
   fn test_evaluate_invalid_test_file() {
     let input = r#"
       % -

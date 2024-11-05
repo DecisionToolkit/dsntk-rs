@@ -1,11 +1,11 @@
 //! # Command-line actions
 
 use crate::built_in_examples::*;
-use clap::{arg, command, crate_description, crate_version, Arg, ArgAction, ArgMatches, Command};
+use antex::{ColorMode, StyledText, Text};
+use clap::{arg, command, crate_version, Arg, ArgAction, ArgMatches, Command};
 use dsntk_common::*;
 use dsntk_feel::values::Value;
 use dsntk_feel::FeelScope;
-use dsntk_feel_parser::ast_tree;
 use dsntk_model::{DecisionTable, DmnElement, NamedElement};
 use std::fs;
 use std::path::Path;
@@ -155,16 +155,16 @@ enum Action {
 /// Executes command-line action.
 pub async fn do_action() -> std::io::Result<()> {
   match get_cli_action() {
-    Action::ParseFeelExpression(ctx_file_name, feel_file_name, color_mode) => {
-      parse_feel_expression(&ctx_file_name, &feel_file_name, color_mode);
+    Action::ParseFeelExpression(ctx_file_name, feel_file_name, cm) => {
+      parse_feel_expression(&ctx_file_name, &feel_file_name, cm);
       Ok(())
     }
     Action::EvaluateFeelExpression(input_file_name, feel_file_name) => {
       evaluate_feel_expression(&input_file_name, &feel_file_name);
       Ok(())
     }
-    Action::TestFeelExpression(test_file_name, feel_file_name, summary_only, color_mode) => {
-      test_feel_expression(&test_file_name, &feel_file_name, summary_only, color_mode);
+    Action::TestFeelExpression(test_file_name, feel_file_name, summary_only, cm) => {
+      test_feel_expression(&test_file_name, &feel_file_name, summary_only, cm);
       Ok(())
     }
     Action::ExportFeelExpression(ctx_file_name, feel_file_name, html_file_name) => {
@@ -179,8 +179,8 @@ pub async fn do_action() -> std::io::Result<()> {
       evaluate_decision_table(&input_file_name, &dectab_file_name);
       Ok(())
     }
-    Action::TestDecisionTable(test_file_name, dectab_file_name, summary_only, color_mode) => {
-      test_decision_table(&test_file_name, &dectab_file_name, summary_only, color_mode);
+    Action::TestDecisionTable(test_file_name, dectab_file_name, summary_only, cm) => {
+      test_decision_table(&test_file_name, &dectab_file_name, summary_only, cm);
       Ok(())
     }
     Action::ExportDecisionTable(dectab_file_name, html_file_name) => {
@@ -191,25 +191,25 @@ pub async fn do_action() -> std::io::Result<()> {
       recognize_decision_table(&dectab_file_name);
       Ok(())
     }
-    Action::ParseDmnModel(dmn_file_name, color_mode) => {
-      parse_dmn_model(&dmn_file_name, color_mode);
+    Action::ParseDmnModel(dmn_file_name, cm) => {
+      parse_dmn_model(&dmn_file_name, cm);
       Ok(())
     }
     Action::EvaluateDmnModel(dmn_file_name, ctx_file_name, invocable_name) => {
       evaluate_dmn_model(&dmn_file_name, &ctx_file_name, &invocable_name);
       Ok(())
     }
-    Action::TestDmnModel(test_file_name, dmn_file_name, invocable_name, summary_only, color_mode) => {
-      test_dmn_model(&test_file_name, &dmn_file_name, &invocable_name, summary_only, color_mode);
+    Action::TestDmnModel(test_file_name, dmn_file_name, invocable_name, summary_only, cm) => {
+      test_dmn_model(&test_file_name, &dmn_file_name, &invocable_name, summary_only, cm);
       Ok(())
     }
     Action::ExportDmnModel(dmn_file_name, html_file_name) => {
       export_dmn_model(&dmn_file_name, &html_file_name);
       Ok(())
     }
-    Action::StartService(opt_host, opt_port, opt_dir, color, verbose) => {
+    Action::StartService(opt_host, opt_port, opt_dir, cm, verbose) => {
       // start a service (REST server)
-      dsntk_server::start_server(opt_host, opt_port, opt_dir, color.into(), verbose).await
+      dsntk_server::start_server(opt_host, opt_port, opt_dir, cm, verbose).await
     }
     Action::SaveExamples(root_dir) => {
       // save the examples in the specified root directory
@@ -535,10 +535,32 @@ fn get_cli_action() -> Action {
     }
     _ => {}
   }
-  println!("dsntk {}", crate_version!());
-  println!("{}", crate_description!());
-  println!("Run 'dsntk --help' to see available options.");
-  println!("For more information, visit https://decision-toolkit.org");
+  Text::default()
+    .green()
+    .bold()
+    .s("dsntk")
+    .clear()
+    .s(" | ")
+    .green()
+    .s("Decision Toolkit")
+    .clear()
+    .s(" | ")
+    .green()
+    .s(crate_version!())
+    .clear()
+    .nl()
+    .color_256(250)
+    .s("Try '")
+    .cyan()
+    .s("dsntk --help")
+    .color_256(250)
+    .s("' to see all available commands.")
+    .nl()
+    .s("For more information, visit ")
+    .cyan()
+    .underline()
+    .s("https://decision-toolkit.org")
+    .cprintln();
   Action::DoNothing
 }
 
@@ -568,13 +590,13 @@ fn match_verbose(matches: &ArgMatches) -> bool {
 }
 
 /// Parses `FEEL` expression loaded from file and prints the parsed `AST` to standard output.
-fn parse_feel_expression(ctx_file_name: &str, feel_file_name: &str, color_mode: ColorMode) {
+fn parse_feel_expression(ctx_file_name: &str, feel_file_name: &str, cm: ColorMode) {
   match fs::read_to_string(feel_file_name) {
     Ok(feel_expression) => match fs::read_to_string(ctx_file_name) {
       Ok(context_definition) => match dsntk_evaluator::evaluate_context(&FeelScope::default(), &context_definition) {
         Ok(ctx) => match dsntk_feel_parser::parse_expression(&ctx.into(), &feel_expression, false) {
-          Ok(ast_root_node) => {
-            println!("    AST:{}", ast_tree(&ast_root_node, &color_mode).trim_end());
+          Ok(node) => {
+            println!("    AST:\n{}", node.tree(6, cm));
           }
           Err(reason) => eprintln!("parsing expression failed with reason: {reason}"),
         },
@@ -606,7 +628,7 @@ fn evaluate_feel_expression(ctx_file_name: &str, feel_file_name: &str) {
 }
 
 /// Tests `FEEL` expression loaded from file and prints the test result to standard output.
-fn test_feel_expression(test_file_name: &str, feel_file_name: &str, summary_only: bool, color_mode: ColorMode) {
+fn test_feel_expression(test_file_name: &str, feel_file_name: &str, summary_only: bool, cm: ColorMode) {
   match fs::read_to_string(feel_file_name) {
     Ok(feel_file_content) => match fs::read_to_string(test_file_name) {
       Ok(test_file_content) => match dsntk_evaluator::evaluate_test_cases(&test_file_content) {
@@ -618,12 +640,12 @@ fn test_feel_expression(test_file_name: &str, feel_file_name: &str, summary_only
             match dsntk_feel_parser::parse_expression(&scope, &feel_file_content, false) {
               Ok(node) => {
                 let actual = dsntk_evaluator::evaluate(&scope, &node);
-                display_test_case_result(&actual, expected, &test_no, &mut passed, &mut failed, summary_only, color_mode);
+                display_test_case_result(&actual, expected, &test_no, &mut passed, &mut failed, summary_only, cm);
               }
               Err(reason) => eprintln!("parsing expression failed with reason: {reason}"),
             }
           }
-          display_test_summary(passed, failed, summary_only, color_mode);
+          display_test_summary(passed, failed, summary_only, cm);
         }
         Err(reason) => eprintln!("evaluation of test cases failed with reason: {reason}"),
       },
@@ -692,7 +714,7 @@ fn evaluate_decision_table(input_file_name: &str, dectab_file_name: &str) {
 }
 
 /// Tests decision table loaded from file.
-fn test_decision_table(test_file_name: &str, dectab_file_name: &str, summary_only: bool, color_mode: ColorMode) {
+fn test_decision_table(test_file_name: &str, dectab_file_name: &str, summary_only: bool, cm: ColorMode) {
   let dtb_file_content = match fs::read_to_string(dectab_file_name) {
     Ok(dtb_file_content) => dtb_file_content,
     Err(reason) => {
@@ -733,9 +755,9 @@ fn test_decision_table(test_file_name: &str, dectab_file_name: &str, summary_onl
       }
     };
     let actual = evaluator(&scope);
-    display_test_case_result(&actual, expected, &test_no, &mut passed, &mut failed, summary_only, color_mode);
+    display_test_case_result(&actual, expected, &test_no, &mut passed, &mut failed, summary_only, cm);
   }
-  display_test_summary(passed, failed, summary_only, color_mode);
+  display_test_summary(passed, failed, summary_only, cm);
 }
 
 /// Exports decision table loaded from text file to HTML output file.
@@ -770,11 +792,11 @@ fn recognize_decision_table(dtb_file_name: &str) {
 }
 
 /// Parses DMN model loaded from XML file and prints ASCII report.
-fn parse_dmn_model(dmn_file_name: &str, color_mode: ColorMode) {
+fn parse_dmn_model(dmn_file_name: &str, cm: ColorMode) {
   match fs::read_to_string(dmn_file_name) {
-    Ok(dmn_file_content) => match &dsntk_model::parse(&dmn_file_content) {
+    Ok(dmn_file_content) => match dsntk_model::parse(&dmn_file_content) {
       Ok(definitions) => {
-        dsntk_gendoc::print_model(definitions, color_mode);
+        dsntk_gendoc::print_model(definitions, cm);
       }
       Err(reason) => eprintln!("parsing model file failed with reason: {reason}"),
     },
@@ -810,7 +832,7 @@ fn evaluate_dmn_model(input_file_name: &str, dmn_file_name: &str, invocable_name
 }
 
 /// Tests DMN model loaded from XML file.
-fn test_dmn_model(test_file_name: &str, dmn_file_name: &str, invocable_name: &str, summary_only: bool, color_mode: ColorMode) {
+fn test_dmn_model(test_file_name: &str, dmn_file_name: &str, invocable_name: &str, summary_only: bool, cm: ColorMode) {
   let dmn_file_content = match fs::read_to_string(dmn_file_name) {
     Ok(dmn_file_content) => dmn_file_content,
     Err(reason) => {
@@ -852,9 +874,9 @@ fn test_dmn_model(test_file_name: &str, dmn_file_name: &str, invocable_name: &st
   let mut failed = 0_usize;
   for (test_no, (input_data, expected)) in test_cases.iter().enumerate() {
     let actual = model_evaluator.evaluate_invocable(&model_namespace, &model_name, invocable_name, input_data);
-    display_test_case_result(&actual, expected, &test_no, &mut passed, &mut failed, summary_only, color_mode);
+    display_test_case_result(&actual, expected, &test_no, &mut passed, &mut failed, summary_only, cm);
   }
-  display_test_summary(passed, failed, summary_only, color_mode);
+  display_test_summary(passed, failed, summary_only, cm);
 }
 
 /// Exports DMN model loaded from `XML` file to `HTML` output file.
@@ -909,39 +931,32 @@ fn save_builtin_examples(root_dir: &str) -> std::io::Result<()> {
 }
 
 /// Utility function for displaying test case result.
-fn display_test_case_result(actual: &Value, expected: &Value, test_no: &usize, passed: &mut usize, failed: &mut usize, summary_only: bool, color_mode: ColorMode) {
-  let color_red = color_red!(color_mode);
-  let color_green = color_green!(color_mode);
-  let color_clear = color_clear!(color_mode);
+fn display_test_case_result(actual: &Value, expected: &Value, test_no: &usize, passed: &mut usize, failed: &mut usize, summary_only: bool, cm: ColorMode) {
   if dsntk_evaluator::evaluate_equals(actual, expected) {
     *passed += 1;
     if !summary_only {
-      println!("test {} ... {}ok{}", test_no + 1, color_green, color_clear);
+      Text::new(cm).s("test ").s(test_no + 1).space().dots(3).space().green().s("ok").cprintln();
     }
   } else {
     *failed += 1;
     if !summary_only {
-      println!("test {} ... {color_red}FAILED{color_clear}", test_no + 1);
-      println!("    expected: {color_green}{expected}{color_clear}");
-      println!("      actual: {color_red}{actual}{color_clear}");
+      Text::new(cm).s("test ").s(test_no + 1).space().dots(3).space().red().s("FAILED").cprintln();
+      Text::new(cm).s("    expected: ").green().s(expected).cprintln();
+      Text::new(cm).s("      actual: ").red().s(actual).cprintln();
     }
   }
 }
 
 /// Utility function for displaying test summary.
-fn display_test_summary(passed: usize, failed: usize, summary_only: bool, color_mode: ColorMode) {
-  let color_red = color_red!(color_mode);
-  let color_green = color_green!(color_mode);
-  let color_clear = color_clear!(color_mode);
-  if failed > 0 {
-    if summary_only {
-      println!("test result: {color_red}FAILED{color_clear}. {passed} passed; {failed} failed.\n");
-    } else {
-      println!("\ntest result: {color_red}FAILED{color_clear}. {passed} passed; {failed} failed.\n");
-    }
-  } else if summary_only {
-    println!("test result: {color_green}ok{color_clear}. {passed} passed; {failed} failed.\n");
-  } else {
-    println!("\ntest result: {color_green}ok{color_clear}. {passed} passed; {failed} failed.\n");
+fn display_test_summary(passed: usize, failed: usize, summary_only: bool, cm: ColorMode) {
+  if !summary_only {
+    println!();
   }
+  let mut text = Text::new(cm).s("test result: ");
+  if failed > 0 {
+    text = text.red().s("FAILED");
+  } else {
+    text = text.green().s("ok");
+  }
+  text.clear().dot().space().s(passed).s(" passed; ").s(failed).s(" failed.").nl().println();
 }

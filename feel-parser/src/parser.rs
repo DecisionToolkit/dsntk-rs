@@ -227,7 +227,7 @@ impl<'parser> Parser<'parser> {
           let node = self.yy_node_stack.pop().unwrap();
           debug_assert!(self.yy_node_stack.is_empty());
           if self.yy_trace {
-            node.trace();
+            println!("    AST:{}", node.trace());
           }
           return Ok(node);
         }

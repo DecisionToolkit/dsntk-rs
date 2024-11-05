@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<definitions namespace="https://dsntk.io/2_0002/"
+<definitions namespace="https://decision-toolkit.org/2_0002/"
              name="compliance-level-2-test-0002"
              id="_072005e3-2635-47c9-8dec-5aca4b869376"
              xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"

@@ -1,7 +1,7 @@
 //! # Tests for generating ASCII report for DMN models
 
 use crate::ascii_model::print_model;
-use dsntk_common::ColorMode;
+use antex::ColorMode;
 
 macro_rules! test_print_model {
   ($test_name:tt,$model_name:tt) => {
@@ -9,10 +9,9 @@ macro_rules! test_print_model {
     #[allow(clippy::redundant_clone)]
     fn $test_name() {
       let definitions = dsntk_model::parse(dsntk_examples::$model_name).expect("parsing model failed");
-      let cloned_definitions = definitions.clone();
-      print_model(&cloned_definitions, ColorMode::On);
+      print_model(definitions.clone(), ColorMode::On);
       let expected = format!("{:?}", definitions);
-      let actual = format!("{:?}", cloned_definitions);
+      let actual = format!("{:?}", definitions);
       assert_eq!(expected, actual);
     }
   };
@@ -153,11 +152,11 @@ test_print_model!(_3_1130, DMN_3_1130);
 #[test]
 fn test_single_model() {
   let definitions = dsntk_model::parse(dsntk_examples::DMN_3_1108).expect("parsing model failed");
-  print_model(&definitions, ColorMode::On);
+  print_model(definitions, ColorMode::On);
 }
 
 #[test]
 fn test_full_model() {
   let definitions = dsntk_model::parse(dsntk_examples::DMN_FULL).expect("parsing model failed");
-  print_model(&definitions, ColorMode::On);
+  print_model(definitions, ColorMode::On);
 }

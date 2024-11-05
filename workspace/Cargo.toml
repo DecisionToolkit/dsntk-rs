@@ -11,6 +11,7 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
+antex = { workspace = true }
 walkdir = { workspace = true }
 dsntk-common = { workspace = true }
 dsntk-feel = { workspace = true }

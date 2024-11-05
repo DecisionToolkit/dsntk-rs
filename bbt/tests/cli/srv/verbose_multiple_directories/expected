@@ -3,7 +3,7 @@ Loaded 2 models.
 Deployed 2 invocables.
 
 Deployed invocables:
-  d1/io/dsntk/2_0001/compliance-level-2-test-0001/Greeting%20Message
-  d2/io/dsntk/2_0001/compliance-level-2-test-0001/Greeting%20Message
+  org/decision-toolkit/2_0001/compliance-level-2-test-0001/Greeting%20Message
+  org/decision-toolkit/2_0002/compliance-level-2-test-0002/Greeting%20Message
 
 dsntk 127.0.0.1:11011
