@@ -2116,7 +2116,7 @@ pub fn split(input_string_value: &Value, delimiter_string_value: &Value) -> Valu
   if let Value::String(input_string) = input_string_value {
     if let Value::String(delimiter_string) = delimiter_string_value {
       if let Ok(re) = Regex::new(delimiter_string) {
-        return Value::List(re.split(input_string).map(|s| Value::String(s.to_string())).collect());
+        Value::List(re.split(input_string).map(|s| Value::String(s.to_string())).collect())
       } else {
         value_null!("split: invalid delimiter")
       }
@@ -2559,7 +2559,7 @@ pub fn substring(input_string_value: &Value, start_position_value: &Value, lengt
               let first = (position - 1) as usize;
               let last = first + length;
               if first < input_string_len && last <= input_string_len {
-                return Value::String(input_string.chars().skip(first).take(length).collect());
+                Value::String(input_string.chars().skip(first).take(length).collect())
               } else {
                 value_null!(
                   "sublist: invalid range, len = {}, start position = {}, end position = {}",
@@ -2573,7 +2573,7 @@ pub fn substring(input_string_value: &Value, start_position_value: &Value, lengt
               let first = (input_string_len as isize) + position;
               let last = first + length as isize;
               if first >= 0 && (first as usize) < input_string_len && (last as usize) <= input_string_len {
-                return Value::String(input_string.chars().skip(first as usize).take(length).collect());
+                Value::String(input_string.chars().skip(first as usize).take(length).collect())
               } else {
                 value_null!(
                   "sublist: invalid range, len = {}, start position = {}, end position = {}",
@@ -2590,7 +2590,7 @@ pub fn substring(input_string_value: &Value, start_position_value: &Value, lengt
           Ordering::Greater => {
             let index = (position - 1) as usize;
             if index < input_string_len {
-              return Value::String(input_string.chars().skip(index).collect());
+              Value::String(input_string.chars().skip(index).collect())
             } else {
               value_null!("substring: position is out of range, len = {}, position = {}", input_string_len, start_position_number)
             }
@@ -2598,7 +2598,7 @@ pub fn substring(input_string_value: &Value, start_position_value: &Value, lengt
           Ordering::Less => {
             let index = (input_string_len as isize) + position;
             if index >= 0 {
-              return Value::String(input_string.chars().skip(index as usize).collect());
+              Value::String(input_string.chars().skip(index as usize).collect())
             } else {
               value_null!("substring: position is out of range, len = {}, position = {}", input_string_len, start_position_number)
             }

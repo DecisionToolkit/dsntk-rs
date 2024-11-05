@@ -192,7 +192,7 @@ impl TryFrom<&SimpleDto> for Value {
     }
     if let Some(typ) = &value.typ {
       if let Some(text) = &value.text {
-        return match typ.as_str() {
+        match typ.as_str() {
           XSD_STRING => Ok(Value::String(text.clone())),
           XSD_INTEGER => Ok(Value::try_from_xsd_integer(text)?),
           XSD_DECIMAL => Ok(Value::try_from_xsd_decimal(text)?),
@@ -203,7 +203,7 @@ impl TryFrom<&SimpleDto> for Value {
           XSD_DATE_TIME => Ok(Value::try_from_xsd_date_time(text)?),
           XSD_DURATION => Ok(Value::try_from_xsd_duration(text)?),
           _ => Err(err_invalid_attribute(&format!("invalid type '{typ}'"))),
-        };
+        }
       } else {
         Err(err_missing_attribute("simple value must have 'text' attribute"))
       }
