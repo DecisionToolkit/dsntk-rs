@@ -3,7 +3,7 @@
 use super::errors::err_missing_attribute;
 use crate::data::ApplicationData;
 use actix_web::web::Json;
-use actix_web::{post, web};
+use actix_web::{trace, web};
 use dsntk_common::DsntkError;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::dto::ValueDto;
@@ -93,7 +93,7 @@ pub struct TckEvaluateParams {
 
 /// Handler for evaluating models with input data in the format compatible with test cases
 /// defined in [Technology Compatibility Kit for DMN standard](https://github.com/dmn-tck/tck).
-#[post("/tck")]
+#[trace("/tck")]
 pub async fn post_tck_evaluate(params: Json<TckEvaluateParams>, data: web::Data<ApplicationData>) -> io::Result<Json<TckResultDto<OutputNodeDto>>> {
   let workspace: &Workspaces = data.workspaces.borrow();
   match do_evaluate_tck(workspace, params.into_inner()) {
