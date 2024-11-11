@@ -1,3 +1,3 @@
 # Testing FEEL expressions
 
-&#8203;<OnTheWay/>
+#ON_THE_WAY

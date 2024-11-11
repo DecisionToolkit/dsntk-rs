@@ -1,21 +1,21 @@
 # Overview
 
-&#8203;<DsntkName/> is a set of tools designed to build, test and evaluate decision models,
+#DSNTK is a set of tools designed to build, test and evaluate decision models,
 constructed basing on the [Decision Model and Notation](https://www.omg.org/dmn) ([DMN](https://www.omg.org/dmn)™)
 specification, which is an industry standard governed by the [Object Management Group](https://www.omg.org) (OMG®).
 
-&#8203;<DsntkName/> aims to be performant, reliable, and fully compliant with the DMN™ specification,
+#DSNTK aims to be performant, reliable, and fully compliant with the DMN™ specification,
 ensuring accurate evaluation of decision models. All tools are implemented in [Rust](https://www.rust-lang.org/),
 a programming language known for its security, efficiency and reliability.
 
-&#8203;<DsntkName/> offers a range of features, including DMN™ models evaluation, decision tables evaluation,
+#DSNTK offers a range of features, including DMN™ models evaluation, decision tables evaluation,
 and FEEL expressions evaluation. It also includes functionality for parsing, validating, and recognizing DMN™ models,
 decision tables, and FEEL expressions. Users can test DMN™ models, decision tables, and FEEL expressions,
 and export them to HTML.
 
 ## Features
 
-- [Serving DMN™ models](commands/command-srv) 
+- [Serving DMN™ models](commands/command-srv)
 - [Evaluating DMN™ models](commands/command-edm)
 - [Evaluating decision tables](commands/command-edt)
 - [Evaluating FEEL expressions](commands/command-efe)
@@ -32,7 +32,7 @@ and export them to HTML.
 
 ## Status
 
-&#8203;<DsntkName/> is **PRODUCTION-READY**, although some features
+#DSNTK is **PRODUCTION-READY**, although some features
 may still be refined or changed based on testing and user feedback.
-We encourage users to try <DsntkName/> and share their feedback
+We encourage users to try #DSNTK and share their feedback
 to help us enhance its usability and performance.

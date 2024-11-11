@@ -1,3 +1,3 @@
 # Parsing decision tables
 
-&#8203;<OnTheWay/>
+#ON_THE_WAY

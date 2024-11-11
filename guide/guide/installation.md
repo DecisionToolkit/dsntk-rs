@@ -1,6 +1,6 @@
 # Installation
 
-&#8203;<DsntkName/> executable is a standalone file without additional dependencies and can be obtained by
+#DSNTK executable is a standalone file without additional dependencies and can be obtained by
 downloading from [GitHub releases](https://github.com/dsntk/dsntk-rs/releases),
 or built from source using [Rust and Cargo](https://www.rust-lang.org/tools/install).
 
@@ -19,21 +19,21 @@ rename the downloaded binaries as shown below.
 ::: code-group
 
 ```shell [Linux (x86_64)]
-$ mv dsntk-0.0.9-linux-x86_64 dsntk
+$ mv dsntk-#VERSION-linux-x86_64 dsntk
 $ chmod +x dsntk
 ```
 
 ```shell [Windows (x86_64)]
-> rename dsntk-0.0.9-windows-x86_64.exe dsntk.exe
+> rename dsntk-#VERSION-windows-x86_64.exe dsntk.exe
 ```
 
 ```shell [macOs (x86_64)]
-$ mv dsntk-0.0.9-apple-macos-x86_64 dsntk
+$ mv dsntk-#VERSION-apple-macos-x86_64 dsntk
 $ chmod +x dsntk
 ```
 
 ```shell [macOs (ARM64)]
-$ mv dsntk-0.0.9-apple-macos-arm64 dsntk
+$ mv dsntk-#VERSION-apple-macos-arm64 dsntk
 $ chmod +x dsntk
 ```
 
@@ -44,7 +44,9 @@ $ chmod +x dsntk
 Install [Rust and Cargo](https://www.rust-lang.org/tools/install) and type:
 
 ::: code-group
+
 ```shell [TERMINAL]
 cargo install dsntk
 ```
+
 :::

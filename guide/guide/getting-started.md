@@ -1,12 +1,12 @@
 # Getting started
 
-This is a quick overview of the basic functionalities of the <DsntkName/>, using copy and paste.
-The examples are brief and designed to help you quickly become familiar with the <DsntkName/>.
+This is a quick overview of the basic functionalities of the #DSNTK, using copy and paste.
+The examples are brief and designed to help you quickly become familiar with the #DSNTK.
 For detailed explanations, refer to the chapters cited below each example.
 
 ## Install examples
 
-&#8203;<DsntkName/> provides a set of built-in examples ready to play with.
+#DSNTK provides a set of built-in examples ready to play with.
 To install the examples in, e.g., the **examples** subdirectory in your home directory, type:
 
 ```shell 
@@ -17,7 +17,7 @@ For more details, refer to the chapter [Saving examples](commands/command-exs.md
 
 ## Serve DMN™ model
 
-Change to the directory containing the decision model example: 
+Change to the directory containing the decision model example:
 
 ```shell
 $ cd ~/examples/dm

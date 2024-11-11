@@ -1,6 +1,6 @@
 # Saving examples
 
-&#8203;<DsntkName/> provides a set of examples ready to play with.
+#DSNTK provides a set of examples ready to play with.
 To install the built-in examples in, e.g., the **examples** directory, type:
 
 ```shell

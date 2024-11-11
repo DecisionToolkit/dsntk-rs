@@ -157,6 +157,11 @@ tasks:
     cmds:
       - cmd: cargo +nightly fmt
 
+  guide:
+    desc: Synchronizes documentation files
+    cmds:
+      - cmd: ./guide.sh
+
   help:
     desc: Displays short help
     cmds:

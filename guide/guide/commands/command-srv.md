@@ -1,14 +1,14 @@
 # Serving DMN™ models
 
-The core functionality of the <DsntkName/> is serving <Dmn/> models.
+The core functionality of the #DSNTK is serving <Dmn/> models.
 The <Dmn/> specification precisely defines XML interchange format for decision models.
-XML files containing decision models are loaded and processed by <DsntkName/> server and exposed
+XML files containing decision models are loaded and processed by #DSNTK server and exposed
 as a set of [JSON API](https://jsonapi.org) endpoints.
 Each endpoint represents a single invocable defined in the decision model.
 Calling an endpoint is equivalent to executing a decision, business knowledge model
 or decision service.
 
-To explain in details, how to run and use the <DsntkName/> server, we assume
+To explain in details, how to run and use the #DSNTK server, we assume
 that the built-in examples are already saved in the **~/examples** directory
 (see [Saving examples](command-exs.md) for details).
 
@@ -20,7 +20,7 @@ $ cd ~/examples
 
 ## Running a server
 
-To run <DsntkName/> as a server, type the following command:
+To run #DSNTK as a server, type the following command:
 
 ```shell
 $ dsntk srv
@@ -35,12 +35,12 @@ Expected output should look like this:
 [34mdsntk[0m [33m0.0.0.0:22022[0m
 ```
 
-&#8203;<DsntkName/> server is started. This server accepts connections from all available network
-interfaces **0.0.0.0** and listens on port **22022**. During startup, the <DsntkName/> server
+#DSNTK server is started. This server accepts connections from all available network
+interfaces **0.0.0.0** and listens on port **22022**. During startup, the #DSNTK server
 scans the current directory with all its subdirectories, and searches for decision models
 stored as XML files with **.dmn** extension.
 
-In our example, during directory scanning, the <DsntkName/> server has found the **dm** directory
+In our example, during directory scanning, the #DSNTK server has found the **dm** directory
 containing one decision model file named **dm.dmn**. This file was loaded, and one invocable was deployed,
 a decision named **Greeting&nbsp;Message**.
 
@@ -50,7 +50,7 @@ This invocable can be evaluated by calling the following endpoint:
 http://0.0.0.0:22022/evaluate/dm/org/decision-toolkit/0001/Greeting%20Message
 ```
 
-To stop the <DsntkName/> server, press **Ctrl+C**.
+To stop the #DSNTK server, press **Ctrl+C**.
 
 The list of all deployed invocables with the endpoint names can be displayed during server startup
 by specifying the option **-v** or **--verbose**, like shown below:
@@ -72,7 +72,7 @@ Deployed invocables:[0m
 
 ## Evaluating invocables
 
-After starting the <DsntkName/> server, the deployed invocable can be evaluated by calling
+After starting the #DSNTK server, the deployed invocable can be evaluated by calling
 its endpoint with required input data, using, e.g. [**curl**](https://curl.se). In a separate terminal type:
 
 ```shell
@@ -85,7 +85,7 @@ The expected output should be:
 {"data":"Hello Solomon L. Pollack"}
 ```
 
-The <DsntkName/>'s version of a [hello world](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program)
+The #DSNTK's version of a [hello world](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program)
 program could look like this:
 
 ```shell
@@ -100,7 +100,7 @@ Expected output is:
 
 ## Endpoint names
 
-The common endpoint for evaluating invocables exposed by the <DsntkName/> server
+The common endpoint for evaluating invocables exposed by the #DSNTK server
 is named **`evaluate/`**.
 
 The full URL of the endpoint is composed of the following parts:
