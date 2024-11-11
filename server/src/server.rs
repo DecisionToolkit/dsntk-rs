@@ -20,15 +20,15 @@ const VARIABLE_DIR: &str = "DSNTK_DIR";
 const CONTENT_TYPE: &str = "application/json";
 
 /// GET handler for evaluating the invocable.
-#[get("/{path:.*}")]
-async fn get_evaluate(path: web::Path<String>, body: String, data: web::Data<ApplicationData>) -> HttpResponse {
+#[get("/evaluate/{path:.*}")]
+async fn evaluate_invocable_get(path: web::Path<String>, body: String, data: web::Data<ApplicationData>) -> HttpResponse {
   println!("GET");
   evaluate(path, body, data)
 }
 
 /// POST handler for evaluating the invocable.
-#[post("/{path:.*}")]
-async fn post_evaluate(path: web::Path<String>, body: String, data: web::Data<ApplicationData>) -> HttpResponse {
+#[post("/evaluate/{path:.*}")]
+async fn evaluate_invocable_post(path: web::Path<String>, body: String, data: web::Data<ApplicationData>) -> HttpResponse {
   println!("POST");
   evaluate(path, body, data)
 }
@@ -48,13 +48,13 @@ async fn not_found() -> HttpResponse {
 
 #[cfg(feature = "tck")]
 fn config(cfg: &mut web::ServiceConfig) {
-  cfg.service(crate::tck::post_tck_evaluate);
+  cfg.service(crate::tck::evaluate_tck_post);
 }
 
 #[cfg(not(feature = "tck"))]
 fn config(cfg: &mut web::ServiceConfig) {
-  cfg.service(get_evaluate);
-  cfg.service(post_evaluate);
+  cfg.service(evaluate_invocable_get);
+  cfg.service(evaluate_invocable_post);
 }
 
 /// Starts the server.
