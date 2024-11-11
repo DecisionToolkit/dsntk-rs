@@ -94,7 +94,7 @@ pub struct TckEvaluateParams {
 /// Handler for evaluating models with input data in the format compatible with test cases
 /// defined in [Technology Compatibility Kit for DMN standard](https://github.com/dmn-tck/tck).
 #[post("/tck")]
-pub async fn post_tck_evaluate(params: Json<TckEvaluateParams>, data: web::Data<ApplicationData>) -> io::Result<Json<TckResultDto<OutputNodeDto>>> {
+pub async fn evaluate_tck_post(params: Json<TckEvaluateParams>, data: web::Data<ApplicationData>) -> io::Result<Json<TckResultDto<OutputNodeDto>>> {
   let workspace: &Workspaces = data.workspaces.borrow();
   match do_evaluate_tck(workspace, params.into_inner()) {
     Ok(response) => Ok(Json(TckResultDto::data(response))),

@@ -5,4 +5,4 @@
 mod errors;
 mod handlers;
 
-pub use handlers::post_tck_evaluate;
+pub use handlers::evaluate_tck_post;

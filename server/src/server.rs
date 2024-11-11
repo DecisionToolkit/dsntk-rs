@@ -1,6 +1,6 @@
 use crate::data::ApplicationData;
 use crate::utils;
-use actix_web::{post, web, App, HttpResponse, HttpServer};
+use actix_web::{get, post, web, App, HttpResponse, HttpServer};
 use antex::{ColorMode, StyledText, Text};
 use dsntk_common::Jsonify;
 use dsntk_feel::FeelScope;
@@ -19,10 +19,21 @@ const VARIABLE_PORT: &str = "DSNTK_PORT";
 const VARIABLE_DIR: &str = "DSNTK_DIR";
 const CONTENT_TYPE: &str = "application/json";
 
-/// Handler for evaluating invocable identified
-/// by unique name in namespace represented by RDNN.
+/// GET handler for evaluating the invocable.
+#[get("/evaluate/{path:.*}")]
+async fn evaluate_invocable_get(path: web::Path<String>, body: String, data: web::Data<ApplicationData>) -> HttpResponse {
+  println!("GET");
+  evaluate(path, body, data)
+}
+
+/// POST handler for evaluating the invocable.
 #[post("/evaluate/{path:.*}")]
-async fn evaluate(path: web::Path<String>, request_body: String, data: web::Data<ApplicationData>) -> HttpResponse {
+async fn evaluate_invocable_post(path: web::Path<String>, body: String, data: web::Data<ApplicationData>) -> HttpResponse {
+  println!("POST");
+  evaluate(path, body, data)
+}
+
+fn evaluate(path: web::Path<String>, request_body: String, data: web::Data<ApplicationData>) -> HttpResponse {
   let workspace: &Workspaces = data.workspaces.borrow();
   match dsntk_evaluator::evaluate_context(&FeelScope::default(), &request_body).and_then(|input_data| workspace.evaluate(&path, &input_data)) {
     Ok(value) => HttpResponse::Ok().content_type(CONTENT_TYPE).body(format!(r#"{{"data":{}}}"#, value.jsonify())),
@@ -37,12 +48,13 @@ async fn not_found() -> HttpResponse {
 
 #[cfg(feature = "tck")]
 fn config(cfg: &mut web::ServiceConfig) {
-  cfg.service(crate::tck::post_tck_evaluate);
+  cfg.service(crate::tck::evaluate_tck_post);
 }
 
 #[cfg(not(feature = "tck"))]
 fn config(cfg: &mut web::ServiceConfig) {
-  cfg.service(evaluate);
+  cfg.service(evaluate_invocable_get);
+  cfg.service(evaluate_invocable_post);
 }
 
 /// Starts the server.
