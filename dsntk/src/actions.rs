@@ -258,14 +258,16 @@ fn get_matches() -> ArgMatches {
         .about("Test FEEL Expression")
         .display_order(10)
         .arg(
-          arg!(-s - -summary)
+          arg!(--"summary")
             .help("Display only summary after completing all tests")
+            .short('s')
             .action(ArgAction::SetTrue)
             .display_order(1),
         )
         .arg(
-          arg!(-c --color <WHEN>)
+          arg!(--"color" <WHEN>)
             .help("Control when colored output is used")
+            .short('c')
             .value_parser(COLORS)
             .action(ArgAction::Set)
             .display_order(2),
@@ -293,8 +295,9 @@ fn get_matches() -> ArgMatches {
         .about("Parse DMN Model")
         .display_order(5)
         .arg(
-          arg!(-c --color <WHEN>)
+          arg!(--"color" <WHEN>)
             .help("Control when colored output is used")
+            .short('c')
             .value_parser(COLORS)
             .action(ArgAction::Set)
             .display_order(1),
@@ -307,8 +310,9 @@ fn get_matches() -> ArgMatches {
         .about("Evaluate DMN Model")
         .display_order(2)
         .arg(
-          arg!(-i --invocable <NAME>)
+          arg!(--"invocable" <NAME>)
             .help("Name of the invocable (decision, bkm, decision service) to be evaluated")
+            .short('i')
             .action(ArgAction::Set)
             .required(true)
             .display_order(1),
@@ -322,21 +326,24 @@ fn get_matches() -> ArgMatches {
         .about("Test DMN Model")
         .display_order(8)
         .arg(
-          arg!(-i --invocable <NAME>)
+          arg!(--"invocable" <NAME>)
             .help("Name of the invocable to be tested")
+            .short('i')
             .required(true)
             .action(ArgAction::Set)
             .display_order(1),
         )
         .arg(
-          arg!(-s - -summary)
+          arg!(--"summary")
             .help("Display only summary after completing all tests")
+            .short('s')
             .action(ArgAction::SetTrue)
             .display_order(2),
         )
         .arg(
-          arg!(-c --color <WHEN>)
+          arg!(--"color" <WHEN>)
             .help("Control when colored output is used")
+            .short('c')
             .value_parser(COLORS)
             .action(ArgAction::Set)
             .display_order(3),
@@ -373,14 +380,16 @@ fn get_matches() -> ArgMatches {
         .about("Test Decision Table")
         .display_order(9)
         .arg(
-          arg!(-s - -summary)
+          arg!(--"summary")
             .help("Display only summary after completing all tests")
+            .short('s')
             .action(ArgAction::SetTrue)
             .display_order(1),
         )
         .arg(
-          arg!(-c --color <WHEN>)
+          arg!(--"color" <WHEN>)
             .help("Control when colored output is used")
+            .short('c')
             .value_parser(COLORS)
             .action(ArgAction::Set)
             .display_order(2),
@@ -411,20 +420,23 @@ fn get_matches() -> ArgMatches {
         .arg(arg!(-H --host <HOST>).help("Host name").action(ArgAction::Set).display_order(1))
         .arg(arg!(-P --port <PORT>).help("Port number").action(ArgAction::Set).display_order(2))
         .arg(
-          arg!(-D --dir <DIR>)
+          arg!(-D <DIR>)
             .help("Directory where DMN files are searched")
+            .id("dir")
             .action(ArgAction::Append)
             .display_order(3),
         )
         .arg(
-          arg!(-v - -verbose)
+          arg!(--"verbose")
             .help("Displays model deployment details during startup")
+            .short('v')
             .action(ArgAction::SetTrue)
             .display_order(4),
         )
         .arg(
-          arg!(-c --color <WHEN>)
+          arg!(--"color" <WHEN>)
             .help("Control when colored output is used")
+            .short('c')
             .value_parser(COLORS)
             .action(ArgAction::Set)
             .display_order(4),
