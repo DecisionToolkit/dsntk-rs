@@ -1,5 +1,29 @@
 # Changelog
 
+## [v0.0.9](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.0.9) (2024-11-??)
+
+[Full Changelog](https://github.com/DecisionToolkit/dsntk-rs/compare/v0.0.8...v0.0.9)
+
+### What's new
+
+- Enabled HTTP GET method for evaluating invocables. Before wes only POST method enabled.
+- Added the possibility to use multiple `-D` options in `srv` command.
+- Removed `--dir` option's long variant in `srv` command, will collide with future changes.
+  Use the short variant `-D` instead.
+
+### Closed issues
+
+- Support multiple input directories for the server [\#62](https://github.com/DecisionToolkit/dsntk-rs/issues/62)
+- Enable GET method [\#64](https://github.com/DecisionToolkit/dsntk-rs/issues/64)
+- Remove the long option `--dir` [\#67](https://github.com/DecisionToolkit/dsntk-rs/issues/67)
+
+### Merged pull requests
+
+- Supported multiple -D arguments [\#63](https://github.com/DecisionToolkit/dsntk-rs/issues/63)
+- Enabled GET method [\##65](https://github.com/DecisionToolkit/dsntk-rs/issues/65)
+- Colouring [\#66](https://github.com/DecisionToolkit/dsntk-rs/issues/66)
+- Removed `--dir` option variant [\##68](https://github.com/DecisionToolkit/dsntk-rs/issues/68)
+
 ## [v0.0.8](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.0.8) (2024-09-18)
 
 [Full Changelog](https://github.com/DecisionToolkit/dsntk-rs/compare/v0.0.7...v0.0.8)
