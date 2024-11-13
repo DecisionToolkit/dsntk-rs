@@ -6,10 +6,12 @@
 #                                                                             #
 ###############################################################################
 
+CARGO_VERSION=$(grep -oE '^version = "[^"]+"' Cargo.toml | grep -oE '"[^"]+"' | grep -oE '[0-9\.]+')
+
 REPLACEMENT_DSNTK='<span style="font-weight:bold;word-spacing:-0.15rem;">Decision Toolkit<\/span>'
-REPLACEMENT_VERSION='0.0.9-dev'
-REPLACEMENT_V_VERSION='v0.0.9-dev'
-REPLACEMENT_ON_THE_WAY='⏳ Detailed documentation is on the way.'
+REPLACEMENT_VERSION="$CARGO_VERSION"
+REPLACEMENT_V_VERSION="v$CARGO_VERSION"
+REPLACEMENT_ON_THE_WAY="⏳ Detailed documentation is on the way."
 
 function replace() {
   find "$1" -type f -name "*.md" -exec sed -i "s/#DSNTK/$REPLACEMENT_DSNTK/g" {} \;
