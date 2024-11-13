@@ -609,7 +609,7 @@ checksum = "fdda6acc74f0bfd12b77f1f72b5dda9e4147137af9d4e5cd91fa395bf1aa91b4"
 
 [[package]]
 name = "dsntk"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "actix-web",
  "antex",
@@ -630,7 +630,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-common"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "dsntk-macros",
  "serde",
@@ -642,7 +642,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-evaluator"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "dsntk-common",
  "dsntk-feel",
@@ -653,14 +653,14 @@ dependencies = [
 
 [[package]]
 name = "dsntk-examples"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "walkdir",
 ]
 
 [[package]]
 name = "dsntk-feel"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "chrono",
  "chrono-tz",
@@ -676,7 +676,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-evaluator"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "dsntk-common",
  "dsntk-feel",
@@ -693,7 +693,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-grammar"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "convert_case 0.6.0",
  "regex",
@@ -701,7 +701,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-number"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "dfp-number-sys",
  "dsntk-common",
@@ -710,7 +710,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-parser"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "antex",
  "difference",
@@ -722,11 +722,11 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-regex"
-version = "0.0.9-dev"
+version = "0.0.9"
 
 [[package]]
 name = "dsntk-feel-temporal"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "chrono",
  "chrono-tz",
@@ -739,7 +739,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-gendoc"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "antex",
  "domrs",
@@ -754,7 +754,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-macros"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -763,7 +763,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-model"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "dsntk-common",
  "dsntk-examples",
@@ -777,7 +777,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-model-evaluator"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "antex",
  "dsntk-common",
@@ -795,7 +795,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-recognizer"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "dsntk-common",
  "dsntk-examples",
@@ -804,7 +804,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-server"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "actix-web",
  "antex",
@@ -821,7 +821,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-workspace"
-version = "0.0.9-dev"
+version = "0.0.9"
 dependencies = [
  "antex",
  "dsntk-common",
@@ -1865,18 +1865,18 @@ checksum = "61697e0a1c7e512e84a621326239844a24d8207b4669b41bc18b32ea5cbf988b"
 
 [[package]]
 name = "serde"
-version = "1.0.214"
+version = "1.0.215"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f55c3193aca71c12ad7890f1785d2b73e1b9f63a0bbc353c08ef26fe03fc56b5"
+checksum = "6513c1ad0b11a9376da888e3e0baa0077f1aed55c17f50e7b2397136129fb88f"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.214"
+version = "1.0.215"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "de523f781f095e28fa605cdce0f8307e451cc0fd14e2eb4cd2e98a355b147766"
+checksum = "ad1e866f866923f252f05c889987993144fb74e722403468a4ebd70c3cd756c0"
 dependencies = [
  "proc-macro2",
  "quote",
