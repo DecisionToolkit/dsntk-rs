@@ -1,6 +1,6 @@
 # Installation
 
-<span style="font-weight:bold;word-spacing:-0.15rem;">Decision Toolkit</span> executable is a standalone file without additional dependencies and can be obtained by
+#DSNTK executable is a standalone file without additional dependencies and can be obtained by
 downloading from [GitHub releases](https://github.com/dsntk/dsntk-rs/releases),
 or built from source using [Rust and Cargo](https://www.rust-lang.org/tools/install).
 

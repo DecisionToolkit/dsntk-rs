@@ -1,6 +1,6 @@
 # Saving examples
 
-<span style="font-weight:bold;word-spacing:-0.15rem;">Decision Toolkit</span> provides a set of examples ready to play with.
+#DSNTK provides a set of examples ready to play with.
 To install the built-in examples in, e.g., the **examples** directory, type:
 
 ```shell

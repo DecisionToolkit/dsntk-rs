@@ -1,3 +1,3 @@
 # Parsing FEEL expressions
 
-⏳ Detailed documentation is on the way.
+#ON_THE_WAY
