@@ -35,8 +35,8 @@ Expected output:
 [32mFound 1 model.[0m
 [32mLoaded 1 model.[0m
 [32mDeployed 1 invocable.[0m
-[33m
-Deployed invocables:[0m
+
+[33mDeployed invocable:[0m
   [36morg/decision-toolkit[0m/[35mgreetings[0m/[36mGreeting%20Message[0m
 
 [34mdsntk[0m [33m127.0.0.1:22022[0m

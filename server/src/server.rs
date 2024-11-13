@@ -22,14 +22,12 @@ const CONTENT_TYPE: &str = "application/json";
 /// GET handler for evaluating the invocable.
 #[get("/evaluate/{path:.*}")]
 async fn evaluate_invocable_get(path: web::Path<String>, body: String, data: web::Data<ApplicationData>) -> HttpResponse {
-  println!("GET");
   evaluate(path, body, data)
 }
 
 /// POST handler for evaluating the invocable.
 #[post("/evaluate/{path:.*}")]
 async fn evaluate_invocable_post(path: web::Path<String>, body: String, data: web::Data<ApplicationData>) -> HttpResponse {
-  println!("POST");
   evaluate(path, body, data)
 }
 
