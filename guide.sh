@@ -8,11 +8,8 @@ REPLACEMENT_ON_THE_WAY='⏳ Detailed documentation is on the way.'
 function replace() {
   find "$1" -type f -name "*.md" -exec sed -i "s/#DSNTK/$REPLACEMENT_DSNTK/g" {} \;
   find "$1" -type f -name "*.md" -exec sed -i "s/#VERSION/$REPLACEMENT_VERSION/g" {} \;
-  find "$1" -type f -name "*.md" -exec sed -i "s/#ON_THE_WAY/$REPLACEMENT_ON_THE_WAY/g" {} \;
   find "$1" -type f -name "*.md" -exec sed -i "s/#V_VERSION/$REPLACEMENT_V_VERSION/g" {} \;
-}
-
-function replace_config() {
+  find "$1" -type f -name "*.md" -exec sed -i "s/#ON_THE_WAY/$REPLACEMENT_ON_THE_WAY/g" {} \;
   find "$1" -type f -name "*.mts" -exec sed -i "s/#V_VERSION/$REPLACEMENT_V_VERSION/g" {} \;
 }
 
@@ -24,5 +21,5 @@ replace "$DST_DIR_PAGES"
 
 SRC_DIR="./guide/"
 DST_DIR_VITEPRESS="../dsntk-docs/.vitepress"
-cp -rf "$SRC_DIR/config.txt" "$DST_DIR_VITEPRESS/config.mts"
-replace_config "$DST_DIR_VITEPRESS"
+cp -rf "$SRC_DIR/config.mdx" "$DST_DIR_VITEPRESS/config.mts"
+replace "$DST_DIR_VITEPRESS"
