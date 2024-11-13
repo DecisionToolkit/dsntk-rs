@@ -158,7 +158,7 @@ tasks:
       - cmd: cargo +nightly fmt
 
   guide:
-    desc: Synchronizes documentation files
+    desc: Synchronizes documentation files with VitePress project
     cmds:
       - cmd: ./guide.sh
 

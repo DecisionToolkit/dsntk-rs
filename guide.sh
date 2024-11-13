@@ -2,7 +2,7 @@
 
 ###############################################################################
 #                                                                             #
-# Utility script for copying documentation files to Vitepress project.        #
+# Utility script for copying documentation files to VitePress project.        #
 #                                                                             #
 ###############################################################################
 
