@@ -18,13 +18,13 @@ outline: 'deep'
 
 ## Commands
 
-Below is a categorized list of all #DSNTK commands.
+Below is a categorized list of all <span style="font-weight:bold;word-spacing:-0.15rem;">Decision Toolkit</span> commands.
 
 ### SERVE
 
 #### srv
 
-Runs #DSNTK as a service and serves DMN™ decision models.
+Runs <span style="font-weight:bold;word-spacing:-0.15rem;">Decision Toolkit</span> as a service and serves DMN™ decision models.
 
 To display all available options of the [**srv**](commands/command-srv) command, type:
 
@@ -216,7 +216,7 @@ For more details, refer to [Saving examples](commands/command-exs).
 
 ## Options
 
-Below is a list of all #DSNTK options.
+Below is a list of all <span style="font-weight:bold;word-spacing:-0.15rem;">Decision Toolkit</span> options.
 
 ### --help
 

@@ -1,12 +1,12 @@
 # Getting started
 
-This is a quick overview of the basic functionalities of the #DSNTK, using copy and paste.
-The examples are brief and designed to help you quickly become familiar with the #DSNTK.
+This is a quick overview of the basic functionalities of the <span style="font-weight:bold;word-spacing:-0.15rem;">Decision Toolkit</span>, using copy and paste.
+The examples are brief and designed to help you quickly become familiar with the <span style="font-weight:bold;word-spacing:-0.15rem;">Decision Toolkit</span>.
 For detailed explanations, refer to the chapters cited below each example.
 
 ## Install examples
 
-#DSNTK provides a set of built-in examples ready to play with.
+<span style="font-weight:bold;word-spacing:-0.15rem;">Decision Toolkit</span> provides a set of built-in examples ready to play with.
 To install the examples in, e.g., the **examples** subdirectory in your home directory, type:
 
 ```shell 
