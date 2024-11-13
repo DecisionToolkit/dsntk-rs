@@ -24,7 +24,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.0.9"
+version = "0.1.0"
 authors = ["Dariusz Depta <depta@engos.de>"]
 repository = "https://github.com/DecisionToolkit/dsntk-rs.git"
 license = "MIT OR Apache-2.0"
