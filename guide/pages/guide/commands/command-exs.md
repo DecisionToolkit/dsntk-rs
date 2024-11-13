@@ -1,7 +1,8 @@
 # Saving examples
 
 #DSNTK provides a set of examples ready to play with.
-To install the built-in examples in, e.g., the **examples** directory, type:
+
+To install examples in, e.g., **examples** directory, type:
 
 ```shell
 $ dsntk exs examples
