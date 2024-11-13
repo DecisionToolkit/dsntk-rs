@@ -133,7 +133,6 @@ All parts put together give the following URL of the endpoint:
 [34mhttp://127.0.0.1:22022/evaluate/dm/org/decision-toolkit/greetings/Greeting%20Message[0m
 ```
 
-While not all characters are legal in URLs, there is `%20` pu between `Greeting` and `Message`,
+While not all characters are legal in URLs, there is `%20` between `Greeting` and `Message`,
 which represents a space in [percent-encoding](https://en.wikipedia.org/wiki/Percent-encoding).
 See [RFC3986](https://datatracker.ietf.org/doc/html/rfc3986#section-2.4) for more details.
-
