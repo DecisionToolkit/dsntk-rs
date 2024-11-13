@@ -6,7 +6,7 @@
 
 ### What's new
 
-- Enabled HTTP GET method for evaluating invocables. Before wes only POST method enabled.
+- Enabled HTTP GET method for evaluating invocables. Before was only POST method enabled.
 - Added the possibility to use multiple `-D` options in `srv` command.
 - Removed `--dir` option's long variant in `srv` command, will collide with future changes.
   Use the short variant `-D` instead.
