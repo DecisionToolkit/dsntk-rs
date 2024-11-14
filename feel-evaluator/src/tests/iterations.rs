@@ -6,7 +6,7 @@ use dsntk_feel::{value_number, FeelNumber};
 #[test]
 fn _0001() {
   let mut iterator = FeelIterator::default();
-  iterator.add_range("x".into(), 1, 3);
+  iterator.add_interval("x".into(), 1, 3);
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(3, actual.len());
@@ -16,8 +16,8 @@ fn _0001() {
 #[test]
 fn _0002() {
   let mut iterator = FeelIterator::default();
-  iterator.add_range("x".into(), 1, 3);
-  iterator.add_range("y".into(), 1, 5);
+  iterator.add_interval("x".into(), 1, 3);
+  iterator.add_interval("y".into(), 1, 5);
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(15, actual.len());
@@ -30,8 +30,8 @@ fn _0002() {
 #[test]
 fn _0003() {
   let mut iterator = FeelIterator::default();
-  iterator.add_range("x".into(), 3, 1);
-  iterator.add_range("y".into(), 5, 1);
+  iterator.add_interval("x".into(), 3, 1);
+  iterator.add_interval("y".into(), 5, 1);
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(15, actual.len());
@@ -44,9 +44,9 @@ fn _0003() {
 #[test]
 fn _0004() {
   let mut iterator = FeelIterator::default();
-  iterator.add_range("x".into(), 1, 2);
-  iterator.add_range("y".into(), 1, 3);
-  iterator.add_range("z".into(), 1, 4);
+  iterator.add_interval("x".into(), 1, 2);
+  iterator.add_interval("y".into(), 1, 3);
+  iterator.add_interval("z".into(), 1, 4);
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(24, actual.len());
@@ -104,7 +104,7 @@ fn _0007() {
 #[test]
 fn _0008() {
   let mut iterator = FeelIterator::default();
-  iterator.add_range("x".into(), 1, 2);
+  iterator.add_interval("x".into(), 1, 2);
   iterator.add_list("y".into(), Value::List(vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0)]));
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
@@ -118,7 +118,7 @@ fn _0008() {
 #[test]
 fn _0009() {
   let mut iterator = ForExpressionEvaluator::new();
-  iterator.add_range("x".into(), value_number!(1, 0), value_number!(3, 0));
+  iterator.add_interval("x".into(), value_number!(1, 0), value_number!(3, 0));
   let scope = &te_scope(r#"{x:null}"#);
   let node = dsntk_feel_parser::parse_expression(scope, "x+1", false).unwrap();
   let evaluator = crate::builders::build_evaluator(&node);
@@ -130,7 +130,7 @@ fn _0009() {
 #[test]
 fn _0010() {
   let mut iterator = ForExpressionEvaluator::new();
-  iterator.add_range("x".into(), value_number!(1, 0), value_number!(2, 0));
+  iterator.add_interval("x".into(), value_number!(1, 0), value_number!(2, 0));
   iterator.add_list("y".into(), Value::List(vec![value_number!(5, 0), value_number!(6, 0), value_number!(7, 0)]));
   let scope = &te_scope(r#"{x:null,y:null}"#);
   let node = dsntk_feel_parser::parse_expression(scope, "x+y", false).unwrap();
@@ -167,7 +167,7 @@ fn _0012() {
 #[test]
 fn _0013() {
   let mut iterator = ForExpressionEvaluator::new();
-  iterator.add_range("x".into(), value_number!(1, 0), value_number!(2, 0));
+  iterator.add_interval("x".into(), value_number!(1, 0), value_number!(2, 0));
   iterator.add_list("y".into(), Value::List(Values::default()));
   let scope = &te_scope(r#"{x:null,y:null}"#);
   let node = dsntk_feel_parser::parse_expression(scope, "x+1", false).unwrap();

@@ -3,23 +3,24 @@
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values, VALUE_FALSE, VALUE_TRUE};
 use dsntk_feel::{value_null, Evaluator, FeelScope, Name};
+use std::borrow::Borrow;
 use std::num::NonZeroIsize;
 
 /// Iterator types.
 #[derive(Debug, Clone)]
 enum IteratorType {
-  /// Iterator over a range of values.
-  Range,
+  /// Iterator over an interval of values defined by the starting value and ending value.
+  Interval,
   /// Iterator over a list of values.
   List,
-  /// Iterator over value(s) of bound variable defined in another iteration context.
+  /// Iterator over value of bound variable defined in another iteration context.
   Variable(Name),
 }
 
 /// Iteration state.
 struct IterationState {
   /// Type of the iterator.
-  iterator_type: IteratorType,
+  typ: IteratorType,
   /// Name of the bound variable of the iteration context.
   variable: Name,
   /// Current value of the looping index.
@@ -37,10 +38,11 @@ struct IterationState {
 }
 
 impl IterationState {
-  /// Creates a new iteration state for a range.
-  fn new_range(variable: Name, start: isize, end: isize) -> Self {
+  /// Creates a new iteration state for iteration over interval.
+  /// Interval is defined by the starting value and ending value.
+  fn new_interval(variable: Name, start: isize, end: isize) -> Self {
     Self {
-      iterator_type: IteratorType::Range,
+      typ: IteratorType::Interval,
       variable,
       index: start,
       step: if start <= end { NonZeroIsize::new(1).unwrap() } else { NonZeroIsize::new(-1).unwrap() },
@@ -52,13 +54,14 @@ impl IterationState {
   }
 
   /// Creates a new iteration state for a list of values.
+  /// If a value is not a list, it is converted to a singleton list.
   fn new_list(variable: Name, value: Value) -> Self {
     let values = match value {
       Value::List(values) => values,
       other => vec![other],
     };
     Self {
-      iterator_type: IteratorType::List,
+      typ: IteratorType::List,
       variable,
       index: 0,
       step: NonZeroIsize::new(1).unwrap(),
@@ -72,7 +75,7 @@ impl IterationState {
   /// Creates a new iteration state for bound variable.
   fn new_variable(variable: Name, bound_variable: Name) -> Self {
     Self {
-      iterator_type: IteratorType::Variable(bound_variable),
+      typ: IteratorType::Variable(bound_variable),
       variable,
       index: 0,
       step: NonZeroIsize::new(1).unwrap(),
@@ -84,7 +87,7 @@ impl IterationState {
   }
 
   fn bind_value(&mut self, ctx: &FeelContext) {
-    if let IteratorType::Variable(bound_variable) = &self.iterator_type {
+    if let IteratorType::Variable(bound_variable) = &self.typ {
       if let Some(value) = ctx.get(bound_variable) {
         if self.index == self.start {
           let values = match value {
@@ -130,8 +133,8 @@ impl IterationState {
   }
 
   fn set_value(&mut self, ctx: &mut FeelContext) {
-    match self.iterator_type {
-      IteratorType::Range => {
+    match self.typ {
+      IteratorType::Interval => {
         let value = Value::Number(self.index.into());
         ctx.set_entry(&self.variable, value);
         self.empty = false;
@@ -152,7 +155,7 @@ impl IterationState {
   }
 
   fn is_variable(&self) -> bool {
-    matches!(self.iterator_type, IteratorType::Variable(_))
+    matches!(self.typ, IteratorType::Variable(_))
   }
 }
 
@@ -168,8 +171,8 @@ impl FeelIterator {
     Self::default()
   }
 
-  pub fn add_range(&mut self, variable: Name, start: isize, end: isize) {
-    self.states.push(IterationState::new_range(variable, start, end));
+  pub fn add_interval(&mut self, variable: Name, start: isize, end: isize) {
+    self.states.push(IterationState::new_interval(variable, start, end));
   }
 
   pub fn add_list(&mut self, variable: Name, value: Value) {
@@ -226,6 +229,7 @@ impl FeelIterator {
   }
 }
 
+/// Evaluator for FEEL `for` expression.
 pub struct ForExpressionEvaluator {
   iterator: FeelIterator,
   name_partial: Name,
@@ -239,6 +243,7 @@ impl Default for ForExpressionEvaluator {
 }
 
 impl ForExpressionEvaluator {
+  /// Creates a new `for` expression evaluator.
   pub fn new() -> Self {
     Self {
       iterator: FeelIterator::default(),
@@ -246,20 +251,38 @@ impl ForExpressionEvaluator {
     }
   }
 
-  pub fn add_list(&mut self, name: Name, value: Value) {
-    self.iterator.add_list(name, value);
-  }
-
-  pub fn add_range(&mut self, name: Name, range_start: Value, range_end: Value) {
-    if let Value::Number(start) = range_start {
-      if let Value::Number(end) = range_end {
-        if let Ok(i_start) = start.try_into() {
-          if let Ok(i_end) = end.try_into() {
-            self.iterator.add_range(name, i_start, i_end);
+  /// Adds an interval of values to iterate over.
+  pub fn add_interval(&mut self, name: Name, start: Value, end: Value) {
+    match start {
+      Value::IntervalStart(start, _start_closed) => {
+        if let Value::IntervalEnd(end, _end_closed) = end {
+          if let Value::Number(start) = start.borrow() {
+            if let Value::Number(end) = end.borrow() {
+              if let Ok(start) = start.try_into() {
+                if let Ok(end) = end.try_into() {
+                  self.iterator.add_interval(name, start, end);
+                }
+              }
+            }
           }
         }
       }
+      Value::Number(start) => {
+        if let Value::Number(end) = end {
+          if let Ok(start) = start.try_into() {
+            if let Ok(end) = end.try_into() {
+              self.iterator.add_interval(name, start, end);
+            }
+          }
+        }
+      }
+      _ => {}
     }
+  }
+
+  /// Adds a list of elements to iterate over.
+  pub fn add_list(&mut self, name: Name, value: Value) {
+    self.iterator.add_list(name, value);
   }
 
   pub fn add_variable(&mut self, name: Name, variable: Name) {

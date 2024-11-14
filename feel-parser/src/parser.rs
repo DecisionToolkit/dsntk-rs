@@ -726,30 +726,30 @@ impl ReduceActions for Parser<'_> {
     Ok(())
   }
 
-  /// Reduces iteration context containing a variable name and a range of numbers to iterate over.
+  /// Reduces iteration context containing a variable name and a range of values to iterate over.
   /// Nodes are located on `yy_node_stack` in the following order (looking from top):
   /// - range end,
   /// - range start,
   /// - variable name.
   fn action_iteration_context_value_range(&mut self) -> Result<()> {
     trace_action!(self, "iteration_context_value_range");
-    let rhs = self.yy_node_stack.pop().unwrap();
-    let mid = self.yy_node_stack.pop().unwrap();
-    let lhs = self.yy_node_stack.pop().unwrap();
-    let node = AstNode::IterationContextRange(Box::new(lhs), Box::new(mid), Box::new(rhs));
+    let rhs = self.yy_node_stack.pop().unwrap(); // range end
+    let mid = self.yy_node_stack.pop().unwrap(); // range start
+    let lhs = self.yy_node_stack.pop().unwrap(); // variable name
+    let node = AstNode::IterationContextInterval(Box::new(lhs), Box::new(mid), Box::new(rhs));
     self.yy_node_stack.push(node);
     Ok(())
   }
 
-  /// Reduces iteration context containing a variable name and a single list of elements to iterate over.
+  /// Reduces iteration context containing a variable name and a single value to iterate over.
   /// Nodes are located on `yy_node_stack` in the following order (looking from top):
-  /// - list,
+  /// - single value,
   /// - variable name.
   fn action_iteration_context_value_single(&mut self) -> Result<()> {
     trace_action!(self, "iteration_context_value_single");
-    let rhs = self.yy_node_stack.pop().unwrap();
-    let lhs = self.yy_node_stack.pop().unwrap();
-    let node = AstNode::IterationContextList(Box::new(lhs), Box::new(rhs));
+    let rhs = self.yy_node_stack.pop().unwrap(); // single value
+    let lhs = self.yy_node_stack.pop().unwrap(); // variable name
+    let node = AstNode::IterationContextSingle(Box::new(lhs), Box::new(rhs));
     self.yy_node_stack.push(node);
     Ok(())
   }

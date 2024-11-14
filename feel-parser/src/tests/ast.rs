@@ -692,9 +692,9 @@ fn test_node_iteration_contexts() {
 
 #[test]
 fn test_node_iteration_context_list() {
-  let node = &AstNode::IterationContextList(b_name!(i), Box::new(AstNode::List(vec![_num!(1), _num!(2), _num!(3)])));
+  let node = &AstNode::IterationContextSingle(b_name!(i), Box::new(AstNode::List(vec![_num!(1), _num!(2), _num!(3)])));
   eqd(
-    r#"IterationContextList(Name(Name("i")), List([Numeric("1", "", '+', ""), Numeric("2", "", '+', ""), Numeric("3", "", '+', "")]))"#,
+    r#"IterationContextSingle(Name(Name("i")), List([Numeric("1", "", '+', ""), Numeric("2", "", '+', ""), Numeric("3", "", '+', "")]))"#,
     node,
   );
   eqs(
@@ -716,11 +716,11 @@ fn test_node_iteration_context_list() {
 
 #[test]
 fn test_node_iteration_context_range() {
-  let node = &AstNode::IterationContextRange(b_name!(i), b_num!(1), b_num!(10));
-  eqd(r#"IterationContextRange(Name(Name("i")), Numeric("1", "", '+', ""), Numeric("10", "", '+', ""))"#, node);
+  let node = &AstNode::IterationContextInterval(b_name!(i), b_num!(1), b_num!(10));
+  eqd(r#"IterationContextInterval(Name(Name("i")), Numeric("1", "", '+', ""), Numeric("10", "", '+', ""))"#, node);
   eqs(
     r#"
-       IterationContextRange
+       IterationContextInterval
        ├─ Name
        │  └─ `i`
        ├─ Numeric

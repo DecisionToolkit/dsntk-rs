@@ -376,7 +376,7 @@ pub fn build_for_evaluator(scope: &FeelScope, r#for: &For, model_builder: &Model
     let iterator_variable = iterator_variable.clone();
     match in_evaluator(scope) {
       value @ Value::List(_) => for_expression_evaluator.add_list(iterator_variable, value),
-      Value::Range(start, true, end, true) => for_expression_evaluator.add_range(iterator_variable, *start, *end),
+      Value::Range(start, true, end, true) => for_expression_evaluator.add_interval(iterator_variable, *start, *end),
       _ => {}
     }
     Value::List(for_expression_evaluator.evaluate(scope, &return_evaluator))
