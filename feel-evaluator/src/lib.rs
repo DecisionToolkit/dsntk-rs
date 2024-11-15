@@ -11,7 +11,6 @@ mod evaluator_pmml;
 mod evaluators;
 mod filters;
 mod iterations;
-mod iterations2;
 mod macros;
 mod tests;
 

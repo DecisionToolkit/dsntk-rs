@@ -1,12 +1,12 @@
 use crate::iterations::{FeelIterator, ForExpressionEvaluator};
 use crate::tests::te_scope;
+use dsntk_feel::value_number;
 use dsntk_feel::values::{values_to_string, Value, Values};
-use dsntk_feel::{value_number, FeelNumber};
 
 #[test]
 fn _0001() {
-  let mut iterator = FeelIterator::default();
-  iterator.add_interval("x".into(), 1, 3);
+  let mut iterator = FeelIterator::new();
+  iterator.add_interval("x".into(), value_number!(1), value_number!(3));
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(3, actual.len());
@@ -15,9 +15,19 @@ fn _0001() {
 
 #[test]
 fn _0002() {
-  let mut iterator = FeelIterator::default();
-  iterator.add_interval("x".into(), 1, 3);
-  iterator.add_interval("y".into(), 1, 5);
+  let mut iterator = FeelIterator::new();
+  iterator.add_interval("x".into(), value_number!(3), value_number!(1));
+  let mut actual = vec![];
+  iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
+  assert_eq!(3, actual.len());
+  assert_eq!(r#"[{x: 3}, {x: 2}, {x: 1}]"#, values_to_string(&actual));
+}
+
+#[test]
+fn _0003() {
+  let mut iterator = FeelIterator::new();
+  iterator.add_interval("x".into(), value_number!(1), value_number!(3));
+  iterator.add_interval("y".into(), value_number!(1), value_number!(5));
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(15, actual.len());
@@ -28,10 +38,24 @@ fn _0002() {
 }
 
 #[test]
-fn _0003() {
-  let mut iterator = FeelIterator::default();
-  iterator.add_interval("x".into(), 3, 1);
-  iterator.add_interval("y".into(), 5, 1);
+fn _0004() {
+  let mut iterator = FeelIterator::new();
+  iterator.add_interval("x".into(), value_number!(1), value_number!(3));
+  iterator.add_interval("y".into(), value_number!(5), value_number!(1));
+  let mut actual = vec![];
+  iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
+  assert_eq!(15, actual.len());
+  assert_eq!(
+    r#"[{x: 1, y: 5}, {x: 1, y: 4}, {x: 1, y: 3}, {x: 1, y: 2}, {x: 1, y: 1}, {x: 2, y: 5}, {x: 2, y: 4}, {x: 2, y: 3}, {x: 2, y: 2}, {x: 2, y: 1}, {x: 3, y: 5}, {x: 3, y: 4}, {x: 3, y: 3}, {x: 3, y: 2}, {x: 3, y: 1}]"#,
+    values_to_string(&actual)
+  );
+}
+
+#[test]
+fn _0005() {
+  let mut iterator = FeelIterator::new();
+  iterator.add_interval("x".into(), value_number!(3), value_number!(1));
+  iterator.add_interval("y".into(), value_number!(5), value_number!(1));
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(15, actual.len());
@@ -42,11 +66,11 @@ fn _0003() {
 }
 
 #[test]
-fn _0004() {
-  let mut iterator = FeelIterator::default();
-  iterator.add_interval("x".into(), 1, 2);
-  iterator.add_interval("y".into(), 1, 3);
-  iterator.add_interval("z".into(), 1, 4);
+fn _0006() {
+  let mut iterator = FeelIterator::new();
+  iterator.add_interval("x".into(), value_number!(1), value_number!(2));
+  iterator.add_interval("y".into(), value_number!(1), value_number!(3));
+  iterator.add_interval("z".into(), value_number!(1), value_number!(4));
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(24, actual.len());
@@ -57,8 +81,8 @@ fn _0004() {
 }
 
 #[test]
-fn _0005() {
-  let mut iterator = FeelIterator::default();
+fn _0007() {
+  let mut iterator = FeelIterator::new();
   let list = vec![Value::String("a".to_string()), Value::String("b".to_string()), Value::String("c".to_string())];
   iterator.add_list("x".into(), Value::List(list));
   let mut actual = vec![];
@@ -68,11 +92,11 @@ fn _0005() {
 }
 
 #[test]
-fn _0006() {
-  let mut iterator = FeelIterator::default();
+fn _0008() {
+  let mut iterator = FeelIterator::new();
   let list1 = vec![Value::String("a".to_string()), Value::String("b".to_string()), Value::String("c".to_string())];
   iterator.add_list("x".into(), Value::List(list1));
-  let list2 = vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0)];
+  let list2 = vec![value_number!(1), value_number!(2), value_number!(3)];
   iterator.add_list("y".into(), Value::List(list2));
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
@@ -84,11 +108,11 @@ fn _0006() {
 }
 
 #[test]
-fn _0007() {
-  let mut iterator = FeelIterator::default();
+fn _0009() {
+  let mut iterator = FeelIterator::new();
   let list_x = vec![Value::String("a".to_string()), Value::String("b".to_string())];
-  let list_y = vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0)];
-  let list_z = vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0), value_number!(4, 0)];
+  let list_y = vec![value_number!(1), value_number!(2), value_number!(3)];
+  let list_z = vec![value_number!(1), value_number!(2), value_number!(3), value_number!(4)];
   iterator.add_list("x".into(), Value::List(list_x));
   iterator.add_list("y".into(), Value::List(list_y));
   iterator.add_list("z".into(), Value::List(list_z));
@@ -102,10 +126,10 @@ fn _0007() {
 }
 
 #[test]
-fn _0008() {
-  let mut iterator = FeelIterator::default();
-  iterator.add_interval("x".into(), 1, 2);
-  iterator.add_list("y".into(), Value::List(vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0)]));
+fn _0010() {
+  let mut iterator = FeelIterator::new();
+  iterator.add_interval("x".into(), value_number!(1), value_number!(2));
+  iterator.add_list("y".into(), Value::List(vec![value_number!(1), value_number!(2), value_number!(3)]));
   let mut actual = vec![];
   iterator.iterate(|ctx| actual.push(Value::Context(ctx.clone())));
   assert_eq!(6, actual.len());
@@ -116,9 +140,9 @@ fn _0008() {
 }
 
 #[test]
-fn _0009() {
+fn _0011() {
   let mut iterator = ForExpressionEvaluator::new();
-  iterator.add_interval("x".into(), value_number!(1, 0), value_number!(3, 0));
+  iterator.add_interval("x".into(), value_number!(1), value_number!(3));
   let scope = &te_scope(r#"{x:null}"#);
   let node = dsntk_feel_parser::parse_expression(scope, "x+1", false).unwrap();
   let evaluator = crate::builders::build_evaluator(&node);
@@ -128,10 +152,10 @@ fn _0009() {
 }
 
 #[test]
-fn _0010() {
+fn _0012() {
   let mut iterator = ForExpressionEvaluator::new();
-  iterator.add_interval("x".into(), value_number!(1, 0), value_number!(2, 0));
-  iterator.add_list("y".into(), Value::List(vec![value_number!(5, 0), value_number!(6, 0), value_number!(7, 0)]));
+  iterator.add_interval("x".into(), value_number!(1), value_number!(2));
+  iterator.add_list("y".into(), Value::List(vec![value_number!(5), value_number!(6), value_number!(7)]));
   let scope = &te_scope(r#"{x:null,y:null}"#);
   let node = dsntk_feel_parser::parse_expression(scope, "x+y", false).unwrap();
   let evaluator = crate::builders::build_evaluator(&node);
@@ -141,7 +165,7 @@ fn _0010() {
 }
 
 #[test]
-fn _0011() {
+fn _0013() {
   let mut iterator = ForExpressionEvaluator::new();
   iterator.add_list("x".into(), Value::List(Values::default()));
   let scope = &te_scope(r#"{x:null}"#);
@@ -153,9 +177,9 @@ fn _0011() {
 }
 
 #[test]
-fn _0012() {
+fn _0014() {
   let mut iterator = ForExpressionEvaluator::new();
-  iterator.add_list("x".into(), value_number!(1, 0));
+  iterator.add_list("x".into(), value_number!(1));
   let scope = &te_scope(r#"{x:null}"#);
   let node = dsntk_feel_parser::parse_expression(scope, "x+1", false).unwrap();
   let evaluator = crate::builders::build_evaluator(&node);
@@ -165,9 +189,9 @@ fn _0012() {
 }
 
 #[test]
-fn _0013() {
+fn _0015() {
   let mut iterator = ForExpressionEvaluator::new();
-  iterator.add_interval("x".into(), value_number!(1, 0), value_number!(2, 0));
+  iterator.add_interval("x".into(), value_number!(1), value_number!(2));
   iterator.add_list("y".into(), Value::List(Values::default()));
   let scope = &te_scope(r#"{x:null,y:null}"#);
   let node = dsntk_feel_parser::parse_expression(scope, "x+1", false).unwrap();
@@ -178,9 +202,9 @@ fn _0013() {
 }
 
 #[test]
-fn _0014() {
+fn _0016() {
   let mut iterator = ForExpressionEvaluator::new();
-  let list = Value::List(vec![value_number!(1, 0), value_number!(2, 0), value_number!(3, 0), value_number!(4, 0)]);
+  let list = Value::List(vec![value_number!(1), value_number!(2), value_number!(3), value_number!(4)]);
   iterator.add_list("x".into(), list);
   iterator.add_variable("y".into(), "x".into());
   let scope = &te_scope(r#"{x:null,y:null}"#);

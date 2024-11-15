@@ -1,186 +1,235 @@
-//! # FEEL iterator implementation
+//! # Implementation of `for`, `some` and `every` expressions
 
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values, VALUE_FALSE, VALUE_TRUE};
-use dsntk_feel::{value_null, Evaluator, FeelScope, Name};
-use std::borrow::Borrow;
-use std::num::NonZeroIsize;
+use dsntk_feel::{value_null, Evaluator, FeelNumber, FeelScope, Name};
 
-/// Iterator types.
-#[derive(Debug, Clone)]
-enum IterationType {
-  /// Iterator over an interval of values defined by the starting and ending value.
-  Interval,
-  /// Iterator over a list of values.
-  List,
-  /// Iterator over values stored in bound variable defined in another iteration context.
-  Variable(Name),
+/// Common interface for all iteration state types.
+trait IterationState {
+  fn bind_value(&mut self, _ctx: &FeelContext) {}
+  fn set_value(&mut self, _ctx: &mut FeelContext) {}
+  fn next(&mut self) -> bool {
+    false
+  }
+  fn has_next(&self) -> bool {
+    false
+  }
+  fn is_empty(&self) -> bool {
+    false
+  }
+  fn is_variable(&self) -> bool {
+    false
+  }
 }
 
-/// Iteration state.
-struct IterationState {
-  /// Type of the iterator.
-  typ: IterationType,
-  /// Name of the bound variable of this iteration context.
+/// Iteration stepping direction.
+#[derive(Debug)]
+enum IterationDirection {
+  Ascending,
+  Descending,
+}
+
+struct NumberIntervalState {
+  /// Name of the bound variable in this iterator state.
   variable: Name,
-  /// Current value of the looping index.
-  index: isize,
+  /// Iteration starting value.
+  start: FeelNumber,
+  /// Iteration ending value.
+  end: FeelNumber,
   /// Iteration step.
-  step: NonZeroIsize,
-  /// Iteration start value.
-  start: isize,
-  /// Iteration end value.
-  end: isize,
-  /// Collection of FEEL values to iterate over.
-  values: Option<Values>,
-  /// Flag indicating whether the current iteration is empty (does not iterate anymore).
-  empty: bool,
+  step: FeelNumber,
+  /// Iteration step direction.
+  direction: IterationDirection,
+  /// Current iteration value.
+  current: FeelNumber,
 }
 
-impl IterationState {
-  /// Creates a new iteration state for iteration over interval.
-  /// Interval is defined by the starting value and ending value.
-  fn new_interval(variable: Name, start: isize, end: isize) -> Self {
-    Self {
-      typ: IterationType::Interval,
+impl NumberIntervalState {
+  fn init(variable: Name, start: FeelNumber, end: FeelNumber) -> Box<dyn IterationState> {
+    Box::new(Self {
       variable,
-      index: start,
-      step: if start <= end { NonZeroIsize::new(1).unwrap() } else { NonZeroIsize::new(-1).unwrap() },
       start,
       end,
-      values: None,
-      empty: true,
-    }
+      step: FeelNumber::one(),
+      direction: if start <= end { IterationDirection::Ascending } else { IterationDirection::Descending },
+      current: start,
+    })
+  }
+}
+
+impl IterationState for NumberIntervalState {
+  fn set_value(&mut self, ctx: &mut FeelContext) {
+    ctx.set_entry(&self.variable, Value::Number(self.current));
   }
 
-  /// Creates a new iteration state for a list of values.
-  /// If a value is not a list, it is converted to a singleton list.
-  fn new_list(variable: Name, value: Value) -> Self {
-    let values = match value {
-      Value::List(values) => values,
-      other => vec![other],
-    };
-    Self {
-      typ: IterationType::List,
-      variable,
-      index: 0,
-      step: NonZeroIsize::new(1).unwrap(),
-      start: 0,
-      end: (values.len() as isize) - 1,
-      values: Some(values),
-      empty: true,
-    }
-  }
-
-  /// Creates a new iteration state for bound variable.
-  fn new_variable(variable: Name, bound_variable: Name) -> Self {
-    Self {
-      typ: IterationType::Variable(bound_variable),
-      variable,
-      index: 0,
-      step: NonZeroIsize::new(1).unwrap(),
-      start: 0,
-      end: 0,
-      values: None,
-      empty: true,
-    }
-  }
-
-  fn bind_value(&mut self, ctx: &FeelContext) {
-    if let IterationType::Variable(bound_variable) = &self.typ {
-      if let Some(value) = ctx.get(bound_variable) {
-        if self.index == self.start {
-          let values = match value {
-            Value::List(values) => values.clone(),
-            other => vec![other.clone()],
-          };
-          self.index = 0;
-          self.start = 0;
-          self.end = (values.len() as isize) - 1;
-          self.values = Some(values);
+  fn next(&mut self) -> bool {
+    match self.direction {
+      IterationDirection::Ascending => {
+        if self.current + self.step <= self.end {
+          self.current += self.step;
+          true
+        } else {
+          self.current = self.start;
+          false
+        }
+      }
+      IterationDirection::Descending => {
+        if self.current - self.step >= self.end {
+          self.current -= self.step;
+          true
+        } else {
+          self.current = self.start;
+          false
         }
       }
     }
   }
 
-  /// Moves the iterator to the next value if any available.
+  fn has_next(&self) -> bool {
+    match self.direction {
+      IterationDirection::Ascending => self.current + self.step <= self.end,
+      IterationDirection::Descending => self.current - self.step >= self.end,
+    }
+  }
+}
+
+struct ListState {
+  /// Name of the bound variable in this iterator state.
+  variable: Name,
+  /// Values to iterate over.
+  values: Values,
+  /// Iteration step.
+  step: usize,
+  /// Current iteration index.
+  current: usize,
+}
+
+impl ListState {
+  fn init(variable: Name, value: Value) -> Box<dyn IterationState> {
+    Box::new(Self {
+      variable,
+      values: match value {
+        Value::List(values) => values,
+        single => vec![single],
+      },
+      step: 1,
+      current: 0,
+    })
+  }
+}
+
+impl IterationState for ListState {
+  fn set_value(&mut self, ctx: &mut FeelContext) {
+    if !self.values.is_empty() {
+      ctx.set_entry(&self.variable, self.values[self.current].clone());
+    }
+  }
+
   fn next(&mut self) -> bool {
-    let s = self.step.get();
-    if self.step.is_positive() {
-      if self.index + s <= self.end {
-        self.index += s;
-        true
-      } else {
-        self.index = self.start;
-        false
-      }
-    } else if self.index + s >= self.end {
-      self.index += s;
+    if self.current + self.step < self.values.len() {
+      self.current += self.step;
       true
     } else {
-      self.index = self.start;
+      self.current = 0;
       false
     }
   }
 
-  /// Returns `true` when the iterator has some more values to iterate over.
   fn has_next(&self) -> bool {
-    if self.step.is_positive() {
-      self.index + self.step.get() <= self.end
-    } else {
-      self.index + self.step.get() >= self.end
+    self.current < self.values.len().saturating_sub(1)
+  }
+
+  fn is_empty(&self) -> bool {
+    self.values.is_empty()
+  }
+}
+
+struct VariableState {
+  /// Name of the bound variable in another iteration state.
+  bound_variable: Name,
+  /// List iteration state.
+  list_state: ListState,
+}
+
+impl VariableState {
+  fn init(variable: Name, bound_variable: Name) -> Box<dyn IterationState> {
+    Box::new(Self {
+      bound_variable,
+      list_state: ListState {
+        variable,
+        values: vec![],
+        step: 1,
+        current: 0,
+      },
+    })
+  }
+}
+
+impl IterationState for VariableState {
+  fn bind_value(&mut self, ctx: &FeelContext) {
+    if self.list_state.current == 0 {
+      if let Some(value) = ctx.get(&self.bound_variable) {
+        self.list_state.values = match value {
+          Value::List(values) => values.clone(),
+          single => vec![single.clone()],
+        };
+        self.list_state.step = 1;
+        self.list_state.current = 0;
+      }
     }
   }
 
   fn set_value(&mut self, ctx: &mut FeelContext) {
-    match self.typ {
-      IterationType::Interval => {
-        let value = Value::Number(self.index.into());
-        ctx.set_entry(&self.variable, value);
-        self.empty = false;
-        return;
-      }
-      _ => {
-        if let Some(values) = &self.values {
-          let index = self.index as usize;
-          if let Some(value) = values.get(index) {
-            ctx.set_entry(&self.variable, value.clone());
-            self.empty = false;
-            return;
-          }
-        }
-      }
-    }
-    self.empty = true;
+    self.list_state.set_value(ctx);
+  }
+
+  fn next(&mut self) -> bool {
+    self.list_state.next()
+  }
+
+  fn has_next(&self) -> bool {
+    self.list_state.has_next()
   }
 
   fn is_variable(&self) -> bool {
-    matches!(self.typ, IterationType::Variable(_))
+    true
   }
 }
 
 /// Iterator built from multiple iteration states.
 #[derive(Default)]
 pub struct FeelIterator {
-  states: Vec<IterationState>,
+  states: Vec<Box<dyn IterationState>>,
 }
 
 impl FeelIterator {
-  /// Creates a new iterator with default settings.
+  /// Creates a new, empty iterator.
   pub fn new() -> Self {
     Self::default()
   }
 
-  pub fn add_interval(&mut self, variable: Name, start: isize, end: isize) {
-    self.states.push(IterationState::new_interval(variable, start, end));
+  pub fn add_interval(&mut self, variable: Name, start: Value, end: Value) {
+    if let Value::Number(start) = start {
+      if let Value::Number(end) = end {
+        self.states.push(NumberIntervalState::init(variable, start, end));
+      }
+    }
+  }
+
+  pub fn add_range(&mut self, variable: Name, start: Value, end: Value) {
+    if let Value::IntervalStart(start, true) = start {
+      if let Value::IntervalEnd(end, true) = end {
+        self.add_interval(variable, *start, *end)
+      }
+    }
   }
 
   pub fn add_list(&mut self, variable: Name, value: Value) {
-    self.states.push(IterationState::new_list(variable, value));
+    self.states.push(ListState::init(variable, value));
   }
 
   pub fn add_variable(&mut self, variable: Name, bound_variable: Name) {
-    self.states.push(IterationState::new_variable(variable, bound_variable));
+    self.states.push(VariableState::init(variable, bound_variable));
   }
 
   /// Iterates over all iteration states.
@@ -192,21 +241,20 @@ impl FeelIterator {
       return;
     }
     let mut ctx = FeelContext::new();
+    let last_state_index = self.states.len() - 1;
     loop {
-      for state in self.iter_states_non_variable_mut() {
+      for state in self.states.iter_mut().rev().filter(|state| !state.is_variable()) {
         state.set_value(&mut ctx);
       }
-      for state in self.iter_states_variable_mut() {
+      for state in self.states.iter_mut().filter(|state| state.is_variable()) {
         state.bind_value(&ctx);
         state.set_value(&mut ctx);
       }
-      let empty_iteration = self.states.iter().fold(false, |acc, state| acc | state.empty);
-      if !empty_iteration {
+      if !self.states.iter().any(|state| state.is_empty()) {
         handler(&ctx);
       }
-      let last_state = self.states.len() - 1;
-      for (i, state) in self.iter_states_mut().enumerate() {
-        if i == last_state && !state.has_next() {
+      for (state_index, state) in self.states.iter_mut().rev().enumerate() {
+        if state_index == last_state_index && !state.has_next() {
           return;
         }
         if state.next() {
@@ -215,24 +263,12 @@ impl FeelIterator {
       }
     }
   }
-
-  fn iter_states_mut(&mut self) -> impl Iterator<Item = &mut IterationState> {
-    self.states.iter_mut().rev()
-  }
-
-  fn iter_states_non_variable_mut(&mut self) -> impl Iterator<Item = &mut IterationState> {
-    self.states.iter_mut().rev().filter(|state| !state.is_variable())
-  }
-
-  fn iter_states_variable_mut(&mut self) -> impl Iterator<Item = &mut IterationState> {
-    self.states.iter_mut().filter(|state| state.is_variable())
-  }
 }
 
-/// Evaluator for FEEL `for` expression.
+/// `for` expression evaluator.
 pub struct ForExpressionEvaluator {
   iterator: FeelIterator,
-  name_partial: Name,
+  partial: Name,
 }
 
 impl Default for ForExpressionEvaluator {
@@ -247,37 +283,18 @@ impl ForExpressionEvaluator {
   pub fn new() -> Self {
     Self {
       iterator: FeelIterator::default(),
-      name_partial: "partial".into(),
+      partial: "partial".into(),
     }
   }
 
   /// Adds an interval of values to iterate over.
   pub fn add_interval(&mut self, name: Name, start: Value, end: Value) {
-    match start {
-      Value::IntervalStart(start, _start_closed) => {
-        if let Value::IntervalEnd(end, _end_closed) = end {
-          if let Value::Number(start) = start.borrow() {
-            if let Value::Number(end) = end.borrow() {
-              if let Ok(start) = start.try_into() {
-                if let Ok(end) = end.try_into() {
-                  self.iterator.add_interval(name, start, end);
-                }
-              }
-            }
-          }
-        }
-      }
-      Value::Number(start) => {
-        if let Value::Number(end) = end {
-          if let Ok(start) = start.try_into() {
-            if let Ok(end) = end.try_into() {
-              self.iterator.add_interval(name, start, end);
-            }
-          }
-        }
-      }
-      _ => {}
-    }
+    self.iterator.add_interval(name, start, end);
+  }
+
+  /// Adds a range of values to iterate over.
+  pub fn add_range(&mut self, name: Name, start: Value, end: Value) {
+    self.iterator.add_range(name, start, end);
   }
 
   /// Adds a list of elements to iterate over.
@@ -293,7 +310,7 @@ impl ForExpressionEvaluator {
     let mut results = vec![];
     self.iterator.iterate(|ctx| {
       let mut iteration_context = ctx.clone();
-      iteration_context.set_entry(&self.name_partial, Value::List(results.clone()));
+      iteration_context.set_entry(&self.partial, Value::List(results.clone()));
       scope.push(iteration_context.clone());
       let iteration_value = evaluator(scope);
       scope.pop();
@@ -303,6 +320,7 @@ impl ForExpressionEvaluator {
   }
 }
 
+/// `some` expression evaluator.
 pub struct SomeExpressionEvaluator {
   iterator: FeelIterator,
 }
@@ -316,9 +334,7 @@ impl Default for SomeExpressionEvaluator {
 
 impl SomeExpressionEvaluator {
   pub fn new() -> Self {
-    Self {
-      iterator: FeelIterator::default(),
-    }
+    Self { iterator: FeelIterator::new() }
   }
 
   pub fn add_list(&mut self, name: Name, value: Value) {
@@ -350,6 +366,7 @@ impl SomeExpressionEvaluator {
   }
 }
 
+/// `every` expression evaluator.
 pub struct EveryExpressionEvaluator {
   iterator: FeelIterator,
 }

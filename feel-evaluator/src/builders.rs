@@ -638,6 +638,7 @@ impl<'b> EvaluatorBuilder<'b> {
   fn build_for(&mut self, lhs: &'b AstNode, rhs: &'b AstNode) -> Evaluator {
     enum IteratorType {
       Interval((Name, Evaluator, Evaluator)),
+      Range((Name, Evaluator, Evaluator)),
       List((Name, Evaluator)),
       Variable((Name, Name)),
     }
@@ -651,8 +652,7 @@ impl<'b> EvaluatorBuilder<'b> {
             if let AstNode::Name(name) = variable_name.borrow() {
               let interval_start_evaluator = self.build(interval_start_node);
               let interval_end_evaluator = self.build(interval_end_node);
-              let iterator_type = IteratorType::Interval((name.clone(), interval_start_evaluator, interval_end_evaluator));
-              evaluators.push(iterator_type);
+              evaluators.push(IteratorType::Interval((name.clone(), interval_start_evaluator, interval_end_evaluator)));
               binding_variables.insert(name.clone());
             }
           }
@@ -660,22 +660,20 @@ impl<'b> EvaluatorBuilder<'b> {
             if let AstNode::Name(name) = variable_name.borrow() {
               if let AstNode::Name(variable_name) = expr_node.borrow() {
                 if binding_variables.contains(variable_name) {
-                  let iterator_type = IteratorType::Variable((name.clone(), variable_name.clone()));
-                  evaluators.push(iterator_type);
+                  evaluators.push(IteratorType::Variable((name.clone(), variable_name.clone())));
                   binding_variables.insert(name.clone());
-                  continue;
+                  continue; // JUMP TO THE NEXT ITERATION, DO NOT MISS THIS LINE WHEN ANALYZING THE CODE!
                 }
               }
-              let iterator_type = if let AstNode::Range(interval_start_node, interval_end_node) = expr_node.borrow() {
-                let interval_start_evaluator = self.build(interval_start_node);
-                let interval_end_evaluator = self.build(interval_end_node);
-                IteratorType::Interval((name.clone(), interval_start_evaluator, interval_end_evaluator))
+              if let AstNode::Range(range_start_node, range_end_node) = expr_node.borrow() {
+                let range_start_evaluator = self.build(range_start_node);
+                let range_end_evaluator = self.build(range_end_node);
+                evaluators.push(IteratorType::Range((name.clone(), range_start_evaluator, range_end_evaluator)));
+                binding_variables.insert(name.clone());
               } else {
-                let evaluator_list = self.build(expr_node);
-                IteratorType::List((name.clone(), evaluator_list))
+                evaluators.push(IteratorType::List((name.clone(), self.build(expr_node))));
+                binding_variables.insert(name.clone());
               };
-              evaluators.push(iterator_type);
-              binding_variables.insert(name.clone());
             }
           }
           _ => {}
@@ -686,11 +684,14 @@ impl<'b> EvaluatorBuilder<'b> {
       let mut for_expression_evaluator = ForExpressionEvaluator::new();
       for iterator_type in &evaluators {
         match iterator_type {
-          IteratorType::Interval((name, evaluator_range_start, evaluator_range_end)) => {
-            for_expression_evaluator.add_interval(name.clone(), evaluator_range_start(scope), evaluator_range_end(scope));
+          IteratorType::Interval((name, interval_start_evaluator, interval_end_evaluator)) => {
+            for_expression_evaluator.add_interval(name.clone(), interval_start_evaluator(scope), interval_end_evaluator(scope));
           }
-          IteratorType::List((name, evaluator_single)) => {
-            for_expression_evaluator.add_list(name.clone(), evaluator_single(scope));
+          IteratorType::Range((name, range_start_evaluator, range_end_evaluator)) => {
+            for_expression_evaluator.add_range(name.clone(), range_start_evaluator(scope), range_end_evaluator(scope));
+          }
+          IteratorType::List((name, list_evaluator)) => {
+            for_expression_evaluator.add_list(name.clone(), list_evaluator(scope));
           }
           IteratorType::Variable((name, variable_name)) => {
             for_expression_evaluator.add_variable(name.clone(), variable_name.clone());
