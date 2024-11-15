@@ -1,9 +1,10 @@
 //! # Implementation of `for`, `some` and `every` expressions
 
 use dsntk_feel::context::FeelContext;
-use dsntk_feel::values::{Value, Values};
-use dsntk_feel::{Evaluator, FeelNumber, FeelScope, Name};
+use dsntk_feel::values::{Value, Values, VALUE_FALSE, VALUE_TRUE};
+use dsntk_feel::{value_null, Evaluator, FeelNumber, FeelScope, Name};
 
+/// Common interface for all iteration state types.
 trait IterationState {
   fn bind_value(&mut self, _ctx: &FeelContext) {}
   fn set_value(&mut self, _ctx: &mut FeelContext) {}
@@ -21,7 +22,7 @@ trait IterationState {
   }
 }
 
-/// Iteration stepping value.
+/// Iteration stepping direction.
 #[derive(Debug)]
 enum IterationDirection {
   Ascending,
@@ -256,14 +257,14 @@ impl FeelIterator {
   }
 }
 
-/// Evaluator for FEEL `for` expression.
+/// `for` expression evaluator.
 pub struct ForExpressionEvaluator {
   iterator: FeelIterator,
   partial: Name,
 }
 
 impl Default for ForExpressionEvaluator {
-  /// Implements [Default] trait for [crate::ForExpressionEvaluator].
+  /// Implements [Default] trait for [ForExpressionEvaluator].
   fn default() -> Self {
     Self::new()
   }
@@ -303,5 +304,97 @@ impl ForExpressionEvaluator {
       results.push(iteration_value);
     });
     results
+  }
+}
+
+/// `some` expression evaluator.
+pub struct SomeExpressionEvaluator {
+  iterator: FeelIterator,
+}
+
+impl Default for SomeExpressionEvaluator {
+  /// Implements [Default] trait for [SomeExpressionEvaluator].
+  fn default() -> Self {
+    Self::new()
+  }
+}
+
+impl SomeExpressionEvaluator {
+  pub fn new() -> Self {
+    Self { iterator: FeelIterator::new() }
+  }
+
+  pub fn add_list(&mut self, name: Name, value: Value) {
+    self.iterator.add_list(name, value);
+  }
+
+  pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Value {
+    let mut result = VALUE_FALSE;
+    let mut skip = false;
+    self.iterator.iterate(|ctx| {
+      if !skip {
+        scope.push(ctx.clone());
+        let value = evaluator(scope);
+        match value {
+          Value::Boolean(true) => {
+            result = VALUE_TRUE;
+            skip = true;
+          }
+          Value::Boolean(false) => {}
+          _ => {
+            result = value_null!();
+            skip = true;
+          }
+        }
+        scope.pop();
+      }
+    });
+    result
+  }
+}
+
+/// `every` expression evaluator.
+pub struct EveryExpressionEvaluator {
+  iterator: FeelIterator,
+}
+
+impl Default for EveryExpressionEvaluator {
+  /// Implements [Default] trait for [EveryExpressionEvaluator].
+  fn default() -> Self {
+    Self::new()
+  }
+}
+
+impl EveryExpressionEvaluator {
+  pub fn new() -> Self {
+    Self { iterator: FeelIterator::new() }
+  }
+
+  pub fn add_list(&mut self, name: Name, value: Value) {
+    self.iterator.add_list(name, value);
+  }
+
+  pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Value {
+    let mut result = VALUE_TRUE;
+    let mut skip = false;
+    self.iterator.iterate(|ctx| {
+      if !skip {
+        scope.push(ctx.clone());
+        let value = evaluator(scope);
+        scope.pop();
+        match value {
+          Value::Boolean(false) => {
+            result = VALUE_FALSE;
+            skip = true;
+          }
+          Value::Boolean(true) => {}
+          _ => {
+            result = value_null!();
+            skip = true
+          }
+        }
+      }
+    });
+    result
   }
 }
