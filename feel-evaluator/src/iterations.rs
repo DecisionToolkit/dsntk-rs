@@ -3,6 +3,7 @@
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values, VALUE_FALSE, VALUE_TRUE};
 use dsntk_feel::{value_null, Evaluator, FeelNumber, FeelScope, Name};
+use dsntk_feel_temporal::FeelDate;
 
 /// Common interface for all iteration state types.
 trait IterationState {
@@ -29,6 +30,7 @@ enum IterationDirection {
   Descending,
 }
 
+/// Iteration state for number intervals.
 struct NumberIntervalState {
   /// Name of the bound variable in this iterator state.
   variable: Name,
@@ -89,6 +91,76 @@ impl IterationState for NumberIntervalState {
     match self.direction {
       IterationDirection::Ascending => self.current + self.step <= self.end,
       IterationDirection::Descending => self.current - self.step >= self.end,
+    }
+  }
+}
+
+/// Iteration state for date intervals.
+struct DateIntervalState {
+  /// Name of the bound variable in this iterator state.
+  variable: Name,
+  /// Iteration starting value.
+  start: FeelDate,
+  /// Iteration ending value.
+  end: FeelDate,
+  /// Iteration step.
+  step: u64,
+  /// Iteration step direction.
+  direction: IterationDirection,
+  /// Current iteration value.
+  current: FeelDate,
+}
+
+impl DateIntervalState {
+  fn init(variable: Name, start: FeelDate, end: FeelDate) -> Box<dyn IterationState> {
+    let direction = if start <= end { IterationDirection::Ascending } else { IterationDirection::Descending };
+    let current = start.clone();
+    Box::new(Self {
+      variable,
+      start,
+      end,
+      step: 1,
+      direction,
+      current,
+    })
+  }
+}
+
+impl IterationState for DateIntervalState {
+  fn set_value(&mut self, ctx: &mut FeelContext) {
+    ctx.set_entry(&self.variable, Value::Date(self.current.clone()));
+  }
+
+  fn next(&mut self) -> bool {
+    match self.direction {
+      IterationDirection::Ascending => {
+        let Some(date) = self.current.add_days(self.step) else { return false };
+        if date <= self.end {
+          self.current = date;
+          true
+        } else {
+          self.current = self.start.clone();
+          false
+        }
+      }
+      IterationDirection::Descending => {
+        let Some(date) = self.current.sub_days(self.step) else { return false };
+
+        if date >= self.end {
+          self.current = date;
+          true
+        } else {
+          self.current = self.start.clone();
+          false
+        }
+      }
+    }
+  }
+
+  fn has_next(&self) -> bool {
+    match self.direction {
+      IterationDirection::Ascending => self.current.add_days(self.step).map_or(false, |date| date <= self.end),
+      IterationDirection::Descending => self.current.sub_days(self.step).map_or(false, |date| date >= self.end),
     }
   }
 }
@@ -212,6 +284,13 @@ impl FeelIterator {
     if let Value::Number(start) = start {
       if let Value::Number(end) = end {
         self.states.push(NumberIntervalState::init(variable, start, end));
+        return;
+      }
+    }
+    if let Value::Date(start) = start {
+      if let Value::Date(end) = end {
+        self.states.push(DateIntervalState::init(variable, start, end));
+        return;
       }
     }
   }

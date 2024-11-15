@@ -70,7 +70,6 @@ fn _0016() {
 }
 
 #[test]
-#[ignore]
 fn _0017() {
   assert_decision(
     &MODEL_EVALUATOR,
@@ -78,8 +77,25 @@ fn _0017() {
     &MODEL_NAME,
     "decision_017",
     &CTX,
-    r#"["1980-01-01", "1980-01-02", "1980-01-03"]"#,
+    "[1980-01-01, 1980-01-02, 1980-01-03]",
   );
+}
+
+#[test]
+fn _0018() {
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "decision_018",
+    &CTX,
+    "[1980-01-03, 1980-01-02, 1980-01-01]",
+  );
+}
+
+#[test]
+fn _0019() {
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision_019", &CTX, "null");
 }
 
 #[test]
