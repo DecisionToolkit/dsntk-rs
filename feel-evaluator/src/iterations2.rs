@@ -144,46 +144,50 @@ impl IterationState for ListState {
 }
 
 struct VariableState {
-  /// Name of the bound variable in this iterator state.
-  variable: Name,
   /// Name of the bound variable in another iteration state.
   bound_variable: Name,
-  /// Values to iterate over.
-  values: Values,
-  /// Iteration step.
-  step: usize,
-  /// Current iteration index.
-  current: usize,
+  /// List iteration state.
+  list_state: ListState,
 }
 
 impl VariableState {
   fn init(variable: Name, bound_variable: Name) -> Box<dyn IterationState> {
     Box::new(Self {
-      variable,
       bound_variable,
-      values: vec![],
-      step: 1,
-      current: 0,
+      list_state: ListState {
+        variable,
+        values: vec![],
+        step: 1,
+        current: 0,
+      },
     })
   }
 }
 
 impl IterationState for VariableState {
   fn bind_value(&mut self, ctx: &FeelContext) {
-    if self.current == 0 {
+    if self.list_state.current == 0 {
       if let Some(value) = ctx.get(&self.bound_variable) {
-        self.values = match value {
+        self.list_state.values = match value {
           Value::List(values) => values.clone(),
           single => vec![single.clone()],
         };
+        self.list_state.step = 1;
+        self.list_state.current = 0;
       }
     }
   }
 
   fn set_value(&mut self, ctx: &mut FeelContext) {
-    if !self.values.is_empty() {
-      ctx.set_entry(&self.variable, self.values[self.current].clone());
-    }
+    self.list_state.set_value(ctx);
+  }
+
+  fn next(&mut self) -> bool {
+    self.list_state.next()
+  }
+
+  fn has_next(&self) -> bool {
+    self.list_state.has_next()
   }
 
   fn is_variable(&self) -> bool {
@@ -255,7 +259,7 @@ impl FeelIterator {
 /// Evaluator for FEEL `for` expression.
 pub struct ForExpressionEvaluator {
   iterator: FeelIterator,
-  name_partial: Name,
+  partial: Name,
 }
 
 impl Default for ForExpressionEvaluator {
@@ -270,7 +274,7 @@ impl ForExpressionEvaluator {
   pub fn new() -> Self {
     Self {
       iterator: FeelIterator::default(),
-      name_partial: "partial".into(),
+      partial: "partial".into(),
     }
   }
 
@@ -292,7 +296,7 @@ impl ForExpressionEvaluator {
     let mut results = vec![];
     self.iterator.iterate(|ctx| {
       let mut iteration_context = ctx.clone();
-      iteration_context.set_entry(&self.name_partial, Value::List(results.clone()));
+      iteration_context.set_entry(&self.partial, Value::List(results.clone()));
       scope.push(iteration_context.clone());
       let iteration_value = evaluator(scope);
       scope.pop();
