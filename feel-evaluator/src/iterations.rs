@@ -1,8 +1,10 @@
 //! # Implementation of `for`, `some` and `every` expressions
 
+use crate::errors::*;
+use dsntk_common::Result;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values, VALUE_FALSE, VALUE_TRUE};
-use dsntk_feel::{value_null, Evaluator, FeelNumber, FeelScope, Name};
+use dsntk_feel::{value_null, Evaluator, FeelNumber, FeelScope, Name, FEEL_TYPE_NAME_DATE, FEEL_TYPE_NAME_NUMBER};
 use dsntk_feel_temporal::FeelDate;
 
 /// Common interface for all iteration state types.
@@ -280,26 +282,41 @@ impl FeelIterator {
     Self::default()
   }
 
-  pub fn add_interval(&mut self, variable: Name, start: Value, end: Value) {
-    if let Value::Number(start) = start {
-      if let Value::Number(end) = end {
-        self.states.push(NumberIntervalState::init(variable, start, end));
-        return;
-      }
-    }
-    if let Value::Date(start) = start {
-      if let Value::Date(end) = end {
-        self.states.push(DateIntervalState::init(variable, start, end));
-        return;
-      }
+  pub fn add_interval(&mut self, variable: Name, start: Value, end: Value, strict: bool) -> Result<()> {
+    match start {
+      Value::Number(start) => match end {
+        Value::Number(end) => {
+          if strict && start > end {
+            Err(err_invalid_range())
+          } else {
+            self.states.push(NumberIntervalState::init(variable, start, end));
+            Ok(())
+          }
+        }
+        other => Err(err_invalid_interval_end(FEEL_TYPE_NAME_NUMBER, &other.type_of().to_string())),
+      },
+      Value::Date(start) => match end {
+        Value::Date(end) => {
+          if strict && start > end {
+            Err(err_invalid_range())
+          } else {
+            self.states.push(DateIntervalState::init(variable, start, end));
+            Ok(())
+          }
+        }
+        other => Err(err_invalid_interval_end(FEEL_TYPE_NAME_DATE, &other.type_of().to_string())),
+      },
+      other => Err(err_invalid_interval_start(&other.type_of().to_string())),
     }
   }
 
-  pub fn add_range(&mut self, variable: Name, start: Value, end: Value) {
-    if let Value::IntervalStart(start, true) = start {
-      if let Value::IntervalEnd(end, true) = end {
-        self.add_interval(variable, *start, *end)
-      }
+  pub fn add_range(&mut self, variable: Name, start: Value, end: Value) -> Result<()> {
+    match start {
+      Value::IntervalStart(start, true) => match end {
+        Value::IntervalEnd(end, true) => self.add_interval(variable, *start, *end, true),
+        other => Err(err_invalid_range_end(&other.to_string())),
+      },
+      other => Err(err_invalid_range_start(&other.to_string())),
     }
   }
 
@@ -367,13 +384,13 @@ impl ForExpressionEvaluator {
   }
 
   /// Adds an interval of values to iterate over.
-  pub fn add_interval(&mut self, name: Name, start: Value, end: Value) {
-    self.iterator.add_interval(name, start, end);
+  pub fn add_interval(&mut self, name: Name, start: Value, end: Value) -> Result<()> {
+    self.iterator.add_interval(name, start, end, false)
   }
 
   /// Adds a range of values to iterate over.
-  pub fn add_range(&mut self, name: Name, start: Value, end: Value) {
-    self.iterator.add_range(name, start, end);
+  pub fn add_range(&mut self, name: Name, start: Value, end: Value) -> Result<()> {
+    self.iterator.add_range(name, start, end)
   }
 
   /// Adds a list of elements to iterate over.

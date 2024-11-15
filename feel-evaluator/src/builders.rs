@@ -685,10 +685,14 @@ impl<'b> EvaluatorBuilder<'b> {
       for iterator_type in &evaluators {
         match iterator_type {
           IteratorType::Interval((name, interval_start_evaluator, interval_end_evaluator)) => {
-            for_expression_evaluator.add_interval(name.clone(), interval_start_evaluator(scope), interval_end_evaluator(scope));
+            if let Err(reason) = for_expression_evaluator.add_interval(name.clone(), interval_start_evaluator(scope), interval_end_evaluator(scope)) {
+              return value_null!(reason);
+            }
           }
           IteratorType::Range((name, range_start_evaluator, range_end_evaluator)) => {
-            for_expression_evaluator.add_range(name.clone(), range_start_evaluator(scope), range_end_evaluator(scope));
+            if let Err(reason) = for_expression_evaluator.add_range(name.clone(), range_start_evaluator(scope), range_end_evaluator(scope)) {
+              return value_null!(reason);
+            }
           }
           IteratorType::List((name, list_evaluator)) => {
             for_expression_evaluator.add_list(name.clone(), list_evaluator(scope));
