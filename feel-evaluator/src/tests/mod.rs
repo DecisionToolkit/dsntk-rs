@@ -1,3 +1,5 @@
+#![cfg(test)]
+
 use crate::builders::build_evaluator;
 use dsntk_feel::values::Value;
 use dsntk_feel::{FeelNumber, FeelScope};
@@ -32,6 +34,7 @@ mod function_invocation;
 mod if_expression;
 mod instance_of;
 mod iterations;
+mod iterations2;
 mod join;
 mod literal_at;
 mod literal_boolean;

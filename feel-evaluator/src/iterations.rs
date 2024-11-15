@@ -8,20 +8,20 @@ use std::num::NonZeroIsize;
 
 /// Iterator types.
 #[derive(Debug, Clone)]
-enum IteratorType {
-  /// Iterator over an interval of values defined by the starting value and ending value.
+enum IterationType {
+  /// Iterator over an interval of values defined by the starting and ending value.
   Interval,
   /// Iterator over a list of values.
   List,
-  /// Iterator over value of bound variable defined in another iteration context.
+  /// Iterator over values stored in bound variable defined in another iteration context.
   Variable(Name),
 }
 
 /// Iteration state.
 struct IterationState {
   /// Type of the iterator.
-  typ: IteratorType,
-  /// Name of the bound variable of the iteration context.
+  typ: IterationType,
+  /// Name of the bound variable of this iteration context.
   variable: Name,
   /// Current value of the looping index.
   index: isize,
@@ -42,7 +42,7 @@ impl IterationState {
   /// Interval is defined by the starting value and ending value.
   fn new_interval(variable: Name, start: isize, end: isize) -> Self {
     Self {
-      typ: IteratorType::Interval,
+      typ: IterationType::Interval,
       variable,
       index: start,
       step: if start <= end { NonZeroIsize::new(1).unwrap() } else { NonZeroIsize::new(-1).unwrap() },
@@ -61,7 +61,7 @@ impl IterationState {
       other => vec![other],
     };
     Self {
-      typ: IteratorType::List,
+      typ: IterationType::List,
       variable,
       index: 0,
       step: NonZeroIsize::new(1).unwrap(),
@@ -75,7 +75,7 @@ impl IterationState {
   /// Creates a new iteration state for bound variable.
   fn new_variable(variable: Name, bound_variable: Name) -> Self {
     Self {
-      typ: IteratorType::Variable(bound_variable),
+      typ: IterationType::Variable(bound_variable),
       variable,
       index: 0,
       step: NonZeroIsize::new(1).unwrap(),
@@ -87,7 +87,7 @@ impl IterationState {
   }
 
   fn bind_value(&mut self, ctx: &FeelContext) {
-    if let IteratorType::Variable(bound_variable) = &self.typ {
+    if let IterationType::Variable(bound_variable) = &self.typ {
       if let Some(value) = ctx.get(bound_variable) {
         if self.index == self.start {
           let values = match value {
@@ -134,7 +134,7 @@ impl IterationState {
 
   fn set_value(&mut self, ctx: &mut FeelContext) {
     match self.typ {
-      IteratorType::Interval => {
+      IterationType::Interval => {
         let value = Value::Number(self.index.into());
         ctx.set_entry(&self.variable, value);
         self.empty = false;
@@ -155,13 +155,13 @@ impl IterationState {
   }
 
   fn is_variable(&self) -> bool {
-    matches!(self.typ, IteratorType::Variable(_))
+    matches!(self.typ, IterationType::Variable(_))
   }
 }
 
 /// Iterator built from multiple iteration states.
 #[derive(Default)]
-pub(crate) struct FeelIterator {
+pub struct FeelIterator {
   states: Vec<IterationState>,
 }
 

@@ -669,7 +669,6 @@ impl<'b> EvaluatorBuilder<'b> {
               let iterator_type = if let AstNode::Range(interval_start_node, interval_end_node) = expr_node.borrow() {
                 let interval_start_evaluator = self.build(interval_start_node);
                 let interval_end_evaluator = self.build(interval_end_node);
-                println!("DDD: {} \n{}\n{}", name, interval_start_node, interval_end_node);
                 IteratorType::Interval((name.clone(), interval_start_evaluator, interval_end_evaluator))
               } else {
                 let evaluator_list = self.build(expr_node);
@@ -688,7 +687,6 @@ impl<'b> EvaluatorBuilder<'b> {
       for iterator_type in &evaluators {
         match iterator_type {
           IteratorType::Interval((name, evaluator_range_start, evaluator_range_end)) => {
-            println!("DDD: {}", name);
             for_expression_evaluator.add_interval(name.clone(), evaluator_range_start(scope), evaluator_range_end(scope));
           }
           IteratorType::List((name, evaluator_single)) => {
