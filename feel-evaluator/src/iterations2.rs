@@ -237,7 +237,7 @@ impl FeelIterator {
         state.bind_value(&ctx);
         state.set_value(&mut ctx);
       }
-      let is_empty_iteration = self.states.iter().fold(false, |acc, state| acc | state.is_empty());
+      let is_empty_iteration = self.states.iter().any(|state| state.is_empty());
       if !is_empty_iteration {
         handler(&ctx);
       }
