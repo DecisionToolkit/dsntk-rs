@@ -170,9 +170,8 @@ impl VariableState {
 
 impl IterationState for VariableState {
   fn bind_value(&mut self, ctx: &FeelContext) {
-    //TODO The order of checks can be optimized, comparing firstly with zero will be more optimal
-    if let Some(value) = ctx.get(&self.bound_variable) {
-      if self.current == 0 {
+    if self.current == 0 {
+      if let Some(value) = ctx.get(&self.bound_variable) {
         self.values = match value {
           Value::List(values) => values.clone(),
           single => vec![single.clone()],
