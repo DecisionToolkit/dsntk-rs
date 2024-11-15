@@ -1250,7 +1250,63 @@ pub fn list_contains(list: &Value, element: &Value) -> Value {
   }
 }
 
-/// Returns the natural logarithm (base **e**) of the number parameter.
+pub fn list_replace(list: &Value, position_or_match: &Value, new_item: &Value) -> Value {
+  let mut items = match list {
+    Value::List(items) => items.clone(),
+    Value::Null(_) => return invalid_argument_type!("list replace", "list", list.type_of()),
+    other => vec![other.clone()],
+  };
+  match position_or_match {
+    Value::Number(position) => {
+      if let Ok(index) = position.trunc().try_into() as Result<isize, _> {
+        let len = items.len();
+        match index.cmp(&0) {
+          Ordering::Greater => {
+            let index = index as usize;
+            if index <= len {
+              items[index - 1] = new_item.clone();
+              return Value::List(items);
+            }
+          }
+          Ordering::Less => {
+            let index = index.unsigned_abs();
+            if index <= len {
+              items[len - index] = new_item.clone();
+              return Value::List(items);
+            }
+          }
+          _ => {}
+        }
+      }
+    }
+    Value::FunctionDefinition(parameters, body, false, _, closure_ctx, _) => {
+      if parameters.len() != 2 {
+        return value_null!("list replace: matching function must accept exactly two arguments");
+      }
+      let mut elements = vec![];
+      for item in items {
+        let mut ctx = closure_ctx.clone();
+        ctx.set_entry(&parameters[0].0, item.clone());
+        ctx.set_entry(&parameters[1].0, new_item.clone());
+        let scope: FeelScope = ctx.into();
+        if let Value::Boolean(result) = body.evaluate(&scope) {
+          if result {
+            elements.push(new_item.clone());
+          } else {
+            elements.push(item)
+          }
+        } else {
+          return value_null!("list replace: matching function must return boolean value");
+        }
+      }
+      return Value::List(elements);
+    }
+    _ => {}
+  }
+  value_null!()
+}
+
+/// Returns the natural logarithm (base `e`) of the number parameter.
 pub fn log(number: &Value) -> Value {
   if let Value::Number(num) = number {
     if *num > FeelNumber::zero() {

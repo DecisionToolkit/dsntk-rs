@@ -108,6 +108,7 @@ pub fn evaluate_bif(bif: Bif, parameters: &NamedParameters) -> Value {
     Bif::InsertBefore => bif_insert_before(parameters),
     Bif::Is => bif_is(parameters),
     Bif::ListContains => bif_list_contains(parameters),
+    Bif::ListReplace => bif_list_replace(parameters),
     Bif::Log => bif_log(parameters),
     Bif::LoweCase => bif_lower_case(parameters),
     Bif::Matches => bif_matches(parameters),
@@ -568,6 +569,27 @@ fn bif_list_contains(parameters: &NamedParameters) -> Value {
     }
   } else {
     parameter_not_found!(NAME_LIST)
+  }
+}
+
+fn bif_list_replace(parameters: &NamedParameters) -> Value {
+  match get_param_count(parameters) {
+    3 => {
+      let Some((list_value, _)) = get_param(parameters, &NAME_LIST) else {
+        return parameter_not_found!(NAME_LIST);
+      };
+      let Some((new_item_value, _)) = get_param(parameters, &NAME_NEW_ITEM) else {
+        return parameter_not_found!(NAME_NEW_ITEM);
+      };
+      if let Some((position_value, _)) = get_param(parameters, &NAME_POSITION) {
+        return core::list_replace(list_value, position_value, new_item_value);
+      }
+      if let Some((match_value, _)) = get_param(parameters, &NAME_MATCH) {
+        return core::list_replace(list_value, match_value, new_item_value);
+      }
+      parameter_not_found!(NAME_POSITION, NAME_MATCH)
+    }
+    n => invalid_number_of_parameters!("3", n),
   }
 }
 
@@ -1160,7 +1182,7 @@ fn bif_years_and_months_duration(parameters: &NamedParameters) -> Value {
 
 /// Returns reference to the value and position of the parameter with specified name.
 /// The position of the named parameter is counted from 1.
-/// Additionally the total number of parameters is returned.
+/// Additionally, the total number of parameters is returned.
 fn get_param<'a>(parameters: &'a NamedParameters, name: &'a Name) -> Option<(&'a Value, &'a usize)> {
   if let Value::NamedParameters(map) = parameters {
     if let Some((value, position)) = map.get(name) {

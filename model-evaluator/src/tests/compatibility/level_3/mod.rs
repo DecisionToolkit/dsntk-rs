@@ -117,3 +117,4 @@ mod dmn_3_1151;
 mod dmn_3_1152;
 mod dmn_3_1153;
 mod dmn_3_1154;
+mod dmn_3_1155;
