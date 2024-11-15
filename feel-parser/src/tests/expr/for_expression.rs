@@ -10,7 +10,7 @@ fn _0001() {
     r#"
        For
        ├─ IterationContexts
-       │  └─ IterationContextRange
+       │  └─ IterationContextInterval
        │     ├─ Name
        │     │  └─ `n`
        │     ├─ Numeric
@@ -69,14 +69,14 @@ fn _0003() {
     r#"
        For
        ├─ IterationContexts
-       │  ├─ IterationContextRange
+       │  ├─ IterationContextInterval
        │  │  ├─ Name
        │  │  │  └─ `n`
        │  │  ├─ Numeric
        │  │  │  └─ `1`
        │  │  └─ Numeric
        │  │     └─ `10`
-       │  └─ IterationContextRange
+       │  └─ IterationContextInterval
        │     ├─ Name
        │     │  └─ `m`
        │     ├─ Numeric
@@ -195,7 +195,7 @@ fn _0006() {
     r#"
        For
        ├─ IterationContexts
-       │  └─ IterationContextRange
+       │  └─ IterationContextInterval
        │     ├─ Name
        │     │  └─ `i`
        │     ├─ Numeric
@@ -239,7 +239,7 @@ fn _0007() {
     r#"
        For
        ├─ IterationContexts
-       │  └─ IterationContextRange
+       │  └─ IterationContextInterval
        │     ├─ Name
        │     │  └─ `i`
        │     ├─ Numeric

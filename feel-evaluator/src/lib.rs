@@ -12,8 +12,6 @@ mod evaluators;
 mod filters;
 mod iterations;
 mod macros;
-
-#[cfg(test)]
 mod tests;
 
 pub use crate::evaluators::*;

@@ -19,7 +19,7 @@ fn _0001() {
     r#"
        For
        ├─ IterationContexts
-       │  └─ IterationContextRange
+       │  └─ IterationContextInterval
        │     ├─ Name
        │     │  └─ `i`
        │     ├─ Numeric

@@ -1,3 +1,5 @@
+#![cfg(test)]
+
 use crate::builders::build_evaluator;
 use dsntk_feel::values::Value;
 use dsntk_feel::{FeelNumber, FeelScope};

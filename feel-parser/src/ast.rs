@@ -164,21 +164,22 @@ pub enum AstNode {
   /// List of iteration contexts.
   IterationContexts(Vec<AstNode>),
 
-  /// Node representing iteration context containing the variable name and a list of elements to iterate over.
-  IterationContextList(
+  /// Node representing iteration context containing a single value to iterate over.
+  IterationContextSingle(
     /// Node representing variable name used in this iteration context.
     Box<AstNode>,
-    /// Node representing a single list of elements to iterate over.
+    /// Node representing a single value to iterate over.
     Box<AstNode>,
   ),
 
-  /// Node representing iteration context containing the variable name and a range of numbers to iterate over.
-  IterationContextRange(
+  /// Node representing iteration context containing the variable name
+  /// and a staring and ending value of the interval to iterate over.
+  IterationContextInterval(
     /// Node representing variable name used in this iteration context.
     Box<AstNode>,
-    /// Node representing the **start** of the range of numbers to iterate over.
+    /// Node representing the `start` value of the interval to iterate over.
     Box<AstNode>,
-    /// Node representing the **end** of the range of numbers to iterate over.
+    /// Node representing the `end` value of the interval to iterate over.
     Box<AstNode>,
   ),
 
@@ -377,8 +378,8 @@ fn ast_node_to_tree(node: &AstNode, cm: ColorMode) -> TreeNode {
     AstNode::IntervalStart(lhs, closed) => ast_node_and_label("IntervalStart", lhs, " (closed)", " (opened)", *closed, cm),
     AstNode::Irrelevant => ast_leaf("Irrelevant", cm),
     AstNode::IterationContexts(items) => ast_node_n("IterationContexts", items, cm),
-    AstNode::IterationContextList(lhs, rhs) => ast_node_2("IterationContextSingle", lhs, rhs, cm),
-    AstNode::IterationContextRange(lhs, mid, rhs) => ast_node_3("IterationContextRange", lhs, mid, rhs, cm),
+    AstNode::IterationContextSingle(lhs, rhs) => ast_node_2("IterationContextSingle", lhs, rhs, cm),
+    AstNode::IterationContextInterval(lhs, mid, rhs) => ast_node_3("IterationContextInterval", lhs, mid, rhs, cm),
     AstNode::Le(lhs, rhs) => ast_node_2("Le", lhs, rhs, cm),
     AstNode::List(mid) => ast_node_n("List", mid, cm),
     AstNode::ListType(lhs) => ast_node_1("ListType", lhs, cm),
