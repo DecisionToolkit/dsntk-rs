@@ -9,17 +9,28 @@ use dsntk_feel_temporal::FeelDate;
 
 /// Common interface for all iteration state types.
 trait IterationState {
+  /// Assigns the iteration value pointed by binding variable.
   fn bind_value(&mut self, _ctx: &FeelContext) {}
+
+  /// Sets the current value of the iteration in provided context.
   fn set_value(&mut self, _ctx: &mut FeelContext) {}
+
+  /// Iterates to next value.
   fn next(&mut self) -> bool {
     false
   }
+
+  /// Checks if there is a next value to iterate to.
   fn has_next(&self) -> bool {
     false
   }
+
+  /// Check if there are values to iterate over.
   fn is_empty(&self) -> bool {
     false
   }
+
+  /// Checks if the iteration state is a bounded variable.
   fn is_variable(&self) -> bool {
     false
   }
