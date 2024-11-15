@@ -1,5 +1,6 @@
-use crate::iterations2::FeelIterator;
-use dsntk_feel::values::{values_to_string, Value};
+use crate::iterations2::{FeelIterator, ForExpressionEvaluator};
+use crate::tests::te_scope;
+use dsntk_feel::values::{values_to_string, Value, Values};
 use dsntk_feel::{value_number, FeelNumber};
 
 #[test]
@@ -138,10 +139,8 @@ fn _0010() {
   );
 }
 
-/*
-
 #[test]
-fn _0009() {
+fn _0011() {
   let mut iterator = ForExpressionEvaluator::new();
   iterator.add_interval("x".into(), value_number!(1, 0), value_number!(3, 0));
   let scope = &te_scope(r#"{x:null}"#);
@@ -153,7 +152,7 @@ fn _0009() {
 }
 
 #[test]
-fn _0010() {
+fn _0012() {
   let mut iterator = ForExpressionEvaluator::new();
   iterator.add_interval("x".into(), value_number!(1, 0), value_number!(2, 0));
   iterator.add_list("y".into(), Value::List(vec![value_number!(5, 0), value_number!(6, 0), value_number!(7, 0)]));
@@ -166,7 +165,7 @@ fn _0010() {
 }
 
 #[test]
-fn _0011() {
+fn _0013() {
   let mut iterator = ForExpressionEvaluator::new();
   iterator.add_list("x".into(), Value::List(Values::default()));
   let scope = &te_scope(r#"{x:null}"#);
@@ -178,7 +177,7 @@ fn _0011() {
 }
 
 #[test]
-fn _0012() {
+fn _0014() {
   let mut iterator = ForExpressionEvaluator::new();
   iterator.add_list("x".into(), value_number!(1, 0));
   let scope = &te_scope(r#"{x:null}"#);
@@ -190,7 +189,7 @@ fn _0012() {
 }
 
 #[test]
-fn _0013() {
+fn _0015() {
   let mut iterator = ForExpressionEvaluator::new();
   iterator.add_interval("x".into(), value_number!(1, 0), value_number!(2, 0));
   iterator.add_list("y".into(), Value::List(Values::default()));
@@ -202,6 +201,7 @@ fn _0013() {
   assert_eq!(r#"[]"#, values_to_string(&actual));
 }
 
+/*
 #[test]
 fn _0014() {
   let mut iterator = ForExpressionEvaluator::new();

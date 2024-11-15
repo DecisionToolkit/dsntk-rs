@@ -2,7 +2,7 @@
 
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values};
-use dsntk_feel::{FeelNumber, Name};
+use dsntk_feel::{Evaluator, FeelNumber, FeelScope, Name};
 
 trait IterationState {
   fn bind_value(&mut self, _ctx: &FeelContext) {}
@@ -135,7 +135,7 @@ impl IterationState for ListState {
   }
 
   fn has_next(&self) -> bool {
-    self.current < self.values.len() - 1
+    self.current < self.values.len().saturating_sub(1)
   }
 
   fn is_empty(&self) -> bool {
@@ -229,6 +229,7 @@ impl FeelIterator {
       return;
     }
     let mut ctx = FeelContext::new();
+    let last_state_index = self.states.len() - 1;
     loop {
       for state in self.states.iter_mut().rev().filter(|state| !state.is_variable()) {
         state.set_value(&mut ctx);
@@ -237,13 +238,11 @@ impl FeelIterator {
         state.bind_value(&ctx);
         state.set_value(&mut ctx);
       }
-      let is_empty_iteration = self.states.iter().any(|state| state.is_empty());
-      if !is_empty_iteration {
+      if !self.states.iter().any(|state| state.is_empty()) {
         handler(&ctx);
       }
-      let last_state_index = self.states.len() - 1;
-      for (i, state) in self.states.iter_mut().rev().enumerate() {
-        if i == last_state_index && !state.has_next() {
+      for (state_index, state) in self.states.iter_mut().rev().enumerate() {
+        if state_index == last_state_index && !state.has_next() {
           return;
         }
         if state.next() {
@@ -251,5 +250,55 @@ impl FeelIterator {
         }
       }
     }
+  }
+}
+
+/// Evaluator for FEEL `for` expression.
+pub struct ForExpressionEvaluator {
+  iterator: FeelIterator,
+  name_partial: Name,
+}
+
+impl Default for ForExpressionEvaluator {
+  /// Implements [Default] trait for [crate::ForExpressionEvaluator].
+  fn default() -> Self {
+    Self::new()
+  }
+}
+
+impl ForExpressionEvaluator {
+  /// Creates a new `for` expression evaluator.
+  pub fn new() -> Self {
+    Self {
+      iterator: FeelIterator::default(),
+      name_partial: "partial".into(),
+    }
+  }
+
+  /// Adds an interval of values to iterate over.
+  pub fn add_interval(&mut self, name: Name, start: Value, end: Value) {
+    self.iterator.add_interval(name, start, end);
+  }
+
+  /// Adds a list of elements to iterate over.
+  pub fn add_list(&mut self, name: Name, value: Value) {
+    self.iterator.add_list(name, value);
+  }
+
+  pub fn add_variable(&mut self, name: Name, variable: Name) {
+    self.iterator.add_variable(name, variable);
+  }
+
+  pub fn evaluate(&mut self, scope: &FeelScope, evaluator: &Evaluator) -> Values {
+    let mut results = vec![];
+    self.iterator.iterate(|ctx| {
+      let mut iteration_context = ctx.clone();
+      iteration_context.set_entry(&self.name_partial, Value::List(results.clone()));
+      scope.push(iteration_context.clone());
+      let iteration_value = evaluator(scope);
+      scope.pop();
+      results.push(iteration_value);
+    });
+    results
   }
 }
