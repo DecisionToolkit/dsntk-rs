@@ -37,7 +37,7 @@ base64 = "0.22.1"
 chrono = "0.4.38"
 chrono-tz = "0.10.0"
 convert_case = "0.6.0"
-clap = { version = "4.5.20", features = ["cargo"] }
+clap = { version = "4.5.21", features = ["cargo"] }
 dfp-number-sys = "0.1.0"
 difference = "2.0.0"
 domrs = "0.0.16"
