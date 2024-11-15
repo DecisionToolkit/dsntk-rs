@@ -42,6 +42,7 @@ pub fn evaluate_bif(bif: Bif, parameters: &[Value]) -> Value {
     Bif::InsertBefore => bif_insert_before(parameters),
     Bif::Is => bif_is(parameters),
     Bif::ListContains => bif_list_contains(parameters),
+    Bif::ListReplace => bif_list_replace(parameters),
     Bif::Log => bif_log(parameters),
     Bif::LoweCase => bif_lower_case(parameters),
     Bif::Matches => bif_matches(parameters),
@@ -358,6 +359,13 @@ fn bif_list_contains(parameters: &[Value]) -> Value {
   match parameters.len() {
     2 => core::list_contains(&parameters[0], &parameters[1]),
     n => invalid_number_of_parameters!(2, n),
+  }
+}
+
+fn bif_list_replace(parameters: &[Value]) -> Value {
+  match parameters.len() {
+    3 => core::list_replace(&parameters[0], &parameters[1], &parameters[2]),
+    n => invalid_number_of_parameters!(3, n),
   }
 }
 
