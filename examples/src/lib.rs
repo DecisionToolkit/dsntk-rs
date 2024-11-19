@@ -5,6 +5,7 @@ pub mod decision_logic;
 pub mod decision_tables;
 mod diagrams;
 mod examples;
+mod exhaustive;
 mod full_model;
 pub mod input_data;
 pub mod item_definition;
@@ -13,6 +14,7 @@ pub use compatibility::*;
 pub use diagrams::*;
 pub use examples::valid::*;
 pub use examples::*;
+pub use exhaustive::*;
 pub use full_model::*;
 
 #[cfg(test)]

@@ -10,6 +10,7 @@ use std::sync::Arc;
 use walkdir::WalkDir;
 
 mod compatibility;
+mod exhaustive;
 mod input_data;
 mod simulation;
 mod various;
