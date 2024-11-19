@@ -1,6 +1,14 @@
-# FEEL grammar of [DMN™](https://www.omg.org/spec/DMN/1.3/PDF) 1.4
+[dsntk][dsntk-url] | [Decision Toolkit][github-url]
 
-_Changes introduced in version 1.4 are marked with:_ ◀️
+[github-url]: https://github.com/DecisionToolkit
+
+[dsntk-url]: https://crates.io/crates/dsntk
+
+[DMN 1.4]: https://www.omg.org/spec/DMN/1.4/PDF
+
+# FEEL grammar in [DMN 1.4]
+
+> Changes introduced in version 1.4 are marked with: ◀️
 
 1. expression =
     - a. boxed expression |
@@ -130,7 +138,7 @@ _Changes introduced in version 1.4 are marked with:_ ◀️
 
 51. instance of = expression `instance` `of` type ;
 
-52. type = 
+52. type =
     - a. qualified name |
     - b. `range` `<` type `>` | ◀️
     - c. `list` `<` type `>` |
@@ -169,7 +177,7 @@ _Changes introduced in version 1.4 are marked with:_ ◀️
 ### Rule 16 (changed)
 
 > `1.3`
-> 
+>
 > 16. endpoint = simple value ;
 
 > `1.4`
@@ -179,9 +187,10 @@ _Changes introduced in version 1.4 are marked with:_ ◀️
 ### Rule 52 (changed)
 
 > `1.3`
-> 
+>
 > 52. type =
->     - a. qualified name |
+      >
+- a. qualified name |
 >     - b. `list` `<` type `>` |
 >     - c. `context` `<` name `:` type { `,` name `:` type } `>` |
 >     - d. `function` `<` [ type { `,` type } ] `>` `->` type ;
@@ -189,7 +198,8 @@ _Changes introduced in version 1.4 are marked with:_ ◀️
 > `1.4`
 >
 > 52. type =
->     - a. qualified name |
+      >
+- a. qualified name |
 >     - b. `range` `<` type `>` |
 >     - c. `list` `<` type `>` |
 >     - d. `context` `<` name `:` type { `,` name `:` type } `>` |
