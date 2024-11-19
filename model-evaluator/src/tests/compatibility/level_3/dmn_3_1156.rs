@@ -239,5 +239,50 @@ fn _0046() {
 
 #[test]
 fn _0047() {
+  assert("decision019_a", "null(invalid range)");
+}
+
+#[test]
+fn _0048() {
+  assert("decision019_b", "null(invalid range)");
+}
+
+#[test]
+fn _0049() {
+  assert("decision020", "null(invalid range)");
+}
+
+#[test]
+fn _0050() {
+  assert("decision021", "null(invalid range)");
+}
+
+#[test]
+fn _0051() {
+  assert("decision022", "null(invalid range)");
+}
+
+#[test]
+fn _0052() {
+  assert("decision023", "null(invalid range)");
+}
+
+#[test]
+fn _0053() {
+  assert("decision024", "null(invalid range)");
+}
+
+#[test]
+fn _0054() {
+  assert("decision025", "null(invalid range)");
+}
+
+#[test]
+fn _0055() {
+  assert("decision023", "null(invalid range)");
+}
+
+#[test]
+fn _0056() {
   assert("decision027", "null(invalid range literal)");
 }
