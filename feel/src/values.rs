@@ -11,6 +11,7 @@ use crate::FunctionBody;
 use dsntk_common::{Jsonify, Result};
 use dsntk_feel_number::FeelNumber;
 use dsntk_feel_temporal::{FeelDate, FeelDateTime, FeelDaysAndTimeDuration, FeelTime, FeelYearsAndMonthsDuration};
+use std::borrow::Borrow;
 use std::collections::BTreeMap;
 use std::fmt;
 use std::fmt::Display;
@@ -386,6 +387,56 @@ impl Value {
   /// Returns `true` when the value is of type [Value::Range].
   pub fn is_range(&self) -> bool {
     matches!(self, Value::Range(_, _, _, _))
+  }
+
+  /// Returns `true` when the value is a valid range.
+  pub fn is_valid_range(&self) -> bool {
+    if let Value::Range(start, start_closed, end, end_closed) = self {
+      match start.borrow() {
+        Value::String(start) => match end.borrow() {
+          Value::String(end) => start <= end,
+          Value::Null(_) => !*end_closed,
+          _ => false,
+        },
+        Value::Number(start) => match end.borrow() {
+          Value::Number(end) => start <= end,
+          Value::Null(_) => !*end_closed,
+          _ => false,
+        },
+        Value::Date(start) => match end.borrow() {
+          Value::Date(end) => start <= end,
+          Value::Null(_) => !*end_closed,
+          _ => false,
+        },
+        Value::DateTime(start) => match end.borrow() {
+          Value::DateTime(end) => start <= end,
+          Value::Null(_) => !*end_closed,
+          _ => false,
+        },
+        Value::Time(start) => match end.borrow() {
+          Value::Time(end) => start <= end,
+          Value::Null(_) => !*end_closed,
+          _ => false,
+        },
+        Value::YearsAndMonthsDuration(start) => match end.borrow() {
+          Value::YearsAndMonthsDuration(end) => start <= end,
+          Value::Null(_) => !*end_closed,
+          _ => false,
+        },
+        Value::DaysAndTimeDuration(start) => match end.borrow() {
+          Value::DaysAndTimeDuration(end) => start <= end,
+          Value::Null(_) => !*end_closed,
+          _ => false,
+        },
+        Value::Null(_) => match end.borrow() {
+          Value::Null(_) => false,
+          _ => !*start_closed,
+        },
+        _ => false,
+      }
+    } else {
+      false
+    }
   }
 
   /// Returns `true` when the value is of type [Value::Null] indicating invalid coercion.

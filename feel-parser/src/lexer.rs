@@ -756,7 +756,8 @@ impl<'lexer> Lexer<'lexer> {
 
     //------------------------------------------------------------------------------------------------------------------
     // Tweak with `date` and `time` literals.
-    // When a colon is encountered after these names, then treat them as a name of the parameter.
+    // When a colon is encountered after these names, then treat them as a name of the parameter,
+    // otherwise treat them as names of temporal functions.
     //------------------------------------------------------------------------------------------------------------------
     if matches!(name_str.as_str(), "date" | "time") {
       return if self.is_next_character(&[':'], 0) {
