@@ -238,6 +238,6 @@ fn _0046() {
 }
 
 #[test]
-fn _004734587() {
+fn _0047() {
   assert("decision027", "null(invalid range literal)");
 }
