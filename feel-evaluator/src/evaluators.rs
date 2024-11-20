@@ -1,4 +1,4 @@
-use crate::errors::{err_not_a_context, err_not_a_range};
+use crate::errors::*;
 use dsntk_common::Result;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::Value;

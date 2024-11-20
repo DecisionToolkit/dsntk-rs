@@ -2,7 +2,6 @@
 
 use crate::evaluator_java::evaluate_external_java_function;
 use crate::evaluator_pmml::evaluate_external_pmml_function;
-use crate::evaluators::evaluate_range_literal;
 use crate::iterations::{EveryExpressionEvaluator, ForExpressionEvaluator, SomeExpressionEvaluator};
 use crate::macros::invalid_argument_type;
 use crate::{bifs, FilterExpressionEvaluator};
@@ -907,30 +906,23 @@ impl<'b> EvaluatorBuilder<'b> {
       match name.to_string().as_str() {
         "range" => {
           //------------------------------------------------------------------------------------------------------------
-          // Tweak with `range` function: range is pre-parsed.
+          // Tweak with the `range` function: range value is pre-parsed?
+          // Left for performance optimization stage.
           //------------------------------------------------------------------------------------------------------------
-          if rhs.len() == 1 {
-            if let AstNode::String(range_literal) = &rhs[0] {
-              let scope = FeelScope::default();
-              return if let Ok(range) = evaluate_range_literal(&scope, range_literal) {
-                vec![value_evaluator(range)]
-              } else {
-                vec![value_evaluator(value_null!("invalid range literal"))]
-              };
-            }
-          }
         }
         "matches" => {
           //------------------------------------------------------------------------------------------------------------
-          // Tweak with `matches` function: regular expressions are pre-parsed
+          // Tweak with `matches` function: regular expressions are pre-parsed?
+          // Left for performance optimization stage.
           //------------------------------------------------------------------------------------------------------------
         }
         "replace" => {
           //------------------------------------------------------------------------------------------------------------
-          // Tweak with `replace` function: regular expressions are pre-parsed
+          // Tweak with `replace` function: regular expressions are pre-parsed?
+          // Left for performance optimization stage.
           //------------------------------------------------------------------------------------------------------------
         }
-        _ => {} // more tweaks are on the way
+        _ => {}
       }
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -968,42 +960,23 @@ impl<'b> EvaluatorBuilder<'b> {
       match name.to_string().as_str() {
         "range" => {
           //------------------------------------------------------------------------------------------------------------
-          // Tweak with `range` function: range is pre-parsed.
+          // Tweak with the `range` function: range value is pre-parsed?
+          // Left for performance optimization stage.
           //------------------------------------------------------------------------------------------------------------
-          if let AstNode::NamedParameters(parameters) = rhs {
-            if parameters.len() == 1 {
-              if let AstNode::NamedParameter(name, value) = &parameters[0] {
-                if let AstNode::ParameterName(name) = name.borrow() {
-                  if name.to_string() == "from" {
-                    if let AstNode::String(range_literal) = value.borrow() {
-                      let scope = FeelScope::default();
-                      return if let Ok(range) = evaluate_range_literal(&scope, range_literal) {
-                        let mut map = BTreeMap::new();
-                        map.insert(name.to_owned(), (range, 1_usize));
-                        value_evaluator(Value::NamedParameters(map))
-                      } else {
-                        let mut map = BTreeMap::new();
-                        map.insert(name.to_owned(), (value_null!("invalid range literal"), 1_usize));
-                        value_evaluator(Value::NamedParameters(map))
-                      };
-                    }
-                  }
-                }
-              }
-            }
-          }
         }
         "matches" => {
           //------------------------------------------------------------------------------------------------------------
-          // Tweak with `matches` function: regular expressions are pre-parsed
+          // Tweak with `matches` function: regular expressions are pre-parsed?
+          // Left for performance optimization stage.
           //------------------------------------------------------------------------------------------------------------
         }
         "replace" => {
           //------------------------------------------------------------------------------------------------------------
-          // Tweak with `replace` function: regular expressions are pre-parsed
+          // Tweak with `replace` function: regular expressions are pre-parsed?
+          // Left for performance optimization stage.
           //------------------------------------------------------------------------------------------------------------
         }
-        _ => {} // more tweaks are on the way
+        _ => {}
       }
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -1995,11 +1968,6 @@ fn get_property_from_value(value: Value, adjusted: bool, name: &Name) -> Value {
     v @ Value::Null(_) => v,
     other => value_null!("unexpected type: {}, for property: {}", other.type_of(), property_name),
   }
-}
-
-/// Returns an evaluator that returns passed value.
-fn value_evaluator(value: Value) -> Evaluator {
-  Box::new(move |_: &FeelScope| value.clone())
 }
 
 /// Evaluates ternary equality of two values.

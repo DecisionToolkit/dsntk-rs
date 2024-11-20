@@ -1,7 +1,7 @@
 //! # Core implementation of build-in functions
 
-use crate::evaluate_equals;
 use crate::macros::invalid_argument_type;
+use crate::{evaluate_equals, evaluate_range_literal};
 use dsntk_common::DsntkError;
 use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values, VALUE_FALSE, VALUE_TRUE};
@@ -1967,10 +1967,21 @@ pub fn product(values: &[Value]) -> Value {
 
 /// Returns already parsed range or null value.
 pub fn range(value: &Value) -> Value {
-  if value.is_range() || value.is_null() {
-    value.clone()
-  } else {
-    invalid_argument_type!("range", "string", value.type_of())
+  match value {
+    v @ Value::Null(_) => v.clone(),
+    Value::String(range_literal) => {
+      let scope = FeelScope::default();
+      if let Ok(range) = evaluate_range_literal(&scope, range_literal) {
+        if range.is_valid_range() {
+          range
+        } else {
+          value_null!("invalid range")
+        }
+      } else {
+        value_null!("invalid range literal")
+      }
+    }
+    other => invalid_argument_type!("range", "string", other.type_of()),
   }
 }
 

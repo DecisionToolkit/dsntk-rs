@@ -1,6 +1,14 @@
-# FEEL grammar of [DMN™](https://www.omg.org/spec/DMN/1.3/PDF) 1.5
+[dsntk][dsntk-url] | [Decision Toolkit][github-url]
 
-_Changes introduced in version 1.5 are marked with:_ ◀️
+[github-url]: https://github.com/DecisionToolkit
+
+[dsntk-url]: https://crates.io/crates/dsntk
+
+[DMN 1.5]: https://www.omg.org/spec/DMN/1.5/PDF
+
+# FEEL grammar in [DMN 1.5]
+
+> Changes introduced in version 1.5 are marked with: ◀️
 
 1. expression =
     - a. boxed expression |
@@ -130,7 +138,7 @@ _Changes introduced in version 1.5 are marked with:_ ◀️
 
 51. instance of = expression `instance` `of` type ;
 
-52. type = 
+52. type =
     - a. qualified name |
     - b. `range` `<` type `>` |
     - c. `list` `<` type `>` |
@@ -178,13 +186,15 @@ _Changes introduced in version 1.5 are marked with:_ ◀️
 > `1.4`
 >
 > 7. simple positive unary test =
->    - a. [ `<` | `<=` | `>` | `>=` ] endpoint |
+     >
+- a. [ `<` | `<=` | `>` | `>=` ] endpoint |
 >    - b. interval ;
 
 > `1.5`
 >
 > 7. simple positive unary test =
->    - a. [ `<` | `<=` | `>` | `>=` | `=` | `!=` ] endpoint |
+     >
+- a. [ `<` | `<=` | `>` | `>=` | `=` | `!=` ] endpoint |
 >    - b. interval ;
 
 ### Rule 35 (changed)
@@ -202,7 +212,8 @@ _Changes introduced in version 1.5 are marked with:_ ◀️
 > `1.5`
 >
 > 66. range literal =
->     - a. ( open range start | closed range start ) range endpoint `..` range endpoint ( open range end | closed range end ) |
+      >
+- a. ( open range start | closed range start ) range endpoint `..` range endpoint ( open range end | closed range end ) |
 >     - b. open range start `..` range endpoint ( open range end | closed range end ) |
 >     - c. ( open range start | closed range start ) range endpoint `..` open range end ;
 

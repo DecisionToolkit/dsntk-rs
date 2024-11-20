@@ -141,7 +141,7 @@ fn _0009() {
                 └─ String
                    └─ `2021-12-31`
     "#;
-  accept(&scope!(), StartRangeLiteral, input, expected, false);
+  accept(&scope!(), StartRangeLiteral, input, expected, true);
 }
 
 #[test]
@@ -167,9 +167,7 @@ fn _0011() {
 
 #[test]
 fn _0012() {
-  //--------------------------------------------------------------------------------------------------------------------
-  // Opened start may not have `[` as opening character.
-  //--------------------------------------------------------------------------------------------------------------------
+  // Opened start may not have a left bracket as opening character.
   let input = "[..10]";
   Parser::new(&scope!(), StartRangeLiteral, input, false).parse().unwrap_err();
 }
@@ -204,18 +202,14 @@ fn _0014() {
 
 #[test]
 fn _0015() {
-  //--------------------------------------------------------------------------------------------------------------------
-  // Opened start may not have `[` as opening character.
-  //--------------------------------------------------------------------------------------------------------------------
+  // Opened start may not have a left bracket as opening character.
   let input = "[..10)";
   Parser::new(&scope!(), StartRangeLiteral, input, false).parse().unwrap_err();
 }
 
 #[test]
 fn _0016() {
-  //--------------------------------------------------------------------------------------------------------------------
-  // Opened end may not have `]` as closing character.
-  //--------------------------------------------------------------------------------------------------------------------
+  // Opened end may not have a right bracket as closing character.
   let input = "[10..]";
   Parser::new(&scope!(), StartRangeLiteral, input, false).parse().unwrap_err();
 }
@@ -236,9 +230,7 @@ fn _0017() {
 
 #[test]
 fn _0018() {
-  //--------------------------------------------------------------------------------------------------------------------
-  // Opened end may not have `]` as closing character.
-  //--------------------------------------------------------------------------------------------------------------------
+  // Opened end may not have a right bracket as closing character.
   let input = "]10..]";
   Parser::new(&scope!(), StartRangeLiteral, input, false).parse().unwrap_err();
 }
@@ -255,4 +247,34 @@ fn _0019() {
           └─ Null
     "#;
   accept(&scope!(), StartRangeLiteral, input, expected, false);
+}
+
+#[test]
+fn _0020() {
+  // The argument to `date` function must be a string literal.
+  let input = r#"[date(string("1970-01-01"))..date("1970-01-02")]"#;
+  Parser::new(&scope!(), StartRangeLiteral, input, false).parse().unwrap_err();
+}
+
+#[test]
+fn _0021() {
+  let input = r#"["a".."z"]"#;
+  let expected = r#"
+       Range
+       ├─ IntervalStart (closed)
+       │  └─ String
+       │     └─ `a`
+       └─ IntervalEnd (closed)
+          └─ String
+             └─ `z`
+    "#;
+  accept(&scope!(), StartRangeLiteral, input, expected, false);
+}
+
+#[test]
+fn _0022() {
+  // The `string` function is not allowed as range endpoint definition,
+  // only temporal functions: `date`, `date and time`, `time` and `duration` are allowed.
+  let input = r#"[string("a").."z"]"#;
+  Parser::new(&scope!(), StartRangeLiteral, input, false).parse().unwrap_err();
 }
