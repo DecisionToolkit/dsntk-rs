@@ -72,6 +72,12 @@ tasks:
     cmds:
       - cmd: ./coverage.sh
 
+  cov1:
+    desc: Generates code coverage report
+    cmds:
+      - cmd: cargo +nightly llvm-cov --no-cfg-coverage --no-cfg-coverage-nightly --branch --html
+      - cmd: echo -e "\n\e[1;32mOpen coverage report\x3A\e[0m file:///$(pwd)/target/llvm-cov/html/index.html\n"
+
   cov-pdf:
     desc: Runs code coverage using grcov and generates a PDF report
     cmds:
