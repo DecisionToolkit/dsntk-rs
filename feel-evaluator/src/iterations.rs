@@ -172,8 +172,8 @@ impl IterationState for DateIntervalState {
 
   fn has_next(&self) -> bool {
     match self.direction {
-      IterationDirection::Ascending => self.current.add_days(self.step).map_or(false, |date| date <= self.end),
-      IterationDirection::Descending => self.current.sub_days(self.step).map_or(false, |date| date >= self.end),
+      IterationDirection::Ascending => self.current.add_days(self.step).is_some_and(|date| date <= self.end),
+      IterationDirection::Descending => self.current.sub_days(self.step).is_some_and(|date| date >= self.end),
     }
   }
 }

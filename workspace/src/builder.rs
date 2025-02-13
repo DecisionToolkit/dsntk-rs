@@ -72,7 +72,7 @@ impl WorkspaceBuilder {
       match entry_result {
         Ok(entry) => {
           let path = entry.path();
-          if path.is_file() && path.extension().map_or(false, |ext| ext == "dmn") {
+          if path.is_file() && path.extension().is_some_and(|ext| ext == "dmn") {
             self.file_count += 1;
             let workspace_name = self.workspace_name(dir, path);
             self.load_model(&workspace_name, path);

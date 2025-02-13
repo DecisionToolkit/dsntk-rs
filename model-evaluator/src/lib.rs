@@ -64,7 +64,7 @@ mod utilities {
       match entry_result {
         Ok(entry) => {
           let path = entry.path();
-          if path.is_file() && path.extension().map_or(false, |ext| ext == "rs") {
+          if path.is_file() && path.extension().is_some_and(|ext| ext == "rs") {
             let content = fs::read_to_string(path).unwrap_or_else(|e| panic!("failed to load file: {} with reason: {}", path.display(), e));
             let mut count = 0_usize;
             for line in content.lines() {

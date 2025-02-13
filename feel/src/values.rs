@@ -612,18 +612,18 @@ impl Value {
   ///
   /// - to singleton list:
   ///
-  ///      When the type of the value is `T` and the target type is `List<T>`,
-  ///      the simple value is converted to a singleton list.
+  ///  When the type of the value is `T` and the target type is `List<T>`,
+  ///  the simple value is converted to a singleton list.
   ///
   /// - from singleton list:
   ///
-  ///      When the type of the value is `List<T>`, and the value is a singleton list
-  ///      and the target type is T, the value is converted by unwrapping the first element.
+  ///  When the type of the value is `List<T>`, and the value is a singleton list
+  ///  and the target type is T, the value is converted by unwrapping the first element.
   ///
   /// - conforms to:
   ///
-  ///      When the type of the value is T1, the target type is T2, and T1 conforms to T2,
-  ///      the value remains unchanged. Otherwise the result is null.
+  ///  When the type of the value is T1, the target type is T2, and T1 conforms to T2,
+  ///  the value remains unchanged, otherwise the result is null.
   ///
   /// All these conversion rules are implemented in this function.
   ///

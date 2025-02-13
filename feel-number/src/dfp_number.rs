@@ -29,7 +29,7 @@ macro_rules! flags {
 /// Rounding mode.
 macro_rules! round {
   () => {
-    RM_NEAREST_EVEN
+    RND_NEAREST_EVEN
   };
 }
 
@@ -612,9 +612,9 @@ impl TryFrom<&FeelNumber> for u8 {
   type Error = DsntkError;
 
   fn try_from(value: &FeelNumber) -> Result<Self, Self::Error> {
-    let mut flags = FB_CLEAR;
+    let mut flags = EXE_CLEAR;
     let n = bid128_to_uint32_int(value.0, &mut flags);
-    if flags != FB_CLEAR {
+    if flags != EXE_CLEAR {
       return Err(err_number_conversion_failed());
     }
     n.try_into().map_err(|_| err_number_conversion_failed())
@@ -633,9 +633,9 @@ impl TryFrom<&FeelNumber> for i8 {
   type Error = DsntkError;
 
   fn try_from(value: &FeelNumber) -> Result<Self, Self::Error> {
-    let mut flags = FB_CLEAR;
+    let mut flags = EXE_CLEAR;
     let n = bid128_to_int32_int(value.0, &mut flags);
-    if flags != FB_CLEAR {
+    if flags != EXE_CLEAR {
       return Err(err_number_conversion_failed());
     }
     n.try_into().map_err(|_| err_number_conversion_failed())
@@ -654,9 +654,9 @@ impl TryFrom<&FeelNumber> for u16 {
   type Error = DsntkError;
 
   fn try_from(value: &FeelNumber) -> Result<Self, Self::Error> {
-    let mut flags = FB_CLEAR;
+    let mut flags = EXE_CLEAR;
     let n = bid128_to_uint32_int(value.0, &mut flags);
-    if flags != FB_CLEAR {
+    if flags != EXE_CLEAR {
       return Err(err_number_conversion_failed());
     }
     n.try_into().map_err(|_| err_number_conversion_failed())
@@ -675,9 +675,9 @@ impl TryFrom<&FeelNumber> for i16 {
   type Error = DsntkError;
 
   fn try_from(value: &FeelNumber) -> Result<Self, Self::Error> {
-    let mut flags = FB_CLEAR;
+    let mut flags = EXE_CLEAR;
     let n = bid128_to_int32_int(value.0, &mut flags);
-    if flags != FB_CLEAR {
+    if flags != EXE_CLEAR {
       return Err(err_number_conversion_failed());
     }
     n.try_into().map_err(|_| err_number_conversion_failed())
@@ -696,9 +696,9 @@ impl TryFrom<&FeelNumber> for u32 {
   type Error = DsntkError;
 
   fn try_from(value: &FeelNumber) -> Result<Self, Self::Error> {
-    let mut flags = FB_CLEAR;
+    let mut flags = EXE_CLEAR;
     let n = bid128_to_uint32_int(value.0, &mut flags);
-    if flags != FB_CLEAR {
+    if flags != EXE_CLEAR {
       return Err(err_number_conversion_failed());
     }
     Ok(n)
@@ -717,9 +717,9 @@ impl TryFrom<&FeelNumber> for i32 {
   type Error = DsntkError;
 
   fn try_from(value: &FeelNumber) -> Result<Self, Self::Error> {
-    let mut flags = FB_CLEAR;
+    let mut flags = EXE_CLEAR;
     let n = bid128_to_int32_int(value.0, &mut flags);
-    if flags != FB_CLEAR {
+    if flags != EXE_CLEAR {
       return Err(err_number_conversion_failed());
     }
     Ok(n)
@@ -738,9 +738,9 @@ impl TryFrom<&FeelNumber> for u64 {
   type Error = DsntkError;
 
   fn try_from(value: &FeelNumber) -> Result<Self, Self::Error> {
-    let mut flags = FB_CLEAR;
+    let mut flags = EXE_CLEAR;
     let n = bid128_to_uint64_int(value.0, &mut flags);
-    if flags != FB_CLEAR {
+    if flags != EXE_CLEAR {
       return Err(err_number_conversion_failed());
     }
     Ok(n)
@@ -759,9 +759,9 @@ impl TryFrom<&FeelNumber> for i64 {
   type Error = DsntkError;
 
   fn try_from(value: &FeelNumber) -> Result<Self, Self::Error> {
-    let mut flags = FB_CLEAR;
+    let mut flags = EXE_CLEAR;
     let n = bid128_to_int64_int(value.0, &mut flags);
-    if flags != FB_CLEAR {
+    if flags != EXE_CLEAR {
       return Err(err_number_conversion_failed());
     }
     Ok(n)
@@ -781,9 +781,9 @@ impl TryFrom<&FeelNumber> for usize {
 
   #[cfg(target_pointer_width = "64")]
   fn try_from(value: &FeelNumber) -> Result<Self, Self::Error> {
-    let mut flags = FB_CLEAR;
+    let mut flags = EXE_CLEAR;
     let n = bid128_to_uint64_int(value.0, &mut flags);
-    if flags != FB_CLEAR {
+    if flags != EXE_CLEAR {
       return Err(err_number_conversion_failed());
     }
     Ok(n.try_into().unwrap())
@@ -808,9 +808,9 @@ impl TryFrom<&FeelNumber> for isize {
 
   #[cfg(target_pointer_width = "64")]
   fn try_from(value: &FeelNumber) -> Result<Self, Self::Error> {
-    let mut flags = FB_CLEAR;
+    let mut flags = EXE_CLEAR;
     let n = bid128_to_int64_int(value.0, &mut flags);
-    if flags != FB_CLEAR {
+    if flags != EXE_CLEAR {
       return Err(err_number_conversion_failed());
     }
     Ok(n.try_into().unwrap())
