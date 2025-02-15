@@ -230,7 +230,7 @@ fn _0038() {
 
 #[test]
 fn _0039() {
-  te_null(false, &scope!(), r#"matches("input", "pattern", "")"#, "[core::matches_3] flags can not be an empty string");
+  te_null(false, &scope!(), r#"matches("input", "pattern", "")"#, "<FeelRegexError> empty regex flags");
 }
 
 #[test]

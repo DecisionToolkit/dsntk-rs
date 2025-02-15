@@ -1334,61 +1334,41 @@ pub fn lower_case(input_string_value: &Value) -> Value {
   invalid_argument_type!("lower case", "string", input_string_value.type_of())
 }
 
-/// Returns `true` when the input matches the regexp pattern.
+/// Returns `true` when the input matches the regex pattern.
 pub fn matches_2(input: &Value, pattern: &Value) -> Value {
+  // The input must be a string.
   let Value::String(input) = input else {
     return invalid_argument_type!("matches", "string", input.type_of());
   };
+  // The pattern must be a string.
   let Value::String(pattern) = pattern else {
     return invalid_argument_type!("matches", "string", pattern.type_of());
   };
-  let Ok(re) = Regex::new(&fix_pattern(pattern, false)) else {
-    return value_null!("[core::matches_3] parsing pattern failed: '{}'", pattern);
-  };
-  Value::Boolean(re.is_match(&fix_input(input)))
+  // Match input against the pattern.
+  match dsntk_feel_regex::is_match(input, pattern) {
+    Ok(value) => Value::Boolean(value),
+    Err(reason) => value_null!("{}", reason),
+  }
 }
 
-/// Returns `true` when the input matches the regexp pattern.
+/// Returns `true` when the input matches the regex pattern.
 pub fn matches_3(input: &Value, pattern: &Value, flags: &Value) -> Value {
+  // The input must be a string.
   let Value::String(input) = input else {
     return invalid_argument_type!("matches", "string", input.type_of());
   };
+  // The pattern must be a string.
   let Value::String(pattern) = pattern else {
     return invalid_argument_type!("matches", "string", pattern.type_of());
   };
-  // flags if present must be a string
+  // Flags if present must be a string.
   let Value::String(flags) = flags else {
     return invalid_argument_type!("matches", "string", flags.type_of());
   };
-  // flags must contain flags, may not be an empty string
-  let flags = flags.trim();
-  if flags.is_empty() {
-    return value_null!("[core::matches_3] flags can not be an empty string");
-  }
-  for ch in flags.chars() {
-    if !matches!(ch, 'i' | 'm' | 's' | 'x') {
-      return value_null!("[core::matches_3] flags can not contain character '{}'", ch);
-    }
-  }
-  let Ok(re) = Regex::new(&format!("(?{flags}){}", fix_pattern(pattern, flags.contains('x')))) else {
-    return value_null!("[core::matches_3] parsing pattern failed: '{}'", pattern);
-  };
-  Value::Boolean(re.is_match(&fix_input(input)))
-}
-
-/// Nasty tricks on input.
-fn fix_input(s: &str) -> String {
-  s.replace("\r\n", "\n").replace('\r', "\n")
-}
-
-/// Nasty tricks on pattern.
-#[inline(always)]
-fn fix_pattern(s: &str, whitespaces: bool) -> String {
-  let pattern = s.replace("-[", "--[");
-  if whitespaces {
-    pattern.replace("\\ ", "\\").replace("[ ]", "[\\ ]")
-  } else {
-    pattern
+  // Match input against the pattern with flags.
+  match dsntk_feel_regex::is_match_with_flags(input, pattern, flags) {
+    Ok(value) => Value::Boolean(value),
+    Err(reason) => value_null!("{}", reason),
   }
 }
 
