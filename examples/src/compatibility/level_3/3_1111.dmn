@@ -272,7 +272,7 @@
         <description>whitespace in the regexp is collapsed, and should therefore compile.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-5"/>
         <literalExpression>
-            <text>matches("hello world", "\p{ IsLatin}+", "x")</text>
+            <text>matches("hello world", "\p{ IsBasicLatin}+", "x")</text>
         </literalExpression>
     </decision>
 
@@ -280,7 +280,7 @@
         <description>whitespace in the regexp is collapsed completely, and should therefore compile and match.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-6"/>
         <literalExpression>
-            <text>matches("hello world", "\p{ I s L a t i n }+", "x")</text>
+            <text>matches("hello world", "\p{ I s B a s i c L a t i n }+", "x")</text>
         </literalExpression>
     </decision>
 
@@ -288,7 +288,7 @@
         <description>whitespace in the regexp is not collapsed, and should therefore not compile.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-7"/>
         <literalExpression>
-            <text>matches("hello world", "\p{ IsLatin}+")</text>
+            <text>matches("hello world", "\p{ IsBasicLatin}+")</text>
         </literalExpression>
     </decision>
 

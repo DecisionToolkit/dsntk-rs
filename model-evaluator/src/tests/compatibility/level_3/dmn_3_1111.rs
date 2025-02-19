@@ -239,7 +239,7 @@ fn _0033() {
 #[test]
 fn _0034() {
   let invocable = "K2-MatchesFunc-7";
-  let expected = r#"null(<FeelRegexError> invalid regex pattern: '\p{ IsLatin}+')"#;
+  let expected = r#"null(<FeelRegexError> invalid regex pattern: '\p{ IsBasicLatin}+')"#;
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
