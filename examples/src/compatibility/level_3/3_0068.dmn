@@ -781,22 +781,22 @@
     <!--    </decision>-->
 
     <decision name="datetime_008" id="_datetime_008">
-        <description>Tests FEEL expression: 'date and time("2018-10-08T00:00:00+01:00") = date and time("2018-10-08T00:00:00@Europe/Paris")' and expects result: 'true (boolean)'</description>
-        <question>Result of FEEL expression 'date and time("2018-10-08T00:00:00+01:00") = date and time("2018-10-08T00:00:00@Europe/Paris")'?</question>
-        <allowedAnswers>false (boolean)</allowedAnswers>
+        <description>Tests FEEL expression: 'date and time("2018-10-08T00:00:00+02:00") = date and time("2018-10-08T00:00:00@Europe/Paris")' and expects result: 'true (boolean)'</description>
+        <question>Result of FEEL expression 'date and time("2018-10-08T00:00:00+02:00") = date and time("2018-10-08T00:00:00@Europe/Paris")'?</question>
+        <allowedAnswers>true (boolean)</allowedAnswers>
         <variable name="datetime_008"/>
         <literalExpression>
-            <text>date and time("2018-10-08T00:00:00+01:00") = date and time("2018-10-08T00:00:00@Europe/Paris")</text>
+            <text>date and time("2018-10-08T00:00:00+02:00") = date and time("2018-10-08T00:00:00@Europe/Paris")</text>
         </literalExpression>
     </decision>
 
     <decision name="datetime_008_a" id="_datetime_008_a">
-        <description>Tests FEEL expression: 'date and time("2018-02-08T00:00:00+02:00") = date and time("2018-02-08T00:00:00@Europe/Paris")' and expects result: 'true (boolean)'</description>
-        <question>Result of FEEL expression 'date and time("2018-02-08T00:00:00+02:00") = date and time("2018-02-08T00:00:00@Europe/Paris")'?</question>
+        <description>Tests FEEL expression: 'date and time("2018-02-08T00:00:00+01:00") = date and time("2018-02-08T00:00:00@Europe/Paris")' and expects result: 'true (boolean)'</description>
+        <question>Result of FEEL expression 'date and time("2018-02-08T00:00:00+01:00") = date and time("2018-02-08T00:00:00@Europe/Paris")'?</question>
         <allowedAnswers>true (boolean)</allowedAnswers>
         <variable name="datetime_008_a"/>
         <literalExpression>
-            <text>date and time("2018-02-08T00:00:00+02:00") = date and time("2018-02-08T00:00:00@Europe/Paris")</text>
+            <text>date and time("2018-02-08T00:00:00+01:00") = date and time("2018-02-08T00:00:00@Europe/Paris")</text>
         </literalExpression>
     </decision>
 
@@ -1339,4 +1339,3 @@
     </decision>
 
 </definitions>
-

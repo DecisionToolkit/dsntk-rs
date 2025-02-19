@@ -362,12 +362,12 @@ fn _0069() {
 
 #[test]
 fn _0070() {
-  test("datetime_008", "false");
+  test("datetime_008", "true");
 }
 
 #[test]
 fn _0071() {
-  test("datetime_008_a", "false");
+  test("datetime_008_a", "true");
 }
 
 #[test]
