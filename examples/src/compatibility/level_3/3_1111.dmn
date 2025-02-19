@@ -59,7 +59,7 @@
     </decision>
 
     <decision name="fn-matches-27">
-        <description> Check for the correct behavior of ^ and $ in multi-line mode This test case was motivated by the resolution of Bug Report 4543 </description>
+        <description>Check for the correct behavior of ^ and $ in multi-line mode This test case was motivated by the resolution of Bug Report 4543</description>
         <variable typeRef="boolean" name="fn-matches-27"/>
         <literalExpression>
             <text>matches("\nabcd\ndefg\n", "^$", "m")</text>
@@ -67,7 +67,7 @@
     </decision>
 
     <decision name="fn-matches-28">
-        <description> Check for the correct behavior of ^ and $ in multi-line mode This test case was motivated by the resolution of Bug Report 4543 </description>
+        <description>Check for the correct behavior of ^ and $ in multi-line mode This test case was motivated by the resolution of Bug Report 4543</description>
         <variable typeRef="boolean" name="fn-matches-28"/>
         <literalExpression>
             <text>matches("abcd\n\ndefg\n ", "^$", "m")</text>
@@ -101,7 +101,7 @@
     -->
 
     <decision name="fn-matches-45">
-        <description> "." does NOT match CR in default mode</description>
+        <description>"." does NOT match CR in default mode</description>
         <variable typeRef="boolean" name="fn-matches-45"/>
         <literalExpression>
             <text>matches("Mary\u000DJones", "Mary.Jones")</text>
@@ -109,7 +109,7 @@
     </decision>
 
     <decision name="caselessmatch01">
-        <description> Simple call of matches() with "i" flag </description>
+        <description>Simple call of matches() with "i" flag</description>
         <variable typeRef="boolean" name="caselessmatch01"/>
         <literalExpression>
             <text>matches("abc", "ABC", "i")</text>
@@ -117,7 +117,7 @@
     </decision>
 
     <decision name="caselessmatch02">
-        <description> Call of matches() with "i" flag and a character range </description>
+        <description>Call of matches() with "i" flag and a character range</description>
         <variable typeRef="boolean" name="caselessmatch02"/>
         <literalExpression>
             <text>matches("abZ", "[A-Z]*", "i")</text>
@@ -125,7 +125,7 @@
     </decision>
 
     <decision name="caselessmatch03">
-        <description> Call of matches() with "i" flag and a character range </description>
+        <description>Call of matches() with "i" flag and a character range</description>
         <variable typeRef="boolean" name="caselessmatch03"/>
         <literalExpression>
             <text>matches("abZ", "[a-z]*", "i")</text>
@@ -133,7 +133,7 @@
     </decision>
 
     <decision name="caselessmatch07">
-        <description> Call of matches() with "i" flag and Kelvin sign Kelvin sign </description>
+        <description>Call of matches() with "i" flag and Kelvin sign Kelvin sign</description>
         <variable typeRef="boolean" name="caselessmatch07"/>
         <literalExpression>
             <text>matches("\u212A", "k", "i")</text>
@@ -141,7 +141,7 @@
     </decision>
 
     <decision name="caselessmatch08">
-        <description> Call of matches() with "i" flag and range subtraction </description>
+        <description>Call of matches() with "i" flag and range subtraction</description>
         <variable typeRef="boolean" name="caselessmatch08"/>
         <literalExpression>
             <text>matches("x", "[A-Z-[OI]]", "i")</text>
@@ -149,7 +149,7 @@
     </decision>
 
     <decision name="caselessmatch09">
-        <description> Call of matches() with "i" flag and range subtraction </description>
+        <description>Call of matches() with "i" flag and range subtraction</description>
         <variable typeRef="boolean" name="caselessmatch09"/>
         <literalExpression>
             <text>matches("X", "[A-Z-[OI]]", "i")</text>
@@ -157,7 +157,7 @@
     </decision>
 
     <decision name="caselessmatch10">
-        <description> Call of matches() with "i" flag and range subtraction </description>
+        <description>Call of matches() with "i" flag and range subtraction</description>
         <variable typeRef="boolean" name="caselessmatch10"/>
         <literalExpression>
             <text>matches("O", "[A-Z-[OI]]", "i")</text>
@@ -165,7 +165,7 @@
     </decision>
 
     <decision name="caselessmatch11">
-        <description> Call of matches() with "i" flag and range subtraction </description>
+        <description>Call of matches() with "i" flag and range subtraction</description>
         <variable typeRef="boolean" name="caselessmatch11"/>
         <literalExpression>
             <text>matches("i", "[A-Z-[OI]]", "i")</text>
@@ -173,7 +173,7 @@
     </decision>
 
     <decision name="caselessmatch12">
-        <description> Call of matches() with "i" flag and negation </description>
+        <description>Call of matches() with "i" flag and negation</description>
         <variable typeRef="boolean" name="caselessmatch12"/>
         <literalExpression>
             <text>matches("Q", "[^Q]", "i")</text>
@@ -181,7 +181,7 @@
     </decision>
 
     <decision name="caselessmatch13">
-        <description> Call of matches() with "i" flag and negation </description>
+        <description>Call of matches() with "i" flag and negation</description>
         <variable typeRef="boolean" name="caselessmatch13"/>
         <literalExpression>
             <text>matches("q", "[^Q]", "i")</text>
@@ -189,7 +189,7 @@
     </decision>
 
     <decision name="K-MatchesFunc-1">
-        <description> The pattern can't be the empty sequence. </description>
+        <description>The pattern can't be the empty sequence.</description>
         <variable typeRef="boolean" name="K-MatchesFunc-1"/>
         <literalExpression>
             <text>matches("input", [])</text>
@@ -197,7 +197,7 @@
     </decision>
 
     <decision name="K-MatchesFunc-2">
-        <description> matches() takes at least two arguments, not one. </description>
+        <description>matches() takes at least two arguments, not one.</description>
         <variable typeRef="boolean" name="K-MatchesFunc-2"/>
         <literalExpression>
             <text>matches("input")</text>
@@ -205,7 +205,7 @@
     </decision>
 
     <decision name="K-MatchesFunc-3">
-        <description> The third argument cannot be the empty sequence. </description>
+        <description>The third argument cannot be the empty sequence.</description>
         <variable typeRef="boolean" name="K-MatchesFunc-3"/>
         <literalExpression>
             <text>matches("input", "pattern", [])</text>
@@ -213,7 +213,7 @@
     </decision>
 
     <decision name="K-MatchesFunc-4">
-        <description> Only three arguments are accepted. </description>
+        <description>Only three arguments are accepted.</description>
         <variable typeRef="boolean" name="K-MatchesFunc-4"/>
         <literalExpression>
             <text>matches("input", "pattern", "", [])</text>
@@ -221,7 +221,7 @@
     </decision>
 
     <decision name="K-MatchesFunc-5">
-        <description> The flags argument cannot contain whitespace. </description>
+        <description>The flags argument cannot contain whitespace.</description>
         <variable typeRef="boolean" name="K-MatchesFunc-5"/>
         <literalExpression>
             <text>matches("input", "pattern", " ")</text>
@@ -229,7 +229,7 @@
     </decision>
 
     <decision name="K-MatchesFunc-6">
-        <description> The flags argument cannot contain 'X'. </description>
+        <description>The flags argument cannot contain 'X'.</description>
         <variable typeRef="boolean" name="K-MatchesFunc-6"/>
         <literalExpression>
             <text>matches("input", "pattern", "X")</text>
@@ -237,7 +237,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-1">
-        <description> Whitespace in the regexp is collapsed. </description>
+        <description>Whitespace in the regexp is collapsed.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-1"/>
         <literalExpression>
             <text>matches("hello world", "hello\ sworld", "x")</text>
@@ -245,7 +245,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-2">
-        <description> Whitespace(before) in the regexp is collapsed, but not inside a character class. </description>
+        <description>Whitespace(before) in the regexp is collapsed, but not inside a character class.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-2"/>
         <literalExpression>
             <text>matches("hello world", " hello[ ]world", "x")</text>
@@ -253,7 +253,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-3">
-        <description> Whitespace(after) in the regexp is collapsed, but not inside a character class. </description>
+        <description>Whitespace(after) in the regexp is collapsed, but not inside a character class.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-3"/>
         <literalExpression>
             <text>matches("hello world", "hello[ ]world ", "x")</text>
@@ -261,7 +261,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-4">
-        <description> Whitespace(in the middle) in the regexp is collapsed, but not inside a character class. </description>
+        <description>Whitespace(in the middle) in the regexp is collapsed, but not inside a character class.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-4"/>
         <literalExpression>
             <text>matches("hello world", "he ll o[ ]worl d", "x")</text>
@@ -269,7 +269,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-5">
-        <description> whitespace in the regexp is collapsed, and should therefore compile. </description>
+        <description>whitespace in the regexp is collapsed, and should therefore compile.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-5"/>
         <literalExpression>
             <text>matches("hello world", "\p{ IsLatin}+", "x")</text>
@@ -277,7 +277,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-6">
-        <description> whitespace in the regexp is collapsed completely, and should therefore compile and match. </description>
+        <description>whitespace in the regexp is collapsed completely, and should therefore compile and match.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-6"/>
         <literalExpression>
             <text>matches("hello world", "\p{ I s L a t i n }+", "x")</text>
@@ -285,7 +285,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-7">
-        <description> whitespace in the regexp is not collapsed, and should therefore not compile. </description>
+        <description>whitespace in the regexp is not collapsed, and should therefore not compile.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-7"/>
         <literalExpression>
             <text>matches("hello world", "\p{ IsLatin}+")</text>
@@ -293,7 +293,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-8">
-        <description> Since no string is captured by the back-reference, the single character is matched. </description>
+        <description>Since no string is captured by the back-reference, the single character is matched.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-8"/>
         <literalExpression>
             <text>matches("h", "(.)\3")</text>
@@ -301,7 +301,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-9">
-        <description> Since no string is captured by the back-reference, the single character is matched(#2). </description>
+        <description>Since no string is captured by the back-reference, the single character is matched(#2).</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-9"/>
         <literalExpression>
             <text>matches("h", "(.)\2")</text>
@@ -309,7 +309,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-10">
-        <description> A non-matching backwards-reference matches the empty string. </description>
+        <description>A non-matching backwards-reference matches the empty string.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-10"/>
         <literalExpression>
             <text>matches("input", "\3")</text>
@@ -317,7 +317,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-11">
-        <description> Use a back reference inside a character class. </description>
+        <description>Use a back reference inside a character class.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-11"/>
         <literalExpression>
             <text>matches("abcd", "(asd)[\1]")</text>
@@ -325,7 +325,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-12">
-        <description> Use a back reference inside a character class(#2). </description>
+        <description>Use a back reference inside a character class(#2).</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-12"/>
         <literalExpression>
             <text>matches("abcd", "(asd)[asd\1]")</text>
@@ -333,7 +333,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-13">
-        <description> Use a back reference inside a character class(#3). </description>
+        <description>Use a back reference inside a character class(#3).</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-13"/>
         <literalExpression>
             <text>matches("abcd", "(asd)[asd\0]")</text>
@@ -341,7 +341,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-14">
-        <description> Use a back reference inside a character class(#3). </description>
+        <description>Use a back reference inside a character class(#3).</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-14"/>
         <literalExpression>
             <text>matches("abcd", "1[asd\0]")</text>
@@ -349,7 +349,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-15">
-        <description> A negative character class never match a non-character. </description>
+        <description>A negative character class never match a non-character.</description>
         <variable typeRef="booleanList" name="K2-MatchesFunc-15"/>
         <literalExpression>
             <text>[matches("a", "a[^b]"), matches("a ", "a[^b]")]</text>
@@ -357,7 +357,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-16">
-        <description> Use a pattern whose interpretation is unknown. See public report 4466 and 21425. </description>
+        <description>Use a pattern whose interpretation is unknown. See public report 4466 and 21425.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-16"/>
         <literalExpression>
             <text>matches("input", "[0-9-.]*/")</text>
@@ -365,7 +365,7 @@
     </decision>
 
     <decision name="K2-MatchesFunc-17">
-        <description> Caseless match with back-reference. </description>
+        <description>Caseless match with back-reference.</description>
         <variable typeRef="boolean" name="K2-MatchesFunc-17"/>
         <literalExpression>
             <text>matches("aA", "(a)(a)", "i")</text>
