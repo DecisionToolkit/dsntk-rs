@@ -91,19 +91,6 @@ impl PartialEq for FeelDateTime {
   fn eq(&self, rhs: &Self) -> bool {
     let lhs_zone = self.1.zone();
     let rhs_zone = rhs.1.zone();
-    let equal_zones = match (lhs_zone, rhs_zone) {
-      (FeelZone::Utc, FeelZone::Utc) => true,
-      (FeelZone::Utc, FeelZone::Zone(zone_name)) | (FeelZone::Zone(zone_name), FeelZone::Utc) => zone_name == ETC_UTC,
-      (FeelZone::Utc, FeelZone::Offset(offset)) | (FeelZone::Offset(offset), FeelZone::Utc) => *offset == 0,
-      (FeelZone::Local, FeelZone::Local) => true,
-      (FeelZone::Offset(offset), FeelZone::Zone(zone_name)) | (FeelZone::Zone(zone_name), FeelZone::Offset(offset)) => *offset == 0 && zone_name == ETC_UTC,
-      (FeelZone::Offset(_), FeelZone::Offset(_)) => true,
-      (FeelZone::Zone(zone_name1), FeelZone::Zone(zone_name2)) => (zone_name1 == zone_name2) || (get_zone_offset(zone_name1) == get_zone_offset(zone_name2)),
-      _ => return false,
-    };
-    if !equal_zones {
-      return false;
-    }
     let lhs_date_tuple = self.0.as_tuple();
     let lhs_time_tuple = ((self.1).hour() as u32, (self.1).minute() as u32, (self.1).second() as u32, 0);
     let lhs_offset_opt = match lhs_zone {
@@ -377,44 +364,33 @@ impl FeelDateTime {
   }
 
   pub fn is(&self, rhs: &FeelDateTime) -> bool {
-    let lhs_zone = self.1.zone();
-    let rhs_zone = rhs.1.zone();
-    let equal_zones = match (lhs_zone, rhs_zone) {
-      (FeelZone::Utc, FeelZone::Utc) => true,
-      (FeelZone::Utc, FeelZone::Zone(zone_name)) | (FeelZone::Zone(zone_name), FeelZone::Utc) => zone_name == ETC_UTC,
-      (FeelZone::Utc, FeelZone::Offset(offset)) | (FeelZone::Offset(offset), FeelZone::Utc) => *offset == 0,
-      (FeelZone::Local, FeelZone::Local) => true,
-      (FeelZone::Offset(offset), FeelZone::Zone(zone_name)) | (FeelZone::Zone(zone_name), FeelZone::Offset(offset)) => *offset == 0 && zone_name == ETC_UTC,
-      (FeelZone::Offset(offset1), FeelZone::Offset(offset2)) => offset1 == offset2,
-      (FeelZone::Zone(zone_name1), FeelZone::Zone(zone_name2)) => zone_name1 == zone_name2,
-      _ => false,
-    };
-    if !equal_zones {
-      return false;
-    }
-    let lhs_date_tuple = self.0.as_tuple();
-    let lhs_time_tuple = ((self.1).hour() as u32, (self.1).minute() as u32, (self.1).second() as u32, 0);
-    let lhs_offset_opt = match lhs_zone {
-      FeelZone::Utc => Some(0),
-      FeelZone::Local => get_local_offset_t(lhs_time_tuple),
-      FeelZone::Offset(offset) => Some(*offset),
-      FeelZone::Zone(zone_name) => get_zone_offset_dt(zone_name, lhs_date_tuple, lhs_time_tuple),
-    };
-    let rhs_date_tuple = rhs.0.as_tuple();
-    let rhs_time_tuple = ((rhs.1).hour() as u32, (rhs.1).minute() as u32, (rhs.1).second() as u32, 0);
-    let rhs_offset_opt = match rhs_zone {
-      FeelZone::Utc => Some(0),
-      FeelZone::Local => get_local_offset_t(rhs_time_tuple),
-      FeelZone::Offset(offset) => Some(*offset),
-      FeelZone::Zone(zone_name) => get_zone_offset_dt(zone_name, rhs_date_tuple, rhs_time_tuple),
-    };
-    if let Some((lhs_offset, rhs_offset)) = lhs_offset_opt.zip(rhs_offset_opt) {
-      let lhs_date_opt = date_time_offset_dt(lhs_date_tuple, lhs_time_tuple, lhs_offset);
-      let rhs_date_opt = date_time_offset_dt(rhs_date_tuple, rhs_time_tuple, rhs_offset);
-      if let Some((lhs_date, rhs_date)) = lhs_date_opt.zip(rhs_date_opt) {
-        return lhs_date == rhs_date;
+    match (self.1.zone(), rhs.1.zone()) {
+      (FeelZone::Offset(offset_1), FeelZone::Offset(offset_2)) => {
+        if offset_1 != offset_2 {
+          // When offsets differ, then even the date and times are equal,
+          // then treat them semantically not equal.
+          return false;
+        }
       }
-    }
-    false
+      (FeelZone::Offset(_), FeelZone::Zone(_)) => {
+        // When one date time has offset, and the other one has zone name
+        // then treat them semantically not equal.
+        return false;
+      }
+      (FeelZone::Zone(zone_name_1), FeelZone::Zone(zone_name_2)) => {
+        if zone_name_1 != zone_name_2 {
+          // When zone names differ, then even the date and times are equal,
+          // then treat them semantically not equal.
+          return false;
+        }
+      }
+      (FeelZone::Zone(_), FeelZone::Offset(_)) => {
+        // When one date time has zone name, and the other one has offset
+        // then treat them semantically not equal.
+        return false;
+      }
+      _ => {}
+    };
+    self == rhs
   }
 }
