@@ -60,6 +60,7 @@ tasks:
   clippy:
     desc: Runs clippy for all targets
     cmds:
+      - cmd: cargo +stable clippy --workspace
       - cmd: cargo +nightly clippy --workspace --all-targets
 
   clippy-tck:
@@ -68,69 +69,84 @@ tasks:
       - cmd: cargo +nightly clippy --workspace --all-targets --features=tck
 
   cov:
-    desc: Runs code coverage using grcov
+    desc: Generates code coverage report using grcov
     cmds:
-      - cmd: ./coverage.sh
+      - cmd: ./Coverage.sh
+
+  cov-new:
+    desc: Generates code coverage report using cargo-llvm-cov
+    cmds:
+      - cmd: ./Coverage-new.sh
 
   cov-pdf:
-    desc: Runs code coverage using grcov and generates a PDF report
+    desc: Generates code coverage report using grcov as PDF document
     cmds:
-      - cmd: PDF_REPORT=yes ./coverage.sh
+      - cmd: PDF_REPORT=yes ./Coverage.sh
+
+  cov-new-pdf:
+    desc: Generates code coverage report using cargo-llvm-cov as PDF document
+    cmds:
+      - cmd: PDF_REPORT=yes ./Coverage-new.sh
+
+  cov-macros:
+    desc: Runs code coverage for dsntk-macros
+    cmds:
+      - cmd: ./Coverage-crate.sh dsntk-macros
 
   cov-common:
-    desc: Runs code coverage using grcov for dsntk-common
+    desc: Runs code coverage for dsntk-common
     cmds:
-      - cmd: ./coverage.sh dsntk-common
+      - cmd: ./Coverage-crate.sh dsntk-common
 
   cov-feel:
-    desc: Runs code coverage using grcov for dsntk-feel
+    desc: Runs code coverage for dsntk-feel
     cmds:
-      - cmd: ./coverage.sh dsntk-feel
+      - cmd: ./Coverage-crate.sh dsntk-feel
 
   cov-feel-evaluator:
-    desc: Runs code coverage using grcov for dsntk-feel-evaluator
+    desc: Runs code coverage for dsntk-feel-evaluator
     cmds:
-      - cmd: ./coverage.sh dsntk-feel-evaluator
+      - cmd: ./Coverage-crate.sh dsntk-feel-evaluator
 
   cov-feel-grammar:
-    desc: Runs code coverage using grcov for dsntk-feel-grammar
+    desc: Runs code coverage dsntk-feel-grammar
     cmds:
-      - cmd: ./coverage.sh dsntk-feel-grammar
+      - cmd: ./Coverage-crate.sh dsntk-feel-grammar
 
   cov-feel-number:
-    desc: Runs code coverage using grcov for dsntk-feel-number
+    desc: Runs code coverage dsntk-feel-number
     cmds:
-      - cmd: ./coverage.sh dsntk-feel-number
+      - cmd: ./Coverage-crate.sh dsntk-feel-number
 
   cov-feel-parser:
-    desc: Runs code coverage using grcov for dsntk-feel-parser
+    desc: Runs code coverage dsntk-feel-parser
     cmds:
-      - cmd: ./coverage.sh dsntk-feel-parser
+      - cmd: ./Coverage-crate.sh dsntk-feel-parser
 
   cov-feel-temporal:
-    desc: Runs code coverage using grcov for dsntk-feel-temporal
+    desc: Runs code coverage dsntk-feel-temporal
     cmds:
-      - cmd: ./coverage.sh dsntk-feel-temporal
+      - cmd: ./Coverage-crate.sh dsntk-feel-temporal
 
   cov-gendoc:
-    desc: Runs code coverage using grcov for dsntk-gendoc
+    desc: Runs code coverage dsntk-gendoc
     cmds:
-      - cmd: ./coverage.sh dsntk-gendoc
+      - cmd: ./Coverage-crate.sh dsntk-gendoc
 
   cov-model:
-    desc: Runs code coverage using grcov for dsntk-model
+    desc: Runs code coverage dsntk-model
     cmds:
-      - cmd: ./coverage.sh dsntk-model
+      - cmd: ./Coverage-crate.sh dsntk-model
 
   cov-recognizer:
-    desc: Runs code coverage using grcov for dsntk-recognizer
+    desc: Runs code coverage dsntk-recognizer
     cmds:
-      - cmd: ./coverage.sh dsntk-recognizer
+      - cmd: ./Coverage-crate.sh dsntk-recognizer
 
   cov-server:
-    desc: Runs code coverage using grcov for dsntk-server
+    desc: Runs code coverage dsntk-server
     cmds:
-      - cmd: ./coverage.sh dsntk-server
+      - cmd: ./Coverage-crate.sh dsntk-server
 
   doc:
     desc: Generates documentation

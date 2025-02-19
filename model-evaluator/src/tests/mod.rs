@@ -154,7 +154,7 @@ fn count_lines(dir: &str, pattern: &str) -> BTreeMap<String, usize> {
   for entry_result in WalkDir::new(dir).into_iter() {
     let entry = entry_result.unwrap();
     let path = entry.path();
-    if path.is_file() && path.extension().map_or(false, |ext| ext == "rs") && path.file_name().unwrap().to_string_lossy().starts_with("dmn_") {
+    if path.is_file() && path.extension().is_some_and(|ext| ext == "rs") && path.file_name().unwrap().to_string_lossy().starts_with("dmn_") {
       let content = fs::read_to_string(path).unwrap();
       let count = content.lines().filter(|line| line.contains(pattern)).count();
       results.insert(path.strip_prefix(dir).unwrap().display().to_string(), count);

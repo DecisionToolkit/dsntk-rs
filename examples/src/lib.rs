@@ -117,7 +117,7 @@ mod utilities {
     for entry_result in WalkDir::new(root_dir).into_iter() {
       let entry = entry_result.unwrap();
       let path = entry.path();
-      if path.is_file() && path.extension().map_or(false, |ext| ext == "dmn") {
+      if path.is_file() && path.extension().is_some_and(|ext| ext == "dmn") {
         results.insert(path.strip_prefix(root_dir).unwrap().display().to_string());
       }
     }

@@ -46,7 +46,7 @@ fn fix_input(s: &str) -> String {
 
 // Nasty tricks on pattern.
 fn fix_pattern(pattern: &str, whitespaces: bool, themselves: bool) -> String {
-  let mut pattern = replace_block_names(&pattern, whitespaces);
+  let mut pattern = replace_block_names(pattern, whitespaces);
   pattern = pattern.replace("-[", "--[");
   if whitespaces {
     pattern = pattern.replace("\\ ", "\\").replace("[ ]", "[\\ ]");
