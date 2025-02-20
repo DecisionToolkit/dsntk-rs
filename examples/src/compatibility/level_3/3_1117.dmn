@@ -493,8 +493,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_026_5ba081cd5f" id="_jFxOSPUUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'string(date and time("2011-12-31T10:15:30.123456789@Europe/Paris"))' and expects result: '"2011-12-31T10:15:30.123456789@Europe/Paris" (string)'
-        </description>
+        <description>Tests FEEL expression: 'string(date and time("2011-12-31T10:15:30.123456789@Europe/Paris"))' and expects result: '"2011-12-31T10:15:30.123456789@Europe/Paris" (string)'</description>
         <question>Result of FEEL expression 'string(date and time("2011-12-31T10:15:30.123456789@Europe/Paris"))'?</question>
         <allowedAnswers>"2011-12-31T10:15:30.123456789@Europe/Paris" (string)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_026_5ba081cd5f_Result" name="feel-date-and-time-function_026_5ba081cd5f" id="_jFxOSfUUEeesLuP4RHs4vA"/>
@@ -557,9 +556,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_033_2fac4d6807" id="_jFxOZPUUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'string(date and time(date("2017-01-01"),time("23:59:01.123456789@Europe/Paris")))' and expects result: '"2017-01-01T23:59:01.123456789@Europe/Paris"
-            (string)'
-        </description>
+        <description>Tests FEEL expression: 'string(date and time(date("2017-01-01"),time("23:59:01.123456789@Europe/Paris")))' and expects result: '"2017-01-01T23:59:01.123456789@Europe/Paris" (string)'</description>
         <question>Result of FEEL expression 'string(date and time(date("2017-01-01"),time("23:59:01.123456789@Europe/Paris")))'?</question>
         <allowedAnswers>"2017-01-01T23:59:01.123456789@Europe/Paris" (string)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_033_2fac4d6807_Result" name="feel-date-and-time-function_033_2fac4d6807" id="_jFxOZfUUEeesLuP4RHs4vA"/>
@@ -577,8 +574,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_035_831b1ad0c5" id="_jFxObPUUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'date and time(date and time("2017-08-10T10:20:00"),time("23:59:01.987654321"))' and expects result: '2017-08-10T23:59:01.987654321 (date and time)'
-        </description>
+        <description>Tests FEEL expression: 'date and time(date and time("2017-08-10T10:20:00"),time("23:59:01.987654321"))' and expects result: '2017-08-10T23:59:01.987654321 (date and time)'</description>
         <question>Result of FEEL expression 'date and time(date and time("2017-08-10T10:20:00"),time("23:59:01.987654321"))'?</question>
         <allowedAnswers>2017-08-10T23:59:01.987654321 (date and time)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_035_831b1ad0c5_Result" name="feel-date-and-time-function_035_831b1ad0c5" id="_jFxObfUUEeesLuP4RHs4vA"/>
@@ -605,9 +601,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_038_1493e6d873" id="_jFxOePUUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00"),time("09:15:30.987654321+02:00"))' and expects result: '2017-09-05T09:15:30.987654321+02:00 (date and
-            time)'
-        </description>
+        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00"),time("09:15:30.987654321+02:00"))' and expects result: '2017-09-05T09:15:30.987654321+02:00 (date and time)'</description>
         <question>Result of FEEL expression 'date and time(date and time("2017-09-05T10:20:00"),time("09:15:30.987654321+02:00"))'?</question>
         <allowedAnswers>2017-09-05T09:15:30.987654321+02:00 (date and time)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_038_1493e6d873_Result" name="feel-date-and-time-function_038_1493e6d873" id="_jF6-4PUUEeesLuP4RHs4vA"/>
@@ -616,8 +610,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_039_593292b25c" id="_jF6-4_UUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00"),time("09:15:30.123456Z"))' and expects result: '2017-09-05T09:15:30.123456Z (date and time)'
-        </description>
+        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00"),time("09:15:30.123456Z"))' and expects result: '2017-09-05T09:15:30.123456Z (date and time)'</description>
         <question>Result of FEEL expression 'date and time(date and time("2017-09-05T10:20:00"),time("09:15:30.123456Z"))'?</question>
         <allowedAnswers>2017-09-05T09:15:30.123456Z (date and time)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_039_593292b25c_Result" name="feel-date-and-time-function_039_593292b25c" id="_jF6-5PUUEeesLuP4RHs4vA"/>
@@ -626,9 +619,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_040_d9116e1daa" id="_jF6-5_UUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'string(date and time(date and time("2017-09-05T10:20:00"),time("09:15:30.987654321@Europe/Paris")))' and expects result:
-            '"2017-09-05T09:15:30.987654321@Europe/Paris" (string)'
-        </description>
+        <description>Tests FEEL expression: 'string(date and time(date and time("2017-09-05T10:20:00"),time("09:15:30.987654321@Europe/Paris")))' and expects result: '"2017-09-05T09:15:30.987654321@Europe/Paris" (string)'</description>
         <question>Result of FEEL expression 'string(date and time(date and time("2017-09-05T10:20:00"),time("09:15:30.987654321@Europe/Paris")))'?</question>
         <allowedAnswers>"2017-09-05T09:15:30.987654321@Europe/Paris" (string)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_040_d9116e1daa_Result" name="feel-date-and-time-function_040_d9116e1daa" id="_jF6-6PUUEeesLuP4RHs4vA"/>
@@ -646,8 +637,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_042_0cbcc3d1dc" id="_jF6-7_UUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'date and time(date and time("2017-08-10T10:20:00+02:00"),time("23:59:01.987654321"))' and expects result: '2017-08-10T23:59:01.987654321 (date and time)'
-        </description>
+        <description>Tests FEEL expression: 'date and time(date and time("2017-08-10T10:20:00+02:00"),time("23:59:01.987654321"))' and expects result: '2017-08-10T23:59:01.987654321 (date and time)'</description>
         <question>Result of FEEL expression 'date and time(date and time("2017-08-10T10:20:00+02:00"),time("23:59:01.987654321"))'?</question>
         <allowedAnswers>2017-08-10T23:59:01.987654321 (date and time)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_042_0cbcc3d1dc_Result" name="feel-date-and-time-function_042_0cbcc3d1dc" id="_jF6-8PUUEeesLuP4RHs4vA"/>
@@ -656,8 +646,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_043_2e4177d00c" id="_jF6-8_UUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00-01:00"),time("09:15:30+02:00"))' and expects result: '2017-09-05T09:15:30+02:00 (date and time)'
-        </description>
+        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00-01:00"),time("09:15:30+02:00"))' and expects result: '2017-09-05T09:15:30+02:00 (date and time)'</description>
         <question>Result of FEEL expression 'date and time(date and time("2017-09-05T10:20:00-01:00"),time("09:15:30+02:00"))'?</question>
         <allowedAnswers>2017-09-05T09:15:30+02:00 (date and time)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_043_2e4177d00c_Result" name="feel-date-and-time-function_043_2e4177d00c" id="_jF6-9PUUEeesLuP4RHs4vA"/>
@@ -675,9 +664,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_045_5d93a541eb" id="_jF6--_UUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00+02:00"),time("09:15:30.987654321+02:00"))' and expects result: '2017-09-05T09:15:30.987654321+02:00 (date
-            and time)'
-        </description>
+        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00+02:00"),time("09:15:30.987654321+02:00"))' and expects result: '2017-09-05T09:15:30.987654321+02:00 (date and time)'</description>
         <question>Result of FEEL expression 'date and time(date and time("2017-09-05T10:20:00+02:00"),time("09:15:30.987654321+02:00"))'?</question>
         <allowedAnswers>2017-09-05T09:15:30.987654321+02:00 (date and time)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_045_5d93a541eb_Result" name="feel-date-and-time-function_045_5d93a541eb" id="_jF6-_PUUEeesLuP4RHs4vA"/>
@@ -686,8 +673,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_046_89c1cd8daa" id="_jF6-__UUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00+02:00"),time("09:15:30.123456Z"))' and expects result: '2017-09-05T09:15:30.123456Z (date and time)'
-        </description>
+        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00+02:00"),time("09:15:30.123456Z"))' and expects result: '2017-09-05T09:15:30.123456Z (date and time)'</description>
         <question>Result of FEEL expression 'date and time(date and time("2017-09-05T10:20:00+02:00"),time("09:15:30.123456Z"))'?</question>
         <allowedAnswers>2017-09-05T09:15:30.123456Z (date and time)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_046_89c1cd8daa_Result" name="feel-date-and-time-function_046_89c1cd8daa" id="_jF6_APUUEeesLuP4RHs4vA"/>
@@ -696,9 +682,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_047_60ea7838ce" id="_jF6_A_UUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'string(date and time(date and time("2017-09-05T10:20:00-01:00"),time("09:15:30.987654321@Europe/Paris")))' and expects result:
-            '"2017-09-05T09:15:30.987654321@Europe/Paris" (string)'
-        </description>
+        <description>Tests FEEL expression: 'string(date and time(date and time("2017-09-05T10:20:00-01:00"),time("09:15:30.987654321@Europe/Paris")))' and expects result: '"2017-09-05T09:15:30.987654321@Europe/Paris" (string)'</description>
         <question>Result of FEEL expression 'string(date and time(date and time("2017-09-05T10:20:00-01:00"),time("09:15:30.987654321@Europe/Paris")))'?</question>
         <allowedAnswers>"2017-09-05T09:15:30.987654321@Europe/Paris" (string)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_047_60ea7838ce_Result" name="feel-date-and-time-function_047_60ea7838ce" id="_jF6_BPUUEeesLuP4RHs4vA"/>
@@ -716,9 +700,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_049_eb9cd1f777" id="_jF6_C_UUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'date and time(date and time("2017-08-10T10:20:00@Europe/Paris"),time("23:59:01.987654321"))' and expects result: '2017-08-10T23:59:01.987654321 (date and
-            time)'
-        </description>
+        <description>Tests FEEL expression: 'date and time(date and time("2017-08-10T10:20:00@Europe/Paris"),time("23:59:01.987654321"))' and expects result: '2017-08-10T23:59:01.987654321 (date and time)'</description>
         <question>Result of FEEL expression 'date and time(date and time("2017-08-10T10:20:00@Europe/Paris"),time("23:59:01.987654321"))'?</question>
         <allowedAnswers>2017-08-10T23:59:01.987654321 (date and time)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_049_eb9cd1f777_Result" name="feel-date-and-time-function_049_eb9cd1f777" id="_jF6_DPUUEeesLuP4RHs4vA"/>
@@ -727,8 +709,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_050_2d960354af" id="_jF6_D_UUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30+02:00"))' and expects result: '2017-09-05T09:15:30+02:00 (date and time)'
-        </description>
+        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30+02:00"))' and expects result: '2017-09-05T09:15:30+02:00 (date and time)'</description>
         <question>Result of FEEL expression 'date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30+02:00"))'?</question>
         <allowedAnswers>2017-09-05T09:15:30+02:00 (date and time)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_050_2d960354af_Result" name="feel-date-and-time-function_050_2d960354af" id="_jF6_EPUUEeesLuP4RHs4vA"/>
@@ -737,8 +718,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_051_46bdaa00b0" id="_jF6_E_UUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30Z"))' and expects result: '2017-09-05T09:15:30Z (date and time)'
-        </description>
+        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30Z"))' and expects result: '2017-09-05T09:15:30Z (date and time)'</description>
         <question>Result of FEEL expression 'date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30Z"))'?</question>
         <allowedAnswers>2017-09-05T09:15:30Z (date and time)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_051_46bdaa00b0_Result" name="feel-date-and-time-function_051_46bdaa00b0" id="_jF6_FPUUEeesLuP4RHs4vA"/>
@@ -747,9 +727,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_052_911dbd0a24" id="_jF6_F_UUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30.987654321+02:00"))' and expects result: '2017-09-05T09:15:30.987654321+02:00
-            (date and time)'
-        </description>
+        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30.987654321+02:00"))' and expects result: '2017-09-05T09:15:30.987654321+02:00 (date and time)'</description>
         <question>Result of FEEL expression 'date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30.987654321+02:00"))'?</question>
         <allowedAnswers>2017-09-05T09:15:30.987654321+02:00 (date and time)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_052_911dbd0a24_Result" name="feel-date-and-time-function_052_911dbd0a24" id="_jF6_GPUUEeesLuP4RHs4vA"/>
@@ -758,9 +736,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_053_283c083df9" id="_jF6_G_UUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30.123456Z"))' and expects result: '2017-09-05T09:15:30.123456Z (date and
-            time)'
-        </description>
+        <description>Tests FEEL expression: 'date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30.123456Z"))' and expects result: '2017-09-05T09:15:30.123456Z (date and time)'</description>
         <question>Result of FEEL expression 'date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30.123456Z"))'?</question>
         <allowedAnswers>2017-09-05T09:15:30.123456Z (date and time)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_053_283c083df9_Result" name="feel-date-and-time-function_053_283c083df9" id="_jF6_HPUUEeesLuP4RHs4vA"/>
@@ -769,9 +745,7 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_054_2561a406fc" id="_jF6_H_UUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'string(date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30.987654321@Europe/Paris")))' and expects result:
-            '"2017-09-05T09:15:30.987654321@Europe/Paris" (string)'
-        </description>
+        <description>Tests FEEL expression: 'string(date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30.987654321@Europe/Paris")))' and expects result: '"2017-09-05T09:15:30.987654321@Europe/Paris" (string)'</description>
         <question>Result of FEEL expression 'string(date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30.987654321@Europe/Paris")))'?</question>
         <allowedAnswers>"2017-09-05T09:15:30.987654321@Europe/Paris" (string)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_054_2561a406fc_Result" name="feel-date-and-time-function_054_2561a406fc" id="_jF6_IPUUEeesLuP4RHs4vA"/>
