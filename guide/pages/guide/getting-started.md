@@ -45,7 +45,7 @@ Expected output:
 Switch to another terminal and type:
 
 ```shell
-$ curl -s -d '{"Full Name": "Solomon L. Pollack"}' -H 'Content-Type: application/json' -X POST http://127.0.0.1:22022/evaluate/org/decision-toolkit/greetings/Greeting%20Message
+$ curl -s -w '\n' -d '{"Full Name": "Solomon L. Pollack"}' -H 'Content-Type: application/json' -X POST http://127.0.0.1:22022/evaluate/org/decision-toolkit/greetings/Greeting%20Message
 ```
 
 Expected output:

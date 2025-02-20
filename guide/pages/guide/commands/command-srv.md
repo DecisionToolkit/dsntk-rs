@@ -67,10 +67,11 @@ $ dsntk srv -v
 ## Evaluating invocables
 
 After starting the #DSNTK server, the deployed invocable can be evaluated by calling
-its endpoint with required input data, using, e.g. [**curl**](https://curl.se). In a separate terminal type:
+its endpoint with required input data, using, e.g. [**curl**](https://curl.se).
+In another terminal window, type:
 
 ```shell
-$ curl -s -d '{"Full Name":"Solomon L. Pollack"}' -H "Content-Type: application/json" -X POST http://0.0.0.0:22022/evaluate/dm/org/decision-toolkit/greetings/Greeting%20Message
+$ curl -s -w '\n' -d '{"Full Name":"Solomon L. Pollack"}' -H "Content-Type: application/json" -X POST http://0.0.0.0:22022/evaluate/dm/org/decision-toolkit/greetings/Greeting%20Message
 ```
 
 The expected output should be:
@@ -83,7 +84,7 @@ The #DSNTK's version of a [hello world](https://en.wikipedia.org/wiki/%22Hello,_
 program could look like this:
 
 ```shell
-$ curl -s -d '{"Full Name":"world"}' -H "Content-Type: application/json" -X POST http://0.0.0.0:22022/evaluate/dm/org/decision-toolkit/greetings/Greeting%20Message
+$ curl -s -w '\n' -d '{"Full Name":"world"}' -H "Content-Type: application/json" -X POST http://0.0.0.0:22022/evaluate/dm/org/decision-toolkit/greetings/Greeting%20Message
 ```
 
 Expected output is:
