@@ -45,12 +45,7 @@ pub static RE_DATE_AND_TIME: Lazy<Regex> = Lazy::new(|| Regex::new(&format!("^{D
 
 pub fn feel_time_offset(me: &FeelDateTime) -> Option<i32> {
   let me_date_tuple = me.date().as_tuple();
-  let me_time_tuple = (
-    (me.time()).hour() as u32,
-    (me.time()).minute() as u32,
-    (me.time()).second() as u32,
-    (me.time()).nanos() as u32,
-  );
+  let me_time_tuple = (me.time().hour() as u32, me.time().minute() as u32, me.time().second() as u32, me.time().nanos() as u32);
   let me_offset_opt = match me.time().zone() {
     FeelZone::Utc => Some(0),
     FeelZone::Local => None, // in FEEL semantic domain the local offset is treated as none
@@ -184,8 +179,9 @@ pub fn nanos_to_string(nano: u64) -> String {
 }
 
 /// Returns `true` when the specified parameters constitute valid time.
-/// In `FEEL` language it is allowed for and hour to have a value of `24`,
-/// only when minutes and seconds are zero.
+///
+/// In the `FEEL` language, it is allowed for and hour to have a value of `24`,
+/// but only when minutes and seconds are zero.
 pub fn is_valid_time(hour: u8, minute: u8, second: u8) -> bool {
   (hour < 24 && minute < 60 && second < 60) || (hour == 24 && minute == 0 && second == 0)
 }
@@ -220,7 +216,7 @@ mod tests {
   const SECONDS_IN_MIN: i32 = 60;
 
   fn eq_date(year: Year, month: Month, day: Day, s: &str) {
-    assert_eq!(Ok(FeelDate::new(year, month, day)), FeelDate::from_str(s));
+    assert_eq!(Ok(FeelDate::new(year, month, day).unwrap()), FeelDate::from_str(s));
   }
 
   #[test]
@@ -251,15 +247,15 @@ mod tests {
 
   #[test]
   fn test_get_zone_offset() {
-    // winter time in Warsaw, offset = +01:00
+    // Winter time in Warsaw, offset = +01:00
     assert_eq!(Some(SECONDS_IN_HOUR), get_zone_offset_dt("Europe/Warsaw", (2020, 10, 29), (9, 12, 3, 0)));
-    // summer time in Warsaw, offset = +02:00
+    // Summer time in Warsaw, offset = +02:00
     assert_eq!(Some(2 * SECONDS_IN_HOUR), get_zone_offset_dt("Europe/Warsaw", (2020, 6, 21), (11, 13, 49, 0)));
-    // time in Moscow, offset = +03:00
+    // Time in Moscow, offset = +03:00
     assert_eq!(Some(3 * SECONDS_IN_HOUR), get_zone_offset_dt("Europe/Moscow", (2020, 10, 29), (9, 12, 3, 0)));
-    // summer time in New York, offset = -04:00
+    // Summer time in New York, offset = -04:00
     assert_eq!(Some(-4 * SECONDS_IN_HOUR), get_zone_offset_dt("America/New_York", (2020, 6, 28), (12, 12, 3, 0)));
-    // winter time in New York, offset = -05:00
+    // Winter time in New York, offset = -05:00
     assert_eq!(Some(-5 * SECONDS_IN_HOUR), get_zone_offset_dt("America/New_York", (2020, 11, 12), (18, 4, 33, 0)));
     // time in Kolkata, offset = +05:30
     assert_eq!(
@@ -301,7 +297,7 @@ mod tests {
 
   #[test]
   fn test_feel_time_offset() {
-    let feel_date = FeelDate::new(2023, 2, 8);
+    let feel_date = FeelDate::new(2023, 2, 8).unwrap();
     let feel_time_a = FeelTime::utc(0, 0, 0, 0);
     assert_eq!(0, feel_time_offset(&FeelDateTime::new(feel_date.clone(), feel_time_a)).unwrap());
     let feel_time_b = FeelTime::local(0, 0, 0, 0);

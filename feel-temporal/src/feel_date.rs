@@ -221,12 +221,8 @@ impl TryFrom<FeelDate> for NaiveDate {
 }
 
 impl FeelDate {
-  //FIXME This constructor may create invalid date - remove and use new_opt instead.
-  pub fn new(year: Year, month: Month, day: Day) -> Self {
-    Self(year, month, day)
-  }
-
-  pub fn new_opt(year: Year, month: Month, day: Day) -> Option<Self> {
+  /// Creates a [FeelDate] from provided `year`, `month` and `day` values.
+  pub fn new(year: Year, month: Month, day: Day) -> Option<Self> {
     if is_valid_date(year, month, day) {
       Some(Self(year, month, day))
     } else {
@@ -234,7 +230,7 @@ impl FeelDate {
     }
   }
 
-  /// Returns today's date (local time).
+  /// Returns today's date in local time.
   pub fn today() -> Self {
     let today = Local::now();
     Self(today.year(), today.month(), today.day())
@@ -321,29 +317,9 @@ impl FeelDate {
   }
 }
 
-/// Returns `true` when specified year, month and day form a valid [FeelDate].
+/// Returns `true` when specified `year`, `month` and `day` form a valid date.
 pub fn is_valid_date(year: Year, month: Month, day: Day) -> bool {
-  if (-999_999_999..=999_999_999).contains(&year) {
-    if let Some(last_day_of_month) = last_day_of_month(year, month) {
-      return (1..=last_day_of_month).contains(&day);
-    }
-  }
-  false
-}
-
-/// Returns `true` when the specified year is a leap year.
-pub fn is_leap_year(year: Year) -> bool {
-  year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)
-}
-
-/// Returns the last dau of month in specified (leap) year.
-pub fn last_day_of_month(year: Year, month: Month) -> Option<Day> {
-  match month {
-    1 | 3 | 5 | 7 | 8 | 10 | 12 => Some(31),
-    4 | 6 | 9 | 11 => Some(30),
-    2 => Some(if is_leap_year(year) { 29 } else { 28 }),
-    _ => None,
-  }
+  NaiveDate::from_ymd_opt(year, month, day).is_some()
 }
 
 #[cfg(test)]
@@ -383,61 +359,18 @@ mod tests {
 
   #[test]
   fn test_is_valid_date() {
-    assert!(is_valid_date(999_999_999, 12, 13));
+    assert!(!is_valid_date(999_999_999, 12, 13));
     assert!(!is_valid_date(1_000_000_000, 1, 1));
-    assert!(is_valid_date(-999_999_999, 1, 1));
+    assert!(!is_valid_date(-999_999_999, 1, 1));
     assert!(!is_valid_date(-1_000_000_000, 12, 31));
     assert!(!is_valid_date(2021, 2, 29));
+    assert!(is_valid_date(262142, 12, 31));
+    assert!(!is_valid_date(262143, 1, 1));
+    assert!(is_valid_date(-262143, 1, 1));
+    assert!(!is_valid_date(-262144, 12, 31));
   }
 
-  #[test]
-  fn test_is_leap_year() {
-    assert!(!is_leap_year(2500));
-    assert!(is_leap_year(2400));
-    assert!(!is_leap_year(2300));
-    assert!(!is_leap_year(2200));
-    assert!(!is_leap_year(2100));
-    assert!(is_leap_year(2000));
-    assert!(!is_leap_year(1900));
-    assert!(!is_leap_year(1800));
-  }
-
-  #[test]
-  fn test_last_day_of_month() {
-    assert_eq!(31, last_day_of_month(2021, 1).unwrap());
-    assert_eq!(28, last_day_of_month(2021, 2).unwrap());
-    assert_eq!(31, last_day_of_month(2021, 3).unwrap());
-    assert_eq!(30, last_day_of_month(2021, 4).unwrap());
-    assert_eq!(31, last_day_of_month(2021, 5).unwrap());
-    assert_eq!(30, last_day_of_month(2021, 6).unwrap());
-    assert_eq!(31, last_day_of_month(2021, 7).unwrap());
-    assert_eq!(31, last_day_of_month(2021, 8).unwrap());
-    assert_eq!(30, last_day_of_month(2021, 9).unwrap());
-    assert_eq!(31, last_day_of_month(2021, 10).unwrap());
-    assert_eq!(30, last_day_of_month(2021, 11).unwrap());
-    assert_eq!(31, last_day_of_month(2021, 12).unwrap());
-    assert_eq!(None, last_day_of_month(2021, 13));
-    assert_eq!(None, last_day_of_month(2021, 0));
-  }
-
-  #[test]
-  fn test_last_day_of_month_leap_year() {
-    assert_eq!(31, last_day_of_month(2020, 1).unwrap());
-    assert_eq!(29, last_day_of_month(2020, 2).unwrap());
-    assert_eq!(31, last_day_of_month(2020, 3).unwrap());
-    assert_eq!(30, last_day_of_month(2020, 4).unwrap());
-    assert_eq!(31, last_day_of_month(2020, 5).unwrap());
-    assert_eq!(30, last_day_of_month(2020, 6).unwrap());
-    assert_eq!(31, last_day_of_month(2020, 7).unwrap());
-    assert_eq!(31, last_day_of_month(2020, 8).unwrap());
-    assert_eq!(30, last_day_of_month(2020, 9).unwrap());
-    assert_eq!(31, last_day_of_month(2020, 10).unwrap());
-    assert_eq!(30, last_day_of_month(2020, 11).unwrap());
-    assert_eq!(31, last_day_of_month(2020, 12).unwrap());
-    assert_eq!(None, last_day_of_month(2020, 13));
-    assert_eq!(None, last_day_of_month(2020, 0));
-  }
-
+  #[allow(unused_parens)]
   #[test]
   fn test_eq() {
     assert!((FeelDate(2021, 2, 1) == FeelDate(2021, 2, 1)));
@@ -447,19 +380,20 @@ mod tests {
     assert!((FeelDate(999_999_999, 12, 31) != FeelDate(-999_999_999, 1, 1)));
   }
 
+  #[allow(unused_parens)]
   #[test]
   fn test_compare() {
     assert!((FeelDate(2021, 2, 1) == FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2021, 2, 1) < FeelDate(2021, 2, 2)));
-    assert!((FeelDate(2021, 2, 1) < FeelDate(2021, 3, 1)));
-    assert!((FeelDate(2021, 2, 5) < FeelDate(2022, 2, 5)));
-    assert!((FeelDate(2021, 2, 2) > FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2021, 3, 1) > FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2022, 2, 1) > FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2021, 2, 1) >= FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2021, 2, 2) >= FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2021, 2, 1) <= FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2021, 2, 1) <= FeelDate(2021, 2, 2)));
+    assert!(FeelDate(2021, 2, 1) < FeelDate(2021, 2, 2));
+    assert!(FeelDate(2021, 2, 1) < FeelDate(2021, 3, 1));
+    assert!(FeelDate(2021, 2, 5) < FeelDate(2022, 2, 5));
+    assert!(FeelDate(2021, 2, 2) > FeelDate(2021, 2, 1));
+    assert!(FeelDate(2021, 3, 1) > FeelDate(2021, 2, 1));
+    assert!(FeelDate(2022, 2, 1) > FeelDate(2021, 2, 1));
+    assert!(FeelDate(2021, 2, 1) >= FeelDate(2021, 2, 1));
+    assert!(FeelDate(2021, 2, 2) >= FeelDate(2021, 2, 1));
+    assert!(FeelDate(2021, 2, 1) <= FeelDate(2021, 2, 1));
+    assert!(FeelDate(2021, 2, 1) <= FeelDate(2021, 2, 2));
   }
 
   #[test]
@@ -467,11 +401,11 @@ mod tests {
     let date = FeelDate(2023, 2, 8);
     let date_time: DateTime<FixedOffset> = date.try_into().unwrap();
     assert_eq!("2023-02-08 00:00:00 +00:00", date_time.to_string());
-    let date = FeelDate(262144, 2, 8);
+    let date = FeelDate(262144, 1, 1);
     let date_time: Result<DateTime<FixedOffset>> = date.try_into();
-    assert_eq!("<TemporalError> invalid date 262144-2-8", date_time.err().unwrap().to_string());
-    let date = FeelDate(262144, 2, 8);
+    assert_eq!("<TemporalError> invalid date 262144-1-1", date_time.err().unwrap().to_string());
+    let date = FeelDate(-262144, 12, 31);
     let date_time: Result<NaiveDate> = date.try_into();
-    assert_eq!("<TemporalError> invalid date 262144-2-8", date_time.err().unwrap().to_string());
+    assert_eq!("<TemporalError> invalid date -262144-12-31", date_time.err().unwrap().to_string());
   }
 }

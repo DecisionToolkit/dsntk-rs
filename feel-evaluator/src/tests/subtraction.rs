@@ -107,12 +107,7 @@ fn _0019() {
 
 #[test]
 fn _0020() {
-  te_null(
-    false,
-    &scope!(),
-    r#" @"999999999-12-01T12:13:18" - @"999999999-01-01T12:13:18" "#,
-    "[subtraction] incompatible types: 999999999-12-01T12:13:18 - 999999999-01-01T12:13:18",
-  );
+  te_days_and_time_duration_x(false, &scope!(), r#" @"262142-12-31T00:00:00" - @"262142-12-31T00:00:00" "#, "PT0S");
 }
 
 #[test]
@@ -142,26 +137,16 @@ fn _0023() {
 
 #[test]
 fn _0024() {
-  te_null(
-    false,
-    &scope!(),
-    r#" @"999999999-02-06" - @"P2DT3H" "#,
-    "[subtraction] incompatible types: 999999999-02-06 - P2DT3H",
-  );
-}
-
-#[test]
-fn _0025() {
   te_date(false, &scope!(), r#" @"2021-02-06" + (-@"P2Y") "#, 2019, 2, 6);
 }
 
 #[test]
-fn _0026() {
+fn _0025() {
   te_days_and_time_duration_x(false, &scope!(), r#" @"2021-02-06" - @"2023-02-18" "#, "-P742D");
 }
 
 #[test]
-fn _0027() {
+fn _0026() {
   te_null(
     false,
     &scope!(),
@@ -171,22 +156,22 @@ fn _0027() {
 }
 
 #[test]
-fn _0028() {
+fn _0027() {
   te_days_and_time_duration_x(false, &scope!(), r#" @"2023-02-06T12:13:18Z" - @"2021-02-06" "#, "P730DT12H13M18S");
 }
 
 #[test]
-fn _0029() {
+fn _0028() {
   te_days_and_time_duration_x(false, &scope!(), r#" @"2023-02-06T12:13:18" - @"2021-02-06T12:13:18" "#, "P730D");
 }
 
 #[test]
-fn _0030() {
+fn _0029() {
   te_date_time_local(false, &scope!(), r#" @"2023-02-06T12:13:18" - @"P1DT2H" "#, (2023, 2, 5), (10, 13, 18, 0));
 }
 
 #[test]
-fn _0030_() {
+fn _0030() {
   te_date_time_utc(false, &scope!(), r#" @"2023-02-06T12:13:18Z" - @"P1DT2H" "#, (2023, 2, 5), (10, 13, 18, 0));
 }
 
@@ -220,9 +205,9 @@ fn _0036() {
   te_years_and_months_duration_x(false, &scope!(), r#" @"P2Y5M" - @"P5M" "#, "P2Y");
 }
 
-#[test]
 /// Date converted to date and time has the timezone equal to UTC 00:00:00. Subtracted date and time has local timezone.
 /// Such subtraction is not allowed (both date and times should have offset defined), that's why null value should be returned.
+#[test]
 fn _0037() {
   te_null(
     false,
@@ -244,20 +229,15 @@ fn _0038() {
 
 #[test]
 fn _0039() {
-  te_null(
-    false,
-    &scope!(),
-    r#" @"999999999-01-01T00:00:00" - @"P20D" "#,
-    "[subtraction] incompatible types: 999999999-01-01T00:00:00 - P20D",
-  );
+  te_date_time_local(false, &scope!(), r#" @"262142-12-31T00:00:00" - @"P20D" "#, (262142, 12, 11), (0, 0, 0, 0));
 }
 
 #[test]
 fn _0040() {
-  te_null(
-    false,
-    &scope!(),
-    r#" @"999999999-01-01T00:00:00" - @"P20Y" "#,
-    "[subtraction] incompatible types: 999999999-01-01T00:00:00 - P20Y",
-  );
+  te_date_time_local(false, &scope!(), r#" @"262142-12-31T00:00:00" - @"P20Y" "#, (262122, 12, 31), (0, 0, 0, 0));
+}
+
+#[test]
+fn _0041() {
+  te_date_time_local(false, &scope!(), r#" @"262142-12-31T00:00:00" - @"P2DT3H" "#, (262142, 12, 28), (21, 0, 0, 0));
 }

@@ -242,7 +242,7 @@ tasks:
   testn:
     desc: Runs tests in debug mode using nextest
     cmds:
-      - cmd: cargo +stable nextest run --workspace
+      - cmd: cargo +stable nextest run --workspace --no-fail-fast
 
   testq:
     desc: Runs tests in debug and quiet mode

@@ -33,10 +33,32 @@ fn _0004() {
 
 #[test]
 fn _0005() {
-  let feel_date_time: FeelDateTime = "99999999-01-01T00:00:00".try_into().unwrap();
-  let date_time: dsntk_common::Result<DateTime<FixedOffset>> = feel_date_time.try_into();
+  let feel_date_time: FeelDateTime = "262142-12-31T23:59:59.9Z".try_into().unwrap();
+  let date_time: DateTime<FixedOffset> = feel_date_time.try_into().unwrap();
+  assert_eq!("+262142-12-31 23:59:59.900 +00:00", date_time.to_string());
+}
+
+#[test]
+fn _0006() {
+  let feel_date_time: FeelDateTime = "-262143-01-01T00:00:00.1Z".try_into().unwrap();
+  let date_time: DateTime<FixedOffset> = feel_date_time.try_into().unwrap();
+  assert_eq!("-262143-01-01 00:00:00.100 +00:00", date_time.to_string());
+}
+
+#[test]
+fn _0007() {
+  let date_time: dsntk_common::Result<FeelDateTime> = "99999999-01-01T00:00:00".try_into();
   assert_eq!(
-    "<TemporalError> conversion from FEEL date '99999999-01-01T00:00:00' to DateTime<FixedOffset> failed, see issue #? for details",
+    "<TemporalError> invalid date and time literal '99999999-01-01T00:00:00'",
+    date_time.err().unwrap().to_string()
+  );
+}
+
+#[test]
+fn _0008() {
+  let date_time: dsntk_common::Result<FeelDateTime> = "-99999999-12-31T00:00:00".try_into();
+  assert_eq!(
+    "<TemporalError> invalid date and time literal '-99999999-12-31T00:00:00'",
     date_time.err().unwrap().to_string()
   );
 }

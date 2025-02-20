@@ -28,11 +28,26 @@ fn _0005() {
 
 #[test]
 fn _0006() {
-  te_null(false, &scope!(), r#"day of year(date: date(999999999,9,17))"#, "[day of year] no day of year");
+  te_null(
+    false,
+    &scope!(),
+    r#"day of year(date: date(999999999,9,17))"#,
+    "[core::day of year] invalid argument type, expected date, date and time, actual type is Null",
+  );
 }
 
 #[test]
 fn _0007() {
+  te_number(false, &scope!(), r#"day of year(date: date(262142,12,31))"#, 365, 0);
+}
+
+#[test]
+fn _0008() {
+  te_number(false, &scope!(), r#"day of year(date: date(-262143,1,1))"#, 1, 0);
+}
+
+#[test]
+fn _0009() {
   te_null(
     false,
     &scope!(),
@@ -42,12 +57,12 @@ fn _0007() {
 }
 
 #[test]
-fn _0008() {
+fn _0010() {
   te_null(false, &scope!(), r#"day of year()"#, "expected 1 parameters, actual number of parameters is 0");
 }
 
 #[test]
-fn _0009() {
+fn _0011() {
   te_null(
     false,
     &scope!(),
