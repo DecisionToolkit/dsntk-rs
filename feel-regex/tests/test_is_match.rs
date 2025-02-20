@@ -6,7 +6,6 @@ fn _0001() {
 }
 
 #[test]
-#[cfg(feature = "onig")]
 fn _0002() {
-  assert!(is_match(r#"ababb"#, r#"(a(b))\1\2"#).unwrap());
+  assert!(is_match(r#"banana"#, "[a-z]{3}").unwrap());
 }

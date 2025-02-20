@@ -13,7 +13,6 @@ edition = { workspace = true }
 [features]
 default = []
 tck = ["dsntk-server/tck"]
-onig = ["dsntk-feel-regex/onig"]
 
 [dependencies]
 actix-web = { workspace = true }
