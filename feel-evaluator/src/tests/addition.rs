@@ -199,7 +199,7 @@ fn _0032() {
   te_null(
     false,
     &scope!(),
-    r#" @"262143-02-03" + @"P99999D" "#,
+    r#" @"262142-01-01" + @"P99999D" "#,
     r#"invalid result while adding days and time duration to date"#,
   );
 }
@@ -219,7 +219,7 @@ fn _0035() {
   te_null(
     false,
     &scope!(),
-    r#" @"262143-02-03" + @"P100Y" "#,
+    r#" @"262142-01-01" + @"P100Y" "#,
     r#"invalid result while adding years and months duration to date"#,
   );
 }
@@ -230,7 +230,7 @@ fn _0036() {
   te_null(
     false,
     &scope!(),
-    r#" @"262143-02-03T10:01:02" + @"P99999D" "#,
+    r#" @"262142-12-31T10:01:02" + @"P99999D" "#,
     r#"invalid result while adding days and time duration to date and time"#,
   );
 }
@@ -240,7 +240,7 @@ fn _0037() {
   te_null(
     false,
     &scope!(),
-    r#" @"262143-02-03T10:01:02" + @"P100Y" "#,
+    r#" @"262043-01-01T10:01:02" + @"P100Y" "#,
     r#"invalid result while adding years and months duration to date and time"#,
   );
 }
@@ -260,7 +260,7 @@ fn _0039() {
   te_null(
     false,
     &scope!(),
-    r#" @"P99999D" + @"262143-02-03" "#,
+    r#" @"P99999D" + @"262142-01-01" "#,
     r#"invalid result while adding date to days and time duration"#,
   );
 }
@@ -270,18 +270,17 @@ fn _0040() {
   te_null(
     false,
     &scope!(),
-    r#" @"P100Y" + @"262143-02-03" "#,
+    r#" @"P100Y" + @"262043-01-01" "#,
     r#"invalid result while adding date to years and months duration"#,
   );
 }
 
 #[test]
-#[cfg(not(target_os = "windows"))]
 fn _0041() {
   te_null(
     false,
     &scope!(),
-    r#" @"P99999D" + @"262143-02-03T10:01:02" "#,
+    r#" @"P99999D" + @"262142-02-03T10:01:02" "#,
     r#"invalid result while adding date and time to days and time duration"#,
   );
 }
@@ -291,7 +290,7 @@ fn _0042() {
   te_null(
     false,
     &scope!(),
-    r#" @"P100Y" + @"262143-02-03T10:01:02" "#,
+    r#" @"P100Y" + @"262043-02-03T10:01:02" "#,
     r#"invalid result while adding date and time to years and months duration"#,
   );
 }

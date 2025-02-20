@@ -503,24 +503,21 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_027_ae365197dd" id="_jFxOTPUUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'string(date and time("999999999-12-31T23:59:59.999999999@Europe/Paris"))' and expects result: '"999999999-12-31T23:59:59.999999999@Europe/Paris"
-            (string)'
-        </description>
-        <question>Result of FEEL expression 'string(date and time("999999999-12-31T23:59:59.999999999@Europe/Paris"))'?</question>
-        <allowedAnswers>"999999999-12-31T23:59:59.999999999@Europe/Paris" (string)</allowedAnswers>
+        <description>Tests FEEL expression: 'string(date and time("262142-12-31T23:59:59.999999999@Europe/Paris"))' and expects result: '"262142-12-31T23:59:59.999999999@Europe/Paris" (string)'</description>
+        <question>Result of FEEL expression 'string(date and time("262142-12-31T23:59:59.999999999@Europe/Paris"))'?</question>
+        <allowedAnswers>"262142-12-31T23:59:59.999999999@Europe/Paris" (string)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_027_ae365197dd_Result" name="feel-date-and-time-function_027_ae365197dd" id="_jFxOTfUUEeesLuP4RHs4vA"/>
         <literalExpression id="_jFxOS_UUEeesLuP4RHs4vA">
-            <text>string(date and time("999999999-12-31T23:59:59.999999999@Europe/Paris"))</text>
+            <text>string(date and time("262142-12-31T23:59:59.999999999@Europe/Paris"))</text>
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_028_1c3d56275f" id="_jFxOUPUUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'string(date and time("-999999999-12-31T23:59:59.999999999+02:00"))' and expects result: '"-999999999-12-31T23:59:59.999999999+02:00" (string)'
-        </description>
-        <question>Result of FEEL expression 'string(date and time("-999999999-12-31T23:59:59.999999999+02:00"))'?</question>
-        <allowedAnswers>"-999999999-12-31T23:59:59.999999999+02:00" (string)</allowedAnswers>
+        <description>Tests FEEL expression: 'string(date and time("-262143-01-01T23:59:59.999999999+02:00"))' and expects result: '"-262143-01-01T23:59:59.999999999+02:00" (string)'</description>
+        <question>Result of FEEL expression 'string(date and time("-262143-01-01T23:59:59.999999999+02:00"))'?</question>
+        <allowedAnswers>"-262143-01-01T23:59:59.999999999+02:00" (string)</allowedAnswers>
         <variable typeRef="tfeel-date-and-time-function_028_1c3d56275f_Result" name="feel-date-and-time-function_028_1c3d56275f" id="_jFxOUfUUEeesLuP4RHs4vA"/>
         <literalExpression id="_jFxOT_UUEeesLuP4RHs4vA">
-            <text>string(date and time("-999999999-12-31T23:59:59.999999999+02:00"))</text>
+            <text>string(date and time("-262143-01-01T23:59:59.999999999+02:00"))</text>
         </literalExpression>
     </decision>
     <decision name="feel-date-and-time-function_029_e3a5e786a0" id="_jFxOVPUUEeesLuP4RHs4vA">
@@ -1361,4 +1358,3 @@
         </dmndi:DMNDiagram>
     </dmndi:DMNDI>
 </definitions>
-

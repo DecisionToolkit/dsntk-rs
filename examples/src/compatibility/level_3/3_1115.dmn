@@ -286,21 +286,21 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-function_015_1dd66594cf" id="_jDiZfPUUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'string(date("999999999-12-31"))' and expects result: '"999999999-12-31" (string)'</description>
-        <question>Result of FEEL expression 'string(date("999999999-12-31"))'?</question>
-        <allowedAnswers>"999999999-12-31" (string)</allowedAnswers>
+        <description>Tests FEEL expression: 'string(date("262142-12-31"))' and expects result: '"262142-12-31" (string)'</description>
+        <question>Result of FEEL expression 'string(date("262142-12-31"))'?</question>
+        <allowedAnswers>"262142-12-31" (string)</allowedAnswers>
         <variable typeRef="tfeel-date-function_015_1dd66594cf_Result" name="feel-date-function_015_1dd66594cf" id="_jDiZffUUEeesLuP4RHs4vA"/>
         <literalExpression id="_jDiZe_UUEeesLuP4RHs4vA">
-            <text>string(date("999999999-12-31"))</text>
+            <text>string(date("262142-12-31"))</text>
         </literalExpression>
     </decision>
     <decision name="feel-date-function_016_31f3fef4a0" id="_jDiZgPUUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'string(date("-999999999-12-31"))' and expects result: '"-999999999-12-31" (string)'</description>
-        <question>Result of FEEL expression 'string(date("-999999999-12-31"))'?</question>
-        <allowedAnswers>"-999999999-12-31" (string)</allowedAnswers>
+        <description>Tests FEEL expression: 'string(date("-262143-01-01"))' and expects result: '"-262143-01-01" (string)'</description>
+        <question>Result of FEEL expression 'string(date("-262143-01-01"))'?</question>
+        <allowedAnswers>"-262143-01-01" (string)</allowedAnswers>
         <variable typeRef="tfeel-date-function_016_31f3fef4a0_Result" name="feel-date-function_016_31f3fef4a0" id="_jDiZgfUUEeesLuP4RHs4vA"/>
         <literalExpression id="_jDiZf_UUEeesLuP4RHs4vA">
-            <text>string(date("-999999999-12-31"))</text>
+            <text>string(date("-262143-01-01"))</text>
         </literalExpression>
     </decision>
     <decision name="feel-date-function_017_887dfef005" id="_jDiZhPUUEeesLuP4RHs4vA">
@@ -412,21 +412,21 @@
         </literalExpression>
     </decision>
     <decision name="feel-date-function_029_88f5c7c90f" id="_jDrjOfUUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'string(date(999999999,12,31))' and expects result: '"999999999-12-31" (string)'</description>
-        <question>Result of FEEL expression 'string(date(999999999,12,31))'?</question>
-        <allowedAnswers>"999999999-12-31" (string)</allowedAnswers>
+        <description>Tests FEEL expression: 'string(date(262142,12,31))' and expects result: '"262142-12-31" (string)'</description>
+        <question>Result of FEEL expression 'string(date(262142,12,31))'?</question>
+        <allowedAnswers>"262142-12-31" (string)</allowedAnswers>
         <variable typeRef="tfeel-date-function_029_88f5c7c90f_Result" name="feel-date-function_029_88f5c7c90f" id="_jDrjOvUUEeesLuP4RHs4vA"/>
         <literalExpression id="_jDrjOPUUEeesLuP4RHs4vA">
-            <text>string(date(999999999,12,31))</text>
+            <text>string(date(262142,12,31))</text>
         </literalExpression>
     </decision>
     <decision name="feel-date-function_030_9184a7bfc3" id="_jDrjPfUUEeesLuP4RHs4vA">
-        <description>Tests FEEL expression: 'string(date(-999999999,12,31))' and expects result: '"-999999999-12-31" (string)'</description>
-        <question>Result of FEEL expression 'string(date(-999999999,12,31))'?</question>
-        <allowedAnswers>"-999999999-12-31" (string)</allowedAnswers>
+        <description>Tests FEEL expression: 'string(date(-262143,1,1))' and expects result: '"-262143-01-01" (string)'</description>
+        <question>Result of FEEL expression 'string(date(-262143,1,1))'?</question>
+        <allowedAnswers>"-262143-01-01" (string)</allowedAnswers>
         <variable typeRef="tfeel-date-function_030_9184a7bfc3_Result" name="feel-date-function_030_9184a7bfc3" id="_jDrjPvUUEeesLuP4RHs4vA"/>
         <literalExpression id="_jDrjPPUUEeesLuP4RHs4vA">
-            <text>string(date(-999999999,12,31))</text>
+            <text>string(date(-262143,1,1))</text>
         </literalExpression>
     </decision>
     <decision name="feel-date-function_ErrorCase_031_4f5ec70669" id="_jDrjQfUUEeesLuP4RHs4vA">
@@ -792,4 +792,3 @@
         </dmndi:DMNDiagram>
     </dmndi:DMNDI>
 </definitions>
-

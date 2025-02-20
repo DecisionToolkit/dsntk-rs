@@ -283,5 +283,20 @@ fn _0052() {
 
 #[test]
 fn _0053() {
-  te_bool(false, &scope!(), r#"is(@"999999999-04-02T23:00:00Z", @"999999999-04-02T23:00:00Z")"#, false);
+  te_bool(false, &scope!(), r#"is(@"262142-12-28T23:00:00Z", @"262142-12-28T23:00:00Z")"#, true);
+}
+
+#[test]
+fn _0054() {
+  te_bool(false, &scope!(), r#"is(@"-262143-01-01T23:00:00Z", @"-262143-01-01T23:00:00Z")"#, true);
+}
+
+#[test]
+fn _0055() {
+  te_null(
+    false,
+    &scope!(),
+    r#"is(@"999999999-04-02T23:00:00Z", @"999999999-04-02T23:00:00Z")"#,
+    "[core::is] invalid argument type, expected scalar, actual type is Null",
+  );
 }
