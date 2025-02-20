@@ -541,7 +541,7 @@ mod tests {
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Birthday"])).unwrap();
     assert_eq!(
-      Value::Date(FeelDate::new(1982, 4, 12)),
+      Value::Date(FeelDate::new(1982, 4, 12).unwrap()),
       evaluator.eval(&DefKey::new(NAMESPACE, "tBirthday"), value).unwrap()
     );
   }
@@ -565,7 +565,7 @@ mod tests {
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Appointment"])).unwrap();
     assert_eq!(
-      Value::DateTime(FeelDateTime::new(FeelDate::new(2021, 10, 12), FeelTime::local_opt(18, 35, 23, 0).unwrap())),
+      Value::DateTime(FeelDateTime::new(FeelDate::new(2021, 10, 12).unwrap(), FeelTime::local_opt(18, 35, 23, 0).unwrap())),
       evaluator.eval(&DefKey::new(NAMESPACE, "tAppointment"), value).unwrap()
     );
   }
@@ -683,9 +683,9 @@ mod tests {
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Items"])).unwrap();
     let expected = Value::List(vec![
-      Value::Date(FeelDate::new(2021, 10, 10)),
-      Value::Date(FeelDate::new(2021, 10, 11)),
-      Value::Date(FeelDate::new(2021, 10, 12)),
+      Value::Date(FeelDate::new(2021, 10, 10).unwrap()),
+      Value::Date(FeelDate::new(2021, 10, 11).unwrap()),
+      Value::Date(FeelDate::new(2021, 10, 12).unwrap()),
     ]);
     assert_eq!(expected, evaluator.eval(&DefKey::new(NAMESPACE, "tItems"), value).unwrap());
   }
@@ -711,8 +711,8 @@ mod tests {
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Items"])).unwrap();
     let expected = Value::List(vec![
-      Value::DateTime(FeelDateTime::new(FeelDate::new(2021, 10, 10), FeelTime::local_opt(21, 23, 18, 0).unwrap())),
-      Value::DateTime(FeelDateTime::new(FeelDate::new(2021, 10, 11), FeelTime::local_opt(12, 18, 59, 0).unwrap())),
+      Value::DateTime(FeelDateTime::new(FeelDate::new(2021, 10, 10).unwrap(), FeelTime::local_opt(21, 23, 18, 0).unwrap())),
+      Value::DateTime(FeelDateTime::new(FeelDate::new(2021, 10, 11).unwrap(), FeelTime::local_opt(12, 18, 59, 0).unwrap())),
     ]);
     assert_eq!(expected, evaluator.eval(&DefKey::new(NAMESPACE, "tItems"), value).unwrap());
   }

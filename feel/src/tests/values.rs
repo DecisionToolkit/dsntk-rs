@@ -34,7 +34,7 @@ fn test_debug() {
   let t_number = FeelType::Number;
   let v_number = Value::Number(FeelNumber::new(1, 0));
   let b_number = Box::new(v_number);
-  let v_date = FeelDate::new(2022, 9, 27);
+  let v_date = FeelDate::new(2022, 9, 27).unwrap();
   let v_time = FeelTime::local_opt(12, 13, 23, 0).unwrap();
   let v_date_time = FeelDateTime::new(v_date.clone(), v_time.clone());
   let v_function_body = FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(2))));
@@ -121,7 +121,7 @@ fn test_display() {
   let t_number = FeelType::Number;
   let v_number = Value::Number(FeelNumber::new(1, 0));
   let b_number = Box::new(v_number);
-  let v_date = FeelDate::new(2022, 9, 27);
+  let v_date = FeelDate::new(2022, 9, 27).unwrap();
   let v_time = FeelTime::local_opt(12, 13, 23, 0).unwrap();
   let v_date_time = FeelDateTime::new(v_date.clone(), v_time.clone());
   let v_function_body = FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(2))));
@@ -192,7 +192,7 @@ fn test_type_of() {
   let b_number = Box::new(v_number.clone());
   let v_boolean = Value::Boolean(false);
   let b_boolean = Box::new(v_boolean.clone());
-  let v_date = FeelDate::new(2022, 9, 27);
+  let v_date = FeelDate::new(2022, 9, 27).unwrap();
   let v_time = FeelTime::local_opt(12, 13, 23, 0).unwrap();
   let v_date_time = FeelDateTime::new(v_date.clone(), v_time.clone());
   let v_function_body = FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(2))));
@@ -371,11 +371,11 @@ fn test_jsonify() {
   assert_eq!(r#"false"#, Value::Boolean(false).jsonify());
   assert_eq!(r#"1.23"#, Value::Number(FeelNumber::new(123, 2)).jsonify());
   assert_eq!(r#""beta""#, Value::String("beta".to_string()).jsonify());
-  assert_eq!(r#""2023-02-24""#, Value::Date(FeelDate::new(2023, 2, 24)).jsonify());
+  assert_eq!(r#""2023-02-24""#, Value::Date(FeelDate::new(2023, 2, 24).unwrap()).jsonify());
   assert_eq!(r#""18:35:12.000598677Z""#, Value::Time(FeelTime::utc(18, 35, 12, 598677)).jsonify());
   assert_eq!(
     r#""2023-02-24T18:35:12.000598677Z""#,
-    Value::DateTime(FeelDateTime::new(FeelDate::new(2023, 2, 24), FeelTime::utc(18, 35, 12, 598677))).jsonify()
+    Value::DateTime(FeelDateTime::new(FeelDate::new(2023, 2, 24).unwrap(), FeelTime::utc_opt(18, 35, 12, 598677).unwrap())).jsonify()
   );
   assert_eq!(r#""P10DT13H59M18S""#, Value::DaysAndTimeDuration(FeelDaysAndTimeDuration::from_s(914358)).jsonify());
   assert_eq!(r#""P3Y2M""#, Value::YearsAndMonthsDuration(FeelYearsAndMonthsDuration::from_ym(3, 2)).jsonify());

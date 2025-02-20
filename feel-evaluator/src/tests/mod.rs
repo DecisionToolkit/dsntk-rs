@@ -66,26 +66,26 @@ pub fn te_bool(trace: bool, scope: &FeelScope, s: &str, expected: bool) {
 
 /// Utility function that tests evaluation of date value.
 pub fn te_date(trace: bool, scope: &FeelScope, expression: &str, year: Year, month: Month, day: Day) {
-  textual_expression(trace, scope, expression, Value::Date(FeelDate::new(year, month, day)));
+  textual_expression(trace, scope, expression, Value::Date(FeelDate::new(year, month, day).unwrap()));
 }
 
 /// Utility function that tests evaluation of local date and time value.
 pub fn te_date_time_local(trace: bool, scope: &FeelScope, s: &str, date: (Year, Month, Day), time: (u8, u8, u8, u64)) {
   let (year, month, day) = date;
   let (hour, min, sec, nano) = time;
-  textual_expression(trace, scope, s, Value::DateTime(FeelDateTime::local(year, month, day, hour, min, sec, nano)));
+  textual_expression(trace, scope, s, Value::DateTime(FeelDateTime::local(year, month, day, hour, min, sec, nano).unwrap()));
 }
 
 /// Utility function that tests evaluation of UTC date and time value.
 pub fn te_date_time_utc(trace: bool, scope: &FeelScope, s: &str, date: (Year, Month, Day), time: (u8, u8, u8, u64)) {
   let (year, month, day) = date;
   let (hour, min, sec, nano) = time;
-  textual_expression(trace, scope, s, Value::DateTime(FeelDateTime::utc(year, month, day, hour, min, sec, nano)));
+  textual_expression(trace, scope, s, Value::DateTime(FeelDateTime::utc(year, month, day, hour, min, sec, nano).unwrap()));
 }
 
 /// Utility function that tests evaluation of date and time value with explicit offset.
 pub fn te_date_time_offset(trace: bool, scope: &FeelScope, s: &str, date: (Year, Month, Day), time: (u8, u8, u8, u64), offset: i32) {
-  textual_expression(trace, scope, s, Value::DateTime(FeelDateTime::offset(date, time, offset)));
+  textual_expression(trace, scope, s, Value::DateTime(FeelDateTime::offset(date, time, offset).unwrap()));
 }
 
 /// Utility function that creates a scope from specified input.
@@ -298,8 +298,8 @@ pub fn satisfies_null(trace: bool, scope: &FeelScope, input_expression: &str, in
 pub fn te_date_time_local_after(trace: bool, scope: &FeelScope, expression: &str, date_time: FeelDateTime, seconds: u8) {
   let (year, month, day) = date_time.date().as_tuple();
   let (hour, min, sec, nano, _) = date_time.time().as_tuple();
-  let range_start = FeelDateTime::local(year, month, day, hour, min, sec, nano);
-  let range_end = FeelDateTime::local(year, month, day, hour, min, sec + seconds, nano);
+  let range_start = FeelDateTime::local(year, month, day, hour, min, sec, nano).unwrap();
+  let range_end = FeelDateTime::local(year, month, day, hour, min, sec + seconds, nano).unwrap();
   match dsntk_feel_parser::parse_textual_expression(scope, expression, trace) {
     Ok(node) => {
       let evaluator = build_evaluator(&node);

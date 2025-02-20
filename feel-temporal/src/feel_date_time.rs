@@ -52,7 +52,7 @@ impl TryFrom<&str> for FeelDateTime {
                                 0.0
                               };
                               let nanos = (fractional * 1e9).trunc() as u64;
-                              if let Some(mut date) = FeelDate::new_opt(year, month, day) {
+                              if let Some(mut date) = FeelDate::new(year, month, day) {
                                 if let Some(zone) = FeelZone::from_captures(&captures) {
                                   if !is_valid_time(hour, min, sec) {
                                     return Err(err_invalid_date_time_literal(s));
@@ -173,22 +173,18 @@ impl Add<FeelDaysAndTimeDuration> for FeelDateTime {
       return self.sub(rhs.abs());
     }
     let zone = self.1.zone().clone();
-    if let Ok(fixed_date_time) = <FeelDateTime as TryInto<DateTime<FixedOffset>>>::try_into(self) {
-      if let Some(date_time) = fixed_date_time.checked_add_signed(Duration::nanoseconds(rhs.as_nanos())) {
-        return Some(FeelDateTime(
-          FeelDate::new(date_time.year(), date_time.month(), date_time.day()),
-          FeelTime::zone_opt(
-            date_time.hour() as u8,
-            date_time.minute() as u8,
-            date_time.second() as u8,
-            date_time.nanosecond() as u64,
-            zone,
-          )
-          .unwrap(),
-        ));
-      }
-    }
-    None
+    let date_time = <FeelDateTime as TryInto<DateTime<FixedOffset>>>::try_into(self)
+      .ok()?
+      .checked_add_signed(Duration::nanoseconds(rhs.as_nanos()))?;
+    let date = FeelDate::new(date_time.year(), date_time.month(), date_time.day())?;
+    let time = FeelTime::zone_opt(
+      date_time.hour() as u8,
+      date_time.minute() as u8,
+      date_time.second() as u8,
+      date_time.nanosecond() as u64,
+      zone,
+    )?;
+    Some(FeelDateTime(date, time))
   }
 }
 
@@ -200,21 +196,17 @@ impl Sub<FeelDaysAndTimeDuration> for FeelDateTime {
       return self.add(rhs.abs());
     }
     let zone = self.1.zone().clone();
-    if let Ok(mut date_time) = <FeelDateTime as TryInto<DateTime<FixedOffset>>>::try_into(self) {
-      date_time -= Duration::nanoseconds(rhs.as_nanos());
-      return Some(FeelDateTime(
-        FeelDate::new(date_time.year(), date_time.month(), date_time.day()),
-        FeelTime::zone_opt(
-          date_time.hour() as u8,
-          date_time.minute() as u8,
-          date_time.second() as u8,
-          date_time.nanosecond() as u64,
-          zone,
-        )
-        .unwrap(),
-      ));
-    }
-    None
+    let mut date_time = <FeelDateTime as TryInto<DateTime<FixedOffset>>>::try_into(self).ok()?;
+    date_time -= Duration::nanoseconds(rhs.as_nanos());
+    let date = FeelDate::new(date_time.year(), date_time.month(), date_time.day())?;
+    let time = FeelTime::zone_opt(
+      date_time.hour() as u8,
+      date_time.minute() as u8,
+      date_time.second() as u8,
+      date_time.nanosecond() as u64,
+      zone,
+    )?;
+    Some(FeelDateTime(date, time))
   }
 }
 
@@ -282,25 +274,31 @@ impl FeelDateTime {
   }
 
   /// Creates UTC date and time from specified date and time values.
-  pub fn utc(year: Year, month: Month, day: Day, hour: u8, minute: u8, second: u8, nanosecond: u64) -> Self {
-    Self(FeelDate::new(year, month, day), FeelTime::utc(hour, minute, second, nanosecond))
+  pub fn utc(year: Year, month: Month, day: Day, hour: u8, minute: u8, second: u8, nanosecond: u64) -> Option<Self> {
+    let date = FeelDate::new(year, month, day)?;
+    let time = FeelTime::utc_opt(hour, minute, second, nanosecond)?;
+    Some(Self(date, time))
   }
 
   /// Creates local date and time from specified date and time values.
-  pub fn local(year: Year, month: Month, day: Day, hour: u8, min: u8, sec: u8, nanos: u64) -> Self {
-    Self(FeelDate::new(year, month, day), FeelTime::local(hour, min, sec, nanos))
+  pub fn local(year: Year, month: Month, day: Day, hour: u8, minute: u8, second: u8, nanosecond: u64) -> Option<Self> {
+    let date = FeelDate::new(year, month, day)?;
+    let time = FeelTime::local_opt(hour, minute, second, nanosecond)?;
+    Some(Self(date, time))
   }
 
   /// Creates  date and time from specified date, time and offset values.
-  pub fn offset(date: (Year, Month, Day), time: (u8, u8, u8, u64), offset: i32) -> Self {
-    Self(FeelDate::new(date.0, date.1, date.2), FeelTime::offset(time.0, time.1, time.2, time.3, offset))
+  pub fn offset(date: (Year, Month, Day), time: (u8, u8, u8, u64), offset: i32) -> Option<Self> {
+    let date = FeelDate::new(date.0, date.1, date.2)?;
+    let time = FeelTime::offset_opt(time.0, time.1, time.2, time.3, offset)?;
+    Some(Self(date, time))
   }
 
   /// Returns today's date and time (local time).
   pub fn now() -> Self {
     let now = Local::now();
     Self(
-      FeelDate::new(now.year(), now.month(), now.day()),
+      FeelDate::new(now.year(), now.month(), now.day()).unwrap(), // Unwrap is ok here, date can not be invalid.
       FeelTime::local(now.hour() as u8, now.minute() as u8, now.second() as u8, now.nanosecond() as u64),
     )
   }

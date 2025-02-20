@@ -221,12 +221,8 @@ impl TryFrom<FeelDate> for NaiveDate {
 }
 
 impl FeelDate {
-  //FIXME This constructor may create invalid date - remove and use new_opt instead.
-  pub fn new(year: Year, month: Month, day: Day) -> Self {
-    Self(year, month, day)
-  }
-
-  pub fn new_opt(year: Year, month: Month, day: Day) -> Option<Self> {
+  /// Creates a [FeelDate] from provided `year`, `month` and `day` values.
+  pub fn new(year: Year, month: Month, day: Day) -> Option<Self> {
     if is_valid_date(year, month, day) {
       Some(Self(year, month, day))
     } else {
@@ -438,6 +434,7 @@ mod tests {
     assert_eq!(None, last_day_of_month(2020, 0));
   }
 
+  #[allow(unused_parens)]
   #[test]
   fn test_eq() {
     assert!((FeelDate(2021, 2, 1) == FeelDate(2021, 2, 1)));
@@ -447,19 +444,20 @@ mod tests {
     assert!((FeelDate(999_999_999, 12, 31) != FeelDate(-999_999_999, 1, 1)));
   }
 
+  #[allow(unused_parens)]
   #[test]
   fn test_compare() {
     assert!((FeelDate(2021, 2, 1) == FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2021, 2, 1) < FeelDate(2021, 2, 2)));
-    assert!((FeelDate(2021, 2, 1) < FeelDate(2021, 3, 1)));
-    assert!((FeelDate(2021, 2, 5) < FeelDate(2022, 2, 5)));
-    assert!((FeelDate(2021, 2, 2) > FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2021, 3, 1) > FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2022, 2, 1) > FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2021, 2, 1) >= FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2021, 2, 2) >= FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2021, 2, 1) <= FeelDate(2021, 2, 1)));
-    assert!((FeelDate(2021, 2, 1) <= FeelDate(2021, 2, 2)));
+    assert!(FeelDate(2021, 2, 1) < FeelDate(2021, 2, 2));
+    assert!(FeelDate(2021, 2, 1) < FeelDate(2021, 3, 1));
+    assert!(FeelDate(2021, 2, 5) < FeelDate(2022, 2, 5));
+    assert!(FeelDate(2021, 2, 2) > FeelDate(2021, 2, 1));
+    assert!(FeelDate(2021, 3, 1) > FeelDate(2021, 2, 1));
+    assert!(FeelDate(2022, 2, 1) > FeelDate(2021, 2, 1));
+    assert!(FeelDate(2021, 2, 1) >= FeelDate(2021, 2, 1));
+    assert!(FeelDate(2021, 2, 2) >= FeelDate(2021, 2, 1));
+    assert!(FeelDate(2021, 2, 1) <= FeelDate(2021, 2, 1));
+    assert!(FeelDate(2021, 2, 1) <= FeelDate(2021, 2, 2));
   }
 
   #[test]

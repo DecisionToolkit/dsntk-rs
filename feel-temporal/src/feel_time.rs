@@ -207,6 +207,14 @@ impl FeelTime {
     Self(hour, minute, second, nanos, FeelZone::Utc)
   }
 
+  pub fn utc_opt(hour: u8, minute: u8, second: u8, nanos: u64) -> Option<Self> {
+    if is_valid_time(hour, minute, second) {
+      Some(Self(hour, minute, second, nanos, FeelZone::Utc))
+    } else {
+      None
+    }
+  }
+
   /// Creates local time from specified time values.
   pub fn local(hour: u8, minute: u8, second: u8, nanos: u64) -> Self {
     Self(hour, minute, second, nanos, FeelZone::Local)
