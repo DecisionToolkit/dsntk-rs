@@ -33,7 +33,7 @@ fn _0004() {
 #[test]
 fn _0005() {
   let invocable = "fn-matchesErr-1";
-  let expected = "null([core::matches_3] flags can not contain character 'p')";
+  let expected = "null(<FeelRegexError> invalid regex flag: 'p')";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
@@ -183,14 +183,14 @@ fn _0025() {
 #[test]
 fn _0026() {
   let invocable = "K-MatchesFunc-5";
-  let expected = "null([core::matches_3] flags can not be an empty string)";
+  let expected = "null(<FeelRegexError> empty regex flags)";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0027() {
   let invocable = "K-MatchesFunc-6";
-  let expected = "null([core::matches_3] flags can not contain character 'X')";
+  let expected = "null(<FeelRegexError> invalid regex flag: 'X')";
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
@@ -239,56 +239,56 @@ fn _0033() {
 #[test]
 fn _0034() {
   let invocable = "K2-MatchesFunc-7";
-  let expected = r#"null([core::matches_3] parsing pattern failed: '\p{ IsLatin}+')"#;
+  let expected = r#"null(<FeelRegexError> invalid regex pattern: '\p{ IsBasicLatin}+')"#;
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0035() {
   let invocable = "K2-MatchesFunc-8";
-  let expected = r#"null([core::matches_3] parsing pattern failed: '(.)\3')"#;
+  let expected = r#"null(<FeelRegexError> invalid regex pattern: '(.)\3')"#;
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0036() {
   let invocable = "K2-MatchesFunc-9";
-  let expected = r#"null([core::matches_3] parsing pattern failed: '(.)\2')"#;
+  let expected = r#"null(<FeelRegexError> invalid regex pattern: '(.)\2')"#;
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0037() {
   let invocable = "K2-MatchesFunc-10";
-  let expected = r#"null([core::matches_3] parsing pattern failed: '\3')"#;
+  let expected = r#"null(<FeelRegexError> invalid regex pattern: '\3')"#;
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0038() {
   let invocable = "K2-MatchesFunc-11";
-  let expected = r#"null([core::matches_3] parsing pattern failed: '(asd)[\1]')"#;
+  let expected = r#"null(<FeelRegexError> invalid regex pattern: '(asd)[\1]')"#;
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0039() {
   let invocable = "K2-MatchesFunc-12";
-  let expected = r#"null([core::matches_3] parsing pattern failed: '(asd)[asd\1]')"#;
+  let expected = r#"null(<FeelRegexError> invalid regex pattern: '(asd)[asd\1]')"#;
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0040() {
   let invocable = "K2-MatchesFunc-13";
-  let expected = r#"null([core::matches_3] parsing pattern failed: '(asd)[asd\0]')"#;
+  let expected = r#"null(<FeelRegexError> invalid regex pattern: '(asd)[asd\0]')"#;
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]
 fn _0041() {
   let invocable = "K2-MatchesFunc-14";
-  let expected = r#"null([core::matches_3] parsing pattern failed: '1[asd\0]')"#;
+  let expected = r#"null(<FeelRegexError> invalid regex pattern: '1[asd\0]')"#;
   assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 

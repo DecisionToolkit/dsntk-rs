@@ -25,6 +25,7 @@ dsntk-common = { workspace = true }
 dsntk-evaluator = { workspace = true }
 dsntk-feel = { workspace = true }
 dsntk-feel-parser = { workspace = true }
+dsntk-feel-regex = { workspace = true }
 dsntk-gendoc = { workspace = true }
 dsntk-model = { workspace = true }
 dsntk-recognizer = { workspace = true }
