@@ -4,21 +4,21 @@ use dsntk_examples::decision_tables::H_000010;
 
 #[test]
 fn test_dt_0001() {
-  let _decision_table = builder::recognize(H_000010, false).unwrap();
+  let _decision_table = builder::recognize_from_unicode(H_000010, false).unwrap();
   // FIXME change to assert
   // println!("{}", decision_table);
 }
 
 #[test]
 fn ex_0001() {
-  let _decision_table = builder::recognize(EX_01, false).unwrap();
+  let _decision_table = builder::recognize_from_unicode(EX_01, false).unwrap();
   // FIXME change to assert
   // println!("{}", decision_table);
 }
 
 #[test]
 fn ex_0064() {
-  let _decision_table = builder::recognize(EX_07, false).unwrap();
+  let _decision_table = builder::recognize_from_unicode(EX_07, false).unwrap();
   // FIXME change to assert
   // println!("{}", decision_table);
 }

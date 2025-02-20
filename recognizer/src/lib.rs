@@ -1,6 +1,6 @@
 //! # Decision table recognizer
 //!
-//! Recognizes decision tables defined as plain Unicode text.
+//! Recognizes decision tables defined as plain text.
 
 #![deny(missing_docs)]
 #![deny(rustdoc::broken_intra_doc_links)]
@@ -19,7 +19,7 @@ mod recognizer;
 mod rect;
 mod tests;
 
-pub use builder::recognize;
+pub use builder::recognize_from_unicode;
 
 pub use model::{
   AnnotationEntry, BuiltinAggregator, DecisionRule, DecisionTable, DecisionTableOrientation, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry, RuleAnnotationClause,
