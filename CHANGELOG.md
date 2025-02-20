@@ -1,5 +1,38 @@
 # Changelog
 
+## [v0.1.0](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.1.0) (2024-02-20)
+
+[Full Changelog](https://github.com/DecisionToolkit/dsntk-rs/compare/v0.0.9...v0.1.0)
+
+### What's new
+
+- Handled `date` type in `for` loops.
+- Added `list replace` built-in function.
+- Added `range` built-in function.
+- Added `q` flag to regular expressions.
+- Downgraded handled dates range to values supported by [chrono](https://crates.io/crates/chrono) crate:
+  - minimum date: **-262143-01-01**,
+  - maximum date: **262142-12-31**.
+- Downgraded regular expression features to those supported by [regex](https://crates.io/crates/regex) crate:
+  - back references in regular expressions are not supported.
+
+### Closed issues
+
+- Handle `q` flag in regular expressions [\#23](https://github.com/DecisionToolkit/dsntk-rs/issues/23)
+- Add `-w` option to `curl` examples [\#70](https://github.com/DecisionToolkit/dsntk-rs/issues/70)
+- Implement `list replace` function [\#71](https://github.com/DecisionToolkit/dsntk-rs/issues/71)
+- Implement `range` function [\#72](https://github.com/DecisionToolkit/dsntk-rs/issues/72)
+- Extend `for` loop with `date` type [\#73](https://github.com/DecisionToolkit/dsntk-rs/issues/73)
+
+### Merged pull requests
+
+- Extended `for` loop with `date` type [\#74](https://github.com/DecisionToolkit/dsntk-rs/pull/74)
+- Implemented `list replace` function [\#75](https://github.com/DecisionToolkit/dsntk-rs/pull/75)
+- Implemented `range` function [\#76](https://github.com/DecisionToolkit/dsntk-rs/pull/76)
+- Date and time handling improvements [\#77](https://github.com/DecisionToolkit/dsntk-rs/pull/77)
+- Do not support onig crate [\#78](https://github.com/DecisionToolkit/dsntk-rs/pull/78)
+- Refactoring temporal [\#79](https://github.com/DecisionToolkit/dsntk-rs/pull/79)
+
 ## [v0.0.9](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.0.9) (2024-11-13)
 
 [Full Changelog](https://github.com/DecisionToolkit/dsntk-rs/compare/v0.0.8...v0.0.9)
@@ -19,10 +52,10 @@
 
 ### Merged pull requests
 
-- Supported multiple -D arguments [\#63](https://github.com/DecisionToolkit/dsntk-rs/issues/63)
-- Enabled GET method [\##65](https://github.com/DecisionToolkit/dsntk-rs/issues/65)
-- Colouring [\#66](https://github.com/DecisionToolkit/dsntk-rs/issues/66)
-- Removed `--dir` option variant [\##68](https://github.com/DecisionToolkit/dsntk-rs/issues/68)
+- Supported multiple -D arguments [\#63](https://github.com/DecisionToolkit/dsntk-rs/pull/63)
+- Enabled GET method [\##65](https://github.com/DecisionToolkit/dsntk-rs/pull/65)
+- Colouring [\#66](https://github.com/DecisionToolkit/dsntk-rs/pull/66)
+- Removed `--dir` option variant [\##68](https://github.com/DecisionToolkit/dsntk-rs/pull/68)
 
 ## [v0.0.8](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.0.8) (2024-09-18)
 
