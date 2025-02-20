@@ -230,7 +230,7 @@ impl FeelDate {
     }
   }
 
-  /// Returns today's date (local time).
+  /// Returns today's date in local time.
   pub fn today() -> Self {
     let today = Local::now();
     Self(today.year(), today.month(), today.day())
@@ -401,11 +401,11 @@ mod tests {
     let date = FeelDate(2023, 2, 8);
     let date_time: DateTime<FixedOffset> = date.try_into().unwrap();
     assert_eq!("2023-02-08 00:00:00 +00:00", date_time.to_string());
-    let date = FeelDate(262144, 2, 8);
+    let date = FeelDate(262144, 1, 1);
     let date_time: Result<DateTime<FixedOffset>> = date.try_into();
-    assert_eq!("<TemporalError> invalid date 262144-2-8", date_time.err().unwrap().to_string());
-    let date = FeelDate(262144, 2, 8);
+    assert_eq!("<TemporalError> invalid date 262144-1-1", date_time.err().unwrap().to_string());
+    let date = FeelDate(-262144, 12, 31);
     let date_time: Result<NaiveDate> = date.try_into();
-    assert_eq!("<TemporalError> invalid date 262144-2-8", date_time.err().unwrap().to_string());
+    assert_eq!("<TemporalError> invalid date -262144-12-31", date_time.err().unwrap().to_string());
   }
 }
