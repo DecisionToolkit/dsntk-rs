@@ -22,8 +22,8 @@ static_context!(
   }"#
 );
 
-#[test]
-fn _0001() {
+#[bench]
+fn _0001(b: &mut Bencher) {
   let invocable_name = "Rebooked Passengers";
   assert_decision(
     &MODEL_EVALUATOR,
@@ -33,10 +33,11 @@ fn _0001() {
     &CTX,
     r#"[{Flight Number: "UA456", Miles: 500000, Name: "Jenny", Status: "gold"}, {Flight Number: "UA456", Miles: 100000, Name: "Harry", Status: "gold"}, {Flight Number: "UA789", Miles: 50000, Name: "Igor", Status: "gold"}, {Flight Number: "UA789", Miles: 100, Name: "Dick", Status: "silver"}, {Flight Number: null, Miles: 10, Name: "Tom", Status: "bronze"}]"#,
   );
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }
 
-#[test]
-fn _0002() {
+#[bench]
+fn _0002(b: &mut Bencher) {
   let invocable_name = "Prioritized Waiting List";
   assert_decision(
     &MODEL_EVALUATOR,
@@ -46,4 +47,5 @@ fn _0002() {
     &CTX,
     r#"[{Flight Number: "UA123", Miles: 500000, Name: "Jenny", Status: "gold"}, {Flight Number: "UA123", Miles: 100000, Name: "Harry", Status: "gold"}, {Flight Number: "UA123", Miles: 50000, Name: "Igor", Status: "gold"}, {Flight Number: "UA123", Miles: 100, Name: "Dick", Status: "silver"}, {Flight Number: "UA123", Miles: 10, Name: "Tom", Status: "bronze"}]"#,
   );
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }
