@@ -554,7 +554,7 @@ fn get_cli_action() -> Action {
     .clear()
     .s(" | ")
     .green()
-    .s("Decision Toolkit")
+    .s("DecisionToolkit")
     .clear()
     .s(" | ")
     .green()

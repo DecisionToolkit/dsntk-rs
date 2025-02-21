@@ -129,6 +129,6 @@ that do not work, please [file an issue](https://github.com/DecisionToolkit/dsnt
 ## [v0.0.1](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.0.1) (2023-11-11)
 
 - [x] Some edge cases (like models generated from Camunda) do not work yet.
-- [x] **Decision Toolkit** is the successor of the [DMNTK](https://github.com/dmntk) project.
+- [x] **DecisionToolkit** is the successor of the [DMNTK](https://github.com/dmntk) project.
 - [x] Full DMN 1.3 conformance.
 - [x] Initial release.
