@@ -40,7 +40,9 @@ impl DecisionServiceEvaluator {
       evaluators.insert(def_key.clone(), evaluator);
       model_builder.add_decision_service_invocable(model_namespace.to_string(), model_name.to_string(), invocable_name, def_key);
     }
-    Ok(Self { evaluators: RwLock::new(evaluators) })
+    Ok(Self {
+      evaluators: RwLock::new(evaluators),
+    })
   }
 
   /// Creates function definition evaluators for all decision service evaluators.
@@ -74,8 +76,20 @@ impl DecisionServiceEvaluator {
   }
 
   /// Evaluates a decision service with specified identifier.
-  pub fn evaluate(&self, def_key: &DefKey, global_context: &FeelContext, input_data: &FeelContext, model_evaluator: &ModelEvaluator, output_data: &mut FeelContext) -> Option<Name> {
-    self.evaluators.read().ok()?.get(def_key).map(|entry| entry.2(global_context, input_data, model_evaluator, output_data))
+  pub fn evaluate(
+    &self,
+    def_key: &DefKey,
+    global_context: &FeelContext,
+    input_data: &FeelContext,
+    model_evaluator: &ModelEvaluator,
+    output_data: &mut FeelContext,
+  ) -> Option<Name> {
+    self
+      .evaluators
+      .read()
+      .ok()?
+      .get(def_key)
+      .map(|entry| entry.2(global_context, input_data, model_evaluator, output_data))
   }
 
   /// Returns a decision service as function definition with specified identifier.
@@ -147,68 +161,70 @@ fn build_decision_service_evaluator(decision_service: &DefDecisionService, model
   }
 
   // build decision service evaluator closure
-  let decision_service_evaluator = Box::new(move |global_context: &FeelContext, input_data: &FeelContext, model_evaluator: &ModelEvaluator, output_data: &mut FeelContext| {
-    // acquire all evaluators needed
-    let item_definition_evaluator = model_evaluator.item_definition_evaluator();
-    let input_data_evaluator = model_evaluator.input_data_evaluator();
-    let decision_evaluator = model_evaluator.decision_evaluator();
-    // evaluate input decisions and store the results in separate context
-    let mut input_decisions_results = FeelContext::default();
-    input_decisions.iter().for_each(|def_key| {
-      decision_evaluator.evaluate(def_key, global_context, input_data, model_evaluator, &mut input_decisions_results);
-    });
-    // now evaluate input data for encapsulated and output decisions and store them in separate context
-    let mut evaluated_input_data = FeelContext::default();
-    // first take values from evaluated input decisions...
-    let input_decision_results_value = Value::Context(input_decisions_results);
-    for evaluator in &input_decision_results_evaluators {
-      let (name, value) = evaluator(&input_decision_results_value, item_definition_evaluator);
-      evaluated_input_data.set_entry(&name, value);
-    }
-    // ...and then take values from provided input data
-    let input_data_values = Value::Context(input_data.clone());
-    for evaluator in &input_decision_results_evaluators {
-      let (name, value) = evaluator(&input_data_values, item_definition_evaluator);
-      evaluated_input_data.set_entry(&name, value);
-    }
-    // evaluate required inputs (from required input data references)
-    input_data_references.iter().for_each(|input_data_id| {
-      if let Some((name, value)) = input_data_evaluator.evaluate(input_data_id, &input_data_values, item_definition_evaluator) {
+  let decision_service_evaluator = Box::new(
+    move |global_context: &FeelContext, input_data: &FeelContext, model_evaluator: &ModelEvaluator, output_data: &mut FeelContext| {
+      // acquire all evaluators needed
+      let item_definition_evaluator = model_evaluator.item_definition_evaluator();
+      let input_data_evaluator = model_evaluator.input_data_evaluator();
+      let decision_evaluator = model_evaluator.decision_evaluator();
+      // evaluate input decisions and store the results in separate context
+      let mut input_decisions_results = FeelContext::default();
+      input_decisions.iter().for_each(|def_key| {
+        decision_evaluator.evaluate(def_key, global_context, input_data, model_evaluator, &mut input_decisions_results);
+      });
+      // now evaluate input data for encapsulated and output decisions and store them in separate context
+      let mut evaluated_input_data = FeelContext::default();
+      // first take values from evaluated input decisions...
+      let input_decision_results_value = Value::Context(input_decisions_results);
+      for evaluator in &input_decision_results_evaluators {
+        let (name, value) = evaluator(&input_decision_results_value, item_definition_evaluator);
         evaluated_input_data.set_entry(&name, value);
       }
-    });
-    // prepare context for evaluated result data for this decision service
-    let mut evaluated_ctx = FeelContext::default();
-    // evaluate encapsulated decisions
-    encapsulated_decisions.iter().for_each(|def_key| {
-      decision_evaluator.evaluate(def_key, global_context, &evaluated_input_data, model_evaluator, &mut evaluated_ctx);
-    });
-    // evaluate output decisions
-    let mut output_names = vec![];
-    output_decisions.iter().for_each(|def_key| {
-      if let Some(output_name) = decision_evaluator.evaluate(def_key, global_context, &evaluated_input_data, model_evaluator, &mut evaluated_ctx) {
-        output_names.push(output_name);
+      // ...and then take values from provided input data
+      let input_data_values = Value::Context(input_data.clone());
+      for evaluator in &input_decision_results_evaluators {
+        let (name, value) = evaluator(&input_data_values, item_definition_evaluator);
+        evaluated_input_data.set_entry(&name, value);
       }
-    });
-    // prepare the result from this decision service
-    if output_names.len() == 1 {
-      if let Some(value) = evaluated_ctx.get_entry(&output_names[0]) {
-        let single_result = value.to_owned();
-        let coerced_single_result = single_result.coerced(&output_variable_type);
-        output_data.set_entry(&output_variable_name, coerced_single_result);
-      }
-    } else {
-      let mut output_ctx = FeelContext::default();
-      output_names.iter().for_each(|output_name| {
-        if let Some(value) = evaluated_ctx.get_entry(output_name) {
-          output_ctx.set_entry(output_name, value.to_owned());
+      // evaluate required inputs (from required input data references)
+      input_data_references.iter().for_each(|input_data_id| {
+        if let Some((name, value)) = input_data_evaluator.evaluate(input_data_id, &input_data_values, item_definition_evaluator) {
+          evaluated_input_data.set_entry(&name, value);
         }
       });
-      let complex_result = Value::Context(output_ctx);
-      let coerced_complex_result = complex_result.coerced(&output_variable_type);
-      output_data.set_entry(&output_variable_name, coerced_complex_result);
-    }
-    output_variable_name.clone()
-  });
+      // prepare context for evaluated result data for this decision service
+      let mut evaluated_ctx = FeelContext::default();
+      // evaluate encapsulated decisions
+      encapsulated_decisions.iter().for_each(|def_key| {
+        decision_evaluator.evaluate(def_key, global_context, &evaluated_input_data, model_evaluator, &mut evaluated_ctx);
+      });
+      // evaluate output decisions
+      let mut output_names = vec![];
+      output_decisions.iter().for_each(|def_key| {
+        if let Some(output_name) = decision_evaluator.evaluate(def_key, global_context, &evaluated_input_data, model_evaluator, &mut evaluated_ctx) {
+          output_names.push(output_name);
+        }
+      });
+      // prepare the result from this decision service
+      if output_names.len() == 1 {
+        if let Some(value) = evaluated_ctx.get_entry(&output_names[0]) {
+          let single_result = value.to_owned();
+          let coerced_single_result = single_result.coerced(&output_variable_type);
+          output_data.set_entry(&output_variable_name, coerced_single_result);
+        }
+      } else {
+        let mut output_ctx = FeelContext::default();
+        output_names.iter().for_each(|output_name| {
+          if let Some(value) = evaluated_ctx.get_entry(output_name) {
+            output_ctx.set_entry(output_name, value.to_owned());
+          }
+        });
+        let complex_result = Value::Context(output_ctx);
+        let coerced_complex_result = complex_result.coerced(&output_variable_type);
+        output_data.set_entry(&output_variable_name, coerced_complex_result);
+      }
+      output_variable_name.clone()
+    },
+  );
   Ok((output_variable, formal_parameters, decision_service_evaluator, None))
 }

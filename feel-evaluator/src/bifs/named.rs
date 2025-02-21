@@ -1133,7 +1133,11 @@ fn bif_time(parameters: &NamedParameters) -> Value {
   if let Some((hour_value, _)) = get_param(parameters, &NAME_HOUR) {
     if let Some((minute_value, _)) = get_param(parameters, &NAME_MINUTE) {
       if let Some((second_value, _)) = get_param(parameters, &NAME_SECOND) {
-        return if let Some((offset_value, _)) = get_param(parameters, &NAME_OFFSET) { core::time_4(hour_value, minute_value, second_value, offset_value) } else { core::time_3(hour_value, minute_value, second_value) };
+        return if let Some((offset_value, _)) = get_param(parameters, &NAME_OFFSET) {
+          core::time_4(hour_value, minute_value, second_value, offset_value)
+        } else {
+          core::time_3(hour_value, minute_value, second_value)
+        };
       }
     }
   }

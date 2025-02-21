@@ -23,19 +23,40 @@ fn _0003() {
 #[test]
 fn _0004() {
   let ctx = context(r#"{nestedList: [["w", "x"], ["y"], ["z"]], simpleList: ["a", "b", "c"]}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "append2", &ctx, r#"[["w", "x"], ["y"], ["z"], ["a", "b", "c"]]"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "append2",
+    &ctx,
+    r#"[["w", "x"], ["y"], ["z"], ["a", "b", "c"]]"#,
+  );
 }
 
 #[test]
 fn _0005() {
   let ctx = context(r#"{nestedList: [["w", "x"], ["y"], ["z"]], simpleList: ["a", "b", "c"]}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "append3", &ctx, r#"[["w", "x"], ["y"], ["z"], ["a", "b", "c"]]"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "append3",
+    &ctx,
+    r#"[["w", "x"], ["y"], ["z"], ["a", "b", "c"]]"#,
+  );
 }
 
 #[test]
 fn _0006() {
   let ctx = context(r#"{nestedList: [["w", "x"], ["y"], ["z"]], simpleList: ["a", "b", "c"]}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "append4", &ctx, r#"[["w", "x"], ["y"], ["z"], ["a", "b", "c"]]"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "append4",
+    &ctx,
+    r#"[["w", "x"], ["y"], ["z"], ["a", "b", "c"]]"#,
+  );
 }
 
 #[test]

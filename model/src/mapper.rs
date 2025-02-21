@@ -1,6 +1,13 @@
-use crate::{AnnotationEntry, BuiltinAggregator, DecisionRule, DecisionTable, DecisionTableOrientation, DmnId, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry, RuleAnnotationClause};
+use crate::{
+  AnnotationEntry, BuiltinAggregator, DecisionRule, DecisionTable, DecisionTableOrientation, DmnId, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry,
+  RuleAnnotationClause,
+};
 use dsntk_common::gen_id;
-use dsntk_recognizer::{AnnotationEntry as RecognizedAnnotationEntry, BuiltinAggregator as RecognizedBuiltinAggregator, DecisionRule as RecognizedDecisionRule, DecisionTable as RecognizedDecisionTable, DecisionTableOrientation as RecognizedDecisionTableOrientation, HitPolicy as RecognizedHitPolicy, InputClause as RecognizedInputClause, InputEntry as RecognizedInputEntry, OutputClause as RecognizedOutputClause, OutputEntry as RecognizedOutputEntry, RuleAnnotationClause as RecognizedRuleAnnotationClause};
+use dsntk_recognizer::{
+  AnnotationEntry as RecognizedAnnotationEntry, BuiltinAggregator as RecognizedBuiltinAggregator, DecisionRule as RecognizedDecisionRule, DecisionTable as RecognizedDecisionTable,
+  DecisionTableOrientation as RecognizedDecisionTableOrientation, HitPolicy as RecognizedHitPolicy, InputClause as RecognizedInputClause, InputEntry as RecognizedInputEntry,
+  OutputClause as RecognizedOutputClause, OutputEntry as RecognizedOutputEntry, RuleAnnotationClause as RecognizedRuleAnnotationClause,
+};
 
 impl From<RecognizedDecisionTable> for DecisionTable {
   fn from(value: RecognizedDecisionTable) -> Self {
@@ -39,13 +46,21 @@ impl From<RecognizedDecisionTable> for DecisionTable {
 
 impl From<RecognizedInputClause> for InputClause {
   fn from(value: RecognizedInputClause) -> Self {
-    Self { input_expression: value.input_expression, allowed_input_values: value.allowed_input_values }
+    Self {
+      input_expression: value.input_expression,
+      allowed_input_values: value.allowed_input_values,
+    }
   }
 }
 
 impl From<RecognizedOutputClause> for OutputClause {
   fn from(value: RecognizedOutputClause) -> Self {
-    Self { type_ref: None, name: value.name, allowed_output_values: value.allowed_output_values, default_output_entry: value.default_output_entry }
+    Self {
+      type_ref: None,
+      name: value.name,
+      allowed_output_values: value.allowed_output_values,
+      default_output_entry: value.default_output_entry,
+    }
   }
 }
 
@@ -57,7 +72,11 @@ impl From<RecognizedRuleAnnotationClause> for RuleAnnotationClause {
 
 impl From<RecognizedDecisionRule> for DecisionRule {
   fn from(value: RecognizedDecisionRule) -> Self {
-    let RecognizedDecisionRule { mut input_entries, mut output_entries, mut annotation_entries } = value;
+    let RecognizedDecisionRule {
+      mut input_entries,
+      mut output_entries,
+      mut annotation_entries,
+    } = value;
     Self {
       input_entries: input_entries.drain(..).map(Into::into).collect(),
       output_entries: output_entries.drain(..).map(Into::into).collect(),

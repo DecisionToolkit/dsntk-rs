@@ -148,7 +148,12 @@ fn _0029() {
 
 #[test]
 fn _0030() {
-  te_null(false, &scope!(), r#"month of year(date(2019,12,17),date(2019,12,17))"#, "expected 1 parameters, actual number of parameters is 2");
+  te_null(
+    false,
+    &scope!(),
+    r#"month of year(date(2019,12,17),date(2019,12,17))"#,
+    "expected 1 parameters, actual number of parameters is 2",
+  );
 }
 
 #[test]
@@ -158,20 +163,40 @@ fn _0031() {
 
 #[test]
 fn _0032() {
-  te_null(false, &scope!(), r#"month of year(10)"#, "[core::month of year] invalid argument type, expected date, date and time, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#"month of year(10)"#,
+    "[core::month of year] invalid argument type, expected date, date and time, actual type is number",
+  );
 }
 
 #[test]
 fn _0033() {
-  te_null(false, &scope!(), r#"month of year(null)"#, "[core::month of year] invalid argument type, expected date, date and time, actual type is Null");
+  te_null(
+    false,
+    &scope!(),
+    r#"month of year(null)"#,
+    "[core::month of year] invalid argument type, expected date, date and time, actual type is Null",
+  );
 }
 
 #[test]
 fn _0034() {
-  te_null(false, &scope!(), r#"month of year(true)"#, "[core::month of year] invalid argument type, expected date, date and time, actual type is boolean");
+  te_null(
+    false,
+    &scope!(),
+    r#"month of year(true)"#,
+    "[core::month of year] invalid argument type, expected date, date and time, actual type is boolean",
+  );
 }
 
 #[test]
 fn _0035() {
-  te_null(false, &scope!(), r#"month of year(@"999999999-01-01")"#, "[core::month of year] invalid argument type, expected date, date and time, actual type is Null");
+  te_null(
+    false,
+    &scope!(),
+    r#"month of year(@"999999999-01-01")"#,
+    "[core::month of year] invalid argument type, expected date, date and time, actual type is Null",
+  );
 }

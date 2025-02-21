@@ -53,7 +53,9 @@ fn _0010() {
 
 #[test]
 fn _0011() {
-  let scope = &te_scope(r#"{poem:"<poem author=\"Wilhelm Busch\">\nKaum hat dies der Hahn gesehen,\nFängt er auch schon an zu krähen:\nKikeriki! Kikikerikih!!\nTak, tak, tak! - da kommen sie.\n</poem>"}"#);
+  let scope = &te_scope(
+    r#"{poem:"<poem author=\"Wilhelm Busch\">\nKaum hat dies der Hahn gesehen,\nFängt er auch schon an zu krähen:\nKikeriki! Kikikerikih!!\nTak, tak, tak! - da kommen sie.\n</poem>"}"#,
+  );
   te_bool(false, scope, r#"matches(poem, "Kaum.*krähen")"#, false);
 }
 
@@ -69,7 +71,12 @@ fn _0013() {
 
 #[test]
 fn _0014() {
-  te_null(false, &scope!(), r#"matches("abc","a","b","c")"#, "expected 2,3 parameters, actual number of parameters is 4");
+  te_null(
+    false,
+    &scope!(),
+    r#"matches("abc","a","b","c")"#,
+    "expected 2,3 parameters, actual number of parameters is 4",
+  );
 }
 
 #[test]
@@ -99,27 +106,52 @@ fn _0019() {
 
 #[test]
 fn _0020() {
-  te_null(false, &scope!(), r#"matches(input: "abc", pattern: "a", flags: "x", other: "c")"#, "expected 2,3 parameters, actual number of parameters is 4");
+  te_null(
+    false,
+    &scope!(),
+    r#"matches(input: "abc", pattern: "a", flags: "x", other: "c")"#,
+    "expected 2,3 parameters, actual number of parameters is 4",
+  );
 }
 
 #[test]
 fn _0021() {
-  te_null(false, &scope!(), r#"matches(input: 10, pattern: "^fo*b")"#, r#"[core::matches] invalid argument type, expected string, actual type is number"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"matches(input: 10, pattern: "^fo*b")"#,
+    r#"[core::matches] invalid argument type, expected string, actual type is number"#,
+  );
 }
 
 #[test]
 fn _0022() {
-  te_null(false, &scope!(), r#"matches(input: "foobar", pattern: true)"#, r#"[core::matches] invalid argument type, expected string, actual type is boolean"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"matches(input: "foobar", pattern: true)"#,
+    r#"[core::matches] invalid argument type, expected string, actual type is boolean"#,
+  );
 }
 
 #[test]
 fn _0023() {
-  te_null(false, &scope!(), r#"matches(input: 10, pattern: "^fo*b", flags: "s")"#, r#"[core::matches] invalid argument type, expected string, actual type is number"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"matches(input: 10, pattern: "^fo*b", flags: "s")"#,
+    r#"[core::matches] invalid argument type, expected string, actual type is number"#,
+  );
 }
 
 #[test]
 fn _0024() {
-  te_null(false, &scope!(), r#"matches(input: "foobar", pattern: true, flags: "s")"#, r#"[core::matches] invalid argument type, expected string, actual type is boolean"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"matches(input: "foobar", pattern: true, flags: "s")"#,
+    r#"[core::matches] invalid argument type, expected string, actual type is boolean"#,
+  );
 }
 
 #[test]
@@ -188,7 +220,12 @@ fn _0037() {
 
 #[test]
 fn _0038() {
-  te_null(false, &scope!(), r#"matches("input", "pattern", [])"#, "[core::matches] invalid argument type, expected string, actual type is list<Null>");
+  te_null(
+    false,
+    &scope!(),
+    r#"matches("input", "pattern", [])"#,
+    "[core::matches] invalid argument type, expected string, actual type is list<Null>",
+  );
 }
 
 #[test]

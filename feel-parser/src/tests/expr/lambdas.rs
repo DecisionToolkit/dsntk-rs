@@ -96,7 +96,10 @@ fn _0003() {
   scope.set_entry_name("y".into());
   scope.set_entry_name(vec!["Customer", "data"].into());
   scope.push(ctx);
-  assert_eq!("[{Customer data: <v>, x: <v>, y: <v>}, {Customer data: {Person: {City: <v>, Marital status: <v>, Street: <v>, Surname: <v>}}}]", scope.to_string());
+  assert_eq!(
+    "[{Customer data: <v>, x: <v>, y: <v>}, {Customer data: {Person: {City: <v>, Marital status: <v>, Street: <v>, Surname: <v>}}}]",
+    scope.to_string()
+  );
   accept(
     &scope,
     StartExpression,

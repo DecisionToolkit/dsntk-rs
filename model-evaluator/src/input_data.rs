@@ -71,7 +71,10 @@ mod tests {
     assert_eq!(NAMESPACE, variable.namespace());
     let context_str = r#"{Full Name: "John"}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-    assert_eq!(Some((Name::new(&["Full", "Name"]), Value::String("John".to_string()))), input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator));
+    assert_eq!(
+      Some((Name::new(&["Full", "Name"]), Value::String("John".to_string()))),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
   }
 
   #[test]
@@ -83,7 +86,10 @@ mod tests {
     assert_eq!(NAMESPACE, variable.namespace());
     let context_str = r#"{Full Name: "Phillip"}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-    assert_eq!(Some((Name::new(&["Full", "Name"]), Value::String("Phillip".to_string()))), input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator));
+    assert_eq!(
+      Some((Name::new(&["Full", "Name"]), Value::String("Phillip".to_string()))),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
   }
 
   #[test]
@@ -95,7 +101,10 @@ mod tests {
     assert_eq!(NAMESPACE, variable.namespace());
     let context_str = r#"{Full Name: 50.0}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-    assert_eq!(Some((Name::new(&["Full", "Name"]), value_null!("after coercion"))), input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator));
+    assert_eq!(
+      Some((Name::new(&["Full", "Name"]), value_null!("after coercion"))),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
   }
 
   #[test]
@@ -107,7 +116,10 @@ mod tests {
     assert_eq!(NAMESPACE, variable.namespace());
     let context_str = r#"{Monthly Salary: 12000.00}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-    assert_eq!(Some((Name::new(&["Monthly", "Salary"]), value_number!(12000))), input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator));
+    assert_eq!(
+      Some((Name::new(&["Monthly", "Salary"]), value_number!(12000))),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
   }
 
   #[test]
@@ -119,7 +131,10 @@ mod tests {
     assert_eq!(NAMESPACE, variable.namespace());
     let context_str = r#"{Monthly Salary: 8135.35}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-    assert_eq!(Some((Name::new(&["Monthly", "Salary"]), value_number!(813535, 2))), input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator));
+    assert_eq!(
+      Some((Name::new(&["Monthly", "Salary"]), value_number!(813535, 2))),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
   }
 
   #[test]
@@ -131,7 +146,10 @@ mod tests {
     assert_eq!(NAMESPACE, variable.namespace());
     let context_str = r#"{Monthly Salary: "12000.00"}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-    assert_eq!(Some((Name::new(&["Monthly", "Salary"]), value_null!("after coercion"))), input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator));
+    assert_eq!(
+      Some((Name::new(&["Monthly", "Salary"]), value_null!("after coercion"))),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
   }
 
   #[test]
@@ -143,7 +161,10 @@ mod tests {
     assert_eq!(NAMESPACE, variable.namespace());
     let context_str = r#"{Is Affordable: true}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-    assert_eq!(Some((Name::new(&["Is", "Affordable"]), Value::Boolean(true))), input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator));
+    assert_eq!(
+      Some((Name::new(&["Is", "Affordable"]), Value::Boolean(true))),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
   }
 
   #[test]
@@ -155,7 +176,10 @@ mod tests {
     assert_eq!(NAMESPACE, variable.namespace());
     let context_str = r#"{Is Affordable: false}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-    assert_eq!(Some((Name::new(&["Is", "Affordable"]), Value::Boolean(false))), input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator));
+    assert_eq!(
+      Some((Name::new(&["Is", "Affordable"]), Value::Boolean(false))),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
   }
 
   #[test]
@@ -167,7 +191,10 @@ mod tests {
     assert_eq!(NAMESPACE, variable.namespace());
     let context_str = r#"{Is Affordable: "no"}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-    assert_eq!(Some((Name::new(&["Is", "Affordable"]), value_null!("after coercion"))), input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator));
+    assert_eq!(
+      Some((Name::new(&["Is", "Affordable"]), value_null!("after coercion"))),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
   }
 
   #[test]
@@ -180,7 +207,10 @@ mod tests {
     let context_str = r#"{Employment Status: "EMPLOYED"}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let name = Name::new(&["Employment", "Status"]);
-    assert_eq!(Some((name, Value::String("EMPLOYED".to_string()))), input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator));
+    assert_eq!(
+      Some((name, Value::String("EMPLOYED".to_string()))),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
   }
 
   #[test]
@@ -192,7 +222,10 @@ mod tests {
     assert_eq!(NAMESPACE, variable.namespace());
     let context_str = r#"{Always Null: null}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-    assert_eq!(Some((Name::new(&["Always", "Null"]), value_null!())), input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator));
+    assert_eq!(
+      Some((Name::new(&["Always", "Null"]), value_null!())),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
   }
 
   #[test]
@@ -204,7 +237,10 @@ mod tests {
     assert_eq!(NAMESPACE, variable.namespace());
     let context_str = r#"{Always Null: 10}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
-    assert_eq!(Some((Name::new(&["Always", "Null"]), value_null!("after coercion"))), input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator));
+    assert_eq!(
+      Some((Name::new(&["Always", "Null"]), value_null!("after coercion"))),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
   }
 
   #[test]
@@ -217,6 +253,9 @@ mod tests {
     let context_str = r#"{Employment Status: "EMPLOYED"}"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let name = Name::new(&["Employment", "Status"]);
-    assert_eq!(Some((name, value_null!("input data evaluator: item definition evaluator 'tEmploymentStatus' not found"))), input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator));
+    assert_eq!(
+      Some((name, value_null!("input data evaluator: item definition evaluator 'tEmploymentStatus' not found"))),
+      input_data_evaluator.evaluate(&def_key, &Value::Context(context), &item_definitions_evaluator)
+    );
   }
 }

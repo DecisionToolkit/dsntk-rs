@@ -65,5 +65,10 @@ fn _0012() {
 
 #[test]
 fn _0013() {
-  te_null(false, &scope!(), r#"odd("2")"#, r#"[core::odd] invalid argument type, expected number, actual type is string"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"odd("2")"#,
+    r#"[core::odd] invalid argument type, expected number, actual type is string"#,
+  );
 }

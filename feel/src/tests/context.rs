@@ -329,7 +329,10 @@ fn test_zip() {
   let mut ctx_b: FeelContext = Default::default();
   ctx_b.set_entry(&name_c, value_number!(3));
   ctx_a.zip(&ctx_b);
-  assert_eq!(vec![(&name_a, &value_number!(1)), (&name_b, &value_number!(2)), (&name_c, &value_number!(3))], ctx_a.get_entries());
+  assert_eq!(
+    vec![(&name_a, &value_number!(1)), (&name_b, &value_number!(2)), (&name_c, &value_number!(3))],
+    ctx_a.get_entries()
+  );
 }
 
 #[test]
@@ -347,7 +350,15 @@ fn test_overwrite() {
   ctx_b.set_entry(&name_b, value_number!(20));
   ctx_b.set_entry(&name_c, value_number!(30));
   ctx_a.overwrite(&ctx_b);
-  assert_eq!(vec![(&name_a, &value_number!(1)), (&name_b, &value_number!(20)), (&name_c, &value_number!(30)), (&name_d, &value_number!(4))], ctx_a.get_entries());
+  assert_eq!(
+    vec![
+      (&name_a, &value_number!(1)),
+      (&name_b, &value_number!(20)),
+      (&name_c, &value_number!(30)),
+      (&name_d, &value_number!(4))
+    ],
+    ctx_a.get_entries()
+  );
 }
 
 #[test]
@@ -363,7 +374,15 @@ fn test_try_from_value_context() {
   ctx_a.set_entry(&name_d, value_number!(4));
   let v = Value::Context(ctx_a);
   let ctx_b = FeelContext::try_from(v).unwrap();
-  assert_eq!(vec![(&name_a, &value_number!(1)), (&name_b, &value_number!(2)), (&name_c, &value_number!(3)), (&name_d, &value_number!(4))], ctx_b.get_entries());
+  assert_eq!(
+    vec![
+      (&name_a, &value_number!(1)),
+      (&name_b, &value_number!(2)),
+      (&name_c, &value_number!(3)),
+      (&name_d, &value_number!(4))
+    ],
+    ctx_b.get_entries()
+  );
 }
 
 #[test]
@@ -400,10 +419,21 @@ fn test_clone() {
   ctx_a.set_entry(&name_c, value_number!(30));
   ctx_a.set_entry(&name_d, value_number!(40));
   let ctx_b = ctx_a.clone();
-  assert_eq!(vec![(&name_a, &value_number!(10)), (&name_b, &value_number!(20)), (&name_c, &value_number!(30)), (&name_d, &value_number!(40))], ctx_b.get_entries());
+  assert_eq!(
+    vec![
+      (&name_a, &value_number!(10)),
+      (&name_b, &value_number!(20)),
+      (&name_c, &value_number!(30)),
+      (&name_d, &value_number!(40))
+    ],
+    ctx_b.get_entries()
+  );
 }
 
 #[test]
 fn test_value_is_not_a_context() {
-  assert_eq!("<ContextError> 'true' is not a value containing context", <Value as TryInto<FeelContext>>::try_into(Value::Boolean(true)).err().unwrap().to_string());
+  assert_eq!(
+    "<ContextError> 'true' is not a value containing context",
+    <Value as TryInto<FeelContext>>::try_into(Value::Boolean(true)).err().unwrap().to_string()
+  );
 }

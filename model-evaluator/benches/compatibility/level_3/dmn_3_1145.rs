@@ -5,8 +5,8 @@ from_examples!(DMN_3_1145);
 static_context!(CTX, "{}");
 
 fn eq(b: &mut Bencher, invocable: &str, ctx: &FeelContext, expected: &str) {
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx, expected);
-  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx));
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, ctx, expected);
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, ctx));
 }
 
 #[bench]
@@ -91,7 +91,12 @@ fn _0016(b: &mut Bencher) {
 
 #[bench]
 fn _0017(b: &mut Bencher) {
-  eq(b, "decision016", &CTX, "null([core::context] invalid argument type, expected list or context, actual type is string)");
+  eq(
+    b,
+    "decision016",
+    &CTX,
+    "null([core::context] invalid argument type, expected list or context, actual type is string)",
+  );
 }
 
 #[bench]

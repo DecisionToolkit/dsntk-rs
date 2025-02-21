@@ -83,7 +83,12 @@ fn _0016() {
 
 #[test]
 fn _0017() {
-  te_null(false, &scope!(), r#"date and time("2018-12-10T10:30:00").time offset"#, "could not retrieve time offset for date and time");
+  te_null(
+    false,
+    &scope!(),
+    r#"date and time("2018-12-10T10:30:00").time offset"#,
+    "could not retrieve time offset for date and time",
+  );
 }
 
 #[test]
@@ -93,7 +98,12 @@ fn _0018() {
 
 #[test]
 fn _0019() {
-  te_null(false, &scope!(), r#"date and time("2018-12-10T10:30:00").timezone"#, "could not retrieve timezone for date and time");
+  te_null(
+    false,
+    &scope!(),
+    r#"date and time("2018-12-10T10:30:00").timezone"#,
+    "could not retrieve timezone for date and time",
+  );
 }
 
 #[test]

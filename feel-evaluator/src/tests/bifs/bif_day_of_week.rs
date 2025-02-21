@@ -93,12 +93,22 @@ fn _0018() {
 
 #[test]
 fn _0019() {
-  te_null(false, &scope!(), r#"day of week(date(2019,2,30))"#, r#"[core::day of week] invalid argument type, expected date, date and time, actual type is Null"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"day of week(date(2019,2,30))"#,
+    r#"[core::day of week] invalid argument type, expected date, date and time, actual type is Null"#,
+  );
 }
 
 #[test]
 fn _0020() {
-  te_null(false, &scope!(), r#"day of week(date(999999999,1,1))"#, r#"[core::day of week] invalid argument type, expected date, date and time, actual type is Null"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"day of week(date(999999999,1,1))"#,
+    r#"[core::day of week] invalid argument type, expected date, date and time, actual type is Null"#,
+  );
 }
 
 #[test]
@@ -123,5 +133,10 @@ fn _0024() {
 
 #[test]
 fn _0025() {
-  te_null(false, &scope!(), r#"day of week(date(2019,1,15),date(2019,1,15))"#, r#"expected 1 parameters, actual number of parameters is 2"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"day of week(date(2019,1,15),date(2019,1,15))"#,
+    r#"expected 1 parameters, actual number of parameters is 2"#,
+  );
 }

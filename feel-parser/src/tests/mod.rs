@@ -78,7 +78,10 @@ fn accept(scope: &ParsingScope, start_token_type: TokenType, input: &str, expect
   if actual != expected {
     println!("EXPECTED:\n------------------------------------------------------------{expected}\n");
     println!("ACTUAL:\n------------------------------------------------------------{actual}\n");
-    println!("DIFF:\n------------------------------------------------------------{}\n", Changeset::new(expected, &actual, ""));
+    println!(
+      "DIFF:\n------------------------------------------------------------{}\n",
+      Changeset::new(expected, &actual, "")
+    );
   }
   assert_eq!(expected, actual);
 }

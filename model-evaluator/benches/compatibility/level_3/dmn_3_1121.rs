@@ -6,7 +6,14 @@ from_examples!(DMN_3_1121);
 fn _0001(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-years-and-months-duration-function_ErrorCase_001_b24a0c91f2";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null(expected 2 parameters, actual number of parameters is 1)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null(expected 2 parameters, actual number of parameters is 1)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -14,7 +21,14 @@ fn _0001(b: &mut Bencher) {
 fn _0002(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-years-and-months-duration-function_ErrorCase_002_4e7651ae0e";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -22,7 +36,14 @@ fn _0002(b: &mut Bencher) {
 fn _0003(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-years-and-months-duration-function_ErrorCase_003_0886738d31";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -30,7 +51,14 @@ fn _0003(b: &mut Bencher) {
 fn _0004(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-years-and-months-duration-function_ErrorCase_004_1bdfef922b";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -38,7 +66,14 @@ fn _0004(b: &mut Bencher) {
 fn _0005(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-years-and-months-duration-function_ErrorCase_005_d0a077da4e";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -46,7 +81,14 @@ fn _0005(b: &mut Bencher) {
 fn _0006(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-years-and-months-duration-function_ErrorCase_006_f20de28d3f";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -54,7 +96,14 @@ fn _0006(b: &mut Bencher) {
 fn _0007(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-years-and-months-duration-function_ErrorCase_007_0921c3d61a";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null(expected 2 parameters, actual number of parameters is 0)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null(expected 2 parameters, actual number of parameters is 0)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -214,7 +263,14 @@ fn _0026(b: &mut Bencher) {
 fn _0027(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-years-and-months-duration-function_ErrorCase_027_3374dd86c6";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -222,7 +278,14 @@ fn _0027(b: &mut Bencher) {
 fn _0028(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-years-and-months-duration-function_ErrorCase_028_77600e7b35";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null(expected 2 parameters, actual number of parameters is 1)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null(expected 2 parameters, actual number of parameters is 1)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -230,7 +293,14 @@ fn _0028(b: &mut Bencher) {
 fn _0029(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-years-and-months-duration-function_ErrorCase_029_15a0d0d9c1";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null(expected 2 parameters, actual number of parameters is 1)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null(expected 2 parameters, actual number of parameters is 1)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -238,7 +308,14 @@ fn _0029(b: &mut Bencher) {
 fn _0030(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-years-and-months-duration-function_ErrorCase_030_ec16878596";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is list<Null>)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::years and months duration] invalid argument type, expected date, date and time, actual type is list<Null>)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 

@@ -2,7 +2,16 @@ use crate::auto_size::AutoSize;
 use dsntk_model::{DcBounds, DcPoint, DmnDiagram, DmnEdge, DmnShape};
 
 fn diagram() -> DmnDiagram {
-  DmnDiagram { id: None, name: None, documentation: "".to_string(), resolution: 0.0, diagram_elements: vec![], shared_style: None, local_style: None, size: None }
+  DmnDiagram {
+    id: None,
+    name: None,
+    documentation: "".to_string(),
+    resolution: 0.0,
+    diagram_elements: vec![],
+    shared_style: None,
+    local_style: None,
+    size: None,
+  }
 }
 
 #[test]
@@ -17,7 +26,12 @@ fn discovering_from_shape_should_work() {
   let mut auto_size = AutoSize::new();
   auto_size.discover_from_shape(&DmnShape {
     id: None,
-    bounds: DcBounds { x: 100.0, y: 110.0, width: 200.0, height: 220.0 },
+    bounds: DcBounds {
+      x: 100.0,
+      y: 110.0,
+      width: 200.0,
+      height: 220.0,
+    },
     dmn_element_ref: None,
     is_listed_input_data: false,
     decision_service_divider_line: None,

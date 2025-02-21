@@ -11,25 +11,53 @@ fn _0001() {
 #[test]
 fn _0002() {
   let ctx = context(r#"{p: 2, r: 1, n: 1, pmt: 1}"#);
-  assert_business_knowledge_model(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "equity36Mo", &ctx, r#"2.083333333333333333333333333333333"#);
+  assert_business_knowledge_model(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "equity36Mo",
+    &ctx,
+    r#"2.083333333333333333333333333333333"#,
+  );
 }
 
 #[test]
 fn _0003() {
   let ctx = context(r#"{p: 1, r: 1, n: 1}"#);
-  assert_business_knowledge_model(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "monthlyPayment", &ctx, r#"1.083333333333333333333333333333338"#);
+  assert_business_knowledge_model(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "monthlyPayment",
+    &ctx,
+    r#"1.083333333333333333333333333333338"#,
+  );
 }
 
 #[test]
 fn _0004() {
   let ctx = context(r#"{p: 2, r: 1, n: 1}"#);
-  assert_business_knowledge_model(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "monthlyPayment", &ctx, r#"2.166666666666666666666666666666676"#);
+  assert_business_knowledge_model(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "monthlyPayment",
+    &ctx,
+    r#"2.166666666666666666666666666666676"#,
+  );
 }
 
 #[test]
 fn _0005() {
   let ctx = context(r#"{requestedAmt: 330000, product: {fee: 0, lenderName: "Oceans Capital", points: 0, rate: 0.03500}}"#);
-  assert_business_knowledge_model(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "FinancialMetrics", &ctx, r#"{downPmtAmt: 66000, equity36moPct: 0.1229130806675864888391782030891128, fee: 0, lenderName: "Oceans Capital", loanAmt: 330000, paymentAmt: 1481.84746976912090291141532541092, points: 0, rate: 0.03500}"#);
+  assert_business_knowledge_model(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "FinancialMetrics",
+    &ctx,
+    r#"{downPmtAmt: 66000, equity36moPct: 0.1229130806675864888391782030891128, fee: 0, lenderName: "Oceans Capital", loanAmt: 330000, paymentAmt: 1481.84746976912090291141532541092, points: 0, rate: 0.03500}"#,
+  );
 }
 
 #[test]

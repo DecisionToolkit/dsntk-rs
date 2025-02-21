@@ -10,5 +10,8 @@ fn _0001() {
 
 #[test]
 fn _0002() {
-  assert_eq!("<ModelValidatorError> cyclic dependency between item definitions", parse(DMN_1001).err().unwrap().to_string());
+  assert_eq!(
+    "<ModelValidatorError> cyclic dependency between item definitions",
+    parse(DMN_1001).err().unwrap().to_string()
+  );
 }

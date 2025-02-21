@@ -88,12 +88,22 @@ fn _0017() {
 
 #[test]
 fn _0018() {
-  te_bool(false, &scope!(), r#"finishes([date("2022-11-03")..date("2022-12-10")],[date("2022-12-01")..date("2022-12-10")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"finishes([date("2022-11-03")..date("2022-12-10")],[date("2022-12-01")..date("2022-12-10")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0019() {
-  te_bool(false, &scope!(), r#"finishes([date("2022-11-03")..date("2022-12-10")],[date("2022-12-01")..date("2022-12-10")))"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"finishes([date("2022-11-03")..date("2022-12-10")],[date("2022-12-01")..date("2022-12-10")))"#,
+    false,
+  );
 }
 
 #[test]
@@ -108,52 +118,102 @@ fn _0021() {
 
 #[test]
 fn _0022() {
-  te_bool(false, &scope!(), r#"finishes([time("11:23:420")..time("12:18:03")],[time("12:00:00")..time("12:18:03")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"finishes([time("11:23:420")..time("12:18:03")],[time("12:00:00")..time("12:18:03")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0023() {
-  te_bool(false, &scope!(), r#"finishes([time("11:23:420")..time("12:18:03")],[time("12:00:00")..time("12:18:03")))"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"finishes([time("11:23:420")..time("12:18:03")],[time("12:00:00")..time("12:18:03")))"#,
+    false,
+  );
 }
 
 #[test]
 fn _0024() {
-  te_bool(false, &scope!(), r#"finishes(date and time("2022-12-01T12:18:03"),[date and time("2022-12-01T12:00:00")..date and time("2022-12-01T12:18:03")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"finishes(date and time("2022-12-01T12:18:03"),[date and time("2022-12-01T12:00:00")..date and time("2022-12-01T12:18:03")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0025() {
-  te_bool(false, &scope!(), r#"finishes(date and time("2022-12-01T12:18:03"),[date and time("2022-12-01T12:00:00")..date and time("2022-12-01T12:18:03")))"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"finishes(date and time("2022-12-01T12:18:03"),[date and time("2022-12-01T12:00:00")..date and time("2022-12-01T12:18:03")))"#,
+    false,
+  );
 }
 
 #[test]
 fn _0026() {
-  te_bool(false, &scope!(), r#"finishes([date and time("2022-12-01T11:00:00")..date and time("2022-12-01T12:18:03")],[date and time("2022-12-01T12:00:00")..date and time("2022-12-01T12:18:03")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"finishes([date and time("2022-12-01T11:00:00")..date and time("2022-12-01T12:18:03")],[date and time("2022-12-01T12:00:00")..date and time("2022-12-01T12:18:03")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0027() {
-  te_bool(false, &scope!(), r#"finishes([date and time("2022-12-01T11:00:00")..date and time("2022-12-01T12:18:03")],[date and time("2022-12-01T12:00:00")..date and time("2022-12-01T12:18:03")))"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"finishes([date and time("2022-12-01T11:00:00")..date and time("2022-12-01T12:18:03")],[date and time("2022-12-01T12:00:00")..date and time("2022-12-01T12:18:03")))"#,
+    false,
+  );
 }
 
 #[test]
 fn _0028() {
-  te_bool(false, &scope!(), r#"finishes(duration("P2DT1H1M1S"),[duration("P1DT1H1M1S")..duration("P2DT1H1M1S")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"finishes(duration("P2DT1H1M1S"),[duration("P1DT1H1M1S")..duration("P2DT1H1M1S")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0029() {
-  te_bool(false, &scope!(), r#"finishes(duration("P2DT1H1M1S"),[duration("P1DT1H1M1S")..duration("P2DT1H1M1S")))"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"finishes(duration("P2DT1H1M1S"),[duration("P1DT1H1M1S")..duration("P2DT1H1M1S")))"#,
+    false,
+  );
 }
 
 #[test]
 fn _0030() {
-  te_bool(false, &scope!(), r#"finishes([duration("P1DT0H1M1S")..duration("P2DT1H1M1S")],[duration("P1DT1H1M1S")..duration("P2DT1H1M1S")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"finishes([duration("P1DT0H1M1S")..duration("P2DT1H1M1S")],[duration("P1DT1H1M1S")..duration("P2DT1H1M1S")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0031() {
-  te_bool(false, &scope!(), r#"finishes([duration("P1DT0H1M1S")..duration("P2DT1H1M1S")],[duration("P1DT1H1M1S")..duration("P2DT1H1M1S")))"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"finishes([duration("P1DT0H1M1S")..duration("P2DT1H1M1S")],[duration("P1DT1H1M1S")..duration("P2DT1H1M1S")))"#,
+    false,
+  );
 }
 
 #[test]
@@ -173,12 +233,22 @@ fn _0034() {
 
 #[test]
 fn _0035() {
-  te_bool(false, &scope!(), r#"finishes([duration("P3Y")..duration("P5Y")],[duration("P1Y")..duration("P5Y")))"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"finishes([duration("P3Y")..duration("P5Y")],[duration("P1Y")..duration("P5Y")))"#,
+    false,
+  );
 }
 
 #[test]
 fn _0036() {
-  te_null(false, &scope!(), r#"finishes([1..20],20)"#, "[core::finishes] invalid argument type, expected range of scalars, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#"finishes([1..20],20)"#,
+    "[core::finishes] invalid argument type, expected range of scalars, actual type is number",
+  );
 }
 
 #[test]
@@ -238,5 +308,10 @@ fn _0047() {
 
 #[test]
 fn _0048() {
-  te_null(false, &scope!(), r#"finishes("alfa", [1..20])"#, "[core::finishes] invalid argument type, expected scalar or range of scalars, actual type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#"finishes("alfa", [1..20])"#,
+    "[core::finishes] invalid argument type, expected scalar or range of scalars, actual type is string",
+  );
 }

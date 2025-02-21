@@ -38,7 +38,12 @@ fn _0007() {
 
 #[test]
 fn _0008() {
-  te_null(false, &scope!(), r#"index of(10,2)"#, r#"[core::index of] invalid argument type, expected list, actual type is number"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"index of(10,2)"#,
+    r#"[core::index of] invalid argument type, expected list, actual type is number"#,
+  );
 }
 
 #[test]

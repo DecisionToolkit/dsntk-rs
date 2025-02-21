@@ -6,7 +6,14 @@ from_examples!(DMN_3_1115);
 fn _0001(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_001_e9ae035ab9";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid argument type, expected string, date or date and time, actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid argument type, expected string, date or date and time, actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -14,7 +21,14 @@ fn _0001(b: &mut Bencher) {
 fn _0002(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_002_9b9e6085ce";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null(expected 1,3 parameters, actual number of parameters is 2)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null(expected 1,3 parameters, actual number of parameters is 2)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -22,7 +36,14 @@ fn _0002(b: &mut Bencher) {
 fn _0003(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_003_e4b7918d8f";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid argument type, expected number (year), actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid argument type, expected number (year), actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -30,7 +51,14 @@ fn _0003(b: &mut Bencher) {
 fn _0004(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_004_f24ed41117";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid argument type, expected number (month), actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid argument type, expected number (month), actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -38,7 +66,14 @@ fn _0004(b: &mut Bencher) {
 fn _0005(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_005_3540a22062";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid argument type, expected number (day), actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid argument type, expected number (day), actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -46,7 +81,14 @@ fn _0005(b: &mut Bencher) {
 fn _0006(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_006_616e24dbb7";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid argument type, expected number (year), actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid argument type, expected number (year), actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -54,7 +96,14 @@ fn _0006(b: &mut Bencher) {
 fn _0007(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_007_cda82a5d01";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid argument type, expected number (year), actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid argument type, expected number (year), actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -62,7 +111,14 @@ fn _0007(b: &mut Bencher) {
 fn _0008(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_008_492649d3d0";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid argument type, expected number (month), actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid argument type, expected number (month), actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -70,7 +126,14 @@ fn _0008(b: &mut Bencher) {
 fn _0009(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_009_9e00bbdad3";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid argument type, expected number (year), actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid argument type, expected number (year), actual type is Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -78,7 +141,14 @@ fn _0009(b: &mut Bencher) {
 fn _0010(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_010_6d4d58d23a";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null(expected 1,3 parameters, actual number of parameters is 0)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null(expected 1,3 parameters, actual number of parameters is 0)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -246,7 +316,14 @@ fn _0030(b: &mut Bencher) {
 fn _0031(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_031_4f5ec70669";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid date string '2012-12-25T')"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid date string '2012-12-25T')"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -254,7 +331,14 @@ fn _0031(b: &mut Bencher) {
 fn _0032(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_032_fc66cc2fec";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid date string '')"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid date string '')"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -262,7 +346,14 @@ fn _0032(b: &mut Bencher) {
 fn _0033(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_033_c3a5600c62";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid date string '2012/12/25')"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid date string '2012/12/25')"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -270,7 +361,14 @@ fn _0033(b: &mut Bencher) {
 fn _0034(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_034_7d2e18a10c";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid date string '0000-12-25T')"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid date string '0000-12-25T')"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -278,7 +376,14 @@ fn _0034(b: &mut Bencher) {
 fn _0035(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_035_e6c1bb43fd";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid date string '9999999999-12-25')"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid date string '9999999999-12-25')"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -286,7 +391,14 @@ fn _0035(b: &mut Bencher) {
 fn _0036(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_036_b826a6b5f9";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid date string '2017-13-10')"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid date string '2017-13-10')"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -294,7 +406,14 @@ fn _0036(b: &mut Bencher) {
 fn _0037(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_037_cfd70896b6";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid date string '2017-12-32')"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid date string '2017-12-32')"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -302,7 +421,14 @@ fn _0037(b: &mut Bencher) {
 fn _0038(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_038_c26782f559";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid date string '998-12-31')"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid date string '998-12-31')"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -310,7 +436,14 @@ fn _0038(b: &mut Bencher) {
 fn _0039(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_039_67a6eafa3f";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid date string '01211-12-31')"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid date string '01211-12-31')"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -318,7 +451,14 @@ fn _0039(b: &mut Bencher) {
 fn _0040(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_040_dd2a2ed4a2";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid date string '2012T-12-2511:00:00Z')"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid date string '2012T-12-2511:00:00Z')"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -326,7 +466,14 @@ fn _0040(b: &mut Bencher) {
 fn _0041(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_041_9e7e388146";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid date string '+2012-12-02')"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid date string '+2012-12-02')"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -334,7 +481,14 @@ fn _0041(b: &mut Bencher) {
 fn _0042(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_042_8f5dd97588";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date_3] invalid date y=2017 m=13 d=31)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date_3] invalid date y=2017 m=13 d=31)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -342,7 +496,14 @@ fn _0042(b: &mut Bencher) {
 fn _0043(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_043_8f82301fac";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date_3] invalid date y=2017 m=12 d=32)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date_3] invalid date y=2017 m=12 d=32)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -350,7 +511,14 @@ fn _0043(b: &mut Bencher) {
 fn _0044(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_044_74893220b4";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date_3] invalid date y=2017 m=-8 d=2)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date_3] invalid date y=2017 m=-8 d=2)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -358,7 +526,14 @@ fn _0044(b: &mut Bencher) {
 fn _0045(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_045_969723fed5";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date_3] invalid date y=2017 m=8 d=-2)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date_3] invalid date y=2017 m=8 d=-2)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -366,7 +541,14 @@ fn _0045(b: &mut Bencher) {
 fn _0046(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_046_36bf30268a";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date_3] invalid date y=-1000999999 m=12 d=1)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date_3] invalid date y=-1000999999 m=12 d=1)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -374,7 +556,14 @@ fn _0046(b: &mut Bencher) {
 fn _0047(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_047_ba717eb672";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date_3] invalid date y=1000999999 m=12 d=32)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date_3] invalid date y=1000999999 m=12 d=32)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -382,7 +571,14 @@ fn _0047(b: &mut Bencher) {
 fn _0048(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_048_25595a6420";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid argument type, expected string, date or date and time, actual type is number)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid argument type, expected string, date or date and time, actual type is number)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -390,7 +586,14 @@ fn _0048(b: &mut Bencher) {
 fn _0049(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_ErrorCase_049_a1644ce710";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::date] invalid argument type, expected string, date or date and time, actual type is list<Null>)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::date] invalid argument type, expected string, date or date and time, actual type is list<Null>)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 

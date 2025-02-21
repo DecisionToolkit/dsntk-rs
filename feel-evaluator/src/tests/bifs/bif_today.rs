@@ -9,5 +9,10 @@ fn _0001() {
 
 #[test]
 fn _0002() {
-  te_null(false, &scope!(), r#"today(when: 1)"#, r#"[named::today] this function has no implementation with named parameters"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"today(when: 1)"#,
+    r#"[named::today] this function has no implementation with named parameters"#,
+  );
 }

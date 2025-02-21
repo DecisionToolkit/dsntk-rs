@@ -58,7 +58,12 @@ fn _0011() {
 
 #[test]
 fn _0012() {
-  te_null(false, &scope!(), r#"string join(["a","c"], "X", "foo")"#, "expected 1,2 parameters, actual number of parameters is 3");
+  te_null(
+    false,
+    &scope!(),
+    r#"string join(["a","c"], "X", "foo")"#,
+    "expected 1,2 parameters, actual number of parameters is 3",
+  );
 }
 
 #[test]
@@ -88,17 +93,32 @@ fn _0017() {
 
 #[test]
 fn _0018() {
-  te_null(false, &scope!(), r#"string join(null, "X")"#, "string join: expected list or string, actual value type is Null");
+  te_null(
+    false,
+    &scope!(),
+    r#"string join(null, "X")"#,
+    "string join: expected list or string, actual value type is Null",
+  );
 }
 
 #[test]
 fn _0019() {
-  te_null(false, &scope!(), r#"string join([1,2,3], "X")"#, "[core::string join] invalid argument type, expected string, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#"string join([1,2,3], "X")"#,
+    "[core::string join] invalid argument type, expected string, actual type is number",
+  );
 }
 
 #[test]
 fn _0020() {
-  te_null(false, &scope!(), r#"string join(123, "X")"#, "string join: expected list or string, actual value type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#"string join(123, "X")"#,
+    "string join: expected list or string, actual value type is number",
+  );
 }
 
 #[test]
@@ -113,7 +133,12 @@ fn _0022() {
 
 #[test]
 fn _0023() {
-  te_null(false, &scope!(), r#"string join(["a","b","c"],2)"#, "string join: invalid delimiter, expected string, actual value type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#"string join(["a","b","c"],2)"#,
+    "string join: invalid delimiter, expected string, actual value type is number",
+  );
 }
 
 #[test]
@@ -123,5 +148,10 @@ fn _0024() {
 
 #[test]
 fn _0025() {
-  te_null(false, &scope!(), r#"string join(list: ["a","c"], delimiter: "X", other: 1)"#, "expected 1,2 parameters, actual number of parameters is 3");
+  te_null(
+    false,
+    &scope!(),
+    r#"string join(list: ["a","c"], delimiter: "X", other: 1)"#,
+    "expected 1,2 parameters, actual number of parameters is 3",
+  );
 }

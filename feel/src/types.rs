@@ -82,7 +82,11 @@ impl fmt::Display for FeelType {
       FeelType::Any => write!(f, "{FEEL_TYPE_NAME_ANY}"),
       FeelType::Boolean => write!(f, "{FEEL_TYPE_NAME_BOOLEAN}"),
       FeelType::Context(entries) => {
-        let entries_str = entries.iter().map(|(entry_name, entry_type)| format!("{entry_name}: {entry_type}")).collect::<Vec<String>>().join(", ");
+        let entries_str = entries
+          .iter()
+          .map(|(entry_name, entry_type)| format!("{entry_name}: {entry_type}"))
+          .collect::<Vec<String>>()
+          .join(", ");
         write!(f, "context<{entries_str}>",)
       }
       FeelType::Date => write!(f, "{FEEL_TYPE_NAME_DATE}"),
@@ -141,7 +145,19 @@ impl From<&Name> for FeelType {
 
 /// Returns `true` when the specified type name is a built-in type.
 pub fn is_built_in_type_name(name: &str) -> bool {
-  matches!(name, FEEL_TYPE_NAME_ANY | FEEL_TYPE_NAME_BOOLEAN | FEEL_TYPE_NAME_DATE | FEEL_TYPE_NAME_DATE_AND_TIME | FEEL_TYPE_NAME_DAYS_AND_TIME_DURATION | FEEL_TYPE_NAME_NULL | FEEL_TYPE_NAME_NUMBER | FEEL_TYPE_NAME_STRING | FEEL_TYPE_NAME_TIME | FEEL_TYPE_NAME_YEARS_AND_MONTHS_DURATION)
+  matches!(
+    name,
+    FEEL_TYPE_NAME_ANY
+      | FEEL_TYPE_NAME_BOOLEAN
+      | FEEL_TYPE_NAME_DATE
+      | FEEL_TYPE_NAME_DATE_AND_TIME
+      | FEEL_TYPE_NAME_DAYS_AND_TIME_DURATION
+      | FEEL_TYPE_NAME_NULL
+      | FEEL_TYPE_NAME_NUMBER
+      | FEEL_TYPE_NAME_STRING
+      | FEEL_TYPE_NAME_TIME
+      | FEEL_TYPE_NAME_YEARS_AND_MONTHS_DURATION
+  )
 }
 
 impl FeelType {
@@ -243,7 +259,10 @@ impl FeelType {
 
   /// Returns `true` when this type is a simple FEEL type.
   pub fn is_simple_built_in_type(&self) -> bool {
-    matches!(self, Self::Any | Self::Boolean | Self::Date | Self::DateTime | Self::DaysAndTimeDuration | Self::Null | Self::Number | Self::String | Self::Time | Self::YearsAndMonthsDuration)
+    matches!(
+      self,
+      Self::Any | Self::Boolean | Self::Date | Self::DateTime | Self::DaysAndTimeDuration | Self::Null | Self::Number | Self::String | Self::Time | Self::YearsAndMonthsDuration
+    )
   }
 
   /// Returns `true` when this type is a Null type.

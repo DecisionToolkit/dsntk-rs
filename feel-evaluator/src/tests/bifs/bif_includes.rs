@@ -100,12 +100,22 @@ fn _0019() {
 
 #[test]
 fn _0020() {
-  te_bool(false, &scope!(), r#"includes([date("2022-12-11")..date("2022-12-31")],[date("2022-12-12")..date("2022-12-30")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"includes([date("2022-12-11")..date("2022-12-31")],[date("2022-12-12")..date("2022-12-30")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0021() {
-  te_bool(false, &scope!(), r#"includes([date("2022-12-11")..date("2022-12-31")),[date("2022-12-11")..date("2022-12-31")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"includes([date("2022-12-11")..date("2022-12-31")),[date("2022-12-11")..date("2022-12-31")])"#,
+    false,
+  );
 }
 
 //
@@ -122,34 +132,64 @@ fn _0023() {
 
 #[test]
 fn _0024() {
-  te_bool(false, &scope!(), r#"includes([time("00:00:00")..time("23:59:59")],[time("00:00:00")..time("23:59:59")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"includes([time("00:00:00")..time("23:59:59")],[time("00:00:00")..time("23:59:59")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0025() {
-  te_bool(false, &scope!(), r#"includes([time("00:00:00")..time("23:59:00")),[time("00:00:00")..time("23:59:01")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"includes([time("00:00:00")..time("23:59:00")),[time("00:00:00")..time("23:59:01")])"#,
+    false,
+  );
 }
 
 //
 
 #[test]
 fn _0026() {
-  te_bool(false, &scope!(), r#"includes([date and time("2022-12-01T00:00:00")..date and time("2022-12-31T23:59:59")],date and time("2022-12-01T00:00:00"))"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"includes([date and time("2022-12-01T00:00:00")..date and time("2022-12-31T23:59:59")],date and time("2022-12-01T00:00:00"))"#,
+    true,
+  );
 }
 
 #[test]
 fn _0027() {
-  te_bool(false, &scope!(), r#"includes([date and time("2022-12-11T00:00:00")..date and time("2022-12-30T23:59:59")],date and time("2022-12-31T00:00:00"))"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"includes([date and time("2022-12-11T00:00:00")..date and time("2022-12-30T23:59:59")],date and time("2022-12-31T00:00:00"))"#,
+    false,
+  );
 }
 
 #[test]
 fn _0028() {
-  te_bool(false, &scope!(), r#"includes([date and time("2022-12-11T00:00:00")..date and time("2022-12-31T23:59:59")],[date and time("2022-12-11T00:00:00")..date and time("2022-12-30T00:00:00")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"includes([date and time("2022-12-11T00:00:00")..date and time("2022-12-31T23:59:59")],[date and time("2022-12-11T00:00:00")..date and time("2022-12-30T00:00:00")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0029() {
-  te_bool(false, &scope!(), r#"includes([date and time("2022-12-11T00:00:00")..date and time("2022-12-31T23:59:00")),[date and time("2022-12-11T00:00:00")..date and time("2022-12-31T23:59:01")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"includes([date and time("2022-12-11T00:00:00")..date and time("2022-12-31T23:59:00")),[date and time("2022-12-11T00:00:00")..date and time("2022-12-31T23:59:01")])"#,
+    false,
+  );
 }
 
 //
@@ -171,7 +211,12 @@ fn _0032() {
 
 #[test]
 fn _0033() {
-  te_bool(false, &scope!(), r#"includes([duration("P1D")..duration("P3D")),[duration("P1D")..duration("P3DT1M")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"includes([duration("P1D")..duration("P3D")),[duration("P1D")..duration("P3DT1M")])"#,
+    false,
+  );
 }
 
 #[test]
@@ -191,7 +236,12 @@ fn _0036() {
 
 #[test]
 fn _0037() {
-  te_bool(false, &scope!(), r#"includes([duration("P1Y")..duration("P3Y")),[duration("P1Y")..duration("P3Y1M")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"includes([duration("P1Y")..duration("P3Y")),[duration("P1Y")..duration("P3Y1M")])"#,
+    false,
+  );
 }
 
 #[test]
@@ -236,70 +286,140 @@ fn _0045() {
 
 #[test]
 fn _0046() {
-  te_null(false, &scope!(), r#"includes([1..20],"a")"#, "[core::includes] invalid argument type, expected number or range<number>, actual type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes([1..20],"a")"#,
+    "[core::includes] invalid argument type, expected number or range<number>, actual type is string",
+  );
 }
 
 #[test]
 fn _0047() {
-  te_null(false, &scope!(), r#"includes([1..20],["a".."b"])"#, "[core::includes] invalid argument type, expected range<number>, actual type is range<string>");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes([1..20],["a".."b"])"#,
+    "[core::includes] invalid argument type, expected range<number>, actual type is range<string>",
+  );
 }
 
 #[test]
 fn _0048() {
-  te_null(false, &scope!(), r#"includes(["a".."b"],[1..20])"#, "[core::includes] invalid argument type, expected scalar or range<scalar>, actual type is range<string>");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes(["a".."b"],[1..20])"#,
+    "[core::includes] invalid argument type, expected scalar or range<scalar>, actual type is range<string>",
+  );
 }
 
 #[test]
 fn _0049() {
-  te_null(false, &scope!(), r#"includes("a",[1..20])"#, "[core::includes] invalid argument type, expected range<scalar>, actual type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes("a",[1..20])"#,
+    "[core::includes] invalid argument type, expected range<scalar>, actual type is string",
+  );
 }
 
 #[test]
 fn _0050() {
-  te_null(false, &scope!(), r#"includes([date("2022-12-01")..date("2022-12-31")],1)"#, "[core::includes] invalid argument type, expected date or range<date>, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes([date("2022-12-01")..date("2022-12-31")],1)"#,
+    "[core::includes] invalid argument type, expected date or range<date>, actual type is number",
+  );
 }
 
 #[test]
 fn _0051() {
-  te_null(false, &scope!(), r#"includes([date("2022-12-01")..date("2022-12-31")],[1..31])"#, "[core::includes] invalid argument type, expected range<date>, actual type is range<number>");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes([date("2022-12-01")..date("2022-12-31")],[1..31])"#,
+    "[core::includes] invalid argument type, expected range<date>, actual type is range<number>",
+  );
 }
 
 #[test]
 fn _0052() {
-  te_null(false, &scope!(), r#"includes([time("00:00:00")..time("23:59:59")],1)"#, "[core::includes] invalid argument type, expected time or range<time>, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes([time("00:00:00")..time("23:59:59")],1)"#,
+    "[core::includes] invalid argument type, expected time or range<time>, actual type is number",
+  );
 }
 
 #[test]
 fn _0053() {
-  te_null(false, &scope!(), r#"includes([time("00:00:00")..time("23:59:59")],[1..31])"#, "[core::includes] invalid argument type, expected range<time>, actual type is range<number>");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes([time("00:00:00")..time("23:59:59")],[1..31])"#,
+    "[core::includes] invalid argument type, expected range<time>, actual type is range<number>",
+  );
 }
 
 #[test]
 fn _0054() {
-  te_null(false, &scope!(), r#"includes([date and time("2022-12-01T00:00:00")..date and time("2022-12-31T23:59:59")],1)"#, "[core::includes] invalid argument type, expected date and time or range<date and time>, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes([date and time("2022-12-01T00:00:00")..date and time("2022-12-31T23:59:59")],1)"#,
+    "[core::includes] invalid argument type, expected date and time or range<date and time>, actual type is number",
+  );
 }
 
 #[test]
 fn _0055() {
-  te_null(false, &scope!(), r#"includes([date and time("2022-12-01T00:00:00")..date and time("2022-12-31T23:59:59")],[1..31])"#, "[core::includes] invalid argument type, expected range<date and time>, actual type is range<number>");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes([date and time("2022-12-01T00:00:00")..date and time("2022-12-31T23:59:59")],[1..31])"#,
+    "[core::includes] invalid argument type, expected range<date and time>, actual type is range<number>",
+  );
 }
 
 #[test]
 fn _0056() {
-  te_null(false, &scope!(), r#"includes([duration("P1D")..duration("P10D")],1)"#, "[core::includes] invalid argument type, expected days and time duration or range<days and time duration>, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes([duration("P1D")..duration("P10D")],1)"#,
+    "[core::includes] invalid argument type, expected days and time duration or range<days and time duration>, actual type is number",
+  );
 }
 
 #[test]
 fn _0057() {
-  te_null(false, &scope!(), r#"includes([duration("P1D")..duration("P10D")],[1..31])"#, "[core::includes] invalid argument type, expected range<days and time duration>, actual type is range<number>");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes([duration("P1D")..duration("P10D")],[1..31])"#,
+    "[core::includes] invalid argument type, expected range<days and time duration>, actual type is range<number>",
+  );
 }
 
 #[test]
 fn _0058() {
-  te_null(false, &scope!(), r#"includes([duration("P1Y")..duration("P10Y")],1)"#, "[core::includes] invalid argument type, expected years and months duration or range<years and months duration>, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes([duration("P1Y")..duration("P10Y")],1)"#,
+    "[core::includes] invalid argument type, expected years and months duration or range<years and months duration>, actual type is number",
+  );
 }
 
 #[test]
 fn _0059() {
-  te_null(false, &scope!(), r#"includes([duration("P1Y")..duration("P10Y")],[1..31])"#, "[core::includes] invalid argument type, expected range<years and months duration>, actual type is range<number>");
+  te_null(
+    false,
+    &scope!(),
+    r#"includes([duration("P1Y")..duration("P10Y")],[1..31])"#,
+    "[core::includes] invalid argument type, expected range<years and months duration>, actual type is range<number>",
+  );
 }

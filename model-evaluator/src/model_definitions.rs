@@ -83,7 +83,10 @@ pub struct DefKey {
 impl DefKey {
   /// Creates new key based on namespace and identifier.
   pub fn new(namespace: &str, id: &str) -> Self {
-    Self { namespace: namespace.to_string(), id: id.to_string() }
+    Self {
+      namespace: namespace.to_string(),
+      id: id.to_string(),
+    }
   }
 }
 
@@ -278,14 +281,23 @@ impl DefItemDefinition {
   /// Returns the item definition type.
   pub fn item_definition_type(&self) -> Result<ItemDefinitionType> {
     let simple_type_ref = if let Some(type_ref) = self.type_ref() { type_ref_to_feel_type(type_ref) } else { None };
-    let condition = (self.type_ref().is_some(), simple_type_ref.is_some(), !self.item_components().is_empty(), self.is_collection(), self.function_item().is_some());
+    let condition = (
+      self.type_ref().is_some(),
+      simple_type_ref.is_some(),
+      !self.item_components().is_empty(),
+      self.is_collection(),
+      self.function_item().is_some(),
+    );
     match condition {
       (_, true, false, false, false) => Ok(ItemDefinitionType::SimpleType(simple_type_ref.unwrap().clone())),
       (true, false, false, false, false) => Ok(ItemDefinitionType::ReferencedType(self.namespace.clone(), self.type_ref().as_ref().unwrap().clone())),
       (false, false, true, false, false) => Ok(ItemDefinitionType::ComponentType),
       (_, true, false, true, false) => Ok(ItemDefinitionType::CollectionOfSimpleType(simple_type_ref.unwrap().clone())),
       (false, false, true, true, false) => Ok(ItemDefinitionType::CollectionOfComponentType),
-      (true, false, false, true, false) => Ok(ItemDefinitionType::CollectionOfReferencedType(self.namespace.clone(), self.type_ref().as_ref().unwrap().clone())),
+      (true, false, false, true, false) => Ok(ItemDefinitionType::CollectionOfReferencedType(
+        self.namespace.clone(),
+        self.type_ref().as_ref().unwrap().clone(),
+      )),
       (false, false, false, false, true) => Ok(ItemDefinitionType::FunctionType),
       _ => Err(err_invalid_item_definition_type(self.name())),
     }
@@ -312,7 +324,11 @@ impl DefBusinessKnowledgeModel {
       name: business_knowledge_model.name().to_string(),
       variable: DefInformationItem::new(business_knowledge_model.variable(), imports),
       encapsulated_logic: business_knowledge_model.encapsulated_logic().clone(),
-      knowledge_requirements: business_knowledge_model.knowledge_requirements().iter().map(|knowledge_requirements| DefKnowledgeRequirement::new(knowledge_requirements, imports)).collect(),
+      knowledge_requirements: business_knowledge_model
+        .knowledge_requirements()
+        .iter()
+        .map(|knowledge_requirements| DefKnowledgeRequirement::new(knowledge_requirements, imports))
+        .collect(),
     }
   }
 }
@@ -368,7 +384,11 @@ impl DefHRef {
   pub fn new(namespace: &str, href: &HRef, imports: &[DefImport]) -> Self {
     let namespace = href.namespace().cloned().unwrap_or(namespace.to_string());
     let import_name = get_import_name(&namespace, imports);
-    Self { namespace, id: href.id().to_string(), import_name }
+    Self {
+      namespace,
+      id: href.id().to_string(),
+      import_name,
+    }
   }
 
   pub fn namespace(&self) -> &str {
@@ -393,8 +413,14 @@ pub struct DefInformationRequirement {
 impl DefInformationRequirement {
   pub fn new(information_requirement: &InformationRequirement, imports: &[DefImport]) -> Self {
     Self {
-      required_decision: information_requirement.required_decision().as_ref().map(|href| DefHRef::new(information_requirement.namespace(), href, imports)),
-      required_input: information_requirement.required_input().as_ref().map(|href| DefHRef::new(information_requirement.namespace(), href, imports)),
+      required_decision: information_requirement
+        .required_decision()
+        .as_ref()
+        .map(|href| DefHRef::new(information_requirement.namespace(), href, imports)),
+      required_input: information_requirement
+        .required_input()
+        .as_ref()
+        .map(|href| DefHRef::new(information_requirement.namespace(), href, imports)),
     }
   }
 
@@ -414,7 +440,9 @@ pub struct DefKnowledgeRequirement {
 
 impl DefKnowledgeRequirement {
   pub fn new(knowledge_requirement: &KnowledgeRequirement, imports: &[DefImport]) -> Self {
-    Self { required_knowledge: DefHRef::new(knowledge_requirement.namespace(), knowledge_requirement.required_knowledge(), imports) }
+    Self {
+      required_knowledge: DefHRef::new(knowledge_requirement.namespace(), knowledge_requirement.required_knowledge(), imports),
+    }
   }
 
   pub fn required_knowledge(&self) -> &DefHRef {
@@ -444,8 +472,16 @@ impl DefDecision {
       name: decision.name().to_string(),
       variable: DefInformationItem::new(decision.variable(), imports),
       decision_logic: decision.decision_logic().clone(),
-      information_requirements: decision.information_requirements().iter().map(|knowledge_requirements| DefInformationRequirement::new(knowledge_requirements, imports)).collect(),
-      knowledge_requirements: decision.knowledge_requirements().iter().map(|knowledge_requirements| DefKnowledgeRequirement::new(knowledge_requirements, imports)).collect(),
+      information_requirements: decision
+        .information_requirements()
+        .iter()
+        .map(|knowledge_requirements| DefInformationRequirement::new(knowledge_requirements, imports))
+        .collect(),
+      knowledge_requirements: decision
+        .knowledge_requirements()
+        .iter()
+        .map(|knowledge_requirements| DefKnowledgeRequirement::new(knowledge_requirements, imports))
+        .collect(),
     }
   }
 }
@@ -517,8 +553,16 @@ impl DefDecisionService {
       name: decision_service.name().to_string(),
       variable: DefInformationItem::new(decision_service.variable(), imports),
       input_decisions: decision_service.input_decisions().iter().map(|href| DefHRef::new(model_namespace, href, imports)).collect(),
-      output_decisions: decision_service.output_decisions().iter().map(|href| DefHRef::new(model_namespace, href, imports)).collect(),
-      encapsulated_decisions: decision_service.encapsulated_decisions().iter().map(|href| DefHRef::new(model_namespace, href, imports)).collect(),
+      output_decisions: decision_service
+        .output_decisions()
+        .iter()
+        .map(|href| DefHRef::new(model_namespace, href, imports))
+        .collect(),
+      encapsulated_decisions: decision_service
+        .encapsulated_decisions()
+        .iter()
+        .map(|href| DefHRef::new(model_namespace, href, imports))
+        .collect(),
       input_data: decision_service.input_data().iter().map(|href| DefHRef::new(model_namespace, href, imports)).collect(),
     }
   }
@@ -579,7 +623,10 @@ pub struct DefImport {
 impl DefImport {
   /// Creates [DefImport] from [Import].
   pub fn new(import: &Import) -> Self {
-    Self { namespace: import.namespace().to_string(), name: import.feel_name().clone() }
+    Self {
+      namespace: import.namespace().to_string(),
+      name: import.feel_name().clone(),
+    }
   }
 }
 
@@ -604,20 +651,26 @@ impl DefDefinitions {
   /// Adds definitions from specified model.
   pub fn add_model(&mut self, definitions: &Definitions) {
     self.imports.append(&mut definitions.imports().iter().map(DefImport::new).collect());
-    self.item_definitions.append(&mut definitions.item_definitions().iter().map(DefItemDefinition::new).collect());
+    self
+      .item_definitions
+      .append(&mut definitions.item_definitions().iter().map(DefItemDefinition::new).collect());
     for drg_element in definitions.drg_elements() {
       match drg_element {
         DrgElement::InputData(inner) => {
           self.input_data.insert(DefKey::new(inner.namespace(), inner.id()), DefInputData::new(inner, &self.imports));
         }
         DrgElement::BusinessKnowledgeModel(inner) => {
-          self.business_knowledge_models.insert(DefKey::new(inner.namespace(), inner.id()), DefBusinessKnowledgeModel::new(inner, &self.imports));
+          self
+            .business_knowledge_models
+            .insert(DefKey::new(inner.namespace(), inner.id()), DefBusinessKnowledgeModel::new(inner, &self.imports));
         }
         DrgElement::Decision(inner) => {
           self.decisions.insert(DefKey::new(inner.namespace(), inner.id()), DefDecision::new(inner, &self.imports));
         }
         DrgElement::DecisionService(inner) => {
-          self.decision_services.insert(DefKey::new(inner.namespace(), inner.id()), DefDecisionService::new(inner, &self.imports));
+          self
+            .decision_services
+            .insert(DefKey::new(inner.namespace(), inner.id()), DefDecisionService::new(inner, &self.imports));
         }
         _ => {}
       }
@@ -677,10 +730,20 @@ impl DefDefinitions {
 
 /// Returns a name of the import for specified namespace.
 fn get_import_name(namespace: &str, imports: &[DefImport]) -> Option<Name> {
-  imports.iter().filter_map(|def_import| if def_import.namespace == namespace { Some(def_import.name.clone()) } else { None }).collect::<Vec<Name>>().first().cloned()
+  imports
+    .iter()
+    .filter_map(|def_import| if def_import.namespace == namespace { Some(def_import.name.clone()) } else { None })
+    .collect::<Vec<Name>>()
+    .first()
+    .cloned()
 }
 
 /// Returns a namespace of the import for specified name.
 fn get_import_namespace(name: &Name, imports: &[DefImport]) -> Option<String> {
-  imports.iter().filter_map(|def_import| if &def_import.name == name { Some(def_import.namespace.clone()) } else { None }).collect::<Vec<String>>().first().cloned()
+  imports
+    .iter()
+    .filter_map(|def_import| if &def_import.name == name { Some(def_import.namespace.clone()) } else { None })
+    .collect::<Vec<String>>()
+    .first()
+    .cloned()
 }

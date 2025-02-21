@@ -55,7 +55,19 @@ fn item_definition_context_evaluator(item_definition: &DefItemDefinition) -> Res
 }
 
 fn simple_type_context_evaluator(feel_type: FeelType) -> Result<ItemDefinitionContextEvaluatorFn> {
-  if matches!(feel_type, FeelType::Any | FeelType::Null | FeelType::String | FeelType::Number | FeelType::Boolean | FeelType::Date | FeelType::Time | FeelType::DateTime | FeelType::DaysAndTimeDuration | FeelType::YearsAndMonthsDuration) {
+  if matches!(
+    feel_type,
+    FeelType::Any
+      | FeelType::Null
+      | FeelType::String
+      | FeelType::Number
+      | FeelType::Boolean
+      | FeelType::Date
+      | FeelType::Time
+      | FeelType::DateTime
+      | FeelType::DaysAndTimeDuration
+      | FeelType::YearsAndMonthsDuration
+  ) {
     Ok(Box::new(move |name: &Name, ctx: &mut FeelContext, _: &ItemDefinitionContextEvaluator| {
       ctx.set_entry(name, Value::FeelType(feel_type.clone()));
       feel_type.clone()
@@ -66,7 +78,9 @@ fn simple_type_context_evaluator(feel_type: FeelType) -> Result<ItemDefinitionCo
 }
 
 fn referenced_type_context_evaluator(def_key: DefKey) -> Result<ItemDefinitionContextEvaluatorFn> {
-  Ok(Box::new(move |name: &Name, ctx: &mut FeelContext, evaluator: &ItemDefinitionContextEvaluator| evaluator.eval(&def_key, name, ctx)))
+  Ok(Box::new(move |name: &Name, ctx: &mut FeelContext, evaluator: &ItemDefinitionContextEvaluator| {
+    evaluator.eval(&def_key, name, ctx)
+  }))
 }
 
 fn component_type_context_evaluator(item_definition: &DefItemDefinition) -> Result<ItemDefinitionContextEvaluatorFn> {
@@ -87,7 +101,19 @@ fn component_type_context_evaluator(item_definition: &DefItemDefinition) -> Resu
 }
 
 fn collection_of_simple_type_context_evaluator(feel_type: FeelType) -> Result<ItemDefinitionContextEvaluatorFn> {
-  if matches!(feel_type, FeelType::Any | FeelType::Null | FeelType::String | FeelType::Number | FeelType::Boolean | FeelType::Date | FeelType::Time | FeelType::DateTime | FeelType::DaysAndTimeDuration | FeelType::YearsAndMonthsDuration) {
+  if matches!(
+    feel_type,
+    FeelType::Any
+      | FeelType::Null
+      | FeelType::String
+      | FeelType::Number
+      | FeelType::Boolean
+      | FeelType::Date
+      | FeelType::Time
+      | FeelType::DateTime
+      | FeelType::DaysAndTimeDuration
+      | FeelType::YearsAndMonthsDuration
+  ) {
     Ok(Box::new(move |name: &Name, ctx: &mut FeelContext, _: &ItemDefinitionContextEvaluator| {
       let list_type = FeelType::List(Box::new(feel_type.clone()));
       let list = Value::List(vec![Value::FeelType(feel_type.clone())]);

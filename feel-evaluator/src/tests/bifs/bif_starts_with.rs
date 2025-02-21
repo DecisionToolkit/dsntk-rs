@@ -23,12 +23,22 @@ fn _0004() {
 
 #[test]
 fn _0005() {
-  te_null(false, &scope!(), r#"starts with(8,"bar")"#, r#"[core::starts with] invalid argument type, expected string, actual type is number"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"starts with(8,"bar")"#,
+    r#"[core::starts with] invalid argument type, expected string, actual type is number"#,
+  );
 }
 
 #[test]
 fn _0006() {
-  te_null(false, &scope!(), r#"starts with("foo",7)"#, r#"[core::starts with] invalid argument type, expected string, actual type is number"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"starts with("foo",7)"#,
+    r#"[core::starts with] invalid argument type, expected string, actual type is number"#,
+  );
 }
 
 #[test]

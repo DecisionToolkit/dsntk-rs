@@ -18,7 +18,12 @@ fn _0003() {
 
 #[test]
 fn _0004() {
-  te_null(false, &scope!(), "mode([true,false])", r#"[core::mode] invalid argument type, expected number, actual type is boolean"#);
+  te_null(
+    false,
+    &scope!(),
+    "mode([true,false])",
+    r#"[core::mode] invalid argument type, expected number, actual type is boolean"#,
+  );
 }
 
 #[test]

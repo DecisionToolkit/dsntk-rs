@@ -37,7 +37,10 @@ pub struct ModelParser {
 impl ModelParser {
   /// Creates new model parser.
   fn new() -> Self {
-    Self { namespace: "".to_string(), model_name: "".to_string() }
+    Self {
+      namespace: "".to_string(),
+      model_name: "".to_string(),
+    }
   }
 
   /// Parses model [Definitions].
@@ -119,7 +122,10 @@ impl ModelParser {
   /// Parses optional function item.
   fn parse_function_item(&self, node: &Node) -> Result<Option<FunctionItem>> {
     if let Some(ref n) = node.children().find(name_eq(NODE_FUNCTION_ITEM)) {
-      Ok(Some(FunctionItem { output_type_ref: optional_attribute(n, ATTR_OUTPUT_TYPE_REF), parameters: self.parse_vec_information_item_child(n, NODE_PARAMETERS)? }))
+      Ok(Some(FunctionItem {
+        output_type_ref: optional_attribute(n, ATTR_OUTPUT_TYPE_REF),
+        parameters: self.parse_vec_information_item_child(n, NODE_PARAMETERS)?,
+      }))
     } else {
       Ok(None)
     }
@@ -128,7 +134,10 @@ impl ModelParser {
   /// Parsers unary tests.
   fn parse_unary_tests(&self, node: &Node, child_name: &str) -> Result<Option<UnaryTests>> {
     if let Some(child_node) = node.children().find(name_eq(child_name)) {
-      Ok(Some(UnaryTests { text: optional_child_required_content(&child_node, NODE_TEXT)?, expression_language: optional_attribute(&child_node, ATTR_EXPRESSION_LANGUAGE) }))
+      Ok(Some(UnaryTests {
+        text: optional_child_required_content(&child_node, NODE_TEXT)?,
+        expression_language: optional_attribute(&child_node, ATTR_EXPRESSION_LANGUAGE),
+      }))
     } else {
       Ok(None)
     }
@@ -151,7 +160,9 @@ impl ModelParser {
     for ref child_node in node.children().filter(name_eq(NODE_INPUT_DATA)) {
       let name = required_name(child_node)?;
       let feel_name = required_feel_name(child_node)?;
-      let variable = self.parse_opt_information_item_child(child_node, NODE_VARIABLE)?.unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
+      let variable = self
+        .parse_opt_information_item_child(child_node, NODE_VARIABLE)?
+        .unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
       let input_data = InputData {
         namespace: self.namespace.clone(),
         model_name: self.model_name.clone(),
@@ -175,7 +186,9 @@ impl ModelParser {
     for ref child_node in node.children().filter(name_eq(NODE_DECISION)) {
       let name = required_name(child_node)?;
       let feel_name = required_feel_name(child_node)?;
-      let variable = self.parse_opt_information_item_child(child_node, NODE_VARIABLE)?.unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
+      let variable = self
+        .parse_opt_information_item_child(child_node, NODE_VARIABLE)?
+        .unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
       let decision = Decision {
         namespace: self.namespace.clone(),
         model_name: self.model_name.clone(),
@@ -205,7 +218,9 @@ impl ModelParser {
     for ref child_node in node.children().filter(name_eq(NODE_BUSINESS_KNOWLEDGE_MODEL)) {
       let name = required_name(child_node)?;
       let feel_name = required_feel_name(child_node)?;
-      let variable = self.parse_opt_information_item_child(child_node, NODE_VARIABLE)?.unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
+      let variable = self
+        .parse_opt_information_item_child(child_node, NODE_VARIABLE)?
+        .unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
       let business_knowledge_model = BusinessKnowledgeModel {
         namespace: self.namespace.clone(),
         model_name: self.model_name.clone(),
@@ -232,7 +247,9 @@ impl ModelParser {
     for ref child_node in node.children().filter(name_eq(NODE_DECISION_SERVICE)) {
       let name = required_name(child_node)?;
       let feel_name = required_feel_name(child_node)?;
-      let variable = self.parse_opt_information_item_child(child_node, NODE_VARIABLE)?.unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
+      let variable = self
+        .parse_opt_information_item_child(child_node, NODE_VARIABLE)?
+        .unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
       let decision_service = DecisionService {
         namespace: self.namespace.clone(),
         model_name: self.model_name.clone(),
@@ -402,7 +419,11 @@ impl ModelParser {
 
   /// Parses an optional [InformationItem], contained in a child node having the specified name.
   fn parse_opt_information_item_child(&self, node: &Node, child_name: &str) -> Result<Option<InformationItem>> {
-    Ok(if let Some(child_node) = node.children().find(name_eq(child_name)) { Some(self.parse_information_item(&child_node)?) } else { None })
+    Ok(if let Some(child_node) = node.children().find(name_eq(child_name)) {
+      Some(self.parse_information_item(&child_node)?)
+    } else {
+      None
+    })
   }
 
   /// Parses a collection of [InformationItem]s contained in multiple child nodes having the specified name.
@@ -648,8 +669,15 @@ impl ModelParser {
     } else {
       return Err(err_required_input_expression_is_missing());
     };
-    let input_values = if let Some(ref child_node) = optional_child(node, NODE_INPUT_VALUES) { optional_child_required_content(child_node, NODE_TEXT)? } else { None };
-    Ok(InputClause { input_expression, allowed_input_values: input_values })
+    let input_values = if let Some(ref child_node) = optional_child(node, NODE_INPUT_VALUES) {
+      optional_child_required_content(child_node, NODE_TEXT)?
+    } else {
+      None
+    };
+    Ok(InputClause {
+      input_expression,
+      allowed_input_values: input_values,
+    })
   }
 
   fn parse_decision_table_outputs(&self, node: &Node) -> Result<Vec<OutputClause>> {
@@ -661,9 +689,22 @@ impl ModelParser {
   }
 
   fn parse_decision_table_output(&self, node: &Node) -> Result<OutputClause> {
-    let output_values = if let Some(ref child_node) = optional_child(node, NODE_OUTPUT_VALUES) { optional_child_required_content(child_node, NODE_TEXT)? } else { None };
-    let default_output_entry = if let Some(ref child_node) = optional_child(node, NODE_DEFAULT_OUTPUT_ENTRY) { optional_child_required_content(child_node, NODE_TEXT)? } else { None };
-    Ok(OutputClause { type_ref: optional_attribute(node, ATTR_TYPE_REF), name: optional_attribute(node, ATTR_NAME), allowed_output_values: output_values, default_output_entry })
+    let output_values = if let Some(ref child_node) = optional_child(node, NODE_OUTPUT_VALUES) {
+      optional_child_required_content(child_node, NODE_TEXT)?
+    } else {
+      None
+    };
+    let default_output_entry = if let Some(ref child_node) = optional_child(node, NODE_DEFAULT_OUTPUT_ENTRY) {
+      optional_child_required_content(child_node, NODE_TEXT)?
+    } else {
+      None
+    };
+    Ok(OutputClause {
+      type_ref: optional_attribute(node, ATTR_TYPE_REF),
+      name: optional_attribute(node, ATTR_NAME),
+      allowed_output_values: output_values,
+      default_output_entry,
+    })
   }
 
   fn parse_decision_table_rules(&self, node: &Node) -> Result<Vec<DecisionRule>> {
@@ -675,7 +716,11 @@ impl ModelParser {
   }
 
   fn parse_decision_table_rule(&self, node: &Node) -> Result<DecisionRule> {
-    Ok(DecisionRule { input_entries: self.parse_decision_table_input_entries(node)?, output_entries: self.parse_decision_table_output_entries(node)?, annotation_entries: vec![] })
+    Ok(DecisionRule {
+      input_entries: self.parse_decision_table_input_entries(node)?,
+      output_entries: self.parse_decision_table_output_entries(node)?,
+      annotation_entries: vec![],
+    })
   }
 
   fn parse_decision_table_input_entries(&self, node: &Node) -> Result<Vec<InputEntry>> {
@@ -696,7 +741,9 @@ impl ModelParser {
   /// So, long story short, when the string in `text` element is empty,
   /// it is replaced by `irrelevant` operator.
   fn parse_decision_table_input_entry(&self, node: &Node) -> Result<InputEntry> {
-    Ok(InputEntry { text: req_child_opt_content(node, NODE_TEXT)?.unwrap_or("-".to_string()) })
+    Ok(InputEntry {
+      text: req_child_opt_content(node, NODE_TEXT)?.unwrap_or("-".to_string()),
+    })
   }
 
   fn parse_decision_table_output_entries(&self, node: &Node) -> Result<Vec<OutputEntry>> {
@@ -708,7 +755,9 @@ impl ModelParser {
   }
 
   fn parse_decision_table_output_entry(&self, node: &Node) -> Result<OutputEntry> {
-    Ok(OutputEntry { text: req_child_req_content(node, NODE_TEXT)? })
+    Ok(OutputEntry {
+      text: req_child_req_content(node, NODE_TEXT)?,
+    })
   }
 
   fn parse_optional_context(&self, node: &Node) -> Result<Option<Context>> {
@@ -735,7 +784,10 @@ impl ModelParser {
   fn parse_context_entries(&self, node: &Node) -> Result<Vec<ContextEntry>> {
     let mut context_entries = vec![];
     for ref child_node in node.children().filter(name_eq(NODE_CONTEXT_ENTRY)) {
-      context_entries.push(ContextEntry { variable: self.parse_opt_information_item_child(child_node, NODE_VARIABLE)?, value: self.parse_required_child_expression_instance(child_node)? });
+      context_entries.push(ContextEntry {
+        variable: self.parse_opt_information_item_child(child_node, NODE_VARIABLE)?,
+        value: self.parse_required_child_expression_instance(child_node)?,
+      });
     }
     Ok(context_entries)
   }
@@ -765,7 +817,10 @@ impl ModelParser {
   fn parse_bindings(&self, node: &Node) -> Result<Vec<Binding>> {
     let mut bindings = vec![];
     for ref child_node in node.children().filter(name_eq(NODE_BINDING)) {
-      bindings.push(Binding { parameter: self.parse_req_information_item_child(child_node, NODE_PARAMETER)?, binding_formula: self.parse_optional_child_expression_instance(child_node)? });
+      bindings.push(Binding {
+        parameter: self.parse_req_information_item_child(child_node, NODE_PARAMETER)?,
+        binding_formula: self.parse_optional_child_expression_instance(child_node)?,
+      });
     }
     Ok(bindings)
   }
@@ -784,7 +839,10 @@ impl ModelParser {
     let mut elements = vec![];
     for child_node in node.children().filter(|n| {
       let name = n.tag_name().name();
-      matches!(name, NODE_CONTEXT | NODE_DECISION_TABLE | NODE_FUNCTION_DEFINITION | NODE_INVOCATION | NODE_LIST | NODE_LITERAL_EXPRESSION | NODE_RELATION)
+      matches!(
+        name,
+        NODE_CONTEXT | NODE_DECISION_TABLE | NODE_FUNCTION_DEFINITION | NODE_INVOCATION | NODE_LIST | NODE_LITERAL_EXPRESSION | NODE_RELATION
+      )
     }) {
       elements.push(self.parse_required_expression_instance(&child_node)?);
     }
@@ -1005,12 +1063,19 @@ impl ModelParser {
 
   fn parse_required_child_expression(&self, node: &Node) -> Result<ChildExpression> {
     let child_node = first_child_element(node)?;
-    Ok(ChildExpression { id: optional_id(node), value: self.parse_required_expression_instance(&child_node)? })
+    Ok(ChildExpression {
+      id: optional_id(node),
+      value: self.parse_required_expression_instance(&child_node)?,
+    })
   }
 
   fn parse_required_typed_child_expression(&self, node: &Node) -> Result<TypedChildExpression> {
     let child_node = first_child_element(node)?;
-    Ok(TypedChildExpression { id: optional_id(node), value: self.parse_required_expression_instance(&child_node)?, type_ref: optional_attribute(node, ATTR_TYPE_REF) })
+    Ok(TypedChildExpression {
+      id: optional_id(node),
+      value: self.parse_required_expression_instance(&child_node)?,
+      type_ref: optional_attribute(node, ATTR_TYPE_REF),
+    })
   }
 
   /// Parses extension elements.
@@ -1079,7 +1144,10 @@ impl ModelParser {
   /// Parse DMNDI part of the diagram definitions.
   fn parse_dmndi(&self, node: &Node) -> Result<Option<Dmndi>> {
     if let Some(child_node) = node.children().find(name_eq(NODE_DMNDI)) {
-      let dmndi = Dmndi { styles: self.parse_styles(&child_node)?, diagrams: self.parse_diagrams(&child_node)? };
+      let dmndi = Dmndi {
+        styles: self.parse_styles(&child_node)?,
+        diagrams: self.parse_diagrams(&child_node)?,
+      };
       return Ok(Some(dmndi));
     }
     Ok(None)
@@ -1115,7 +1183,11 @@ impl ModelParser {
   /// Parses the color definition.
   fn parse_optional_color(&self, node: &Node, child_name: &str) -> Result<Option<DcColor>> {
     if let Some(color_node) = node.children().find(name_eq(child_name)) {
-      Ok(Some(DcColor { red: required_color_part(&color_node, ATTR_RED)?, green: required_color_part(&color_node, ATTR_GREEN)?, blue: required_color_part(&color_node, ATTR_BLUE)? }))
+      Ok(Some(DcColor {
+        red: required_color_part(&color_node, ATTR_RED)?,
+        green: required_color_part(&color_node, ATTR_GREEN)?,
+        blue: required_color_part(&color_node, ATTR_BLUE)?,
+      }))
     } else {
       Ok(None)
     }
@@ -1157,7 +1229,10 @@ impl ModelParser {
   /// Parses dimension.
   fn parse_dimension(&self, size_node: &Node) -> Result<Option<DcDimension>> {
     if let Some(node) = size_node.children().find(name_eq(NODE_DMNDI_SIZE)) {
-      Ok(Some(DcDimension { width: required_double(&node, ATTR_WIDTH)?, height: required_double(&node, ATTR_HEIGHT)? }))
+      Ok(Some(DcDimension {
+        width: required_double(&node, ATTR_WIDTH)?,
+        height: required_double(&node, ATTR_HEIGHT)?,
+      }))
     } else {
       Ok(None)
     }
@@ -1251,7 +1326,10 @@ impl ModelParser {
 
   /// Parses the point coordinates.
   fn parse_point(&self, node: &Node) -> Result<DcPoint> {
-    Ok(DcPoint { x: required_double(node, ATTR_X)?, y: required_double(node, ATTR_Y)? })
+    Ok(DcPoint {
+      x: required_double(node, ATTR_X)?,
+      y: required_double(node, ATTR_Y)?,
+    })
   }
 
   /// Parses the label of the element.
@@ -1270,7 +1348,12 @@ impl ModelParser {
 
 /// Returns the first child element of the specified node.
 fn first_child_element<'a>(node: &'a Node) -> Result<Node<'a, 'a>> {
-  node.children().filter(|n| matches!(n.node_type(), NodeType::Element)).take(1).next().ok_or(err_node_has_no_children(node.tag_name().name()))
+  node
+    .children()
+    .filter(|n| matches!(n.node_type(), NodeType::Element))
+    .take(1)
+    .next()
+    .ok_or(err_node_has_no_children(node.tag_name().name()))
 }
 
 /// Returns required name attribute for specified node.

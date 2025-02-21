@@ -187,7 +187,10 @@ impl EvaluatedDecisionTable {
     if matching_rules.is_empty() {
       return self.evaluate_default_output_value();
     }
-    let output_values = matching_rules.iter().map(|evaluated_rule| evaluated_rule.output_entry_values[0].clone()).collect::<Vec<Value>>();
+    let output_values = matching_rules
+      .iter()
+      .map(|evaluated_rule| evaluated_rule.output_entry_values[0].clone())
+      .collect::<Vec<Value>>();
     dsntk_feel_evaluator::evaluate_sum(output_values)
   }
 
@@ -199,7 +202,10 @@ impl EvaluatedDecisionTable {
     if matching_rules.is_empty() {
       return self.evaluate_default_output_value();
     }
-    let output_values = matching_rules.iter().map(|evaluated_rule| evaluated_rule.output_entry_values[0].clone()).collect::<Vec<Value>>();
+    let output_values = matching_rules
+      .iter()
+      .map(|evaluated_rule| evaluated_rule.output_entry_values[0].clone())
+      .collect::<Vec<Value>>();
     dsntk_feel_evaluator::evaluate_min(output_values)
   }
 
@@ -211,7 +217,10 @@ impl EvaluatedDecisionTable {
     if matching_rules.is_empty() {
       return self.evaluate_default_output_value();
     }
-    let output_values = matching_rules.iter().map(|evaluated_rule| evaluated_rule.output_entry_values[0].clone()).collect::<Vec<Value>>();
+    let output_values = matching_rules
+      .iter()
+      .map(|evaluated_rule| evaluated_rule.output_entry_values[0].clone())
+      .collect::<Vec<Value>>();
     dsntk_feel_evaluator::evaluate_max(output_values)
   }
 }
@@ -278,7 +287,10 @@ fn parse_decision_table(scope: &FeelScope, decision_table: &DecisionTable) -> Re
         output_entries_evaluators.push(dsntk_feel_evaluator::prepare(&output_entry_node));
       }
     }
-    parsed_rules.push(ParsedRule { input_entries_evaluators, output_entries_evaluators })
+    parsed_rules.push(ParsedRule {
+      input_entries_evaluators,
+      output_entries_evaluators,
+    })
   }
   let mut output_values_evaluators = vec![];
   for opt_node in output_values_nodes {
@@ -296,7 +308,12 @@ fn parse_decision_table(scope: &FeelScope, decision_table: &DecisionTable) -> Re
       default_output_values_evaluators.push(None);
     }
   }
-  Ok(ParsedDecisionTable { component_names, output_values_evaluators, default_output_values_evaluators, rules: parsed_rules })
+  Ok(ParsedDecisionTable {
+    component_names,
+    output_values_evaluators,
+    default_output_values_evaluators,
+    rules: parsed_rules,
+  })
 }
 
 fn evaluate_parsed_decision_table(scope: &FeelScope, parsed_decision_table: &ParsedDecisionTable) -> EvaluatedDecisionTable {
@@ -333,7 +350,12 @@ fn evaluate_parsed_decision_table(scope: &FeelScope, parsed_decision_table: &Par
     }
     evaluated_rules.push(EvaluatedRule { matches, output_entry_values })
   }
-  EvaluatedDecisionTable { component_names: parsed_decision_table.component_names.clone(), output_values, default_output_values, evaluated_rules }
+  EvaluatedDecisionTable {
+    component_names: parsed_decision_table.component_names.clone(),
+    output_values,
+    default_output_values,
+    evaluated_rules,
+  }
 }
 
 pub fn build_decision_table_evaluator(scope: &FeelScope, decision_table: &DecisionTable) -> Result<Evaluator> {

@@ -18,7 +18,12 @@ fn _0003() {
 
 #[test]
 fn _0004() {
-  te_bool(false, &scope!(), r#"before(date and time("2022-01-31T10:11:12"),date and time("2022-01-31T10:11:13"))"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(date and time("2022-01-31T10:11:12"),date and time("2022-01-31T10:11:13"))"#,
+    true,
+  );
 }
 
 #[test]
@@ -48,7 +53,12 @@ fn _0009() {
 
 #[test]
 fn _0010() {
-  te_bool(false, &scope!(), r#"before(date and time("2022-02-01T23:12:01"),date and time("2022-02-01T23:12:00"))"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(date and time("2022-02-01T23:12:01"),date and time("2022-02-01T23:12:00"))"#,
+    false,
+  );
 }
 
 #[test]
@@ -73,7 +83,12 @@ fn _0014() {
 
 #[test]
 fn _0015() {
-  te_bool(false, &scope!(), r#"before(date and time("2021-01-01T12:13:14"),date and time("2021-01-01T12:13:14"))"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(date and time("2021-01-01T12:13:14"),date and time("2021-01-01T12:13:14"))"#,
+    false,
+  );
 }
 
 #[test]
@@ -103,12 +118,22 @@ fn _0020() {
 
 #[test]
 fn _0021() {
-  te_bool(false, &scope!(), r#"before(date and time("1960-12-31T12:13:14"),[date and time("1960-12-31T12:13:14")..date and time("1960-12-31T13:00:00")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(date and time("1960-12-31T12:13:14"),[date and time("1960-12-31T12:13:14")..date and time("1960-12-31T13:00:00")])"#,
+    false,
+  );
 }
 
 #[test]
 fn _0022() {
-  te_bool(false, &scope!(), r#"before(duration("P1DT2H3M2S"),[duration("P1DT2H3M2S")..duration("P2DT2H3M2S")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(duration("P1DT2H3M2S"),[duration("P1DT2H3M2S")..duration("P2DT2H3M2S")])"#,
+    false,
+  );
 }
 
 #[test]
@@ -158,7 +183,12 @@ fn _0031() {
 
 #[test]
 fn _0032() {
-  te_bool(false, &scope!(), r#"before(date and time("2021-02-16T12:01:02"),[date and time("2021-02-16T12:01:03")..date and time("2021-02-16T13:00:00")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(date and time("2021-02-16T12:01:02"),[date and time("2021-02-16T12:01:03")..date and time("2021-02-16T13:00:00")])"#,
+    true,
+  );
 }
 
 #[test]
@@ -188,7 +218,12 @@ fn _0037() {
 
 #[test]
 fn _0038() {
-  te_bool(false, &scope!(), r#"before([date and time("2022-02-08T13:18:56")..date and time("2022-02-08T14:00:00")],date and time("2022-02-08T13:59:59"))"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([date and time("2022-02-08T13:18:56")..date and time("2022-02-08T14:00:00")],date and time("2022-02-08T13:59:59"))"#,
+    false,
+  );
 }
 
 #[test]
@@ -218,7 +253,12 @@ fn _0043() {
 
 #[test]
 fn _0044() {
-  te_bool(false, &scope!(), r#"before([date and time("2020-07-23T01:12:18")..date and time("2020-07-23T15:12:30")),date and time("2020-07-23T15:12:30"))"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([date and time("2020-07-23T01:12:18")..date and time("2020-07-23T15:12:30")),date and time("2020-07-23T15:12:30"))"#,
+    true,
+  );
 }
 
 #[test]
@@ -248,7 +288,12 @@ fn _0049() {
 
 #[test]
 fn _0050() {
-  te_bool(false, &scope!(), r#"before([date and time("2020-07-23T01:12:18")..date and time("2020-07-23T15:12:30")],date and time("2020-07-23T15:12:31"))"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([date and time("2020-07-23T01:12:18")..date and time("2020-07-23T15:12:30")],date and time("2020-07-23T15:12:31"))"#,
+    true,
+  );
 }
 
 #[test]
@@ -268,27 +313,52 @@ fn _0053() {
 
 #[test]
 fn _0054() {
-  te_bool(false, &scope!(), r#"before([date("1960-11-17")..date("1960-12-31")],[date("1961-01-01")..date("1960-05-31")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([date("1960-11-17")..date("1960-12-31")],[date("1961-01-01")..date("1960-05-31")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0055() {
-  te_bool(false, &scope!(), r#"before([time("01:00:00")..time("11:59:59")],[time("12:00:00")..time("23:59:59")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([time("01:00:00")..time("11:59:59")],[time("12:00:00")..time("23:59:59")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0056() {
-  te_bool(false, &scope!(), r#"before([date and time("2020-01-01T01:00:00")..date and time("2020-01-01T11:59:59")],[date and time("2020-01-01T12:00:00")..date and time("2020-01-01T23:59:59")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([date and time("2020-01-01T01:00:00")..date and time("2020-01-01T11:59:59")],[date and time("2020-01-01T12:00:00")..date and time("2020-01-01T23:59:59")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0057() {
-  te_bool(false, &scope!(), r#"before([duration("P1D")..duration("P23D")],[duration("P23DT1S")..duration("P25D")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([duration("P1D")..duration("P23D")],[duration("P23DT1S")..duration("P25D")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0058() {
-  te_bool(false, &scope!(), r#"before([duration("P1Y")..duration("P23Y")],[duration("P23Y1M")..duration("P25Y")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([duration("P1Y")..duration("P23Y")],[duration("P23Y1M")..duration("P25Y")])"#,
+    true,
+  );
 }
 
 #[test]
@@ -298,27 +368,52 @@ fn _0059() {
 
 #[test]
 fn _0060() {
-  te_bool(false, &scope!(), r#"before([date("1960-11-17")..date("1960-12-31")],[date("1960-12-31")..date("1960-05-31")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([date("1960-11-17")..date("1960-12-31")],[date("1960-12-31")..date("1960-05-31")])"#,
+    false,
+  );
 }
 
 #[test]
 fn _0061() {
-  te_bool(false, &scope!(), r#"before([time("01:00:00")..time("12:00:00")],[time("12:00:00")..time("23:59:59")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([time("01:00:00")..time("12:00:00")],[time("12:00:00")..time("23:59:59")])"#,
+    false,
+  );
 }
 
 #[test]
 fn _0062() {
-  te_bool(false, &scope!(), r#"before([date and time("2020-01-01T01:00:00")..date and time("2020-01-01T12:00:00")],[date and time("2020-01-01T12:00:00")..date and time("2020-01-01T23:59:59")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([date and time("2020-01-01T01:00:00")..date and time("2020-01-01T12:00:00")],[date and time("2020-01-01T12:00:00")..date and time("2020-01-01T23:59:59")])"#,
+    false,
+  );
 }
 
 #[test]
 fn _0063() {
-  te_bool(false, &scope!(), r#"before([duration("P1D")..duration("P23D")],[duration("P23D")..duration("P25D")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([duration("P1D")..duration("P23D")],[duration("P23D")..duration("P25D")])"#,
+    false,
+  );
 }
 
 #[test]
 fn _0064() {
-  te_bool(false, &scope!(), r#"before([duration("P1Y")..duration("P23Y")],[duration("P23Y")..duration("P25Y")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([duration("P1Y")..duration("P23Y")],[duration("P23Y")..duration("P25Y")])"#,
+    false,
+  );
 }
 
 #[test]
@@ -328,27 +423,52 @@ fn _0065() {
 
 #[test]
 fn _0066() {
-  te_bool(false, &scope!(), r#"before([date("1960-11-17")..date("1960-12-31")),[date("1960-12-31")..date("1960-05-31")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([date("1960-11-17")..date("1960-12-31")),[date("1960-12-31")..date("1960-05-31")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0067() {
-  te_bool(false, &scope!(), r#"before([time("01:00:00")..time("12:00:00")),[time("12:00:00")..time("23:59:59")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([time("01:00:00")..time("12:00:00")),[time("12:00:00")..time("23:59:59")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0068() {
-  te_bool(false, &scope!(), r#"before([date and time("2020-01-01T01:00:00")..date and time("2020-01-01T12:00:00")),[date and time("2020-01-01T12:00:00")..date and time("2020-01-01T23:59:59")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([date and time("2020-01-01T01:00:00")..date and time("2020-01-01T12:00:00")),[date and time("2020-01-01T12:00:00")..date and time("2020-01-01T23:59:59")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0069() {
-  te_bool(false, &scope!(), r#"before([duration("P1D")..duration("P23D")),[duration("P23D")..duration("P25D")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([duration("P1D")..duration("P23D")),[duration("P23D")..duration("P25D")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0070() {
-  te_bool(false, &scope!(), r#"before([duration("P1Y")..duration("P23Y")),[duration("P23Y")..duration("P25Y")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([duration("P1Y")..duration("P23Y")),[duration("P23Y")..duration("P25Y")])"#,
+    true,
+  );
 }
 
 #[test]
@@ -358,7 +478,12 @@ fn _0071() {
 
 #[test]
 fn _0072() {
-  te_bool(false, &scope!(), r#"before([date("1960-11-17")..date("1960-12-31")],(date("1960-12-31")..date("1960-05-31")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([date("1960-11-17")..date("1960-12-31")],(date("1960-12-31")..date("1960-05-31")])"#,
+    true,
+  );
 }
 
 #[test]
@@ -368,7 +493,12 @@ fn _0073() {
 
 #[test]
 fn _0074() {
-  te_bool(false, &scope!(), r#"before([date("1960-11-17")..date("1960-12-31")),(date("1960-12-31")..date("1960-05-31")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([date("1960-11-17")..date("1960-12-31")),(date("1960-12-31")..date("1960-05-31")])"#,
+    true,
+  );
 }
 
 #[test]
@@ -388,7 +518,12 @@ fn _0077() {
 
 #[test]
 fn _0078() {
-  te_bool(false, &scope!(), r#"before(point1:date and time("2022-01-31T10:11:12"),point2:date and time("2022-01-31T10:11:13"))"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(point1:date and time("2022-01-31T10:11:12"),point2:date and time("2022-01-31T10:11:13"))"#,
+    true,
+  );
 }
 
 #[test]
@@ -438,27 +573,52 @@ fn _0087() {
 
 #[test]
 fn _0088() {
-  te_bool(false, &scope!(), r#"before(range1:[date("1960-11-17")..date("1960-12-31")),range2:(date("1960-12-31")..date("1960-05-31")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(range1:[date("1960-11-17")..date("1960-12-31")),range2:(date("1960-12-31")..date("1960-05-31")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0089() {
-  te_bool(false, &scope!(), r#"before(range1:[time("01:00:00")..time("12:00:00")),range2:(time("12:00:00")..time("23:59:59")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(range1:[time("01:00:00")..time("12:00:00")),range2:(time("12:00:00")..time("23:59:59")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0090() {
-  te_bool(false, &scope!(), r#"before(range1:[date and time("2020-01-01T01:00:00")..date and time("2020-01-01T12:00:00")),range2:(date and time("2020-01-01T12:00:00")..date and time("2020-01-01T23:59:59")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(range1:[date and time("2020-01-01T01:00:00")..date and time("2020-01-01T12:00:00")),range2:(date and time("2020-01-01T12:00:00")..date and time("2020-01-01T23:59:59")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0091() {
-  te_bool(false, &scope!(), r#"before(range1:[duration("P1D")..duration("P23D")),range2:(duration("P23D")..duration("P25D")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(range1:[duration("P1D")..duration("P23D")),range2:(duration("P23D")..duration("P25D")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0092() {
-  te_bool(false, &scope!(), r#"before(range1:[duration("P1Y")..duration("P23Y")),range2:(duration("P23Y")..duration("P25Y")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(range1:[duration("P1Y")..duration("P23Y")),range2:(duration("P23Y")..duration("P25Y")])"#,
+    true,
+  );
 }
 
 #[test]
@@ -478,7 +638,12 @@ fn _0095() {
 
 #[test]
 fn _0096() {
-  te_bool(false, &scope!(), r#"before(date and time("1960-12-31T12:13:14"),(date and time("1960-12-31T12:13:14")..date and time("1960-12-31T13:00:00")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(date and time("1960-12-31T12:13:14"),(date and time("1960-12-31T12:13:14")..date and time("1960-12-31T13:00:00")])"#,
+    true,
+  );
 }
 
 #[test]
@@ -498,7 +663,12 @@ fn _0099() {
 
 #[test]
 fn _0100() {
-  te_bool(false, &scope!(), r#"before(range:[date("1960-11-17")..date("1960-12-31")],point:date("1960-12-31"))"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(range:[date("1960-11-17")..date("1960-12-31")],point:date("1960-12-31"))"#,
+    false,
+  );
 }
 
 #[test]
@@ -508,7 +678,12 @@ fn _0101() {
 
 #[test]
 fn _0102() {
-  te_bool(false, &scope!(), r#"before(range:[date and time("2022-02-08T13:18:56")..date and time("2022-02-08T14:00:00")],point:date and time("2022-02-08T13:59:59"))"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before(range:[date and time("2022-02-08T13:18:56")..date and time("2022-02-08T14:00:00")],point:date and time("2022-02-08T13:59:59"))"#,
+    false,
+  );
 }
 
 #[test]
@@ -548,7 +723,12 @@ fn _0109() {
 
 #[test]
 fn _0110() {
-  te_null(false, &scope!(), r#"before("abc","bcd")"#, r#"[core::before] invalid argument type, expected scalar or range of scalars, actual type is string"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"before("abc","bcd")"#,
+    r#"[core::before] invalid argument type, expected scalar or range of scalars, actual type is string"#,
+  );
 }
 
 #[test]
@@ -558,5 +738,10 @@ fn _0111() {
 
 #[test]
 fn _0112() {
-  te_bool(false, &scope!(), r#"before([date("2021-01-01")..date("2021-12-31")],[date("2022-01-01")..date("2022-12-31")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"before([date("2021-01-01")..date("2021-12-31")],[date("2022-01-01")..date("2022-12-31")])"#,
+    true,
+  );
 }

@@ -23,7 +23,12 @@ fn _0004() {
 
 #[test]
 fn _0005() {
-  te_null(false, &scope!(), r#"distinct values(8)"#, r#"[core::distinct values] invalid argument type, expected list, actual type is number"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"distinct values(8)"#,
+    r#"[core::distinct values] invalid argument type, expected list, actual type is number"#,
+  );
 }
 
 #[test]

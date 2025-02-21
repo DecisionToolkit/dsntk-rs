@@ -27,7 +27,10 @@ pub fn err_invalid_function_kind(s: &str) -> DsntkError {
 /// Raised when parsed text is not a valid hit policy, accepted values are:
 /// `UNIQUE`, `FIRST`, `PRIORITY`, `ANY`, `COLLECT`, `RULE ORDER` or `OUTPUT ORDER`.
 pub fn err_invalid_hit_policy(s: &str) -> DsntkError {
-  ModelParserError(format!("'{s}' is not a valid hit policy, allowed values are: 'UNIQUE', 'FIRST', 'PRIORITY', 'ANY', 'COLLECT', 'RULE ORDER', 'OUTPUT ORDER'")).into()
+  ModelParserError(format!(
+    "'{s}' is not a valid hit policy, allowed values are: 'UNIQUE', 'FIRST', 'PRIORITY', 'ANY', 'COLLECT', 'RULE ORDER', 'OUTPUT ORDER'"
+  ))
+  .into()
 }
 
 /// Raised when parsed text is not a valid aggregation for hit policy, accepted values are:

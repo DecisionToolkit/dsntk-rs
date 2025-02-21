@@ -35,17 +35,38 @@ fn _0005() {
 #[test]
 fn _0006() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-upper-case-function_006_d9bd3c14bc", &ctx, r#""ABDCF""#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-upper-case-function_006_d9bd3c14bc",
+    &ctx,
+    r#""ABDCF""#,
+  );
 }
 
 #[test]
 fn _0007() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-upper-case-function_007_31fc6c1967", &ctx, r#""XYZ ""#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-upper-case-function_007_31fc6c1967",
+    &ctx,
+    r#""XYZ ""#,
+  );
 }
 
 #[test]
 fn _0008() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-upper-case-function_008_26e369a9d9", &ctx, r#""123ABC""#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-upper-case-function_008_26e369a9d9",
+    &ctx,
+    r#""123ABC""#,
+  );
 }

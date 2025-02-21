@@ -43,32 +43,62 @@ fn _0008() {
 
 #[test]
 fn _0009() {
-  te_bool(false, &scope!(), r#"meets([date("2022-12-01")..date("2022-12-10")],[date("2022-12-10")..date("2022-12-31")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"meets([date("2022-12-01")..date("2022-12-10")],[date("2022-12-10")..date("2022-12-31")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0010() {
-  te_bool(false, &scope!(), r#"meets([date("2022-12-01")..date("2022-12-10")),[date("2022-12-10")..date("2022-12-31")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"meets([date("2022-12-01")..date("2022-12-10")),[date("2022-12-10")..date("2022-12-31")])"#,
+    false,
+  );
 }
 
 #[test]
 fn _0011() {
-  te_bool(false, &scope!(), r#"meets([date and time("2022-12-01T00:00:00")..date and time("2022-12-10T00:00:00")],[date and time("2022-12-10T00:00:00")..date and time("2022-12-31T23:59:59")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"meets([date and time("2022-12-01T00:00:00")..date and time("2022-12-10T00:00:00")],[date and time("2022-12-10T00:00:00")..date and time("2022-12-31T23:59:59")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0012() {
-  te_bool(false, &scope!(), r#"meets([date and time("2022-12-01T00:00:00")..date and time("2022-12-10T00:00:01")],[date and time("2022-12-10T00:00:00")..date and time("2022-12-31T23:59:59")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"meets([date and time("2022-12-01T00:00:00")..date and time("2022-12-10T00:00:01")],[date and time("2022-12-10T00:00:00")..date and time("2022-12-31T23:59:59")])"#,
+    false,
+  );
 }
 
 #[test]
 fn _0013() {
-  te_bool(false, &scope!(), r#"meets([time("00:00:00")..time("12:00:00")],[time("12:00:00")..time("23:59:59")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"meets([time("00:00:00")..time("12:00:00")],[time("12:00:00")..time("23:59:59")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0014() {
-  te_bool(false, &scope!(), r#"meets([time("00:00:00")..time("12:00:00")],[time("11:59:59")..time("23:59:59")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"meets([time("00:00:00")..time("12:00:00")],[time("11:59:59")..time("23:59:59")])"#,
+    false,
+  );
 }
 
 #[test]
@@ -78,7 +108,12 @@ fn _0015() {
 
 #[test]
 fn _0016() {
-  te_bool(false, &scope!(), r#"meets([duration("P1D")..duration("P10D")],[duration("P11D")..duration("P12D")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"meets([duration("P1D")..duration("P10D")],[duration("P11D")..duration("P12D")])"#,
+    false,
+  );
 }
 
 #[test]
@@ -88,7 +123,12 @@ fn _0017() {
 
 #[test]
 fn _0018() {
-  te_bool(false, &scope!(), r#"meets([duration("P1Y")..duration("P10Y")],(duration("P10Y")..duration("P12Y")])"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"meets([duration("P1Y")..duration("P10Y")],(duration("P10Y")..duration("P12Y")])"#,
+    false,
+  );
 }
 
 #[test]
@@ -118,10 +158,20 @@ fn _0023() {
 
 #[test]
 fn _0024() {
-  te_null(false, &scope!(), r#"meets(time("00:00:00"),[time("11:59:59")..time("23:59:59")])"#, "[core::meets] invalid argument type, expected range of scalars, actual type is time");
+  te_null(
+    false,
+    &scope!(),
+    r#"meets(time("00:00:00"),[time("11:59:59")..time("23:59:59")])"#,
+    "[core::meets] invalid argument type, expected range of scalars, actual type is time",
+  );
 }
 
 #[test]
 fn _0025() {
-  te_null(false, &scope!(), r#"meets(["a".."b"],[time("11:59:59")..time("23:59:59")])"#, "[core::meets] invalid argument type, expected range of scalars, actual type is range<string>");
+  te_null(
+    false,
+    &scope!(),
+    r#"meets(["a".."b"],[time("11:59:59")..time("23:59:59")])"#,
+    "[core::meets] invalid argument type, expected range of scalars, actual type is range<string>",
+  );
 }

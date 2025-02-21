@@ -21,4 +21,6 @@ mod tests;
 
 pub use builder::recognize;
 
-pub use model::{AnnotationEntry, BuiltinAggregator, DecisionRule, DecisionTable, DecisionTableOrientation, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry, RuleAnnotationClause};
+pub use model::{
+  AnnotationEntry, BuiltinAggregator, DecisionRule, DecisionTable, DecisionTableOrientation, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry, RuleAnnotationClause,
+};

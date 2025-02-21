@@ -27,14 +27,28 @@ fn _0001() {
 fn _0002() {
   let ctx = context(r#" { Person name: "Waldy" } "#);
   let invocable = "Evaluating Say Hello";
-  assert_decision(&MODEL_EVALUATOR_B1, NAMESPACE_B1, MODEL_NAME_B1, invocable, &ctx, r#""Evaluating Say Hello to: Hello, Waldy""#);
+  assert_decision(
+    &MODEL_EVALUATOR_B1,
+    NAMESPACE_B1,
+    MODEL_NAME_B1,
+    invocable,
+    &ctx,
+    r#""Evaluating Say Hello to: Hello, Waldy""#,
+  );
 }
 
 #[test]
 fn _0003() {
   let ctx = context(r#" { Model A: { Person name: "John" }} "#);
   let invocable = "Evaluating Say Hello";
-  assert_decision(&MODEL_EVALUATOR_B1, NAMESPACE_B1, MODEL_NAME_B1, invocable, &ctx, r#""Evaluating Say Hello to: Hello, John""#);
+  assert_decision(
+    &MODEL_EVALUATOR_B1,
+    NAMESPACE_B1,
+    MODEL_NAME_B1,
+    invocable,
+    &ctx,
+    r#""Evaluating Say Hello to: Hello, John""#,
+  );
 }
 
 #[test]
@@ -46,21 +60,42 @@ fn _0004() {
     } "#,
   );
   let invocable = "Evaluating Say Hello";
-  assert_decision(&MODEL_EVALUATOR_B1, NAMESPACE_B1, MODEL_NAME_B1, invocable, &ctx, r#""Evaluating Say Hello to: Hello, John""#);
+  assert_decision(
+    &MODEL_EVALUATOR_B1,
+    NAMESPACE_B1,
+    MODEL_NAME_B1,
+    invocable,
+    &ctx,
+    r#""Evaluating Say Hello to: Hello, John""#,
+  );
 }
 
 #[test]
 fn _0005() {
   let ctx = context(r#" { Person name: "Cecil" } "#);
   let invocable = "Evaluating B2 Say Hello";
-  assert_decision(&MODEL_EVALUATOR_B2, NAMESPACE_B2, MODEL_NAME_B2, invocable, &ctx, r#""Evaluating Say Hello to: Hello, Cecil""#);
+  assert_decision(
+    &MODEL_EVALUATOR_B2,
+    NAMESPACE_B2,
+    MODEL_NAME_B2,
+    invocable,
+    &ctx,
+    r#""Evaluating Say Hello to: Hello, Cecil""#,
+  );
 }
 
 #[test]
 fn _0006() {
   let ctx = context(r#" { Model A: { Person name: "Peter" }} "#);
   let invocable = "Evaluating B2 Say Hello";
-  assert_decision(&MODEL_EVALUATOR_B2, NAMESPACE_B2, MODEL_NAME_B2, invocable, &ctx, r#""Evaluating Say Hello to: Hello, Peter""#);
+  assert_decision(
+    &MODEL_EVALUATOR_B2,
+    NAMESPACE_B2,
+    MODEL_NAME_B2,
+    invocable,
+    &ctx,
+    r#""Evaluating Say Hello to: Hello, Peter""#,
+  );
 }
 
 #[test]
@@ -72,7 +107,14 @@ fn _0007() {
      }"#,
   );
   let invocable = "Evaluating B2 Say Hello";
-  assert_decision(&MODEL_EVALUATOR_B2, NAMESPACE_B2, MODEL_NAME_B2, invocable, &ctx, r#""Evaluating Say Hello to: Hello, Peter""#);
+  assert_decision(
+    &MODEL_EVALUATOR_B2,
+    NAMESPACE_B2,
+    MODEL_NAME_B2,
+    invocable,
+    &ctx,
+    r#""Evaluating Say Hello to: Hello, Peter""#,
+  );
 }
 
 #[test]
@@ -84,7 +126,14 @@ fn _0008() {
     }"#,
   );
   let invocable = "Model C Decision based on Bs";
-  assert_decision(&MODEL_EVALUATOR_C, NAMESPACE_C, MODEL_NAME_C, invocable, &ctx, r#""B1: Evaluating Say Hello to: Hello, Bob; B2: Evaluating Say Hello to: Hello, John""#);
+  assert_decision(
+    &MODEL_EVALUATOR_C,
+    NAMESPACE_C,
+    MODEL_NAME_C,
+    invocable,
+    &ctx,
+    r#""B1: Evaluating Say Hello to: Hello, Bob; B2: Evaluating Say Hello to: Hello, John""#,
+  );
 }
 
 #[test]
@@ -103,5 +152,12 @@ fn _0009() {
     }"#,
   );
   let invocable = "Model C Decision based on Bs";
-  assert_decision(&MODEL_EVALUATOR_C, NAMESPACE_C, MODEL_NAME_C, invocable, &ctx, r#""B1: Evaluating Say Hello to: Hello, Bob; B2: Evaluating Say Hello to: Hello, John""#);
+  assert_decision(
+    &MODEL_EVALUATOR_C,
+    NAMESPACE_C,
+    MODEL_NAME_C,
+    invocable,
+    &ctx,
+    r#""B1: Evaluating Say Hello to: Hello, Bob; B2: Evaluating Say Hello to: Hello, John""#,
+  );
 }

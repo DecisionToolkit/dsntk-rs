@@ -57,10 +57,21 @@ fn config(cfg: &mut web::ServiceConfig) {
 
 /// Starts the server.
 pub async fn start_server(opt_host: Option<String>, opt_port: Option<String>, dirs: Vec<String>, cm: ColorMode, verbose: bool) -> io::Result<()> {
-  let application_data = web::Data::new(ApplicationData { workspaces: Arc::new(Workspaces::new(&resolve_search_paths(dirs), cm, verbose)) });
+  let application_data = web::Data::new(ApplicationData {
+    workspaces: Arc::new(Workspaces::new(&resolve_search_paths(dirs), cm, verbose)),
+  });
   let address = get_server_address(opt_host, opt_port);
   Text::new(cm).blue().s("dsntk").clear().space().yellow().s(&address).clear().println();
-  HttpServer::new(move || App::new().app_data(application_data.clone()).app_data(web::PayloadConfig::new(4 * 1024 * 1024)).configure(config).default_service(web::route().to(not_found))).bind(address)?.run().await
+  HttpServer::new(move || {
+    App::new()
+      .app_data(application_data.clone())
+      .app_data(web::PayloadConfig::new(4 * 1024 * 1024))
+      .configure(config)
+      .default_service(web::route().to(not_found))
+  })
+  .bind(address)?
+  .run()
+  .await
 }
 
 /// Returns the host address and the port number, the server will start to listen on.

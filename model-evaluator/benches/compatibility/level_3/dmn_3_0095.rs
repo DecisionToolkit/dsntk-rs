@@ -5,8 +5,8 @@ from_examples!(DMN_3_0095);
 static_context!(CTX, "{}");
 
 fn eq(b: &mut Bencher, invocable: &str, ctx: &FeelContext, expected: &str) {
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx, expected);
-  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx));
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, ctx, expected);
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, ctx));
 }
 
 #[bench]
@@ -68,7 +68,12 @@ fn _0011(b: &mut Bencher) {
 
 #[bench]
 fn _0012(b: &mut Bencher) {
-  eq(b, "null_001", &CTX, r#"null([core::day of year] invalid argument type, expected date, date and time, actual type is Null)"#);
+  eq(
+    b,
+    "null_001",
+    &CTX,
+    r#"null([core::day of year] invalid argument type, expected date, date and time, actual type is Null)"#,
+  );
 }
 
 #[bench]
@@ -78,17 +83,32 @@ fn _0013(b: &mut Bencher) {
 
 #[bench]
 fn _0014(b: &mut Bencher) {
-  eq(b, "null_003", &CTX, r#"null([core::day of year] invalid argument type, expected date, date and time, actual type is string)"#);
+  eq(
+    b,
+    "null_003",
+    &CTX,
+    r#"null([core::day of year] invalid argument type, expected date, date and time, actual type is string)"#,
+  );
 }
 
 #[bench]
 fn _0015(b: &mut Bencher) {
-  eq(b, "null_004", &CTX, r#"null([core::day of year] invalid argument type, expected date, date and time, actual type is Null)"#);
+  eq(
+    b,
+    "null_004",
+    &CTX,
+    r#"null([core::day of year] invalid argument type, expected date, date and time, actual type is Null)"#,
+  );
 }
 
 #[bench]
 fn _0016(b: &mut Bencher) {
-  eq(b, "null_005", &CTX, r#"null([core::day of year] invalid argument type, expected date, date and time, actual type is string)"#);
+  eq(
+    b,
+    "null_005",
+    &CTX,
+    r#"null([core::day of year] invalid argument type, expected date, date and time, actual type is string)"#,
+  );
 }
 
 #[bench]
@@ -99,7 +119,12 @@ fn _0017(b: &mut Bencher) {
 #[bench]
 fn _0018(b: &mut Bencher) {
   let ctx = context(r#"{ date_input_001: "foo" }"#);
-  eq(b, "null_007", &ctx, r#"null([core::day of year] invalid argument type, expected date, date and time, actual type is string)"#);
+  eq(
+    b,
+    "null_007",
+    &ctx,
+    r#"null([core::day of year] invalid argument type, expected date, date and time, actual type is string)"#,
+  );
 }
 
 #[bench]

@@ -208,12 +208,26 @@ fn _0041() {
 
 #[test]
 fn _0042() {
-  satisfies(false, &scope!(), r#" @"2023-02-06T10:11:12" "#, r#""#, r#"not(@"2023-02-05T10:11:12",@"2023-02-06T10:11:12",@"2023-02-07T10:11:12")"#, false);
+  satisfies(
+    false,
+    &scope!(),
+    r#" @"2023-02-06T10:11:12" "#,
+    r#""#,
+    r#"not(@"2023-02-05T10:11:12",@"2023-02-06T10:11:12",@"2023-02-07T10:11:12")"#,
+    false,
+  );
 }
 
 #[test]
 fn _0043() {
-  satisfies(false, &scope!(), r#" @"2023-02-06T10:11:13" "#, r#""#, r#"not(@"2023-02-05T10:11:12",@"2023-02-06T10:11:12",@"2023-02-07T10:11:12")"#, true);
+  satisfies(
+    false,
+    &scope!(),
+    r#" @"2023-02-06T10:11:13" "#,
+    r#""#,
+    r#"not(@"2023-02-05T10:11:12",@"2023-02-06T10:11:12",@"2023-02-07T10:11:12")"#,
+    true,
+  );
 }
 
 #[test]
@@ -248,5 +262,12 @@ fn _0049() {
 
 #[test]
 fn _0050() {
-  satisfies_null(false, &scope!(), "1", r#""#, r#"not(2,3,function() 1.23)"#, r#"unexpected type in negated list: function<>->Any"#);
+  satisfies_null(
+    false,
+    &scope!(),
+    "1",
+    r#""#,
+    r#"not(2,3,function() 1.23)"#,
+    r#"unexpected type in negated list: function<>->Any"#,
+  );
 }

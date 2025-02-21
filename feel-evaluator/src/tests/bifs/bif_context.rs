@@ -38,7 +38,12 @@ fn _0007() {
 
 #[test]
 fn _0008() {
-  te_null(false, &scope!(), r#"context({key: null, value:1})"#, "context: 'key' entry is not a string, actual type is Null");
+  te_null(
+    false,
+    &scope!(),
+    r#"context({key: null, value:1})"#,
+    "context: 'key' entry is not a string, actual type is Null",
+  );
 }
 
 #[test]
@@ -88,7 +93,12 @@ fn _0017() {
 
 #[test]
 fn _0018() {
-  te_null(false, &scope!(), r#"context("foo")"#, "[core::context] invalid argument type, expected list or context, actual type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#"context("foo")"#,
+    "[core::context] invalid argument type, expected list or context, actual type is string",
+  );
 }
 
 #[test]
@@ -103,15 +113,30 @@ fn _0020() {
 
 #[test]
 fn _0021() {
-  te_null(false, &scope!(), "context({key: 1, value: 1})", "context: 'key' entry is not a string, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    "context({key: 1, value: 1})",
+    "context: 'key' entry is not a string, actual type is number",
+  );
 }
 
 #[test]
 fn _0022() {
-  te_null(false, &scope!(), "context(entries: [21])", "context: invalid entry, expected context, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    "context(entries: [21])",
+    "context: invalid entry, expected context, actual type is number",
+  );
 }
 
 #[test]
 fn _0023() {
-  te_null(false, &scope!(), r#"context(entries: [{key: 1, value: 1}])"#, "context: 'key' entry is not a string, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#"context(entries: [{key: 1, value: 1}])"#,
+    "context: 'key' entry is not a string, actual type is number",
+  );
 }

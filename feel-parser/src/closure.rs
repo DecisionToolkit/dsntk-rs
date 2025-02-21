@@ -18,13 +18,23 @@ impl ClosureBuilder {
   pub fn from_node(node: &AstNode) -> Closure {
     let mut closure_context = ClosureBuilder::default();
     closure_context.visit_1(node, 0);
-    closure_context.names.difference(&closure_context.parameter_names).cloned().collect::<Vec<QualifiedName>>().into()
+    closure_context
+      .names
+      .difference(&closure_context.parameter_names)
+      .cloned()
+      .collect::<Vec<QualifiedName>>()
+      .into()
   }
 
   pub fn from_function_definition(lhs: &AstNode, rhs: &AstNode) -> Closure {
     let mut closure_context = ClosureBuilder::default();
     closure_context.visit_2(lhs, rhs, 0);
-    closure_context.names.difference(&closure_context.parameter_names).cloned().collect::<Vec<QualifiedName>>().into()
+    closure_context
+      .names
+      .difference(&closure_context.parameter_names)
+      .cloned()
+      .collect::<Vec<QualifiedName>>()
+      .into()
   }
 
   /// Returns an empty vector of names.

@@ -70,7 +70,10 @@ mod utilities {
       .iter()
       .filter_map(|s| {
         let segments = s.split('/').collect::<Vec<&str>>();
-        let first_segment = segments[0].replace("compliance-level-2", "level_2").replace("compliance-level-3", "level_3").replace("non-compliant", "non_compliant");
+        let first_segment = segments[0]
+          .replace("compliance-level-2", "level_2")
+          .replace("compliance-level-3", "level_3")
+          .replace("non-compliant", "non_compliant");
         let last_segment = segments[2][0..4].to_string();
         if last_segment.chars().next().unwrap().is_ascii_digit() {
           Some(format!("{}/{}", first_segment, last_segment))
@@ -99,7 +102,12 @@ mod utilities {
     println!(" Model               TCK  DSNTK");
     println!("────────────────────────────────");
     for key in &all_keys {
-      println!("{:20}  {:>2}     {:>2}", key, if tck_adjusted_models.contains(key) { "OK" } else { "-" }, if dsntk_adjusted_models.contains(key) { "OK" } else { "-" })
+      println!(
+        "{:20}  {:>2}     {:>2}",
+        key,
+        if tck_adjusted_models.contains(key) { "OK" } else { "-" },
+        if dsntk_adjusted_models.contains(key) { "OK" } else { "-" }
+      )
     }
   }
 

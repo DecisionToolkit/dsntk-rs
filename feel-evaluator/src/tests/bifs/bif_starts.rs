@@ -8,7 +8,12 @@ fn _0001() {
 
 #[test]
 fn _0002() {
-  te_null(false, &scope!(), r#"starts(duration("P1D"),[1..20])"#, "[core::starts] invalid argument type, expected scalar or range of scalars, actual type is days and time duration");
+  te_null(
+    false,
+    &scope!(),
+    r#"starts(duration("P1D"),[1..20])"#,
+    "[core::starts] invalid argument type, expected scalar or range of scalars, actual type is days and time duration",
+  );
 }
 
 #[test]
@@ -43,17 +48,32 @@ fn _0008() {
 
 #[test]
 fn _0009() {
-  te_bool(false, &scope!(), r#"starts([date("2022-01-01")..date("2022-01-03")],[date("2022-01-01")..date("2022-06-01")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"starts([date("2022-01-01")..date("2022-01-03")],[date("2022-01-01")..date("2022-06-01")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0010() {
-  te_bool(false, &scope!(), r#"starts(date and time("2022-01-01T00:00:00"),[date and time("2022-01-01T00:00:00")..date and time("2022-06-01T00:00:00")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"starts(date and time("2022-01-01T00:00:00"),[date and time("2022-01-01T00:00:00")..date and time("2022-06-01T00:00:00")])"#,
+    true,
+  );
 }
 
 #[test]
 fn _0011() {
-  te_bool(false, &scope!(), r#"starts([date and time("2022-01-01T00:00:00")..date and time("2022-01-03T00:00:00")],[date and time("2022-01-01T00:00:00")..date and time("2022-06-01T00:00:00")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"starts([date and time("2022-01-01T00:00:00")..date and time("2022-01-03T00:00:00")],[date and time("2022-01-01T00:00:00")..date and time("2022-06-01T00:00:00")])"#,
+    true,
+  );
 }
 
 #[test]
@@ -63,7 +83,12 @@ fn _0012() {
 
 #[test]
 fn _0013() {
-  te_bool(false, &scope!(), r#"starts([time("00:00:00")..time("00:15:10")],[time("00:00:00")..time("19:38:23")])"#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#"starts([time("00:00:00")..time("00:15:10")],[time("00:00:00")..time("19:38:23")])"#,
+    true,
+  );
 }
 
 #[test]
@@ -128,10 +153,20 @@ fn _0025() {
 
 #[test]
 fn _0026() {
-  te_null(false, &scope!(), r#"starts("a", [1..20])"#, "[core::starts] invalid argument type, expected scalar or range of scalars, actual type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#"starts("a", [1..20])"#,
+    "[core::starts] invalid argument type, expected scalar or range of scalars, actual type is string",
+  );
 }
 
 #[test]
 fn _0027() {
-  te_null(false, &scope!(), r#"starts(["a".."z"], [1..20])"#, "[core::starts] invalid argument type, expected scalar or range of scalars, actual type is range<string>");
+  te_null(
+    false,
+    &scope!(),
+    r#"starts(["a".."z"], [1..20])"#,
+    "[core::starts] invalid argument type, expected scalar or range of scalars, actual type is range<string>",
+  );
 }

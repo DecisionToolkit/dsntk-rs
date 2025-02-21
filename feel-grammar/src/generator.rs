@@ -49,7 +49,10 @@ fn lalr_c_tables() -> String {
     set_file_permissions(&script_file_name);
   }
   {
-    let mut command_process = std::process::Command::new(format!("./{GEN_SCRIPT_FILE_NAME}")).current_dir(TARGET_DIR).spawn().expect("executing script failed");
+    let mut command_process = std::process::Command::new(format!("./{GEN_SCRIPT_FILE_NAME}"))
+      .current_dir(TARGET_DIR)
+      .spawn()
+      .expect("executing script failed");
     command_process.wait().expect("waiting for command process failed");
   }
   fs::read_to_string(format!("{TARGET_DIR}/{TABLES_FILE_NAME}")).expect("generating parsing tables failed")

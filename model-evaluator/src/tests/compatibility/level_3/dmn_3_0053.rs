@@ -5,7 +5,14 @@ from_examples!(DMN_3_0053);
 #[test]
 fn _0001() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision001", &ctx, r#"1.386294361119890618834464242916353"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "decision001",
+    &ctx,
+    r#"1.386294361119890618834464242916353"#,
+  );
 }
 
 #[test]
@@ -23,25 +30,53 @@ fn _0003() {
 #[test]
 fn _0004() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision004", &ctx, r#"null(expected 1 parameters, actual number of parameters is 0)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "decision004",
+    &ctx,
+    r#"null(expected 1 parameters, actual number of parameters is 0)"#,
+  );
 }
 
 #[test]
 fn _0005() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision005", &ctx, r#"null(expected 1 parameters, actual number of parameters is 2)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "decision005",
+    &ctx,
+    r#"null(expected 1 parameters, actual number of parameters is 2)"#,
+  );
 }
 
 #[test]
 fn _0006() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision006", &ctx, r#"1.386294361119890618834464242916353"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "decision006",
+    &ctx,
+    r#"1.386294361119890618834464242916353"#,
+  );
 }
 
 #[test]
 fn _0007() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision007", &ctx, r#"null(parameter 'number' not found)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "decision007",
+    &ctx,
+    r#"null(parameter 'number' not found)"#,
+  );
 }
 
 #[test]

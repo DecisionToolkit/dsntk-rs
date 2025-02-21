@@ -216,7 +216,11 @@ mod tests {
 
   /// Utility function for testing days and time durations equality.
   fn equals(neg: bool, sec: i64, nano: i64, text: &str) {
-    let expected = if neg { -FeelDaysAndTimeDuration::from_sn(sec, nano) } else { FeelDaysAndTimeDuration::from_sn(sec, nano) };
+    let expected = if neg {
+      -FeelDaysAndTimeDuration::from_sn(sec, nano)
+    } else {
+      FeelDaysAndTimeDuration::from_sn(sec, nano)
+    };
     let actual = FeelDaysAndTimeDuration::try_from(text).unwrap();
     assert_eq!(expected, actual);
   }
@@ -229,7 +233,11 @@ mod tests {
 
   /// Utility function for testing equality of textual forms of days and time durations.
   fn equals_str(expected: &str, neg: bool, sec: i64, nano: i64) {
-    let actual: String = if neg { (-FeelDaysAndTimeDuration::from_sn(sec, nano)).to_string() } else { FeelDaysAndTimeDuration::from_sn(sec, nano).to_string() };
+    let actual: String = if neg {
+      (-FeelDaysAndTimeDuration::from_sn(sec, nano)).to_string()
+    } else {
+      FeelDaysAndTimeDuration::from_sn(sec, nano).to_string()
+    };
     assert_eq!(expected, actual);
   }
 
@@ -371,10 +379,22 @@ mod tests {
 
   #[test]
   fn test_eq_should_pass() {
-    assert_eq!(Some(Ordering::Equal), FeelDaysAndTimeDuration::from_sn(0, 0).partial_cmp(&FeelDaysAndTimeDuration::from_sn(0, 0)));
-    assert_eq!(Some(Ordering::Equal), FeelDaysAndTimeDuration::from_sn(0, 10).partial_cmp(&FeelDaysAndTimeDuration::from_sn(0, 10)));
-    assert_eq!(Some(Ordering::Equal), FeelDaysAndTimeDuration::from_sn(0, 999_999_999).partial_cmp(&FeelDaysAndTimeDuration::from_sn(0, 999_999_999)));
-    assert_eq!(Some(Ordering::Equal), FeelDaysAndTimeDuration::from_sn(86_400, 999_999_999).partial_cmp(&FeelDaysAndTimeDuration::from_sn(86_400, 999_999_999)));
+    assert_eq!(
+      Some(Ordering::Equal),
+      FeelDaysAndTimeDuration::from_sn(0, 0).partial_cmp(&FeelDaysAndTimeDuration::from_sn(0, 0))
+    );
+    assert_eq!(
+      Some(Ordering::Equal),
+      FeelDaysAndTimeDuration::from_sn(0, 10).partial_cmp(&FeelDaysAndTimeDuration::from_sn(0, 10))
+    );
+    assert_eq!(
+      Some(Ordering::Equal),
+      FeelDaysAndTimeDuration::from_sn(0, 999_999_999).partial_cmp(&FeelDaysAndTimeDuration::from_sn(0, 999_999_999))
+    );
+    assert_eq!(
+      Some(Ordering::Equal),
+      FeelDaysAndTimeDuration::from_sn(86_400, 999_999_999).partial_cmp(&FeelDaysAndTimeDuration::from_sn(86_400, 999_999_999))
+    );
     assert_eq!(FeelDaysAndTimeDuration::from_n(0), FeelDaysAndTimeDuration::from_n(0));
     assert_eq!(FeelDaysAndTimeDuration::from_n(0), FeelDaysAndTimeDuration::from_n(-0));
     assert_eq!(FeelDaysAndTimeDuration::from_sn(0, 10), FeelDaysAndTimeDuration::from_sn(0, 10));
@@ -385,7 +405,10 @@ mod tests {
   #[test]
   fn test_lt_should_pass() {
     assert_eq!(Some(Ordering::Less), FeelDaysAndTimeDuration::from_s(10).partial_cmp(&FeelDaysAndTimeDuration::from_s(11)));
-    assert_eq!(Some(Ordering::Less), FeelDaysAndTimeDuration::from_sn(10, 1).partial_cmp(&FeelDaysAndTimeDuration::from_sn(10, 2)));
+    assert_eq!(
+      Some(Ordering::Less),
+      FeelDaysAndTimeDuration::from_sn(10, 1).partial_cmp(&FeelDaysAndTimeDuration::from_sn(10, 2))
+    );
     assert!(FeelDaysAndTimeDuration::from_s(10) < FeelDaysAndTimeDuration::from_s(11));
     assert!(FeelDaysAndTimeDuration::from_sn(10, 1) < FeelDaysAndTimeDuration::from_sn(10, 2));
     assert!(FeelDaysAndTimeDuration::from_s(11) >= FeelDaysAndTimeDuration::from_s(10));
@@ -404,8 +427,14 @@ mod tests {
 
   #[test]
   fn test_gt_should_pass() {
-    assert_eq!(Some(Ordering::Greater), FeelDaysAndTimeDuration::from_s(11).partial_cmp(&FeelDaysAndTimeDuration::from_s(10)));
-    assert_eq!(Some(Ordering::Greater), FeelDaysAndTimeDuration::from_sn(10, 1).partial_cmp(&FeelDaysAndTimeDuration::from_s(10)));
+    assert_eq!(
+      Some(Ordering::Greater),
+      FeelDaysAndTimeDuration::from_s(11).partial_cmp(&FeelDaysAndTimeDuration::from_s(10))
+    );
+    assert_eq!(
+      Some(Ordering::Greater),
+      FeelDaysAndTimeDuration::from_sn(10, 1).partial_cmp(&FeelDaysAndTimeDuration::from_s(10))
+    );
     assert!(FeelDaysAndTimeDuration::from_s(11) > FeelDaysAndTimeDuration::from_s(10));
     assert!(FeelDaysAndTimeDuration::from_sn(10, 1) > FeelDaysAndTimeDuration::from_s(10));
     assert!(FeelDaysAndTimeDuration::from_s(10) <= FeelDaysAndTimeDuration::from_s(11));

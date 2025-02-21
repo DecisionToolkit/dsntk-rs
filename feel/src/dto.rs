@@ -51,7 +51,11 @@ pub struct SimpleDto {
 impl SimpleDto {
   /// Creates a [SimpleDto] with initial type and value.
   fn new(typ: &str, text: String) -> Option<Self> {
-    Some(Self { typ: Some(typ.to_string()), text: Some(text), nil: false })
+    Some(Self {
+      typ: Some(typ.to_string()),
+      text: Some(text),
+      nil: false,
+    })
   }
 
   /// Creates a [SimpleDto] with `nil` value.
@@ -97,28 +101,65 @@ impl TryFrom<&Value> for ValueDto {
   /// Converts a [Value] to [ValueDto].
   fn try_from(value: &Value) -> Result<Self, Self::Error> {
     match value {
-      Value::String(inner) => Ok(ValueDto { simple: SimpleDto::new(XSD_STRING, inner.to_string()), ..Default::default() }),
-      v @ Value::Number(_) => Ok(ValueDto { simple: SimpleDto::new(XSD_DECIMAL, v.to_string()), ..Default::default() }),
-      v @ Value::Boolean(_) => Ok(ValueDto { simple: SimpleDto::new(XSD_BOOLEAN, v.to_string()), ..Default::default() }),
-      v @ Value::Date(_) => Ok(ValueDto { simple: SimpleDto::new(XSD_DATE, v.to_string()), ..Default::default() }),
-      v @ Value::DateTime(_) => Ok(ValueDto { simple: SimpleDto::new(XSD_DATE_TIME, v.to_string()), ..Default::default() }),
-      v @ Value::Time(_) => Ok(ValueDto { simple: SimpleDto::new(XSD_TIME, v.to_string()), ..Default::default() }),
-      v @ Value::YearsAndMonthsDuration(_) => Ok(ValueDto { simple: SimpleDto::new(XSD_DURATION, v.to_string()), ..Default::default() }),
-      v @ Value::DaysAndTimeDuration(_) => Ok(ValueDto { simple: SimpleDto::new(XSD_DURATION, v.to_string()), ..Default::default() }),
-      Value::Null(_) => Ok(ValueDto { simple: SimpleDto::new_nil(), ..Default::default() }),
+      Value::String(inner) => Ok(ValueDto {
+        simple: SimpleDto::new(XSD_STRING, inner.to_string()),
+        ..Default::default()
+      }),
+      v @ Value::Number(_) => Ok(ValueDto {
+        simple: SimpleDto::new(XSD_DECIMAL, v.to_string()),
+        ..Default::default()
+      }),
+      v @ Value::Boolean(_) => Ok(ValueDto {
+        simple: SimpleDto::new(XSD_BOOLEAN, v.to_string()),
+        ..Default::default()
+      }),
+      v @ Value::Date(_) => Ok(ValueDto {
+        simple: SimpleDto::new(XSD_DATE, v.to_string()),
+        ..Default::default()
+      }),
+      v @ Value::DateTime(_) => Ok(ValueDto {
+        simple: SimpleDto::new(XSD_DATE_TIME, v.to_string()),
+        ..Default::default()
+      }),
+      v @ Value::Time(_) => Ok(ValueDto {
+        simple: SimpleDto::new(XSD_TIME, v.to_string()),
+        ..Default::default()
+      }),
+      v @ Value::YearsAndMonthsDuration(_) => Ok(ValueDto {
+        simple: SimpleDto::new(XSD_DURATION, v.to_string()),
+        ..Default::default()
+      }),
+      v @ Value::DaysAndTimeDuration(_) => Ok(ValueDto {
+        simple: SimpleDto::new(XSD_DURATION, v.to_string()),
+        ..Default::default()
+      }),
+      Value::Null(_) => Ok(ValueDto {
+        simple: SimpleDto::new_nil(),
+        ..Default::default()
+      }),
       Value::Context(ctx) => {
         let mut components = vec![];
         for (name, value) in ctx.iter() {
-          components.push(ComponentDto { name: Some(name.to_string()), value: Some(value.try_into()?), nil: false });
+          components.push(ComponentDto {
+            name: Some(name.to_string()),
+            value: Some(value.try_into()?),
+            nil: false,
+          });
         }
-        Ok(ValueDto { object: Some(components), ..Default::default() })
+        Ok(ValueDto {
+          object: Some(components),
+          ..Default::default()
+        })
       }
       Value::List(list) => {
         let mut items = vec![];
         for value in list {
           items.push(value.try_into()?);
         }
-        Ok(ValueDto { list: ListDto::new(items), ..Default::default() })
+        Ok(ValueDto {
+          list: ListDto::new(items),
+          ..Default::default()
+        })
       }
       _ => Ok(Default::default()),
     }

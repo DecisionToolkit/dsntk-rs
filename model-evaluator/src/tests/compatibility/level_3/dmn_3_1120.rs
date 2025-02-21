@@ -5,13 +5,27 @@ from_examples!(DMN_3_1120);
 #[test]
 fn _0001() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_ErrorCase_001_f2c6cd6866", &ctx, r#"null(duration)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_ErrorCase_001_f2c6cd6866",
+    &ctx,
+    r#"null(duration)"#,
+  );
 }
 
 #[test]
 fn _0002() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_ErrorCase_002_ddca5756ca", &ctx, r#"null(expected 1 parameters, actual number of parameters is 0)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_ErrorCase_002_ddca5756ca",
+    &ctx,
+    r#"null(expected 1 parameters, actual number of parameters is 0)"#,
+  );
 }
 
 #[test]
@@ -41,13 +55,27 @@ fn _0006() {
 #[test]
 fn _0007() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_007_2f0ad399f3", &ctx, r#"PT0.999S"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_007_2f0ad399f3",
+    &ctx,
+    r#"PT0.999S"#,
+  );
 }
 
 #[test]
 fn _0008() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_008_747f56743d", &ctx, r#"P1DT2H3M4.123456789S"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_008_747f56743d",
+    &ctx,
+    r#"P1DT2H3M4.123456789S"#,
+  );
 }
 
 #[test]
@@ -95,13 +123,27 @@ fn _0015() {
 #[test]
 fn _0016() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_016_af3e37fdbd", &ctx, r#"PT16H40M"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_016_af3e37fdbd",
+    &ctx,
+    r#"PT16H40M"#,
+  );
 }
 
 #[test]
 fn _0017() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_017_4f4549fda4", &ctx, r#"PT16H40M0.999999999S"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_017_4f4549fda4",
+    &ctx,
+    r#"PT16H40M0.999999999S"#,
+  );
 }
 
 #[test]
@@ -131,7 +173,14 @@ fn _0021() {
 #[test]
 fn _0022() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_022_668f24bed7", &ctx, r#"P2DT1H40M"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_022_668f24bed7",
+    &ctx,
+    r#"P2DT1H40M"#,
+  );
 }
 
 #[test]
@@ -143,7 +192,14 @@ fn _0023() {
 #[test]
 fn _0024() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_024_fd7000d72f", &ctx, r#"P2DT4H34M"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_024_fd7000d72f",
+    &ctx,
+    r#"P2DT4H34M"#,
+  );
 }
 
 #[test]
@@ -203,25 +259,53 @@ fn _0033() {
 #[test]
 fn _0034() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_034_aa9cbb21a6", &ctx, r#"P83333333Y3M"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_034_aa9cbb21a6",
+    &ctx,
+    r#"P83333333Y3M"#,
+  );
 }
 
 #[test]
 fn _0035() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_035_93eef01ae7", &ctx, r#"-P83333333Y3M"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_035_93eef01ae7",
+    &ctx,
+    r#"-P83333333Y3M"#,
+  );
 }
 
 #[test]
 fn _0036() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_036_5f2775875e", &ctx, r#"P99999999Y"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_036_5f2775875e",
+    &ctx,
+    r#"P99999999Y"#,
+  );
 }
 
 #[test]
 fn _0037() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_037_8c9ea9c0e6", &ctx, r#"-P99999999Y"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_037_8c9ea9c0e6",
+    &ctx,
+    r#"-P99999999Y"#,
+  );
 }
 
 #[test]
@@ -245,59 +329,129 @@ fn _0040() {
 #[test]
 fn _0041() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_ErrorCase_041_264bc9d682", &ctx, r#"null(duration)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_ErrorCase_041_264bc9d682",
+    &ctx,
+    r#"null(duration)"#,
+  );
 }
 
 #[test]
 fn _0042() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_ErrorCase_042_59a0000245", &ctx, r#"null(duration)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_ErrorCase_042_59a0000245",
+    &ctx,
+    r#"null(duration)"#,
+  );
 }
 
 #[test]
 fn _0043() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_ErrorCase_043_253815dc6c", &ctx, r#"null(duration)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_ErrorCase_043_253815dc6c",
+    &ctx,
+    r#"null(duration)"#,
+  );
 }
 
 #[test]
 fn _0044() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_ErrorCase_044_f3b338d877", &ctx, r#"null(duration)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_ErrorCase_044_f3b338d877",
+    &ctx,
+    r#"null(duration)"#,
+  );
 }
 
 #[test]
 fn _0045() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_ErrorCase_045_2ffcc37801", &ctx, r#"null(duration)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_ErrorCase_045_2ffcc37801",
+    &ctx,
+    r#"null(duration)"#,
+  );
 }
 
 #[test]
 fn _0046() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_ErrorCase_046_eb637de5f6", &ctx, r#"null(duration)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_ErrorCase_046_eb637de5f6",
+    &ctx,
+    r#"null(duration)"#,
+  );
 }
 
 #[test]
 fn _0047() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_ErrorCase_047_3210c46a5a", &ctx, r#"null(duration)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_ErrorCase_047_3210c46a5a",
+    &ctx,
+    r#"null(duration)"#,
+  );
 }
 
 #[test]
 fn _0048() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_ErrorCase_048_ab6244f767", &ctx, r#"null(duration)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_ErrorCase_048_ab6244f767",
+    &ctx,
+    r#"null(duration)"#,
+  );
 }
 
 #[test]
 fn _0049() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_ErrorCase_049_2225b503a0", &ctx, r#"null(duration)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_ErrorCase_049_2225b503a0",
+    &ctx,
+    r#"null(duration)"#,
+  );
 }
 
 #[test]
 fn _0050() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-duration-function_ErrorCase_050_dd2ef33bbd", &ctx, r#"null(duration)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-duration-function_ErrorCase_050_dd2ef33bbd",
+    &ctx,
+    r#"null(duration)"#,
+  );
 }

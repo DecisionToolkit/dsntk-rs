@@ -61,7 +61,12 @@ fn _0011() {
 #[test]
 fn _0012() {
   let scope = &te_scope(r#"{Full Name:"John Doe", Employment Status:"EMPLOYED"}"#);
-  te_string(false, scope, r#""Hello " + Full Name + ", you are " + Employment Status"#, "Hello John Doe, you are EMPLOYED");
+  te_string(
+    false,
+    scope,
+    r#""Hello " + Full Name + ", you are " + Employment Status"#,
+    "Hello John Doe, you are EMPLOYED",
+  );
 }
 
 #[test]
@@ -106,7 +111,12 @@ fn _0020() {
 
 #[test]
 fn _0021() {
-  te_null(false, &scope!(), r#"@"2021-01-12T10:10:10" + 1"#, "[builders::add] invalid argument type, expected days and time duration, years and months duration, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#"@"2021-01-12T10:10:10" + 1"#,
+    "[builders::add] invalid argument type, expected days and time duration, years and months duration, actual type is number",
+  );
 }
 
 #[test]
@@ -126,17 +136,32 @@ fn _0024() {
 
 #[test]
 fn _0025() {
-  te_null(false, &scope!(), r#" @"P1D" + 1 "#, r#"[builders::add] invalid argument type, expected days and time duration, date and time, actual type is number"#);
+  te_null(
+    false,
+    &scope!(),
+    r#" @"P1D" + 1 "#,
+    r#"[builders::add] invalid argument type, expected days and time duration, date and time, actual type is number"#,
+  );
 }
 
 #[test]
 fn _0026() {
-  te_null(false, &scope!(), r#" @"P1Y1M" + 1 "#, r#"[builders::add] invalid argument type, expected years and months duration, date and time, actual type is number"#);
+  te_null(
+    false,
+    &scope!(),
+    r#" @"P1Y1M" + 1 "#,
+    r#"[builders::add] invalid argument type, expected years and months duration, date and time, actual type is number"#,
+  );
 }
 
 #[test]
 fn _0027() {
-  te_null(false, &scope!(), r#" true + @"P1DT2H" "#, r#"[builders::add] invalid argument type, expected number, string, date and time, days and time duration, years and months duration, null, actual type is boolean"#);
+  te_null(
+    false,
+    &scope!(),
+    r#" true + @"P1DT2H" "#,
+    r#"[builders::add] invalid argument type, expected number, string, date and time, days and time duration, years and months duration, null, actual type is boolean"#,
+  );
 }
 
 #[test]
@@ -146,12 +171,22 @@ fn _0028() {
 
 #[test]
 fn _0029() {
-  te_null(false, &scope!(), r#" @"2023-02-06" + @"P999999Y" "#, "invalid result while adding years and months duration to date");
+  te_null(
+    false,
+    &scope!(),
+    r#" @"2023-02-06" + @"P999999Y" "#,
+    "invalid result while adding years and months duration to date",
+  );
 }
 
 #[test]
 fn _0030() {
-  te_null(false, &scope!(), r#" @"2023-02-06" + @"P999999999999999Y" "#, "invalid result while adding years and months duration to date");
+  te_null(
+    false,
+    &scope!(),
+    r#" @"2023-02-06" + @"P999999999999999Y" "#,
+    "invalid result while adding years and months duration to date",
+  );
 }
 
 #[test]
@@ -161,7 +196,12 @@ fn _0031() {
 
 #[test]
 fn _0032() {
-  te_null(false, &scope!(), r#" @"262142-01-01" + @"P99999D" "#, r#"invalid result while adding days and time duration to date"#);
+  te_null(
+    false,
+    &scope!(),
+    r#" @"262142-01-01" + @"P99999D" "#,
+    r#"invalid result while adding days and time duration to date"#,
+  );
 }
 
 #[test]
@@ -176,43 +216,83 @@ fn _0034() {
 
 #[test]
 fn _0035() {
-  te_null(false, &scope!(), r#" @"262142-01-01" + @"P100Y" "#, r#"invalid result while adding years and months duration to date"#);
+  te_null(
+    false,
+    &scope!(),
+    r#" @"262142-01-01" + @"P100Y" "#,
+    r#"invalid result while adding years and months duration to date"#,
+  );
 }
 
 #[test]
 #[cfg(not(target_os = "windows"))]
 fn _0036() {
-  te_null(false, &scope!(), r#" @"262142-12-31T10:01:02" + @"P99999D" "#, r#"invalid result while adding days and time duration to date and time"#);
+  te_null(
+    false,
+    &scope!(),
+    r#" @"262142-12-31T10:01:02" + @"P99999D" "#,
+    r#"invalid result while adding days and time duration to date and time"#,
+  );
 }
 
 #[test]
 fn _0037() {
-  te_null(false, &scope!(), r#" @"262043-01-01T10:01:02" + @"P100Y" "#, r#"invalid result while adding years and months duration to date and time"#);
+  te_null(
+    false,
+    &scope!(),
+    r#" @"262043-01-01T10:01:02" + @"P100Y" "#,
+    r#"invalid result while adding years and months duration to date and time"#,
+  );
 }
 
 #[test]
 fn _0038() {
-  te_null(false, &scope!(), r#" @"2023-02-05" + 1 "#, r#"[builders::add] invalid argument type, expected years and months duration, actual type is number"#);
+  te_null(
+    false,
+    &scope!(),
+    r#" @"2023-02-05" + 1 "#,
+    r#"[builders::add] invalid argument type, expected years and months duration, actual type is number"#,
+  );
 }
 
 #[test]
 fn _0039() {
-  te_null(false, &scope!(), r#" @"P99999D" + @"262142-01-01" "#, r#"invalid result while adding date to days and time duration"#);
+  te_null(
+    false,
+    &scope!(),
+    r#" @"P99999D" + @"262142-01-01" "#,
+    r#"invalid result while adding date to days and time duration"#,
+  );
 }
 
 #[test]
 fn _0040() {
-  te_null(false, &scope!(), r#" @"P100Y" + @"262043-01-01" "#, r#"invalid result while adding date to years and months duration"#);
+  te_null(
+    false,
+    &scope!(),
+    r#" @"P100Y" + @"262043-01-01" "#,
+    r#"invalid result while adding date to years and months duration"#,
+  );
 }
 
 #[test]
 fn _0041() {
-  te_null(false, &scope!(), r#" @"P99999D" + @"262142-02-03T10:01:02" "#, r#"invalid result while adding date and time to days and time duration"#);
+  te_null(
+    false,
+    &scope!(),
+    r#" @"P99999D" + @"262142-02-03T10:01:02" "#,
+    r#"invalid result while adding date and time to days and time duration"#,
+  );
 }
 
 #[test]
 fn _0042() {
-  te_null(false, &scope!(), r#" @"P100Y" + @"262043-02-03T10:01:02" "#, r#"invalid result while adding date and time to years and months duration"#);
+  te_null(
+    false,
+    &scope!(),
+    r#" @"P100Y" + @"262043-02-03T10:01:02" "#,
+    r#"invalid result while adding date and time to years and months duration"#,
+  );
 }
 
 #[test]
@@ -227,5 +307,10 @@ fn _0044() {
 
 #[test]
 fn _0045() {
-  te_null(false, &scope!(), r#" @"10:11:12" + 1 "#, "[builders::add] invalid argument type, expected days and time duration, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#" @"10:11:12" + 1 "#,
+    "[builders::add] invalid argument type, expected days and time duration, actual type is number",
+  );
 }

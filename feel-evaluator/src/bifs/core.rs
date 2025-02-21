@@ -1711,7 +1711,11 @@ pub fn number(from: &Value, grouping_separator: &Value, decimal_separator: &Valu
       // replace both separators and try to convert
       if let Some(grp_sep) = &grouping_sep {
         if let Some(dec_sep) = &decimal_sep {
-          return if *grp_sep != *dec_sep { convert(value.replace(grp_sep, "").replace(dec_sep, ".")) } else { value_null!("[core::number] decimal separator must be different from grouping separator") };
+          return if *grp_sep != *dec_sep {
+            convert(value.replace(grp_sep, "").replace(dec_sep, "."))
+          } else {
+            value_null!("[core::number] decimal separator must be different from grouping separator")
+          };
         }
       }
       // replace grouping separator and try to convert
@@ -1754,12 +1758,48 @@ pub fn overlaps(value1: &Value, value2: &Value) -> Value {
   if let Value::Range(range1_start, c1s, range1_end, c1e) = value1 {
     if let Value::Range(range2_start, c2s, range2_end, c2e) = value2 {
       match (range1_start.borrow(), range1_end.borrow()) {
-        (Value::Number(r1s), Value::Number(r1e)) => return if let (Value::Number(r2s), Value::Number(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps", "range<number>", value2.type_of()) },
-        (Value::Date(r1s), Value::Date(r1e)) => return if let (Value::Date(r2s), Value::Date(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps", "range<date>", value2.type_of()) },
-        (Value::Time(r1s), Value::Time(r1e)) => return if let (Value::Time(r2s), Value::Time(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps", "range<time>", value2.type_of()) },
-        (Value::DateTime(r1s), Value::DateTime(r1e)) => return if let (Value::DateTime(r2s), Value::DateTime(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps", "range<date and time>", value2.type_of()) },
-        (Value::DaysAndTimeDuration(r1s), Value::DaysAndTimeDuration(r1e)) => return if let (Value::DaysAndTimeDuration(r2s), Value::DaysAndTimeDuration(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps", "range<days and time duration>", value2.type_of()) },
-        (Value::YearsAndMonthsDuration(r1s), Value::YearsAndMonthsDuration(r1e)) => return if let (Value::YearsAndMonthsDuration(r2s), Value::YearsAndMonthsDuration(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps", "range<years and months duration>", value2.type_of()) },
+        (Value::Number(r1s), Value::Number(r1e)) => {
+          return if let (Value::Number(r2s), Value::Number(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps", "range<number>", value2.type_of())
+          }
+        }
+        (Value::Date(r1s), Value::Date(r1e)) => {
+          return if let (Value::Date(r2s), Value::Date(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps", "range<date>", value2.type_of())
+          }
+        }
+        (Value::Time(r1s), Value::Time(r1e)) => {
+          return if let (Value::Time(r2s), Value::Time(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps", "range<time>", value2.type_of())
+          }
+        }
+        (Value::DateTime(r1s), Value::DateTime(r1e)) => {
+          return if let (Value::DateTime(r2s), Value::DateTime(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps", "range<date and time>", value2.type_of())
+          }
+        }
+        (Value::DaysAndTimeDuration(r1s), Value::DaysAndTimeDuration(r1e)) => {
+          return if let (Value::DaysAndTimeDuration(r2s), Value::DaysAndTimeDuration(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps", "range<days and time duration>", value2.type_of())
+          }
+        }
+        (Value::YearsAndMonthsDuration(r1s), Value::YearsAndMonthsDuration(r1e)) => {
+          return if let (Value::YearsAndMonthsDuration(r2s), Value::YearsAndMonthsDuration(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps", "range<years and months duration>", value2.type_of())
+          }
+        }
         _ => {}
       }
     }
@@ -1779,12 +1819,48 @@ pub fn overlaps_after(value1: &Value, value2: &Value) -> Value {
   if let Value::Range(range1_start, c1s, range1_end, c1e) = value1 {
     if let Value::Range(range2_start, c2s, range2_end, c2e) = value2 {
       match (range1_start.borrow(), range1_end.borrow()) {
-        (Value::Number(r1s), Value::Number(r1e)) => return if let (Value::Number(r2s), Value::Number(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_after_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps after", "range<number>", value2.type_of()) },
-        (Value::Date(r1s), Value::Date(r1e)) => return if let (Value::Date(r2s), Value::Date(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_after_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps after", "range<date>", value2.type_of()) },
-        (Value::Time(r1s), Value::Time(r1e)) => return if let (Value::Time(r2s), Value::Time(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_after_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps after", "range<time>", value2.type_of()) },
-        (Value::DateTime(r1s), Value::DateTime(r1e)) => return if let (Value::DateTime(r2s), Value::DateTime(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_after_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps after", "range<date and time>", value2.type_of()) },
-        (Value::DaysAndTimeDuration(r1s), Value::DaysAndTimeDuration(r1e)) => return if let (Value::DaysAndTimeDuration(r2s), Value::DaysAndTimeDuration(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_after_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps after", "range<days and time duration>", value2.type_of()) },
-        (Value::YearsAndMonthsDuration(r1s), Value::YearsAndMonthsDuration(r1e)) => return if let (Value::YearsAndMonthsDuration(r2s), Value::YearsAndMonthsDuration(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_after_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps after", "range<years and months duration>", value2.type_of()) },
+        (Value::Number(r1s), Value::Number(r1e)) => {
+          return if let (Value::Number(r2s), Value::Number(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_after_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps after", "range<number>", value2.type_of())
+          }
+        }
+        (Value::Date(r1s), Value::Date(r1e)) => {
+          return if let (Value::Date(r2s), Value::Date(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_after_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps after", "range<date>", value2.type_of())
+          }
+        }
+        (Value::Time(r1s), Value::Time(r1e)) => {
+          return if let (Value::Time(r2s), Value::Time(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_after_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps after", "range<time>", value2.type_of())
+          }
+        }
+        (Value::DateTime(r1s), Value::DateTime(r1e)) => {
+          return if let (Value::DateTime(r2s), Value::DateTime(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_after_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps after", "range<date and time>", value2.type_of())
+          }
+        }
+        (Value::DaysAndTimeDuration(r1s), Value::DaysAndTimeDuration(r1e)) => {
+          return if let (Value::DaysAndTimeDuration(r2s), Value::DaysAndTimeDuration(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_after_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps after", "range<days and time duration>", value2.type_of())
+          }
+        }
+        (Value::YearsAndMonthsDuration(r1s), Value::YearsAndMonthsDuration(r1e)) => {
+          return if let (Value::YearsAndMonthsDuration(r2s), Value::YearsAndMonthsDuration(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_after_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps after", "range<years and months duration>", value2.type_of())
+          }
+        }
         _ => {}
       }
     }
@@ -1804,12 +1880,48 @@ pub fn overlaps_before(value1: &Value, value2: &Value) -> Value {
   if let Value::Range(range1_start, c1s, range1_end, c1e) = value1 {
     if let Value::Range(range2_start, c2s, range2_end, c2e) = value2 {
       match (range1_start.borrow(), range1_end.borrow()) {
-        (Value::Number(r1s), Value::Number(r1e)) => return if let (Value::Number(r2s), Value::Number(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_before_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps before", "range<number>", value2.type_of()) },
-        (Value::Date(r1s), Value::Date(r1e)) => return if let (Value::Date(r2s), Value::Date(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_before_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps before", "range<date>", value2.type_of()) },
-        (Value::Time(r1s), Value::Time(r1e)) => return if let (Value::Time(r2s), Value::Time(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_before_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps before", "range<time>", value2.type_of()) },
-        (Value::DateTime(r1s), Value::DateTime(r1e)) => return if let (Value::DateTime(r2s), Value::DateTime(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_before_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps before", "range<date and time>", value2.type_of()) },
-        (Value::DaysAndTimeDuration(r1s), Value::DaysAndTimeDuration(r1e)) => return if let (Value::DaysAndTimeDuration(r2s), Value::DaysAndTimeDuration(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_before_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps before", "range<days and time duration>", value2.type_of()) },
-        (Value::YearsAndMonthsDuration(r1s), Value::YearsAndMonthsDuration(r1e)) => return if let (Value::YearsAndMonthsDuration(r2s), Value::YearsAndMonthsDuration(r2e)) = (range2_start.borrow(), range2_end.borrow()) { Value::Boolean(overlaps_before_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e)) } else { invalid_argument_type!("overlaps before", "range<years and months duration>", value2.type_of()) },
+        (Value::Number(r1s), Value::Number(r1e)) => {
+          return if let (Value::Number(r2s), Value::Number(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_before_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps before", "range<number>", value2.type_of())
+          }
+        }
+        (Value::Date(r1s), Value::Date(r1e)) => {
+          return if let (Value::Date(r2s), Value::Date(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_before_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps before", "range<date>", value2.type_of())
+          }
+        }
+        (Value::Time(r1s), Value::Time(r1e)) => {
+          return if let (Value::Time(r2s), Value::Time(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_before_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps before", "range<time>", value2.type_of())
+          }
+        }
+        (Value::DateTime(r1s), Value::DateTime(r1e)) => {
+          return if let (Value::DateTime(r2s), Value::DateTime(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_before_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps before", "range<date and time>", value2.type_of())
+          }
+        }
+        (Value::DaysAndTimeDuration(r1s), Value::DaysAndTimeDuration(r1e)) => {
+          return if let (Value::DaysAndTimeDuration(r2s), Value::DaysAndTimeDuration(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_before_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps before", "range<days and time duration>", value2.type_of())
+          }
+        }
+        (Value::YearsAndMonthsDuration(r1s), Value::YearsAndMonthsDuration(r1e)) => {
+          return if let (Value::YearsAndMonthsDuration(r2s), Value::YearsAndMonthsDuration(r2e)) = (range2_start.borrow(), range2_end.borrow()) {
+            Value::Boolean(overlaps_before_rr!(r1s, c1s, r1e, c1e, r2s, c2s, r2e, c2e))
+          } else {
+            invalid_argument_type!("overlaps before", "range<years and months duration>", value2.type_of())
+          }
+        }
         _ => {}
       }
     }
@@ -2496,7 +2608,12 @@ pub fn substring(input_string_value: &Value, start_position_value: &Value, lengt
               if first < input_string_len && last <= input_string_len {
                 Value::String(input_string.chars().skip(first).take(length).collect())
               } else {
-                value_null!("sublist: invalid range, len = {}, start position = {}, end position = {}", input_string_len, first + 1, last + 1)
+                value_null!(
+                  "sublist: invalid range, len = {}, start position = {}, end position = {}",
+                  input_string_len,
+                  first + 1,
+                  last + 1
+                )
               }
             }
             Ordering::Less => {
@@ -2505,7 +2622,12 @@ pub fn substring(input_string_value: &Value, start_position_value: &Value, lengt
               if first >= 0 && (first as usize) < input_string_len && (last as usize) <= input_string_len {
                 Value::String(input_string.chars().skip(first as usize).take(length).collect())
               } else {
-                value_null!("sublist: invalid range, len = {}, start position = {}, end position = {}", input_string_len, first + 1, last + 1)
+                value_null!(
+                  "sublist: invalid range, len = {}, start position = {}, end position = {}",
+                  input_string_len,
+                  first + 1,
+                  last + 1
+                )
               }
             }
             Ordering::Equal => value_null!("substring: start position must not be zero"),

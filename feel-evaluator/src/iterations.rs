@@ -61,7 +61,14 @@ struct NumberIntervalState {
 
 impl NumberIntervalState {
   fn init(variable: Name, start: FeelNumber, end: FeelNumber) -> Box<dyn IterationState> {
-    Box::new(Self { variable, start, end, step: FeelNumber::one(), direction: if start <= end { IterationDirection::Ascending } else { IterationDirection::Descending }, current: start })
+    Box::new(Self {
+      variable,
+      start,
+      end,
+      step: FeelNumber::one(),
+      direction: if start <= end { IterationDirection::Ascending } else { IterationDirection::Descending },
+      current: start,
+    })
   }
 }
 
@@ -121,7 +128,14 @@ impl DateIntervalState {
   fn init(variable: Name, start: FeelDate, end: FeelDate) -> Box<dyn IterationState> {
     let direction = if start <= end { IterationDirection::Ascending } else { IterationDirection::Descending };
     let current = start.clone();
-    Box::new(Self { variable, start, end, step: 1, direction, current })
+    Box::new(Self {
+      variable,
+      start,
+      end,
+      step: 1,
+      direction,
+      current,
+    })
   }
 }
 
@@ -224,7 +238,15 @@ struct VariableState {
 
 impl VariableState {
   fn init(variable: Name, bound_variable: Name) -> Box<dyn IterationState> {
-    Box::new(Self { bound_variable, list_state: ListState { variable, values: vec![], step: 1, current: 0 } })
+    Box::new(Self {
+      bound_variable,
+      list_state: ListState {
+        variable,
+        values: vec![],
+        step: 1,
+        current: 0,
+      },
+    })
   }
 }
 
@@ -366,7 +388,10 @@ impl Default for ForExpressionEvaluator {
 impl ForExpressionEvaluator {
   /// Creates a new `for` expression evaluator.
   pub fn new() -> Self {
-    Self { iterator: FeelIterator::default(), partial: "partial".into() }
+    Self {
+      iterator: FeelIterator::default(),
+      partial: "partial".into(),
+    }
   }
 
   /// Adds an interval of values to iterate over.

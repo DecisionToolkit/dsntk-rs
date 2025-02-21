@@ -63,7 +63,9 @@ pub fn build_context_evaluator(scope: &FeelScope, context: &Context, model_build
   for context_entry in context.context_entries() {
     if let Some(variable) = &context_entry.variable {
       let variable_name = variable.feel_name();
-      let variable_type = item_definition_type_evaluator.information_item_type(variable.namespace(), variable.type_ref()).ok_or_else(err_empty_feel_type)?;
+      let variable_type = item_definition_type_evaluator
+        .information_item_type(variable.namespace(), variable.type_ref())
+        .ok_or_else(err_empty_feel_type)?;
       let (evaluator, _) = build_expression_instance_evaluator(scope, &context_entry.value, model_builder)?;
       scope.set_name(variable_name.clone());
       entry_evaluators.push((Some(variable_name.clone()), variable_type, evaluator));
@@ -88,13 +90,19 @@ pub fn build_context_evaluator(scope: &FeelScope, context: &Context, model_build
     }
     Value::Context(evaluated_context)
   });
-  Ok((build_coerced_result_evaluator(context_evaluator, context, context.namespace(), model_builder), Closure::default()))
+  Ok((
+    build_coerced_result_evaluator(context_evaluator, context, context.namespace(), model_builder),
+    Closure::default(),
+  ))
 }
 
 pub fn build_decision_table_evaluator(scope: &FeelScope, decision_table: &DecisionTable, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
   let evaluator = decision_table::build_decision_table_evaluator(scope, decision_table)?;
   let decision_table_evaluator = Box::new(move |scope: &FeelScope| evaluator(scope));
-  Ok((build_coerced_result_evaluator(decision_table_evaluator, decision_table, decision_table.namespace(), model_builder), Closure::default()))
+  Ok((
+    build_coerced_result_evaluator(decision_table_evaluator, decision_table, decision_table.namespace(), model_builder),
+    Closure::default(),
+  ))
 }
 
 pub fn build_function_definition_evaluator(scope: &FeelScope, function_definition: &FunctionDefinition, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
@@ -104,12 +112,20 @@ pub fn build_function_definition_evaluator(scope: &FeelScope, function_definitio
   let mut parameters_ctx = FeelContext::default();
   for parameter in function_definition.formal_parameters() {
     let parameter_name = parameter.feel_name().clone();
-    let parameter_type = item_definition_type_evaluator.information_item_type(parameter.namespace(), parameter.type_ref()).ok_or_else(err_empty_feel_type)?;
+    let parameter_type = item_definition_type_evaluator
+      .information_item_type(parameter.namespace(), parameter.type_ref())
+      .ok_or_else(err_empty_feel_type)?;
     parameters_ctx.set_entry(&parameter_name, Value::FeelType(parameter_type.clone()));
     parameters.push((parameter_name, parameter_type));
   }
   // resolve function definition's result type
-  let result_type = if let Some(type_ref) = function_definition.type_ref() { item_definition_type_evaluator.information_item_type(function_definition.namespace(), type_ref).ok_or_else(err_empty_feel_type)? } else { FeelType::Any };
+  let result_type = if let Some(type_ref) = function_definition.type_ref() {
+    item_definition_type_evaluator
+      .information_item_type(function_definition.namespace(), type_ref)
+      .ok_or_else(err_empty_feel_type)?
+  } else {
+    FeelType::Any
+  };
   // check if the function is external
   match function_definition.kind() {
     FunctionKind::Feel => {
@@ -134,7 +150,10 @@ pub fn build_function_definition_evaluator(scope: &FeelScope, function_definitio
         }
         Value::FunctionDefinition(parameters.clone(), function_body.clone(), false, closure.clone(), closure_ctx, result_type.clone())
       });
-      Ok((build_coerced_result_evaluator(function_definition_evaluator, function_definition, function_definition.namespace(), model_builder), function_definition_closure))
+      Ok((
+        build_coerced_result_evaluator(function_definition_evaluator, function_definition, function_definition.namespace(), model_builder),
+        function_definition_closure,
+      ))
     }
     FunctionKind::Java => {
       let body_expression_instance = function_definition.body().as_ref().ok_or_else(err_empty_function_body)?;
@@ -161,7 +180,10 @@ pub fn build_function_definition_evaluator(scope: &FeelScope, function_definitio
           value_null!("expected context as external function mapping")
         }
       });
-      Ok((build_coerced_result_evaluator(function_definition_evaluator, function_definition, function_definition.namespace(), model_builder), Closure::default()))
+      Ok((
+        build_coerced_result_evaluator(function_definition_evaluator, function_definition, function_definition.namespace(), model_builder),
+        Closure::default(),
+      ))
     }
     FunctionKind::Pmml => {
       let body_expression_instance = function_definition.body().as_ref().ok_or_else(err_empty_function_body)?;
@@ -188,7 +210,10 @@ pub fn build_function_definition_evaluator(scope: &FeelScope, function_definitio
           value_null!("expected context as external function mapping")
         }
       });
-      Ok((build_coerced_result_evaluator(function_definition_evaluator, function_definition, function_definition.namespace(), model_builder), Closure::default()))
+      Ok((
+        build_coerced_result_evaluator(function_definition_evaluator, function_definition, function_definition.namespace(), model_builder),
+        Closure::default(),
+      ))
     }
   }
 }
@@ -200,7 +225,9 @@ pub fn build_invocation_evaluator(scope: &FeelScope, invocation: &Invocation, mo
   for binding in invocation.bindings() {
     if let Some(binding_formula) = binding.binding_formula() {
       let param_name = binding.parameter().feel_name().clone();
-      let param_type = item_definition_type_evaluator.information_item_type(binding.parameter().namespace(), binding.parameter().type_ref()).ok_or_else(err_empty_feel_type)?;
+      let param_type = item_definition_type_evaluator
+        .information_item_type(binding.parameter().namespace(), binding.parameter().type_ref())
+        .ok_or_else(err_empty_feel_type)?;
       let (evaluator, _) = build_expression_instance_evaluator(scope, binding_formula, model_builder)?;
       bindings.push((param_name, param_type, evaluator));
     }
@@ -237,7 +264,10 @@ pub fn build_invocation_evaluator(scope: &FeelScope, invocation: &Invocation, mo
       value_null!("expected function definition in invocation evaluator")
     }
   });
-  Ok((build_coerced_result_evaluator(invocation_evaluator, invocation, invocation.namespace(), model_builder), Closure::default()))
+  Ok((
+    build_coerced_result_evaluator(invocation_evaluator, invocation, invocation.namespace(), model_builder),
+    Closure::default(),
+  ))
 }
 
 pub fn build_literal_expression_evaluator(scope: &FeelScope, literal_expression: &LiteralExpression, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
@@ -245,7 +275,10 @@ pub fn build_literal_expression_evaluator(scope: &FeelScope, literal_expression:
   let node = dsntk_feel_parser::parse_expression(scope, text, false)?;
   let closure = ClosureBuilder::from_node(&node);
   let literal_expression_evaluator = dsntk_feel_evaluator::prepare(&node);
-  Ok((build_coerced_result_evaluator(literal_expression_evaluator, literal_expression, literal_expression.namespace(), model_builder), closure))
+  Ok((
+    build_coerced_result_evaluator(literal_expression_evaluator, literal_expression, literal_expression.namespace(), model_builder),
+    closure,
+  ))
 }
 
 pub fn build_list_evaluator(scope: &FeelScope, list: &List, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
@@ -288,7 +321,10 @@ pub fn build_relation_evaluator(scope: &FeelScope, relation: &Relation, model_bu
     }
     Value::List(results)
   });
-  Ok((build_coerced_result_evaluator(relation_evaluator, relation, relation.namespace(), model_builder), Closure::default()))
+  Ok((
+    build_coerced_result_evaluator(relation_evaluator, relation, relation.namespace(), model_builder),
+    Closure::default(),
+  ))
 }
 
 pub fn build_conditional_evaluator(scope: &FeelScope, conditional: &Conditional, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {
@@ -305,7 +341,10 @@ pub fn build_conditional_evaluator(scope: &FeelScope, conditional: &Conditional,
       else_evaluator(scope)
     }
   });
-  Ok((build_coerced_result_evaluator(conditional_evaluator, conditional, conditional.namespace(), model_builder), Closure::default()))
+  Ok((
+    build_coerced_result_evaluator(conditional_evaluator, conditional, conditional.namespace(), model_builder),
+    Closure::default(),
+  ))
 }
 
 pub fn build_filter_evaluator(scope: &FeelScope, filter: &Filter, model_builder: &ModelBuilder) -> Result<(Evaluator, Closure)> {

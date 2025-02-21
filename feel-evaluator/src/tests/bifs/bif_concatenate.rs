@@ -18,7 +18,12 @@ fn _0003() {
 
 #[test]
 fn _0004() {
-  te_null(false, &scope!(), r#"concatenate(1,[2])"#, r#"[core::concatenate] invalid argument type, expected list, actual type is number"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"concatenate(1,[2])"#,
+    r#"[core::concatenate] invalid argument type, expected list, actual type is number"#,
+  );
 }
 
 #[test]
@@ -28,5 +33,10 @@ fn _0005() {
 
 #[test]
 fn _0006() {
-  te_null(false, &scope!(), r#"concatenate(list: [1,2,3])"#, r#"[named::concatenate] this function has no version with named parameters"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"concatenate(list: [1,2,3])"#,
+    r#"[named::concatenate] this function has no version with named parameters"#,
+  );
 }

@@ -5,13 +5,17 @@ from_examples!(DMN_3_0096);
 static_context!(CTX, "{}");
 
 fn eq(invocable: &str, ctx: &FeelContext, expected: &str) {
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx, expected);
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, ctx, expected);
 }
 
 #[test]
 fn _0001() {
   let ctx = context(r#"{ date_input_001: @"2021-01-11" }"#);
-  eq("date_001", &ctx, r#"{_2021-01-11: "Monday", _2021-01-12: "Tuesday", _2021-01-13: "Wednesday", _2021-01-14: "Thursday", _2021-01-15: "Friday", _2021-01-16: "Saturday", _2021-01-17: "Sunday"}"#);
+  eq(
+    "date_001",
+    &ctx,
+    r#"{_2021-01-11: "Monday", _2021-01-12: "Tuesday", _2021-01-13: "Wednesday", _2021-01-14: "Thursday", _2021-01-15: "Friday", _2021-01-16: "Saturday", _2021-01-17: "Sunday"}"#,
+  );
 }
 
 #[test]
@@ -22,7 +26,11 @@ fn _0002() {
 #[test]
 fn _0003() {
   let ctx = context(r#"{ date_input_001: @"2021-01-11T10:10:10" }"#);
-  eq("date_001", &ctx, r#"{_2021-01-11: "Monday", _2021-01-12: "Tuesday", _2021-01-13: "Wednesday", _2021-01-14: "Thursday", _2021-01-15: "Friday", _2021-01-16: "Saturday", _2021-01-17: "Sunday"}"#);
+  eq(
+    "date_001",
+    &ctx,
+    r#"{_2021-01-11: "Monday", _2021-01-12: "Tuesday", _2021-01-13: "Wednesday", _2021-01-14: "Thursday", _2021-01-15: "Friday", _2021-01-16: "Saturday", _2021-01-17: "Sunday"}"#,
+  );
 }
 
 #[test]
@@ -32,7 +40,11 @@ fn _0004() {
 
 #[test]
 fn _0005() {
-  eq("null_001", &CTX, r#"null([core::day of week] invalid argument type, expected date, date and time, actual type is Null)"#);
+  eq(
+    "null_001",
+    &CTX,
+    r#"null([core::day of week] invalid argument type, expected date, date and time, actual type is Null)"#,
+  );
 }
 
 #[test]
@@ -42,17 +54,29 @@ fn _0006() {
 
 #[test]
 fn _0007() {
-  eq("null_003", &CTX, r#"null([core::day of week] invalid argument type, expected date, date and time, actual type is string)"#);
+  eq(
+    "null_003",
+    &CTX,
+    r#"null([core::day of week] invalid argument type, expected date, date and time, actual type is string)"#,
+  );
 }
 
 #[test]
 fn _0008() {
-  eq("null_004", &CTX, r#"null([core::day of week] invalid argument type, expected date, date and time, actual type is Null)"#);
+  eq(
+    "null_004",
+    &CTX,
+    r#"null([core::day of week] invalid argument type, expected date, date and time, actual type is Null)"#,
+  );
 }
 
 #[test]
 fn _0009() {
-  eq("null_005", &CTX, r#"null([core::day of week] invalid argument type, expected date, date and time, actual type is string)"#);
+  eq(
+    "null_005",
+    &CTX,
+    r#"null([core::day of week] invalid argument type, expected date, date and time, actual type is string)"#,
+  );
 }
 
 #[test]
@@ -63,7 +87,11 @@ fn _0010() {
 #[test]
 fn _0011() {
   let ctx = context(r#"{ date_input_001: "foo" }"#);
-  eq("null_007", &ctx, r#"null([core::day of week] invalid argument type, expected date, date and time, actual type is string)"#);
+  eq(
+    "null_007",
+    &ctx,
+    r#"null([core::day of week] invalid argument type, expected date, date and time, actual type is string)"#,
+  );
 }
 
 #[test]

@@ -20,7 +20,14 @@ fn _0002(b: &mut Bencher) {
 #[bench]
 fn _0003(b: &mut Bencher) {
   let invocable = "decision_004";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, r#"{age: 10, name: "foo", surname: "bar"}"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable,
+    &CTX,
+    r#"{age: 10, name: "foo", surname: "bar"}"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX));
 }
 

@@ -15,13 +15,23 @@ fn _0002() {
 #[test]
 fn _0003() {
   let scope = &te_scope(r#"{aDate: @"2017-01-02", aString: "Hello World"}"#);
-  te_string(false, scope, r#"if aDate > date("2017-01-01") then substring before(aString, " ") else substring after(aString, " ")"#, r#"Hello"#);
+  te_string(
+    false,
+    scope,
+    r#"if aDate > date("2017-01-01") then substring before(aString, " ") else substring after(aString, " ")"#,
+    r#"Hello"#,
+  );
 }
 
 #[test]
 fn _0004() {
   let scope = &te_scope(r#"{aDate: @"2017-01-01", aString: "Hello World"}"#);
-  te_string(false, scope, r#"if aDate > date("2017-01-01") then substring before(aString, " ") else substring after(aString, " ")"#, r#"World"#);
+  te_string(
+    false,
+    scope,
+    r#"if aDate > date("2017-01-01") then substring before(aString, " ") else substring after(aString, " ")"#,
+    r#"World"#,
+  );
 }
 
 #[test]

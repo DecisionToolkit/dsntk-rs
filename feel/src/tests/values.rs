@@ -52,21 +52,42 @@ fn test_debug() {
   eq_dbg!(r#"ContextTypeEntry(Name("a"), Number)"#, Value::ContextTypeEntry(name.clone(), t_number.clone()));
   eq_dbg!(r#"ContextTypeEntryKey(Name("a"))"#, Value::ContextTypeEntryKey(name.clone()));
   eq_dbg!(r#"Date(FeelDate(2022, 9, 27))"#, Value::Date(v_date));
-  eq_dbg!(r#"DateTime(FeelDateTime(FeelDate(2022, 9, 27), FeelTime(12, 13, 23, 0, Local)))"#, Value::DateTime(v_date_time));
-  eq_dbg!(r#"DaysAndTimeDuration(FeelDaysAndTimeDuration(100000000000))"#, Value::DaysAndTimeDuration(v_days_and_time_duration));
+  eq_dbg!(
+    r#"DateTime(FeelDateTime(FeelDate(2022, 9, 27), FeelTime(12, 13, 23, 0, Local)))"#,
+    Value::DateTime(v_date_time)
+  );
+  eq_dbg!(
+    r#"DaysAndTimeDuration(FeelDaysAndTimeDuration(100000000000))"#,
+    Value::DaysAndTimeDuration(v_days_and_time_duration)
+  );
   eq_dbg!(r#"ExpressionList([])"#, Value::ExpressionList(Values::default()));
-  eq_dbg!(r#"ExternalJavaFunction("class", "method")"#, Value::ExternalJavaFunction("class".to_string(), "method".to_string()));
-  eq_dbg!(r#"ExternalPmmlFunction("document", "model")"#, Value::ExternalPmmlFunction("document".to_string(), "model".to_string()));
+  eq_dbg!(
+    r#"ExternalJavaFunction("class", "method")"#,
+    Value::ExternalJavaFunction("class".to_string(), "method".to_string())
+  );
+  eq_dbg!(
+    r#"ExternalPmmlFunction("document", "model")"#,
+    Value::ExternalPmmlFunction("document".to_string(), "model".to_string())
+  );
   eq_dbg!(r#"FeelType(Number)"#, Value::FeelType(t_number.clone()));
   eq_dbg!(r#"FormalParameter(Name("a"), Number)"#, Value::FormalParameter(name.clone(), t_number.clone()));
   eq_dbg!(r#"FormalParameters([])"#, Value::FormalParameters(vec![]));
-  eq_dbg!(r#"FunctionBody(FunctionBodyLiteralExpression, false)"#, Value::FunctionBody(v_function_body.clone(), v_external));
-  eq_dbg!(r#"FunctionDefinition([(Name("a"), Number)], FunctionBodyLiteralExpression, false, Closure({}), FeelContext({}), Number)"#, Value::FunctionDefinition(vec![(name.clone(), t_number.clone())], v_function_body, v_external, v_closure, v_closure_ctx, t_number));
+  eq_dbg!(
+    r#"FunctionBody(FunctionBodyLiteralExpression, false)"#,
+    Value::FunctionBody(v_function_body.clone(), v_external)
+  );
+  eq_dbg!(
+    r#"FunctionDefinition([(Name("a"), Number)], FunctionBodyLiteralExpression, false, Closure({}), FeelContext({}), Number)"#,
+    Value::FunctionDefinition(vec![(name.clone(), t_number.clone())], v_function_body, v_external, v_closure, v_closure_ctx, t_number)
+  );
   eq_dbg!(r#"IntervalEnd(Number(+1E+0), false)"#, Value::IntervalEnd(b_number.clone(), false));
   eq_dbg!(r#"IntervalStart(Number(+1E+0), false)"#, Value::IntervalStart(b_number.clone(), false));
   eq_dbg!(r#"Irrelevant"#, Value::Irrelevant);
   eq_dbg!(r#"List([])"#, Value::List(Values::default()));
-  eq_dbg!(r#"NamedParameter(ParameterName(Name("a")), Number(+1E+0))"#, Value::NamedParameter(Box::new(Value::ParameterName(name.clone())), b_number.clone()));
+  eq_dbg!(
+    r#"NamedParameter(ParameterName(Name("a")), Number(+1E+0))"#,
+    Value::NamedParameter(Box::new(Value::ParameterName(name.clone())), b_number.clone())
+  );
   eq_dbg!(r#"NamedParameters({})"#, Value::NamedParameters(BTreeMap::new()));
   eq_dbg!(r#"NegatedCommaList([])"#, Value::NegatedCommaList(Values::default()));
   eq_dbg!(r#"Number(+1E+0)"#, Value::Number(FeelNumber::new(1, 0)));
@@ -75,7 +96,10 @@ fn test_debug() {
   eq_dbg!(r#"ParameterTypes([])"#, Value::ParameterTypes(vec![]));
   eq_dbg!(r#"PositionalParameters([])"#, Value::PositionalParameters(Values::default()));
   eq_dbg!(r#"QualifiedNameSegment(Name("a"))"#, Value::QualifiedNameSegment(name));
-  eq_dbg!(r#"Range(Number(+1E+0), false, Number(+1E+0), true)"#, Value::Range(b_number.clone(), false, b_number.clone(), true));
+  eq_dbg!(
+    r#"Range(Number(+1E+0), false, Number(+1E+0), true)"#,
+    Value::Range(b_number.clone(), false, b_number.clone(), true)
+  );
   eq_dbg!(r#"String("beta")"#, Value::String("beta".to_string()));
   eq_dbg!(r#"Time(FeelTime(12, 13, 23, 0, Local))"#, Value::Time(v_time));
   eq_dbg!(r#"UnaryGreater(Number(+1E+0))"#, Value::UnaryGreater(b_number.clone()));
@@ -85,7 +109,10 @@ fn test_debug() {
   eq_dbg!(r#"UnaryEqual(Number(+1E+0))"#, Value::UnaryEqual(b_number.clone()));
   eq_dbg!(r#"UnaryNotEqual(Number(+1E+0))"#, Value::UnaryNotEqual(b_number.clone()));
   eq_dbg!(r#"Transparent(Number(+1E+0))"#, Value::Transparent(b_number));
-  eq_dbg!(r#"YearsAndMonthsDuration(FeelYearsAndMonthsDuration(38))"#, Value::YearsAndMonthsDuration(v_years_and_months_duration));
+  eq_dbg!(
+    r#"YearsAndMonthsDuration(FeelYearsAndMonthsDuration(38))"#,
+    Value::YearsAndMonthsDuration(v_years_and_months_duration)
+  );
 }
 
 #[test]
@@ -115,13 +142,22 @@ fn test_display() {
   eq_dsp!(r#"2022-09-27T12:13:23"#, Value::DateTime(v_date_time));
   eq_dsp!(r#"PT1M40S"#, Value::DaysAndTimeDuration(v_days_and_time_duration));
   eq_dsp!(r#"[]"#, Value::ExpressionList(Values::default()));
-  eq_dsp!(r#"ExternalJavaFunction(class, method)"#, Value::ExternalJavaFunction("class".to_string(), "method".to_string()));
-  eq_dsp!(r#"ExternalPmmlFunction(document, model)"#, Value::ExternalPmmlFunction("document".to_string(), "model".to_string()));
+  eq_dsp!(
+    r#"ExternalJavaFunction(class, method)"#,
+    Value::ExternalJavaFunction("class".to_string(), "method".to_string())
+  );
+  eq_dsp!(
+    r#"ExternalPmmlFunction(document, model)"#,
+    Value::ExternalPmmlFunction("document".to_string(), "model".to_string())
+  );
   eq_dsp!(r#"type(number)"#, Value::FeelType(t_number.clone()));
   eq_dsp!(r#"FormalParameter"#, Value::FormalParameter(name.clone(), t_number.clone()));
   eq_dsp!(r#"FormalParameters"#, Value::FormalParameters(vec![]));
   eq_dsp!(r#"FunctionBody"#, Value::FunctionBody(v_function_body.clone(), v_external));
-  eq_dsp!(r#"FunctionDefinition([(Name("a"), Number)],_,false,[],{},number)"#, Value::FunctionDefinition(vec![(name.clone(), t_number.clone())], v_function_body, v_external, v_closure, v_closure_ctx, t_number));
+  eq_dsp!(
+    r#"FunctionDefinition([(Name("a"), Number)],_,false,[],{},number)"#,
+    Value::FunctionDefinition(vec![(name.clone(), t_number.clone())], v_function_body, v_external, v_closure, v_closure_ctx, t_number)
+  );
   eq_dsp!(r#"IntervalEnd"#, Value::IntervalEnd(b_number.clone(), false));
   eq_dsp!(r#"IntervalStart"#, Value::IntervalStart(b_number.clone(), false));
   eq_dsp!(r#"Irrelevant"#, Value::Irrelevant);
@@ -183,7 +219,17 @@ fn test_type_of() {
   eq_typ!(FeelType::Number, Value::FormalParameter(name.clone(), t_number.clone()));
   eq_typ!(FeelType::Any, Value::FormalParameters(vec![]));
   eq_typ!(FeelType::Any, Value::FunctionBody(v_function_body.clone(), v_external));
-  eq_typ!(FeelType::Function(vec![FeelType::Number], Box::new(FeelType::Number)), Value::FunctionDefinition(vec![(name.clone(), t_number.clone())], v_function_body, v_external, v_closure, v_closure_ctx, t_number.clone()));
+  eq_typ!(
+    FeelType::Function(vec![FeelType::Number], Box::new(FeelType::Number)),
+    Value::FunctionDefinition(
+      vec![(name.clone(), t_number.clone())],
+      v_function_body,
+      v_external,
+      v_closure,
+      v_closure_ctx,
+      t_number.clone()
+    )
+  );
   eq_typ!(FeelType::Number, Value::IntervalEnd(b_number.clone(), false));
   eq_typ!(FeelType::Number, Value::IntervalStart(b_number.clone(), false));
   eq_typ!(FeelType::Any, Value::Irrelevant);
@@ -312,7 +358,10 @@ fn test_value_to_feel_string() {
   assert_eq!(r#""\"bar\"""#, Value::String("\"bar\"".to_string()).to_feel_string());
   assert_eq!(r#"{}"#, Value::Context(FeelContext::default()).to_feel_string());
   assert_eq!(r#"[]"#, Value::List(Values::default()).to_feel_string());
-  assert_eq!(r#"[1.2, 2.1]"#, Value::List(vec![Value::Number(FeelNumber::new(12, 1)), Value::Number(FeelNumber::new(21, 1))]).to_feel_string());
+  assert_eq!(
+    r#"[1.2, 2.1]"#,
+    Value::List(vec![Value::Number(FeelNumber::new(12, 1)), Value::Number(FeelNumber::new(21, 1))]).to_feel_string()
+  );
   assert_eq!(r#"true"#, Value::Boolean(true).to_feel_string());
 }
 
@@ -324,14 +373,20 @@ fn test_jsonify() {
   assert_eq!(r#""beta""#, Value::String("beta".to_string()).jsonify());
   assert_eq!(r#""2023-02-24""#, Value::Date(FeelDate::new(2023, 2, 24).unwrap()).jsonify());
   assert_eq!(r#""18:35:12.000598677Z""#, Value::Time(FeelTime::utc(18, 35, 12, 598677)).jsonify());
-  assert_eq!(r#""2023-02-24T18:35:12.000598677Z""#, Value::DateTime(FeelDateTime::new(FeelDate::new(2023, 2, 24).unwrap(), FeelTime::utc_opt(18, 35, 12, 598677).unwrap())).jsonify());
+  assert_eq!(
+    r#""2023-02-24T18:35:12.000598677Z""#,
+    Value::DateTime(FeelDateTime::new(FeelDate::new(2023, 2, 24).unwrap(), FeelTime::utc_opt(18, 35, 12, 598677).unwrap())).jsonify()
+  );
   assert_eq!(r#""P10DT13H59M18S""#, Value::DaysAndTimeDuration(FeelDaysAndTimeDuration::from_s(914358)).jsonify());
   assert_eq!(r#""P3Y2M""#, Value::YearsAndMonthsDuration(FeelYearsAndMonthsDuration::from_ym(3, 2)).jsonify());
   assert_eq!(r#"[]"#, Value::ExpressionList(Values::default()).jsonify());
   assert_eq!(r#"{}"#, Value::Context(FeelContext::default()).jsonify());
   assert_eq!(r#"alpha"#, Value::ContextEntryKey("alpha".into()).jsonify());
   assert_eq!(r#"[]"#, Value::List(Values::default()).jsonify());
-  assert_eq!(r#"[1.2, 2.1]"#, Value::List(vec![Value::Number(FeelNumber::new(12, 1)), Value::Number(FeelNumber::new(21, 1))]).jsonify());
+  assert_eq!(
+    r#"[1.2, 2.1]"#,
+    Value::List(vec![Value::Number(FeelNumber::new(12, 1)), Value::Number(FeelNumber::new(21, 1))]).jsonify()
+  );
   assert_eq!(r#"null"#, Value::Null(None).jsonify());
   assert_eq!(r#""null(error details)""#, Value::Null(Some("error details".to_string())).jsonify());
   let n_start = Box::new(Value::Number(FeelNumber::new(1, 0)));
@@ -345,15 +400,24 @@ fn test_try_from() {
   // xsd::integer
   assert!(Value::try_from_xsd_integer("1").is_ok());
   assert!(Value::try_from_xsd_integer("1a").is_err());
-  assert_eq!("<ValueError> '1a' is not valid xsd:integer representation", Value::try_from_xsd_integer("1a").err().unwrap().to_string());
+  assert_eq!(
+    "<ValueError> '1a' is not valid xsd:integer representation",
+    Value::try_from_xsd_integer("1a").err().unwrap().to_string()
+  );
   // xsd::decimal
   assert!(Value::try_from_xsd_decimal("1").is_ok());
   assert!(Value::try_from_xsd_decimal("1a").is_err());
-  assert_eq!("<ValueError> '1a' is not valid xsd:decimal representation", Value::try_from_xsd_decimal("1a").err().unwrap().to_string());
+  assert_eq!(
+    "<ValueError> '1a' is not valid xsd:decimal representation",
+    Value::try_from_xsd_decimal("1a").err().unwrap().to_string()
+  );
   // xsd::double
   assert!(Value::try_from_xsd_double("1.2").is_ok());
   assert!(Value::try_from_xsd_double("1.2a").is_err());
-  assert_eq!("<ValueError> '1.2a' is not valid xsd:double representation", Value::try_from_xsd_double("1.2a").err().unwrap().to_string());
+  assert_eq!(
+    "<ValueError> '1.2a' is not valid xsd:double representation",
+    Value::try_from_xsd_double("1.2a").err().unwrap().to_string()
+  );
   // xsd::boolean
   assert!(Value::try_from_xsd_boolean("true").is_ok());
   assert!(Value::try_from_xsd_boolean("false").is_ok());
@@ -362,24 +426,39 @@ fn test_try_from() {
   assert!(Value::try_from_xsd_boolean("5").is_err());
   assert!(Value::try_from_xsd_boolean("False").is_err());
   assert!(Value::try_from_xsd_boolean("True").is_err());
-  assert_eq!("<ValueError> 'TRUE' is not valid xsd:boolean representation", Value::try_from_xsd_boolean("TRUE").err().unwrap().to_string());
+  assert_eq!(
+    "<ValueError> 'TRUE' is not valid xsd:boolean representation",
+    Value::try_from_xsd_boolean("TRUE").err().unwrap().to_string()
+  );
   // xsd::date
   assert!(Value::try_from_xsd_date("2022-09-27").is_ok());
   assert!(Value::try_from_xsd_date("2022-02-31").is_err());
-  assert_eq!("<ValueError> '2022-02-31' is not valid xsd:date representation", Value::try_from_xsd_date("2022-02-31").err().unwrap().to_string());
+  assert_eq!(
+    "<ValueError> '2022-02-31' is not valid xsd:date representation",
+    Value::try_from_xsd_date("2022-02-31").err().unwrap().to_string()
+  );
   // xsd::time
   assert!(Value::try_from_xsd_time("13:29:23").is_ok());
   assert!(Value::try_from_xsd_time("26:12:34").is_err());
-  assert_eq!("<ValueError> '26:12:34' is not valid xsd:time representation", Value::try_from_xsd_time("26:12:34").err().unwrap().to_string());
+  assert_eq!(
+    "<ValueError> '26:12:34' is not valid xsd:time representation",
+    Value::try_from_xsd_time("26:12:34").err().unwrap().to_string()
+  );
   // xsd::dateTime
   assert!(Value::try_from_xsd_date_time("2022-09-27T13:29:23").is_ok());
   assert!(Value::try_from_xsd_date_time("2022-02-31T23:12:34").is_err());
-  assert_eq!("<ValueError> '2022-02-31T23:12:34' is not valid xsd:dateTime representation", Value::try_from_xsd_date_time("2022-02-31T23:12:34").err().unwrap().to_string());
+  assert_eq!(
+    "<ValueError> '2022-02-31T23:12:34' is not valid xsd:dateTime representation",
+    Value::try_from_xsd_date_time("2022-02-31T23:12:34").err().unwrap().to_string()
+  );
   // xsd::duration
   assert!(Value::try_from_xsd_duration("P1Y2M").is_ok());
   assert!(Value::try_from_xsd_duration("P2DT2H").is_ok());
   assert!(Value::try_from_xsd_duration("PYD").is_err());
-  assert_eq!("<ValueError> 'PYD' is not valid xsd:duration representation", Value::try_from_xsd_duration("PYD").err().unwrap().to_string());
+  assert_eq!(
+    "<ValueError> 'PYD' is not valid xsd:duration representation",
+    Value::try_from_xsd_duration("PYD").err().unwrap().to_string()
+  );
 }
 
 #[test]
@@ -389,7 +468,14 @@ fn test_coerced() {
   let v_list_number_1 = Value::List(vec![value_number!(1, 0)]);
   let v_list_number_2 = Value::List(vec![value_number!(1, 0), value_number!(2, 0)]);
   let v_list_string_1 = Value::List(vec![Value::String("A".to_string())]);
-  let v_function_a = Value::FunctionDefinition(vec![(NAME_A.clone(), T_NUMBER.clone())], FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(1)))), false, Closure::default(), FeelContext::default(), T_NUMBER.clone());
+  let v_function_a = Value::FunctionDefinition(
+    vec![(NAME_A.clone(), T_NUMBER.clone())],
+    FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(1)))),
+    false,
+    Closure::default(),
+    FeelContext::default(),
+    T_NUMBER.clone(),
+  );
   let v_irrelevant = Value::Irrelevant;
   let mut ctx_d = FeelContext::default();
   ctx_d.set_entry(&NAME_A, v_string.clone());
@@ -403,7 +489,10 @@ fn test_coerced() {
   assert_eq!(r#"["a"]"#, v_string.coerced(&T_LIST_D).to_string());
   assert_eq!(r#""A""#, v_list_string_1.coerced(T_STRING).to_string());
   assert_eq!(r#"10"#, v_number.coerced(T_NUMBER).to_string());
-  assert_eq!(r#"FunctionDefinition([(Name("a"), Number)],_,false,[],{},number)"#, v_function_a.coerced(T_NUMBER).to_string());
+  assert_eq!(
+    r#"FunctionDefinition([(Name("a"), Number)],_,false,[],{},number)"#,
+    v_function_a.coerced(T_NUMBER).to_string()
+  );
   assert_eq!(r#"null(after coercion)"#, v_irrelevant.coerced(T_NUMBER).to_string());
   assert_eq!(r#"null(after coercion)"#, v_context_d.coerced(&T_CONTEXT_A).to_string());
 }

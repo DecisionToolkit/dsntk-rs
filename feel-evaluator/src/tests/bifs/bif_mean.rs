@@ -23,7 +23,12 @@ fn _0004() {
 
 #[test]
 fn _0005() {
-  te_null(false, &scope!(), r#"mean(true)"#, r#"[core::mean] invalid argument type, expected number, actual type is boolean"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"mean(true)"#,
+    r#"[core::mean] invalid argument type, expected number, actual type is boolean"#,
+  );
 }
 
 #[test]

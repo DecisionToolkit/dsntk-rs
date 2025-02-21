@@ -6,7 +6,14 @@ from_examples!(DMN_3_0038);
 fn _0001(b: &mut Bencher) {
   let ctx = context(r#"{Person: {Children: 2,Gender: "Female",Name: "Alice"}}"#);
   let invocable_name = "Person's description";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#""Alice is a mother of 2 children.""#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#""Alice is a mother of 2 children.""#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 

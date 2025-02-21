@@ -39,7 +39,12 @@ fn _0006() {
 #[test]
 fn _0007() {
   let scope = te_scope(r#"{ Weather on Ῥόδος: function() external { pmml:{document: "https://en.wiktionary.org/wiki/%E1%BF%AC%CF%8C%CE%B4%CE%BF%CF%82", model: "weather"}} }"#);
-  te_string(false, &scope, "Weather on Ῥόδος()", r#"PMML, document = https://en.wiktionary.org/wiki/%E1%BF%AC%CF%8C%CE%B4%CE%BF%CF%82, model name = weather"#);
+  te_string(
+    false,
+    &scope,
+    "Weather on Ῥόδος()",
+    r#"PMML, document = https://en.wiktionary.org/wiki/%E1%BF%AC%CF%8C%CE%B4%CE%BF%CF%82, model name = weather"#,
+  );
 }
 
 #[test]
@@ -63,7 +68,12 @@ fn _0010() {
 #[test]
 fn _0011() {
   let scope = te_scope(r#"{ fair value: function() external { rust:{ fun: ""} } }"#);
-  te_null(false, &scope, "fair value()", r#"expected built-in function name or function definition, actual is null(invalid body in function definition)"#);
+  te_null(
+    false,
+    &scope,
+    "fair value()",
+    r#"expected built-in function name or function definition, actual is null(invalid body in function definition)"#,
+  );
 }
 
 #[test]
@@ -81,7 +91,12 @@ fn _0013() {
 #[test]
 fn _0014() {
   let scope = te_scope(r#"{ valueOf: function(n) external { java: { class:"java.lang.Integer", method signature: "valueOf(java.lang.String)" } } }"#);
-  te_null(false, &scope, "valueOf(1)", "simple DTO conversion to object failed, class: java.lang.String, type: XSD_DECIMAL");
+  te_null(
+    false,
+    &scope,
+    "valueOf(1)",
+    "simple DTO conversion to object failed, class: java.lang.String, type: XSD_DECIMAL",
+  );
 }
 
 #[test]
@@ -93,7 +108,12 @@ fn _0015() {
 #[test]
 fn _0016() {
   let scope = te_scope(r#"{ valueOf: function(n) external { java: { class:"java.lang.Integer", method signature: "valueOf(java.lang.String)" } } }"#);
-  te_null(false, &scope, r#"valueOf("394857340958730495873204598374503")"#, r#"java.lang.NumberFormatException: For input string: "394857340958730495873204598374503""#);
+  te_null(
+    false,
+    &scope,
+    r#"valueOf("394857340958730495873204598374503")"#,
+    r#"java.lang.NumberFormatException: For input string: "394857340958730495873204598374503""#,
+  );
 }
 
 #[test]
@@ -105,7 +125,12 @@ fn _0017() {
 #[test]
 fn _0018() {
   let scope = te_scope(r#"{ valueOf: function(n) external { java: { class:"java.lang.Float", method signature: "valueOf(java.lang.String)" } } }"#);
-  te_null(false, &scope, r#"valueOf(1)"#, "simple DTO conversion to object failed, class: java.lang.String, type: XSD_DECIMAL");
+  te_null(
+    false,
+    &scope,
+    r#"valueOf(1)"#,
+    "simple DTO conversion to object failed, class: java.lang.String, type: XSD_DECIMAL",
+  );
 }
 
 #[test]
@@ -117,31 +142,56 @@ fn _0019() {
 #[test]
 fn _0020() {
   let scope = te_scope(r#"{ valueOf: function(n) external { java: { class: "java.lang.Float" } } }"#);
-  te_null(false, &scope, r#"valueOf("99,9")"#, "expected built-in function name or function definition, actual is null(invalid body in function definition)");
+  te_null(
+    false,
+    &scope,
+    r#"valueOf("99,9")"#,
+    "expected built-in function name or function definition, actual is null(invalid body in function definition)",
+  );
 }
 
 #[test]
 fn _0021() {
   let scope = te_scope(r#"{ valueOf: function(n) external { java: { method signature: "valueOf(java.lang.String)" } } }"#);
-  te_null(false, &scope, r#"valueOf("99,9")"#, "expected built-in function name or function definition, actual is null(invalid body in function definition)");
+  te_null(
+    false,
+    &scope,
+    r#"valueOf("99,9")"#,
+    "expected built-in function name or function definition, actual is null(invalid body in function definition)",
+  );
 }
 
 #[test]
 fn _0022() {
   let scope = te_scope(r#"{ valueOf: function(n) external { pmml: { document: "document-name" } } }"#);
-  te_null(false, &scope, r#"valueOf("99,9")"#, "expected built-in function name or function definition, actual is null(invalid body in function definition)");
+  te_null(
+    false,
+    &scope,
+    r#"valueOf("99,9")"#,
+    "expected built-in function name or function definition, actual is null(invalid body in function definition)",
+  );
 }
 
 #[test]
 fn _0023() {
   let scope = te_scope(r#"{ valueOf: function(n) external { pmml: { model: "model-name" } } }"#);
-  te_null(false, &scope, r#"valueOf("99,9")"#, "expected built-in function name or function definition, actual is null(invalid body in function definition)");
+  te_null(
+    false,
+    &scope,
+    r#"valueOf("99,9")"#,
+    "expected built-in function name or function definition, actual is null(invalid body in function definition)",
+  );
 }
 
 #[test]
 fn _0024() {
   let scope = te_scope(r#"{ valueOf: function(n) external 20 }"#);
-  te_null(false, &scope, r#"valueOf("99,9")"#, "expected built-in function name or function definition, actual is null(invalid body in function definition)");
+  te_null(
+    false,
+    &scope,
+    r#"valueOf("99,9")"#,
+    "expected built-in function name or function definition, actual is null(invalid body in function definition)",
+  );
 }
 
 #[test]

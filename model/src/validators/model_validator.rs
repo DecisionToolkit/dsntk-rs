@@ -32,7 +32,10 @@ pub struct ModelValidator {
 impl ModelValidator {
   /// Creates new model validator.
   fn new() -> Self {
-    Self { item_definition_graph: DiGraph::new(), item_definition_index: HashMap::new() }
+    Self {
+      item_definition_graph: DiGraph::new(),
+      item_definition_index: HashMap::new(),
+    }
   }
 
   /// Validated the decision model.

@@ -5,8 +5,8 @@ from_examples!(DMN_3_1147);
 static_context!(CTX, "{}");
 
 fn eq(b: &mut Bencher, invocable: &str, ctx: &FeelContext, expected: &str) {
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx, expected);
-  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx));
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, ctx, expected);
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, ctx));
 }
 
 #[bench]
@@ -61,12 +61,22 @@ fn _0010(b: &mut Bencher) {
 
 #[bench]
 fn _0011(b: &mut Bencher) {
-  eq(b, "decision010", &CTX, "null([core::context merge] invalid argument type, expected context, actual type is number)");
+  eq(
+    b,
+    "decision010",
+    &CTX,
+    "null([core::context merge] invalid argument type, expected context, actual type is number)",
+  );
 }
 
 #[bench]
 fn _0012(b: &mut Bencher) {
-  eq(b, "decision011", &CTX, "null([core::context merge] invalid argument type, expected context, actual type is number)");
+  eq(
+    b,
+    "decision011",
+    &CTX,
+    "null([core::context merge] invalid argument type, expected context, actual type is number)",
+  );
 }
 
 #[bench]

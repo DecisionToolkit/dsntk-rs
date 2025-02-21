@@ -28,7 +28,12 @@ fn _0005() {
 
 #[test]
 fn _0006() {
-  te_null(false, &scope!(), r#"day of year(date: date(999999999,9,17))"#, "[core::day of year] invalid argument type, expected date, date and time, actual type is Null");
+  te_null(
+    false,
+    &scope!(),
+    r#"day of year(date: date(999999999,9,17))"#,
+    "[core::day of year] invalid argument type, expected date, date and time, actual type is Null",
+  );
 }
 
 #[test]
@@ -43,7 +48,12 @@ fn _0008() {
 
 #[test]
 fn _0009() {
-  te_null(false, &scope!(), r#"day of year(10)"#, "[core::day of year] invalid argument type, expected date, date and time, actual type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#"day of year(10)"#,
+    "[core::day of year] invalid argument type, expected date, date and time, actual type is number",
+  );
 }
 
 #[test]
@@ -53,5 +63,10 @@ fn _0010() {
 
 #[test]
 fn _0011() {
-  te_null(false, &scope!(), r#"day of year(date(2019,9,17),date(2019,9,17))"#, "expected 1 parameters, actual number of parameters is 2");
+  te_null(
+    false,
+    &scope!(),
+    r#"day of year(date(2019,9,17),date(2019,9,17))"#,
+    "expected 1 parameters, actual number of parameters is 2",
+  );
 }

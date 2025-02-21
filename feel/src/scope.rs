@@ -24,7 +24,9 @@ pub struct FeelScope {
 impl Default for FeelScope {
   /// Creates a default [FeelScope] containing single default [FeelContext].
   fn default() -> Self {
-    Self { stack: RefCell::new(vec![FeelContext::default()]) }
+    Self {
+      stack: RefCell::new(vec![FeelContext::default()]),
+    }
   }
 }
 

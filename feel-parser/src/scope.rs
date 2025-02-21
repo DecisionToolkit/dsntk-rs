@@ -30,7 +30,10 @@ impl From<&dsntk_feel::FeelScope> for ParsingScope {
 impl Default for ParsingScope {
   /// Creates a default parsing scope containing single parsing context.
   fn default() -> Self {
-    Self { stack: RefCell::new(vec![ParsingContext::default()]), names: RefCell::new(HashSet::default()) }
+    Self {
+      stack: RefCell::new(vec![ParsingContext::default()]),
+      names: RefCell::new(HashSet::default()),
+    }
   }
 }
 

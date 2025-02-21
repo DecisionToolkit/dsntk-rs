@@ -159,7 +159,9 @@ pub struct HTMLGenerator {
 impl HTMLGenerator {
   /// Creates a new HTML documentation generator.
   pub fn new() -> Self {
-    Self { diagram_shared_styles: HashMap::new() }
+    Self {
+      diagram_shared_styles: HashMap::new(),
+    }
   }
 
   /// Generates HTML documentation for specified definitions.
@@ -187,7 +189,21 @@ impl HTMLGenerator {
       body.add_child(html_element);
     }
     //HtmlDocument::new(document_title, "en", &[DMN_MODEL_CSS, DECISION_TABLE_CSS], body).to_string()
-    HtmlDocument::default().default_doctype().default_language().default_namespace().head(HtmlHeadElement::default().default_charset().title(document_title).stylesheet(FONT_NORMAL).stylesheet(FONT_CONDENSED).stylesheet(FONT_MONO).style(HtmlStyleElement::new(create_document_style() + create_model_style() + create_decision_table_style()))).body(body).to_string()
+    HtmlDocument::default()
+      .default_doctype()
+      .default_language()
+      .default_namespace()
+      .head(
+        HtmlHeadElement::default()
+          .default_charset()
+          .title(document_title)
+          .stylesheet(FONT_NORMAL)
+          .stylesheet(FONT_CONDENSED)
+          .stylesheet(FONT_MONO)
+          .style(HtmlStyleElement::new(create_document_style() + create_model_style() + create_decision_table_style())),
+      )
+      .body(body)
+      .to_string()
   }
 
   /// Generates HTML document for specified decision table.
@@ -214,7 +230,21 @@ impl HTMLGenerator {
         //TODO implement
       }
     }
-    HtmlDocument::default().default_doctype().default_language().default_namespace().head(HtmlHeadElement::default().default_charset().title(document_title).stylesheet(FONT_NORMAL).stylesheet(FONT_CONDENSED).stylesheet(FONT_MONO).style(HtmlStyleElement::new(create_document_style() + create_decision_table_style()))).body(body).to_string()
+    HtmlDocument::default()
+      .default_doctype()
+      .default_language()
+      .default_namespace()
+      .head(
+        HtmlHeadElement::default()
+          .default_charset()
+          .title(document_title)
+          .stylesheet(FONT_NORMAL)
+          .stylesheet(FONT_CONDENSED)
+          .stylesheet(FONT_MONO)
+          .style(HtmlStyleElement::new(create_document_style() + create_decision_table_style())),
+      )
+      .body(body)
+      .to_string()
   }
 
   /// Creates a collection of model diagrams.
@@ -309,7 +339,21 @@ impl HTMLGenerator {
   fn create_svg_business_knowledge_model(&self, mut style: Style, shape: &DmnShape, bkm: &BusinessKnowledgeModel) -> HtmlElement {
     self.apply_shape_style(&mut style, shape);
     let (x, y, w, h) = (shape.bounds.x, shape.bounds.y, shape.bounds.width, shape.bounds.height);
-    let points = format!("{},{} {},{} {},{} {},{} {},{} {},{}", x, y + 15.0, x + 15.0, y, x + w, y, x + w, y + h - 15.0, x + w - 15.0, y + h, x, y + h);
+    let points = format!(
+      "{},{} {},{} {},{} {},{} {},{} {},{}",
+      x,
+      y + 15.0,
+      x + 15.0,
+      y,
+      x + w,
+      y,
+      x + w,
+      y + h - 15.0,
+      x + w - 15.0,
+      y + h,
+      x,
+      y + h
+    );
     let mut polygon = HtmlElement::new("polygon");
     polygon.set_attribute("points", points);
     polygon.set_attribute("style", style.svg_figure_style());
@@ -323,7 +367,10 @@ impl HTMLGenerator {
     let mut path = HtmlElement::new("path");
     path.set_attribute("d", build_knowledge_source_path(&shape.bounds));
     path.set_attribute("style", style.svg_figure_style());
-    let bounds = DcBounds { height: shape.bounds.height - (AMPLITUDE / 2.0) - 5.0, ..shape.bounds };
+    let bounds = DcBounds {
+      height: shape.bounds.height - (AMPLITUDE / 2.0) - 5.0,
+      ..shape.bounds
+    };
     let svg_text = create_svg_text(&bounds, &style, &get_label_text(shape, knowledge_source.name()));
     create_svg_group(vec![path, svg_text])
   }
@@ -576,7 +623,15 @@ fn create_svg_edge_solid_with_black_arrow(way_points: &[DcPoint]) -> HtmlElement
   // prepare arrow
   let start_point = &way_points[way_points.len() - 2];
   let end_point = &way_points[way_points.len() - 1];
-  let points = format!("{},{} {},{} {},{}", end_point.x, end_point.y, end_point.x + 12.0, end_point.y - 4.0, end_point.x + 12.0, end_point.y + 4.0);
+  let points = format!(
+    "{},{} {},{} {},{}",
+    end_point.x,
+    end_point.y,
+    end_point.x + 12.0,
+    end_point.y - 4.0,
+    end_point.x + 12.0,
+    end_point.y + 4.0
+  );
   let angle = get_angle(start_point, end_point);
   let rotate = format!("rotate({},{},{})", angle, end_point.x, end_point.y);
   let mut svg_arrow = HtmlElement::new("polygon");
@@ -598,7 +653,10 @@ fn create_svg_edge_dashed_with_thin_arrow(way_points: &[DcPoint]) -> HtmlElement
   // prepare arrow
   let start_point = &way_points[way_points.len() - 2];
   let end_point = &way_points[way_points.len() - 1];
-  let path = format!("M {},{} l {},{} M {},{} l {}, {}", end_point.x, end_point.y, 12.0, -4.0, end_point.x, end_point.y, 12.0, 4.0);
+  let path = format!(
+    "M {},{} l {},{} M {},{} l {}, {}",
+    end_point.x, end_point.y, 12.0, -4.0, end_point.x, end_point.y, 12.0, 4.0
+  );
   let angle = get_angle(start_point, end_point);
   let rotate = format!("rotate({},{},{})", angle, end_point.x, end_point.y);
   let mut svg_arrow = HtmlElement::new("path");
@@ -702,8 +760,26 @@ fn build_knowledge_source_path(bounds: &DcBounds) -> String {
   let mut path = format!("M {} {}", bounds.x, bounds.y);
   path = format!("{} L {} {}", path, bounds.x + bounds.width, bounds.y);
   path = format!("{} L {} {}", path, bounds.x + bounds.width, curve_base_height);
-  path = format!("{} C {},{} {},{} {},{}", path, bounds.x + bounds.width, curve_base_height, bounds.x + bounds.width - width_div_4, curve_base_height - AMPLITUDE, bounds.x + bounds.width - width_div_2, curve_base_height);
-  path = format!("{} C {},{} {},{} {},{}", path, bounds.x + bounds.width - width_div_2, curve_base_height, bounds.x + width_div_4, curve_base_height + AMPLITUDE, bounds.x, curve_base_height);
+  path = format!(
+    "{} C {},{} {},{} {},{}",
+    path,
+    bounds.x + bounds.width,
+    curve_base_height,
+    bounds.x + bounds.width - width_div_4,
+    curve_base_height - AMPLITUDE,
+    bounds.x + bounds.width - width_div_2,
+    curve_base_height
+  );
+  path = format!(
+    "{} C {},{} {},{} {},{}",
+    path,
+    bounds.x + bounds.width - width_div_2,
+    curve_base_height,
+    bounds.x + width_div_4,
+    curve_base_height + AMPLITUDE,
+    bounds.x,
+    curve_base_height
+  );
   path = format!("{} L {} {} Z", path, bounds.x, bounds.y);
   path
 }
@@ -738,5 +814,11 @@ fn create_svg_group(elements: Vec<HtmlElement>) -> HtmlElement {
 /// Converts markdown content into HTML content.
 fn from_markdown(input: &str) -> String {
   let trimmed_input = input.lines().map(|line| line.trim().to_string()).collect::<Vec<String>>().join("\n");
-  markdown::to_html(&trimmed_input).trim().replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&quot;", "\"").replace("&apos;", "\'")
+  markdown::to_html(&trimmed_input)
+    .trim()
+    .replace("&lt;", "<")
+    .replace("&gt;", ">")
+    .replace("&amp;", "&")
+    .replace("&quot;", "\"")
+    .replace("&apos;", "\'")
 }

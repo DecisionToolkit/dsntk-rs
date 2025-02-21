@@ -11,37 +11,79 @@ fn _0001() {
 #[test]
 fn _0002() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision003", &ctx, r#"null(expected 1+ parameters, actual number of parameters is 0)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "decision003",
+    &ctx,
+    r#"null(expected 1+ parameters, actual number of parameters is 0)"#,
+  );
 }
 
 #[test]
 fn _0003() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision003_a", &ctx, r#"null([positional::stddev] invalid argument type, expected list, actual type is Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "decision003_a",
+    &ctx,
+    r#"null([positional::stddev] invalid argument type, expected list, actual type is Null)"#,
+  );
 }
 
 #[test]
 fn _0004() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision004", &ctx, r#"null(expected 1+ parameters, actual number of parameters is 0)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "decision004",
+    &ctx,
+    r#"null(expected 1+ parameters, actual number of parameters is 0)"#,
+  );
 }
 
 #[test]
 fn _0005() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision005", &ctx, r#"null(stddev: expected number, actual type is string with value "foo")"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "decision005",
+    &ctx,
+    r#"null(stddev: expected number, actual type is string with value "foo")"#,
+  );
 }
 
 #[test]
 fn _0006() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision007", &ctx, r#"null(stddev: minimum two input arguments expected)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "decision007",
+    &ctx,
+    r#"null(stddev: minimum two input arguments expected)"#,
+  );
 }
 
 #[test]
 fn _0007() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision008", &ctx, r#"null([positional::stddev] invalid argument type, expected list, actual type is number)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "decision008",
+    &ctx,
+    r#"null([positional::stddev] invalid argument type, expected list, actual type is number)"#,
+  );
 }
 
 #[test]

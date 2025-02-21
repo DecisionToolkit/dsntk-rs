@@ -38,7 +38,12 @@ fn _0007() {
 
 #[test]
 fn _0008() {
-  te_null(false, &scope!(), r#"stddev(true)"#, r#"[positional::stddev] invalid argument type, expected list, actual type is boolean"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"stddev(true)"#,
+    r#"[positional::stddev] invalid argument type, expected list, actual type is boolean"#,
+  );
 }
 
 #[test]
@@ -53,12 +58,22 @@ fn _0010() {
 
 #[test]
 fn _0011() {
-  te_null(false, &scope!(), r#"stddev([2,"a","b"])"#, r#"stddev: expected number, actual type is string with value "a""#);
+  te_null(
+    false,
+    &scope!(),
+    r#"stddev([2,"a","b"])"#,
+    r#"stddev: expected number, actual type is string with value "a""#,
+  );
 }
 
 #[test]
 fn _0012() {
-  te_null(false, &scope!(), r#"stddev([1, 4 ** 6174, 4 ** 6174, 4 ** 6174])"#, r#"stddev: intermediate result is not a finite number"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"stddev([1, 4 ** 6174, 4 ** 6174, 4 ** 6174])"#,
+    r#"stddev: intermediate result is not a finite number"#,
+  );
 }
 
 #[test]

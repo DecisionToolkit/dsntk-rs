@@ -68,7 +68,12 @@ fn _0013() {
 
 #[test]
 fn _0014() {
-  te_null(false, &scope!(), r#"floor(true)"#, r#"[core::floor] invalid argument type, expected number, actual type is boolean"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"floor(true)"#,
+    r#"[core::floor] invalid argument type, expected number, actual type is boolean"#,
+  );
 }
 
 #[test]
@@ -88,12 +93,22 @@ fn _0017() {
 
 #[test]
 fn _0018() {
-  te_null(false, &scope!(), r#"floor(null,2)"#, r#"[core::floor] invalid argument type, expected number, actual type is Null"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"floor(null,2)"#,
+    r#"[core::floor] invalid argument type, expected number, actual type is Null"#,
+  );
 }
 
 #[test]
 fn _0019() {
-  te_null(false, &scope!(), r#"floor(1.56,null)"#, r#"[core::floor] invalid argument type, expected number, actual type is Null"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"floor(1.56,null)"#,
+    r#"[core::floor] invalid argument type, expected number, actual type is Null"#,
+  );
 }
 
 #[test]
@@ -108,7 +123,12 @@ fn _0021() {
 
 #[test]
 fn _0022() {
-  te_null(false, &scope!(), r#"floor(n: 1.56, scale: 1, foo: 5)"#, "expected 1,2 parameters, actual number of parameters is 3");
+  te_null(
+    false,
+    &scope!(),
+    r#"floor(n: 1.56, scale: 1, foo: 5)"#,
+    "expected 1,2 parameters, actual number of parameters is 3",
+  );
 }
 
 #[test]
@@ -138,10 +158,20 @@ fn _0025() {
 
 #[test]
 fn _0026() {
-  te_null(false, &scope!(), r#"floor(n: 5.7, scale: 6145)"#, "[core::floor] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is 6145");
+  te_null(
+    false,
+    &scope!(),
+    r#"floor(n: 5.7, scale: 6145)"#,
+    "[core::floor] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is 6145",
+  );
 }
 
 #[test]
 fn _0027() {
-  te_null(false, &scope!(), r#"floor(n: 5.7, scale: -6112)"#, "[core::floor] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is -6112");
+  te_null(
+    false,
+    &scope!(),
+    r#"floor(n: 5.7, scale: -6112)"#,
+    "[core::floor] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is -6112",
+  );
 }

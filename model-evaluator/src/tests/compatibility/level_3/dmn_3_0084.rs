@@ -85,61 +85,131 @@ fn _0013() {
 #[test]
 fn _0014() {
   let invocable_name = "decision_017";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, "[1980-01-01, 1980-01-02, 1980-01-03]");
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &CTX,
+    "[1980-01-01, 1980-01-02, 1980-01-03]",
+  );
 }
 
 #[test]
 fn _0015() {
   let invocable_name = "decision_018";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, "[1980-01-03, 1980-01-02, 1980-01-01]");
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &CTX,
+    "[1980-01-03, 1980-01-02, 1980-01-01]",
+  );
 }
 
 #[test]
 fn _0016() {
   let invocable_name = "decision_019";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, "null(<FeelEvaluatorError> invalid type of interval start: string)");
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &CTX,
+    "null(<FeelEvaluatorError> invalid type of interval start: string)",
+  );
 }
 
 #[test]
 fn _0017() {
   let invocable_name = "decision_019_a";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, "null(<FeelEvaluatorError> invalid type of interval start: string)");
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &CTX,
+    "null(<FeelEvaluatorError> invalid type of interval start: string)",
+  );
 }
 
 #[test]
 fn _0018() {
   let invocable_name = "decision_020";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, "null(<FeelEvaluatorError> invalid type of interval start: date and time)");
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &CTX,
+    "null(<FeelEvaluatorError> invalid type of interval start: date and time)",
+  );
 }
 
 #[test]
 fn _0019() {
   let invocable_name = "decision_020_a";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, "null(<FeelEvaluatorError> invalid type of interval start: date and time)");
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &CTX,
+    "null(<FeelEvaluatorError> invalid type of interval start: date and time)",
+  );
 }
 
 #[test]
 fn _0020() {
   let invocable_name = "decision_021";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, "null(<FeelEvaluatorError> invalid type of interval start: time)");
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &CTX,
+    "null(<FeelEvaluatorError> invalid type of interval start: time)",
+  );
 }
 
 #[test]
 fn _0021() {
   let invocable_name = "decision_021_a";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, "null(<FeelEvaluatorError> invalid type of interval start: time)");
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &CTX,
+    "null(<FeelEvaluatorError> invalid type of interval start: time)",
+  );
 }
 
 #[test]
 fn _0022() {
   let invocable_name = "decision_022";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, "null(<FeelEvaluatorError> invalid type of interval start: days and time duration)");
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &CTX,
+    "null(<FeelEvaluatorError> invalid type of interval start: days and time duration)",
+  );
 }
 
 #[test]
 fn _0023() {
   let invocable_name = "decision_022_a";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, "null(<FeelEvaluatorError> invalid type of interval start: days and time duration)");
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &CTX,
+    "null(<FeelEvaluatorError> invalid type of interval start: days and time duration)",
+  );
 }
 
 #[test]
@@ -151,11 +221,25 @@ fn _0024() {
 #[test]
 fn _0025() {
   let invocable_name = "decision_024";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, "[1980-01-01, 1980-01-02, 1980-01-03]");
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &CTX,
+    "[1980-01-01, 1980-01-02, 1980-01-03]",
+  );
 }
 
 #[test]
 fn _0026() {
   let invocable_name = "decision_025";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, "null(<FeelEvaluatorError> range start must be less or equal then range end)");
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &CTX,
+    "null(<FeelEvaluatorError> range start must be less or equal then range end)",
+  );
 }

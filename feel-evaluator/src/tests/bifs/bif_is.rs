@@ -143,7 +143,12 @@ fn _0028() {
 
 #[test]
 fn _0029() {
-  te_null(false, &scope!(), r#"is(time(12,13,15),time(12,13,15),time(12,13,15))"#, "expected 2 parameters, actual number of parameters is 3");
+  te_null(
+    false,
+    &scope!(),
+    r#"is(time(12,13,15),time(12,13,15),time(12,13,15))"#,
+    "expected 2 parameters, actual number of parameters is 3",
+  );
 }
 
 #[test]
@@ -173,7 +178,12 @@ fn _0034() {
 
 #[test]
 fn _0035() {
-  te_null(false, &scope!(), r#"is(value1:time(12,13,14), value2:time("12:13:15"), value3:time("12:13:16"))"#, "expected 2 parameters, actual number of parameters is 3");
+  te_null(
+    false,
+    &scope!(),
+    r#"is(value1:time(12,13,14), value2:time("12:13:15"), value3:time("12:13:16"))"#,
+    "expected 2 parameters, actual number of parameters is 3",
+  );
 }
 
 #[test]
@@ -213,7 +223,12 @@ fn _0042() {
 
 #[test]
 fn _0043() {
-  te_null(false, &scope!(), r#"is(Null,duration("P1D"))"#, "[core::is] invalid argument type, expected scalar, actual type is Null");
+  te_null(
+    false,
+    &scope!(),
+    r#"is(Null,duration("P1D"))"#,
+    "[core::is] invalid argument type, expected scalar, actual type is Null",
+  );
 }
 
 #[test]
@@ -253,7 +268,12 @@ fn _0050() {
 
 #[test]
 fn _0051() {
-  te_bool(false, &scope!(), r#"is(@"2021-04-02T23:00:00@Europe/Warsaw", @"2021-04-02T23:00:00@Australia/Melbourne")"#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#"is(@"2021-04-02T23:00:00@Europe/Warsaw", @"2021-04-02T23:00:00@Australia/Melbourne")"#,
+    false,
+  );
 }
 
 #[test]
@@ -273,5 +293,10 @@ fn _0054() {
 
 #[test]
 fn _0055() {
-  te_null(false, &scope!(), r#"is(@"999999999-04-02T23:00:00Z", @"999999999-04-02T23:00:00Z")"#, "[core::is] invalid argument type, expected scalar, actual type is Null");
+  te_null(
+    false,
+    &scope!(),
+    r#"is(@"999999999-04-02T23:00:00Z", @"999999999-04-02T23:00:00Z")"#,
+    "[core::is] invalid argument type, expected scalar, actual type is Null",
+  );
 }

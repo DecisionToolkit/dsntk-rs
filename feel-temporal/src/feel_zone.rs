@@ -53,7 +53,14 @@ impl PartialEq for FeelZone {
       (FeelZone::Utc, FeelZone::Zone(zone_name)) | (FeelZone::Zone(zone_name), FeelZone::Utc) => zone_name == ETC_UTC,
       (FeelZone::Utc, FeelZone::Offset(offset)) | (FeelZone::Offset(offset), FeelZone::Utc) => *offset == 0,
       (FeelZone::Local, FeelZone::Local) => true,
-      (FeelZone::Offset(offset), FeelZone::Zone(zone_name)) | (FeelZone::Zone(zone_name), FeelZone::Offset(offset)) => (*offset == 0 && zone_name == ETC_UTC) || if let Some(zone_offset) = get_zone_offset(zone_name) { *offset == zone_offset } else { false },
+      (FeelZone::Offset(offset), FeelZone::Zone(zone_name)) | (FeelZone::Zone(zone_name), FeelZone::Offset(offset)) => {
+        (*offset == 0 && zone_name == ETC_UTC)
+          || if let Some(zone_offset) = get_zone_offset(zone_name) {
+            *offset == zone_offset
+          } else {
+            false
+          }
+      }
       (FeelZone::Offset(_), FeelZone::Offset(_)) => true,
       (FeelZone::Zone(zone_name1), FeelZone::Zone(zone_name2)) => zone_name1 == zone_name2,
       _ => false,
@@ -107,7 +114,11 @@ impl FeelZone {
       }
     }
     if let Some(zone_match) = captures.name("zone") {
-      return if zone_match.as_str().parse::<chrono_tz::Tz>().is_ok() { Some(FeelZone::Zone(zone_match.as_str().to_string())) } else { None };
+      return if zone_match.as_str().parse::<chrono_tz::Tz>().is_ok() {
+        Some(FeelZone::Zone(zone_match.as_str().to_string()))
+      } else {
+        None
+      };
     }
     Some(FeelZone::Local)
   }

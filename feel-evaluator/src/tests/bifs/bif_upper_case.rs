@@ -28,7 +28,12 @@ fn _0005() {
 
 #[test]
 fn _0006() {
-  te_null(false, &scope!(), r#"upper case(date("2021-01-24"))"#, r#"[core::upper case] invalid argument type, expected string, actual type is date"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"upper case(date("2021-01-24"))"#,
+    r#"[core::upper case] invalid argument type, expected string, actual type is date"#,
+  );
 }
 
 #[test]

@@ -14,7 +14,14 @@ fn _0001(b: &mut Bencher) {
 fn _0002(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_002_9d2e399b96";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] hour must be a number, current type is: Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] hour must be a number, current type is: Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -22,7 +29,14 @@ fn _0002(b: &mut Bencher) {
 fn _0003(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_003_d1f0ea5bb9";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] minutes must be a number, current type is: Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] minutes must be a number, current type is: Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -30,7 +44,14 @@ fn _0003(b: &mut Bencher) {
 fn _0004(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_004_57aea91d1c";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] seconds must be a number, current type is: Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] seconds must be a number, current type is: Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -38,7 +59,14 @@ fn _0004(b: &mut Bencher) {
 fn _0005(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_005_32ea20b34f";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] hour must be a number, current type is: Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] hour must be a number, current type is: Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -46,7 +74,14 @@ fn _0005(b: &mut Bencher) {
 fn _0006(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_006_e266498180";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] hour must be a number, current type is: Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] hour must be a number, current type is: Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -54,7 +89,14 @@ fn _0006(b: &mut Bencher) {
 fn _0007(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_007_ee82c7bf12";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] hour must be a number, current type is: Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] hour must be a number, current type is: Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -62,7 +104,14 @@ fn _0007(b: &mut Bencher) {
 fn _0008(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_008_08078c6c29";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] minutes must be a number, current type is: Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] minutes must be a number, current type is: Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -70,7 +119,14 @@ fn _0008(b: &mut Bencher) {
 fn _0009(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_009_804c21ed52";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] seconds must be a number, current type is: Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] seconds must be a number, current type is: Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -78,7 +134,14 @@ fn _0009(b: &mut Bencher) {
 fn _0010(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_010_cc773bb44b";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] minutes must be a number, current type is: Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] minutes must be a number, current type is: Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -86,7 +149,14 @@ fn _0010(b: &mut Bencher) {
 fn _0011(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_011_ad5b3a26b5";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] hour must be a number, current type is: Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] hour must be a number, current type is: Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -94,7 +164,14 @@ fn _0011(b: &mut Bencher) {
 fn _0012(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_012_3c2f416fc9";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] hour must be a number, current type is: Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] hour must be a number, current type is: Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -102,7 +179,14 @@ fn _0012(b: &mut Bencher) {
 fn _0013(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_013_7f22c0bda8";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] hour must be a number, current type is: Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] hour must be a number, current type is: Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -110,7 +194,14 @@ fn _0013(b: &mut Bencher) {
 fn _0014(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_014_0dc13176e8";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] hour must be a number, current type is: Null)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] hour must be a number, current type is: Null)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -126,7 +217,14 @@ fn _0015(b: &mut Bencher) {
 fn _0016(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_016_c3cccff405";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null(expected 1,3,4 parameters, actual number of parameters is 0)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null(expected 1,3,4 parameters, actual number of parameters is 0)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -606,7 +704,14 @@ fn _0075(b: &mut Bencher) {
 fn _0076(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_076_cb117ca612";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] hour must be 0..23, current value is: 24)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] hour must be 0..23, current value is: 24)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -614,7 +719,14 @@ fn _0076(b: &mut Bencher) {
 fn _0077(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_077_a4daad060c";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] hour must be 0..23, current value is: -24)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] hour must be 0..23, current value is: -24)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -622,7 +734,14 @@ fn _0077(b: &mut Bencher) {
 fn _0078(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_078_c2fe73418b";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] minute must be 0..59, current value is: 60)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] minute must be 0..59, current value is: 60)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -630,7 +749,14 @@ fn _0078(b: &mut Bencher) {
 fn _0079(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-time-function_ErrorCase_079_d2d226c3cd";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([core::time_4] second must be 0..59, current value is: 60)"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    invocable_name,
+    &ctx,
+    r#"null([core::time_4] second must be 0..59, current value is: 60)"#,
+  );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 

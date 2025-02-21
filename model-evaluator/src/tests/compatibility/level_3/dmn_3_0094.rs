@@ -5,7 +5,7 @@ from_examples!(DMN_3_0094);
 static_context!(CTX, "{}");
 
 fn eq(invocable: &str, ctx: &FeelContext, expected: &str) {
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx, expected);
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, ctx, expected);
 }
 
 #[test]
@@ -25,7 +25,11 @@ fn _0003() {
 
 #[test]
 fn _0004() {
-  eq("decision003_a", &CTX, r#"null([core::product] invalid argument type, expected number, actual type is Null)"#);
+  eq(
+    "decision003_a",
+    &CTX,
+    r#"null([core::product] invalid argument type, expected number, actual type is Null)"#,
+  );
 }
 
 #[test]
@@ -35,7 +39,11 @@ fn _0005() {
 
 #[test]
 fn _0006() {
-  eq("decision005", &CTX, r#"null([core::product] invalid argument type, expected number, actual type is string)"#);
+  eq(
+    "decision005",
+    &CTX,
+    r#"null([core::product] invalid argument type, expected number, actual type is string)"#,
+  );
 }
 
 #[test]

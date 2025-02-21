@@ -27,14 +27,20 @@ pub fn build_evaluator(node: &AstNode) -> Evaluator {
 /// Prepares null value with error message for second argument in `between` operator.
 macro_rules! between_null2 {
   ($expected:literal, $actual:expr) => {
-    Value::Null(Some(format!("expected {} as a second argument in 'between' operator, actual value type is {}", $expected, $actual)))
+    Value::Null(Some(format!(
+      "expected {} as a second argument in 'between' operator, actual value type is {}",
+      $expected, $actual
+    )))
   };
 }
 
 /// Prepares null value with error message for third argument in `between` operator.
 macro_rules! between_null3 {
   ($expected:literal, $actual:expr) => {
-    Value::Null(Some(format!("expected {} as a third argument in 'between' operator, actual value type is {}", $expected, $actual)))
+    Value::Null(Some(format!(
+      "expected {} as a third argument in 'between' operator, actual value type is {}",
+      $expected, $actual
+    )))
   };
 }
 
@@ -127,7 +133,14 @@ impl<'b> EvaluatorBuilder<'b> {
       AstNode::UnaryLt(lhs) => self.build_unary_lt(lhs),
       AstNode::UnaryEq(lhs) => self.build_unary_eq(lhs),
       AstNode::UnaryNe(lhs) => self.build_unary_ne(lhs),
-      AstNode::CommaList { .. } | AstNode::IterationContexts { .. } | AstNode::IterationContextSingle { .. } | AstNode::IterationContextInterval { .. } | AstNode::PositionalParameters { .. } | AstNode::QuantifiedContext { .. } | AstNode::QuantifiedContexts { .. } | AstNode::Satisfies { .. } => build_err_msg(err_msg_unexpected_node(node)),
+      AstNode::CommaList { .. }
+      | AstNode::IterationContexts { .. }
+      | AstNode::IterationContextSingle { .. }
+      | AstNode::IterationContextInterval { .. }
+      | AstNode::PositionalParameters { .. }
+      | AstNode::QuantifiedContext { .. }
+      | AstNode::QuantifiedContexts { .. }
+      | AstNode::Satisfies { .. } => build_err_msg(err_msg_unexpected_node(node)),
     };
     // remove the current node from the top of the nodes stack
     self.node_stack.pop();
@@ -232,7 +245,11 @@ impl<'b> EvaluatorBuilder<'b> {
           other => invalid_argument_type!("add", "years and months duration, date and time", other.type_of()),
         },
         value @ Value::Null(_) => value,
-        other => invalid_argument_type!("add", "number, string, date and time, days and time duration, years and months duration, null", other.type_of()),
+        other => invalid_argument_type!(
+          "add",
+          "number, string, date and time, days and time duration, years and months duration, null",
+          other.type_of()
+        ),
       }
     })
   }
@@ -976,7 +993,10 @@ impl<'b> EvaluatorBuilder<'b> {
       let rhv = rhe(scope);
       if let Value::ParameterTypes(types) = lhv {
         if let Value::FeelType(result_type) = rhv {
-          let parameter_types = types.iter().filter_map(|value| if let Value::FeelType(feel_type) = value { Some(feel_type.clone()) } else { None }).collect();
+          let parameter_types = types
+            .iter()
+            .filter_map(|value| if let Value::FeelType(feel_type) = value { Some(feel_type.clone()) } else { None })
+            .collect();
           Value::FeelType(FeelType::Function(parameter_types, Box::new(result_type)))
         } else {
           value_null!("expected function's result type")
@@ -1085,7 +1105,16 @@ impl<'b> EvaluatorBuilder<'b> {
       let lhv = lhe(scope);
       let rhv = rhe(scope);
       match rhv {
-        inner @ Value::Null(_) | inner @ Value::Number(_) | inner @ Value::String(_) | inner @ Value::Boolean(_) | inner @ Value::Date(_) | inner @ Value::Time(_) | inner @ Value::DateTime(_) | inner @ Value::YearsAndMonthsDuration(_) | inner @ Value::DaysAndTimeDuration(_) | inner @ Value::Context(_) => eval_in_equal(&lhv, &inner),
+        inner @ Value::Null(_)
+        | inner @ Value::Number(_)
+        | inner @ Value::String(_)
+        | inner @ Value::Boolean(_)
+        | inner @ Value::Date(_)
+        | inner @ Value::Time(_)
+        | inner @ Value::DateTime(_)
+        | inner @ Value::YearsAndMonthsDuration(_)
+        | inner @ Value::DaysAndTimeDuration(_)
+        | inner @ Value::Context(_) => eval_in_equal(&lhv, &inner),
         Value::Range(l, l_closed, r, r_closed) => eval_in_range(&lhv, &l, l_closed, &r, r_closed),
         Value::List(r_inner) => {
           if let Value::List(l_inner) = lhv {
@@ -2110,7 +2139,16 @@ pub fn eval_ternary_equality(lhs: &Value, rhs: &Value) -> Option<bool> {
 fn eval_in_list(left: &Value, items: &[Value]) -> Value {
   for item in items {
     match item {
-      inner @ Value::Null(_) | inner @ Value::String(_) | inner @ Value::Number(_) | inner @ Value::Boolean(_) | inner @ Value::Date(_) | inner @ Value::Time(_) | inner @ Value::DateTime(_) | inner @ Value::YearsAndMonthsDuration(_) | inner @ Value::DaysAndTimeDuration(_) | inner @ Value::Context(_) => {
+      inner @ Value::Null(_)
+      | inner @ Value::String(_)
+      | inner @ Value::Number(_)
+      | inner @ Value::Boolean(_)
+      | inner @ Value::Date(_)
+      | inner @ Value::Time(_)
+      | inner @ Value::DateTime(_)
+      | inner @ Value::YearsAndMonthsDuration(_)
+      | inner @ Value::DaysAndTimeDuration(_)
+      | inner @ Value::Context(_) => {
         if let Value::Boolean(true) = eval_in_equal(left, inner) {
           return VALUE_TRUE;
         }
@@ -2180,7 +2218,15 @@ fn eval_in_list_in_list(l_items: &[Value], r_items: &[Value]) -> Value {
 fn eval_in_negated_list(left: &Value, items: &[Value]) -> Value {
   for item in items {
     match item {
-      inner @ Value::Null(_) | inner @ Value::String(_) | inner @ Value::Number(_) | inner @ Value::Boolean(_) | inner @ Value::Date(_) | inner @ Value::Time(_) | inner @ Value::DateTime(_) | inner @ Value::DaysAndTimeDuration(_) | inner @ Value::YearsAndMonthsDuration(_) => {
+      inner @ Value::Null(_)
+      | inner @ Value::String(_)
+      | inner @ Value::Number(_)
+      | inner @ Value::Boolean(_)
+      | inner @ Value::Date(_)
+      | inner @ Value::Time(_)
+      | inner @ Value::DateTime(_)
+      | inner @ Value::DaysAndTimeDuration(_)
+      | inner @ Value::YearsAndMonthsDuration(_) => {
         if let Value::Boolean(true) = eval_in_equal(left, inner) {
           return Value::Boolean(false);
         }
@@ -2516,7 +2562,14 @@ fn eval_in_unary_greater_or_equal(left: &Value, right: &Value) -> Value {
 }
 
 /// Evaluates function definition with positional parameters.
-fn eval_function_with_positional_parameters(scope: &FeelScope, args: &[Value], params: &[(Name, FeelType)], body: &FunctionBody, closure_ctx: FeelContext, result_type: FeelType) -> Value {
+fn eval_function_with_positional_parameters(
+  scope: &FeelScope,
+  args: &[Value],
+  params: &[(Name, FeelType)],
+  body: &FunctionBody,
+  closure_ctx: FeelContext,
+  result_type: FeelType,
+) -> Value {
   let mut params_ctx = FeelContext::default();
   if args.len() != params.len() {
     return value_null!("invalid number of arguments");
@@ -2528,7 +2581,14 @@ fn eval_function_with_positional_parameters(scope: &FeelScope, args: &[Value], p
 }
 
 /// Evaluates function definition with named parameters.
-fn eval_function_with_named_parameters(scope: &FeelScope, args: &Value, params: &[(Name, FeelType)], body: &FunctionBody, closure_ctx: FeelContext, result_type: FeelType) -> Value {
+fn eval_function_with_named_parameters(
+  scope: &FeelScope,
+  args: &Value,
+  params: &[(Name, FeelType)],
+  body: &FunctionBody,
+  closure_ctx: FeelContext,
+  result_type: FeelType,
+) -> Value {
   let mut params_ctx = FeelContext::default();
   if let Value::NamedParameters(argument_map) = args {
     if argument_map.len() != params.len() {
@@ -2557,7 +2617,14 @@ fn eval_function_definition(scope: &FeelScope, params_ctx: FeelContext, body: &F
         new_closure_ctx.create_entry(closure_name, closure_value);
       }
     }
-    result = Value::FunctionDefinition(fd_params.to_owned(), fd_body.to_owned(), fd_external.to_owned(), fd_closure.to_owned(), new_closure_ctx, fd_result_type.to_owned());
+    result = Value::FunctionDefinition(
+      fd_params.to_owned(),
+      fd_body.to_owned(),
+      fd_external.to_owned(),
+      fd_closure.to_owned(),
+      new_closure_ctx,
+      fd_result_type.to_owned(),
+    );
   }
   scope.pop(); // params_ctx
   scope.pop(); // closure_ctx

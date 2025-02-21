@@ -19,7 +19,12 @@ fn _0003() {
 #[test]
 fn _0004() {
   let scope = &te_scope(r#"{Hours:12,Minutes:59,Seconds:1.3,Timezone:@"-PT1H"}"#);
-  te_time(false, scope, r#"time(Hours,Minutes,Seconds,Timezone)"#, FeelTime::offset_opt(12, 59, 1, 300_000_000, -3600).unwrap());
+  te_time(
+    false,
+    scope,
+    r#"time(Hours,Minutes,Seconds,Timezone)"#,
+    FeelTime::offset_opt(12, 59, 1, 300_000_000, -3600).unwrap(),
+  );
 }
 
 #[test]
@@ -31,7 +36,12 @@ fn _0005() {
 #[test]
 fn _0006() {
   let scope = &te_scope(r#"{Hours:12.999,Minutes:59.999,Seconds:1.0003,Timezone:@"-PT1H3S"}"#);
-  te_time(false, scope, r#"time(Hours,Minutes,Seconds,Timezone)"#, FeelTime::offset_opt(12, 59, 1, 300_000, -3603).unwrap());
+  te_time(
+    false,
+    scope,
+    r#"time(Hours,Minutes,Seconds,Timezone)"#,
+    FeelTime::offset_opt(12, 59, 1, 300_000, -3603).unwrap(),
+  );
 }
 
 #[test]
@@ -206,7 +216,12 @@ fn _0040() {
 
 #[test]
 fn _0041() {
-  te_null(false, &scope!(), r#"time(12,12,12,12,12)"#, r#"expected 1,3,4 parameters, actual number of parameters is 5"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"time(12,12,12,12,12)"#,
+    r#"expected 1,3,4 parameters, actual number of parameters is 5"#,
+  );
 }
 
 #[test]
@@ -216,7 +231,12 @@ fn _0042() {
 
 #[test]
 fn _0043() {
-  te_null(false, &scope!(), r#"time(h: 11, minute: 59, second: 45, offset: null)"#, r#"invalid parameters in bif time"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"time(h: 11, minute: 59, second: 45, offset: null)"#,
+    r#"invalid parameters in bif time"#,
+  );
 }
 
 #[test]
@@ -231,22 +251,42 @@ fn _0045() {
 
 #[test]
 fn _0046() {
-  te_null(false, &scope!(), r#"time("11", 59, 45, null)"#, r#"[core::time_4] hour must be a number, current type is: string"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"time("11", 59, 45, null)"#,
+    r#"[core::time_4] hour must be a number, current type is: string"#,
+  );
 }
 
 #[test]
 fn _0047() {
-  te_null(false, &scope!(), r#"time(11, "59", 45, null)"#, r#"[core::time_4] minutes must be a number, current type is: string"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"time(11, "59", 45, null)"#,
+    r#"[core::time_4] minutes must be a number, current type is: string"#,
+  );
 }
 
 #[test]
 fn _0048() {
-  te_null(false, &scope!(), r#"time(11, 59, "45", null)"#, r#"[core::time_4] seconds must be a number, current type is: string"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"time(11, 59, "45", null)"#,
+    r#"[core::time_4] seconds must be a number, current type is: string"#,
+  );
 }
 
 #[test]
 fn _0049() {
-  te_null(false, &scope!(), r#"time(23,59,45,"10")"#, "expected days and time duration or null, current offset type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#"time(23,59,45,"10")"#,
+    "expected days and time duration or null, current offset type is string",
+  );
 }
 
 #[test]

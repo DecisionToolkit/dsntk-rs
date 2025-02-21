@@ -27,5 +27,8 @@ fn _0004() {
   let parameter_y = AstNode::FormalParameter(Box::new(AstNode::ParameterName("y".into())), Box::new(AstNode::FeelType(FeelType::Number)));
   let parameter_invalid = AstNode::Numeric("1".into(), "0".into(), '+', "".into());
   let node = AstNode::FormalParameters(vec![parameter_x, parameter_y, parameter_invalid]);
-  assert_eq!("null(expected formal parameter, actual value type is: number)", crate::evaluate(&scope!(), &node).to_string());
+  assert_eq!(
+    "null(expected formal parameter, actual value type is: number)",
+    crate::evaluate(&scope!(), &node).to_string()
+  );
 }

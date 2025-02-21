@@ -17,7 +17,14 @@ fn _0002() {
 #[test]
 fn _0003() {
   let ctx = context(r#"{factors: [2, 3, 5, 7, 11], value: 35}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "check factors", &ctx, r#"[false, false, true, true, false]"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "check factors",
+    &ctx,
+    r#"[false, false, true, true, false]"#,
+  );
 }
 
 #[test]

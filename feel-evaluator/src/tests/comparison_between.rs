@@ -63,12 +63,22 @@ fn _0012() {
 
 #[test]
 fn _0013() {
-  te_null(false, &scope!(), r#"2 between "1" and 4"#, "expected number as a second argument in 'between' operator, actual value type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#"2 between "1" and 4"#,
+    "expected number as a second argument in 'between' operator, actual value type is string",
+  );
 }
 
 #[test]
 fn _0014() {
-  te_null(false, &scope!(), r#"2 between 1 and "4""#, "expected number as a third argument in 'between' operator, actual value type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#"2 between 1 and "4""#,
+    "expected number as a third argument in 'between' operator, actual value type is string",
+  );
 }
 
 #[test]
@@ -83,12 +93,22 @@ fn _0016() {
 
 #[test]
 fn _0017() {
-  te_null(false, &scope!(), r#" "k" between 1 and "z" "#, "expected string as a second argument in 'between' operator, actual value type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#" "k" between 1 and "z" "#,
+    "expected string as a second argument in 'between' operator, actual value type is number",
+  );
 }
 
 #[test]
 fn _0018() {
-  te_null(false, &scope!(), r#" "k" between "a" and 15 "#, "expected string as a third argument in 'between' operator, actual value type is number");
+  te_null(
+    false,
+    &scope!(),
+    r#" "k" between "a" and 15 "#,
+    "expected string as a third argument in 'between' operator, actual value type is number",
+  );
 }
 
 #[test]
@@ -103,12 +123,22 @@ fn _0020() {
 
 #[test]
 fn _0021() {
-  te_null(false, &scope!(), r#" @"2023-02-04" between "2023-02-01" and @"2023-02-11" "#, "expected date as a second argument in 'between' operator, actual value type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#" @"2023-02-04" between "2023-02-01" and @"2023-02-11" "#,
+    "expected date as a second argument in 'between' operator, actual value type is string",
+  );
 }
 
 #[test]
 fn _0022() {
-  te_null(false, &scope!(), r#" @"2023-02-04" between @"2023-02-01" and "2023-02-11" "#, "expected date as a third argument in 'between' operator, actual value type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#" @"2023-02-04" between @"2023-02-01" and "2023-02-11" "#,
+    "expected date as a third argument in 'between' operator, actual value type is string",
+  );
 }
 
 #[test]
@@ -123,32 +153,62 @@ fn _0024() {
 
 #[test]
 fn _0025() {
-  te_null(false, &scope!(), r#" @"10:11:12" between "10:11:10" and @"10:11:15" "#, "expected time as a second argument in 'between' operator, actual value type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#" @"10:11:12" between "10:11:10" and @"10:11:15" "#,
+    "expected time as a second argument in 'between' operator, actual value type is string",
+  );
 }
 
 #[test]
 fn _0026() {
-  te_null(false, &scope!(), r#" @"10:11:12" between @"10:11:10" and "10:11:15" "#, "expected time as a third argument in 'between' operator, actual value type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#" @"10:11:12" between @"10:11:10" and "10:11:15" "#,
+    "expected time as a third argument in 'between' operator, actual value type is string",
+  );
 }
 
 #[test]
 fn _0027() {
-  te_bool(false, &scope!(), r#" @"2023-02-04T10:11:12" between @"2023-02-04T10:11:10" and @"2023-02-14T10:11:15" "#, true);
+  te_bool(
+    false,
+    &scope!(),
+    r#" @"2023-02-04T10:11:12" between @"2023-02-04T10:11:10" and @"2023-02-14T10:11:15" "#,
+    true,
+  );
 }
 
 #[test]
 fn _0028() {
-  te_bool(false, &scope!(), r#" @"2023-02-04T10:11:32" between @"2023-02-04T10:11:10" and @"2023-02-04T10:11:15" "#, false);
+  te_bool(
+    false,
+    &scope!(),
+    r#" @"2023-02-04T10:11:32" between @"2023-02-04T10:11:10" and @"2023-02-04T10:11:15" "#,
+    false,
+  );
 }
 
 #[test]
 fn _0029() {
-  te_null(false, &scope!(), r#" @"2023-02-04T10:11:12" between "2023-02-04T10:11:10" and @"2023-02-14T10:11:15" "#, "expected date and time as a second argument in 'between' operator, actual value type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#" @"2023-02-04T10:11:12" between "2023-02-04T10:11:10" and @"2023-02-14T10:11:15" "#,
+    "expected date and time as a second argument in 'between' operator, actual value type is string",
+  );
 }
 
 #[test]
 fn _0030() {
-  te_null(false, &scope!(), r#" @"2023-02-04T10:11:12" between @"2023-02-04T10:11:10" and "2023-02-14T10:11:15" "#, "expected date and time as a third argument in 'between' operator, actual value type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#" @"2023-02-04T10:11:12" between @"2023-02-04T10:11:10" and "2023-02-14T10:11:15" "#,
+    "expected date and time as a third argument in 'between' operator, actual value type is string",
+  );
 }
 
 #[test]
@@ -163,12 +223,22 @@ fn _0032() {
 
 #[test]
 fn _0033() {
-  te_null(false, &scope!(), r#" @"P5D" between "P1D" and @"P10D" "#, "expected days and time duration as a second argument in 'between' operator, actual value type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#" @"P5D" between "P1D" and @"P10D" "#,
+    "expected days and time duration as a second argument in 'between' operator, actual value type is string",
+  );
 }
 
 #[test]
 fn _0034() {
-  te_null(false, &scope!(), r#" @"P5D" between @"P1D" and "P10D" "#, "expected days and time duration as a third argument in 'between' operator, actual value type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#" @"P5D" between @"P1D" and "P10D" "#,
+    "expected days and time duration as a third argument in 'between' operator, actual value type is string",
+  );
 }
 
 #[test]
@@ -183,15 +253,30 @@ fn _0036() {
 
 #[test]
 fn _0037() {
-  te_null(false, &scope!(), r#" @"P5Y" between "P1Y" and @"P10Y" "#, "expected years and months duration as a second argument in 'between' operator, actual value type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#" @"P5Y" between "P1Y" and @"P10Y" "#,
+    "expected years and months duration as a second argument in 'between' operator, actual value type is string",
+  );
 }
 
 #[test]
 fn _0038() {
-  te_null(false, &scope!(), r#" @"P5Y" between @"P1Y" and "P10Y" "#, "expected years and months duration as a third argument in 'between' operator, actual value type is string");
+  te_null(
+    false,
+    &scope!(),
+    r#" @"P5Y" between @"P1Y" and "P10Y" "#,
+    "expected years and months duration as a third argument in 'between' operator, actual value type is string",
+  );
 }
 
 #[test]
 fn _0039() {
-  te_null(false, &scope!(), r#" (function() 1) between 1 and 10 "#, "unexpected value type in 'between' operator: function<>->Any");
+  te_null(
+    false,
+    &scope!(),
+    r#" (function() 1) between 1 and 10 "#,
+    "unexpected value type in 'between' operator: function<>->Any",
+  );
 }

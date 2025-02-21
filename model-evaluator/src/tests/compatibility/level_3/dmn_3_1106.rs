@@ -23,7 +23,14 @@ fn _0003() {
 #[test]
 fn _0004() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-lower-case-function_004_2dbf99e8c0", &ctx, r#""abc4""#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-lower-case-function_004_2dbf99e8c0",
+    &ctx,
+    r#""abc4""#,
+  );
 }
 
 #[test]
@@ -41,17 +48,38 @@ fn _0006() {
 #[test]
 fn _0007() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-lower-case-function_007_a2ce59499a", &ctx, r#""abdcf""#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-lower-case-function_007_a2ce59499a",
+    &ctx,
+    r#""abdcf""#,
+  );
 }
 
 #[test]
 fn _0008() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-lower-case-function_008_9913ad454f", &ctx, r#""xyz ""#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-lower-case-function_008_9913ad454f",
+    &ctx,
+    r#""xyz ""#,
+  );
 }
 
 #[test]
 fn _0009() {
   let ctx = context(r#"{}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-lower-case-function_009_78e6b2969b", &ctx, r#""123abc""#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "feel-lower-case-function_009_78e6b2969b",
+    &ctx,
+    r#""123abc""#,
+  );
 }

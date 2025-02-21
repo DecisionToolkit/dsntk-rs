@@ -5,8 +5,8 @@ from_examples!(DMN_3_0094);
 static_context!(CTX, "{}");
 
 fn eq(b: &mut Bencher, invocable: &str, ctx: &FeelContext, expected: &str) {
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx, expected);
-  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx));
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, ctx, expected);
+  iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable, ctx));
 }
 
 #[bench]
@@ -26,17 +26,32 @@ fn _0003(b: &mut Bencher) {
 
 #[bench]
 fn _0004(b: &mut Bencher) {
-  eq(b, "decision003_a", &CTX, r#"null([core::product] invalid argument type, expected number, actual type is Null)"#);
+  eq(
+    b,
+    "decision003_a",
+    &CTX,
+    r#"null([core::product] invalid argument type, expected number, actual type is Null)"#,
+  );
 }
 
 #[bench]
 fn _0005(b: &mut Bencher) {
-  eq(b, "decision004", &CTX, r#"null([core::product] invalid argument type, expected number, actual type is Null)"#);
+  eq(
+    b,
+    "decision004",
+    &CTX,
+    r#"null([core::product] invalid argument type, expected number, actual type is Null)"#,
+  );
 }
 
 #[bench]
 fn _0006(b: &mut Bencher) {
-  eq(b, "decision005", &CTX, r#"null([core::product] invalid argument type, expected number, actual type is string)"#);
+  eq(
+    b,
+    "decision005",
+    &CTX,
+    r#"null([core::product] invalid argument type, expected number, actual type is string)"#,
+  );
 }
 
 #[bench]

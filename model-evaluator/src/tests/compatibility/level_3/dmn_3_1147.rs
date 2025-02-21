@@ -5,7 +5,7 @@ from_examples!(DMN_3_1147);
 static_context!(CTX, "{}");
 
 fn eq(invocable: &str, ctx: &FeelContext, expected: &str) {
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx, expected);
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, ctx, expected);
 }
 
 #[test]
@@ -60,12 +60,20 @@ fn _0010() {
 
 #[test]
 fn _0011() {
-  eq("decision010", &CTX, "null([core::context merge] invalid argument type, expected context, actual type is number)");
+  eq(
+    "decision010",
+    &CTX,
+    "null([core::context merge] invalid argument type, expected context, actual type is number)",
+  );
 }
 
 #[test]
 fn _0012() {
-  eq("decision011", &CTX, "null([core::context merge] invalid argument type, expected context, actual type is number)");
+  eq(
+    "decision011",
+    &CTX,
+    "null([core::context merge] invalid argument type, expected context, actual type is number)",
+  );
 }
 
 #[test]

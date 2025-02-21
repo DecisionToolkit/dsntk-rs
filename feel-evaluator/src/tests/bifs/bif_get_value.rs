@@ -13,12 +13,22 @@ fn _0002() {
 
 #[test]
 fn _0003() {
-  te_null(false, &scope!(), r#"get value(10, "a")"#, r#"[core::get value] invalid argument type, expected context, actual type is number"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"get value(10, "a")"#,
+    r#"[core::get value] invalid argument type, expected context, actual type is number"#,
+  );
 }
 
 #[test]
 fn _0004() {
-  te_null(false, &scope!(), r#"get value({a: "foo"}, true)"#, r#"[core::get value] invalid argument type, expected string, actual type is boolean"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"get value({a: "foo"}, true)"#,
+    r#"[core::get value] invalid argument type, expected string, actual type is boolean"#,
+  );
 }
 
 #[test]
@@ -33,7 +43,12 @@ fn _0006() {
 
 #[test]
 fn _0007() {
-  te_null(false, &scope!(), r#"get value({a: "foo"},"a",2)"#, r#"expected 2 parameters, actual number of parameters is 3"#);
+  te_null(
+    false,
+    &scope!(),
+    r#"get value({a: "foo"},"a",2)"#,
+    r#"expected 2 parameters, actual number of parameters is 3"#,
+  );
 }
 
 #[test]

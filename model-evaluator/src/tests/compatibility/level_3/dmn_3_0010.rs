@@ -23,17 +23,38 @@ fn _0003() {
 #[test]
 fn _0004() {
   let ctx = context(r#"{nestedList: [["w", "x"], ["y"], ["z"]], simpleList: ["a", "b", "c"]}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "concatenate2", &ctx, r#"["a", "b", "c", "w", "x", "y", "z"]"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "concatenate2",
+    &ctx,
+    r#"["a", "b", "c", "w", "x", "y", "z"]"#,
+  );
 }
 
 #[test]
 fn _0005() {
   let ctx = context(r#"{nestedList: [["w", "x"], ["y"], ["z"]], simpleList: ["a", "b", "c"]}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "concatenate3", &ctx, r#"["a", "b", "c", "w", "x", "y", "z"]"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "concatenate3",
+    &ctx,
+    r#"["a", "b", "c", "w", "x", "y", "z"]"#,
+  );
 }
 
 #[test]
 fn _0006() {
   let ctx = context(r#"{nestedList: [["w", "x"], ["y"], ["z"]], simpleList: ["a", "b", "c"]}"#);
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "concatenate4", &ctx, r#"[["a", "b", "c"], ["w", "x"], ["y"], ["z"]]"#);
+  assert_decision(
+    &MODEL_EVALUATOR,
+    &MODEL_NAMESPACE,
+    &MODEL_NAME,
+    "concatenate4",
+    &ctx,
+    r#"[["a", "b", "c"], ["w", "x"], ["y"], ["z"]]"#,
+  );
 }

@@ -20,7 +20,12 @@ pub struct AutoSize {
 impl AutoSize {
   /// Creates a new, zero [AutoSize].
   pub fn new() -> Self {
-    Self { min_x: f64::INFINITY, max_x: f64::NEG_INFINITY, min_y: f64::INFINITY, max_y: f64::NEG_INFINITY }
+    Self {
+      min_x: f64::INFINITY,
+      max_x: f64::NEG_INFINITY,
+      min_y: f64::INFINITY,
+      max_y: f64::NEG_INFINITY,
+    }
   }
 
   /// Updates diagram size based on shape.
@@ -74,7 +79,10 @@ impl AutoSize {
       if self.max_y.is_infinite() {
         self.max_y = DEFAULT_HEIGHT;
       }
-      DcDimension { width: self.min_x + self.max_x, height: self.min_y + self.max_y }
+      DcDimension {
+        width: self.min_x + self.max_x,
+        height: self.min_y + self.max_y,
+      }
     }
   }
 }

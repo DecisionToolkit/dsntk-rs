@@ -5,7 +5,11 @@ use crate::values::Value;
 use crate::FeelType;
 
 fn eq(expected: &str, actual: String) {
-  let s = expected.lines().filter_map(|line| if line.trim().is_empty() { None } else { Some(line[4..].to_string()) }).collect::<Vec<String>>().join("\n");
+  let s = expected
+    .lines()
+    .filter_map(|line| if line.trim().is_empty() { None } else { Some(line[4..].to_string()) })
+    .collect::<Vec<String>>()
+    .join("\n");
   assert_eq!(s, actual);
 }
 
@@ -657,7 +661,10 @@ fn test_invalid_value() {
   let input = r#"{}"#;
   let input_dto = serde_json::from_str::<ValueDto>(input).unwrap();
   let value = Value::try_from(&input_dto);
-  assert_eq!("<DtoError> missing attribute: no 'simple', 'components' or 'list' attribute", format!("{}", value.err().unwrap()));
+  assert_eq!(
+    "<DtoError> missing attribute: no 'simple', 'components' or 'list' attribute",
+    format!("{}", value.err().unwrap())
+  );
 }
 
 #[test]
