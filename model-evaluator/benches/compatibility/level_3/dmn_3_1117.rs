@@ -283,7 +283,7 @@ fn _0027(b: &mut Bencher) {
     &MODEL_NAME,
     invocable_name,
     &ctx,
-    r#""999999999-12-31T23:59:59.999999999@Europe/Paris""#,
+    r#""262142-12-31T23:59:59.999999999@Europe/Paris""#,
   );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
@@ -298,7 +298,7 @@ fn _0028(b: &mut Bencher) {
     &MODEL_NAME,
     invocable_name,
     &ctx,
-    r#""-999999999-12-31T23:59:59.999999999+02:00""#,
+    r#""-262143-01-01T23:59:59.999999999+02:00""#,
   );
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }

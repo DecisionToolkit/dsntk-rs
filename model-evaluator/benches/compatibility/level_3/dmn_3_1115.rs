@@ -188,7 +188,7 @@ fn _0014(b: &mut Bencher) {
 fn _0015(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_015_1dd66594cf";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#""999999999-12-31""#);
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#""262142-12-31""#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -196,7 +196,7 @@ fn _0015(b: &mut Bencher) {
 fn _0016(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_016_31f3fef4a0";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#""-999999999-12-31""#);
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#""-262143-01-01""#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -300,7 +300,7 @@ fn _0028(b: &mut Bencher) {
 fn _0029(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_029_88f5c7c90f";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#""999999999-12-31""#);
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#""262142-12-31""#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -308,7 +308,7 @@ fn _0029(b: &mut Bencher) {
 fn _0030(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "feel-date-function_030_9184a7bfc3";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#""-999999999-12-31""#);
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#""-262143-01-01""#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 

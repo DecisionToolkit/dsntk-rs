@@ -353,7 +353,7 @@ fn _0068() {
 }
 
 /*
-// commented out pending RTF equality comparisons with zones clarification
+// Commented out, pending RTF equality comparisons with zones clarification.
 #[test]
 fn _0069() {
   test("datetime_007", "false");
