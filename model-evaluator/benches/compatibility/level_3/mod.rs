@@ -94,6 +94,8 @@ mod dmn_3_1142;
 mod dmn_3_1143;
 mod dmn_3_1144;
 mod dmn_3_1146;
+mod dmn_3_1154;
+mod dmn_3_1155;
 mod dmn_3_1156;
 
 use super::*;

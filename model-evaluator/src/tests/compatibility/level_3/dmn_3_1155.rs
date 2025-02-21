@@ -1,10 +1,11 @@
 use super::*;
 
 from_examples!(DMN_3_1155);
+
 static_context!(CTX, "{}");
 
-fn eq(invocable_name: &str, expected: &str) {
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+fn eq(invocable: &str, expected: &str) {
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
 }
 
 #[test]

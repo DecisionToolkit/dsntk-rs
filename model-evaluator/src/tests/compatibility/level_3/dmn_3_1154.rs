@@ -1,53 +1,44 @@
 use super::*;
 
 from_examples!(DMN_3_1154);
+
 static_context!(CTX, "{}");
+
+fn eq(invocable: &str, expected: &str) {
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
+}
 
 #[test]
 fn _0001() {
-  let invocable_name = "decision001";
-  let expected = "true";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision001", "true");
 }
 
 #[test]
 fn _0002() {
-  let invocable_name = "decision002";
-  let expected = "false";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision002", "false");
 }
 
 #[test]
 fn _0003() {
-  let invocable_name = "decision003";
-  let expected = "null";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision003", "null");
 }
 
 #[test]
 fn _0004() {
-  let invocable_name = "decision004";
-  let expected = "null";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision004", "null");
 }
 
 #[test]
 fn _0005() {
-  let invocable_name = "decision005";
-  let expected = "null";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision005", "null");
 }
 
 #[test]
 fn _0006() {
-  let invocable_name = "decision006";
-  let expected = "null";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision006", "null");
 }
 
 #[test]
 fn _0007() {
-  let invocable_name = "decision007";
-  let expected = "true";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision007", "true");
 }
