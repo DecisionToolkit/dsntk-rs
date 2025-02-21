@@ -64,7 +64,7 @@ and export them to HTML.
 
 ## Status
 
-**DecisionToolkit** is **PRODUCTION-READY**, although some features
+**DecisionToolkit** is **PRODUCTION READY**, although some features
 may still be refined or changed based on testing and user feedback.
 We encourage users to try **DecisionToolkit** and share their feedback
 to help us enhance its usability and performance.
