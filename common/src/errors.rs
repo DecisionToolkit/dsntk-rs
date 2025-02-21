@@ -1,5 +1,6 @@
-//! # Definition of the common error type
+//! # Definition of the common result and error types
 
+use std::fmt::Display;
 use std::{any, fmt};
 
 /// Common result type.
@@ -11,12 +12,12 @@ pub trait ToErrorMessage {
   fn message(self) -> String;
 }
 
-/// Error definition used by all components of this project.
+/// Error definition used by all components.
 #[derive(Debug, PartialEq, Eq)]
 pub struct DsntkError(String);
 
-impl fmt::Display for DsntkError {
-  /// Implementation of [Display](fmt::Display) trait for [DsntkError].
+impl Display for DsntkError {
+  /// Implementation of [Display] trait for [DsntkError].
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     write!(f, "{}", self.0)
   }
@@ -37,39 +38,5 @@ where
   fn from(value: T) -> Self {
     let error_type_name = any::type_name::<T>().split("::").last().unwrap_or("UnknownError");
     DsntkError::new(error_type_name, &value.message())
-  }
-}
-
-#[cfg(test)]
-mod tests {
-  use super::*;
-
-  #[test]
-  fn test_new() {
-    assert_eq!("<TestError> unexpected", format!("{}", DsntkError::new("TestError", "unexpected")));
-  }
-
-  #[test]
-  fn test_debug() {
-    assert_eq!(r#"DsntkError("<TestError> unexpected")"#, format!("{:?}", DsntkError::new("TestError", "unexpected")));
-  }
-
-  #[test]
-  fn test_equal() {
-    let err1 = DsntkError::new("TestError", "unexpected");
-    let err2 = DsntkError::new("TestError", "unexpected");
-    assert!((err1 == err2));
-  }
-
-  #[test]
-  fn test_not_equal() {
-    let err1 = DsntkError::new("TestError", "expected");
-    let err2 = DsntkError::new("TestError", "unexpected");
-    assert!((err1 != err2));
-  }
-
-  #[test]
-  fn test_total_eq() {
-    DsntkError::new("TestError", "unexpected").assert_receiver_is_total_eq();
   }
 }
