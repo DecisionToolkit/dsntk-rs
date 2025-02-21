@@ -1,32 +1,29 @@
 use super::*;
 
 from_examples!(DMN_3_1152);
+
 static_context!(CTX, "{}");
+
+fn eq(invocable: &str, ctx: &FeelContext, expected: &str) {
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, ctx, expected);
+}
 
 #[test]
 fn _0001() {
-  let invocable_name = "decision001";
-  let expected = "[2, 4, 6, 8, 10]";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision001", &CTX, "[2, 4, 6, 8, 10]");
 }
 
 #[test]
 fn _0002() {
-  let invocable_name = "decision002";
-  let expected = "[]";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision002", &CTX, "[]");
 }
 
 #[test]
 fn _0003() {
-  let invocable_name = "decision003";
-  let expected = "[]";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision003", &CTX, "[]");
 }
 
 #[test]
 fn _0004() {
-  let invocable_name = "decision004";
-  let expected = "[]";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision004", &CTX, "[]");
 }
