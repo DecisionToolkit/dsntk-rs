@@ -1,46 +1,39 @@
 use super::*;
 
 from_examples!(DMN_3_1151);
+
 static_context!(CTX, "{}");
+
+fn eq(invocable: &str, ctx: &FeelContext, expected: &str) {
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, ctx, expected);
+}
 
 #[test]
 fn _0001() {
-  let invocable_name = "decision001";
-  let expected = "[3, 4, 5]";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision001", &CTX, "[3, 4, 5]");
 }
 
 #[test]
 fn _0002() {
-  let invocable_name = "decision002";
-  let expected = "[]";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision002", &CTX, "[]");
 }
 
 #[test]
 fn _0003() {
-  let invocable_name = "decision003";
-  let expected = r#"["not a list"]"#;
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision003", &CTX, r#"["not a list"]"#);
 }
 
 #[test]
 fn _0004() {
-  let invocable_name = "decision004";
-  let expected = "null(only number or boolean indexes are allowed in filters)";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision004", &CTX, "null(only number or boolean indexes are allowed in filters)");
 }
 
 #[test]
 fn _0005() {
-  let invocable_name = "decision005";
-  let expected = "null(only number or boolean indexes are allowed in filters)";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision005", &CTX, "null(only number or boolean indexes are allowed in filters)");
 }
 
 #[test]
 fn _0006() {
-  let invocable_name = "decision006";
-  let expected = "null(only number or boolean indexes are allowed in filters)";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, expected);
+  eq("decision006", &CTX, "null(only number or boolean indexes are allowed in filters)");
 }
