@@ -33,22 +33,12 @@ fn _0006() {
 
 #[test]
 fn _0007() {
-  te_null(
-    false,
-    &scope!(),
-    r#"sum(1,"a")"#,
-    r#"[core::sum] invalid argument type, expected number, actual type is string"#,
-  );
+  te_null(false, &scope!(), r#"sum(1,"a")"#, r#"[core::sum] invalid argument type, expected number, actual type is string"#);
 }
 
 #[test]
 fn _0008() {
-  te_null(
-    false,
-    &scope!(),
-    r#"sum(true,1,"a")"#,
-    r#"[core::sum] invalid argument type, expected number, actual type is boolean"#,
-  );
+  te_null(false, &scope!(), r#"sum(true,1,"a")"#, r#"[core::sum] invalid argument type, expected number, actual type is boolean"#);
 }
 
 #[test]

@@ -15,14 +15,7 @@ fn _0002() {
 
 #[test]
 fn _0003() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision_004",
-    &CTX,
-    r#"{age: 10, name: "foo", surname: "bar"}"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision_004", &CTX, r#"{age: 10, name: "foo", surname: "bar"}"#);
 }
 
 #[test]
@@ -157,14 +150,7 @@ fn _0029() {
 
 #[test]
 fn _0030() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "ds_invoke_002_with_number",
-    &CTX,
-    r#"null(after coercion)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "ds_invoke_002_with_number", &CTX, r#"null(after coercion)"#);
 }
 
 #[test]

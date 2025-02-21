@@ -96,16 +96,8 @@ impl WorkspaceBuilder {
     // build invocable paths
     for (workspace_name, evaluator) in &self.evaluators {
       for (model_namespace, model_name, invocable_name) in evaluator.invocables().list() {
-        let invocable_path = format!(
-          "{}{}/{}/{}",
-          if !workspace_name.is_empty() { format!("{}/", workspace_name) } else { "".to_string() },
-          to_rdnn(&model_namespace).unwrap(),
-          model_name,
-          invocable_name
-        );
-        self
-          .invocables
-          .insert(invocable_path, (workspace_name.clone(), model_namespace, model_name, invocable_name));
+        let invocable_path = format!("{}{}/{}/{}", if !workspace_name.is_empty() { format!("{}/", workspace_name) } else { "".to_string() }, to_rdnn(&model_namespace).unwrap(), model_name, invocable_name);
+        self.invocables.insert(invocable_path, (workspace_name.clone(), model_namespace, model_name, invocable_name));
       }
     }
   }
@@ -181,51 +173,21 @@ impl WorkspaceBuilder {
   /// Displays the summary of the loading process.
   fn display_summary(&self) {
     // display the number of found files
-    Text::new(self.cm)
-      .color(if self.file_count > 0 { Color::Green } else { Color::Red })
-      .s("Found ")
-      .s(self.file_count)
-      .plural(" model", self.file_count)
-      .dot()
-      .cprintln();
+    Text::new(self.cm).color(if self.file_count > 0 { Color::Green } else { Color::Red }).s("Found ").s(self.file_count).plural(" model", self.file_count).dot().cprintln();
     // display the number of successfully loaded files
     if self.loaded_count > 0 {
-      Text::new(self.cm)
-        .green()
-        .s("Loaded ")
-        .s(self.loaded_count)
-        .plural(" model", self.loaded_count)
-        .dot()
-        .cprintln();
+      Text::new(self.cm).green().s("Loaded ").s(self.loaded_count).plural(" model", self.loaded_count).dot().cprintln();
     }
     // display the number of failed loads
     if self.failed_loads_count > 0 {
-      Text::new(self.cm)
-        .red()
-        .s("Failed to load ")
-        .s(self.failed_loads_count)
-        .plural(" model", self.failed_loads_count)
-        .dot()
-        .cprintln();
+      Text::new(self.cm).red().s("Failed to load ").s(self.failed_loads_count).plural(" model", self.failed_loads_count).dot().cprintln();
     }
     // display the number of successfully deployed invocables
     let deployed_count = self.evaluators.values().map(|evaluator| evaluator.invocables().len()).sum();
-    Text::new(self.cm)
-      .color(if deployed_count > 0 { Color::Green } else { Color::Red })
-      .s("Deployed ")
-      .s(deployed_count)
-      .plural(" invocable", deployed_count)
-      .dot()
-      .cprintln();
+    Text::new(self.cm).color(if deployed_count > 0 { Color::Green } else { Color::Red }).s("Deployed ").s(deployed_count).plural(" invocable", deployed_count).dot().cprintln();
     // display the number of failed deployments
     if self.failed_deployments_count > 0 {
-      Text::new(self.cm)
-        .red()
-        .s("Failed to deploy ")
-        .s(self.failed_deployments_count)
-        .plural(" workspace", self.failed_deployments_count)
-        .dot()
-        .cprintln();
+      Text::new(self.cm).red().s("Failed to deploy ").s(self.failed_deployments_count).plural(" workspace", self.failed_deployments_count).dot().cprintln();
     }
     if self.verbose {
       self.display_deployed_invocables();
@@ -278,12 +240,7 @@ impl WorkspaceBuilder {
     let canonical_child_path = child_path.canonicalize().unwrap();
     let mut workspace_name = canonical_child_path.parent().unwrap();
     workspace_name = workspace_name.strip_prefix(canonical_parent_path).unwrap();
-    workspace_name
-      .to_string_lossy()
-      .replace('\\', "/")
-      .trim_start_matches('/')
-      .trim_end_matches('/')
-      .to_string()
+    workspace_name.to_string_lossy().replace('\\', "/").trim_start_matches('/').trim_end_matches('/').to_string()
   }
 
   /// Prints file loading error details.
@@ -293,10 +250,7 @@ impl WorkspaceBuilder {
 
   /// Prints duplicated namespace error details.
   fn err_duplicated_namespace(&self, workspace_name: &str, file: &Path, namespace: &str, file_name: &str) {
-    self.error_2(
-      self.join(workspace_name, file),
-      format!("duplicated namespace '{}' in file {}", namespace, self.join(workspace_name, Path::new(file_name))),
-    );
+    self.error_2(self.join(workspace_name, file), format!("duplicated namespace '{}' in file {}", namespace, self.join(workspace_name, Path::new(file_name))));
   }
 
   /// Prints invalid namespace error details.
@@ -306,10 +260,7 @@ impl WorkspaceBuilder {
 
   /// Prints deployment error details.
   fn err_deployment_failure(&self, workspace_name: &str, reason: String) {
-    self.error_2(
-      if workspace_name.is_empty() { "/" } else { workspace_name },
-      format!("deployment failed with reason: {}", reason),
-    );
+    self.error_2(if workspace_name.is_empty() { "/" } else { workspace_name }, format!("deployment failed with reason: {}", reason));
   }
 
   /// Prints file operation error details.
@@ -333,21 +284,7 @@ impl WorkspaceBuilder {
 
   /// Utility function for printing styled error message with two arguments.
   fn error_2<A: Display, B: Display>(&self, s1: A, s2: B) {
-    self
-      .text()
-      .s('[')
-      .red()
-      .s("error")
-      .clear()
-      .s("][")
-      .blue()
-      .s(s1)
-      .clear()
-      .s(']')
-      .space()
-      .red()
-      .s(s2)
-      .cprintln();
+    self.text().s('[').red().s("error").clear().s("][").blue().s(s1).clear().s(']').space().red().s(s2).cprintln();
   }
 
   /// Utility function for instantiating a styled text with preset color mode.

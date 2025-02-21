@@ -48,62 +48,32 @@ fn _0006(b: &mut Bencher) {
 
 #[bench]
 fn _0007(b: &mut Bencher) {
-  eqs(
-    b,
-    "decision_002",
-    r#"{decision_002_input: null}"#,
-    r#"null(expected string as a second argument in addition)"#,
-  );
+  eqs(b, "decision_002", r#"{decision_002_input: null}"#, r#"null(expected string as a second argument in addition)"#);
 }
 
 #[bench]
 fn _0008(b: &mut Bencher) {
-  eqs(
-    b,
-    "decisionService_002",
-    r#"{decision_002_input: null}"#,
-    r#"null(expected string as a second argument in addition)"#,
-  );
+  eqs(b, "decisionService_002", r#"{decision_002_input: null}"#, r#"null(expected string as a second argument in addition)"#);
 }
 
 #[bench]
 fn _0009(b: &mut Bencher) {
-  eqs(
-    b,
-    "decision_002",
-    r#"{decision_002_input: 1234}"#,
-    r#"null(expected string as a second argument in addition)"#,
-  );
+  eqs(b, "decision_002", r#"{decision_002_input: 1234}"#, r#"null(expected string as a second argument in addition)"#);
 }
 
 #[bench]
 fn _0010(b: &mut Bencher) {
-  eqs(
-    b,
-    "decisionService_002",
-    r#"{decision_002_input: 1234}"#,
-    r#"null(expected string as a second argument in addition)"#,
-  );
+  eqs(b, "decisionService_002", r#"{decision_002_input: 1234}"#, r#"null(expected string as a second argument in addition)"#);
 }
 
 #[bench]
 fn _0011(b: &mut Bencher) {
-  eqs(
-    b,
-    "decision_003",
-    r#"{decision_003_input_1: "B", decision_003_input_2: "C", inputData_003: "D"}"#,
-    r#""A B C D""#,
-  );
+  eqs(b, "decision_003", r#"{decision_003_input_1: "B", decision_003_input_2: "C", inputData_003: "D"}"#, r#""A B C D""#);
 }
 
 #[bench]
 fn _0012(b: &mut Bencher) {
-  eqs(
-    b,
-    "decisionService_003",
-    r#"{decision_003_input_1: "B", decision_003_input_2: "C", inputData_003: "D"}"#,
-    r#""A B C D""#,
-  );
+  eqs(b, "decisionService_003", r#"{decision_003_input_1: "B", decision_003_input_2: "C", inputData_003: "D"}"#, r#""A B C D""#);
 }
 
 #[bench]

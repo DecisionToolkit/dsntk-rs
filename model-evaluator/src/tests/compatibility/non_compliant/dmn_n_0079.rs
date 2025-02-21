@@ -5,27 +5,13 @@ from_examples!(DMN_N_0079);
 #[test]
 fn _0001() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision_001",
-    &ctx,
-    r#"null(expected 1 parameters, actual number of parameters is 0)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision_001", &ctx, r#"null(expected 1 parameters, actual number of parameters is 0)"#);
 }
 
 #[test]
 fn _0002() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision_002",
-    &ctx,
-    r#"null(expected 1 parameters, actual number of parameters is 2)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision_002", &ctx, r#"null(expected 1 parameters, actual number of parameters is 2)"#);
 }
 
 #[test]
@@ -37,14 +23,7 @@ fn _0003() {
 #[test]
 fn _0004() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision_004",
-    &ctx,
-    r#"null(expected 1 parameters, actual number of parameters is 2)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision_004", &ctx, r#"null(expected 1 parameters, actual number of parameters is 2)"#);
 }
 
 #[test]
@@ -98,14 +77,7 @@ fn _0012() {
 #[test]
 fn _0013() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "dateTime_003",
-    &ctx,
-    r#""2018-12-10T10:30:00.0001+05:00:01""#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "dateTime_003", &ctx, r#""2018-12-10T10:30:00.0001+05:00:01""#);
 }
 
 #[test]

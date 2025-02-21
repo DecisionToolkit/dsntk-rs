@@ -164,12 +164,7 @@ fn _0026() {
 
 #[test]
 fn _0027() {
-  te_null(
-    false,
-    &scope!(),
-    r#"date(10)"#,
-    r#"[core::date] invalid argument type, expected string, date or date and time, actual type is number"#,
-  );
+  te_null(false, &scope!(), r#"date(10)"#, r#"[core::date] invalid argument type, expected string, date or date and time, actual type is number"#);
 }
 
 #[test]
@@ -186,45 +181,25 @@ fn _0029() {
 #[test]
 fn _0030() {
   let scope = &scope!();
-  te_null(
-    false,
-    scope,
-    r#"date(384756328456345,790485703985734,45490654698475)"#,
-    r#"[core::date_3] invalid date y=384756328456345 m=790485703985734 d=45490654698475"#,
-  );
+  te_null(false, scope, r#"date(384756328456345,790485703985734,45490654698475)"#, r#"[core::date_3] invalid date y=384756328456345 m=790485703985734 d=45490654698475"#);
 }
 
 #[test]
 fn _0031() {
   let scope = &scope!();
-  te_null(
-    false,
-    scope,
-    r#"date(true,2,30)"#,
-    r#"[core::date] invalid argument type, expected number (year), actual type is boolean"#,
-  );
+  te_null(false, scope, r#"date(true,2,30)"#, r#"[core::date] invalid argument type, expected number (year), actual type is boolean"#);
 }
 
 #[test]
 fn _0032() {
   let scope = &scope!();
-  te_null(
-    false,
-    scope,
-    r#"date(2020,"02",30)"#,
-    r#"[core::date] invalid argument type, expected number (month), actual type is string"#,
-  );
+  te_null(false, scope, r#"date(2020,"02",30)"#, r#"[core::date] invalid argument type, expected number (month), actual type is string"#);
 }
 
 #[test]
 fn _0033() {
   let scope = &scope!();
-  te_null(
-    false,
-    scope,
-    r#"date(2020,2,null)"#,
-    r#"[core::date] invalid argument type, expected number (day), actual type is Null"#,
-  );
+  te_null(false, scope, r#"date(2020,2,null)"#, r#"[core::date] invalid argument type, expected number (day), actual type is Null"#);
 }
 
 #[test]

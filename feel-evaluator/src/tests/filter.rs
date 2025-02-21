@@ -420,12 +420,7 @@ fn _0061() {
         { "Flight Number": "UA1111", "From": "SFO", "To": "LAX", "Departure": @"2017-01-01T23:00:00", "Arrival": @"2017-01-02T05:00:00", "Capacity": 2, "Status": "scheduled" }]
     }"#,
   );
-  te_be_value(
-    false,
-    scope,
-    "Flight List[1]",
-    r#"{"Arrival": @"2017-01-01T20:00:00", "Capacity": 2, "Departure": @"2017-01-01T19:00:00", "Flight Number": "UA456", "From": "SFO", "Status": "scheduled", "To": "SNA"}"#,
-  );
+  te_be_value(false, scope, "Flight List[1]", r#"{"Arrival": @"2017-01-01T20:00:00", "Capacity": 2, "Departure": @"2017-01-01T19:00:00", "Flight Number": "UA456", "From": "SFO", "Status": "scheduled", "To": "SNA"}"#);
 }
 
 #[test]
@@ -440,18 +435,8 @@ fn _0062() {
         { "Flight Number": "UA1111", "From": "SFO", "To": "LAX", "Departure": @"2017-01-01T23:00:00", "Arrival": @"2017-01-02T05:00:00", "Capacity": 2, "Status": "scheduled" }]
     }"#,
   );
-  te_be_value(
-    false,
-    scope,
-    r#"Flight List[Status = "cancelled"]"#,
-    r#"[{"Arrival": @"2017-01-01T19:00:00", "Capacity": 5, "Departure": @"2017-01-01T18:00:00", "Flight Number": "UA123", "From": "SFO", "Status": "cancelled", "To": "SNA"}]"#,
-  );
-  te_be_value(
-    false,
-    scope,
-    r#"Flight List[Status = "cancelled"][1]"#,
-    r#"{"Arrival": @"2017-01-01T19:00:00", "Capacity": 5, "Departure": @"2017-01-01T18:00:00", "Flight Number": "UA123", "From": "SFO", "Status": "cancelled", "To": "SNA"}"#,
-  );
+  te_be_value(false, scope, r#"Flight List[Status = "cancelled"]"#, r#"[{"Arrival": @"2017-01-01T19:00:00", "Capacity": 5, "Departure": @"2017-01-01T18:00:00", "Flight Number": "UA123", "From": "SFO", "Status": "cancelled", "To": "SNA"}]"#);
+  te_be_value(false, scope, r#"Flight List[Status = "cancelled"][1]"#, r#"{"Arrival": @"2017-01-01T19:00:00", "Capacity": 5, "Departure": @"2017-01-01T18:00:00", "Flight Number": "UA123", "From": "SFO", "Status": "cancelled", "To": "SNA"}"#);
 }
 
 #[test]
@@ -516,12 +501,7 @@ fn _0069() {
 
 #[test]
 fn _0070() {
-  te_null(
-    false,
-    &scope!(),
-    r#" @"2023-02-07"[2] "#,
-    "for singletons, only filter index with value 1 or -1 is accepted",
-  );
+  te_null(false, &scope!(), r#" @"2023-02-07"[2] "#, "for singletons, only filter index with value 1 or -1 is accepted");
 }
 
 #[test]

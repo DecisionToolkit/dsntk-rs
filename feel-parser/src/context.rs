@@ -67,11 +67,7 @@ pub struct ParsingContext(BTreeMap<Name, ParsingEntry>);
 impl fmt::Display for ParsingContext {
   /// Converts parsing context into text representation.
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-    write!(
-      f,
-      "{{{}}}",
-      self.0.iter().map(|(name, entry)| { format!(r#"{name}: {entry}"#) }).collect::<Vec<String>>().join(", ")
-    )
+    write!(f, "{{{}}}", self.0.iter().map(|(name, entry)| { format!(r#"{name}: {entry}"#) }).collect::<Vec<String>>().join(", "))
   }
 }
 

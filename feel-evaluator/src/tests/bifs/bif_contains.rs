@@ -43,20 +43,10 @@ fn _0008() {
 
 #[test]
 fn _0009() {
-  te_null(
-    false,
-    &scope!(),
-    r#"contains("foobar", 23)"#,
-    r#"[core::contains] invalid argument type, expected string, actual type is number"#,
-  );
+  te_null(false, &scope!(), r#"contains("foobar", 23)"#, r#"[core::contains] invalid argument type, expected string, actual type is number"#);
 }
 
 #[test]
 fn _0010() {
-  te_null(
-    false,
-    &scope!(),
-    r#"contains(false, "ob")"#,
-    r#"[core::contains] invalid argument type, expected string, actual type is boolean"#,
-  );
+  te_null(false, &scope!(), r#"contains(false, "ob")"#, r#"[core::contains] invalid argument type, expected string, actual type is boolean"#);
 }

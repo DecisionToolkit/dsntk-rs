@@ -23,10 +23,7 @@ impl Workspaces {
   /// Creates a new [Workspaces] and loads decision models from specified directory.
   pub fn new(dirs: &[PathBuf], colors: ColorMode, verbose: bool) -> Self {
     let builder = WorkspaceBuilder::new(dirs, colors, verbose);
-    Self {
-      invocables: builder.invocables,
-      evaluators: builder.evaluators,
-    }
+    Self { invocables: builder.invocables, evaluators: builder.evaluators }
   }
 
   /// Evaluates invocable identified by invocable path.

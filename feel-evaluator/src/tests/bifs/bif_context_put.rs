@@ -8,12 +8,7 @@ fn _0001() {
 
 #[test]
 fn _0002() {
-  te_be_value(
-    false,
-    &scope!(),
-    r#"get entries(context put({"a": 1}, "b", 2))"#,
-    r#"[{key: "a", value: 1}, {key: "b", value: 2}]"#,
-  );
+  te_be_value(false, &scope!(), r#"get entries(context put({"a": 1}, "b", 2))"#, r#"[{key: "a", value: 1}, {key: "b", value: 2}]"#);
 }
 
 #[test]
@@ -83,22 +78,12 @@ fn _0015() {
 
 #[test]
 fn _0016() {
-  te_null(
-    false,
-    &scope!(),
-    r#"context put([], "a", 1)"#,
-    "[core::context put] invalid argument type, expected context, actual type is list<Null>",
-  );
+  te_null(false, &scope!(), r#"context put([], "a", 1)"#, "[core::context put] invalid argument type, expected context, actual type is list<Null>");
 }
 
 #[test]
 fn _0017() {
-  te_null(
-    false,
-    &scope!(),
-    r#"context put({}, 1, 1)"#,
-    "[core::context put] invalid argument type, expected string or list<string>, actual type is number",
-  );
+  te_null(false, &scope!(), r#"context put({}, 1, 1)"#, "[core::context put] invalid argument type, expected string or list<string>, actual type is number");
 }
 
 #[test]
@@ -108,10 +93,5 @@ fn _0018() {
 
 #[test]
 fn _0019() {
-  te_null(
-    false,
-    &scope!(),
-    r#"context put(context: {}, keys: [1], value: 1)"#,
-    "[core::context put] invalid argument type, expected string, actual type is number",
-  );
+  te_null(false, &scope!(), r#"context put(context: {}, keys: [1], value: 1)"#, "[core::context put] invalid argument type, expected string, actual type is number");
 }

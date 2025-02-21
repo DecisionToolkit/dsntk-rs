@@ -30,38 +30,17 @@ fn _0005() {
 
 #[test]
 fn _0006() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision006",
-    &CTX,
-    "null(context: no 'key' entry in context {value: 1})",
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision006", &CTX, "null(context: no 'key' entry in context {value: 1})");
 }
 
 #[test]
 fn _0007() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision007",
-    &CTX,
-    "null(context: 'key' entry is not a string, actual type is Null)",
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision007", &CTX, "null(context: 'key' entry is not a string, actual type is Null)");
 }
 
 #[test]
 fn _0008() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision008",
-    &CTX,
-    r#"null(context: no 'value' entry in context {key: "a"})"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision008", &CTX, r#"null(context: no 'value' entry in context {key: "a"})"#);
 }
 
 #[test]
@@ -81,26 +60,12 @@ fn _0011() {
 
 #[test]
 fn _0012() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision012",
-    &CTX,
-    "null(expected 1 parameters, actual number of parameters is 0)",
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision012", &CTX, "null(expected 1 parameters, actual number of parameters is 0)");
 }
 
 #[test]
 fn _0013() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision013",
-    &CTX,
-    "null(expected 1 parameters, actual number of parameters is 2)",
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision013", &CTX, "null(expected 1 parameters, actual number of parameters is 2)");
 }
 
 #[test]
@@ -120,14 +85,7 @@ fn _0016() {
 
 #[test]
 fn _0017() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision016",
-    &CTX,
-    "null([core::context] invalid argument type, expected list or context, actual type is string)",
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision016", &CTX, "null([core::context] invalid argument type, expected list or context, actual type is string)");
 }
 
 #[test]

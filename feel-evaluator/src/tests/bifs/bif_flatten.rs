@@ -23,12 +23,7 @@ fn _0004() {
 
 #[test]
 fn _0005() {
-  te_null(
-    false,
-    &scope!(),
-    r#"flatten(10)"#,
-    r#"[core::flatten] invalid argument type, expected list, actual type is number"#,
-  );
+  te_null(false, &scope!(), r#"flatten(10)"#, r#"[core::flatten] invalid argument type, expected list, actual type is number"#);
 }
 
 #[test]

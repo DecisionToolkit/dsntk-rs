@@ -14,14 +14,7 @@ fn _0001(b: &mut Bencher) {
 fn _0002(b: &mut Bencher) {
   let ctx = context(r#"{p: 2, r: 1, n: 1, pmt: 1}"#);
   let invocable_name = "equity36Mo";
-  assert_business_knowledge_model(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"2.083333333333333333333333333333333"#,
-  );
+  assert_business_knowledge_model(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"2.083333333333333333333333333333333"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -29,14 +22,7 @@ fn _0002(b: &mut Bencher) {
 fn _0003(b: &mut Bencher) {
   let ctx = context(r#"{p: 1, r: 1, n: 1}"#);
   let invocable_name = "monthlyPayment";
-  assert_business_knowledge_model(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"1.083333333333333333333333333333338"#,
-  );
+  assert_business_knowledge_model(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"1.083333333333333333333333333333338"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -44,14 +30,7 @@ fn _0003(b: &mut Bencher) {
 fn _0004(b: &mut Bencher) {
   let ctx = context(r#"{p: 2, r: 1, n: 1}"#);
   let invocable_name = "monthlyPayment";
-  assert_business_knowledge_model(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"2.166666666666666666666666666666676"#,
-  );
+  assert_business_knowledge_model(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"2.166666666666666666666666666666676"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -59,14 +38,7 @@ fn _0004(b: &mut Bencher) {
 fn _0005(b: &mut Bencher) {
   let ctx = context(r#"{requestedAmt: 330000, product: {fee: 0, lenderName: "Oceans Capital", points: 0, rate: 0.03500}}"#);
   let invocable_name = "FinancialMetrics";
-  assert_business_knowledge_model(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"{downPmtAmt: 66000, equity36moPct: 0.1229130806675864888391782030891128, fee: 0, lenderName: "Oceans Capital", loanAmt: 330000, paymentAmt: 1481.84746976912090291141532541092, points: 0, rate: 0.03500}"#,
-  );
+  assert_business_knowledge_model(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"{downPmtAmt: 66000, equity36moPct: 0.1229130806675864888391782030891128, fee: 0, lenderName: "Oceans Capital", loanAmt: 330000, paymentAmt: 1481.84746976912090291141532541092, points: 0, rate: 0.03500}"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 

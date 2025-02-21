@@ -13,42 +13,21 @@ fn _0001(b: &mut Bencher) {
 #[bench]
 fn _0002(b: &mut Bencher) {
   let invocable_name = "incorrect_001";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &CTX,
-    r#"null(java.lang.NoSuchMethodException: java.lang.Math.foo(double))"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, r#"null(java.lang.NoSuchMethodException: java.lang.Math.foo(double))"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }
 
 #[bench]
 fn _0003(b: &mut Bencher) {
   let invocable_name = "incorrect_002";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &CTX,
-    r#"null(java.lang.ClassNotFoundException: java.lang.Foo)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, r#"null(java.lang.ClassNotFoundException: java.lang.Foo)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }
 
 #[bench]
 fn _0004(b: &mut Bencher) {
   let invocable_name = "incorrect_003";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &CTX,
-    r#"null(java.lang.NoSuchMethodException: java.lang.Math.max(java.lang.String,java.lang.String))"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, r#"null(java.lang.NoSuchMethodException: java.lang.Math.max(java.lang.String,java.lang.String))"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }
 
@@ -104,14 +83,7 @@ fn _0011(b: &mut Bencher) {
 #[bench]
 fn _0012(b: &mut Bencher) {
   let invocable_name = "literal_007_a";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &CTX,
-    r#"null(simple DTO conversion to object failed, class: char, type: XSD_STRING)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, r#"null(simple DTO conversion to object failed, class: char, type: XSD_STRING)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }
 

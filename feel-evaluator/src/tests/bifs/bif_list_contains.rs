@@ -33,22 +33,12 @@ fn _0006() {
 
 #[test]
 fn _0007() {
-  te_null(
-    false,
-    &scope!(),
-    r#"list contains([1,2,3],2,6)"#,
-    r#"expected 2 parameters, actual number of parameters is 3"#,
-  );
+  te_null(false, &scope!(), r#"list contains([1,2,3],2,6)"#, r#"expected 2 parameters, actual number of parameters is 3"#);
 }
 
 #[test]
 fn _0008() {
-  te_null(
-    false,
-    &scope!(),
-    r#"list contains(10,2)"#,
-    r#"[core::list contains] invalid argument type, expected list, actual type is number"#,
-  );
+  te_null(false, &scope!(), r#"list contains(10,2)"#, r#"[core::list contains] invalid argument type, expected list, actual type is number"#);
 }
 
 #[test]

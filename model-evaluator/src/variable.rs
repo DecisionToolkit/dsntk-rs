@@ -23,12 +23,7 @@ pub struct Variable {
 impl From<&DefInformationItem> for Variable {
   /// Converts [Variable] from [DefInformationItem].
   fn from(value: &DefInformationItem) -> Self {
-    Self {
-      namespace: value.namespace().to_string(),
-      name: value.name().clone(),
-      type_ref: value.type_ref().clone(),
-      feel_type: FeelType::Any,
-    }
+    Self { namespace: value.namespace().to_string(), name: value.name().clone(), type_ref: value.type_ref().clone(), feel_type: FeelType::Any }
   }
 }
 
@@ -45,16 +40,12 @@ impl Variable {
 
   /// Resolves the FEEL type of the variable.
   pub fn resolve_feel_type(&self, item_definition_type_evaluator: &ItemDefinitionTypeEvaluator) -> FeelType {
-    item_definition_type_evaluator
-      .information_item_type(&self.namespace, &self.type_ref)
-      .unwrap_or(FeelType::Any)
+    item_definition_type_evaluator.information_item_type(&self.namespace, &self.type_ref).unwrap_or(FeelType::Any)
   }
 
   /// Updates the FEEL type of the variable.
   pub fn update_feel_type(&mut self, item_definition_type_evaluator: &ItemDefinitionTypeEvaluator) {
-    self.feel_type = item_definition_type_evaluator
-      .information_item_type(&self.namespace, &self.type_ref)
-      .unwrap_or(FeelType::Any);
+    self.feel_type = item_definition_type_evaluator.information_item_type(&self.namespace, &self.type_ref).unwrap_or(FeelType::Any);
   }
 
   /// Returns variable's FEEL type.
@@ -79,11 +70,7 @@ impl Variable {
       "Null" => Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
         if let Value::Context(ctx) = value {
           if let Some(v) = ctx.get_entry(&variable_name) {
-            return if let Value::Null(_) = v {
-              (variable_name.clone(), v.clone())
-            } else {
-              (variable_name.clone(), v.coerced(&FeelType::Null))
-            };
+            return if let Value::Null(_) = v { (variable_name.clone(), v.clone()) } else { (variable_name.clone(), v.coerced(&FeelType::Null)) };
           }
         }
         (variable_name.clone(), value_null!())
@@ -91,11 +78,7 @@ impl Variable {
       "string" => Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
         if let Value::Context(ctx) = value {
           if let Some(v) = ctx.get_entry(&variable_name) {
-            return if let Value::String(_) = v {
-              (variable_name.clone(), v.clone())
-            } else {
-              (variable_name.clone(), v.coerced(&FeelType::String))
-            };
+            return if let Value::String(_) = v { (variable_name.clone(), v.clone()) } else { (variable_name.clone(), v.coerced(&FeelType::String)) };
           }
         }
         (variable_name.clone(), value_null!())
@@ -103,11 +86,7 @@ impl Variable {
       "number" => Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
         if let Value::Context(ctx) = value {
           if let Some(v) = ctx.get_entry(&variable_name) {
-            return if let Value::Number(_) = v {
-              (variable_name.clone(), v.clone())
-            } else {
-              (variable_name.clone(), v.coerced(&FeelType::Number))
-            };
+            return if let Value::Number(_) = v { (variable_name.clone(), v.clone()) } else { (variable_name.clone(), v.coerced(&FeelType::Number)) };
           }
         }
         (variable_name.clone(), value_null!())
@@ -115,11 +94,7 @@ impl Variable {
       "boolean" => Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
         if let Value::Context(ctx) = value {
           if let Some(v) = ctx.get_entry(&variable_name) {
-            return if let Value::Boolean(_) = v {
-              (variable_name.clone(), v.clone())
-            } else {
-              (variable_name.clone(), v.coerced(&FeelType::Boolean))
-            };
+            return if let Value::Boolean(_) = v { (variable_name.clone(), v.clone()) } else { (variable_name.clone(), v.coerced(&FeelType::Boolean)) };
           }
         }
         (variable_name.clone(), value_null!())
@@ -127,11 +102,7 @@ impl Variable {
       "date" => Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
         if let Value::Context(ctx) = value {
           if let Some(v) = ctx.get_entry(&variable_name) {
-            return if let Value::Date(_) = v {
-              (variable_name.clone(), v.clone())
-            } else {
-              (variable_name.clone(), v.coerced(&FeelType::Date))
-            };
+            return if let Value::Date(_) = v { (variable_name.clone(), v.clone()) } else { (variable_name.clone(), v.coerced(&FeelType::Date)) };
           }
         }
         (variable_name.clone(), value_null!())
@@ -139,11 +110,7 @@ impl Variable {
       "time" => Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
         if let Value::Context(ctx) = value {
           if let Some(v) = ctx.get_entry(&variable_name) {
-            return if let Value::Time(_) = v {
-              (variable_name.clone(), v.clone())
-            } else {
-              (variable_name.clone(), v.coerced(&FeelType::Time))
-            };
+            return if let Value::Time(_) = v { (variable_name.clone(), v.clone()) } else { (variable_name.clone(), v.coerced(&FeelType::Time)) };
           }
         }
         (variable_name.clone(), value_null!())
@@ -151,11 +118,7 @@ impl Variable {
       "dateTime" => Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
         if let Value::Context(ctx) = value {
           if let Some(v) = ctx.get_entry(&variable_name) {
-            return if let Value::DateTime(_) = v {
-              (variable_name.clone(), v.clone())
-            } else {
-              (variable_name.clone(), v.coerced(&FeelType::DateTime))
-            };
+            return if let Value::DateTime(_) = v { (variable_name.clone(), v.clone()) } else { (variable_name.clone(), v.coerced(&FeelType::DateTime)) };
           }
         }
         (variable_name.clone(), value_null!())
@@ -163,11 +126,7 @@ impl Variable {
       "dayTimeDuration" => Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
         if let Value::Context(ctx) = value {
           if let Some(v) = ctx.get_entry(&variable_name) {
-            return if let Value::DaysAndTimeDuration(_) = v {
-              (variable_name.clone(), v.clone())
-            } else {
-              (variable_name.clone(), v.coerced(&FeelType::DaysAndTimeDuration))
-            };
+            return if let Value::DaysAndTimeDuration(_) = v { (variable_name.clone(), v.clone()) } else { (variable_name.clone(), v.coerced(&FeelType::DaysAndTimeDuration)) };
           }
         }
         (variable_name.clone(), value_null!())
@@ -175,11 +134,7 @@ impl Variable {
       "yearMonthDuration" => Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
         if let Value::Context(ctx) = value {
           if let Some(v) = ctx.get_entry(&variable_name) {
-            return if let Value::YearsAndMonthsDuration(_) = v {
-              (variable_name.clone(), v.clone())
-            } else {
-              (variable_name.clone(), v.coerced(&FeelType::YearsAndMonthsDuration))
-            };
+            return if let Value::YearsAndMonthsDuration(_) = v { (variable_name.clone(), v.clone()) } else { (variable_name.clone(), v.coerced(&FeelType::YearsAndMonthsDuration)) };
           }
         }
         (variable_name.clone(), value_null!())
@@ -187,9 +142,7 @@ impl Variable {
       _ => Box::new(move |value: &Value, item_definition_evaluator: &ItemDefinitionEvaluator| {
         if let Value::Context(ctx) = value {
           if let Some(entry_value) = ctx.get_entry(&variable_name) {
-            let evaluated_value = item_definition_evaluator
-              .eval(&DefKey::new(&variable_namespace, &variable_type_ref), entry_value)
-              .unwrap_or_else(|| value_null!("input data evaluator: item definition evaluator '{}' not found", variable_type_ref));
+            let evaluated_value = item_definition_evaluator.eval(&DefKey::new(&variable_namespace, &variable_type_ref), entry_value).unwrap_or_else(|| value_null!("input data evaluator: item definition evaluator '{}' not found", variable_type_ref));
             (variable_name.clone(), evaluated_value)
           } else {
             (variable_name.clone(), value_null!("no name {} in context {}", variable_name, ctx))

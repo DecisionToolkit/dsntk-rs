@@ -93,30 +93,15 @@ fn _0018() {
 
 #[test]
 fn _0019() {
-  te_null(
-    false,
-    &scope!(),
-    r#"min(1,2,3,"a")"#,
-    r#"[core::min] invalid argument type, expected number, actual type is string"#,
-  );
+  te_null(false, &scope!(), r#"min(1,2,3,"a")"#, r#"[core::min] invalid argument type, expected number, actual type is string"#);
 }
 
 #[test]
 fn _0020() {
-  te_null(
-    false,
-    &scope!(),
-    r#"min("a","b","c",true)"#,
-    r#"[core::min] invalid argument type, expected string, actual type is boolean"#,
-  );
+  te_null(false, &scope!(), r#"min("a","b","c",true)"#, r#"[core::min] invalid argument type, expected string, actual type is boolean"#);
 }
 
 #[test]
 fn _0021() {
-  te_null(
-    false,
-    &scope!(),
-    r#"min(true, "a","b","c",1,2)"#,
-    r#"[core::min] invalid argument type, expected number, string, actual type is boolean"#,
-  );
+  te_null(false, &scope!(), r#"min(true, "a","b","c",1,2)"#, r#"[core::min] invalid argument type, expected number, string, actual type is boolean"#);
 }

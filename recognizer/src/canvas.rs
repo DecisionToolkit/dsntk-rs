@@ -93,15 +93,7 @@ impl Canvas {
       }
     }
     // create the canvas
-    let mut canvas = Canvas {
-      content,
-      cursor: Point::zero(),
-      cross: None,
-      cross_horz: None,
-      cross_vert: None,
-      information_item_name: None,
-      body_rect: None,
-    };
+    let mut canvas = Canvas { content, cursor: Point::zero(), cross: None, cross_horz: None, cross_vert: None, information_item_name: None, body_rect: None };
     canvas.recognize_information_item_name()?;
     canvas.recognize_crossings()?;
     canvas.body_rect = Some(canvas.recognize_body_rect()?);
@@ -185,9 +177,7 @@ impl Canvas {
           // move left until the left edge of the body is reached
           self.search_left(layer, &['╞'], &['═', '╪', '╧', '╤']).and_then(|(_, left_point)| {
             // move right until the right edge of the body is reached
-            self
-              .search_right(layer, &['╡'], &['═', '╪', '╧', '╤', '╬'])
-              .map(|(_, right_point)| Rect::new(left_point.x, top_point.y, right_point.x + 1, bottom_point.y + 1))
+            self.search_right(layer, &['╡'], &['═', '╪', '╧', '╤', '╬']).map(|(_, right_point)| Rect::new(left_point.x, top_point.y, right_point.x + 1, bottom_point.y + 1))
           })
         })
       })
@@ -410,9 +400,7 @@ impl Canvas {
         // move left to the nearest bottom-left corner
         self.search_left(layer, &CORNERS_BOTTOM_LEFT, &['─', '┬']).and_then(|_| {
           // move up to the nearest top-left corner
-          self
-            .search_up(layer, &CORNERS_TOP_LEFT, &['│', '┤'])
-            .and_then(|(_, closing)| self.close_rectangle(closing, top_left, bottom_right))
+          self.search_up(layer, &CORNERS_TOP_LEFT, &['│', '┤']).and_then(|(_, closing)| self.close_rectangle(closing, top_left, bottom_right))
         })
       })
     })
@@ -429,9 +417,7 @@ impl Canvas {
         // move left to the nearest corner, this is the bottom-left corner of the recognized rectangle
         self.search_left(layer, &['┼', '└', '├', '┴'], &['─']).and_then(|_| {
           // move up to the nearest corner, this is the top-left corner of the recognized rectangle
-          self
-            .search_up(layer, &['┼', '┬', '├', '┌'], &['│'])
-            .and_then(|(_, closing)| self.close_rectangle(closing, top_left, bottom_right))
+          self.search_up(layer, &['┼', '┬', '├', '┌'], &['│']).and_then(|(_, closing)| self.close_rectangle(closing, top_left, bottom_right))
         })
       })
     })

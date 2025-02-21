@@ -47,16 +47,7 @@ impl From<FeelContext> for Value {
 impl fmt::Display for FeelContext {
   /// Convert [FeelContext] to string.
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-    write!(
-      f,
-      "{{{}}}",
-      self
-        .0
-        .iter()
-        .map(|(name, value)| { format!("{}: {}", if name.is_empty() { r#""""#.to_string() } else { name.to_string() }, value) })
-        .collect::<Vec<String>>()
-        .join(", ")
-    )
+    write!(f, "{{{}}}", self.0.iter().map(|(name, value)| { format!("{}: {}", if name.is_empty() { r#""""#.to_string() } else { name.to_string() }, value) }).collect::<Vec<String>>().join(", "))
   }
 }
 
@@ -86,15 +77,7 @@ impl ToFeelString for FeelContext {
 impl Jsonify for FeelContext {
   /// Converts [FeelContext] to JSON string.
   fn jsonify(&self) -> String {
-    format!(
-      "{{{}}}",
-      self
-        .0
-        .iter()
-        .map(|(name, value)| format!(r#""{}": {}"#, name, value.jsonify()))
-        .collect::<Vec<String>>()
-        .join(", ")
-    )
+    format!("{{{}}}", self.0.iter().map(|(name, value)| format!(r#""{}": {}"#, name, value.jsonify())).collect::<Vec<String>>().join(", "))
   }
 }
 

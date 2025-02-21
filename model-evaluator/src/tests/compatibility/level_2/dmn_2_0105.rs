@@ -149,40 +149,19 @@ fn _0024() {
 #[test]
 fn _0025() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "Decision25",
-    &ctx,
-    r#"null([subtraction] incompatible types: 10 - null)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "Decision25", &ctx, r#"null([subtraction] incompatible types: 10 - null)"#);
 }
 
 #[test]
 fn _0026() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "Decision26",
-    &ctx,
-    r#"null([subtraction] incompatible types: null - 10)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "Decision26", &ctx, r#"null([subtraction] incompatible types: null - 10)"#);
 }
 
 #[test]
 fn _0027() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "Decision27",
-    &ctx,
-    r#"null([multiplication] incompatible types: 10 * null)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "Decision27", &ctx, r#"null([multiplication] incompatible types: 10 * null)"#);
 }
 
 #[test]
@@ -194,27 +173,13 @@ fn _0028() {
 #[test]
 fn _0029() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "Decision29",
-    &ctx,
-    r#"null([division] incompatible types: 10 / null)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "Decision29", &ctx, r#"null([division] incompatible types: 10 / null)"#);
 }
 
 #[test]
 fn _0030() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "Decision30",
-    &ctx,
-    r#"null([division] incompatible types: null / 10)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "Decision30", &ctx, r#"null([division] incompatible types: null / 10)"#);
 }
 
 #[test]

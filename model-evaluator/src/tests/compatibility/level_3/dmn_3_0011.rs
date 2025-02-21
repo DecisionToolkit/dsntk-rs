@@ -23,14 +23,7 @@ fn _0003() {
 #[test]
 fn _0004() {
   let ctx = context(r#"{nestedList:  [["o"], ["p", "q"]], position:  2, simpleList:  ["a", "b", "c"]}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "insert2",
-    &ctx,
-    r#"[["a", "b"], ["a", "b", "c"], ["b", "c"]]"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "insert2", &ctx, r#"[["a", "b"], ["a", "b", "c"], ["b", "c"]]"#);
 }
 
 #[test]

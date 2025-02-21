@@ -6,14 +6,7 @@ from_examples!(DMN_3_0041);
 fn _0001(b: &mut Bencher) {
   let ctx = context(r#"{Principal: 600000,Term: 360}"#);
   let invocable_name = "Boxed Context";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"2778.693549432766768088520383236288"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"2778.693549432766768088520383236288"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -21,14 +14,7 @@ fn _0001(b: &mut Bencher) {
 fn _0002(b: &mut Bencher) {
   let ctx = context(r#"{Principal: 30000,Term: 60}"#);
   let invocable_name = "Boxed Context";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"549.1175498364002934927000148859422"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"549.1175498364002934927000148859422"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -36,13 +22,6 @@ fn _0002(b: &mut Bencher) {
 fn _0003(b: &mut Bencher) {
   let ctx = context(r#"{Principal: 600000,Term: 365}"#);
   let invocable_name = "Boxed Context";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"2758.11609989659140087141889328903"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"2758.11609989659140087141889328903"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }

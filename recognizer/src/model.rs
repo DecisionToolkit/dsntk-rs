@@ -29,28 +29,8 @@ pub struct DecisionTable {
 impl DecisionTable {
   /// Creates a new decision table.
   #[allow(clippy::too_many_arguments)]
-  pub fn new(
-    information_item_name: Option<String>,
-    input_clauses: Vec<InputClause>,
-    output_clauses: Vec<OutputClause>,
-    rule_annotations: Vec<RuleAnnotationClause>,
-    rules: Vec<DecisionRule>,
-    hit_policy: HitPolicy,
-    aggregation: Option<BuiltinAggregator>,
-    preferred_orientation: DecisionTableOrientation,
-    output_label: Option<String>,
-  ) -> Self {
-    Self {
-      information_item_name,
-      input_clauses,
-      output_clauses,
-      rule_annotations,
-      rules,
-      hit_policy,
-      aggregation,
-      preferred_orientation,
-      output_label,
-    }
+  pub fn new(information_item_name: Option<String>, input_clauses: Vec<InputClause>, output_clauses: Vec<OutputClause>, rule_annotations: Vec<RuleAnnotationClause>, rules: Vec<DecisionRule>, hit_policy: HitPolicy, aggregation: Option<BuiltinAggregator>, preferred_orientation: DecisionTableOrientation, output_label: Option<String>) -> Self {
+    Self { information_item_name, input_clauses, output_clauses, rule_annotations, rules, hit_policy, aggregation, preferred_orientation, output_label }
   }
 }
 

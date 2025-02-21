@@ -23,22 +23,12 @@ fn _0004() {
 
 #[test]
 fn _0005() {
-  te_null(
-    false,
-    &scope!(),
-    r#"ends with(8,"bar")"#,
-    r#"[core::ends with] invalid argument type, expected string, actual type is number"#,
-  );
+  te_null(false, &scope!(), r#"ends with(8,"bar")"#, r#"[core::ends with] invalid argument type, expected string, actual type is number"#);
 }
 
 #[test]
 fn _0006() {
-  te_null(
-    false,
-    &scope!(),
-    r#"ends with("foo",7)"#,
-    r#"[core::ends with] invalid argument type, expected string, actual type is number"#,
-  );
+  te_null(false, &scope!(), r#"ends with("foo",7)"#, r#"[core::ends with] invalid argument type, expected string, actual type is number"#);
 }
 
 #[test]

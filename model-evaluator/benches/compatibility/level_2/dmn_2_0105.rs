@@ -126,14 +126,7 @@ fn _0015(b: &mut Bencher) {
 fn _0016(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "Decision16";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"null([division] division by zero)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([division] division by zero)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -205,14 +198,7 @@ fn _0024(b: &mut Bencher) {
 fn _0025(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "Decision25";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"null([subtraction] incompatible types: 10 - null)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([subtraction] incompatible types: 10 - null)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -220,14 +206,7 @@ fn _0025(b: &mut Bencher) {
 fn _0026(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "Decision26";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"null([subtraction] incompatible types: null - 10)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([subtraction] incompatible types: null - 10)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -235,14 +214,7 @@ fn _0026(b: &mut Bencher) {
 fn _0027(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "Decision27";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"null([multiplication] incompatible types: 10 * null)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([multiplication] incompatible types: 10 * null)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -258,14 +230,7 @@ fn _0028(b: &mut Bencher) {
 fn _0029(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "Decision29";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"null([division] incompatible types: 10 / null)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([division] incompatible types: 10 / null)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -273,14 +238,7 @@ fn _0029(b: &mut Bencher) {
 fn _0030(b: &mut Bencher) {
   let ctx = context(r#"{}"#);
   let invocable_name = "Decision30";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"null([division] incompatible types: null / 10)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"null([division] incompatible types: null / 10)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 

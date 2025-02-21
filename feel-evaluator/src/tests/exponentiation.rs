@@ -113,10 +113,5 @@ fn test_0022() {
 
 #[test]
 fn test_0023() {
-  te_null(
-    false,
-    &scope!(),
-    r#"4 ** 10000000000000000000000000000000000000000"#,
-    r#"exponentiation result is not a finite number"#,
-  );
+  te_null(false, &scope!(), r#"4 ** 10000000000000000000000000000000000000000"#, r#"exponentiation result is not a finite number"#);
 }

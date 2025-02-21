@@ -98,15 +98,7 @@ impl FilterExpressionEvaluator {
           _ => Value::List(filtered_values),
         }
       }
-      v @ Value::Number(_)
-      | v @ Value::Boolean(_)
-      | v @ Value::String(_)
-      | v @ Value::Date(_)
-      | v @ Value::DateTime(_)
-      | v @ Value::Time(_)
-      | v @ Value::DaysAndTimeDuration(_)
-      | v @ Value::YearsAndMonthsDuration(_)
-      | v @ Value::Context(_) => match evaluator(scope) {
+      v @ Value::Number(_) | v @ Value::Boolean(_) | v @ Value::String(_) | v @ Value::Date(_) | v @ Value::DateTime(_) | v @ Value::Time(_) | v @ Value::DaysAndTimeDuration(_) | v @ Value::YearsAndMonthsDuration(_) | v @ Value::Context(_) => match evaluator(scope) {
         Value::Boolean(flag) => {
           if flag {
             Value::List(vec![v])

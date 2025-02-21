@@ -232,11 +232,7 @@ pub fn req_child_opt_content(node: &Node, child_name: &str) -> Result<Option<Str
 
 /// Returns the required content of the optional child node.
 pub fn optional_child_required_content(node: &Node, child_name: &str) -> Result<Option<String>> {
-  Ok(if let Some(child_node) = node.children().find(|n| n.tag_name().name() == child_name) {
-    Some(required_content(&child_node)?)
-  } else {
-    None
-  })
+  Ok(if let Some(child_node) = node.children().find(|n| n.tag_name().name() == child_name) { Some(required_content(&child_node)?) } else { None })
 }
 
 /// Returns the optional content of the optional child node.

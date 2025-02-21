@@ -10,12 +10,5 @@ fn _0001() {
 
 #[test]
 fn _0002() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision002",
-    &CTX,
-    "null(expected 0 parameters, actual number of parameters is 1)",
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision002", &CTX, "null(expected 0 parameters, actual number of parameters is 1)");
 }

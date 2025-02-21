@@ -196,11 +196,7 @@ impl<'parser> Parser<'parser> {
           let top_state = self.yy_state_stack[self.yy_state_stack.len() - 1] as i16;
           let yy_i = YY_P_GOTO[yy_lhs] + top_state;
           // calculate the new state number
-          self.yy_state = if (0..=YY_LAST).contains(&yy_i) && YY_CHECK[yy_i as usize] == top_state {
-            YY_TABLE[yy_i as usize] as usize
-          } else {
-            YY_DEF_GOTO[yy_lhs] as usize
-          };
+          self.yy_state = if (0..=YY_LAST).contains(&yy_i) && YY_CHECK[yy_i as usize] == top_state { YY_TABLE[yy_i as usize] as usize } else { YY_DEF_GOTO[yy_lhs] as usize };
           trace!(self, "  new_state = {}", self.yy_state);
           // push the new state on the stack
           self.yy_state_stack.push(self.yy_state);

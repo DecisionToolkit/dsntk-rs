@@ -49,16 +49,7 @@ struct Colors {
 impl Colors {
   /// Creates a new color palette based on color mode.
   fn new() -> Self {
-    Self {
-      color_default: 255,
-      color_name: 184,
-      color_label: 209,
-      color_id: 82,
-      color_uri: 56,
-      color_description: 255,
-      color_type: 74,
-      color_href: 61,
-    }
+    Self { color_default: 255, color_name: 184, color_label: 209, color_id: 82, color_uri: 56, color_description: 255, color_type: 74, color_href: 61 }
   }
   fn default(&self) -> u8 {
     self.color_default
@@ -168,16 +159,7 @@ fn write_business_knowledge_models(w: &mut dyn Write, definitions: &Definitions,
     write_title(w, LABEL_BUSINESS_KNOWLEDGE_MODELS);
   }
   for (i, bkm) in business_knowledge_models.iter().enumerate() {
-    let node_decision = builder_name(bkm.name(), cm, colors)
-      .child(build_feel_name(bkm.feel_name(), cm, colors))
-      .opt_child(build_label(bkm.label(), cm, colors))
-      .opt_child(build_id(bkm.opt_id(), cm, colors))
-      .opt_child(build_description(bkm.description(), cm, colors))
-      .child(build_variable(bkm.variable(), cm, colors))
-      .opt_child(build_authority_requirements(bkm.authority_requirements(), cm, colors))
-      .opt_child(build_extension_elements(bkm.extension_elements(), colors))
-      .opt_child(build_extension_attributes(bkm.extension_attributes(), colors))
-      .end();
+    let node_decision = builder_name(bkm.name(), cm, colors).child(build_feel_name(bkm.feel_name(), cm, colors)).opt_child(build_label(bkm.label(), cm, colors)).opt_child(build_id(bkm.opt_id(), cm, colors)).opt_child(build_description(bkm.description(), cm, colors)).child(build_variable(bkm.variable(), cm, colors)).opt_child(build_authority_requirements(bkm.authority_requirements(), cm, colors)).opt_child(build_extension_elements(bkm.extension_elements(), colors)).opt_child(build_extension_attributes(bkm.extension_attributes(), colors)).end();
     write_empty_line(w, i);
     let _ = node_decision.write_indent(w, indent);
   }
@@ -190,15 +172,7 @@ fn write_decision_services(w: &mut dyn Write, definitions: &Definitions, cm: Col
     write_title(w, LABEL_DECISION_SERVICES);
   }
   for (i, decision_service) in decision_services.iter().enumerate() {
-    let node_decision = builder_name(decision_service.name(), cm, colors)
-      .child(build_feel_name(decision_service.feel_name(), cm, colors))
-      .opt_child(build_label(decision_service.label(), cm, colors))
-      .opt_child(build_id(decision_service.opt_id(), cm, colors))
-      .opt_child(build_description(decision_service.description(), cm, colors))
-      .child(build_variable(decision_service.variable(), cm, colors))
-      .opt_child(build_extension_elements(decision_service.extension_elements(), colors))
-      .opt_child(build_extension_attributes(decision_service.extension_attributes(), colors))
-      .end();
+    let node_decision = builder_name(decision_service.name(), cm, colors).child(build_feel_name(decision_service.feel_name(), cm, colors)).opt_child(build_label(decision_service.label(), cm, colors)).opt_child(build_id(decision_service.opt_id(), cm, colors)).opt_child(build_description(decision_service.description(), cm, colors)).child(build_variable(decision_service.variable(), cm, colors)).opt_child(build_extension_elements(decision_service.extension_elements(), colors)).opt_child(build_extension_attributes(decision_service.extension_attributes(), colors)).end();
     write_empty_line(w, i);
     let _ = node_decision.write_indent(w, indent);
   }
@@ -211,15 +185,7 @@ fn write_knowledge_sources(w: &mut dyn Write, definitions: &Definitions, cm: Col
     write_title(w, LABEL_KNOWLEDGE_SOURCES);
   }
   for (i, knowledge_source) in knowledge_sources.iter().enumerate() {
-    let node_decision = builder_name(knowledge_source.name(), cm, colors)
-      .child(build_feel_name(knowledge_source.feel_name(), cm, colors))
-      .opt_child(build_label(knowledge_source.label(), cm, colors))
-      .opt_child(build_id(knowledge_source.opt_id(), cm, colors))
-      .opt_child(build_description(knowledge_source.description(), cm, colors))
-      .opt_child(build_extension_elements(knowledge_source.extension_elements(), colors))
-      .opt_child(build_extension_attributes(knowledge_source.extension_attributes(), colors))
-      .opt_child(build_authority_requirements(knowledge_source.authority_requirements(), cm, colors))
-      .end();
+    let node_decision = builder_name(knowledge_source.name(), cm, colors).child(build_feel_name(knowledge_source.feel_name(), cm, colors)).opt_child(build_label(knowledge_source.label(), cm, colors)).opt_child(build_id(knowledge_source.opt_id(), cm, colors)).opt_child(build_description(knowledge_source.description(), cm, colors)).opt_child(build_extension_elements(knowledge_source.extension_elements(), colors)).opt_child(build_extension_attributes(knowledge_source.extension_attributes(), colors)).opt_child(build_authority_requirements(knowledge_source.authority_requirements(), cm, colors)).end();
     write_empty_line(w, i);
     let _ = node_decision.write_indent(w, indent);
   }
@@ -232,15 +198,7 @@ fn write_input_data(w: &mut dyn Write, definitions: &Definitions, cm: ColorMode,
     write_title(w, LABEL_INPUT_DATA);
   }
   for (i, input) in input_data.iter().enumerate() {
-    let node_input = builder_name(input.name(), cm, colors)
-      .child(build_feel_name(input.feel_name(), cm, colors))
-      .opt_child(build_label(input.label(), cm, colors))
-      .opt_child(build_id(input.opt_id(), cm, colors))
-      .opt_child(build_description(input.description(), cm, colors))
-      .child(build_variable(input.variable(), cm, colors))
-      .opt_child(build_extension_elements(input.extension_elements(), colors))
-      .opt_child(build_extension_attributes(input.extension_attributes(), colors))
-      .end();
+    let node_input = builder_name(input.name(), cm, colors).child(build_feel_name(input.feel_name(), cm, colors)).opt_child(build_label(input.label(), cm, colors)).opt_child(build_id(input.opt_id(), cm, colors)).opt_child(build_description(input.description(), cm, colors)).child(build_variable(input.variable(), cm, colors)).opt_child(build_extension_elements(input.extension_elements(), colors)).opt_child(build_extension_attributes(input.extension_attributes(), colors)).end();
     write_empty_line(w, i);
     let _ = node_input.write_indent(w, indent);
   }
@@ -367,19 +325,7 @@ fn build_type(text: &str, cm: ColorMode, colors: &Colors) -> TreeNode {
 
 /// Builds a node containing output variable properties.
 fn build_variable(variable: &InformationItem, cm: ColorMode, colors: &Colors) -> TreeNode {
-  node(DEFAULT_COLOR, cm)
-    .line()
-    .s(LABEL_VARIABLE)
-    .end()
-    .child(build_name(variable.name(), cm, colors))
-    .child(build_feel_name(variable.feel_name(), cm, colors))
-    .opt_child(build_id(variable.opt_id(), cm, colors))
-    .opt_child(build_label(variable.label(), cm, colors))
-    .child(build_type(variable.type_ref(), cm, colors))
-    .opt_child(build_description(variable.description(), cm, colors))
-    .opt_child(build_extension_elements(variable.extension_elements(), colors))
-    .opt_child(build_extension_attributes(variable.extension_attributes(), colors))
-    .end()
+  node(DEFAULT_COLOR, cm).line().s(LABEL_VARIABLE).end().child(build_name(variable.name(), cm, colors)).child(build_feel_name(variable.feel_name(), cm, colors)).opt_child(build_id(variable.opt_id(), cm, colors)).opt_child(build_label(variable.label(), cm, colors)).child(build_type(variable.type_ref(), cm, colors)).opt_child(build_description(variable.description(), cm, colors)).opt_child(build_extension_elements(variable.extension_elements(), colors)).opt_child(build_extension_attributes(variable.extension_attributes(), colors)).end()
 }
 
 fn build_extension_elements(_extension_elements: &[ExtensionElement], _colors: &Colors) -> Option<TreeNode> {
@@ -394,16 +340,7 @@ fn build_authority_requirements(authority_requirements: &Vec<AuthorityRequiremen
   if !authority_requirements.is_empty() {
     let mut authority_requirements_builder = node(DEFAULT_COLOR, cm).line().s("authority requirements:").end();
     for authority_requirement in authority_requirements {
-      let node_authority = node(DEFAULT_COLOR, cm)
-        .line()
-        .s("authority requirement")
-        .end()
-        .opt_child(build_id(authority_requirement.opt_id(), cm, colors))
-        .opt_child(build_label(authority_requirement.label(), cm, colors))
-        .opt_child(build_description(authority_requirement.description(), cm, colors))
-        .opt_child(build_extension_elements(authority_requirement.extension_elements(), colors))
-        .opt_child(build_extension_attributes(authority_requirement.extension_attributes(), colors))
-        .end();
+      let node_authority = node(DEFAULT_COLOR, cm).line().s("authority requirement").end().opt_child(build_id(authority_requirement.opt_id(), cm, colors)).opt_child(build_label(authority_requirement.label(), cm, colors)).opt_child(build_description(authority_requirement.description(), cm, colors)).opt_child(build_extension_elements(authority_requirement.extension_elements(), colors)).opt_child(build_extension_attributes(authority_requirement.extension_attributes(), colors)).end();
       authority_requirements_builder.add_child(node_authority);
     }
     return Some(authority_requirements_builder.end());
@@ -418,9 +355,7 @@ fn build_labeled_text(label: &str, text: &str, cm: ColorMode, color: u8) -> Tree
 
 /// Builds optional a leaf with a single line containing label and coloured value.
 fn build_opt_labeled_text(label: &str, opt_text: &Option<String>, cm: ColorMode, color: u8) -> Option<TreeNode> {
-  opt_text
-    .as_ref()
-    .map(|text| leaf(cm).line().s(label).colon().space().color_256(color).s(text).clear().end().end())
+  opt_text.as_ref().map(|text| leaf(cm).line().s(label).colon().space().color_256(color).s(text).clear().end().end())
 }
 
 /// Builds a node containing optional labeled multiline text.

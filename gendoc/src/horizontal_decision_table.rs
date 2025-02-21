@@ -199,11 +199,7 @@ fn get_column_count(decision_table: &DecisionTable) -> usize {
 }
 
 fn get_header_row_count(decision_table: &DecisionTable) -> usize {
-  match (
-    decision_table.output_label().is_some(),
-    decision_table.allowed_values_present(),
-    decision_table.output_clauses().len() > 1,
-  ) {
+  match (decision_table.output_label().is_some(), decision_table.allowed_values_present(), decision_table.output_clauses().len() > 1) {
     (false, false, false) => 1,
     (false, false, true) => 1,
     (false, true, false) => 2,
@@ -216,11 +212,7 @@ fn get_header_row_count(decision_table: &DecisionTable) -> usize {
 }
 
 fn get_row_count(decision_table: &DecisionTable) -> usize {
-  match (
-    decision_table.output_label().is_some(),
-    decision_table.allowed_values_present(),
-    decision_table.output_clauses().len() > 1,
-  ) {
+  match (decision_table.output_label().is_some(), decision_table.allowed_values_present(), decision_table.output_clauses().len() > 1) {
     (false, false, false) => 2,
     (false, false, true) => 2,
     (false, true, false) => 3,
@@ -233,11 +225,7 @@ fn get_row_count(decision_table: &DecisionTable) -> usize {
 }
 
 fn get_row_span(decision_table: &DecisionTable) -> usize {
-  match (
-    decision_table.output_label().is_some(),
-    decision_table.allowed_values_present(),
-    decision_table.output_clauses().len() > 1,
-  ) {
+  match (decision_table.output_label().is_some(), decision_table.allowed_values_present(), decision_table.output_clauses().len() > 1) {
     (false, false, false) => 1,
     (false, false, true) => 1,
     (false, true, false) => 1,

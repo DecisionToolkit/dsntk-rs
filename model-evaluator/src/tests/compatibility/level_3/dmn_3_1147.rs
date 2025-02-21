@@ -35,26 +35,12 @@ fn _0006() {
 
 #[test]
 fn _0007() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision006",
-    &CTX,
-    "null(expected 1 parameters, actual number of parameters is 0)",
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision006", &CTX, "null(expected 1 parameters, actual number of parameters is 0)");
 }
 
 #[test]
 fn _0008() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision007",
-    &CTX,
-    "null(expected 1 parameters, actual number of parameters is 2)",
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision007", &CTX, "null(expected 1 parameters, actual number of parameters is 2)");
 }
 
 #[test]
@@ -69,26 +55,12 @@ fn _0010() {
 
 #[test]
 fn _0011() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision010",
-    &CTX,
-    "null([core::context merge] invalid argument type, expected context, actual type is number)",
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision010", &CTX, "null([core::context merge] invalid argument type, expected context, actual type is number)");
 }
 
 #[test]
 fn _0012() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision011",
-    &CTX,
-    "null([core::context merge] invalid argument type, expected context, actual type is number)",
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision011", &CTX, "null([core::context merge] invalid argument type, expected context, actual type is number)");
 }
 
 #[test]

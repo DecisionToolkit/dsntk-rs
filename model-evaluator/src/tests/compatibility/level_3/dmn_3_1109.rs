@@ -5,14 +5,7 @@ from_examples!(DMN_3_1109);
 #[test]
 fn _0001() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "feel-replace-function_001_7637e5a8ed",
-    &ctx,
-    r#""[1=ab][2=]cd""#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-replace-function_001_7637e5a8ed", &ctx, r#""[1=ab][2=]cd""#);
 }
 
 #[test]
@@ -54,14 +47,7 @@ fn _0007() {
 #[test]
 fn _0008() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "feel-replace-function_008_8c7c3871f8",
-    &ctx,
-    r#""a*cada*""#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-replace-function_008_8c7c3871f8", &ctx, r#""a*cada*""#);
 }
 
 #[test]
@@ -85,14 +71,7 @@ fn _0011() {
 #[test]
 fn _0012() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "feel-replace-function_012_b0cf9e6723",
-    &ctx,
-    r#""abbraccaddabbra""#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-replace-function_012_b0cf9e6723", &ctx, r#""abbraccaddabbra""#);
 }
 
 #[test]
@@ -122,27 +101,13 @@ fn _0016() {
 #[test]
 fn _0017() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "feel-replace-function_017_b9c3c03b87",
-    &ctx,
-    r#""(012) 345-6789""#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-replace-function_017_b9c3c03b87", &ctx, r#""(012) 345-6789""#);
 }
 
 #[test]
 fn _0018() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "feel-replace-function_018_aba3349043",
-    &ctx,
-    r#""facet[i][o][u]sl[y]""#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-replace-function_018_aba3349043", &ctx, r#""facet[i][o][u]sl[y]""#);
 }
 
 #[test]
@@ -172,14 +137,7 @@ fn _0022() {
 #[test]
 fn _0023() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "feel-replace-function_023_5c337d3725",
-    &ctx,
-    "\"# # # # \"",
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-replace-function_023_5c337d3725", &ctx, "\"# # # # \"");
 }
 
 #[test]

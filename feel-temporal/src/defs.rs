@@ -231,10 +231,7 @@ mod tests {
     let local_offset = get_local_offset_dt((2020, 6, 12), (9, 12, 3, 0)).unwrap();
     if local_offset == warsaw_offset {
       assert_eq!(Some(SECONDS_IN_HOUR), get_local_offset_dt((2020, 10, 29), (9, 12, 3, 0)));
-      assert_eq!(
-        get_zone_offset_dt("Europe/Warsaw", (2020, 6, 12), (9, 12, 3, 0)),
-        get_local_offset_dt((2020, 6, 12), (9, 12, 3, 0))
-      );
+      assert_eq!(get_zone_offset_dt("Europe/Warsaw", (2020, 6, 12), (9, 12, 3, 0)), get_local_offset_dt((2020, 6, 12), (9, 12, 3, 0)));
     }
     if local_offset == utc_offset {
       // assert_eq!(Some(0), get_local_offset_dt((2020, 10, 29), (9, 12, 3, 0)));
@@ -258,15 +255,9 @@ mod tests {
     // Winter time in New York, offset = -05:00
     assert_eq!(Some(-5 * SECONDS_IN_HOUR), get_zone_offset_dt("America/New_York", (2020, 11, 12), (18, 4, 33, 0)));
     // time in Kolkata, offset = +05:30
-    assert_eq!(
-      Some(5 * SECONDS_IN_HOUR + 30 * SECONDS_IN_MIN),
-      get_zone_offset_dt("Asia/Kolkata", (2020, 11, 12), (18, 4, 33, 0))
-    );
+    assert_eq!(Some(5 * SECONDS_IN_HOUR + 30 * SECONDS_IN_MIN), get_zone_offset_dt("Asia/Kolkata", (2020, 11, 12), (18, 4, 33, 0)));
     // no time change in Kolkata in summer, offset = +05:30
-    assert_eq!(
-      Some(5 * SECONDS_IN_HOUR + 30 * SECONDS_IN_MIN),
-      get_zone_offset_dt("Asia/Kolkata", (2020, 6, 8), (8, 0, 0, 0))
-    );
+    assert_eq!(Some(5 * SECONDS_IN_HOUR + 30 * SECONDS_IN_MIN), get_zone_offset_dt("Asia/Kolkata", (2020, 6, 8), (8, 0, 0, 0)));
     // time in Honolulu, offset = -10:00
     assert_eq!(Some(-10 * SECONDS_IN_HOUR), get_zone_offset_dt("Pacific/Honolulu", (2020, 11, 12), (18, 4, 33, 0)));
     // no time change in Honolulu in summer, offset = -10:00

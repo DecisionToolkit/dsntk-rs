@@ -77,10 +77,7 @@ fn test_invalid_0001() {
     │ 2 ║  "Tuesday"  │
     └───╨─────────────┘
   "#;
-  assert_eq!(
-    "<RecognizerError> expected characters not found: ┌",
-    Recognizer::recognize(input, false).unwrap_err().to_string()
-  );
+  assert_eq!("<RecognizerError> expected characters not found: ┌", Recognizer::recognize(input, false).unwrap_err().to_string());
 }
 
 #[test]
@@ -97,10 +94,7 @@ fn test_invalid_0002() {
     │ 2 ║  "Tuesday"  │
     └───╨─────────────┘
   "#;
-  assert_eq!(
-    "<RecognizerError> expected characters not found: ┌",
-    Recognizer::recognize(input, false).unwrap_err().to_string()
-  );
+  assert_eq!("<RecognizerError> expected characters not found: ┌", Recognizer::recognize(input, false).unwrap_err().to_string());
 }
 
 #[test]
@@ -111,25 +105,11 @@ fn test_dt_0001() {
   eq_hit_policy(recognizer, HitPolicy::Collect(BuiltinAggregator::List));
   eq_input_expressions(recognizer, EMPTY_VECTOR);
   eq_input_values(recognizer, EMPTY_OPT_VECTOR);
-  eq_input_entries(
-    recognizer,
-    &[EMPTY_VECTOR, EMPTY_VECTOR, EMPTY_VECTOR, EMPTY_VECTOR, EMPTY_VECTOR, EMPTY_VECTOR, EMPTY_VECTOR],
-  );
+  eq_input_entries(recognizer, &[EMPTY_VECTOR, EMPTY_VECTOR, EMPTY_VECTOR, EMPTY_VECTOR, EMPTY_VECTOR, EMPTY_VECTOR, EMPTY_VECTOR]);
   eq_output_label(recognizer, Some("Weekday".to_string()));
   eq_output_components(recognizer, EMPTY_OPT_VECTOR);
   eq_output_values(recognizer, EMPTY_OPT_VECTOR);
-  eq_output_entries(
-    recognizer,
-    &[
-      &[r#""Monday""#],
-      &[r#""Tuesday""#],
-      &[r#""Wednesday""#],
-      &[r#""Thursday""#],
-      &[r#""Friday""#],
-      &[r#""Saturday""#],
-      &[r#""Sunday""#],
-    ],
-  );
+  eq_output_entries(recognizer, &[&[r#""Monday""#], &[r#""Tuesday""#], &[r#""Wednesday""#], &[r#""Thursday""#], &[r#""Friday""#], &[r#""Saturday""#], &[r#""Sunday""#]]);
   eq_annotations(recognizer, EMPTY_VECTOR);
   eq_annotation_entries(recognizer, EMPTY_MATRIX);
 }
@@ -183,23 +163,11 @@ fn ex_0044() {
   eq_orientation(rec, DecisionTableOrientation::RuleAsColumn);
   eq_input_expressions(rec, &["Applicant age", "Medical history"]);
   eq_input_values(rec, EMPTY_OPT_VECTOR);
-  eq_input_entries(
-    rec,
-    &[&["<25", r#""good""#], &["<25", r#""bad""#], &["[25..60]", "-"], &[">60", r#""good""#], &[">60", r#""bad""#]],
-  );
+  eq_input_entries(rec, &[&["<25", r#""good""#], &["<25", r#""bad""#], &["[25..60]", "-"], &[">60", r#""good""#], &[">60", r#""bad""#]]);
   eq_output_label(rec, Some("Sell    \n         \n options".to_string()));
   eq_output_components(rec, &[Some("Applicant risk rating"), Some("Special Discount")]);
   eq_output_values(rec, EMPTY_OPT_VECTOR);
-  eq_output_entries(
-    rec,
-    &[
-      &[r#""Low""#, "10"],
-      &[r#""Medium""#, "5"],
-      &[r#""Medium""#, "5"],
-      &[r#""Medium""#, "5"],
-      &[r#""High""#, "0"],
-    ],
-  );
+  eq_output_entries(rec, &[&[r#""Low""#, "10"], &[r#""Medium""#, "5"], &[r#""Medium""#, "5"], &[r#""Medium""#, "5"], &[r#""High""#, "0"]]);
   eq_annotations(rec, &["Additional acceptance", "Reference"]);
   eq_annotation_entries(rec, &[&["No", "Rf 0"], &["No", "Rf 1"], &["No", "Rf 2"], &["No", "Rf 3"], &["Yes", "Rf 4"]]);
 }
@@ -212,22 +180,10 @@ fn ex_0064() {
   eq_orientation(rec, DecisionTableOrientation::RuleAsColumn);
   eq_input_expressions(rec, &["Applicant age", "Medical history"]);
   eq_input_values(rec, &[Some("<25,[25..60],>60"), Some(r#""good","bad""#)]);
-  eq_input_entries(
-    rec,
-    &[&["<25", r#""good""#], &["<25", r#""bad""#], &["[25..60]", "-"], &[">60", r#""good""#], &[">60", r#""bad""#]],
-  );
+  eq_input_entries(rec, &[&["<25", r#""good""#], &["<25", r#""bad""#], &["[25..60]", "-"], &[">60", r#""good""#], &[">60", r#""bad""#]]);
   eq_output_label(rec, Some("Sell    \n         \n options".to_string()));
   eq_output_components(rec, &[Some("Applicant risk rating"), Some("Special Discount")]);
-  eq_output_entries(
-    rec,
-    &[
-      &[r#""Low""#, "10"],
-      &[r#""Medium""#, "5"],
-      &[r#""Medium""#, "5"],
-      &[r#""Medium""#, "5"],
-      &[r#""High""#, "0"],
-    ],
-  );
+  eq_output_entries(rec, &[&[r#""Low""#, "10"], &[r#""Medium""#, "5"], &[r#""Medium""#, "5"], &[r#""Medium""#, "5"], &[r#""High""#, "0"]]);
   eq_annotations(rec, &["Additional acceptance", "Reference"]);
   eq_annotation_entries(rec, &[&["No", "Rf 0"], &["No", "Rf 1"], &["No", "Rf 2"], &["No", "Rf 3"], &["Yes", "Rf 4"]]);
 }
@@ -240,15 +196,7 @@ fn general_horizontal() {
   eq_orientation(rec, DecisionTableOrientation::RuleAsRow);
   eq_input_expressions(rec, &["input expression 1", "input expression 2"]);
   eq_input_values(rec, &[Some("input value 1a,    \n   input value 1b"), Some("input value 2a,    \n   input value 2b")]);
-  eq_input_entries(
-    rec,
-    &[
-      &["input entry 1.1", "input entry 2.1"],
-      &["input entry 1.1", "input entry 2.2"],
-      &["input entry 1.2", "-"],
-      &["input entry 1.3", "input entry 2.3"],
-    ],
-  );
+  eq_input_entries(rec, &[&["input entry 1.1", "input entry 2.1"], &["input entry 1.1", "input entry 2.2"], &["input entry 1.2", "-"], &["input entry 1.3", "input entry 2.3"]]);
   eq_output_label(rec, Some("output label".to_string()));
   eq_output_components(rec, EMPTY_OPT_VECTOR);
   eq_output_values(rec, &[Some("output value 1a,   \n   output value 1b")]);
@@ -284,66 +232,42 @@ fn general_cross_tab() {
 
 #[test]
 fn test_err_01() {
-  assert_eq!(
-    "<RecognizerError> expected characters not found: ╬",
-    Recognizer::recognize(EX_ERR_01, false).err().unwrap().to_string()
-  );
+  assert_eq!("<RecognizerError> expected characters not found: ╬", Recognizer::recognize(EX_ERR_01, false).err().unwrap().to_string());
 }
 
 #[test]
 fn test_err_02() {
-  assert_eq!(
-    "<RecognizerError> character ' ' is not allowed in: ─, ┴",
-    Recognizer::recognize(EX_ERR_02, false).err().unwrap().to_string()
-  );
+  assert_eq!("<RecognizerError> character ' ' is not allowed in: ─, ┴", Recognizer::recognize(EX_ERR_02, false).err().unwrap().to_string());
 }
 
 #[test]
 fn test_err_03() {
-  assert_eq!(
-    "<RecognizerError> rectangle is not closed, start point: (0,1), end point: (0,0)",
-    Recognizer::recognize(EX_ERR_03, false).err().unwrap().to_string()
-  );
+  assert_eq!("<RecognizerError> rectangle is not closed, start point: (0,1), end point: (0,0)", Recognizer::recognize(EX_ERR_03, false).err().unwrap().to_string());
 }
 
 #[test]
 fn test_err_04() {
-  assert_eq!(
-    "<RecognizerError> too many rows in input clause",
-    Recognizer::recognize(EX_ERR_04, false).err().unwrap().to_string()
-  );
+  assert_eq!("<RecognizerError> too many rows in input clause", Recognizer::recognize(EX_ERR_04, false).err().unwrap().to_string());
 }
 
 #[test]
 #[ignore]
 fn test_err_05() {
-  assert_eq!(
-    "<RecognizerError> too many rows in output clause",
-    Recognizer::recognize(EX_ERR_05, false).err().unwrap().to_string()
-  );
+  assert_eq!("<RecognizerError> too many rows in output clause", Recognizer::recognize(EX_ERR_05, false).err().unwrap().to_string());
 }
 
 #[test]
 #[ignore]
 fn test_err_06() {
-  assert_eq!(
-    "<RecognizerError> too many rows in input clause",
-    Recognizer::recognize(EX_ERR_06, false).err().unwrap().to_string()
-  );
+  assert_eq!("<RecognizerError> too many rows in input clause", Recognizer::recognize(EX_ERR_06, false).err().unwrap().to_string());
 }
 
 #[test]
 fn test_err_07() {
-  assert_eq!(
-    "<RecognizerError> expected right-after rule numbers placement",
-    Recognizer::recognize(EX_ERR_07, false).err().unwrap().to_string()
-  );
+  assert_eq!("<RecognizerError> expected right-after rule numbers placement", Recognizer::recognize(EX_ERR_07, false).err().unwrap().to_string());
 }
 
 #[test]
 fn test_err_08() {
-  assert_eq!(
-    "<RecognizerError> expected no rule numbers present",
-    Recognizer::recognize(EX_ERR_08, false).err().unwrap().to_string()
-  );
+  assert_eq!("<RecognizerError> expected no rule numbers present", Recognizer::recognize(EX_ERR_08, false).err().unwrap().to_string());
 }

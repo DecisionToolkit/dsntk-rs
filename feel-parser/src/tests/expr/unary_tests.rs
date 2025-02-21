@@ -175,8 +175,5 @@ fn _0009() {
 #[test]
 fn _00010() {
   let scope = scope!();
-  assert_eq!(
-    Err(DsntkError::new(r#"ParserError"#, r#"syntax error: (1,2,3,4)"#)),
-    Parser::new(&scope, StartUnaryTests, "(1,2,3,4)", false).parse()
-  );
+  assert_eq!(Err(DsntkError::new(r#"ParserError"#, r#"syntax error: (1,2,3,4)"#)), Parser::new(&scope, StartUnaryTests, "(1,2,3,4)", false).parse());
 }

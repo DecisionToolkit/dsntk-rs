@@ -93,30 +93,15 @@ fn _0018() {
 
 #[test]
 fn _0019() {
-  te_null(
-    false,
-    &scope!(),
-    r#"max(1,2,3,"a")"#,
-    r#"[core::max] invalid argument type, expected number, actual type is string"#,
-  );
+  te_null(false, &scope!(), r#"max(1,2,3,"a")"#, r#"[core::max] invalid argument type, expected number, actual type is string"#);
 }
 
 #[test]
 fn _0020() {
-  te_null(
-    false,
-    &scope!(),
-    r#"max("a","b","c",true)"#,
-    r#"[core::max] invalid argument type, expected string, actual type is boolean"#,
-  );
+  te_null(false, &scope!(), r#"max("a","b","c",true)"#, r#"[core::max] invalid argument type, expected string, actual type is boolean"#);
 }
 
 #[test]
 fn _0021() {
-  te_null(
-    false,
-    &scope!(),
-    r#"max(true, "a","b","c",1,2)"#,
-    r#"[core::max] invalid argument type, expected number, string, actual type is boolean"#,
-  );
+  te_null(false, &scope!(), r#"max(true, "a","b","c",1,2)"#, r#"[core::max] invalid argument type, expected number, string, actual type is boolean"#);
 }

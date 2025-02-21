@@ -95,10 +95,7 @@ impl ModelBuilder {
   }
 
   pub fn add_bkm_invocable(&self, model_namespace: String, model_name: String, invocable_name: String, def_key: DefKey, output_variable_name: Name) {
-    self
-      .invocables
-      .borrow_mut()
-      .add_bkm(model_namespace, model_name, invocable_name, def_key, output_variable_name);
+    self.invocables.borrow_mut().add_bkm(model_namespace, model_name, invocable_name, def_key, output_variable_name);
   }
 
   pub fn add_decision_service_invocable(&self, model_namespace: String, model_name: String, invocable_name: String, def_key: DefKey) {

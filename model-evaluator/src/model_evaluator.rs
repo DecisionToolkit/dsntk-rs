@@ -131,9 +131,7 @@ impl ModelEvaluator {
   /// Evaluates a business knowledge model.
   fn evaluate_bkm(&self, def_key: &DefKey, input_data: &FeelContext, output_variable_name: &Name) -> Value {
     let mut evaluated_ctx = FeelContext::default();
-    self
-      .business_knowledge_model_evaluator
-      .evaluate(def_key, &self.global_context, input_data, self, &mut evaluated_ctx);
+    self.business_knowledge_model_evaluator.evaluate(def_key, &self.global_context, input_data, self, &mut evaluated_ctx);
     if let Some(Value::FunctionDefinition(parameters, body, _external, _, closure_ctx, result_type)) = evaluated_ctx.get_entry(output_variable_name) {
       //TODO Handle external functions.
       let mut parameters_ctx = FeelContext::default();
@@ -154,10 +152,7 @@ impl ModelEvaluator {
   /// Evaluates a decision service.
   fn evaluate_decision_service(&self, def_key: &DefKey, input_data: &FeelContext) -> Value {
     let mut evaluated_ctx = FeelContext::default();
-    if let Some(output_variable_name) = self
-      .decision_service_evaluator
-      .evaluate(def_key, &self.global_context, input_data, self, &mut evaluated_ctx)
-    {
+    if let Some(output_variable_name) = self.decision_service_evaluator.evaluate(def_key, &self.global_context, input_data, self, &mut evaluated_ctx) {
       if let Some(output_value) = evaluated_ctx.get_entry(&output_variable_name) {
         output_value.clone()
       } else {

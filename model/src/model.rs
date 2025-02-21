@@ -270,77 +270,27 @@ impl Definitions {
 
   /// Returns all decision definitions.
   pub fn decisions(&self) -> Vec<Decision> {
-    self
-      .drg_elements
-      .iter()
-      .filter_map(|drg_element| {
-        if let DrgElement::Decision(decision) = drg_element {
-          Some(decision.clone())
-        } else {
-          None
-        }
-      })
-      .collect()
+    self.drg_elements.iter().filter_map(|drg_element| if let DrgElement::Decision(decision) = drg_element { Some(decision.clone()) } else { None }).collect()
   }
 
   /// Returns all business knowledge model definitions.
   pub fn business_knowledge_models(&self) -> Vec<BusinessKnowledgeModel> {
-    self
-      .drg_elements
-      .iter()
-      .filter_map(|drg_element| {
-        if let DrgElement::BusinessKnowledgeModel(bkm) = drg_element {
-          Some(bkm.clone())
-        } else {
-          None
-        }
-      })
-      .collect()
+    self.drg_elements.iter().filter_map(|drg_element| if let DrgElement::BusinessKnowledgeModel(bkm) = drg_element { Some(bkm.clone()) } else { None }).collect()
   }
 
   /// Returns all decision services definitions.
   pub fn decision_services(&self) -> Vec<DecisionService> {
-    self
-      .drg_elements
-      .iter()
-      .filter_map(|drg_element| {
-        if let DrgElement::DecisionService(decision_service) = drg_element {
-          Some(decision_service.clone())
-        } else {
-          None
-        }
-      })
-      .collect()
+    self.drg_elements.iter().filter_map(|drg_element| if let DrgElement::DecisionService(decision_service) = drg_element { Some(decision_service.clone()) } else { None }).collect()
   }
 
   /// Returns all knowledge source definitions.
   pub fn knowledge_sources(&self) -> Vec<&KnowledgeSource> {
-    self
-      .drg_elements
-      .iter()
-      .filter_map(|drg_element| {
-        if let DrgElement::KnowledgeSource(knowledge_source) = drg_element {
-          Some(knowledge_source)
-        } else {
-          None
-        }
-      })
-      .collect()
+    self.drg_elements.iter().filter_map(|drg_element| if let DrgElement::KnowledgeSource(knowledge_source) = drg_element { Some(knowledge_source) } else { None }).collect()
   }
 
   /// Returns all input data definitions.
   pub fn input_data(&self) -> Vec<InputData> {
-    self
-      .drg_elements
-      .iter()
-      .filter_map(|drg_element| {
-        if let DrgElement::InputData(input_data) = drg_element {
-          Some(input_data.clone())
-        } else {
-          None
-        }
-      })
-      .collect()
+    self.drg_elements.iter().filter_map(|drg_element| if let DrgElement::InputData(input_data) = drg_element { Some(input_data.clone()) } else { None }).collect()
   }
 
   /// Returns performance indicators.
@@ -1340,17 +1290,7 @@ impl Display for DecisionTable {
 impl DecisionTable {
   /// Creates a new decision table.
   #[allow(clippy::too_many_arguments)]
-  pub fn new(
-    information_item_name: Option<String>,
-    input_clauses: Vec<InputClause>,
-    output_clauses: Vec<OutputClause>,
-    annotations: Vec<RuleAnnotationClause>,
-    rules: Vec<DecisionRule>,
-    hit_policy: HitPolicy,
-    aggregation: Option<BuiltinAggregator>,
-    preferred_orientation: DecisionTableOrientation,
-    output_label: Option<String>,
-  ) -> Self {
+  pub fn new(information_item_name: Option<String>, input_clauses: Vec<InputClause>, output_clauses: Vec<OutputClause>, annotations: Vec<RuleAnnotationClause>, rules: Vec<DecisionRule>, hit_policy: HitPolicy, aggregation: Option<BuiltinAggregator>, preferred_orientation: DecisionTableOrientation, output_label: Option<String>) -> Self {
     Self {
       namespace: "".to_string(),
       model_name: "".to_string(),
@@ -1790,11 +1730,7 @@ pub struct DcColor {
 
 impl DcColor {
   pub fn white() -> Self {
-    Self {
-      red: 0xFF,
-      green: 0xFF,
-      blue: 0xFF,
-    }
+    Self { red: 0xFF, green: 0xFF, blue: 0xFF }
   }
 
   pub fn black() -> Self {

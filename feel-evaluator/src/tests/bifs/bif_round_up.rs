@@ -228,12 +228,7 @@ fn _0045() {
 
 #[test]
 fn _0046() {
-  te_null(
-    false,
-    &scope!(),
-    "round up(n: 1.23, scale: 1, foo: 11)",
-    "expected 2 parameters, actual number of parameters is 3",
-  );
+  te_null(false, &scope!(), "round up(n: 1.23, scale: 1, foo: 11)", "expected 2 parameters, actual number of parameters is 3");
 }
 
 #[test]
@@ -273,12 +268,7 @@ fn _0051() {
   //--------------------------------------------------------------------------------------------------------------------
   // Scale is out of range.
   //--------------------------------------------------------------------------------------------------------------------
-  te_null(
-    false,
-    &scope!(),
-    "round up(5.5, 6145)",
-    "[core::round_up] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is 6145",
-  );
+  te_null(false, &scope!(), "round up(5.5, 6145)", "[core::round_up] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is 6145");
 }
 
 #[test]
@@ -286,10 +276,5 @@ fn _0052() {
   //--------------------------------------------------------------------------------------------------------------------
   // Scale is out of range.
   //--------------------------------------------------------------------------------------------------------------------
-  te_null(
-    false,
-    &scope!(),
-    "round up(5.5, -6112)",
-    "[core::round_up] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is -6112",
-  );
+  te_null(false, &scope!(), "round up(5.5, -6112)", "[core::round_up] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is -6112");
 }

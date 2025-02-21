@@ -52,10 +52,7 @@ fn fix_pattern(pattern: &str, whitespaces: bool, themselves: bool) -> String {
     pattern = pattern.replace("\\ ", "\\").replace("[ ]", "[\\ ]");
   }
   if themselves {
-    pattern = pattern
-      .chars()
-      .map(|ch| if is_special_character(ch) { format!(r#"\{}"#, ch) } else { format!("{}", ch) })
-      .collect();
+    pattern = pattern.chars().map(|ch| if is_special_character(ch) { format!(r#"\{}"#, ch) } else { format!("{}", ch) }).collect();
   }
   pattern
 }

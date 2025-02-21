@@ -18,12 +18,7 @@ fn _0003() {
 
 #[test]
 fn _0004() {
-  te_null(
-    false,
-    &scope!(),
-    r#"modulo(1, true)"#,
-    r#"[core::modulo] invalid argument type, expected number, actual type is boolean"#,
-  );
+  te_null(false, &scope!(), r#"modulo(1, true)"#, r#"[core::modulo] invalid argument type, expected number, actual type is boolean"#);
 }
 
 #[test]
@@ -98,22 +93,12 @@ fn _0018() {
 
 #[test]
 fn _0019() {
-  te_null(
-    false,
-    &scope!(),
-    r#"modulo(true,2)"#,
-    r#"[core::modulo] invalid argument type, expected number, actual type is boolean"#,
-  );
+  te_null(false, &scope!(), r#"modulo(true,2)"#, r#"[core::modulo] invalid argument type, expected number, actual type is boolean"#);
 }
 
 #[test]
 fn _0020() {
-  te_null(
-    false,
-    &scope!(),
-    r#"modulo(12,"2")"#,
-    r#"[core::modulo] invalid argument type, expected number, actual type is string"#,
-  );
+  te_null(false, &scope!(), r#"modulo(12,"2")"#, r#"[core::modulo] invalid argument type, expected number, actual type is string"#);
 }
 
 #[test]

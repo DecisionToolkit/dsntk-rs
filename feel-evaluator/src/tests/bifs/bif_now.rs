@@ -8,10 +8,5 @@ fn _0001() {
 
 #[test]
 fn _0002() {
-  te_null(
-    false,
-    &scope!(),
-    r#"now(when: 1)"#,
-    r#"[named::now] this function has no implementation with named parameters"#,
-  );
+  te_null(false, &scope!(), r#"now(when: 1)"#, r#"[named::now] this function has no implementation with named parameters"#);
 }

@@ -48,18 +48,8 @@ impl DecisionEvaluator {
   }
 
   /// Evaluates a decision identified by specified `decision_id`.
-  pub fn evaluate(
-    &self,
-    def_key: &DefKey,
-    global_context: &FeelContext,
-    input_data: &FeelContext,
-    model_evaluator: &ModelEvaluator,
-    evaluated_ctx: &mut FeelContext,
-  ) -> Option<Name> {
-    self
-      .evaluators
-      .get(def_key)
-      .map(|evaluator_entry| evaluator_entry.1(global_context, input_data, model_evaluator, evaluated_ctx))
+  pub fn evaluate(&self, def_key: &DefKey, global_context: &FeelContext, input_data: &FeelContext, model_evaluator: &ModelEvaluator, evaluated_ctx: &mut FeelContext) -> Option<Name> {
+    self.evaluators.get(def_key).map(|evaluator_entry| evaluator_entry.1(global_context, input_data, model_evaluator, evaluated_ctx))
   }
 
   /// Returns the variable for specified decision.
@@ -154,90 +144,88 @@ fn build_decision_evaluator(def_definitions: &DefDefinitions, def_decision: &Def
   }
 
   // build decision evaluator closure
-  let decision_evaluator = Box::new(
-    move |global_context: &FeelContext, input_data_ctx: &FeelContext, model_evaluator: &ModelEvaluator, output_data_ctx: &mut FeelContext| {
-      let business_knowledge_model_evaluator = model_evaluator.business_knowledge_model_evaluator();
-      let decision_service_evaluator = model_evaluator.decision_service_evaluator();
-      let decision_evaluator = model_evaluator.decision_evaluator();
-      let input_data_evaluator = model_evaluator.input_data_evaluator();
-      let item_definition_evaluator = model_evaluator.item_definition_evaluator();
+  let decision_evaluator = Box::new(move |global_context: &FeelContext, input_data_ctx: &FeelContext, model_evaluator: &ModelEvaluator, output_data_ctx: &mut FeelContext| {
+    let business_knowledge_model_evaluator = model_evaluator.business_knowledge_model_evaluator();
+    let decision_service_evaluator = model_evaluator.decision_service_evaluator();
+    let decision_evaluator = model_evaluator.decision_evaluator();
+    let input_data_evaluator = model_evaluator.input_data_evaluator();
+    let item_definition_evaluator = model_evaluator.item_definition_evaluator();
 
-      // prepare context containing values from required knowledge, required decision services and required decisions
-      let mut requirements_ctx: FeelContext = Default::default();
+    // prepare context containing values from required knowledge, required decision services and required decisions
+    let mut requirements_ctx: FeelContext = Default::default();
 
-      // make a locally mutable copy of the input data
-      let mut input_data = input_data_ctx.clone();
+    // make a locally mutable copy of the input data
+    let mut input_data = input_data_ctx.clone();
 
-      // evaluate required knowledge given as value from business knowledge models
-      required_knowledge_references.iter().for_each(|(import_name, def_key)| {
-        if let Some(import_name_parent) = import_name.clone() {
-          if let Some(name) = business_knowledge_model_evaluator.evaluate(def_key, global_context, &input_data, model_evaluator, &mut requirements_ctx) {
-            requirements_ctx.move_entry(name, import_name_parent);
-          }
-        } else {
-          business_knowledge_model_evaluator.evaluate(def_key, global_context, &input_data, model_evaluator, &mut requirements_ctx);
+    // evaluate required knowledge given as value from business knowledge models
+    required_knowledge_references.iter().for_each(|(import_name, def_key)| {
+      if let Some(import_name_parent) = import_name.clone() {
+        if let Some(name) = business_knowledge_model_evaluator.evaluate(def_key, global_context, &input_data, model_evaluator, &mut requirements_ctx) {
+          requirements_ctx.move_entry(name, import_name_parent);
         }
-      });
+      } else {
+        business_knowledge_model_evaluator.evaluate(def_key, global_context, &input_data, model_evaluator, &mut requirements_ctx);
+      }
+    });
 
-      // evaluate required knowledge given as value from decision service function definitions
-      required_knowledge_references.iter().for_each(|(import_name, def_key)| {
-        if let Some(import_name_parent) = import_name.clone() {
-          if let Some(name) = decision_service_evaluator.evaluate_fd(def_key, &input_data, &mut requirements_ctx) {
-            requirements_ctx.move_entry(name, import_name_parent);
-          }
-        } else {
-          decision_service_evaluator.evaluate_fd(def_key, &input_data, &mut requirements_ctx);
+    // evaluate required knowledge given as value from decision service function definitions
+    required_knowledge_references.iter().for_each(|(import_name, def_key)| {
+      if let Some(import_name_parent) = import_name.clone() {
+        if let Some(name) = decision_service_evaluator.evaluate_fd(def_key, &input_data, &mut requirements_ctx) {
+          requirements_ctx.move_entry(name, import_name_parent);
         }
-      });
+      } else {
+        decision_service_evaluator.evaluate_fd(def_key, &input_data, &mut requirements_ctx);
+      }
+    });
 
-      // evaluate required decisions given as values from decisions
-      required_decision_references.iter().for_each(|(import_name, def_key)| {
-        if let Some(import_name_parent) = import_name.clone() {
-          let mut import_input_data = input_data.clone();
-          if import_input_data.is_context(&import_name_parent) {
-            if let Some(Value::Context(ctx)) = import_input_data.remove_entry(&import_name_parent) {
-              import_input_data.zip(&ctx);
-            }
-            input_data.remove_entry(&import_name_parent);
+    // evaluate required decisions given as values from decisions
+    required_decision_references.iter().for_each(|(import_name, def_key)| {
+      if let Some(import_name_parent) = import_name.clone() {
+        let mut import_input_data = input_data.clone();
+        if import_input_data.is_context(&import_name_parent) {
+          if let Some(Value::Context(ctx)) = import_input_data.remove_entry(&import_name_parent) {
+            import_input_data.zip(&ctx);
           }
-          if let Some(name) = decision_evaluator.evaluate(def_key, global_context, &import_input_data, model_evaluator, &mut requirements_ctx) {
-            requirements_ctx.move_entry(name, import_name_parent);
-          }
-        } else {
-          decision_evaluator.evaluate(def_key, global_context, &input_data, model_evaluator, &mut requirements_ctx);
+          input_data.remove_entry(&import_name_parent);
         }
-      });
-
-      // values from required knowledge may be overridden by input data
-      requirements_ctx.overwrite(&input_data);
-
-      // prepare context containing values from required input data
-      let mut required_input_ctx: FeelContext = Default::default();
-      let input_data = Value::Context(input_data);
-      required_input_data_references.iter().for_each(|input_data_id| {
-        if let Some((name, value)) = input_data_evaluator.evaluate(input_data_id, &input_data, item_definition_evaluator) {
-          required_input_ctx.set_entry(&name, value);
+        if let Some(name) = decision_evaluator.evaluate(def_key, global_context, &import_input_data, model_evaluator, &mut requirements_ctx) {
+          requirements_ctx.move_entry(name, import_name_parent);
         }
-      });
-      required_input_ctx.zip(&requirements_ctx);
+      } else {
+        decision_evaluator.evaluate(def_key, global_context, &input_data, model_evaluator, &mut requirements_ctx);
+      }
+    });
 
-      // prepare the evaluation scope
-      let scope: FeelScope = global_context.clone().into();
-      scope.append(required_input_ctx.into());
+    // values from required knowledge may be overridden by input data
+    requirements_ctx.overwrite(&input_data);
 
-      // evaluate the result
-      let decision_result = evaluator(&scope);
+    // prepare context containing values from required input data
+    let mut required_input_ctx: FeelContext = Default::default();
+    let input_data = Value::Context(input_data);
+    required_input_data_references.iter().for_each(|input_data_id| {
+      if let Some((name, value)) = input_data_evaluator.evaluate(input_data_id, &input_data, item_definition_evaluator) {
+        required_input_ctx.set_entry(&name, value);
+      }
+    });
+    required_input_ctx.zip(&requirements_ctx);
 
-      // coerce the output value
-      let coerced_decision_result = decision_result.coerced(&output_variable_type);
+    // prepare the evaluation scope
+    let scope: FeelScope = global_context.clone().into();
+    scope.append(required_input_ctx.into());
 
-      // place the result under the name of the output variable
-      output_data_ctx.set_entry(&output_variable_name, coerced_decision_result);
+    // evaluate the result
+    let decision_result = evaluator(&scope);
 
-      // return the name of the output variable
-      output_variable_name.clone()
-    },
-  );
+    // coerce the output value
+    let coerced_decision_result = decision_result.coerced(&output_variable_type);
+
+    // place the result under the name of the output variable
+    output_data_ctx.set_entry(&output_variable_name, coerced_decision_result);
+
+    // return the name of the output variable
+    output_variable_name.clone()
+  });
 
   // return the output variable and decision evaluator function
   Ok((output_variable, decision_evaluator))

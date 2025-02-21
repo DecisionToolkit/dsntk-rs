@@ -47,14 +47,7 @@ fn _0007() {
 #[test]
 fn _0008() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "feel-decimal-function_008_73e4f1c8b9",
-    &ctx,
-    r#"65.123456"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-decimal-function_008_73e4f1c8b9", &ctx, r#"65.123456"#);
 }
 
 #[test]

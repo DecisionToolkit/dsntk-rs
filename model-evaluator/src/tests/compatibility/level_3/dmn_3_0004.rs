@@ -62,14 +62,7 @@ fn _0005() {
 #[test]
 fn _0006() {
   let ctx = context(APPLICANT_DATA);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "RequiredMonthlyInstallment",
-    &ctx,
-    r#"1680.8803256086347968"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "RequiredMonthlyInstallment", &ctx, r#"1680.8803256086347968"#);
 }
 
 #[test]

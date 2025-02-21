@@ -2,7 +2,7 @@ use super::*;
 
 from_examples!(DMN_3_0093);
 
-static_context!(CTX, r#"{}"#);
+static_context!(CTX, "{}");
 
 #[test]
 fn _0001() {
@@ -36,14 +36,7 @@ fn _0006() {
 
 #[test]
 fn _0007() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "datetime_004",
-    &CTX,
-    r#""2018-12-08T10:30:11@Australia/Melbourne""#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "datetime_004", &CTX, r#""2018-12-08T10:30:11@Australia/Melbourne""#);
 }
 
 #[test]

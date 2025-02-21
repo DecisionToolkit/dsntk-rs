@@ -7,28 +7,14 @@ static_context!(CTX, r#"{}"#);
 #[bench]
 fn _0001(b: &mut Bencher) {
   let invocable_name = "decision_001";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &CTX,
-    r#"null(expected 1 parameters, actual number of parameters is 0)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, r#"null(expected 1 parameters, actual number of parameters is 0)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }
 
 #[bench]
 fn _0002(b: &mut Bencher) {
   let invocable_name = "decision_002";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &CTX,
-    r#"null(expected 1 parameters, actual number of parameters is 2)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, r#"null(expected 1 parameters, actual number of parameters is 2)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }
 
@@ -42,14 +28,7 @@ fn _0003(b: &mut Bencher) {
 #[bench]
 fn _0004(b: &mut Bencher) {
   let invocable_name = "decision_004";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &CTX,
-    r#"null(expected 1 parameters, actual number of parameters is 2)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, r#"null(expected 1 parameters, actual number of parameters is 2)"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }
 
@@ -112,14 +91,7 @@ fn _0012(b: &mut Bencher) {
 #[bench]
 fn _0013(b: &mut Bencher) {
   let invocable_name = "dateTime_003";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &CTX,
-    r#""2018-12-10T10:30:00.0001+05:00:01""#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, r#""2018-12-10T10:30:00.0001+05:00:01""#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }
 

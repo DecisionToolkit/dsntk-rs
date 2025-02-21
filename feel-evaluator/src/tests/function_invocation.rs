@@ -76,20 +76,10 @@ fn _0009() {
 
 #[test]
 fn _0010() {
-  te_null(
-    false,
-    &scope!(),
-    r#"pull(2)"#,
-    "expected built-in function name or function definition, actual is null(context has no value for key 'pull')",
-  );
+  te_null(false, &scope!(), r#"pull(2)"#, "expected built-in function name or function definition, actual is null(context has no value for key 'pull')");
 }
 
 #[test]
 fn _0011() {
-  te_null(
-    false,
-    &scope!(),
-    r#"pull(x: 2)"#,
-    "expected built-in function name or function definition, actual is null(context has no value for key 'pull')",
-  );
+  te_null(false, &scope!(), r#"pull(x: 2)"#, "expected built-in function name or function definition, actual is null(context has no value for key 'pull')");
 }

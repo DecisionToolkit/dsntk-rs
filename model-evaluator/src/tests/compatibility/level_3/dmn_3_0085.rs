@@ -51,11 +51,7 @@ fn _0007() {
 
 #[test]
 fn _0008() {
-  eqs(
-    "decisionService_002",
-    r#"{decision_002_input: null}"#,
-    r#"null(expected string as a second argument in addition)"#,
-  );
+  eqs("decisionService_002", r#"{decision_002_input: null}"#, r#"null(expected string as a second argument in addition)"#);
 }
 
 #[test]
@@ -65,29 +61,17 @@ fn _0009() {
 
 #[test]
 fn _0010() {
-  eqs(
-    "decisionService_002",
-    r#"{decision_002_input: 1234}"#,
-    r#"null(expected string as a second argument in addition)"#,
-  );
+  eqs("decisionService_002", r#"{decision_002_input: 1234}"#, r#"null(expected string as a second argument in addition)"#);
 }
 
 #[test]
 fn _0011() {
-  eqs(
-    "decision_003",
-    r#"{decision_003_input_1: "B", decision_003_input_2: "C", inputData_003: "D"}"#,
-    r#""A B C D""#,
-  );
+  eqs("decision_003", r#"{decision_003_input_1: "B", decision_003_input_2: "C", inputData_003: "D"}"#, r#""A B C D""#);
 }
 
 #[test]
 fn _0012() {
-  eqs(
-    "decisionService_003",
-    r#"{decision_003_input_1: "B", decision_003_input_2: "C", inputData_003: "D"}"#,
-    r#""A B C D""#,
-  );
+  eqs("decisionService_003", r#"{decision_003_input_1: "B", decision_003_input_2: "C", inputData_003: "D"}"#, r#""A B C D""#);
 }
 
 #[test]

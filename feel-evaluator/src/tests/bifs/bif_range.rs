@@ -78,12 +78,7 @@ fn _0017() {
 
 #[test]
 fn _0018() {
-  te_null(
-    false,
-    &scope!(),
-    r#"range(1)"#,
-    "[core::range] invalid argument type, expected string, actual type is number",
-  );
+  te_null(false, &scope!(), r#"range(1)"#, "[core::range] invalid argument type, expected string, actual type is number");
 }
 
 #[test]
@@ -158,20 +153,10 @@ fn _0034() {
 
 #[test]
 fn _0035() {
-  te_null(
-    false,
-    &scope!(),
-    r#"range(from:"[1..2]",to:"[3..4]")"#,
-    "expected 1 parameters, actual number of parameters is 2",
-  );
+  te_null(false, &scope!(), r#"range(from:"[1..2]",to:"[3..4]")"#, "expected 1 parameters, actual number of parameters is 2");
 }
 
 #[test]
 fn _0036() {
-  te_null(
-    false,
-    &scope!(),
-    r#"range(from:1)"#,
-    "[core::range] invalid argument type, expected string, actual type is number",
-  );
+  te_null(false, &scope!(), r#"range(from:1)"#, "[core::range] invalid argument type, expected string, actual type is number");
 }

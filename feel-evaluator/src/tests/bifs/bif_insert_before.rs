@@ -63,12 +63,7 @@ fn _0012() {
 
 #[test]
 fn _0013() {
-  te_null(
-    false,
-    &scope!(),
-    r#"insert before([1,2,3],0,1,2)"#,
-    "expected 3 parameters, actual number of parameters is 4",
-  );
+  te_null(false, &scope!(), r#"insert before([1,2,3],0,1,2)"#, "expected 3 parameters, actual number of parameters is 4");
 }
 
 #[test]
@@ -83,10 +78,5 @@ fn _0015() {
 
 #[test]
 fn _0016() {
-  te_null(
-    false,
-    &scope!(),
-    r#"insert before(list: [2,3,4,5], position: 1, ni: 1)"#,
-    r#"parameter 'newItem' not found"#,
-  );
+  te_null(false, &scope!(), r#"insert before(list: [2,3,4,5], position: 1, ni: 1)"#, r#"parameter 'newItem' not found"#);
 }

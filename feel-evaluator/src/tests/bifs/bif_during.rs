@@ -48,12 +48,7 @@ fn _0009() {
 
 #[test]
 fn _0010() {
-  te_bool(
-    false,
-    &scope!(),
-    r#"during(date and time("2011-06-16T12:13:14"),[date and time("2011-01-01T00:00:00")..date and time("2011-12-31T23:59:59")])"#,
-    true,
-  );
+  te_bool(false, &scope!(), r#"during(date and time("2011-06-16T12:13:14"),[date and time("2011-01-01T00:00:00")..date and time("2011-12-31T23:59:59")])"#, true);
 }
 
 #[test]
@@ -128,82 +123,42 @@ fn _0024() {
 
 #[test]
 fn _0025() {
-  te_bool(
-    false,
-    &scope!(),
-    r#"during([date("2011-02-01")..date("2011-11-30")],[date("2011-01-01")..date("2011-12-31")])"#,
-    true,
-  );
+  te_bool(false, &scope!(), r#"during([date("2011-02-01")..date("2011-11-30")],[date("2011-01-01")..date("2011-12-31")])"#, true);
 }
 
 #[test]
 fn _0026() {
-  te_bool(
-    false,
-    &scope!(),
-    r#"during([date("2010-12-31")..date("2011-11-30")],[date("2011-01-01")..date("2011-12-31")])"#,
-    false,
-  );
+  te_bool(false, &scope!(), r#"during([date("2010-12-31")..date("2011-11-30")],[date("2011-01-01")..date("2011-12-31")])"#, false);
 }
 
 #[test]
 fn _0027() {
-  te_bool(
-    false,
-    &scope!(),
-    r#"during([date and time("2011-02-01T00:00:01")..date and time("2011-12-31T23:59:58")],[date and time("2011-01-01T00:00:00")..date and time("2011-12-31T23:59:59")])"#,
-    true,
-  );
+  te_bool(false, &scope!(), r#"during([date and time("2011-02-01T00:00:01")..date and time("2011-12-31T23:59:58")],[date and time("2011-01-01T00:00:00")..date and time("2011-12-31T23:59:59")])"#, true);
 }
 
 #[test]
 fn _0028() {
-  te_bool(
-    false,
-    &scope!(),
-    r#"during([date and time("2011-01-01T01:01:00")..date and time("2011-12-31T23:59:59")],[date and time("2011-01-01T01:01:01")..date and time("2011-12-31T23:59:59")])"#,
-    false,
-  );
+  te_bool(false, &scope!(), r#"during([date and time("2011-01-01T01:01:00")..date and time("2011-12-31T23:59:59")],[date and time("2011-01-01T01:01:01")..date and time("2011-12-31T23:59:59")])"#, false);
 }
 
 #[test]
 fn _0029() {
-  te_bool(
-    false,
-    &scope!(),
-    r#"during([time("00:00:01")..time("23:59:58")],[time("00:00:00")..time("23:59:59")])"#,
-    true,
-  );
+  te_bool(false, &scope!(), r#"during([time("00:00:01")..time("23:59:58")],[time("00:00:00")..time("23:59:59")])"#, true);
 }
 
 #[test]
 fn _0030() {
-  te_bool(
-    false,
-    &scope!(),
-    r#"during([time("00:00:00")..time("23:59:59")],[time("00:00:00")..time("23:59:58")])"#,
-    false,
-  );
+  te_bool(false, &scope!(), r#"during([time("00:00:00")..time("23:59:59")],[time("00:00:00")..time("23:59:58")])"#, false);
 }
 
 #[test]
 fn _0031() {
-  te_bool(
-    false,
-    &scope!(),
-    r#"during([duration("P1DT0H0M1S")..duration("P2DT0H0M0S")],[duration("P1DT0H0M0S")..duration("P2DT0H0M0S")])"#,
-    true,
-  );
+  te_bool(false, &scope!(), r#"during([duration("P1DT0H0M1S")..duration("P2DT0H0M0S")],[duration("P1DT0H0M0S")..duration("P2DT0H0M0S")])"#, true);
 }
 
 #[test]
 fn _0032() {
-  te_bool(
-    false,
-    &scope!(),
-    r#"during([duration("P1DT0H0M0S")..duration("P2DT0H0M0S")],[duration("P1DT0H0M1S")..duration("P2DT0H0M0S")])"#,
-    false,
-  );
+  te_bool(false, &scope!(), r#"during([duration("P1DT0H0M0S")..duration("P2DT0H0M0S")],[duration("P1DT0H0M1S")..duration("P2DT0H0M0S")])"#, false);
 }
 
 #[test]
@@ -218,12 +173,7 @@ fn _0034() {
 
 #[test]
 fn _0035() {
-  te_bool(
-    false,
-    &scope!(),
-    r#"during([duration("P1Y")..duration("P4Y1M")],[duration("P1Y")..duration("P4Y")])"#,
-    false,
-  );
+  te_bool(false, &scope!(), r#"during([duration("P1Y")..duration("P4Y1M")],[duration("P1Y")..duration("P4Y")])"#, false);
 }
 
 #[test]
@@ -268,10 +218,5 @@ fn _0043() {
 
 #[test]
 fn _0044() {
-  te_null(
-    false,
-    &scope!(),
-    r#"during(true,(100..200))"#,
-    "[core::during] invalid argument type, expected scalar or range of scalars, actual type is boolean",
-  );
+  te_null(false, &scope!(), r#"during(true,(100..200))"#, "[core::during] invalid argument type, expected scalar or range of scalars, actual type is boolean");
 }

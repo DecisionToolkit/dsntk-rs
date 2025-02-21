@@ -237,14 +237,7 @@ impl FeelNumber {
         }
       } else {
         self.validate_scale(scale)?;
-        self.unscale(
-          if bid128_is_signed(self.0) {
-            bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!())
-          } else {
-            bid128_round_integral_positive(bid128_scalbn(self.0, scale), flags!())
-          },
-          scale,
-        )
+        self.unscale(if bid128_is_signed(self.0) { bid128_round_integral_negative(bid128_scalbn(self.0, scale), flags!()) } else { bid128_round_integral_positive(bid128_scalbn(self.0, scale), flags!()) }, scale)
       },
       true,
     ))
@@ -481,11 +474,7 @@ impl Display for FeelNumber {
         (before, after)
       } else {
         let before = sb[..digit_count - decimal_points].to_string();
-        let after = if self.1 {
-          sb[digit_count - decimal_points..].trim_end_matches('0').to_string()
-        } else {
-          sb[digit_count - decimal_points..].to_string()
-        };
+        let after = if self.1 { sb[digit_count - decimal_points..].trim_end_matches('0').to_string() } else { sb[digit_count - decimal_points..].to_string() };
         (before, after)
       }
     } else {

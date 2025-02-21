@@ -23,22 +23,12 @@ fn _0004() {
 
 #[test]
 fn _0005() {
-  te_null(
-    false,
-    &scope!(),
-    r#"reverse(10)"#,
-    r#"[core::reverse] invalid argument type, expected list, actual type is number"#,
-  );
+  te_null(false, &scope!(), r#"reverse(10)"#, r#"[core::reverse] invalid argument type, expected list, actual type is number"#);
 }
 
 #[test]
 fn _0006() {
-  te_null(
-    false,
-    &scope!(),
-    r#"reverse(list:true)"#,
-    r#"[core::reverse] invalid argument type, expected list, actual type is boolean"#,
-  );
+  te_null(false, &scope!(), r#"reverse(list:true)"#, r#"[core::reverse] invalid argument type, expected list, actual type is boolean"#);
 }
 
 #[test]

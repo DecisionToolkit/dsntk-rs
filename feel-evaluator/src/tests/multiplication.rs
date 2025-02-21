@@ -99,42 +99,22 @@ fn _0019() {
 
 #[test]
 fn _0020() {
-  te_null(
-    false,
-    &scope!(),
-    r#" 999999999999999999999 * @"P1D" "#,
-    r#"multiplication result is out of range of days and time duration"#,
-  );
+  te_null(false, &scope!(), r#" 999999999999999999999 * @"P1D" "#, r#"multiplication result is out of range of days and time duration"#);
 }
 
 #[test]
 fn _0021() {
-  te_null(
-    false,
-    &scope!(),
-    r#" 999999999999999999999 * @"P1Y" "#,
-    r#"multiplication result is out of range of years and months duration"#,
-  );
+  te_null(false, &scope!(), r#" 999999999999999999999 * @"P1Y" "#, r#"multiplication result is out of range of years and months duration"#);
 }
 
 #[test]
 fn _0022() {
-  te_null(
-    false,
-    &scope!(),
-    r#" @"P1D" * 999999999999999999999 "#,
-    r#"multiplication result is out of range of days and time duration"#,
-  );
+  te_null(false, &scope!(), r#" @"P1D" * 999999999999999999999 "#, r#"multiplication result is out of range of days and time duration"#);
 }
 
 #[test]
 fn _0023() {
-  te_null(
-    false,
-    &scope!(),
-    r#" @"P1Y" * 999999999999999999999 "#,
-    r#"multiplication result is out of range of years and months duration"#,
-  );
+  te_null(false, &scope!(), r#" @"P1Y" * 999999999999999999999 "#, r#"multiplication result is out of range of years and months duration"#);
 }
 
 #[test]

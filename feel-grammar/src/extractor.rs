@@ -216,11 +216,7 @@ fn extract_symbol_kinds(input: &str) -> Vec<(String, i64)> {
             if let Some(value_match) = symbol_kind_capture.name("value") {
               let value = value_match.as_str().parse::<i64>().unwrap();
               let symbol_name = name_match.as_str().to_string();
-              let updated_name = if symbol_name.to_lowercase() == symbol_name {
-                format!("LHS_{symbol_name}").to_string()
-              } else {
-                symbol_name
-              };
+              let updated_name = if symbol_name.to_lowercase() == symbol_name { format!("LHS_{symbol_name}").to_string() } else { symbol_name };
               let name = updated_name.as_str().to_string().to_uppercase().replace("YY", "YY_").to_case(Case::UpperCamel);
               symbol_kinds.push((name, value));
             }

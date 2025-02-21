@@ -117,22 +117,12 @@ fn _0021() {
 
 #[test]
 fn _0022() {
-  te_null(
-    false,
-    &scope!(),
-    r#" @"2023-02-06" - @"P999999Y" "#,
-    "[subtraction] incompatible types: 2023-02-06 - P999999Y",
-  );
+  te_null(false, &scope!(), r#" @"2023-02-06" - @"P999999Y" "#, "[subtraction] incompatible types: 2023-02-06 - P999999Y");
 }
 
 #[test]
 fn _0023() {
-  te_null(
-    false,
-    &scope!(),
-    r#" @"2023-02-06" - @"P999999999999999Y" "#,
-    "[subtraction] incompatible types: 2023-02-06 - P999999999999999Y",
-  );
+  te_null(false, &scope!(), r#" @"2023-02-06" - @"P999999999999999Y" "#, "[subtraction] incompatible types: 2023-02-06 - P999999999999999Y");
 }
 
 #[test]
@@ -147,12 +137,7 @@ fn _0025() {
 
 #[test]
 fn _0026() {
-  te_null(
-    false,
-    &scope!(),
-    r#" @"23746-01-01" + @"P99999999Y" "#,
-    r#"invalid result while adding years and months duration to date"#,
-  );
+  te_null(false, &scope!(), r#" @"23746-01-01" + @"P99999999Y" "#, r#"invalid result while adding years and months duration to date"#);
 }
 
 #[test]
@@ -209,22 +194,12 @@ fn _0036() {
 /// Such subtraction is not allowed (both date and times should have offset defined), that's why null value should be returned.
 #[test]
 fn _0037() {
-  te_null(
-    false,
-    &scope!(),
-    r#" @"2021-01-02" - @"2021-01-01T10:10:10" "#,
-    "[subtraction] incompatible types: 2021-01-02 - 2021-01-01T10:10:10",
-  );
+  te_null(false, &scope!(), r#" @"2021-01-02" - @"2021-01-01T10:10:10" "#, "[subtraction] incompatible types: 2021-01-02 - 2021-01-01T10:10:10");
 }
 
 #[test]
 fn _0038() {
-  te_null(
-    false,
-    &scope!(),
-    r#" @"2023-02-06T12:13:18" - 5 "#,
-    "[subtraction] incompatible types: 2023-02-06T12:13:18 - 5",
-  );
+  te_null(false, &scope!(), r#" @"2023-02-06T12:13:18" - 5 "#, "[subtraction] incompatible types: 2023-02-06T12:13:18 - 5");
 }
 
 #[test]

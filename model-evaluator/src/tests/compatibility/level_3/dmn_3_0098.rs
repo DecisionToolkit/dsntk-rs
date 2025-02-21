@@ -63,62 +63,27 @@ fn _0011() {
 
 #[test]
 fn _0012() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "null_001",
-    &CTX,
-    r#"null([core::week of year] invalid argument type, expected date, date and time, actual type is Null)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "null_001", &CTX, r#"null([core::week of year] invalid argument type, expected date, date and time, actual type is Null)"#);
 }
 
 #[test]
 fn _0013() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "null_002",
-    &CTX,
-    r#"null(expected 1 parameters, actual number of parameters is 0)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "null_002", &CTX, r#"null(expected 1 parameters, actual number of parameters is 0)"#);
 }
 
 #[test]
 fn _0014() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "null_003",
-    &CTX,
-    r#"null([core::week of year] invalid argument type, expected date, date and time, actual type is string)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "null_003", &CTX, r#"null([core::week of year] invalid argument type, expected date, date and time, actual type is string)"#);
 }
 
 #[test]
 fn _0015() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "null_004",
-    &CTX,
-    r#"null([core::week of year] invalid argument type, expected date, date and time, actual type is Null)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "null_004", &CTX, r#"null([core::week of year] invalid argument type, expected date, date and time, actual type is Null)"#);
 }
 
 #[test]
 fn _0016() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "null_005",
-    &CTX,
-    r#"null([core::week of year] invalid argument type, expected date, date and time, actual type is string)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "null_005", &CTX, r#"null([core::week of year] invalid argument type, expected date, date and time, actual type is string)"#);
 }
 
 #[test]
@@ -129,24 +94,10 @@ fn _0017() {
 #[test]
 fn _0018() {
   let ctx = context(r#"{date_input_001: "foo"}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "null_007",
-    &ctx,
-    r#"null([core::week of year] invalid argument type, expected date, date and time, actual type is string)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "null_007", &ctx, r#"null([core::week of year] invalid argument type, expected date, date and time, actual type is string)"#);
 }
 
 #[test]
 fn _0019() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "null_008",
-    &CTX,
-    r#"null(expected 1 parameters, actual number of parameters is 2)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "null_008", &CTX, r#"null(expected 1 parameters, actual number of parameters is 2)"#);
 }

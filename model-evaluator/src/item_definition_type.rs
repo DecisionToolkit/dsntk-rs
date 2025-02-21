@@ -101,10 +101,7 @@ fn referenced_type(def_key: DefKey) -> Result<ItemDefinitionTypeEvaluatorFn> {
 fn component_type(item_definition: &DefItemDefinition) -> Result<ItemDefinitionTypeEvaluatorFn> {
   let mut type_evaluators: Vec<(Name, ItemDefinitionTypeEvaluatorFn)> = vec![];
   for component_item_definition in item_definition.item_components() {
-    type_evaluators.push((
-      component_item_definition.feel_name().clone(),
-      build_item_definition_type_evaluator(component_item_definition)?,
-    ));
+    type_evaluators.push((component_item_definition.feel_name().clone(), build_item_definition_type_evaluator(component_item_definition)?));
   }
   Ok(Box::new(move |evaluators: &ItemDefinitionTypeEvaluator| {
     let mut entries = BTreeMap::new();
@@ -133,18 +130,13 @@ fn collection_of_simple_type(feel_type: FeelType) -> Result<ItemDefinitionTypeEv
 }
 
 fn collection_of_referenced_type(def_key: DefKey) -> Result<ItemDefinitionTypeEvaluatorFn> {
-  Ok(Box::new(move |evaluators: &ItemDefinitionTypeEvaluator| {
-    evaluators.eval(&def_key).map(|feel_type| FeelType::List(Box::new(feel_type)))
-  }))
+  Ok(Box::new(move |evaluators: &ItemDefinitionTypeEvaluator| evaluators.eval(&def_key).map(|feel_type| FeelType::List(Box::new(feel_type)))))
 }
 
 fn collection_of_component_type(item_definition: &DefItemDefinition) -> Result<ItemDefinitionTypeEvaluatorFn> {
   let mut type_evaluators: Vec<(Name, ItemDefinitionTypeEvaluatorFn)> = vec![];
   for component_item_definition in item_definition.item_components() {
-    type_evaluators.push((
-      component_item_definition.feel_name().clone(),
-      build_item_definition_type_evaluator(component_item_definition)?,
-    ));
+    type_evaluators.push((component_item_definition.feel_name().clone(), build_item_definition_type_evaluator(component_item_definition)?));
   }
   Ok(Box::new(move |evaluators: &ItemDefinitionTypeEvaluator| {
     let mut entries = BTreeMap::new();
@@ -171,10 +163,7 @@ fn function_type(item_definition: &DefItemDefinition) -> Result<ItemDefinitionTy
   }
   Ok(Box::new(move |evaluator: &ItemDefinitionTypeEvaluator| {
     let output_type = evaluator.information_item_type(&namespace, &output_type_ref).unwrap_or(FeelType::Any);
-    let parameter_types = parameters_type_ref
-      .iter()
-      .map(|parameter_type_ref| evaluator.information_item_type(&namespace, parameter_type_ref).unwrap_or(FeelType::Any))
-      .collect::<Vec<FeelType>>();
+    let parameter_types = parameters_type_ref.iter().map(|parameter_type_ref| evaluator.information_item_type(&namespace, parameter_type_ref).unwrap_or(FeelType::Any)).collect::<Vec<FeelType>>();
     Some(FeelType::function(&parameter_types, &output_type))
   }))
 }

@@ -425,25 +425,12 @@ fn ast_node_1(name: &str, mid: &AstNode, cm: ColorMode) -> TreeNode {
 
 /// Creates a tree node with two child nodes.
 fn ast_node_2(name: &str, lhs: &AstNode, rhs: &AstNode, cm: ColorMode) -> TreeNode {
-  node(DEFAULT_COLOR, cm)
-    .line()
-    .s(name)
-    .end()
-    .child(ast_node_to_tree(lhs, cm))
-    .child(ast_node_to_tree(rhs, cm))
-    .end()
+  node(DEFAULT_COLOR, cm).line().s(name).end().child(ast_node_to_tree(lhs, cm)).child(ast_node_to_tree(rhs, cm)).end()
 }
 
 /// Creates a tree node with three child nodes.
 fn ast_node_3(name: &str, lhs: &AstNode, mid: &AstNode, rhs: &AstNode, cm: ColorMode) -> TreeNode {
-  node(DEFAULT_COLOR, cm)
-    .line()
-    .s(name)
-    .end()
-    .child(ast_node_to_tree(lhs, cm))
-    .child(ast_node_to_tree(mid, cm))
-    .child(ast_node_to_tree(rhs, cm))
-    .end()
+  node(DEFAULT_COLOR, cm).line().s(name).end().child(ast_node_to_tree(lhs, cm)).child(ast_node_to_tree(mid, cm)).child(ast_node_to_tree(rhs, cm)).end()
 }
 
 /// Creates a tree node with multiple child nodes.

@@ -78,13 +78,7 @@ fn _0005() {
 #[test]
 fn _0006() {
   let scope = scope!();
-  accept(
-    &scope,
-    StartExpression,
-    r#" "line \n line \t line \r line" "#,
-    "\n       String\n       └─ `line \n       line \t line \r line`\n    ",
-    false,
-  );
+  accept(&scope, StartExpression, r#" "line \n line \t line \r line" "#, "\n       String\n       └─ `line \n       line \t line \r line`\n    ", false);
 }
 
 #[test]

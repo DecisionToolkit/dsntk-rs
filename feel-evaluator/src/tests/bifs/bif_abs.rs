@@ -67,32 +67,17 @@ fn _0011() {
 
 #[test]
 fn _0012() {
-  te_null(
-    false,
-    &scope!(),
-    r#"abs(null)"#,
-    r#"[core::abs] invalid argument type, expected number, actual type is Null"#,
-  );
+  te_null(false, &scope!(), r#"abs(null)"#, r#"[core::abs] invalid argument type, expected number, actual type is Null"#);
 }
 
 #[test]
 fn _0013() {
-  te_null(
-    false,
-    &scope!(),
-    r#"abs(true)"#,
-    r#"[core::abs] invalid argument type, expected number, actual type is boolean"#,
-  );
+  te_null(false, &scope!(), r#"abs(true)"#, r#"[core::abs] invalid argument type, expected number, actual type is boolean"#);
 }
 
 #[test]
 fn _0014() {
-  te_null(
-    false,
-    &scope!(),
-    r#"abs("-57")"#,
-    r#"[core::abs] invalid argument type, expected number, actual type is string"#,
-  );
+  te_null(false, &scope!(), r#"abs("-57")"#, r#"[core::abs] invalid argument type, expected number, actual type is string"#);
 }
 
 #[test]

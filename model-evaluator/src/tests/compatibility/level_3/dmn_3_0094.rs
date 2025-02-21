@@ -16,50 +16,22 @@ fn _0002() {
 
 #[test]
 fn _0003() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision003",
-    &CTX,
-    r#"null(expected 1+ parameters, actual number of parameters is 0)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision003", &CTX, r#"null(expected 1+ parameters, actual number of parameters is 0)"#);
 }
 
 #[test]
 fn _0004() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision003_a",
-    &CTX,
-    r#"null([core::product] invalid argument type, expected number, actual type is Null)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision003_a", &CTX, r#"null([core::product] invalid argument type, expected number, actual type is Null)"#);
 }
 
 #[test]
 fn _0005() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision004",
-    &CTX,
-    r#"null([core::product] invalid argument type, expected number, actual type is Null)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision004", &CTX, r#"null([core::product] invalid argument type, expected number, actual type is Null)"#);
 }
 
 #[test]
 fn _0006() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision005",
-    &CTX,
-    r#"null([core::product] invalid argument type, expected number, actual type is string)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision005", &CTX, r#"null([core::product] invalid argument type, expected number, actual type is string)"#);
 }
 
 #[test]

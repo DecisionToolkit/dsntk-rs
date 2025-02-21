@@ -46,14 +46,7 @@ fn _0006(b: &mut Bencher) {
 fn _0007(b: &mut Bencher) {
   let ctx = context(r#"{ numList: [6, 14, -3] }"#);
   let invocable_name = "mean1";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"5.666666666666666666666666666666667"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"5.666666666666666666666666666666667"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -61,14 +54,7 @@ fn _0007(b: &mut Bencher) {
 fn _0008(b: &mut Bencher) {
   let ctx = context(r#"{ num1: 11, num2: 2, num3: 10 }"#);
   let invocable_name = "mean2";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"7.666666666666666666666666666666667"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"7.666666666666666666666666666666667"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 
@@ -148,14 +134,7 @@ fn _0017(b: &mut Bencher) {
 fn _0018(b: &mut Bencher) {
   let ctx = context(r#"{ string1: "OK", list1: ["a", "b", "c"], list2: ["x", "y", "z"] }"#);
   let invocable_name = "union1";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &ctx,
-    r#"["x", "OK", "y", "z", "a", "b", "c"]"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx, r#"["x", "OK", "y", "z", "a", "b", "c"]"#);
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &ctx));
 }
 

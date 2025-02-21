@@ -1,21 +1,9 @@
 use super::*;
 
 from_examples!(DMN_3_0036);
-static CTX1: Lazy<FeelContext> = Lazy::new(|| {
-  context(
-    r#"{"Another Date": @"2018-07-31", "Another Date and Time": @"2018-07-31T17:13:00Z", "Another Days and Time Duration": @"PT12H", "Another String": "Hello", "Another Time": @"17:13:00", "Another Years and Months Duration": @"P8M", "Another boolean": false, "Another number": 15, Complex: { aBoolean: true, aDate: @"2018-07-30", aDateTime: @"2018-07-30T16:12:00Z", aDaysAndTimeDuration: @"PT10H", aNumber: 10, aString: "Hi", aTime: @"16:11:00", aYearsAndMonthsDuration: @"P5M"}}"#,
-  )
-});
-static CTX2: Lazy<FeelContext> = Lazy::new(|| {
-  context(
-    r#"{"Another Date": @"2018-07-29", "Another Date and Time": @"2018-07-29T15:13:00Z", "Another Days and Time Duration": @"PT8H",  "Another String": "Hello", "Another Time": @"15:13:00", "Another Years and Months Duration": @"P3M", "Another boolean": false, "Another number": 5,  Complex: { aBoolean: true, aDate: @"2018-07-30", aDateTime: @"2018-07-30T16:12:00Z", aDaysAndTimeDuration: @"PT10H", aNumber: 10, aString: "Hi", aTime: @"16:11:00", aYearsAndMonthsDuration: @"P5M"}}"#,
-  )
-});
-static CTX3: Lazy<FeelContext> = Lazy::new(|| {
-  context(
-    r#"{"Another Date": @"2018-07-30", "Another Date and Time": @"2018-07-30T16:12:00Z", "Another Days and Time Duration": @"PT10H", "Another String": "Hi",    "Another Time": @"16:11:00", "Another Years and Months Duration": @"P5M", "Another boolean": true,  "Another number": 10, Complex: { aBoolean: true, aDate: @"2018-07-30", aDateTime: @"2018-07-30T16:12:00Z", aDaysAndTimeDuration: @"PT10H", aNumber: 10, aString: "Hi", aTime: @"16:11:00", aYearsAndMonthsDuration: @"P5M"}}"#,
-  )
-});
+static CTX1: Lazy<FeelContext> = Lazy::new(|| context(r#"{"Another Date": @"2018-07-31", "Another Date and Time": @"2018-07-31T17:13:00Z", "Another Days and Time Duration": @"PT12H", "Another String": "Hello", "Another Time": @"17:13:00", "Another Years and Months Duration": @"P8M", "Another boolean": false, "Another number": 15, Complex: { aBoolean: true, aDate: @"2018-07-30", aDateTime: @"2018-07-30T16:12:00Z", aDaysAndTimeDuration: @"PT10H", aNumber: 10, aString: "Hi", aTime: @"16:11:00", aYearsAndMonthsDuration: @"P5M"}}"#));
+static CTX2: Lazy<FeelContext> = Lazy::new(|| context(r#"{"Another Date": @"2018-07-29", "Another Date and Time": @"2018-07-29T15:13:00Z", "Another Days and Time Duration": @"PT8H",  "Another String": "Hello", "Another Time": @"15:13:00", "Another Years and Months Duration": @"P3M", "Another boolean": false, "Another number": 5,  Complex: { aBoolean: true, aDate: @"2018-07-30", aDateTime: @"2018-07-30T16:12:00Z", aDaysAndTimeDuration: @"PT10H", aNumber: 10, aString: "Hi", aTime: @"16:11:00", aYearsAndMonthsDuration: @"P5M"}}"#));
+static CTX3: Lazy<FeelContext> = Lazy::new(|| context(r#"{"Another Date": @"2018-07-30", "Another Date and Time": @"2018-07-30T16:12:00Z", "Another Days and Time Duration": @"PT10H", "Another String": "Hi",    "Another Time": @"16:11:00", "Another Years and Months Duration": @"P5M", "Another boolean": true,  "Another number": 10, Complex: { aBoolean: true, aDate: @"2018-07-30", aDateTime: @"2018-07-30T16:12:00Z", aDaysAndTimeDuration: @"PT10H", aNumber: 10, aString: "Hi", aTime: @"16:11:00", aYearsAndMonthsDuration: @"P5M"}}"#));
 
 #[bench]
 fn _0001(b: &mut Bencher) {

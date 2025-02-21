@@ -23,12 +23,7 @@ fn _0004() {
 
 #[test]
 fn _0005() {
-  te_null(
-    false,
-    &scope!(),
-    r#"append(1,2,3)"#,
-    r#"[core::append] invalid argument type, expected list, actual type is number"#,
-  );
+  te_null(false, &scope!(), r#"append(1,2,3)"#, r#"[core::append] invalid argument type, expected list, actual type is number"#);
 }
 
 #[test]
@@ -43,12 +38,7 @@ fn _0007() {
 
 #[test]
 fn _0008() {
-  te_null(
-    false,
-    &scope!(),
-    r#"append(list: [1])"#,
-    r#"[named::append] this function has no version with named parameters"#,
-  );
+  te_null(false, &scope!(), r#"append(list: [1])"#, r#"[named::append] this function has no version with named parameters"#);
 }
 
 #[test]

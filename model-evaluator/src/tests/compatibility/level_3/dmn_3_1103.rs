@@ -23,14 +23,7 @@ fn _0003() {
 #[test]
 fn _0004() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "feel-substring-function_004_938a24e7af",
-    &ctx,
-    r#""foobar""#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-substring-function_004_938a24e7af", &ctx, r#""foobar""#);
 }
 
 #[test]
@@ -60,14 +53,7 @@ fn _0008() {
 #[test]
 fn _0009() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "feel-substring-function_009_b52405c384",
-    &ctx,
-    r#""foobar""#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "feel-substring-function_009_b52405c384", &ctx, r#""foobar""#);
 }
 
 #[test]

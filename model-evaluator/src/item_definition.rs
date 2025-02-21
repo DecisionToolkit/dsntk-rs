@@ -173,9 +173,7 @@ fn build_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluat
 }
 
 fn build_referenced_type_evaluator(def_key: DefKey) -> Result<ItemDefinitionEvaluatorFn> {
-  Ok(Box::new(move |value: &Value, evaluators: &ItemDefinitionEvaluator| {
-    evaluators.eval(&def_key, value).unwrap_or_else(|| value_null!("no evaluator"))
-  }))
+  Ok(Box::new(move |value: &Value, evaluators: &ItemDefinitionEvaluator| evaluators.eval(&def_key, value).unwrap_or_else(|| value_null!("no evaluator"))))
 }
 
 fn build_component_type_evaluator(item_definition: &DefItemDefinition) -> Result<ItemDefinitionEvaluatorFn> {
@@ -203,13 +201,7 @@ fn build_component_type_evaluator(item_definition: &DefItemDefinition) -> Result
 
 fn build_collection_of_simple_type_evaluator(feel_type: FeelType, av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
   fn build_any_evaluator(av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
-    Ok(Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| {
-      if let Value::List(values) = value {
-        check_allowed_values(Value::List(values.clone()), av_evaluator.as_ref())
-      } else {
-        value_null!("item definition evaluator (CollectionOfSimpleType): expected list")
-      }
-    }))
+    Ok(Box::new(move |value: &Value, _: &ItemDefinitionEvaluator| if let Value::List(values) = value { check_allowed_values(Value::List(values.clone()), av_evaluator.as_ref()) } else { value_null!("item definition evaluator (CollectionOfSimpleType): expected list") }))
   }
 
   fn build_null_evaluator(av_evaluator: Option<Evaluator>) -> Result<ItemDefinitionEvaluatorFn> {
@@ -439,9 +431,7 @@ fn build_collection_of_component_type_evaluator(item_definition: &DefItemDefinit
 }
 
 fn build_function_type_evaluator() -> Result<ItemDefinitionEvaluatorFn> {
-  Ok(Box::new(move |_: &Value, _: &ItemDefinitionEvaluator| {
-    value_null!("function type evaluator not implemented yet")
-  }))
+  Ok(Box::new(move |_: &Value, _: &ItemDefinitionEvaluator| value_null!("function type evaluator not implemented yet")))
 }
 
 #[cfg(test)]
@@ -470,10 +460,7 @@ mod tests {
     let context_str = r#"{ Customer Name : "Whistler" }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Customer", "Name"])).unwrap();
-    assert_eq!(
-      Value::String("Whistler".to_string()),
-      evaluator.eval(&DefKey::new(NAMESPACE, "tCustomerName"), value).unwrap()
-    );
+    assert_eq!(Value::String("Whistler".to_string()), evaluator.eval(&DefKey::new(NAMESPACE, "tCustomerName"), value).unwrap());
   }
 
   #[test]
@@ -482,10 +469,7 @@ mod tests {
     let context_str = r#"{ Customer Name : 12000 }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Customer", "Name"])).unwrap();
-    assert_eq!(
-      value_null!("expected type 'string', actual type is 'number' in value '12000'"),
-      evaluator.eval(&DefKey::new(NAMESPACE, "tCustomerName"), value).unwrap()
-    );
+    assert_eq!(value_null!("expected type 'string', actual type is 'number' in value '12000'"), evaluator.eval(&DefKey::new(NAMESPACE, "tCustomerName"), value).unwrap());
   }
 
   #[test]
@@ -503,10 +487,7 @@ mod tests {
     let context_str = r#"{ Monthly Salary : true }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Monthly", "Salary"])).unwrap();
-    assert_eq!(
-      value_null!("expected type 'number', actual type is 'boolean' in value 'true'"),
-      evaluator.eval(&DefKey::new(NAMESPACE, "tMonthlySalary"), value).unwrap()
-    );
+    assert_eq!(value_null!("expected type 'number', actual type is 'boolean' in value 'true'"), evaluator.eval(&DefKey::new(NAMESPACE, "tMonthlySalary"), value).unwrap());
   }
 
   #[test]
@@ -528,10 +509,7 @@ mod tests {
     let context_str = r#"{ Is Affordable : "Yes" }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Is", "Affordable"])).unwrap();
-    assert_eq!(
-      value_null!(r#"expected type 'boolean', actual type is 'string' in value '"Yes"'"#),
-      evaluator.eval(&DefKey::new(NAMESPACE, "tIsAffordable"), value).unwrap()
-    );
+    assert_eq!(value_null!(r#"expected type 'boolean', actual type is 'string' in value '"Yes"'"#), evaluator.eval(&DefKey::new(NAMESPACE, "tIsAffordable"), value).unwrap());
   }
 
   #[test]
@@ -540,10 +518,7 @@ mod tests {
     let context_str = r#"{ Birthday : date("1982-04-12") }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Birthday"])).unwrap();
-    assert_eq!(
-      Value::Date(FeelDate::new(1982, 4, 12).unwrap()),
-      evaluator.eval(&DefKey::new(NAMESPACE, "tBirthday"), value).unwrap()
-    );
+    assert_eq!(Value::Date(FeelDate::new(1982, 4, 12).unwrap()), evaluator.eval(&DefKey::new(NAMESPACE, "tBirthday"), value).unwrap());
   }
 
   #[test]
@@ -552,10 +527,7 @@ mod tests {
     let context_str = r#"{ Delivery Time : time("18:35:23") }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Delivery", "Time"])).unwrap();
-    assert_eq!(
-      Value::Time(FeelTime::local_opt(18, 35, 23, 0).unwrap()),
-      evaluator.eval(&DefKey::new(NAMESPACE, "tDeliveryTime"), value).unwrap()
-    );
+    assert_eq!(Value::Time(FeelTime::local_opt(18, 35, 23, 0).unwrap()), evaluator.eval(&DefKey::new(NAMESPACE, "tDeliveryTime"), value).unwrap());
   }
 
   #[test]
@@ -564,10 +536,7 @@ mod tests {
     let context_str = r#"{ Appointment : date and time("2021-10-12T18:35:23") }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Appointment"])).unwrap();
-    assert_eq!(
-      Value::DateTime(FeelDateTime::new(FeelDate::new(2021, 10, 12).unwrap(), FeelTime::local_opt(18, 35, 23, 0).unwrap())),
-      evaluator.eval(&DefKey::new(NAMESPACE, "tAppointment"), value).unwrap()
-    );
+    assert_eq!(Value::DateTime(FeelDateTime::new(FeelDate::new(2021, 10, 12).unwrap(), FeelTime::local_opt(18, 35, 23, 0).unwrap())), evaluator.eval(&DefKey::new(NAMESPACE, "tAppointment"), value).unwrap());
   }
 
   #[test]
@@ -576,10 +545,7 @@ mod tests {
     let context_str = r#"{ Course Duration : duration("P2DT3H") }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Course", "Duration"])).unwrap();
-    assert_eq!(
-      Value::DaysAndTimeDuration(FeelDaysAndTimeDuration::from_s(183600)),
-      evaluator.eval(&DefKey::new(NAMESPACE, "tCourseDuration"), value).unwrap()
-    );
+    assert_eq!(Value::DaysAndTimeDuration(FeelDaysAndTimeDuration::from_s(183600)), evaluator.eval(&DefKey::new(NAMESPACE, "tCourseDuration"), value).unwrap());
   }
 
   #[test]
@@ -588,10 +554,7 @@ mod tests {
     let context_str = r#"{ Growth Duration : duration("P2Y5M") }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Growth", "Duration"])).unwrap();
-    assert_eq!(
-      Value::YearsAndMonthsDuration(FeelYearsAndMonthsDuration::from_ym(2, 5)),
-      evaluator.eval(&DefKey::new(NAMESPACE, "tGrowthDuration"), value).unwrap()
-    );
+    assert_eq!(Value::YearsAndMonthsDuration(FeelYearsAndMonthsDuration::from_ym(2, 5)), evaluator.eval(&DefKey::new(NAMESPACE, "tGrowthDuration"), value).unwrap());
   }
 
   #[test]
@@ -600,10 +563,7 @@ mod tests {
     let context_str = r#"{ Customer Name : "Bloomberg" }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Customer", "Name"])).unwrap();
-    assert_eq!(
-      Value::String("Bloomberg".to_string()),
-      evaluator.eval(&DefKey::new(NAMESPACE, "tCustomerName"), value).unwrap()
-    );
+    assert_eq!(Value::String("Bloomberg".to_string()), evaluator.eval(&DefKey::new(NAMESPACE, "tCustomerName"), value).unwrap());
   }
 
   #[test]
@@ -635,12 +595,7 @@ mod tests {
     let context_str = r#"{ Items : ["Mercury", "Venus", "Earth", "Mars"] }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Items"])).unwrap();
-    let expected = Value::List(vec![
-      Value::String("Mercury".to_string()),
-      Value::String("Venus".to_string()),
-      Value::String("Earth".to_string()),
-      Value::String("Mars".to_string()),
-    ]);
+    let expected = Value::List(vec![Value::String("Mercury".to_string()), Value::String("Venus".to_string()), Value::String("Earth".to_string()), Value::String("Mars".to_string())]);
     assert_eq!(expected, evaluator.eval(&DefKey::new(NAMESPACE, "tItems"), value).unwrap());
   }
 
@@ -650,13 +605,7 @@ mod tests {
     let context_str = r#"{ Items : [9000.00, 10000.00, 11000.00, 12000.00, 13000.00] }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Items"])).unwrap();
-    let expected = Value::List(vec![
-      value_number!(9_000),
-      value_number!(10_000),
-      value_number!(11_000),
-      value_number!(12_000),
-      value_number!(13_000),
-    ]);
+    let expected = Value::List(vec![value_number!(9_000), value_number!(10_000), value_number!(11_000), value_number!(12_000), value_number!(13_000)]);
     assert_eq!(expected, evaluator.eval(&DefKey::new(NAMESPACE, "tItems"), value).unwrap());
   }
 
@@ -666,13 +615,7 @@ mod tests {
     let context_str = r#"{ Items : [true, false, false, true, true] }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Items"])).unwrap();
-    let expected = Value::List(vec![
-      Value::Boolean(true),
-      Value::Boolean(false),
-      Value::Boolean(false),
-      Value::Boolean(true),
-      Value::Boolean(true),
-    ]);
+    let expected = Value::List(vec![Value::Boolean(true), Value::Boolean(false), Value::Boolean(false), Value::Boolean(true), Value::Boolean(true)]);
     assert_eq!(expected, evaluator.eval(&DefKey::new(NAMESPACE, "tItems"), value).unwrap());
   }
 
@@ -682,11 +625,7 @@ mod tests {
     let context_str = r#"{ Items : [date("2021-10-10"), date("2021-10-11"), date("2021-10-12")] }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Items"])).unwrap();
-    let expected = Value::List(vec![
-      Value::Date(FeelDate::new(2021, 10, 10).unwrap()),
-      Value::Date(FeelDate::new(2021, 10, 11).unwrap()),
-      Value::Date(FeelDate::new(2021, 10, 12).unwrap()),
-    ]);
+    let expected = Value::List(vec![Value::Date(FeelDate::new(2021, 10, 10).unwrap()), Value::Date(FeelDate::new(2021, 10, 11).unwrap()), Value::Date(FeelDate::new(2021, 10, 12).unwrap())]);
     assert_eq!(expected, evaluator.eval(&DefKey::new(NAMESPACE, "tItems"), value).unwrap());
   }
 
@@ -696,11 +635,7 @@ mod tests {
     let context_str = r#"{ Items : [time("12:21:35"), time("12:21:36"), time("12:21:37")] }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Items"])).unwrap();
-    let expected = Value::List(vec![
-      Value::Time(FeelTime::local_opt(12, 21, 35, 0).unwrap()),
-      Value::Time(FeelTime::local_opt(12, 21, 36, 0).unwrap()),
-      Value::Time(FeelTime::local_opt(12, 21, 37, 0).unwrap()),
-    ]);
+    let expected = Value::List(vec![Value::Time(FeelTime::local_opt(12, 21, 35, 0).unwrap()), Value::Time(FeelTime::local_opt(12, 21, 36, 0).unwrap()), Value::Time(FeelTime::local_opt(12, 21, 37, 0).unwrap())]);
     assert_eq!(expected, evaluator.eval(&DefKey::new(NAMESPACE, "tItems"), value).unwrap());
   }
 
@@ -710,10 +645,7 @@ mod tests {
     let context_str = r#"{ Items : [date and time("2021-10-10T21:23:18"), date and time("2021-10-11T12:18:59")] }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Items"])).unwrap();
-    let expected = Value::List(vec![
-      Value::DateTime(FeelDateTime::new(FeelDate::new(2021, 10, 10).unwrap(), FeelTime::local_opt(21, 23, 18, 0).unwrap())),
-      Value::DateTime(FeelDateTime::new(FeelDate::new(2021, 10, 11).unwrap(), FeelTime::local_opt(12, 18, 59, 0).unwrap())),
-    ]);
+    let expected = Value::List(vec![Value::DateTime(FeelDateTime::new(FeelDate::new(2021, 10, 10).unwrap(), FeelTime::local_opt(21, 23, 18, 0).unwrap())), Value::DateTime(FeelDateTime::new(FeelDate::new(2021, 10, 11).unwrap(), FeelTime::local_opt(12, 18, 59, 0).unwrap()))]);
     assert_eq!(expected, evaluator.eval(&DefKey::new(NAMESPACE, "tItems"), value).unwrap());
   }
 
@@ -733,10 +665,7 @@ mod tests {
     let context_str = r#"{ Items : [duration("P2Y3M"), duration("P2Y4M")] }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Items"])).unwrap();
-    let expected = Value::List(vec![
-      Value::YearsAndMonthsDuration(FeelYearsAndMonthsDuration::from_ym(2, 3)),
-      Value::YearsAndMonthsDuration(FeelYearsAndMonthsDuration::from_ym(2, 4)),
-    ]);
+    let expected = Value::List(vec![Value::YearsAndMonthsDuration(FeelYearsAndMonthsDuration::from_ym(2, 3)), Value::YearsAndMonthsDuration(FeelYearsAndMonthsDuration::from_ym(2, 4))]);
     assert_eq!(expected, evaluator.eval(&DefKey::new(NAMESPACE, "tItems"), value).unwrap());
   }
 
@@ -746,11 +675,7 @@ mod tests {
     let context_str = r#"{ Items : ["Mercury", "Venus", "Earth"] }"#;
     let context = dsntk_feel_evaluator::evaluate_context(&Default::default(), context_str).unwrap();
     let value = context.get_entry(&Name::new(&["Items"])).unwrap();
-    let expected = Value::List(vec![
-      Value::String("Mercury".to_string()),
-      Value::String("Venus".to_string()),
-      Value::String("Earth".to_string()),
-    ]);
+    let expected = Value::List(vec![Value::String("Mercury".to_string()), Value::String("Venus".to_string()), Value::String("Earth".to_string())]);
     assert_eq!(expected, evaluator.eval(&DefKey::new(NAMESPACE, "tItems"), value).unwrap());
   }
 

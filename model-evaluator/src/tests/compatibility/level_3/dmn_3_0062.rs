@@ -17,53 +17,25 @@ fn _0002() {
 #[test]
 fn _0003() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision003",
-    &ctx,
-    r#"null(expected 1+ parameters, actual number of parameters is 0)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision003", &ctx, r#"null(expected 1+ parameters, actual number of parameters is 0)"#);
 }
 
 #[test]
 fn _0004() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision003_a",
-    &ctx,
-    r#"null([core::mode] invalid argument type, expected number, actual type is Null)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision003_a", &ctx, r#"null([core::mode] invalid argument type, expected number, actual type is Null)"#);
 }
 
 #[test]
 fn _0005() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision004",
-    &ctx,
-    r#"null(expected 1+ parameters, actual number of parameters is 0)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision004", &ctx, r#"null(expected 1+ parameters, actual number of parameters is 0)"#);
 }
 
 #[test]
 fn _0006() {
   let ctx = context(r#"{}"#);
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "decision005",
-    &ctx,
-    r#"null([core::mode] invalid argument type, expected number, actual type is string)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "decision005", &ctx, r#"null([core::mode] invalid argument type, expected number, actual type is string)"#);
 }
 
 #[test]

@@ -48,12 +48,7 @@ fn _0009() {
 
 #[test]
 fn _0010() {
-  te_null(
-    false,
-    &scope!(),
-    r#"string length("abc","def")"#,
-    r#"expected 1 parameters, actual number of parameters is 2"#,
-  );
+  te_null(false, &scope!(), r#"string length("abc","def")"#, r#"expected 1 parameters, actual number of parameters is 2"#);
 }
 
 #[test]

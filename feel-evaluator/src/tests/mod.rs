@@ -143,16 +143,7 @@ pub fn te_years_and_months_duration_x(trace: bool, scope: &FeelScope, s: &str, e
 
 /// Utility function that tests evaluation of days and time duration.
 pub fn te_days_and_time_duration(trace: bool, scope: &FeelScope, s: &str, neg: bool, sec: i64, nano: i64) {
-  textual_expression(
-    trace,
-    scope,
-    s,
-    Value::DaysAndTimeDuration(if neg {
-      -FeelDaysAndTimeDuration::from_sn(sec, nano)
-    } else {
-      FeelDaysAndTimeDuration::from_sn(sec, nano)
-    }),
-  );
+  textual_expression(trace, scope, s, Value::DaysAndTimeDuration(if neg { -FeelDaysAndTimeDuration::from_sn(sec, nano) } else { FeelDaysAndTimeDuration::from_sn(sec, nano) }));
 }
 
 /// Utility function that tests evaluation of days and time duration.
@@ -307,10 +298,7 @@ pub fn te_date_time_local_after(trace: bool, scope: &FeelScope, expression: &str
       let Value::DateTime(actual) = value else {
         panic!("expected date and time, actual type is {}", value.type_of());
       };
-      assert!(
-        (actual > range_start && actual < range_end),
-        "ERROR\nexpected: {range_start}..{range_end}\n  actual: {actual}\n"
-      );
+      assert!((actual > range_start && actual < range_end), "ERROR\nexpected: {range_start}..{range_end}\n  actual: {actual}\n");
     }
     Err(reason) => {
       panic!("parsing date and time expression failed with reason: {}", reason);

@@ -74,14 +74,7 @@ impl PartialEq for FeelTime {
       (FeelZone::Utc, FeelZone::Zone(zone_name)) | (FeelZone::Zone(zone_name), FeelZone::Utc) => zone_name == ETC_UTC,
       (FeelZone::Utc, FeelZone::Offset(offset)) | (FeelZone::Offset(offset), FeelZone::Utc) => *offset == 0,
       (FeelZone::Local, FeelZone::Local) => true,
-      (FeelZone::Offset(offset), FeelZone::Zone(zone_name)) | (FeelZone::Zone(zone_name), FeelZone::Offset(offset)) => {
-        (*offset == 0 && zone_name == ETC_UTC)
-          || if let Some(zone_offset) = get_zone_offset(zone_name) {
-            *offset == zone_offset
-          } else {
-            false
-          }
-      }
+      (FeelZone::Offset(offset), FeelZone::Zone(zone_name)) | (FeelZone::Zone(zone_name), FeelZone::Offset(offset)) => (*offset == 0 && zone_name == ETC_UTC) || if let Some(zone_offset) = get_zone_offset(zone_name) { *offset == zone_offset } else { false },
       (FeelZone::Offset(offset1), FeelZone::Offset(offset2)) => offset1 == offset2,
       (FeelZone::Zone(zone_name1), FeelZone::Zone(zone_name2)) => zone_name1 == zone_name2,
       _ => false,
@@ -192,11 +185,7 @@ impl Sub<FeelDaysAndTimeDuration> for FeelTime {
     };
     let duration_hours = rhs.get_hours() + carry_hours;
     let remainder_hours = (duration_hours % 60) as u8;
-    let time_hours = if remainder_hours <= self.0 {
-      self.0 - remainder_hours
-    } else {
-      24 - (remainder_hours - self.0)
-    };
+    let time_hours = if remainder_hours <= self.0 { self.0 - remainder_hours } else { 24 - (remainder_hours - self.0) };
     FeelTime(time_hours, time_minutes, time_seconds, self.3, self.4)
   }
 }

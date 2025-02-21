@@ -83,15 +83,7 @@ mod tests {
   }
 
   fn getting_paths_from_variable_04() {
-    env::set_var(
-      DSNTK_DIR_TEST,
-      format!(
-        "{}{}{}",
-        current_dir().first().unwrap().to_string_lossy(),
-        list_separator(),
-        current_dir().first().unwrap().to_string_lossy()
-      ),
-    );
+    env::set_var(DSNTK_DIR_TEST, format!("{}{}{}", current_dir().first().unwrap().to_string_lossy(), list_separator(), current_dir().first().unwrap().to_string_lossy()));
     let paths = paths_from_variable(DSNTK_DIR_TEST);
     assert_eq!(2, paths.len());
     assert!(paths.first().unwrap().to_string_lossy().ends_with("/dsntk-rs/server"));
@@ -133,10 +125,7 @@ mod tests {
 
   #[test]
   fn getting_multiple_paths_from_command_line_arguments_should_work() {
-    let args = vec![
-      current_dir().first().unwrap().to_string_lossy().to_string(),
-      current_dir().first().unwrap().to_string_lossy().to_string(),
-    ];
+    let args = vec![current_dir().first().unwrap().to_string_lossy().to_string(), current_dir().first().unwrap().to_string_lossy().to_string()];
     let paths = paths_from_arguments(args);
     assert_eq!(2, paths.len());
     assert!(paths.first().unwrap().to_string_lossy().ends_with("/dsntk-rs/server"));

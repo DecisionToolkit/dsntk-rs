@@ -117,16 +117,7 @@ pub struct Lexer<'lexer> {
 impl<'lexer> Lexer<'lexer> {
   /// Creates a new lexer for specified input text.
   pub fn new(scope: &'lexer ParsingScope, start_token_type: TokenType, input: &str) -> Self {
-    Self {
-      scope,
-      start_token_type: Some(start_token_type),
-      input: input.chars().collect(),
-      position: 0,
-      unary_tests: false,
-      between: false,
-      type_name: false,
-      till_in: false,
-    }
+    Self { scope, start_token_type: Some(start_token_type), input: input.chars().collect(), position: 0, unary_tests: false, between: false, type_name: false, till_in: false }
   }
 
   pub fn set_unary_tests(&mut self) {
@@ -735,12 +726,7 @@ impl<'lexer> Lexer<'lexer> {
     // Tweak with the names of built-in types.
     // If the name is a built-in type name, then return a type name instead of regular name.
     //------------------------------------------------------------------------------------------------------------------
-    if self.type_name
-      && matches!(
-        name.to_string().as_str(),
-        "Any" | "Null" | "boolean" | "number" | "string" | "date" | "date and time" | "time" | "years and months duration" | "days and time duration"
-      )
-    {
+    if self.type_name && matches!(name.to_string().as_str(), "Any" | "Null" | "boolean" | "number" | "string" | "date" | "date and time" | "time" | "years and months duration" | "days and time duration") {
       self.type_name = false;
       return Ok((TokenType::BuiltInTypeName, TokenValue::BuiltInTypeName(name)));
     }
@@ -760,11 +746,7 @@ impl<'lexer> Lexer<'lexer> {
     // otherwise treat them as names of temporal functions.
     //------------------------------------------------------------------------------------------------------------------
     if matches!(name_str.as_str(), "date" | "time") {
-      return if self.is_next_character(&[':'], 0) {
-        Ok((TokenType::Name, TokenValue::Name(name)))
-      } else {
-        Ok((TokenType::NameDateTime, TokenValue::NameDateTime(name)))
-      };
+      return if self.is_next_character(&[':'], 0) { Ok((TokenType::Name, TokenValue::Name(name))) } else { Ok((TokenType::NameDateTime, TokenValue::NameDateTime(name))) };
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -1000,12 +982,7 @@ fn is_name_part_char(ch: char) -> bool {
 
 /// Returns `true` when the specified character is a whitespace character.
 fn is_whitespace(ch: char) -> bool {
-  is_vertical_space(ch)
-    || matches!(
-      ch,
-      '\u{0009}' | '\u{0020}' | '\u{0085}' | '\u{00A0}' | '\u{1680}' | '\u{180E}' | '\u{2000}'
-        ..='\u{200B}' | '\u{2028}' | '\u{2029}' | '\u{202F}' | '\u{205F}' | '\u{3000}' | '\u{FEFF}'
-    )
+  is_vertical_space(ch) || matches!(ch, '\u{0009}' | '\u{0020}' | '\u{0085}' | '\u{00A0}' | '\u{1680}' | '\u{180E}' | '\u{2000}'..='\u{200B}' | '\u{2028}' | '\u{2029}' | '\u{202F}' | '\u{205F}' | '\u{3000}' | '\u{FEFF}')
 }
 
 /// Returns `true` when the specified character is a vertical space.
@@ -1040,19 +1017,7 @@ fn hex_to_decimal(ch: char) -> u64 {
 /// from additional whitespaces at both sides. The final string is also trimmed.
 /// After trimming, spaces around additional characters (`.`,`/`,`-`,`'`,`+`,`*`) are removed.
 fn flatten_name_parts(parts: &[String]) -> String {
-  parts
-    .iter()
-    .map(|s| s.trim().to_string())
-    .collect::<Vec<String>>()
-    .join(" ")
-    .trim()
-    .to_string()
-    .replace(" . ", ".")
-    .replace(" / ", "/")
-    .replace(" - ", "-")
-    .replace(" ' ", "'")
-    .replace(" + ", "+")
-    .replace(" * ", "*")
+  parts.iter().map(|s| s.trim().to_string()).collect::<Vec<String>>().join(" ").trim().to_string().replace(" . ", ".").replace(" / ", "/").replace(" - ", "-").replace(" ' ", "'").replace(" + ", "+").replace(" * ", "*")
 }
 
 #[cfg(test)]

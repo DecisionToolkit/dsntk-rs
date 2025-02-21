@@ -28,20 +28,14 @@ fn _0004() {
 fn _0005() {
   let scope = FeelScope::default();
   let node = AstNode::Some(Box::new(AstNode::Name("n".into())), Box::new(AstNode::Name("n".into())));
-  assert_eq!(
-    r#"null(expected AST node QuantifiedContexts, actual AST node is Name(Name("n")))"#,
-    crate::evaluate(&scope, &node).to_string()
-  );
+  assert_eq!(r#"null(expected AST node QuantifiedContexts, actual AST node is Name(Name("n")))"#, crate::evaluate(&scope, &node).to_string());
 }
 
 #[test]
 fn _0006() {
   let scope = FeelScope::default();
   let node = AstNode::Some(Box::new(AstNode::QuantifiedContexts(vec![])), Box::new(AstNode::Name("n".into())));
-  assert_eq!(
-    r#"null(expected AST node Satisfies, actual AST node is QuantifiedContexts([]))"#,
-    crate::evaluate(&scope, &node).to_string()
-  );
+  assert_eq!(r#"null(expected AST node Satisfies, actual AST node is QuantifiedContexts([]))"#, crate::evaluate(&scope, &node).to_string());
 }
 
 #[test]

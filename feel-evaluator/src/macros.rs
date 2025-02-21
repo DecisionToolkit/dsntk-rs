@@ -4,12 +4,7 @@ macro_rules! invalid_argument_type {
     use dsntk_feel::value_null;
     use std::file;
     use std::path::Path;
-    value_null!(
-      Path::new(file!()).file_stem().unwrap().to_string_lossy(),
-      $function,
-      "{}",
-      format!("invalid argument type, expected {}, actual type is {}", $expected, $actual)
-    )
+    value_null!(Path::new(file!()).file_stem().unwrap().to_string_lossy(), $function, "{}", format!("invalid argument type, expected {}, actual type is {}", $expected, $actual))
   }};
 }
 

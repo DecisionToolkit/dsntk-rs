@@ -23,12 +23,7 @@ fn _0004() {
 
 #[test]
 fn _0005() {
-  te_null(
-    false,
-    &scope!(),
-    r#"union(1,2,3)"#,
-    r#"[core::union] invalid argument type, expected list, actual type is number"#,
-  );
+  te_null(false, &scope!(), r#"union(1,2,3)"#, r#"[core::union] invalid argument type, expected list, actual type is number"#);
 }
 
 #[test]
@@ -38,10 +33,5 @@ fn _0006() {
 
 #[test]
 fn _0007() {
-  te_null(
-    false,
-    &scope!(),
-    r#"union(list: [1,2])"#,
-    r#"[named::union] this function has no implementation with named parameters"#,
-  );
+  te_null(false, &scope!(), r#"union(list: [1,2])"#, r#"[named::union] this function has no implementation with named parameters"#);
 }

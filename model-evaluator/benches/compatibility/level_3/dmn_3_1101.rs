@@ -41,13 +41,6 @@ fn _0005(b: &mut Bencher) {
 #[bench]
 fn _0006(b: &mut Bencher) {
   let invocable_name = "decision006";
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    invocable_name,
-    &CTX,
-    "null([core::floor] invalid argument type, expected number, actual type is Null)",
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX, "null([core::floor] invalid argument type, expected number, actual type is Null)");
   iter!(b, MODEL_EVALUATOR.evaluate_invocable(&MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &CTX));
 }

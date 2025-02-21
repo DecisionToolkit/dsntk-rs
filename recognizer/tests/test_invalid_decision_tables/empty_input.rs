@@ -12,18 +12,12 @@ fn _0002() {
 
 #[test]
 fn _0003() {
-  assert_eq!(
-    "<RecognizerError> expected characters not found: ┌",
-    recognize("    \n          \n        ", false).unwrap_err().to_string()
-  );
+  assert_eq!("<RecognizerError> expected characters not found: ┌", recognize("    \n          \n        ", false).unwrap_err().to_string());
 }
 
 #[test]
 fn _0004() {
-  assert_eq!(
-    "<RecognizerError> expected characters not found: ┌",
-    recognize("  \t        \r    ", false).unwrap_err().to_string()
-  );
+  assert_eq!("<RecognizerError> expected characters not found: ┌", recognize("  \t        \r    ", false).unwrap_err().to_string());
 }
 
 #[test]

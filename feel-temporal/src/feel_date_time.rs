@@ -46,11 +46,7 @@ impl TryFrom<&str> for FeelDateTime {
                         if let Ok(min) = min_match.as_str().parse::<u8>() {
                           if let Some(sec_match) = captures.name("seconds") {
                             if let Ok(sec) = sec_match.as_str().parse::<u8>() {
-                              let fractional = if let Some(frac_match) = captures.name("fractional") {
-                                frac_match.as_str().parse::<f64>().unwrap_or(0.0)
-                              } else {
-                                0.0
-                              };
+                              let fractional = if let Some(frac_match) = captures.name("fractional") { frac_match.as_str().parse::<f64>().unwrap_or(0.0) } else { 0.0 };
                               let nanos = (fractional * 1e9).trunc() as u64;
                               if let Some(mut date) = FeelDate::new(year, month, day) {
                                 if let Some(zone) = FeelZone::from_captures(&captures) {
@@ -173,17 +169,9 @@ impl Add<FeelDaysAndTimeDuration> for FeelDateTime {
       return self.sub(rhs.abs());
     }
     let zone = self.1.zone().clone();
-    let date_time = <FeelDateTime as TryInto<DateTime<FixedOffset>>>::try_into(self)
-      .ok()?
-      .checked_add_signed(Duration::nanoseconds(rhs.as_nanos()))?;
+    let date_time = <FeelDateTime as TryInto<DateTime<FixedOffset>>>::try_into(self).ok()?.checked_add_signed(Duration::nanoseconds(rhs.as_nanos()))?;
     let date = FeelDate::new(date_time.year(), date_time.month(), date_time.day())?;
-    let time = FeelTime::zone_opt(
-      date_time.hour() as u8,
-      date_time.minute() as u8,
-      date_time.second() as u8,
-      date_time.nanosecond() as u64,
-      zone,
-    )?;
+    let time = FeelTime::zone_opt(date_time.hour() as u8, date_time.minute() as u8, date_time.second() as u8, date_time.nanosecond() as u64, zone)?;
     Some(FeelDateTime(date, time))
   }
 }
@@ -199,13 +187,7 @@ impl Sub<FeelDaysAndTimeDuration> for FeelDateTime {
     let mut date_time = <FeelDateTime as TryInto<DateTime<FixedOffset>>>::try_into(self).ok()?;
     date_time -= Duration::nanoseconds(rhs.as_nanos());
     let date = FeelDate::new(date_time.year(), date_time.month(), date_time.day())?;
-    let time = FeelTime::zone_opt(
-      date_time.hour() as u8,
-      date_time.minute() as u8,
-      date_time.second() as u8,
-      date_time.nanosecond() as u64,
-      zone,
-    )?;
+    let time = FeelTime::zone_opt(date_time.hour() as u8, date_time.minute() as u8, date_time.second() as u8, date_time.nanosecond() as u64, zone)?;
     Some(FeelDateTime(date, time))
   }
 }

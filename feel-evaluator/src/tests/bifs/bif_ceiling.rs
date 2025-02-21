@@ -109,22 +109,12 @@ fn _0021() {
 
 #[test]
 fn _0022() {
-  te_null(
-    false,
-    &scope!(),
-    "ceiling(n: 5.777, scale: 1, foo: 11)",
-    "expected 1,2 parameters, actual number of parameters is 3",
-  );
+  te_null(false, &scope!(), "ceiling(n: 5.777, scale: 1, foo: 11)", "expected 1,2 parameters, actual number of parameters is 3");
 }
 
 #[test]
 fn _0023() {
-  te_null(
-    false,
-    &scope!(),
-    r#"ceiling(true)"#,
-    r#"[core::ceiling] invalid argument type, expected number, actual type is boolean"#,
-  );
+  te_null(false, &scope!(), r#"ceiling(true)"#, r#"[core::ceiling] invalid argument type, expected number, actual type is boolean"#);
 }
 
 #[test]
@@ -139,12 +129,7 @@ fn _0025() {
 
 #[test]
 fn _0026() {
-  te_null(
-    false,
-    &scope!(),
-    r#"ceiling(n: 5.777, scale: "1")"#,
-    "[core::ceiling] invalid argument type, expected number, actual type is string",
-  );
+  te_null(false, &scope!(), r#"ceiling(n: 5.777, scale: "1")"#, "[core::ceiling] invalid argument type, expected number, actual type is string");
 }
 
 #[test]
@@ -174,20 +159,10 @@ fn _0029() {
 
 #[test]
 fn _0030() {
-  te_null(
-    false,
-    &scope!(),
-    r#"ceiling(n: 5.777, scale: 6145)"#,
-    "[core::ceiling] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is 6145",
-  );
+  te_null(false, &scope!(), r#"ceiling(n: 5.777, scale: 6145)"#, "[core::ceiling] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is 6145");
 }
 
 #[test]
 fn _0031() {
-  te_null(
-    false,
-    &scope!(),
-    r#"ceiling(n: 5.777, scale: -6112)"#,
-    "[core::ceiling] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is -6112",
-  );
+  te_null(false, &scope!(), r#"ceiling(n: 5.777, scale: -6112)"#, "[core::ceiling] <FeelNumberError> invalid scale, allowed range is -6111..6144, actual is -6112");
 }

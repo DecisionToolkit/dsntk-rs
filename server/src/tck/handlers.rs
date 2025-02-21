@@ -63,18 +63,12 @@ impl<T: Serialize> fmt::Display for TckResultDto<T> {
 impl<T> TckResultDto<T> {
   /// Utility function for creating a result with some data inside.
   pub fn data(d: T) -> TckResultDto<T> {
-    TckResultDto {
-      data: Some(d),
-      ..Default::default()
-    }
+    TckResultDto { data: Some(d), ..Default::default() }
   }
 
   /// Utility function for creating a result with a single error inside.
   pub fn error(err: impl fmt::Display) -> TckResultDto<T> {
-    TckResultDto {
-      errors: vec![TckErrorDto { detail: format!("{err}") }],
-      ..Default::default()
-    }
+    TckResultDto { errors: vec![TckErrorDto { detail: format!("{err}") }], ..Default::default() }
   }
 }
 

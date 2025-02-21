@@ -45,18 +45,9 @@ pub fn evaluate_external_java_function(class_name: &str, method_signature: &str,
   let Some(parameter_type_names) = parts.next() else {
     return value_null!("no parameter types in method signature");
   };
-  let parameter_types: Vec<String> = parameter_type_names
-    .trim()
-    .trim_end_matches(')')
-    .split(',')
-    .filter_map(|s| if s.trim().is_empty() { None } else { Some(s.trim().to_string()) })
-    .collect();
+  let parameter_types: Vec<String> = parameter_type_names.trim().trim_end_matches(')').split(',').filter_map(|s| if s.trim().is_empty() { None } else { Some(s.trim().to_string()) }).collect();
   if parameter_types.len() != arguments.len() {
-    return value_null!(
-      "the number of parameter types ({}) differs from the number of arguments ({})",
-      parameter_types.len(),
-      arguments.len()
-    );
+    return value_null!("the number of parameter types ({}) differs from the number of arguments ({})", parameter_types.len(), arguments.len());
   }
   let mut argument_values = vec![];
   for argument in arguments {
@@ -65,12 +56,7 @@ pub fn evaluate_external_java_function(class_name: &str, method_signature: &str,
       Err(reason) => return value_null!("{}", reason.to_string()),
     };
   }
-  let request_dto = RequestDto {
-    class_name: class_name.to_string(),
-    method_name: method_name.to_string(),
-    parameter_types,
-    argument_values,
-  };
+  let request_dto = RequestDto { class_name: class_name.to_string(), method_name: method_name.to_string(), parameter_types, argument_values };
   match CLIENT.post(JAVA_RPC_SERVER_URL).json(&request_dto).send() {
     Ok(response) => match response.json::<ResponseDto>() {
       Ok(response_dto) => {

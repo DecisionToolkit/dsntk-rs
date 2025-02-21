@@ -15,12 +15,7 @@ fn _0002() {
 #[test]
 fn _0003() {
   let scope = &te_scope("{}");
-  te_null(
-    false,
-    scope,
-    "sort([3,1,4,5,2], [10,11,12], function(x,y) x < y)",
-    r#"expected 2 parameters, actual number of parameters is 3"#,
-  );
+  te_null(false, scope, "sort([3,1,4,5,2], [10,11,12], function(x,y) x < y)", r#"expected 2 parameters, actual number of parameters is 3"#);
 }
 
 #[test]
@@ -44,45 +39,25 @@ fn _0006() {
 #[test]
 fn _0007() {
   let scope = &te_scope("{}");
-  te_null(
-    false,
-    scope,
-    r#"sort([5,4,3,2,1],10)"#,
-    r#"sort: expected ordering function definition as a second argument"#,
-  );
+  te_null(false, scope, r#"sort([5,4,3,2,1],10)"#, r#"sort: expected ordering function definition as a second argument"#);
 }
 
 #[test]
 fn _0008() {
   let scope = &te_scope("{}");
-  te_null(
-    false,
-    scope,
-    r#"sort([3,1,4,5,2], function(x,y,z) x < y + z)"#,
-    r#"sort: ordering function should take exactly two arguments"#,
-  );
+  te_null(false, scope, r#"sort([3,1,4,5,2], function(x,y,z) x < y + z)"#, r#"sort: ordering function should take exactly two arguments"#);
 }
 
 #[test]
 fn _0009() {
   let scope = &te_scope("{}");
-  te_null(
-    false,
-    scope,
-    r#"sort([3,1,4,5,2], function(x) x < 10)"#,
-    r#"sort: ordering function should take exactly two arguments"#,
-  );
+  te_null(false, scope, r#"sort([3,1,4,5,2], function(x) x < 10)"#, r#"sort: ordering function should take exactly two arguments"#);
 }
 
 #[test]
 fn _0010() {
   let scope = &te_scope("{}");
-  te_null(
-    false,
-    scope,
-    r#"sort([3,1,4,5,2], function() false)"#,
-    r#"sort: ordering function should take exactly two arguments"#,
-  );
+  te_null(false, scope, r#"sort([3,1,4,5,2], function() false)"#, r#"sort: ordering function should take exactly two arguments"#);
 }
 
 #[test]

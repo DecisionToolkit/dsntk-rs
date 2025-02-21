@@ -93,12 +93,7 @@ fn _0018() {
 
 #[test]
 fn _0019() {
-  te_null(
-    false,
-    &scope!(),
-    r#"10 = ({c1: {a: {c: "bar", b: "foo"}}})"#,
-    r#"equal err '10' =?= '{c1: {a: {b: "foo", c: "bar"}}}'"#,
-  );
+  te_null(false, &scope!(), r#"10 = ({c1: {a: {c: "bar", b: "foo"}}})"#, r#"equal err '10' =?= '{c1: {a: {b: "foo", c: "bar"}}}'"#);
 }
 
 #[test]
@@ -123,12 +118,7 @@ fn _0023() {
 
 #[test]
 fn _0024() {
-  te_null(
-    false,
-    &scope!(),
-    r#"{a: {b: "bar", c: {x: "car"}}} = {a: {b: "bar", c: 15}}"#,
-    r#"equal err '{a: {b: "bar", c: {x: "car"}}}' =?= '{a: {b: "bar", c: 15}}'"#,
-  );
+  te_null(false, &scope!(), r#"{a: {b: "bar", c: {x: "car"}}} = {a: {b: "bar", c: 15}}"#, r#"equal err '{a: {b: "bar", c: {x: "car"}}}' =?= '{a: {b: "bar", c: 15}}'"#);
 }
 
 #[test]
@@ -173,12 +163,7 @@ fn _0032() {
 
 #[test]
 fn _0033() {
-  te_bool(
-    false,
-    &scope!(),
-    r#" date and time("2018-12-08T00:00:00+00:00") = date and time("2018-12-08T00:00:00@Etc/UTC") "#,
-    true,
-  );
+  te_bool(false, &scope!(), r#" date and time("2018-12-08T00:00:00+00:00") = date and time("2018-12-08T00:00:00@Etc/UTC") "#, true);
 }
 
 #[test]

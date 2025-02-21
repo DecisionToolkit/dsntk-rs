@@ -11,38 +11,17 @@ fn _0001() {
 
 #[test]
 fn _0002() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "incorrect_001",
-    &CTX,
-    r#"null(java.lang.NoSuchMethodException: java.lang.Math.foo(double))"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "incorrect_001", &CTX, r#"null(java.lang.NoSuchMethodException: java.lang.Math.foo(double))"#);
 }
 
 #[test]
 fn _0003() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "incorrect_002",
-    &CTX,
-    r#"null(java.lang.ClassNotFoundException: java.lang.Foo)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "incorrect_002", &CTX, r#"null(java.lang.ClassNotFoundException: java.lang.Foo)"#);
 }
 
 #[test]
 fn _0004() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "incorrect_003",
-    &CTX,
-    r#"null(java.lang.NoSuchMethodException: java.lang.Math.max(java.lang.String,java.lang.String))"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "incorrect_003", &CTX, r#"null(java.lang.NoSuchMethodException: java.lang.Math.max(java.lang.String,java.lang.String))"#);
 }
 
 #[test]
@@ -82,14 +61,7 @@ fn _0011() {
 
 #[test]
 fn _0012() {
-  assert_decision(
-    &MODEL_EVALUATOR,
-    &MODEL_NAMESPACE,
-    &MODEL_NAME,
-    "literal_007_a",
-    &CTX,
-    r#"null(simple DTO conversion to object failed, class: char, type: XSD_STRING)"#,
-  );
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, "literal_007_a", &CTX, r#"null(simple DTO conversion to object failed, class: char, type: XSD_STRING)"#);
 }
 
 #[test]

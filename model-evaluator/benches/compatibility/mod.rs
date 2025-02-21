@@ -113,26 +113,17 @@ pub fn context(input: &str) -> FeelContext {
 /// Utility function that evaluates a `Decision` specified by name and compares the result.
 fn assert_decision(model_evaluator: &ModelEvaluator, model_namespace: &str, model_name: &str, invocable_name: &str, input_data: &FeelContext, expected: &str) {
   let actual = model_evaluator.evaluate_invocable(model_namespace, model_name, invocable_name, input_data).to_string();
-  assert_eq!(
-    expected, actual,
-    "Assertion error, actual value of the decision does not match the expected value:\n  expected: {expected}\n    actual: {actual}\n"
-  );
+  assert_eq!(expected, actual, "Assertion error, actual value of the decision does not match the expected value:\n  expected: {expected}\n    actual: {actual}\n");
 }
 
 /// Utility function that evaluates a `BusinessKnowledgeModel` specified by name and compares the result.
 fn assert_business_knowledge_model(model_evaluator: &ModelEvaluator, model_namespace: &str, model_name: &str, invocable_name: &str, input_data: &FeelContext, expected: &str) {
   let actual = model_evaluator.evaluate_invocable(model_namespace, model_name, invocable_name, input_data).to_string();
-  assert_eq!(
-    expected, actual,
-    "Assertion error, actual value of the business knowledge model does not match the expected value:\n  expected: {expected}\n    actual: {actual}\n"
-  );
+  assert_eq!(expected, actual, "Assertion error, actual value of the business knowledge model does not match the expected value:\n  expected: {expected}\n    actual: {actual}\n");
 }
 
 /// Utility function that evaluates a `DecisionService` specified by name and compares the result with expected value.
 fn assert_decision_service(model_evaluator: &ModelEvaluator, model_namespace: &str, model_name: &str, invocable_name: &str, input_data: &FeelContext, expected: &str) {
   let actual = model_evaluator.evaluate_invocable(model_namespace, model_name, invocable_name, input_data).to_string();
-  assert_eq!(
-    expected, actual,
-    "Assertion error, actual value of the decision service does not match the expected value:\n  expected: {expected}\n    actual: {actual}\n"
-  );
+  assert_eq!(expected, actual, "Assertion error, actual value of the decision service does not match the expected value:\n  expected: {expected}\n    actual: {actual}\n");
 }

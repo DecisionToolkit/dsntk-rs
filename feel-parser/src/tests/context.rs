@@ -73,10 +73,7 @@ fn test_from_feel_context_0005() {
 fn test_from_feel_context_0006() {
   let mut fctx_a = FeelContext::default();
   fctx_a.set_null("a".into());
-  fctx_a.set_entry(
-    &"b".into(),
-    Value::FeelType(FeelType::context(&[(&"i".into(), &FeelType::Number), (&"j".into(), &FeelType::Boolean)])),
-  );
+  fctx_a.set_entry(&"b".into(), Value::FeelType(FeelType::context(&[(&"i".into(), &FeelType::Number), (&"j".into(), &FeelType::Boolean)])));
   let mut fctx_b = FeelContext::default();
   fctx_b.set_null("x".into());
   fctx_b.set_entry(&"y".into(), Value::Context(fctx_a));
@@ -88,13 +85,7 @@ fn test_from_feel_context_0006() {
 fn test_from_feel_context_0007() {
   let mut fctx_a = FeelContext::default();
   fctx_a.set_null("a".into());
-  fctx_a.set_entry(
-    &"b".into(),
-    Value::FeelType(FeelType::context(&[
-      (&"i".into(), &FeelType::Number),
-      (&"j".into(), &FeelType::context(&[(&"m".into(), &FeelType::Date), (&"n".into(), &FeelType::Time)])),
-    ])),
-  );
+  fctx_a.set_entry(&"b".into(), Value::FeelType(FeelType::context(&[(&"i".into(), &FeelType::Number), (&"j".into(), &FeelType::context(&[(&"m".into(), &FeelType::Date), (&"n".into(), &FeelType::Time)]))])));
   let mut fctx_b = FeelContext::default();
   fctx_b.set_null("x".into());
   fctx_b.set_entry(&"y".into(), Value::Context(fctx_a));
@@ -118,13 +109,7 @@ fn test_from_feel_context_0008() {
 fn test_from_feel_context_0009() {
   let mut fctx_a = FeelContext::default();
   fctx_a.set_null("a".into());
-  fctx_a.set_entry(
-    &"b".into(),
-    Value::FeelType(FeelType::list(&FeelType::context(&[
-      (&"c".into(), &FeelType::DaysAndTimeDuration),
-      (&"d".into(), &FeelType::YearsAndMonthsDuration),
-    ]))),
-  );
+  fctx_a.set_entry(&"b".into(), Value::FeelType(FeelType::list(&FeelType::context(&[(&"c".into(), &FeelType::DaysAndTimeDuration), (&"d".into(), &FeelType::YearsAndMonthsDuration)]))));
   let mut fctx_b = FeelContext::default();
   fctx_b.set_null("x".into());
   fctx_b.set_entry(&"y".into(), Value::Context(fctx_a));

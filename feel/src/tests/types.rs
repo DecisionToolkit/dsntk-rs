@@ -51,10 +51,7 @@ fn test_get_value_checked() {
   assert_eq!("null", T_ANY.get_value_checked(&v_null).unwrap().to_string());
   assert_eq!("true", T_ANY.get_value_checked(&v_boolean).unwrap().to_string());
   assert!(T_BOOLEAN.get_value_checked(&v_string).is_err());
-  assert_eq!(
-    r#"<TypesError> invalid value for retrieving with type check, type = 'boolean', value = '"hello"'"#,
-    format!("{}", T_BOOLEAN.get_value_checked(&v_string).err().unwrap()).as_str()
-  );
+  assert_eq!(r#"<TypesError> invalid value for retrieving with type check, type = 'boolean', value = '"hello"'"#, format!("{}", T_BOOLEAN.get_value_checked(&v_string).err().unwrap()).as_str());
 }
 
 #[test]
@@ -360,10 +357,7 @@ macro_rules! gcv_ok_null {
 
 macro_rules! gcv_err {
   ($typ:expr, $value:expr) => {
-    assert_eq!(
-      value_null!("type '{}' is not conformant with value '{}'", *$typ, $value),
-      $typ.get_conformant_value(&$value)
-    );
+    assert_eq!(value_null!("type '{}' is not conformant with value '{}'", *$typ, $value), $typ.get_conformant_value(&$value));
   };
 }
 
@@ -410,46 +404,11 @@ fn test_type_get_conformant_value() {
   ctx_d.set_entry(&NAME_D, v_number_1.clone());
   let v_context_d = Value::Context(ctx_d);
   // functions
-  let v_function_a = Value::FunctionDefinition(
-    vec![(NAME_A.clone(), T_NUMBER.clone()), (NAME_B.clone(), T_NUMBER.clone())],
-    FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(1)))),
-    false,
-    Closure::default(),
-    FeelContext::default(),
-    T_NUMBER.clone(),
-  );
-  let v_function_b = Value::FunctionDefinition(
-    vec![(NAME_A.clone(), T_NUMBER.clone()), (NAME_B.clone(), T_NUMBER.clone())],
-    FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(2)))),
-    false,
-    Closure::default(),
-    FeelContext::default(),
-    T_BOOLEAN.clone(),
-  );
-  let v_function_c = Value::FunctionDefinition(
-    vec![(NAME_A.clone(), T_NUMBER.clone())],
-    FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(3)))),
-    false,
-    Closure::default(),
-    FeelContext::default(),
-    T_STRING.clone(),
-  );
-  let v_function_d = Value::FunctionDefinition(
-    vec![(NAME_D.clone(), T_NUMBER.clone())],
-    FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(4)))),
-    false,
-    Closure::default(),
-    FeelContext::default(),
-    T_STRING.clone(),
-  );
-  let v_function_e = Value::FunctionDefinition(
-    vec![(NAME_A.clone(), T_STRING.clone())],
-    FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(5)))),
-    false,
-    Closure::default(),
-    FeelContext::default(),
-    T_STRING.clone(),
-  );
+  let v_function_a = Value::FunctionDefinition(vec![(NAME_A.clone(), T_NUMBER.clone()), (NAME_B.clone(), T_NUMBER.clone())], FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(1)))), false, Closure::default(), FeelContext::default(), T_NUMBER.clone());
+  let v_function_b = Value::FunctionDefinition(vec![(NAME_A.clone(), T_NUMBER.clone()), (NAME_B.clone(), T_NUMBER.clone())], FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(2)))), false, Closure::default(), FeelContext::default(), T_BOOLEAN.clone());
+  let v_function_c = Value::FunctionDefinition(vec![(NAME_A.clone(), T_NUMBER.clone())], FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(3)))), false, Closure::default(), FeelContext::default(), T_STRING.clone());
+  let v_function_d = Value::FunctionDefinition(vec![(NAME_D.clone(), T_NUMBER.clone())], FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(4)))), false, Closure::default(), FeelContext::default(), T_STRING.clone());
+  let v_function_e = Value::FunctionDefinition(vec![(NAME_A.clone(), T_STRING.clone())], FunctionBody::LiteralExpression(Arc::new(Box::new(|_: &FeelScope| value_number!(5)))), false, Closure::default(), FeelContext::default(), T_STRING.clone());
   // ranges
   let v_range_a = Value::Range(Box::new(v_number_1.clone()), false, Box::new(v_number_2), false);
   let v_range_b = Value::Range(Box::new(v_date.clone()), false, Box::new(v_date_b), false);
