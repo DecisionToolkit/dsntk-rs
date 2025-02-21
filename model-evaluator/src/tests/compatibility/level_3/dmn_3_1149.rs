@@ -1,18 +1,19 @@
 use super::*;
 
 from_examples!(DMN_3_1149);
+
 static_context!(CTX, "{}");
+
+fn eq(invocable: &str, ctx: &FeelContext, expected: &str) {
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &ctx, expected);
+}
 
 #[test]
 fn _0001() {
-  let invocable = "decision001";
-  let expected = "true";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
+  eq("decision001", &CTX, "true");
 }
 
 #[test]
 fn _0002() {
-  let invocable = "decision002";
-  let expected = "null(expected 0 parameters, actual number of parameters is 1)";
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable, &CTX, expected);
+  eq("decision002", &CTX, "null(expected 0 parameters, actual number of parameters is 1)");
 }
