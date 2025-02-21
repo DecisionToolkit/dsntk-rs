@@ -38,16 +38,11 @@ fn test_rect_conversion_into_tuple() {
 #[test]
 fn test_rect_contains() {
   let r = Rect::new(10, 10, 20, 20);
-  let s1 = Rect::new(10, 10, 20, 20);
-  assert!(r.contains(&s1));
-  let s2 = Rect::new(15, 15, 20, 20);
-  assert!(r.contains(&s2));
-  let s3 = Rect::new(10, 10, 15, 15);
-  assert!(r.contains(&s3));
-  let s4 = Rect::new(9, 9, 20, 20);
-  assert!(!r.contains(&s4));
-  let s5 = Rect::new(10, 10, 21, 21);
-  assert!(!r.contains(&s5));
+  assert!(r.contains(&Rect::new(10, 10, 20, 20)));
+  assert!(r.contains(&Rect::new(15, 15, 20, 20)));
+  assert!(r.contains(&Rect::new(10, 10, 15, 15)));
+  assert!(!r.contains(&Rect::new(9, 9, 20, 20)));
+  assert!(!r.contains(&Rect::new(10, 10, 21, 21)));
 }
 
 #[test]
