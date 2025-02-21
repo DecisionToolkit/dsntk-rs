@@ -171,8 +171,8 @@ pub fn extract(input: &str) -> String {
     output.push_str("\n/// Calls requested reduce action.\n");
     output.push_str("pub fn reduce(reduce_actions: &mut impl ReduceActions, rule_number: i16) -> Result<()> {\n");
     output.push_str("  match rule_number {\n");
-    for (num, comment, rule) in &actions {
-      let _ = writeln!(output, "    {num} => reduce_actions.action_{rule}(), // {comment}");
+    for (num, _comment, rule) in &actions {
+      let _ = writeln!(output, "    {num} => reduce_actions.action_{rule}(),");
     }
     output.push_str("    _ => Ok(())\n");
     output.push_str("  }\n");
