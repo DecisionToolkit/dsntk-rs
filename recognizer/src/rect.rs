@@ -43,10 +43,7 @@ impl Rect {
 
   /// Checks if the specified rectangle is contained in this rectangle.
   pub fn contains(&self, other: &Rect) -> bool {
-    match (other.left >= self.left, other.top >= self.top, other.right <= self.right, other.bottom <= self.bottom) {
-      (true, true, true, true) => true,
-      _ => false,
-    }
+    other.left >= self.left && other.top >= self.top && other.right <= self.right && other.bottom <= self.bottom
   }
 
   /// Returns the width of the rectangle.
