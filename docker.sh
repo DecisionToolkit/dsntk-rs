@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# build the Decision Toolkit binary
+# build the DecisionToolkit binary
 cargo +stable build --release --target x86_64-unknown-linux-musl
 
 # set the container name
 NAME=dsntk
 
-# set the container version taken from Decision Toolkit binary
+# set the container version taken from DecisionToolkit binary
 VERSION=$(cargo +stable run --release --target x86_64-unknown-linux-musl -- --version)
 
 # remove existing Docker container

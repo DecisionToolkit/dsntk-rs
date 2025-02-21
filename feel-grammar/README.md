@@ -1,4 +1,4 @@
-[dsntk][dsntk-url] | [Decision Toolkit][github-url]
+[dsntk][dsntk-url] | [DecisionToolkit][github-url]
 
 # FEEL grammar
 
@@ -47,6 +47,6 @@ at your option.
 
 ## Contribution
 
-Any contributions to [**Decision Toolkit**][github-url] are greatly appreciated.
+Any contributions to [**DecisionToolkit**][github-url] are greatly appreciated.
 All contributions intentionally submitted for inclusion in the work by you,
 shall be dual licensed as above, without any additional terms or conditions.

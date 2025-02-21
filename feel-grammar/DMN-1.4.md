@@ -1,4 +1,4 @@
-[dsntk][dsntk-url] | [Decision Toolkit][github-url]
+[dsntk][dsntk-url] | [DecisionToolkit][github-url]
 
 [github-url]: https://github.com/DecisionToolkit
 

@@ -3,11 +3,11 @@ layout: home
 
 hero:
   name: "dsntk"
-  text: "Decision Toolkit"
+  text: "DecisionToolkit"
   tagline: "build, test & execute decision models"
   image:
     src: /decision-toolkit.svg
-    alt: "Decision Toolkit"
+    alt: "DecisionToolkit"
   actions:
     - theme: brand
       text: Overview

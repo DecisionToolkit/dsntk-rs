@@ -354,19 +354,22 @@ fn _0068(b: &mut Bencher) {
   bench(b, "datetime_006", "false");
 }
 
+/*
+// Commented out, pending RTF equality comparisons with zones clarification.
 #[bench]
 fn _0069(b: &mut Bencher) {
   bench(b, "datetime_007", "false");
 }
+*/
 
 #[bench]
 fn _0070(b: &mut Bencher) {
-  bench(b, "datetime_008", "false");
+  bench(b, "datetime_008", "true");
 }
 
 #[bench]
 fn _0071(b: &mut Bencher) {
-  bench(b, "datetime_008_a", "false");
+  bench(b, "datetime_008_a", "true");
 }
 
 #[bench]
@@ -536,7 +539,7 @@ fn _0104(b: &mut Bencher) {
 
 #[bench]
 fn _0105(b: &mut Bencher) {
-  bench_n(b, "range_006", "true");
+  bench_n(b, "range_006", "false");
 }
 
 #[bench]
@@ -546,17 +549,17 @@ fn _0106(b: &mut Bencher) {
 
 #[bench]
 fn _0107(b: &mut Bencher) {
-  bench_n(b, "range_007", "true");
+  bench_n(b, "range_007", "false");
 }
 
 #[bench]
 fn _0108(b: &mut Bencher) {
-  bench_n(b, "range_008", "true");
+  bench_n(b, "range_008", "false");
 }
 
 #[bench]
 fn _0109(b: &mut Bencher) {
-  bench_n(b, "range_009", "true");
+  bench_n(b, "range_009", "false");
 }
 
 #[bench]

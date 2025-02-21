@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #==============================================================================
-# Utility script for publishing crates of Decision Toolkit project
+# Utility script for publishing crates of DecisionToolkit project.
 #==============================================================================
 
 # Number of the version to be published.
