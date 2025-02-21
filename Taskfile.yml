@@ -69,24 +69,14 @@ tasks:
       - cmd: cargo +nightly clippy --workspace --all-targets --features=tck
 
   cov:
-    desc: Generates code coverage report using grcov
+    desc: Generates code coverage report
     cmds:
       - cmd: ./Coverage.sh
 
-  cov-new:
-    desc: Generates code coverage report using cargo-llvm-cov
-    cmds:
-      - cmd: ./Coverage-new.sh
-
   cov-pdf:
-    desc: Generates code coverage report using grcov as PDF document
+    desc: Generates code coverage report also as PDF document
     cmds:
       - cmd: PDF_REPORT=yes ./Coverage.sh
-
-  cov-new-pdf:
-    desc: Generates code coverage report using cargo-llvm-cov as PDF document
-    cmds:
-      - cmd: PDF_REPORT=yes ./Coverage-new.sh
 
   cov-macros:
     desc: Runs code coverage for dsntk-macros
