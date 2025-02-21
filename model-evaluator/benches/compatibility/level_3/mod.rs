@@ -71,6 +71,7 @@ mod dmn_3_0088;
 mod dmn_3_0089;
 mod dmn_3_0090;
 mod dmn_3_0091;
+mod dmn_3_0092;
 mod dmn_3_0100;
 mod dmn_3_0103;
 mod dmn_3_1100;
