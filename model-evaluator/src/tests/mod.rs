@@ -117,8 +117,7 @@ fn assert_business_knowledge_model(model_evaluator: &ModelEvaluator, model_names
 }
 
 /// Utility function that evaluates a [DecisionService] specified by name and compares the result with expected value.
-fn assert_decision_service(model_evaluator: &ModelEvaluator, model_namespace: &str, model_name: &str, invocable_name: &str, input: &str, expected: &str) {
-  let input_data = context(input);
+fn assert_decision_service(model_evaluator: &ModelEvaluator, model_namespace: &str, model_name: &str, invocable_name: &str, input_data: &FeelContext, expected: &str) {
   let actual = model_evaluator.evaluate_invocable(model_namespace, model_name, invocable_name, &input_data).to_string();
   assert_eq!(
     expected, actual,

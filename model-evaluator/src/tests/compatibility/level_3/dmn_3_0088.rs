@@ -9,7 +9,7 @@ fn _0001() {
     &MODEL_NAMESPACE,
     &MODEL_NAME,
     "Evaluation DS",
-    r#"{Grade: "A",Student's name: "John Doe",Teacher's Evaluation: "A very motivated, hard-working student!"}"#,
+    &context(r#"{Grade: "A",Student's name: "John Doe",Teacher's Evaluation: "A very motivated, hard-working student!"}"#),
     r#""John Doe is Graduated with merit with grade: A and evaluation: A very motivated, hard-working student!""#,
   );
 }
