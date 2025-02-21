@@ -392,7 +392,7 @@ mod tests {
 
   #[test]
   fn test() {
-    let decision_table: DecisionTable = dsntk_recognizer::recognize(H_000210, false).unwrap().into();
+    let decision_table: DecisionTable = dsntk_recognizer::recognize_from_unicode(H_000210, false).unwrap().into();
     let scope = context(r#"{Customer:"Business", Order:-3.23 }"#).into();
     let evaluator = build_decision_table_evaluator(&scope, &decision_table).unwrap();
     assert_eq!(value_number!(10, 2), evaluator(&scope));

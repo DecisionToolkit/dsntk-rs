@@ -1,7 +1,7 @@
 use dsntk_examples::decision_tables::*;
-use dsntk_recognizer::recognize;
+use dsntk_recognizer::recognize_from_unicode;
 
 #[test]
 fn test_h_000010() {
-  let _ = recognize(H_000010, false);
+  let _ = recognize_from_unicode(H_000010, false);
 }
