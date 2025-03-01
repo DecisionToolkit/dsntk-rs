@@ -7,7 +7,7 @@
 
 use self::errors::*;
 use crate::DsntkError;
-use uriparse::{RelativeReference, URIReference, URI};
+use uriparse::{URIReference, URI};
 
 /// URI reference used for utilizing `href` attribute.
 #[derive(Debug, Clone)]
@@ -33,28 +33,26 @@ impl HRef {
 impl TryFrom<&str> for HRef {
   type Error = DsntkError;
   /// Converts [HRef] from string.
-  fn try_from(value: &str) -> Result<Self, Self::Error> {
-    if let Ok(reference) = RelativeReference::try_from(value) {
-      if reference.has_query() {
-        return Err(err_invalid_reference(value));
+  fn try_from(s: &str) -> Result<Self, Self::Error> {
+    if let Ok(uri_reference) = URIReference::try_from(s) {
+      if uri_reference.has_query() {
+        return Err(err_invalid_reference(s));
       }
-      let id = reference.fragment().ok_or_else(|| err_invalid_reference_no_fragment(value))?.to_string();
-      let path = reference.path().to_string().trim().trim_end_matches('/').to_string();
-      let namespace = if path.is_empty() { None } else { Some(path) };
+      let id = uri_reference.fragment().ok_or_else(|| err_invalid_reference_no_fragment(s))?.to_string();
+      let namespace = if uri_reference.is_uri() {
+        let uri = URI::try_from(uri_reference).unwrap();
+        Some(uri.into_base_uri().to_string().trim().trim_end_matches('/').to_string())
+      } else {
+        let path = uri_reference.path().to_string().trim().trim_end_matches('/').to_string();
+        if path.is_empty() {
+          None
+        } else {
+          Some(path)
+        }
+      };
       return Ok(Self { namespace, id });
     }
-    if let Ok(uri_reference) = URIReference::try_from(value) {
-      if let Ok(uri) = URI::try_from(uri_reference) {
-        if uri.has_query() {
-          return Err(err_invalid_reference(value));
-        }
-        let id = uri.fragment().ok_or_else(|| err_invalid_reference_no_fragment(value))?.to_string();
-        let path = uri.into_base_uri().to_string().trim().trim_end_matches('/').to_string();
-        let namespace = if path.is_empty() { None } else { Some(path) };
-        return Ok(Self { namespace, id });
-      }
-    }
-    Err(err_invalid_reference(value))
+    Err(err_invalid_reference(s))
   }
 }
 
