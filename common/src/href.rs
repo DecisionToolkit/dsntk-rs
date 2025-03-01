@@ -7,7 +7,7 @@
 
 use self::errors::*;
 use crate::DsntkError;
-use uriparse::{URIReference, URI};
+use uriparse::URIReference;
 
 /// URI reference used for utilizing `href` attribute.
 #[derive(Debug, Clone)]
@@ -32,27 +32,32 @@ impl HRef {
 
 impl TryFrom<&str> for HRef {
   type Error = DsntkError;
+
   /// Converts [HRef] from string.
   fn try_from(s: &str) -> Result<Self, Self::Error> {
-    if let Ok(uri_reference) = URIReference::try_from(s) {
-      if uri_reference.has_query() {
-        return Err(err_invalid_reference(s));
-      }
-      let id = uri_reference.fragment().ok_or_else(|| err_invalid_reference_no_fragment(s))?.to_string();
-      let namespace = if uri_reference.is_uri() {
-        let uri = URI::try_from(uri_reference).unwrap();
-        Some(uri.into_base_uri().to_string().trim().trim_end_matches('/').to_string())
-      } else {
-        let path = uri_reference.path().to_string().trim().trim_end_matches('/').to_string();
-        if path.is_empty() {
-          None
-        } else {
-          Some(path)
+    match URIReference::try_from(s) {
+      Ok(mut uri_reference) => {
+        uri_reference.normalize();
+        let (scheme, authority, path, query, fragment) = uri_reference.into_parts();
+        if query.is_some() {
+          return Err(err_query_not_allowed(s));
         }
-      };
-      return Ok(Self { namespace, id });
+        if fragment.is_none() {
+          return Err(err_fragment_is_missing(s));
+        }
+        let id = fragment.unwrap().to_string();
+        let base_uri = URIReference::builder()
+          .with_scheme(scheme)
+          .with_authority(authority)
+          .with_path(path)
+          .build()
+          .unwrap() // this unwrap is ok: scheme, authority and path are valid
+          .to_string();
+        let namespace = if base_uri.is_empty() { None } else { Some(base_uri) };
+        Ok(Self { namespace, id })
+      }
+      Err(reason) => Err(err_invalid_reference(s, reason.to_string())),
     }
-    Err(err_invalid_reference(s))
   }
 }
 
@@ -64,12 +69,17 @@ mod errors {
   struct HRefError(String);
 
   /// Creates an error indicating an invalid reference.
-  pub fn err_invalid_reference(s: &str) -> DsntkError {
-    HRefError(format!("invalid reference: '{s}'")).into()
+  pub fn err_invalid_reference(s: &str, reason: String) -> DsntkError {
+    HRefError(format!("invalid reference '{s}', reason: {reason}")).into()
   }
 
   /// Creates an error indicating the missing fragment.
-  pub fn err_invalid_reference_no_fragment(s: &str) -> DsntkError {
-    HRefError(format!("no fragment in reference: '{s}'")).into()
+  pub fn err_fragment_is_missing(s: &str) -> DsntkError {
+    HRefError(format!("fragment is missing in reference: '{s}'")).into()
+  }
+
+  /// Creates an error indicating that query is not allowed.
+  pub fn err_query_not_allowed(s: &str) -> DsntkError {
+    HRefError(format!("query is not allowed in reference: '{s}'")).into()
   }
 }
