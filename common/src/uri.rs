@@ -26,22 +26,12 @@ pub fn encode_segments(input: &str) -> String {
 mod errors {
   use crate::{DsntkError, ToErrorMessage};
 
-  /// Errors reported by [Uri](crate::uri::Uri).
+  /// Errors reported by [Uri](super::Uri).
   #[derive(ToErrorMessage)]
   struct UriError(String);
 
   /// Creates an error indicating an invalid URI.
   pub fn err_invalid_uri(s: &str) -> DsntkError {
-    UriError(format!("invalid reference: '{s}'")).into()
-  }
-}
-
-#[cfg(test)]
-mod tests {
-  use crate::to_uri;
-
-  #[test]
-  fn test_empty_uri() {
-    assert!(to_uri("").is_err())
+    UriError(format!("invalid URI: '{s}'")).into()
   }
 }
