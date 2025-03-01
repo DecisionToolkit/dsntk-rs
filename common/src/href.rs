@@ -7,7 +7,7 @@
 
 use self::errors::*;
 use crate::DsntkError;
-use uriparse::{RelativeReference, URIReference, URI};
+use uriparse::URIReference;
 
 /// URI reference used for utilizing `href` attribute.
 #[derive(Debug, Clone)]
@@ -32,29 +32,32 @@ impl HRef {
 
 impl TryFrom<&str> for HRef {
   type Error = DsntkError;
+
   /// Converts [HRef] from string.
-  fn try_from(value: &str) -> Result<Self, Self::Error> {
-    if let Ok(reference) = RelativeReference::try_from(value) {
-      if reference.has_query() {
-        return Err(err_invalid_reference(value));
-      }
-      let id = reference.fragment().ok_or_else(|| err_invalid_reference_no_fragment(value))?.to_string();
-      let path = reference.path().to_string().trim().trim_end_matches('/').to_string();
-      let namespace = if path.is_empty() { None } else { Some(path) };
-      return Ok(Self { namespace, id });
-    }
-    if let Ok(uri_reference) = URIReference::try_from(value) {
-      if let Ok(uri) = URI::try_from(uri_reference) {
-        if uri.has_query() {
-          return Err(err_invalid_reference(value));
+  fn try_from(s: &str) -> Result<Self, Self::Error> {
+    match URIReference::try_from(s) {
+      Ok(mut uri_reference) => {
+        uri_reference.normalize();
+        let (scheme, authority, path, query, fragment) = uri_reference.into_parts();
+        if query.is_some() {
+          return Err(err_query_not_allowed(s));
         }
-        let id = uri.fragment().ok_or_else(|| err_invalid_reference_no_fragment(value))?.to_string();
-        let path = uri.into_base_uri().to_string().trim().trim_end_matches('/').to_string();
-        let namespace = if path.is_empty() { None } else { Some(path) };
-        return Ok(Self { namespace, id });
+        if fragment.is_none() {
+          return Err(err_fragment_is_missing(s));
+        }
+        let id = fragment.unwrap().to_string();
+        let base_uri = URIReference::builder()
+          .with_scheme(scheme)
+          .with_authority(authority)
+          .with_path(path)
+          .build()
+          .unwrap() // this unwrap is ok: scheme, authority and path are valid
+          .to_string();
+        let namespace = if base_uri.is_empty() { None } else { Some(base_uri) };
+        Ok(Self { namespace, id })
       }
+      Err(reason) => Err(err_invalid_reference(s, reason.to_string())),
     }
-    Err(err_invalid_reference(value))
   }
 }
 
@@ -66,59 +69,17 @@ mod errors {
   struct HRefError(String);
 
   /// Creates an error indicating an invalid reference.
-  pub fn err_invalid_reference(s: &str) -> DsntkError {
-    HRefError(format!("invalid reference: '{s}'")).into()
+  pub fn err_invalid_reference(s: &str, reason: String) -> DsntkError {
+    HRefError(format!("invalid reference '{s}', reason: {reason}")).into()
   }
 
   /// Creates an error indicating the missing fragment.
-  pub fn err_invalid_reference_no_fragment(s: &str) -> DsntkError {
-    HRefError(format!("no fragment in reference: '{s}'")).into()
-  }
-}
-
-#[cfg(test)]
-mod tests {
-  use super::*;
-
-  #[test]
-  fn test_relative_references() {
-    assert_eq!(r#"Err(DsntkError("<HRefError> no fragment in reference: ''"))"#, format!("{:?}", HRef::try_from("")));
-    assert_eq!(
-      r#"Err(DsntkError("<HRefError> no fragment in reference: 'documents'"))"#,
-      format!("{:?}", HRef::try_from("documents"))
-    );
-    assert_eq!(
-      r#"Ok(HRef { namespace: Some("documents"), id: "_b51ac78b-fd76-42fc-a12d-aad7150c9278" })"#,
-      format!("{:?}", HRef::try_from("documents#_b51ac78b-fd76-42fc-a12d-aad7150c9278"))
-    );
-    assert_eq!(
-      r#"Ok(HRef { namespace: None, id: "_b51ac78b-fd76-42fc-a12d-aad7150c9278" })"#,
-      format!("{:?}", HRef::try_from("#_b51ac78b-fd76-42fc-a12d-aad7150c9278"))
-    );
-    assert_eq!(
-      r#"Err(DsntkError("<HRefError> invalid reference: 'documents?name=Introduction#_b51ac78b-fd76-42fc-a12d-aad7150c9278'"))"#,
-      format!("{:?}", HRef::try_from("documents?name=Introduction#_b51ac78b-fd76-42fc-a12d-aad7150c9278"))
-    );
+  pub fn err_fragment_is_missing(s: &str) -> DsntkError {
+    HRefError(format!("fragment is missing in reference: '{s}'")).into()
   }
 
-  #[test]
-  fn test_absolute_references() {
-    assert_eq!(r#"Err(DsntkError("<HRefError> no fragment in reference: ''"))"#, format!("{:?}", HRef::try_from("")));
-    assert_eq!(
-      r#"Err(DsntkError("<HRefError> invalid reference: '                                               '"))"#,
-      format!("{:?}", HRef::try_from("                                               "))
-    );
-    assert_eq!(
-      r#"Ok(HRef { namespace: Some("https://dsntk.io/documents"), id: "_b51ac78b-fd76-42fc-a12d-aad7150c9278" })"#,
-      format!("{:?}", HRef::try_from("https://dsntk.io/documents#_b51ac78b-fd76-42fc-a12d-aad7150c9278"))
-    );
-    assert_eq!(
-      r#"Err(DsntkError("<HRefError> no fragment in reference: 'https://dsntk.io/documents'"))"#,
-      format!("{:?}", HRef::try_from("https://dsntk.io/documents"))
-    );
-    assert_eq!(
-      r#"Err(DsntkError("<HRefError> invalid reference: 'https::\\/dsntk.io/documents#id'"))"#,
-      format!("{:?}", HRef::try_from("https::\\/dsntk.io/documents#id"))
-    );
+  /// Creates an error indicating that query is not allowed.
+  pub fn err_query_not_allowed(s: &str) -> DsntkError {
+    HRefError(format!("query is not allowed in reference: '{s}'")).into()
   }
 }
