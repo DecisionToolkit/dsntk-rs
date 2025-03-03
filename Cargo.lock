@@ -657,6 +657,7 @@ dependencies = [
  "dsntk-feel",
  "dsntk-feel-evaluator",
  "dsntk-feel-parser",
+ "dsntk-macros",
  "dsntk-model-evaluator",
 ]
 

@@ -645,7 +645,7 @@ fn evaluate_feel_expression(ctx_file_name: &str, feel_file_name: &str) {
 fn test_feel_expression(test_file_name: &str, feel_file_name: &str, summary_only: bool, cm: ColorMode) {
   match fs::read_to_string(feel_file_name) {
     Ok(feel_file_content) => match fs::read_to_string(test_file_name) {
-      Ok(test_file_content) => match dsntk_evaluator::evaluate_test_cases(&test_file_content) {
+      Ok(test_file_content) => match dsntk_evaluator::prepare_test_cases(&test_file_content) {
         Ok(test_cases) => {
           let mut passed = 0_usize;
           let mut failed = 0_usize;
@@ -750,7 +750,7 @@ fn test_decision_table(test_file_name: &str, dectab_file_name: &str, summary_onl
       return;
     }
   };
-  let test_cases = match dsntk_evaluator::evaluate_test_cases(&test_file_content) {
+  let test_cases = match dsntk_evaluator::prepare_test_cases(&test_file_content) {
     Ok(test_cases) => test_cases,
     Err(reason) => {
       eprintln!("evaluating test file failed with reason: {reason}");
@@ -877,7 +877,7 @@ fn test_dmn_model(test_file_name: &str, dmn_file_name: &str, invocable_name: &st
       return;
     }
   };
-  let test_cases = match dsntk_evaluator::evaluate_test_cases(&test_file_content) {
+  let test_cases = match dsntk_evaluator::prepare_test_cases(&test_file_content) {
     Ok(test_cases) => test_cases,
     Err(reason) => {
       eprintln!("evaluating test file failed with reason: {reason}");

@@ -1614,7 +1614,7 @@ pub struct AnnotationEntry {
 }
 
 /// [Dmndi] is a container for the shared [DmnStyle](DmnStyle)s
-/// and all [DmnDiagram](DmnDiagram)s defined in [Definitions].
+/// and all [DmnDiagram]s defined in [Definitions].
 #[derive(Debug, Clone)]
 pub struct Dmndi {
   /// A list of shared [DmnStyle] that can be referenced

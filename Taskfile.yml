@@ -93,6 +93,11 @@ tasks:
     cmds:
       - cmd: ./Coverage-crate.sh dsntk-feel
 
+  cov-evaluator:
+    desc: Runs code coverage for dsntk-evaluator
+    cmds:
+      - cmd: ./Coverage-crate.sh dsntk-evaluator
+
   cov-feel-evaluator:
     desc: Runs code coverage for dsntk-feel-evaluator
     cmds:
