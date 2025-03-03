@@ -218,16 +218,41 @@ fn _0037() {
 
 #[test]
 fn _0038() {
-  te_bool(false, &scope!(), r#"after(date("2021-06-01"),[date("2021-01-01")..date("2021-05-30")])"#, true);
+  te_bool(false, &scope!(), r#"after(11,[1..11))"#, true);
 }
 
 #[test]
 fn _0039() {
-  te_bool(false, &scope!(), r#"after(time("10:11:12"),[time("00:00:00")..time("10:11:11")])"#, true);
+  te_null(
+    false,
+    &scope!(),
+    r#"after(11,[date("2021-01-01")..date("2021-05-30")])"#,
+    "[core::after] invalid argument type, expected range of numbers, actual type is range<date>",
+  );
 }
 
 #[test]
 fn _0040() {
+  te_bool(false, &scope!(), r#"after(date("2021-06-01"),[date("2021-01-01")..date("2021-05-30")])"#, true);
+}
+
+#[test]
+fn _0041() {
+  te_bool(false, &scope!(), r#"after(date("2021-06-01"),[date("2021-01-01")..date("2021-06-01")))"#, true);
+}
+
+#[test]
+fn _0042() {
+  te_bool(false, &scope!(), r#"after(time("10:11:12"),[time("00:00:00")..time("10:11:11")])"#, true);
+}
+
+#[test]
+fn _0043() {
+  te_bool(false, &scope!(), r#"after(time("10:11:12"),[time("00:00:00")..time("10:11:12")))"#, true);
+}
+
+#[test]
+fn _0044() {
   te_bool(
     false,
     &scope!(),
@@ -237,32 +262,32 @@ fn _0040() {
 }
 
 #[test]
-fn _0041() {
+fn _0045() {
   te_bool(false, &scope!(), r#"after(duration("P1DT10H11M12S"),[duration("P1DT")..duration("P1DT10H11M11S")])"#, true);
 }
 
 #[test]
-fn _0042() {
+fn _0046() {
   te_bool(false, &scope!(), r#"after(duration("P2Y1M"),[duration("P1Y")..duration("P2Y")])"#, true);
 }
 
 #[test]
-fn _0043() {
+fn _0047() {
   te_bool(false, &scope!(), r#"after([1..10],11)"#, false);
 }
 
 #[test]
-fn _0044() {
+fn _0048() {
   te_bool(false, &scope!(), r#"after([date("2021-01-01")..date("2021-05-30")],date("2021-06-01"))"#, false);
 }
 
 #[test]
-fn _0045() {
+fn _0049() {
   te_bool(false, &scope!(), r#"after([time("00:00:00")..time("10:11:11")],time("10:11:12"))"#, false);
 }
 
 #[test]
-fn _0046() {
+fn _0050() {
   te_bool(
     false,
     &scope!(),
@@ -272,32 +297,32 @@ fn _0046() {
 }
 
 #[test]
-fn _0047() {
+fn _0051() {
   te_bool(false, &scope!(), r#"after([duration("P1DT")..duration("P1DT10H11M11S")],duration("P1DT10H11M12S"))"#, false);
 }
 
 #[test]
-fn _0048() {
+fn _0052() {
   te_bool(false, &scope!(), r#"after([duration("P1Y")..duration("P2Y")],duration("P1Y1M"))"#, false);
 }
 
 #[test]
-fn _0049() {
+fn _0053() {
   te_bool(false, &scope!(), r#"after(point:11,range:[1..10])"#, true);
 }
 
 #[test]
-fn _0050() {
+fn _0054() {
   te_bool(false, &scope!(), r#"after(point:date("2021-06-01"),range:[date("2021-01-01")..date("2021-05-30")])"#, true);
 }
 
 #[test]
-fn _0051() {
+fn _0055() {
   te_bool(false, &scope!(), r#"after(point:time("10:11:12"),range:[time("00:00:00")..time("10:11:11")])"#, true);
 }
 
 #[test]
-fn _0052() {
+fn _0056() {
   te_bool(
     false,
     &scope!(),
@@ -307,7 +332,7 @@ fn _0052() {
 }
 
 #[test]
-fn _0053() {
+fn _0057() {
   te_bool(
     false,
     &scope!(),
@@ -317,27 +342,27 @@ fn _0053() {
 }
 
 #[test]
-fn _0054() {
+fn _0058() {
   te_bool(false, &scope!(), r#"after(point:duration("P2Y1M"),range:[duration("P1Y")..duration("P2Y")])"#, true);
 }
 
 #[test]
-fn _0055() {
+fn _0059() {
   te_bool(false, &scope!(), r#"after(range:[1..10],point:11)"#, false);
 }
 
 #[test]
-fn _0056() {
+fn _0060() {
   te_bool(false, &scope!(), r#"after(range:[date("2021-01-01")..date("2021-05-30")],point:date("2021-06-01"))"#, false);
 }
 
 #[test]
-fn _0057() {
+fn _0061() {
   te_bool(false, &scope!(), r#"after(range:[time("00:00:00")..time("10:11:11")],point:time("10:11:12"))"#, false);
 }
 
 #[test]
-fn _0058() {
+fn _0062() {
   te_bool(
     false,
     &scope!(),
@@ -347,7 +372,7 @@ fn _0058() {
 }
 
 #[test]
-fn _0059() {
+fn _0063() {
   te_bool(
     false,
     &scope!(),
@@ -357,17 +382,27 @@ fn _0059() {
 }
 
 #[test]
-fn _0060() {
+fn _0064() {
   te_bool(false, &scope!(), r#"after(range:[duration("P1Y")..duration("P2Y")],point:duration("P1Y1M"))"#, false);
 }
 
 #[test]
-fn _0061() {
+fn _0065() {
   te_bool(false, &scope!(), r#"after(range1:[11..20],range2:[1..10])"#, true);
 }
 
 #[test]
-fn _0062() {
+fn _0066() {
+  te_null(
+    false,
+    &scope!(),
+    r#"after(range1:[11..20],range2:[date("2020-11-18")..date("2021-01-05")])"#,
+    "[core::after] invalid argument type, expected range of numbers, actual type is range<date>",
+  );
+}
+
+#[test]
+fn _0067() {
   te_bool(
     false,
     &scope!(),
@@ -377,7 +412,7 @@ fn _0062() {
 }
 
 #[test]
-fn _0063() {
+fn _0068() {
   te_bool(
     false,
     &scope!(),
@@ -387,7 +422,7 @@ fn _0063() {
 }
 
 #[test]
-fn _0064() {
+fn _0069() {
   te_bool(
     false,
     &scope!(),
@@ -397,7 +432,7 @@ fn _0064() {
 }
 
 #[test]
-fn _0065() {
+fn _0070() {
   te_bool(
     false,
     &scope!(),
@@ -407,7 +442,7 @@ fn _0065() {
 }
 
 #[test]
-fn _0066() {
+fn _0071() {
   te_bool(
     false,
     &scope!(),
@@ -417,12 +452,12 @@ fn _0066() {
 }
 
 #[test]
-fn _0067() {
+fn _0072() {
   te_bool(false, &scope!(), r#"after(range1:[1..10],range2:[11..20])"#, false);
 }
 
 #[test]
-fn _0068() {
+fn _0073() {
   te_bool(
     false,
     &scope!(),
@@ -432,7 +467,7 @@ fn _0068() {
 }
 
 #[test]
-fn _0069() {
+fn _0074() {
   te_bool(
     false,
     &scope!(),
@@ -442,7 +477,7 @@ fn _0069() {
 }
 
 #[test]
-fn _0070() {
+fn _0075() {
   te_bool(
     false,
     &scope!(),
@@ -452,7 +487,7 @@ fn _0070() {
 }
 
 #[test]
-fn _0071() {
+fn _0076() {
   te_bool(
     false,
     &scope!(),
@@ -462,7 +497,7 @@ fn _0071() {
 }
 
 #[test]
-fn _0072() {
+fn _0077() {
   te_bool(
     false,
     &scope!(),
@@ -472,12 +507,12 @@ fn _0072() {
 }
 
 #[test]
-fn _0073() {
+fn _0078() {
   te_bool(false, &scope!(), r#"after(range2:[1..10],range1:[11..20])"#, true);
 }
 
 #[test]
-fn _0074() {
+fn _0079() {
   te_bool(
     false,
     &scope!(),
@@ -487,7 +522,7 @@ fn _0074() {
 }
 
 #[test]
-fn _0075() {
+fn _0080() {
   te_bool(
     false,
     &scope!(),
@@ -497,7 +532,7 @@ fn _0075() {
 }
 
 #[test]
-fn _0076() {
+fn _0081() {
   te_bool(
     false,
     &scope!(),
@@ -507,7 +542,7 @@ fn _0076() {
 }
 
 #[test]
-fn _0077() {
+fn _0082() {
   te_bool(
     false,
     &scope!(),
@@ -517,7 +552,7 @@ fn _0077() {
 }
 
 #[test]
-fn _0078() {
+fn _0083() {
   te_bool(
     false,
     &scope!(),
@@ -527,12 +562,12 @@ fn _0078() {
 }
 
 #[test]
-fn _0079() {
+fn _0084() {
   te_bool(false, &scope!(), r#"after(range2:[11..20],range1:[1..10])"#, false);
 }
 
 #[test]
-fn _0080() {
+fn _0085() {
   te_bool(
     false,
     &scope!(),
@@ -542,7 +577,7 @@ fn _0080() {
 }
 
 #[test]
-fn _0081() {
+fn _0086() {
   te_bool(
     false,
     &scope!(),
@@ -552,7 +587,7 @@ fn _0081() {
 }
 
 #[test]
-fn _0082() {
+fn _0087() {
   te_bool(
     false,
     &scope!(),
@@ -562,7 +597,7 @@ fn _0082() {
 }
 
 #[test]
-fn _0083() {
+fn _0088() {
   te_bool(
     false,
     &scope!(),
@@ -572,7 +607,7 @@ fn _0083() {
 }
 
 #[test]
-fn _0084() {
+fn _0089() {
   te_bool(
     false,
     &scope!(),
@@ -582,22 +617,22 @@ fn _0084() {
 }
 
 #[test]
-fn _0085() {
+fn _0090() {
   te_null(false, &scope!(), r#"after(p1:10,point2:1)"#, r#"[named::after] invalid named parameters"#);
 }
 
 #[test]
-fn _0086() {
+fn _0091() {
   te_null(false, &scope!(), r#"after()"#, r#"expected 2 parameters, actual number of parameters is 0"#);
 }
 
 #[test]
-fn _0087() {
+fn _0092() {
   te_null(false, &scope!(), r#"after(1,2,3)"#, r#"expected 2 parameters, actual number of parameters is 3"#);
 }
 
 #[test]
-fn _0088() {
+fn _0093() {
   te_null(
     false,
     &scope!(),
@@ -607,17 +642,17 @@ fn _0088() {
 }
 
 #[test]
-fn _0089() {
+fn _0094() {
   te_null(
     false,
     &scope!(),
     r#"after(1,null)"#,
-    r#"[core::after] invalid argument type, expected scalar or range of scalars, actual type is number"#,
+    r#"[core::after] invalid argument type, expected number or range of numbers, actual type is Null"#,
   );
 }
 
 #[test]
-fn _0090() {
+fn _0095() {
   te_null(
     false,
     &scope!(),
