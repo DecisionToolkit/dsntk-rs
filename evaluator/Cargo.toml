@@ -15,4 +15,5 @@ dsntk-common = { workspace = true }
 dsntk-feel = { workspace = true }
 dsntk-feel-evaluator = { workspace = true }
 dsntk-feel-parser = { workspace = true }
+dsntk-macros = { workspace = true }
 dsntk-model-evaluator = { workspace = true }
