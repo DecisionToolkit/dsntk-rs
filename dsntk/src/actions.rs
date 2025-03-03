@@ -1,9 +1,10 @@
 //! # Command-line actions
 
 use crate::built_in_examples::*;
+use crate::errors::{err_create_directory, err_save_file};
 use antex::{ColorMode, StyledText, Text};
 use clap::{arg, command, crate_version, Arg, ArgAction, ArgMatches, Command};
-use dsntk_common::*;
+use dsntk_common::{Jsonify, Result};
 use dsntk_feel::values::Value;
 use dsntk_feel::FeelScope;
 use dsntk_model::{DecisionTable, DmnElement, NamedElement};
@@ -208,15 +209,16 @@ pub async fn do_action() -> std::io::Result<()> {
       Ok(())
     }
     Action::StartService(opt_host, opt_port, opt_dir, cm, verbose) => {
-      // start a service (REST server)
+      // Start a REST API server.
       dsntk_server::start_server(opt_host, opt_port, opt_dir, cm, verbose).await
     }
     Action::SaveExamples(root_dir) => {
-      // save the examples in the specified root directory
-      save_builtin_examples(&root_dir)
+      // Save the examples in the specified root directory.
+      save_builtin_examples(&root_dir);
+      Ok(())
     }
     Action::DoNothing => {
-      // no specific action was requested
+      // No specific action was requested.
       Ok(())
     }
   }
@@ -908,38 +910,45 @@ fn export_dmn_model(dmn_file_name: &str, html_file_name: &str) {
 }
 
 /// Saves built-in examples in specified directory.
-fn save_builtin_examples(root_dir: &str) -> std::io::Result<()> {
-  // utility function for creating (sub)directories
-  let create_dir = |root_dir: &str, child_dir: &str| -> std::io::Result<()> {
+fn save_builtin_examples(root_dir: &str) {
+  // Utility function for creating (sub)directories.
+  let create_dir = |root_dir: &str, child_dir: &str| -> Result<()> {
     let root_path = Path::new(root_dir);
     let child_path = Path::new(child_dir);
     let path = root_path.join(child_path);
-    fs::create_dir_all(path)?;
-    Ok(())
+    fs::create_dir_all(&path).map_err(|e| err_create_directory(&path.to_string_lossy(), &e.to_string()))
   };
-  // utility function for saving the file content
-  let write_file = |root_dir: &str, child_dir, contents| -> std::io::Result<()> {
+  // Utility function for saving the file content.
+  let write_file = |root_dir: &str, child_dir: &str, contents: &str| -> Result<()> {
     let root_path = Path::new(root_dir);
     let child_path = Path::new(child_dir);
     let path = root_path.join(child_path);
-    fs::write(path, contents)?;
+    fs::write(&path, contents).map_err(|e| err_save_file(&path.to_string_lossy(), &e.to_string()))
+  };
+  // Utility function for saving all examples.
+  let save_examples = |root_dir: &str| -> Result<()> {
+    // Save example decision model.
+    create_dir(root_dir, "dm")?;
+    write_file(root_dir, "dm/dm.ctx", EXAMPLE_DM_CTX)?;
+    write_file(root_dir, "dm/dm.dmn", EXAMPLE_DM)?;
+    // Save example decision table.
+    create_dir(root_dir, "dt")?;
+    write_file(root_dir, "dt/dt.ctx", EXAMPLE_DT_CTX)?;
+    write_file(root_dir, "dt/dt.dtb", EXAMPLE_DT)?;
+    // Save example FEEL expression.
+    create_dir(root_dir, "fe")?;
+    write_file(root_dir, "fe/fe.ctx", EXAMPLE_FE_CTX)?;
+    write_file(root_dir, "fe/fe.feel", EXAMPLE_FE)?;
     Ok(())
   };
-  // save example decision model
-  create_dir(root_dir, "dm")?;
-  write_file(root_dir, "dm/dm.ctx", EXAMPLE_DM_CTX)?;
-  write_file(root_dir, "dm/dm.dmn", EXAMPLE_DM)?;
-  // save example decision table
-  create_dir(root_dir, "dt")?;
-  write_file(root_dir, "dt/dt.ctx", EXAMPLE_DT_CTX)?;
-  write_file(root_dir, "dt/dt.dtb", EXAMPLE_DT)?;
-  // save example FEEL expression
-  create_dir(root_dir, "fe")?;
-  write_file(root_dir, "fe/fe.ctx", EXAMPLE_FE_CTX)?;
-  write_file(root_dir, "fe/fe.feel", EXAMPLE_FE)?;
-  // display summary message
-  //TODO display saved directory tree
-  Ok(())
+  // Try to save the examples.
+  match save_examples(root_dir) {
+    Ok(()) => {
+      // Display the summary message.
+      //TODO display saved directory tree
+    }
+    Err(reason) => eprintln!("{}", reason),
+  }
 }
 
 /// Utility function for displaying test case result.
