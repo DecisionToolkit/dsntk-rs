@@ -62,11 +62,13 @@ tasks:
     cmds:
       - cmd: cargo +stable clippy --workspace
       - cmd: cargo +nightly clippy --workspace --all-targets
+      - task: fmt
 
   clippy-tck:
     desc: Runs clippy for all targets and TCK feature
     cmds:
       - cmd: cargo +nightly clippy --workspace --all-targets --features=tck
+      - task: fmt
 
   cov:
     desc: Generates code coverage report
