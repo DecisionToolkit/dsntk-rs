@@ -3,7 +3,8 @@
 rm -rf examples
 
 mkdir -p examples/fe
-chmod -w examples/fe
+touch examples/fe/fe.feel
+chmod -w examples/fe/fe.feel
 dsntk exs examples 2>&1
 
 rm -rf examples
