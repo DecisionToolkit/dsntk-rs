@@ -28,17 +28,17 @@ mod utilities {
   #[rustfmt::skip]
   pub fn generate_decision_table_variants() {
     let mut buffer = String::new();
-    let orientation = ["horizontal", "vertical", "crosstab"];
-    let information_item = ["absent", "present" ];
-    let output_label = ["absent", "present" ];
-    let allowed_values = ["absent", "present"];
-    let inputs = ["absent", "single", "double", "multiple"];
-    let outputs = ["single", "double", "multiple"];
-    let annotations = ["absent", "single", "double", "multiple"];
-    let _ = writeln!(&mut buffer, "┌──────┬─────────────┬─────────────┬─────────┬─────────┬──────────┬──────────┬─────────────┬─────────┬────────┐");
-    let _ = writeln!(&mut buffer, "│  No. │  Preferred  │ Information │ Output  │ Allowed │  Inputs  │ Outputs  │ Annotations │ Example │ Status │");
-    let _ = writeln!(&mut buffer, "│      │ orientation │  item name  │  label  │ values  │          │          │             │         │        │");
-    let _ = writeln!(&mut buffer, "├──────┼─────────────┼─────────────┼─────────┼─────────┼──────────┼──────────┼─────────────┼─────────┼────────┤");
+    let orientation = ["H", "V", "C"];
+    let information_item = ["0", "1" ];
+    let output_label = ["0", "1" ];
+    let allowed_values = ["0", "1"];
+    let inputs = ["0", "1", "2"];
+    let outputs = ["1", "2"];
+    let annotations = ["0", "1", "2"];
+    let _ = writeln!(&mut buffer, "┌──────┬─────────────┬─────────────┬─────────┬─────────┬──────────┬──────────┬─────────────┬───────────┬────────┐");
+    let _ = writeln!(&mut buffer, "│  No. │  Preferred  │ Information │ Output  │ Allowed │  Inputs  │ Outputs  │ Annotations │   Name    │ Status │");
+    let _ = writeln!(&mut buffer, "│      │ orientation │  item name  │  label  │ values  │          │          │             │           │        │");
+    let _ = writeln!(&mut buffer, "├──────┼─────────────┼─────────────┼─────────┼─────────┼──────────┼──────────┼─────────────┼───────────┼────────┤");
     let mut counter = 1;
     for v_decision_table_orientation in orientation {
       for v_information_item_name in information_item {
@@ -47,7 +47,8 @@ mod utilities {
             for v_inputs in inputs {
               for v_outputs in outputs {
                 for v_annotations in annotations {
-                  let _ = writeln!(&mut buffer, "│ {counter:>4} │{v_decision_table_orientation:^13}│{v_information_item_name:^13}│{v_output_label:^9}│{v_allowed_values:^9}│{v_inputs:^10}│{v_outputs:^10}│{v_annotations:^13}│ DT_{counter:04} │        │");
+                  let dt_name = format!("{}_{}{}{}{}{}{}", v_decision_table_orientation, v_information_item_name, v_output_label, v_allowed_values, v_inputs, v_outputs, v_annotations);
+                  let _ = writeln!(&mut buffer, "│ {counter:>4} │{v_decision_table_orientation:^13}│{v_information_item_name:^13}│{v_output_label:^9}│{v_allowed_values:^9}│{v_inputs:^10}│{v_outputs:^10}│{v_annotations:^13}│ {dt_name:9} │        │");
                   counter += 1;
                 }
               }
@@ -58,7 +59,7 @@ mod utilities {
     }
     let _ = writeln!(&mut buffer, "└──────┴─────────────┴─────────────┴─────────┴─────────┴──────────┴──────────┴─────────────┴─────────┴────────┘");
     println!("{}", buffer);
-    assert_eq!(1157, buffer.lines().count());
+    assert_eq!(437, buffer.lines().count());
   }
 
   /// This utility function compares the number of compatibility test models in this crate
