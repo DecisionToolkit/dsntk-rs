@@ -23,7 +23,7 @@ pub fn abs(value: &Value) -> Value {
   }
 }
 
-/// Returns `true` when value2 `>>` value1.
+/// Returns `true` when value1 **is after** value2.
 pub fn after(value1: &Value, value2: &Value) -> Value {
   match value1 {
     Value::Number(point1) => match value2 {
@@ -223,7 +223,7 @@ pub fn append(list: &Value, values: &[Value]) -> Value {
   }
 }
 
-/// TBD
+/// Returns `true` when value1 **is before** value2.
 pub fn before(value1: &Value, value2: &Value) -> Value {
   match value1 {
     Value::Number(point1) => match value2 {
