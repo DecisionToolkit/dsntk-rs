@@ -1288,23 +1288,29 @@ pub fn list_replace(list: &Value, position_or_match: &Value, new_item: &Value) -
             let index = index as usize;
             if index <= len {
               items[index - 1] = new_item.clone();
-              return Value::List(items);
+              Value::List(items)
+            } else {
+              value_null!("position exceeds list bounds")
             }
           }
           Ordering::Less => {
             let index = index.unsigned_abs();
             if index <= len {
               items[len - index] = new_item.clone();
-              return Value::List(items);
+              Value::List(items)
+            } else {
+              value_null!("position exceeds list bounds")
             }
           }
-          _ => {}
+          _ => value_null!("position must not be zero"),
         }
+      } else {
+        value_null!("position exceeds integer range")
       }
     }
     Value::FunctionDefinition(parameters, body, false, _, closure_ctx, _) => {
       if parameters.len() != 2 {
-        return value_null!("list replace: matching function must accept exactly two arguments");
+        return value_null!("list replace: matching function must have exactly two arguments");
       }
       let mut elements = vec![];
       for item in items {
@@ -1322,11 +1328,10 @@ pub fn list_replace(list: &Value, position_or_match: &Value, new_item: &Value) -
           return value_null!("list replace: matching function must return boolean value");
         }
       }
-      return Value::List(elements);
+      Value::List(elements)
     }
-    _ => {}
+    _ => value_null!("position must be number or function"),
   }
-  value_null!()
 }
 
 /// Returns the natural logarithm (base `e`) of the number parameter.
