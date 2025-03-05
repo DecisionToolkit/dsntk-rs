@@ -7,6 +7,7 @@ use crate::HitPolicy;
 use dsntk_common::Result;
 use std::collections::HashSet;
 use std::fmt;
+use std::fmt::Display;
 use std::str::FromStr;
 
 /// Cell of the plane.
@@ -505,8 +506,8 @@ impl Plane {
   }
 }
 
-impl fmt::Display for Plane {
-  /// Implements [Display](fmt::Display) trait for [Plane].
+impl Display for Plane {
+  /// Implements [Display] trait for [Plane].
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     let mut buffer = String::new();
     for row in &self.content {
