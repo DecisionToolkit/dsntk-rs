@@ -1,1 +1,2 @@
+mod markdown;
 mod unicode;
