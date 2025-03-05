@@ -134,7 +134,7 @@ pub enum HitPolicy {
 
 impl TryFrom<&str> for HitPolicy {
   type Error = DsntkError;
-  /// Creates a hit policy from text.
+  /// Creates a hit policy from [str].
   fn try_from(value: &str) -> dsntk_common::Result<Self, Self::Error> {
     match value.trim() {
       "U" => Ok(HitPolicy::Unique),
@@ -150,6 +150,14 @@ impl TryFrom<&str> for HitPolicy {
       "C>" => Ok(HitPolicy::Collect(BuiltinAggregator::Max)),
       other => Err(err_invalid_hit_policy(other)),
     }
+  }
+}
+
+impl TryFrom<&String> for HitPolicy {
+  type Error = DsntkError;
+  /// Creates a hit policy from reference to [String].
+  fn try_from(value: &String) -> dsntk_common::Result<Self, Self::Error> {
+    Self::try_from(value.as_str())
   }
 }
 
