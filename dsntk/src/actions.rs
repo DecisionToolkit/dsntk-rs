@@ -385,7 +385,7 @@ fn get_matches() -> ArgMatches {
         .display_order(3)
         .arg(
           arg!(--"markdown")
-            .help("Decision table is defined as Markdown text")
+            .help("Markdown decision table")
             .short('m')
             .action(ArgAction::SetTrue)
             .display_order(1)
@@ -393,7 +393,7 @@ fn get_matches() -> ArgMatches {
         )
         .arg(
           arg!(--"unicode")
-            .help("Decision table is defined as Unicode text")
+            .help("Unicode decision table (default)")
             .short('u')
             .action(ArgAction::SetTrue)
             .display_order(2)
