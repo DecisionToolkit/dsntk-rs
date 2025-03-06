@@ -1,7 +1,7 @@
 //! # Markdown decision table recognizer
 
 use crate::errors::{err_md_invalid_decision_table, err_md_invalid_number_of_column, err_md_no_decision_table, err_md_no_hit_policy};
-use crate::{DecisionTable, DecisionTableOrientation, HitPolicy};
+use crate::{AnnotationClause, AnnotationEntry, DecisionRule, DecisionTable, DecisionTableOrientation, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry};
 use dsntk_common::Result;
 
 /// Character used in Markdown as a vertical line that forms table columns.
@@ -13,42 +13,120 @@ const INFORMATION_ITEM_NAME_START: &str = "> #";
 /// Characters used to denote the output label of the decision table.
 const OUTPUT_LABEL_START: &str = ">";
 
+/// Minimum number of rows in any decision table.
+/// Do NOT change this.
 const MIN_ROWS: usize = 2;
+
+/// Minimum number of columns in every decision table.
+/// Do NOT change this.
 const MIN_COLUMNS: usize = 2;
 
 type Table = Vec<Vec<Option<String>>>;
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+enum Marker {
+  Input,
+  Output,
+  Annotation,
+}
+
+type Markers = Vec<Option<Marker>>;
 
 /// Recognizes a decision table defined as plain Markdown text.
 pub fn recognize_from_markdown(markdown: &str) -> Result<DecisionTable> {
   // Locate and retrieve lines containing the decision table from provided Markdown content.
   let (information_item_name, output_label, lines) = markdown_lines(markdown);
-
   // Convert lines into table.
   let table = markdown_table(lines)?;
-
-  for row in &table {
-    println!("DDD: {:?}", row);
-  }
-
-  // Get the hit policy.
+  // Get the hit policy and aggregation.
   let hit_policy = get_hit_policy(&table)?;
-
+  let aggregation = hit_policy.aggregation();
   // Get preferred orientation.
-  let (preferred_orientation, _table) = get_preferred_orientation(table)?;
-
-  //
-  let input_clauses = vec![];
-  let output_clauses = vec![];
-  let annotations = vec![];
-  let rules = vec![];
-  let aggregation = None;
-
+  let (preferred_orientation, table, empty_count, rule_count) = get_preferred_orientation(table)?;
+  if empty_count < 1 {
+    match preferred_orientation {
+      DecisionTableOrientation::RuleAsRow => return Err(err_md_invalid_decision_table("no markers row before the first rule")),
+      DecisionTableOrientation::RuleAsColumn => return Err(err_md_invalid_decision_table("no markers column before the first rule")),
+      DecisionTableOrientation::CrossTable => unreachable!(),
+    }
+  }
+  if empty_count > 2 {
+    match preferred_orientation {
+      DecisionTableOrientation::RuleAsRow => return Err(err_md_invalid_decision_table("too many rows before the first rule")),
+      DecisionTableOrientation::RuleAsColumn => return Err(err_md_invalid_decision_table("too many columns before the first rule")),
+      DecisionTableOrientation::CrossTable => unreachable!(),
+    }
+  }
+  // Prepare a flag indicating if allowed values are present in the decision table.
+  let allowed_values = empty_count == 2;
+  // Temporarily here
+  if table.len() != empty_count + rule_count + 1 {
+    unreachable!(); //TODO Find a test case that enters this code or remove.
+  }
+  // Get the input/output/annotation markers.
+  let markers = get_markers(table[empty_count].iter())?;
+  // Prepare the input, output and annotation clauses with optional allowed values.
+  let mut input_clauses = vec![];
+  let mut output_clauses = vec![];
+  let mut annotation_clauses = vec![];
+  for (index, marker) in markers.iter().enumerate() {
+    match marker {
+      Some(Marker::Input) => {
+        let input_expression = table[0][index].as_ref().ok_or(err_md_invalid_decision_table("no input clause"))?.to_string();
+        let allowed_input_values = if allowed_values { table[1][index].as_ref().map(|text| text.to_string()) } else { None };
+        input_clauses.push(InputClause {
+          input_expression,
+          allowed_input_values,
+        });
+      }
+      Some(Marker::Output) => {
+        let name = table[0][index].clone();
+        let allowed_output_values = if allowed_values { table[1][index].as_ref().map(|text| text.to_string()) } else { None };
+        output_clauses.push(OutputClause {
+          name,
+          allowed_output_values,
+          default_output_value: None,
+        });
+      }
+      Some(Marker::Annotation) => {
+        let name = table[0][index].as_ref().ok_or(err_md_invalid_decision_table("no annotation name"))?.to_string();
+        annotation_clauses.push(AnnotationClause { name });
+      }
+      _ => {}
+    }
+  }
+  // Prepare the rules.
+  let mut rules = vec![];
+  for row in table.iter().skip(empty_count + 1) {
+    let mut input_entries = vec![];
+    let mut output_entries = vec![];
+    let mut annotation_entries = vec![];
+    for (index, marker) in markers.iter().enumerate() {
+      match marker {
+        Some(Marker::Input) => input_entries.push(InputEntry {
+          text: row[index].as_ref().ok_or(err_md_invalid_decision_table("no input entry"))?.to_string(),
+        }),
+        Some(Marker::Output) => output_entries.push(OutputEntry {
+          text: row[index].as_ref().ok_or(err_md_invalid_decision_table("no output entry"))?.to_string(),
+        }),
+        Some(Marker::Annotation) => annotation_entries.push(AnnotationEntry {
+          text: row[index].as_ref().unwrap_or(&"".to_string()).to_string(),
+        }),
+        _ => {}
+      }
+    }
+    rules.push(DecisionRule {
+      input_entries,
+      output_entries,
+      annotation_entries,
+    });
+  }
   // Return the recognized decision table.
   Ok(DecisionTable::new(
     information_item_name,
     input_clauses,
     output_clauses,
-    annotations,
+    annotation_clauses,
     rules,
     hit_policy,
     aggregation,
@@ -201,16 +279,27 @@ fn get_hit_policy(table: &Table) -> Result<HitPolicy> {
   top_left_column.as_ref().ok_or(err_md_no_hit_policy())?.try_into()
 }
 
-fn get_preferred_orientation(table: Table) -> Result<(DecisionTableOrientation, Table)> {
-  let rule_numbers = get_rule_numbers(table[0].iter().skip(1));
-  match is_monotonic(&rule_numbers) {
-    (true, _empty_count, _rule_count) => Ok((DecisionTableOrientation::RuleAsColumn, table)),
+/// Discovers and returns the orientation of the decision table.
+fn get_preferred_orientation(table: Table) -> Result<(DecisionTableOrientation, Table, usize, usize)> {
+  match monotonic_numbers(get_rule_numbers(table[0].iter().skip(1))) {
+    (true, empty_count, rule_count) => {
+      // Decision table is vertical, so the preferred orientation is rule-as-column.
+      // But the returned table is pivoted, to have rules as rows.
+      Ok((DecisionTableOrientation::RuleAsColumn, pivot(table), empty_count, rule_count))
+    }
     (false, _, _) => {
+      // Pivot the table to have rules as columns.
       let table = pivot(table);
-      let rule_numbers = get_rule_numbers(table[0].iter().skip(1));
-      match is_monotonic(&rule_numbers) {
-        (true, _empty_count, _rule_count) => Ok((DecisionTableOrientation::RuleAsRow, table)),
-        (false, _, _) => Err(err_md_invalid_decision_table("can not recognize the preferred orientation")),
+      match monotonic_numbers(get_rule_numbers(table[0].iter().skip(1))) {
+        (true, empty_count, rule_count) => {
+          // Decision table is horizontal, so the preferred orientation is rule-as-row.
+          // But the returned table is pivoted again, to have rules as rows again.
+          Ok((DecisionTableOrientation::RuleAsRow, pivot(table), empty_count, rule_count))
+        }
+        (false, _, _) => {
+          // Preferred orientation could not be recognized.
+          Err(err_md_invalid_decision_table("can not recognize the preferred orientation"))
+        }
       }
     }
   }
@@ -223,8 +312,9 @@ fn get_rule_numbers<'a>(columns: impl Iterator<Item = &'a Option<String>>) -> Ve
 }
 
 /// Checks if rule numbers are monotonic, skipping leading zeros.
-/// Returns (`true`, `zeros_count`, `rule_count`) when rules are monotonic, otherwise (`false`, 0, 0).
-fn is_monotonic(list: &[usize]) -> (bool, usize, usize) {
+/// Returns (`true`, `zeros count`, `non-zeros count`) when numbers are monotonic,
+/// otherwise returns (`false`, 0, 0).
+fn monotonic_numbers(list: Vec<usize>) -> (bool, usize, usize) {
   let position = list.iter().position(|&x| x != 0);
   match position {
     Some(index) => {
@@ -250,17 +340,156 @@ fn pivot(table: Table) -> Table {
   pivot_table
 }
 
+/// Returns a vector of optional markers converted from optional texts.
+fn get_markers<'a>(columns: impl Iterator<Item = &'a Option<String>>) -> Result<Markers> {
+  validate_markers(columns.map(get_marker).collect())
+}
+
+/// Validates the markers.
+fn validate_markers(markers: Markers) -> Result<Markers> {
+  enum State {
+    Start,
+    Input,
+    Output,
+    Annotation,
+  }
+  let mut state = State::Start;
+  for marker in &markers {
+    match state {
+      State::Start => {
+        if marker.is_none() {
+          state = State::Input;
+        } else {
+          return Err(err_md_invalid_decision_table("unexpected marker"));
+        }
+      }
+      State::Input => match marker {
+        Some(Marker::Input) => {}
+        Some(Marker::Output) => state = State::Output,
+        _ => return Err(err_md_invalid_decision_table("expected input or output marker")),
+      },
+      State::Output => match marker {
+        Some(Marker::Output) => {}
+        Some(Marker::Annotation) => state = State::Annotation,
+        _ => return Err(err_md_invalid_decision_table("expected output or annotation marker")),
+      },
+      State::Annotation => match marker {
+        Some(Marker::Annotation) => {}
+        _ => return Err(err_md_invalid_decision_table("expected annotation marker")),
+      },
+    }
+  }
+  Ok(markers)
+}
+
+/// Converts optional text into optional marker.
+fn get_marker(text: &Option<String>) -> Option<Marker> {
+  let Some(text) = text else {
+    return None;
+  };
+  let text = strip_emphasis(text.to_lowercase());
+  if "input".starts_with(&text) || text == ">>>" || text == ">>" {
+    return Some(Marker::Input);
+  }
+  if "output".starts_with(&text) || text == "<<<" || text == "<<" {
+    return Some(Marker::Output);
+  }
+  if "annotation".starts_with(&text) || text == "###" || text == "##" || text == "#" {
+    return Some(Marker::Annotation);
+  }
+  None
+}
+
+/// Removes the Markdown emphasis from text if present.
+fn strip_emphasis(text: String) -> String {
+  const EMPHASES: [&str; 3] = ["_", "*", "`"];
+  for emphasis in EMPHASES {
+    if text.starts_with(emphasis) && text.ends_with(emphasis) {
+      return text.trim_start_matches(emphasis).trim_end_matches(emphasis).to_string();
+    }
+  }
+  text
+}
+
 #[cfg(test)]
 mod tests {
   use super::*;
 
   #[test]
   fn test_is_monotonic() {
-    assert_eq!((false, 0, 0), is_monotonic(&[0, 0, 0, 0, 0, 0, 0]));
-    assert_eq!((false, 0, 0), is_monotonic(&[1, 0, 0, 0, 0, 0, 0]));
-    assert_eq!((true, 0, 5), is_monotonic(&[1, 2, 3, 4, 5]));
-    assert_eq!((true, 1, 6), is_monotonic(&[0, 1, 2, 3, 4, 5, 6]));
-    assert_eq!((true, 2, 7), is_monotonic(&[0, 0, 1, 2, 3, 4, 5, 6, 7]));
-    assert_eq!((true, 3, 4), is_monotonic(&[0, 0, 0, 1, 2, 3, 4]));
+    assert_eq!((false, 0, 0), monotonic_numbers(vec![0, 0, 0, 0, 0, 0, 0]));
+    assert_eq!((false, 0, 0), monotonic_numbers(vec![1, 0, 0, 0, 0, 0, 0]));
+    assert_eq!((true, 0, 5), monotonic_numbers(vec![1, 2, 3, 4, 5]));
+    assert_eq!((true, 1, 6), monotonic_numbers(vec![0, 1, 2, 3, 4, 5, 6]));
+    assert_eq!((true, 2, 7), monotonic_numbers(vec![0, 0, 1, 2, 3, 4, 5, 6, 7]));
+    assert_eq!((true, 3, 4), monotonic_numbers(vec![0, 0, 0, 1, 2, 3, 4]));
+  }
+
+  #[test]
+  fn test_strip_emphasis() {
+    assert_eq!("text", strip_emphasis("text".to_string()));
+    assert_eq!("__text", strip_emphasis("__text".to_string()));
+    assert_eq!("text__", strip_emphasis("text__".to_string()));
+    assert_eq!("_text", strip_emphasis("_text".to_string()));
+    assert_eq!("text_", strip_emphasis("text_".to_string()));
+    assert_eq!("**text", strip_emphasis("**text".to_string()));
+    assert_eq!("text**", strip_emphasis("text**".to_string()));
+    assert_eq!("*text", strip_emphasis("*text".to_string()));
+    assert_eq!("text*", strip_emphasis("text*".to_string()));
+    assert_eq!("`text", strip_emphasis("`text".to_string()));
+    assert_eq!("text`", strip_emphasis("text`".to_string()));
+    assert_eq!("_text*", strip_emphasis("_text*".to_string()));
+    assert_eq!("**text__", strip_emphasis("**text__".to_string()));
+    assert_eq!("text", strip_emphasis("__text__".to_string()));
+    assert_eq!("text", strip_emphasis("**text**".to_string()));
+    assert_eq!("text", strip_emphasis("_text_".to_string()));
+    assert_eq!("text", strip_emphasis("*text*".to_string()));
+    assert_eq!("text", strip_emphasis("`text`".to_string()));
+    assert_eq!("text", strip_emphasis("**text*".to_string()));
+    assert_eq!("text", strip_emphasis("*text**".to_string()));
+    assert_eq!("text", strip_emphasis("__text_".to_string()));
+    assert_eq!("text", strip_emphasis("_text__".to_string()));
+  }
+
+  #[test]
+  fn test_get_marker() {
+    assert_eq!(None, get_marker(&None));
+    assert_eq!(Marker::Input, get_marker(&Some("i".to_string())).unwrap());
+    assert_eq!(Marker::Input, get_marker(&Some("I".to_string())).unwrap());
+    assert_eq!(Marker::Input, get_marker(&Some("in".to_string())).unwrap());
+    assert_eq!(Marker::Input, get_marker(&Some("inp".to_string())).unwrap());
+    assert_eq!(Marker::Input, get_marker(&Some("inpu".to_string())).unwrap());
+    assert_eq!(Marker::Input, get_marker(&Some("input".to_string())).unwrap());
+    assert_eq!(Marker::Input, get_marker(&Some(">>>".to_string())).unwrap());
+    assert_eq!(Marker::Input, get_marker(&Some(">>".to_string())).unwrap());
+    assert_eq!(None, get_marker(&Some("inputa".to_string())));
+    assert_eq!(None, get_marker(&Some(">".to_string())));
+    assert_eq!(Marker::Output, get_marker(&Some("o".to_string())).unwrap());
+    assert_eq!(Marker::Output, get_marker(&Some("O".to_string())).unwrap());
+    assert_eq!(Marker::Output, get_marker(&Some("ou".to_string())).unwrap());
+    assert_eq!(Marker::Output, get_marker(&Some("out".to_string())).unwrap());
+    assert_eq!(Marker::Output, get_marker(&Some("outp".to_string())).unwrap());
+    assert_eq!(Marker::Output, get_marker(&Some("outpu".to_string())).unwrap());
+    assert_eq!(Marker::Output, get_marker(&Some("output".to_string())).unwrap());
+    assert_eq!(Marker::Output, get_marker(&Some("<<<".to_string())).unwrap());
+    assert_eq!(Marker::Output, get_marker(&Some("<<".to_string())).unwrap());
+    assert_eq!(None, get_marker(&Some("outputa".to_string())));
+    assert_eq!(None, get_marker(&Some("<".to_string())));
+    assert_eq!(Marker::Annotation, get_marker(&Some("a".to_string())).unwrap());
+    assert_eq!(Marker::Annotation, get_marker(&Some("A".to_string())).unwrap());
+    assert_eq!(Marker::Annotation, get_marker(&Some("an".to_string())).unwrap());
+    assert_eq!(Marker::Annotation, get_marker(&Some("ann".to_string())).unwrap());
+    assert_eq!(Marker::Annotation, get_marker(&Some("anno".to_string())).unwrap());
+    assert_eq!(Marker::Annotation, get_marker(&Some("annot".to_string())).unwrap());
+    assert_eq!(Marker::Annotation, get_marker(&Some("annota".to_string())).unwrap());
+    assert_eq!(Marker::Annotation, get_marker(&Some("annotat".to_string())).unwrap());
+    assert_eq!(Marker::Annotation, get_marker(&Some("annotati".to_string())).unwrap());
+    assert_eq!(Marker::Annotation, get_marker(&Some("annotatio".to_string())).unwrap());
+    assert_eq!(Marker::Annotation, get_marker(&Some("annotation".to_string())).unwrap());
+    assert_eq!(Marker::Annotation, get_marker(&Some("###".to_string())).unwrap());
+    assert_eq!(Marker::Annotation, get_marker(&Some("##".to_string())).unwrap());
+    assert_eq!(Marker::Annotation, get_marker(&Some("#".to_string())).unwrap());
+    assert_eq!(None, get_marker(&Some("annotationa".to_string())));
+    assert_eq!(None, get_marker(&Some("@".to_string())));
   }
 }

@@ -13,7 +13,7 @@ pub struct DecisionTable {
   /// List of instances of output clause that compose this decision table.
   pub output_clauses: Vec<OutputClause>,
   /// List of instances of rule annotation clause that compose this decision table.
-  pub rule_annotations: Vec<RuleAnnotationClause>,
+  pub annotation_clauses: Vec<AnnotationClause>,
   /// List of instances of decision rule that compose this decision table.
   pub rules: Vec<DecisionRule>,
   /// Hit policy associated with the instance of the decision table.
@@ -33,7 +33,7 @@ impl DecisionTable {
     information_item_name: Option<String>,
     input_clauses: Vec<InputClause>,
     output_clauses: Vec<OutputClause>,
-    rule_annotations: Vec<RuleAnnotationClause>,
+    annotation_clauses: Vec<AnnotationClause>,
     rules: Vec<DecisionRule>,
     hit_policy: HitPolicy,
     aggregation: Option<BuiltinAggregator>,
@@ -44,7 +44,7 @@ impl DecisionTable {
       information_item_name,
       input_clauses,
       output_clauses,
-      rule_annotations,
+      annotation_clauses,
       rules,
       hit_policy,
       aggregation,
@@ -71,12 +71,12 @@ pub struct OutputClause {
   /// Unary tests that constrain the result of output entries corresponding to output clause.
   pub allowed_output_values: Option<String>,
   /// Default output expression, selected in incomplete table when no rules match for the decision table.
-  pub default_output_entry: Option<String>,
+  pub default_output_value: Option<String>,
 }
 
 /// Represents a rule annotation clause.
 #[derive(Debug)]
-pub struct RuleAnnotationClause {
+pub struct AnnotationClause {
   /// Name that is used as the name of the rule annotation column of the containing decision table.
   pub name: String,
 }
@@ -130,6 +130,16 @@ pub enum HitPolicy {
   OutputOrder,
   /// `RULE ORDER` hit policy.
   RuleOrder,
+}
+
+impl HitPolicy {
+  /// Returns optional aggregation associated with this hit policy.
+  pub fn aggregation(&self) -> Option<BuiltinAggregator> {
+    match self {
+      HitPolicy::Collect(aggregation) => Some(*aggregation),
+      _ => None,
+    }
+  }
 }
 
 impl TryFrom<&str> for HitPolicy {
