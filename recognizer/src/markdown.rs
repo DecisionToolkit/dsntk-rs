@@ -45,7 +45,7 @@ pub fn recognize_from_markdown(markdown: &str, _trace: bool) -> Result<DecisionT
   let hit_policy = get_hit_policy(&table)?;
   let aggregation = hit_policy.aggregation();
   // Get preferred orientation.
-  let (preferred_orientation, table, empty_count, rule_count) = get_preferred_orientation(table)?;
+  let (preferred_orientation, table, empty_count, _rule_count) = get_preferred_orientation(table)?;
   if empty_count < 1 {
     match preferred_orientation {
       DecisionTableOrientation::RuleAsRow => return Err(err_md_invalid_decision_table("no markers row before the first rule")),
@@ -62,10 +62,6 @@ pub fn recognize_from_markdown(markdown: &str, _trace: bool) -> Result<DecisionT
   }
   // Prepare a flag indicating if allowed values are present in the decision table.
   let allowed_values = empty_count == 2;
-  // Temporarily here
-  if table.len() != empty_count + rule_count + 1 {
-    unreachable!(); //TODO Find a test case that enters this code or remove.
-  }
   // Get the input/output/annotation markers.
   let markers = get_markers(table[empty_count].iter())?;
   // Prepare the input, output and annotation clauses with optional allowed values.
