@@ -21,6 +21,9 @@ const MIN_ROWS: usize = 2;
 /// Do NOT change this.
 const MIN_COLUMNS: usize = 2;
 
+/// Markdown emphases.
+const EMPHASES: [&str; 5] = ["**", "__", "*", "_", "`"];
+
 type Table = Vec<Vec<Option<String>>>;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -81,11 +84,15 @@ pub fn recognize_from_markdown(markdown: &str, _trace: bool) -> Result<DecisionT
       }
       Some(Marker::Output) => {
         let name = table[0][index].clone();
-        let allowed_output_values = if allowed_values { table[1][index].as_ref().map(|text| text.to_string()) } else { None };
+        let (allowed_output_values, default_output_value) = if allowed_values {
+          get_allowed_and_default_output_values(&table[1][index])
+        } else {
+          (None, None)
+        };
         output_clauses.push(OutputClause {
           name,
           allowed_output_values,
-          default_output_value: None,
+          default_output_value,
         });
       }
       Some(Marker::Annotation) => {
@@ -402,13 +409,30 @@ fn get_marker(text: &Option<String>) -> Option<Marker> {
 
 /// Removes the Markdown emphasis from text if present.
 fn strip_emphasis(text: String) -> String {
-  const EMPHASES: [&str; 3] = ["_", "*", "`"];
   for emphasis in EMPHASES {
     if text.starts_with(emphasis) && text.ends_with(emphasis) {
       return text.trim_start_matches(emphasis).trim_end_matches(emphasis).to_string();
     }
   }
   text
+}
+
+/// Returns the default output value retrieved from the list of allowed values.
+fn get_allowed_and_default_output_values(input: &Option<String>) -> (Option<String>, Option<String>) {
+  let Some(text) = input else {
+    return (None, None);
+  };
+  for part in text.split(",").map(|text| text.trim()) {
+    for emphasis in EMPHASES {
+      if part.starts_with(emphasis) && part.ends_with(emphasis) {
+        let trimmed_part = part.trim_start_matches(emphasis).trim_end_matches(emphasis);
+        let allowed_values = text.replace(part, trimmed_part);
+        let default_value = trimmed_part.to_string();
+        return (Some(allowed_values), Some(default_value));
+      }
+    }
+  }
+  (input.clone(), None)
 }
 
 #[cfg(test)]
