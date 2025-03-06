@@ -22,6 +22,14 @@ const COLOR_NEVER: &str = "never";
 
 const COLORS: [&str; 3] = [COLOR_AUTO, COLOR_ALWAYS, COLOR_NEVER];
 
+/// Supported decision table input file formats.
+enum DecisionTableFormat {
+  /// Decision table defined as plain Unicode text.
+  Unicode,
+  /// Decision table defined as plain Markdown text.
+  Markdown,
+}
+
 /// Command-line actions.
 enum Action {
   /// Parse FEEL expression.
@@ -69,8 +77,10 @@ enum Action {
   EvaluateDecisionTable(
     /// Name of the file containing input data.
     String,
-    /// Name of the file containing decision table definitions to be evaluated (Unicode format).
+    /// Name of the file containing decision table definitions to be evaluated.
     String,
+    /// Input format of the evaluated decision table.
+    DecisionTableFormat,
   ),
   /// Test decision table.
   TestDecisionTable(
@@ -176,8 +186,8 @@ pub async fn do_action() -> std::io::Result<()> {
       parse_decision_table(&dectab_file_name);
       Ok(())
     }
-    Action::EvaluateDecisionTable(input_file_name, dectab_file_name) => {
-      evaluate_decision_table(&input_file_name, &dectab_file_name);
+    Action::EvaluateDecisionTable(input_file_name, dectab_file_name, dectab_file_format) => {
+      evaluate_decision_table(&input_file_name, &dectab_file_name, dectab_file_format);
       Ok(())
     }
     Action::TestDecisionTable(test_file_name, dectab_file_name, summary_only, cm) => {
@@ -373,6 +383,22 @@ fn get_matches() -> ArgMatches {
       Command::new("edt")
         .about("Evaluate Decision Table")
         .display_order(3)
+        .arg(
+          arg!(--"markdown")
+            .help("Decision table is defined as Markdown text")
+            .short('m')
+            .action(ArgAction::SetTrue)
+            .display_order(1)
+            .conflicts_with("unicode"),
+        )
+        .arg(
+          arg!(--"unicode")
+            .help("Decision table is defined as Unicode text")
+            .short('u')
+            .action(ArgAction::SetTrue)
+            .display_order(2)
+            .conflicts_with("markdown"),
+        )
         .arg(arg!(<INPUT_FILE>).help("File containing input data for evaluated decision table").required(true).index(1))
         .arg(arg!(<DECTAB_FILE>).help("File containing decision table to be evaluated").required(true).index(2)),
     )
@@ -492,7 +518,14 @@ fn get_cli_action() -> Action {
     }
     // evaluate decision table subcommand
     Some(("edt", matches)) => {
-      return Action::EvaluateDecisionTable(match_string(matches, "INPUT_FILE"), match_string(matches, "DECTAB_FILE"));
+      return Action::EvaluateDecisionTable(
+        match_string(matches, "INPUT_FILE"),
+        match_string(matches, "DECTAB_FILE"),
+        match (match_unicode(matches), match_markdown(matches)) {
+          (_, true) => DecisionTableFormat::Markdown,
+          _ => DecisionTableFormat::Unicode,
+        },
+      );
     }
     // test decision table subcommand
     Some(("tdt", matches)) => {
@@ -598,6 +631,16 @@ fn match_summary(matches: &ArgMatches) -> bool {
   matches.get_flag("summary")
 }
 
+/// Matches Unicode flag.
+fn match_unicode(matches: &ArgMatches) -> bool {
+  matches.get_flag("unicode")
+}
+
+/// Matches Markdown flag.
+fn match_markdown(matches: &ArgMatches) -> bool {
+  matches.get_flag("markdown")
+}
+
 /// Matches verbosity flag.
 fn match_verbose(matches: &ArgMatches) -> bool {
   matches.get_flag("verbose")
@@ -686,7 +729,7 @@ fn parse_decision_table(dectab_file_name: &str) {
 }
 
 /// Evaluates context and decision table loaded from files.
-fn evaluate_decision_table(input_file_name: &str, dectab_file_name: &str) {
+fn evaluate_decision_table(input_file_name: &str, dectab_file_name: &str, dectab_file_format: DecisionTableFormat) {
   let input_file_content = match fs::read_to_string(input_file_name) {
     Ok(input_file_content) => input_file_content,
     Err(reason) => {
@@ -708,7 +751,11 @@ fn evaluate_decision_table(input_file_name: &str, dectab_file_name: &str) {
       return;
     }
   };
-  let recognized_decision_table = match dsntk_recognizer::recognize_from_unicode(&dtb_file_content, false) {
+  let recognition_result = match dectab_file_format {
+    DecisionTableFormat::Unicode => dsntk_recognizer::recognize_from_unicode(&dtb_file_content, false),
+    DecisionTableFormat::Markdown => dsntk_recognizer::recognize_from_markdown(&dtb_file_content, false),
+  };
+  let recognized_decision_table = match recognition_result {
     Ok(decision_table) => decision_table,
     Err(reason) => {
       eprintln!("building decision table failed with reason: {reason}");

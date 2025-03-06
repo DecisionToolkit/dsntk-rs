@@ -11,7 +11,7 @@ fn _0001() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid number of columns, expected 2, actual is 3 in row '| 2 | "Tuesday" | 2 |'"#,
-    recognize_from_markdown(markdown).unwrap_err().to_string()
+    recognize_from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -25,7 +25,7 @@ fn _0002() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: no markers row before the first rule"#,
-    recognize_from_markdown(markdown).unwrap_err().to_string()
+    recognize_from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -42,7 +42,7 @@ fn _0003() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: too many rows before the first rule"#,
-    recognize_from_markdown(markdown).unwrap_err().to_string()
+    recognize_from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -55,7 +55,7 @@ fn _0004() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: no markers column before the first rule"#,
-    recognize_from_markdown(markdown).unwrap_err().to_string()
+    recognize_from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -68,6 +68,6 @@ fn _0005() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: too many columns before the first rule"#,
-    recognize_from_markdown(markdown).unwrap_err().to_string()
+    recognize_from_markdown(markdown, false).unwrap_err().to_string()
   );
 }

@@ -15,7 +15,7 @@ fn test_minimal_horizontal_decision_table() {
     |   |    Out      |
     | 1 |  "Monday"   |
   "#;
-  let dt = recognize_from_markdown(markdown).unwrap();
+  let dt = recognize_from_markdown(markdown, false).unwrap();
   assert_eq!(None, dt.information_item_name);
   assert_eq!(None, dt.output_label);
   assert_eq!(HitPolicy::Unique, dt.hit_policy);
@@ -35,7 +35,7 @@ fn test_minimal_vertical_decision_table() {
     |:--|:---:|:--------:|
     |   | Out | "Monday" |
   "#;
-  let dt = recognize_from_markdown(markdown).unwrap();
+  let dt = recognize_from_markdown(markdown, false).unwrap();
   assert_eq!(None, dt.information_item_name);
   assert_eq!(None, dt.output_label);
   assert_eq!(HitPolicy::Unique, dt.hit_policy);
@@ -52,7 +52,7 @@ fn test_empty_rows_should_be_skipped() {
     | 1 |  "Monday"   |
     |   |             |
   "#;
-  let dt = recognize_from_markdown(markdown).unwrap();
+  let dt = recognize_from_markdown(markdown, false).unwrap();
   assert_eq!(None, dt.information_item_name);
   assert_eq!(None, dt.output_label);
   assert_eq!(HitPolicy::Unique, dt.hit_policy);
@@ -65,7 +65,7 @@ fn test_empty_columns_should_be_skipped() {
     |:--|:---:|:---:|:---:|:--------:|:---:|
     |   |     | Out |     | "Monday" |     |
   "#;
-  let dt = recognize_from_markdown(markdown).unwrap();
+  let dt = recognize_from_markdown(markdown, false).unwrap();
   assert_eq!(None, dt.information_item_name);
   assert_eq!(None, dt.output_label);
   assert_eq!(HitPolicy::Unique, dt.hit_policy);

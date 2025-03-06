@@ -14,7 +14,7 @@ fn _0001() {
   "#;
   assert_eq!(
     "<RecognizerError> invalid decision table, reason: can not recognize the preferred orientation",
-    recognize_from_markdown(markdown).unwrap_err().to_string()
+    recognize_from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -33,6 +33,6 @@ fn _0002() {
   "#;
   assert_eq!(
     "<RecognizerError> invalid decision table, reason: can not recognize the preferred orientation",
-    recognize_from_markdown(markdown).unwrap_err().to_string()
+    recognize_from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
