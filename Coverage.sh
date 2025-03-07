@@ -31,9 +31,9 @@ fi
 
 # Display links to the coverage reports.
 echo ""
-echo -e "\e[1;32mOpen HTML report\x3A\e[0m file:///$WORKING_DIRECTORY/target/llvm-cov/html/index.html"
+echo -e "\e[1;32mOpen HTML report\x3A\e[0m file://$WORKING_DIRECTORY/target/llvm-cov/html/index.html"
 if [ "$PDF_REPORT" != "" ]; then
-  echo -e "\e[1;32mOpen PDF report\x3A\e[0m file:///$WORKING_DIRECTORY/target/llvm-cov/html/index.pdf"
+  echo -e "\e[1;32mOpen PDF report\x3A\e[0m file://$WORKING_DIRECTORY/target/llvm-cov/html/index.pdf"
 fi
 echo ""
 
