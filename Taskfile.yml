@@ -45,7 +45,6 @@ tasks:
     desc: Builds in debug mode
     cmds:
       - cmd: cargo +stable build --workspace --features=parsing-tables
-      - task: fmt
 
   check:
     desc: Performs checks in debug mode
@@ -62,13 +61,11 @@ tasks:
     cmds:
       - cmd: cargo +stable clippy --workspace
       - cmd: cargo +nightly clippy --workspace --all-targets
-      - task: fmt
 
   clippy-tck:
     desc: Runs clippy for all targets and TCK feature
     cmds:
       - cmd: cargo +nightly clippy --workspace --all-targets --features=tck
-      - task: fmt
 
   cov:
     desc: Generates code coverage report
@@ -167,9 +164,9 @@ tasks:
       - cmd: cargo +stable doc --no-deps --open --document-private-items
 
   fmt:
-    desc: Runs code formatter
+    desc: Runs the code formatter
     cmds:
-      - cmd: cargo +nightly fmt
+      - cmd: cargo +nightly fmt --all
 
   guide:
     desc: Synchronizes documentation files with VitePress project
