@@ -2,6 +2,8 @@
 
 use crate::errors::err_invalid_hit_policy;
 use dsntk_common::DsntkError;
+use std::fmt;
+use std::fmt::Display;
 
 /// Represents a decision table.
 #[derive(Debug)]
@@ -142,6 +144,31 @@ impl HitPolicy {
   }
 }
 
+impl Display for HitPolicy {
+  /// Converts hit policy into text.
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    write!(
+      f,
+      "{}",
+      match self {
+        HitPolicy::Unique => "U",
+        HitPolicy::Any => "A",
+        HitPolicy::Priority => "P",
+        HitPolicy::First => "F",
+        HitPolicy::RuleOrder => "R",
+        HitPolicy::OutputOrder => "O",
+        HitPolicy::Collect(aggregator) => match aggregator {
+          BuiltinAggregator::List => "C",
+          BuiltinAggregator::Sum => "C+",
+          BuiltinAggregator::Count => "C#",
+          BuiltinAggregator::Min => "C<",
+          BuiltinAggregator::Max => "C>",
+        },
+      }
+    )
+  }
+}
+
 impl TryFrom<&str> for HitPolicy {
   type Error = DsntkError;
   /// Creates a hit policy from [str].
@@ -190,9 +217,24 @@ pub enum BuiltinAggregator {
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum DecisionTableOrientation {
   /// Decision table is presented horizontally, rules are presented as rows.
-  RuleAsRow,
+  RulesAsRows,
   /// Decision table is presented vertically, rules are presented as columns.
-  RuleAsColumn,
+  RulesAsColumns,
   /// Decision table is presented as crosstab, rules are composed of two dimensions.
   CrossTable,
+}
+
+impl Display for DecisionTableOrientation {
+  /// Converts decision table orientation into text.
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    write!(
+      f,
+      "{}",
+      match self {
+        DecisionTableOrientation::RulesAsRows => "rules-as-rows",
+        DecisionTableOrientation::RulesAsColumns => "rules-as-columns",
+        DecisionTableOrientation::CrossTable => "cross-table",
+      }
+    )
+  }
 }

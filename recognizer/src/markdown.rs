@@ -36,7 +36,7 @@ enum Marker {
 type Markers = Vec<Option<Marker>>;
 
 /// Recognizes a decision table defined as plain Markdown text.
-pub fn recognize_from_markdown(markdown: &str, _trace: bool) -> Result<DecisionTable> {
+pub fn recognize_from_markdown(markdown: &str, trace: bool) -> Result<DecisionTable> {
   // Locate and retrieve lines containing the decision table from provided Markdown content.
   let (information_item_name, output_label, lines) = markdown_lines(markdown);
   // Convert lines into table.
@@ -48,15 +48,15 @@ pub fn recognize_from_markdown(markdown: &str, _trace: bool) -> Result<DecisionT
   let (preferred_orientation, table, empty_count, _rule_count) = get_preferred_orientation(table)?;
   if empty_count < 1 {
     match preferred_orientation {
-      DecisionTableOrientation::RuleAsRow => return Err(err_md_invalid_decision_table("no markers row before the first rule")),
-      DecisionTableOrientation::RuleAsColumn => return Err(err_md_invalid_decision_table("no markers column before the first rule")),
+      DecisionTableOrientation::RulesAsRows => return Err(err_md_invalid_decision_table("no markers row before the first rule")),
+      DecisionTableOrientation::RulesAsColumns => return Err(err_md_invalid_decision_table("no markers column before the first rule")),
       DecisionTableOrientation::CrossTable => unreachable!(),
     }
   }
   if empty_count > 2 {
     match preferred_orientation {
-      DecisionTableOrientation::RuleAsRow => return Err(err_md_invalid_decision_table("too many rows before the first rule")),
-      DecisionTableOrientation::RuleAsColumn => return Err(err_md_invalid_decision_table("too many columns before the first rule")),
+      DecisionTableOrientation::RulesAsRows => return Err(err_md_invalid_decision_table("too many rows before the first rule")),
+      DecisionTableOrientation::RulesAsColumns => return Err(err_md_invalid_decision_table("too many columns before the first rule")),
       DecisionTableOrientation::CrossTable => unreachable!(),
     }
   }
@@ -64,6 +64,32 @@ pub fn recognize_from_markdown(markdown: &str, _trace: bool) -> Result<DecisionT
   let allowed_values = empty_count == 2;
   // Get the input/output/annotation markers.
   let markers = get_markers(table[empty_count].iter())?;
+  // Display tracing report when requested.
+  if trace {
+    println!("Preferred orientation: {}", preferred_orientation);
+    println!("Information item name: {}", information_item_name.as_ref().unwrap_or(&"(none)".to_string()));
+    println!("Hip policy: {}", hit_policy);
+    println!("Output label: {}", output_label.as_ref().unwrap_or(&"(none)".to_string()));
+    println!("Allowed values: {}", allowed_values);
+    println!("Markers: {}", markers_to_string(&markers));
+    println!("Rows:");
+    for row in &table {
+      println!(
+        "| {} |",
+        row
+          .iter()
+          .map(|column| {
+            if let Some(text) = column {
+              text.to_string()
+            } else {
+              "(none)".to_string()
+            }
+          })
+          .collect::<Vec<String>>()
+          .join(" | ")
+      );
+    }
+  }
   // Prepare the input, output and annotation clauses with optional allowed values.
   let mut input_clauses = vec![];
   let mut output_clauses = vec![];
@@ -288,7 +314,7 @@ fn get_preferred_orientation(table: Table) -> Result<(DecisionTableOrientation, 
     (true, empty_count, rule_count) => {
       // Decision table is vertical, so the preferred orientation is rule-as-column.
       // But the returned table is pivoted, to have rules as rows.
-      Ok((DecisionTableOrientation::RuleAsColumn, pivot(table), empty_count, rule_count))
+      Ok((DecisionTableOrientation::RulesAsColumns, pivot(table), empty_count, rule_count))
     }
     (false, _, _) => {
       // Pivot the table to have rules as columns.
@@ -297,7 +323,7 @@ fn get_preferred_orientation(table: Table) -> Result<(DecisionTableOrientation, 
         (true, empty_count, rule_count) => {
           // Decision table is horizontal, so the preferred orientation is rule-as-row.
           // But the returned table is pivoted again, to have rules as rows again.
-          Ok((DecisionTableOrientation::RuleAsRow, pivot(table), empty_count, rule_count))
+          Ok((DecisionTableOrientation::RulesAsRows, pivot(table), empty_count, rule_count))
         }
         (false, _, _) => {
           // Preferred orientation could not be recognized.
@@ -348,6 +374,24 @@ fn get_markers<'a>(columns: impl Iterator<Item = &'a Option<String>>) -> Result<
   validate_markers(columns.map(get_marker).collect())
 }
 
+/// Converts optional text into optional marker.
+fn get_marker(text: &Option<String>) -> Option<Marker> {
+  let Some(text) = text else {
+    return None;
+  };
+  let text = strip_emphasis(text.to_lowercase());
+  if "input".starts_with(&text) || text == ">>>" || text == ">>" {
+    return Some(Marker::Input);
+  }
+  if "output".starts_with(&text) || text == "<<<" || text == "<<" {
+    return Some(Marker::Output);
+  }
+  if "annotation".starts_with(&text) || text == "###" || text == "##" || text == "#" {
+    return Some(Marker::Annotation);
+  }
+  None
+}
+
 /// Validates the markers.
 fn validate_markers(markers: Markers) -> Result<Markers> {
   enum State {
@@ -385,24 +429,6 @@ fn validate_markers(markers: Markers) -> Result<Markers> {
   Ok(markers)
 }
 
-/// Converts optional text into optional marker.
-fn get_marker(text: &Option<String>) -> Option<Marker> {
-  let Some(text) = text else {
-    return None;
-  };
-  let text = strip_emphasis(text.to_lowercase());
-  if "input".starts_with(&text) || text == ">>>" || text == ">>" {
-    return Some(Marker::Input);
-  }
-  if "output".starts_with(&text) || text == "<<<" || text == "<<" {
-    return Some(Marker::Output);
-  }
-  if "annotation".starts_with(&text) || text == "###" || text == "##" || text == "#" {
-    return Some(Marker::Annotation);
-  }
-  None
-}
-
 /// Removes the Markdown emphasis from text if present.
 fn strip_emphasis(text: String) -> String {
   for emphasis in EMPHASES {
@@ -429,6 +455,29 @@ fn get_allowed_and_default_output_values(input: &Option<String>) -> (Option<Stri
     }
   }
   (input.clone(), None)
+}
+
+/// Converts a collection of markers into user-readable list.
+fn markers_to_string(markers: &Markers) -> String {
+  format!(
+    "[{}]",
+    markers
+      .iter()
+      .map(|marker| {
+        if let Some(marker) = marker {
+          match marker {
+            Marker::Input => "input",
+            Marker::Output => "output",
+            Marker::Annotation => "annotation",
+          }
+          .to_string()
+        } else {
+          "(none)".to_string()
+        }
+      })
+      .collect::<Vec<String>>()
+      .join(", ")
+  )
 }
 
 #[cfg(test)]

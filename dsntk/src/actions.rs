@@ -160,14 +160,16 @@ enum Action {
   ),
   /// Parse decision table.
   ParseDecisionTable(
-    /// Name of the file containing decision table definitions (Unicode format).
+    /// Name of the file containing decision table definition to be parsed.
     String,
+    /// Input format of the parsed decision table.
+    DecisionTableFormat,
   ),
   /// Evaluate decision table.
   EvaluateDecisionTable(
     /// Name of the file containing input data.
     String,
-    /// Name of the file containing decision table definitions to be evaluated.
+    /// Name of the file containing decision table definition to be evaluated.
     String,
     /// Input format of the evaluated decision table.
     DecisionTableFormat,
@@ -176,8 +178,10 @@ enum Action {
   TestDecisionTable(
     /// Test file name.
     String,
-    /// Decision table file name.
+    /// Name of the file containing decision table definition to be tested.
     String,
+    /// Input format of the tested decision table.
+    DecisionTableFormat,
     /// Flag indicating if only test summary will be printed.
     bool,
     /// Requested color mode.
@@ -189,6 +193,8 @@ enum Action {
     String,
     /// Output HTML file name.
     String,
+    /// Input format of the exported decision table.
+    DecisionTableFormat,
   ),
   /// Parse DMN model.
   ParseDmnModel(
@@ -267,20 +273,20 @@ pub async fn do_action() -> std::io::Result<()> {
       export_feel_expression(&ctx_file_name, &feel_file_name, &html_file_name);
       Ok(())
     }
-    Action::ParseDecisionTable(dectab_file_name) => {
-      parse_decision_table(&dectab_file_name);
+    Action::ParseDecisionTable(dectab_file_name, dectab_file_format) => {
+      parse_decision_table(&dectab_file_name, dectab_file_format);
       Ok(())
     }
     Action::EvaluateDecisionTable(input_file_name, dectab_file_name, dectab_file_format) => {
       evaluate_decision_table(&input_file_name, &dectab_file_name, dectab_file_format);
       Ok(())
     }
-    Action::TestDecisionTable(test_file_name, dectab_file_name, summary_only, cm) => {
-      test_decision_table(&test_file_name, &dectab_file_name, summary_only, cm);
+    Action::TestDecisionTable(test_file_name, dectab_file_name, dectab_file_format, summary_only, cm) => {
+      test_decision_table(&test_file_name, &dectab_file_name, dectab_file_format, summary_only, cm);
       Ok(())
     }
-    Action::ExportDecisionTable(dectab_file_name, html_file_name) => {
-      export_decision_table(&dectab_file_name, &html_file_name);
+    Action::ExportDecisionTable(dectab_file_name, html_file_name, dectab_file_format) => {
+      export_decision_table(&dectab_file_name, &html_file_name, dectab_file_format);
       Ok(())
     }
     Action::ParseDmnModel(dmn_file_name, cm) => {
@@ -457,6 +463,22 @@ fn get_matches() -> ArgMatches {
       Command::new(COMMAND_PDT.name)
         .about(COMMAND_PDT.about)
         .display_order(COMMAND_PDT.display_order)
+        .arg(
+          arg!(--"markdown")
+            .help("Markdown decision table")
+            .short('m')
+            .action(ArgAction::SetTrue)
+            .display_order(1)
+            .conflicts_with("unicode"),
+        )
+        .arg(
+          arg!(--"unicode")
+            .help("Unicode decision table (default)")
+            .short('u')
+            .action(ArgAction::SetTrue)
+            .display_order(2)
+            .conflicts_with("markdown"),
+        )
         .arg(arg!(<DECTAB_FILE>).help("File containing decision table to be parsed").required(true).index(1)),
     )
     // edt - Evaluate Decision Table
@@ -489,11 +511,27 @@ fn get_matches() -> ArgMatches {
         .about(COMMAND_TDT.about)
         .display_order(COMMAND_TDT.display_order)
         .arg(
+          arg!(--"markdown")
+            .help("Markdown decision table")
+            .short('m')
+            .action(ArgAction::SetTrue)
+            .display_order(1)
+            .conflicts_with("unicode"),
+        )
+        .arg(
+          arg!(--"unicode")
+            .help("Unicode decision table (default)")
+            .short('u')
+            .action(ArgAction::SetTrue)
+            .display_order(2)
+            .conflicts_with("markdown"),
+        )
+        .arg(
           arg!(--"summary")
             .help("Display only summary after completing all tests")
             .short('s')
             .action(ArgAction::SetTrue)
-            .display_order(1),
+            .display_order(3),
         )
         .arg(
           arg!(--"color" <WHEN>)
@@ -501,7 +539,7 @@ fn get_matches() -> ArgMatches {
             .short('c')
             .value_parser(COLORS)
             .action(ArgAction::Set)
-            .display_order(2),
+            .display_order(4),
         )
         .arg(arg!(<TEST_FILE>).help("File containing test cases for tested decision table").required(true).index(1))
         .arg(arg!(<DECTAB_FILE>).help("File containing FEEL expression to be tested").required(true).index(2)),
@@ -511,6 +549,22 @@ fn get_matches() -> ArgMatches {
       Command::new(COMMAND_XDT.name)
         .about(COMMAND_XDT.about)
         .display_order(COMMAND_XDT.display_order)
+        .arg(
+          arg!(--"markdown")
+            .help("Markdown decision table")
+            .short('m')
+            .action(ArgAction::SetTrue)
+            .display_order(1)
+            .conflicts_with("unicode"),
+        )
+        .arg(
+          arg!(--"unicode")
+            .help("Unicode decision table (default)")
+            .short('u')
+            .action(ArgAction::SetTrue)
+            .display_order(2)
+            .conflicts_with("markdown"),
+        )
         .arg(arg!(<DECTAB_FILE>).help("File containing decision table to be exported to HTML").required(true).index(1))
         .arg(arg!(<HTML_FILE>).help("Output HTML file").required(true).index(2)),
     )
@@ -588,7 +642,13 @@ fn get_cli_action() -> Action {
     }
     // parse decision table subcommand
     Some(("pdt", matches)) => {
-      return Action::ParseDecisionTable(match_string(matches, "DECTAB_FILE"));
+      return Action::ParseDecisionTable(
+        match_string(matches, "DECTAB_FILE"),
+        match (match_unicode(matches), match_markdown(matches)) {
+          (_, true) => DecisionTableFormat::Markdown,
+          _ => DecisionTableFormat::Unicode,
+        },
+      );
     }
     // evaluate decision table subcommand
     Some(("edt", matches)) => {
@@ -606,13 +666,24 @@ fn get_cli_action() -> Action {
       return Action::TestDecisionTable(
         match_string(matches, "TEST_FILE"),
         match_string(matches, "DECTAB_FILE"),
+        match (match_unicode(matches), match_markdown(matches)) {
+          (_, true) => DecisionTableFormat::Markdown,
+          _ => DecisionTableFormat::Unicode,
+        },
         match_summary(matches),
         match_color(matches),
       );
     }
     // export decision table subcommand
     Some(("xdt", matches)) => {
-      return Action::ExportDecisionTable(match_string(matches, "DECTAB_FILE"), match_string(matches, "HTML_FILE"));
+      return Action::ExportDecisionTable(
+        match_string(matches, "DECTAB_FILE"),
+        match_string(matches, "HTML_FILE"),
+        match (match_unicode(matches), match_markdown(matches)) {
+          (_, true) => DecisionTableFormat::Markdown,
+          _ => DecisionTableFormat::Unicode,
+        },
+      );
     }
     // parse DMN model subcommand
     Some(("pdm", matches)) => {
@@ -788,12 +859,18 @@ fn export_feel_expression(_ctx_file_name: &str, _feel_file_name: &str, html_file
 }
 
 /// Parses decision table loaded from text file.
-fn parse_decision_table(dectab_file_name: &str) {
+fn parse_decision_table(dectab_file_name: &str, dectab_file_format: DecisionTableFormat) {
   match fs::read_to_string(dectab_file_name) {
-    Ok(text) => match dsntk_recognizer::recognize_from_unicode(&text, true) {
-      Ok(_) => {}
-      Err(reason) => eprintln!("ERROR: {reason}"),
-    },
+    Ok(dtb_file_content) => {
+      let recognition_result = match dectab_file_format {
+        DecisionTableFormat::Unicode => dsntk_recognizer::recognize_from_unicode(&dtb_file_content, true),
+        DecisionTableFormat::Markdown => dsntk_recognizer::recognize_from_markdown(&dtb_file_content, true),
+      };
+      match recognition_result {
+        Ok(_) => {}
+        Err(reason) => eprintln!("ERROR: {reason}"),
+      }
+    }
     Err(reason) => eprintln!("loading decision table file `{dectab_file_name}` failed with reason: {reason}"),
   }
 }
@@ -845,7 +922,7 @@ fn evaluate_decision_table(input_file_name: &str, dectab_file_name: &str, dectab
 }
 
 /// Tests decision table loaded from file.
-fn test_decision_table(test_file_name: &str, dectab_file_name: &str, summary_only: bool, cm: ColorMode) {
+fn test_decision_table(test_file_name: &str, dectab_file_name: &str, dectab_file_format: DecisionTableFormat, summary_only: bool, cm: ColorMode) {
   let dtb_file_content = match fs::read_to_string(dectab_file_name) {
     Ok(dtb_file_content) => dtb_file_content,
     Err(reason) => {
@@ -853,7 +930,11 @@ fn test_decision_table(test_file_name: &str, dectab_file_name: &str, summary_onl
       return;
     }
   };
-  let decision_table: DecisionTable = match dsntk_recognizer::recognize_from_unicode(&dtb_file_content, false) {
+  let recognition_result = match dectab_file_format {
+    DecisionTableFormat::Unicode => dsntk_recognizer::recognize_from_unicode(&dtb_file_content, false),
+    DecisionTableFormat::Markdown => dsntk_recognizer::recognize_from_markdown(&dtb_file_content, false),
+  };
+  let decision_table: DecisionTable = match recognition_result {
     Ok(decision_table) => decision_table.into(),
     Err(reason) => {
       eprintln!("building decision table failed with reason: {reason}");
@@ -892,17 +973,23 @@ fn test_decision_table(test_file_name: &str, dectab_file_name: &str, summary_onl
 }
 
 /// Exports decision table loaded from text file to HTML output file.
-fn export_decision_table(dectab_file_name: &str, html_file_name: &str) {
+fn export_decision_table(dectab_file_name: &str, html_file_name: &str, dectab_file_format: DecisionTableFormat) {
   match fs::read_to_string(dectab_file_name) {
-    Ok(text) => match dsntk_recognizer::recognize_from_unicode(&text, false) {
-      Ok(recognized_decision_table) => {
-        let html_output = dsntk_gendoc::decision_table_to_html(&recognized_decision_table.into());
-        if let Err(reason) = fs::write(html_file_name, html_output) {
-          println!("writing output HTML file `{html_file_name}` failed with reason: {reason}")
+    Ok(dtb_file_content) => {
+      let recognition_result = match dectab_file_format {
+        DecisionTableFormat::Unicode => dsntk_recognizer::recognize_from_unicode(&dtb_file_content, false),
+        DecisionTableFormat::Markdown => dsntk_recognizer::recognize_from_markdown(&dtb_file_content, false),
+      };
+      match recognition_result {
+        Ok(recognized_decision_table) => {
+          let html_output = dsntk_gendoc::decision_table_to_html(&recognized_decision_table.into());
+          if let Err(reason) = fs::write(html_file_name, html_output) {
+            println!("writing output HTML file `{html_file_name}` failed with reason: {reason}")
+          }
         }
+        Err(reason) => eprintln!("ERROR: {reason}"),
       }
-      Err(reason) => eprintln!("ERROR: {reason}"),
-    },
+    }
     Err(reason) => eprintln!("loading decision table file `{dectab_file_name}` failed with reason: {reason}"),
   }
 }

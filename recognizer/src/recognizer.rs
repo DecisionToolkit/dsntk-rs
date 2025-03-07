@@ -99,11 +99,11 @@ impl Recognizer {
   pub fn recognize_table_components(&mut self) -> Result<()> {
     self.recognize_orientation()?;
     match self.orientation {
-      DecisionTableOrientation::RuleAsRow => {
+      DecisionTableOrientation::RulesAsRows => {
         self.plane.remove_first_column();
         self.recognize_horizontal_table()?;
       }
-      DecisionTableOrientation::RuleAsColumn => {
+      DecisionTableOrientation::RulesAsColumns => {
         self.plane.remove_last_row();
         self.plane.pivot();
         self.recognize_horizontal_table()?;
@@ -300,7 +300,7 @@ impl Recognizer {
       if self.hit_policy_placement.is_top_left() {
         if self.rule_numbers_placement.is_left_below() {
           self.hit_policy = self.hit_policy_placement.hit_policy();
-          self.orientation = DecisionTableOrientation::RuleAsRow;
+          self.orientation = DecisionTableOrientation::RulesAsRows;
           self.rule_count = self.rule_numbers_placement.rule_count();
           Ok(())
         } else {
@@ -314,7 +314,7 @@ impl Recognizer {
       if self.hit_policy_placement.is_bottom_left() {
         if self.rule_numbers_placement.is_right_after() {
           self.hit_policy = self.hit_policy_placement.hit_policy();
-          self.orientation = DecisionTableOrientation::RuleAsColumn;
+          self.orientation = DecisionTableOrientation::RulesAsColumns;
           self.rule_count = self.rule_numbers_placement.rule_count();
           Ok(())
         } else {
@@ -329,7 +329,7 @@ impl Recognizer {
         HitPolicyPlacement::TopLeft(_) => {
           if self.rule_numbers_placement.is_left_below() {
             self.hit_policy = self.hit_policy_placement.hit_policy();
-            self.orientation = DecisionTableOrientation::RuleAsRow;
+            self.orientation = DecisionTableOrientation::RulesAsRows;
             self.rule_count = self.rule_numbers_placement.rule_count();
             Ok(())
           } else {
@@ -339,7 +339,7 @@ impl Recognizer {
         HitPolicyPlacement::BottomLeft(_) => {
           if self.rule_numbers_placement.is_right_after() {
             self.hit_policy = self.hit_policy_placement.hit_policy();
-            self.orientation = DecisionTableOrientation::RuleAsColumn;
+            self.orientation = DecisionTableOrientation::RulesAsColumns;
             self.rule_count = self.rule_numbers_placement.rule_count();
             Ok(())
           } else {

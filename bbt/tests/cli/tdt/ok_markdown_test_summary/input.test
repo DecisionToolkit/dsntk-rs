@@ -1,0 +1,8 @@
+% { Customer:"Business",   Order:  -3.23 }, 0.10
+% { Customer:"Business",   Order:   9.00 }, 0.10
+% { Customer:"Business",   Order:  10.00 }, 0.15
+% { Customer:"Business",   Order: 120.00 }, 0.15
+% { Customer:"Private",    Order:  -2.34 }, 0.05
+% { Customer:"Private",    Order:  10.00 }, 0.05
+% { Customer:"Private",    Order: 101.00 }, 0.05
+% { Customer:"Government", Order:  10.00 }, null

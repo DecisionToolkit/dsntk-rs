@@ -133,8 +133,8 @@ impl From<RecognizedBuiltinAggregator> for BuiltinAggregator {
 impl From<RecognizedDecisionTableOrientation> for DecisionTableOrientation {
   fn from(value: RecognizedDecisionTableOrientation) -> Self {
     match value {
-      RecognizedDecisionTableOrientation::RuleAsRow => Self::RuleAsRow,
-      RecognizedDecisionTableOrientation::RuleAsColumn => Self::RuleAsColumn,
+      RecognizedDecisionTableOrientation::RulesAsRows => Self::RuleAsRow,
+      RecognizedDecisionTableOrientation::RulesAsColumns => Self::RuleAsColumn,
       RecognizedDecisionTableOrientation::CrossTable => Self::CrossTable,
     }
   }

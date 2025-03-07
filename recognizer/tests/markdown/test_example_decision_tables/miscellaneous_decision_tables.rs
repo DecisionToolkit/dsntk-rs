@@ -14,7 +14,7 @@ fn _0001() {
   assert_eq!(None, dt.information_item_name);
   assert_eq!(None, dt.output_label);
   assert_eq!(HitPolicy::Unique, dt.hit_policy);
-  assert_eq!(DecisionTableOrientation::RuleAsRow, dt.preferred_orientation);
+  assert_eq!(DecisionTableOrientation::RulesAsRows, dt.preferred_orientation);
 }
 
 /// Only the information item name is present.
@@ -32,7 +32,7 @@ fn _0002() {
   assert_eq!("Weekdays sorted", dt.information_item_name.unwrap());
   assert_eq!(None, dt.output_label);
   assert_eq!(HitPolicy::Unique, dt.hit_policy);
-  assert_eq!(DecisionTableOrientation::RuleAsRow, dt.preferred_orientation);
+  assert_eq!(DecisionTableOrientation::RulesAsRows, dt.preferred_orientation);
 }
 
 /// The information item name is present and the output label.
@@ -51,7 +51,7 @@ fn _0003() {
   assert_eq!("Weekdays sorted", dt.information_item_name.unwrap());
   assert_eq!("Weekday", dt.output_label.unwrap());
   assert_eq!(HitPolicy::Unique, dt.hit_policy);
-  assert_eq!(DecisionTableOrientation::RuleAsRow, dt.preferred_orientation);
+  assert_eq!(DecisionTableOrientation::RulesAsRows, dt.preferred_orientation);
 }
 
 /// Only the output label is present.
@@ -69,5 +69,5 @@ fn _0004() {
   assert_eq!(None, dt.information_item_name);
   assert_eq!("Weekday", dt.output_label.unwrap());
   assert_eq!(HitPolicy::Unique, dt.hit_policy);
-  assert_eq!(DecisionTableOrientation::RuleAsRow, dt.preferred_orientation);
+  assert_eq!(DecisionTableOrientation::RulesAsRows, dt.preferred_orientation);
 }
