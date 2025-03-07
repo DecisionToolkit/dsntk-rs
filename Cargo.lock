@@ -385,9 +385,9 @@ checksum = "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
 
 [[package]]
 name = "bytes"
-version = "1.10.0"
+version = "1.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f61dac84819c6588b558454b194026eb1f09c293b9036ae9b159e74e73ab6cf9"
+checksum = "d71b6127be86fdcfddb610f7182ac57211d4b18a3e9c82eb2d17662f2227ad6a"
 
 [[package]]
 name = "bytestring"
@@ -616,7 +616,7 @@ checksum = "fdda6acc74f0bfd12b77f1f72b5dda9e4147137af9d4e5cd91fa395bf1aa91b4"
 
 [[package]]
 name = "dsntk"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "actix-web",
  "antex",
@@ -639,7 +639,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-common"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "dsntk-macros",
  "serde",
@@ -651,7 +651,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-evaluator"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "dsntk-common",
  "dsntk-feel",
@@ -663,14 +663,14 @@ dependencies = [
 
 [[package]]
 name = "dsntk-examples"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "walkdir",
 ]
 
 [[package]]
 name = "dsntk-feel"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "chrono",
  "chrono-tz",
@@ -686,7 +686,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-evaluator"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "dsntk-common",
  "dsntk-feel",
@@ -703,7 +703,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-grammar"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "convert_case 0.8.0",
  "regex",
@@ -711,7 +711,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-number"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "dfp-number-sys",
  "dsntk-common",
@@ -720,7 +720,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-parser"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "antex",
  "difference",
@@ -732,7 +732,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-regex"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "dsntk-common",
  "dsntk-macros",
@@ -742,7 +742,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-temporal"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "chrono",
  "chrono-tz",
@@ -755,7 +755,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-gendoc"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "antex",
  "domrs",
@@ -770,7 +770,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-macros"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -779,7 +779,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-model"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "dsntk-common",
  "dsntk-examples",
@@ -793,7 +793,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-model-evaluator"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "antex",
  "dsntk-common",
@@ -811,7 +811,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-recognizer"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "dsntk-common",
  "dsntk-examples",
@@ -820,7 +820,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-server"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "actix-web",
  "antex",
@@ -837,7 +837,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-workspace"
-version = "0.1.0"
+version = "0.2.0-dev"
 dependencies = [
  "antex",
  "dsntk-common",
@@ -1059,9 +1059,9 @@ dependencies = [
 
 [[package]]
 name = "httparse"
-version = "1.10.0"
+version = "1.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f2d708df4e7140240a16cd6ab0ab65c972d7433ab77819ea693fde9c43811e2a"
+checksum = "6dbf3de79e51f3d586ab4cb9d5c3e2c14aa28ed23d180cf89b4df0454a69cc87"
 
 [[package]]
 name = "httpdate"
@@ -1317,9 +1317,9 @@ checksum = "7943c866cc5cd64cbc25b2e01621d07fa8eb2a1a23160ee81ce38704e97b8ecf"
 
 [[package]]
 name = "itoa"
-version = "1.0.14"
+version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d75a2a4b1b190afb6f5425f10f6a8f959d2ea0b9c2b1d79553551850539e4674"
+checksum = "4a5f13b858c8d314ee3e8f639011f7ccefe71f97f96e50151fb991f267928e2c"
 
 [[package]]
 name = "jobserver"
@@ -1575,9 +1575,9 @@ checksum = "8b870d8c151b6f2fb93e84a13146138f05d02ed11c7e7c54f8826aaaf7c9f184"
 
 [[package]]
 name = "pkg-config"
-version = "0.3.31"
+version = "0.3.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "953ec861398dccce10c670dfeaf3ec4911ca479e9c02154b3a215178c5f566f2"
+checksum = "7edddbd0b52d732b21ad9a5fab5c704c14cd949e5e9a1ec5929a24fded1b904c"
 
 [[package]]
 name = "powerfmt"
@@ -1696,9 +1696,9 @@ dependencies = [
 
 [[package]]
 name = "redox_syscall"
-version = "0.5.9"
+version = "0.5.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "82b568323e98e49e2a0899dcee453dd679fae22d69adf9b11dd508d1549b7e2f"
+checksum = "0b8c0c260b63a8219631167be35e6a988e9554dbd323f8bd08439c8ed1302bd1"
 dependencies = [
  "bitflags",
 ]
@@ -1784,9 +1784,9 @@ dependencies = [
 
 [[package]]
 name = "ring"
-version = "0.17.11"
+version = "0.17.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "da5349ae27d3887ca812fb375b45a4fbb36d8d12d2df394968cd86e35683fe73"
+checksum = "70ac5d832aa16abd7d1def883a8545280c20a60f523a370aa3a9617c2b8550ee"
 dependencies = [
  "cc",
  "cfg-if",
@@ -1868,15 +1868,15 @@ dependencies = [
 
 [[package]]
 name = "rustversion"
-version = "1.0.19"
+version = "1.0.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f7c45b9784283f1b2e7fb61b42047c2fd678ef0960d4f6f1eba131594cc369d4"
+checksum = "eded382c5f5f786b989652c49544c4877d9f015cc22e145a5ea8ea66c2921cd2"
 
 [[package]]
 name = "ryu"
-version = "1.0.19"
+version = "1.0.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6ea1a2d0a644769cc99faa24c3ad26b379b786fe7c36fd3c546254801650e6dd"
+checksum = "28d3b2b1366ec20994f1fd18c3c594f05c5dd4bc44d8bb0c1c632c8d6829481f"
 
 [[package]]
 name = "same-file"
@@ -1895,9 +1895,9 @@ checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
 
 [[package]]
 name = "semver"
-version = "1.0.25"
+version = "1.0.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f79dfe2d285b0488816f30e700a7438c5a73d816b5b7d3ac72fbc48b0d185e03"
+checksum = "56e6fa9c48d24d85fb3de5ad847117517440f6beceb7798af16b4a87d616b8d0"
 
 [[package]]
 name = "serde"
@@ -2051,18 +2051,18 @@ dependencies = [
 
 [[package]]
 name = "thiserror"
-version = "2.0.11"
+version = "2.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d452f284b73e6d76dd36758a0c8684b1d5be31f92b89d07fd5822175732206fc"
+checksum = "567b8a2dae586314f7be2a752ec7474332959c6460e02bde30d702a66d488708"
 dependencies = [
  "thiserror-impl",
 ]
 
 [[package]]
 name = "thiserror-impl"
-version = "2.0.11"
+version = "2.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "26afc1baea8a989337eeb52b6e72a039780ce45c3edfcc9c5b9d112feeb173c2"
+checksum = "7f7cf42b4507d8ea322120659672cf1b9dbb93f8f2d4ecfd6e51350ff5b17a1d"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2071,9 +2071,9 @@ dependencies = [
 
 [[package]]
 name = "time"
-version = "0.3.37"
+version = "0.3.39"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "35e7868883861bd0e56d9ac6efcaaca0d6d5d82a2a7ec8209ff492c07cf37b21"
+checksum = "dad298b01a40a23aac4580b67e3dbedb7cc8402f3592d7f49469de2ea4aecdd8"
 dependencies = [
  "deranged",
  "itoa",
@@ -2086,15 +2086,15 @@ dependencies = [
 
 [[package]]
 name = "time-core"
-version = "0.1.2"
+version = "0.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ef927ca75afb808a4d64dd374f00a2adf8d0fcff8e7b184af886c3c87ec4a3f3"
+checksum = "765c97a5b985b7c11d7bc27fa927dc4fe6af3a6dfb021d28deb60d3bf51e76ef"
 
 [[package]]
 name = "time-macros"
-version = "0.2.19"
+version = "0.2.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2834e6017e3e5e4b9834939793b282bc03b37a3336245fa820e35e233e2a85de"
+checksum = "e8093bc3e81c3bc5f7879de09619d06c9a5a5e45ca44dfeeb7225bae38005c5c"
 dependencies = [
  "num-conv",
  "time-core",
@@ -2112,9 +2112,9 @@ dependencies = [
 
 [[package]]
 name = "tinyvec"
-version = "1.8.1"
+version = "1.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "022db8904dfa342efe721985167e9fcd16c29b226db4397ed752a761cfce81e8"
+checksum = "09b3661f17e86524eccd4371ab0429194e0d7c008abb45f7a7495b1719463c71"
 dependencies = [
  "tinyvec_macros",
 ]
@@ -2232,9 +2232,9 @@ checksum = "10103c57044730945224467c09f71a4db0071c123a0648cc3e818913bde6b561"
 
 [[package]]
 name = "unicode-ident"
-version = "1.0.17"
+version = "1.0.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "00e2473a93778eb0bad35909dff6a10d28e63f792f16ed15e404fca9d5eeedbe"
+checksum = "5a5f39404a5da50712a4c1eecf25e90dd62b613502b7e925fd4e4d19b5c96512"
 
 [[package]]
 name = "unicode-segmentation"
