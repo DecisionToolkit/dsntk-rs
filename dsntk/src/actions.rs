@@ -22,6 +22,96 @@ const COLOR_NEVER: &str = "never";
 
 const COLORS: [&str; 3] = [COLOR_AUTO, COLOR_ALWAYS, COLOR_NEVER];
 
+struct AppCommand {
+  name: &'static str,
+  about: &'static str,
+  display_order: usize,
+}
+
+const COMMAND_SRV: AppCommand = AppCommand {
+  name: "srv",
+  about: "Run as a service",
+  display_order: 1,
+};
+
+const COMMAND_EDM: AppCommand = AppCommand {
+  name: "edm",
+  about: "Evaluate DMN Model",
+  display_order: 2,
+};
+
+const COMMAND_EDT: AppCommand = AppCommand {
+  name: "edt",
+  about: "Evaluate Decision Table",
+  display_order: 3,
+};
+
+const COMMAND_EFE: AppCommand = AppCommand {
+  name: "efe",
+  about: "Evaluate FEEL Expression",
+  display_order: 4,
+};
+
+const COMMAND_PDM: AppCommand = AppCommand {
+  name: "pdm",
+  about: "Parse DMN Model",
+  display_order: 5,
+};
+
+const COMMAND_PDT: AppCommand = AppCommand {
+  name: "pdt",
+  about: "Parse Decision Table",
+  display_order: 6,
+};
+
+const COMMAND_PFE: AppCommand = AppCommand {
+  name: "pfe",
+  about: "Parse FEEL Expression",
+  display_order: 7,
+};
+
+const COMMAND_TDM: AppCommand = AppCommand {
+  name: "tdm",
+  about: "Test DMN Model",
+  display_order: 8,
+};
+
+const COMMAND_TDT: AppCommand = AppCommand {
+  name: "tdt",
+  about: "Test Decision Table",
+  display_order: 9,
+};
+
+const COMMAND_TFE: AppCommand = AppCommand {
+  name: "tfe",
+  about: "Test FEEL Expression",
+  display_order: 10,
+};
+
+const COMMAND_XDM: AppCommand = AppCommand {
+  name: "xdm",
+  about: "eXport DMN Model",
+  display_order: 11,
+};
+
+const COMMAND_XDT: AppCommand = AppCommand {
+  name: "xdt",
+  about: "eXport Decision Table",
+  display_order: 12,
+};
+
+const COMMAND_XFE: AppCommand = AppCommand {
+  name: "xfe",
+  about: "eXport FEEL Expression",
+  display_order: 13,
+};
+
+const COMMAND_EXS: AppCommand = AppCommand {
+  name: "exs",
+  about: "Save examples",
+  display_order: 14,
+};
+
 /// Supported decision table input file formats.
 enum DecisionTableFormat {
   /// Decision table defined as plain Unicode text.
@@ -98,11 +188,6 @@ enum Action {
     /// Decision table file name.
     String,
     /// Output HTML file name.
-    String,
-  ),
-  /// Recognize decision table.
-  RecognizeDecisionTable(
-    /// Name of the file containing decision table definitions (Unicode format).
     String,
   ),
   /// Parse DMN model.
@@ -198,10 +283,6 @@ pub async fn do_action() -> std::io::Result<()> {
       export_decision_table(&dectab_file_name, &html_file_name);
       Ok(())
     }
-    Action::RecognizeDecisionTable(dectab_file_name) => {
-      recognize_decision_table(&dectab_file_name);
-      Ok(())
-    }
     Action::ParseDmnModel(dmn_file_name, cm) => {
       parse_dmn_model(&dmn_file_name, cm);
       Ok(())
@@ -241,11 +322,11 @@ fn get_matches() -> ArgMatches {
     .disable_version_flag(true)
     // handle the version flag in a custom way
     .arg(Arg::new("version").short('V').long("version").help("Print version").action(ArgAction::SetTrue))
-    // pfe
+    // pfe - Parse FEEL Expression
     .subcommand(
-      Command::new("pfe")
-        .about("Parse FEEL Expression")
-        .display_order(7)
+      Command::new(COMMAND_PFE.name)
+        .about(COMMAND_PFE.about)
+        .display_order(COMMAND_PFE.display_order)
         .arg(
           arg!(-c --color <WHEN>)
             .help("Control when colored output is used")
@@ -256,19 +337,19 @@ fn get_matches() -> ArgMatches {
         .arg(arg!(<CONTEXT_FILE>).help("File containing context for parsed FEEL expression").required(true).index(1))
         .arg(arg!(<FEEL_FILE>).help("File containing FEEL expression to be parsed").required(true).index(2)),
     )
-    // efe
+    // efe - Evaluate FEEL Expression
     .subcommand(
-      Command::new("efe")
-        .about("Evaluate FEEL Expression")
-        .display_order(4)
+      Command::new(COMMAND_EFE.name)
+        .about(COMMAND_EFE.about)
+        .display_order(COMMAND_EFE.display_order)
         .arg(arg!(<INPUT_FILE>).help("File containing input data for evaluated FEEL expression").required(true).index(1))
         .arg(arg!(<FEEL_FILE>).help("File containing FEEL expression to be evaluated").required(true).index(2)),
     )
-    // tfe
+    // tfe - Test FEEL Expression
     .subcommand(
-      Command::new("tfe")
-        .about("Test FEEL Expression")
-        .display_order(10)
+      Command::new(COMMAND_TFE.name)
+        .about(COMMAND_TFE.about)
+        .display_order(COMMAND_TFE.display_order)
         .arg(
           arg!(--"summary")
             .help("Display only summary after completing all tests")
@@ -287,11 +368,11 @@ fn get_matches() -> ArgMatches {
         .arg(arg!(<TEST_FILE>).help("File containing test cases for tested FEEL expression").required(true).index(1))
         .arg(arg!(<FEEL_FILE>).help("File containing FEEL expression to be tested").required(true).index(2)),
     )
-    // xfe
+    // xfe - Export FEEL Expression
     .subcommand(
-      Command::new("xfe")
-        .about("eXport FEEL Expression")
-        .display_order(13)
+      Command::new(COMMAND_XFE.name)
+        .about(COMMAND_XFE.about)
+        .display_order(COMMAND_XFE.display_order)
         .arg(
           arg!(<INPUT_FILE>)
             .help("File containing input data for expression to be exported to HTML")
@@ -301,11 +382,11 @@ fn get_matches() -> ArgMatches {
         .arg(arg!(<FEEL_FILE>).help("File containing FEEL expression to be exported to HTML").required(true).index(2))
         .arg(arg!(<HTML_FILE>).help("Output HTML file").required(true).index(3)),
     )
-    // pdm
+    // pdm - Parse DMN Model
     .subcommand(
-      Command::new("pdm")
-        .about("Parse DMN Model")
-        .display_order(5)
+      Command::new(COMMAND_PDM.name)
+        .about(COMMAND_PDM.about)
+        .display_order(COMMAND_PDM.display_order)
         .arg(
           arg!(--"color" <WHEN>)
             .help("Control when colored output is used")
@@ -316,11 +397,11 @@ fn get_matches() -> ArgMatches {
         )
         .arg(arg!(<DMN_FILE>).help("File containing DMN model to be parsed").required(true).index(1)),
     )
-    // edm
+    // edm - Evaluate DMN Model
     .subcommand(
-      Command::new("edm")
-        .about("Evaluate DMN Model")
-        .display_order(2)
+      Command::new(COMMAND_EDM.name)
+        .about(COMMAND_EDM.about)
+        .display_order(COMMAND_EDM.display_order)
         .arg(
           arg!(--"invocable" <NAME>)
             .help("Name of the invocable (decision, bkm, decision service) to be evaluated")
@@ -332,11 +413,11 @@ fn get_matches() -> ArgMatches {
         .arg(arg!(<INPUT_FILE>).help("File containing input data for evaluated DMN model").required(true).index(1))
         .arg(arg!(<DMN_FILE>).help("File containing DMN model to be evaluated").required(true).index(2)),
     )
-    // tdm
+    // tdm - Test DMN Model
     .subcommand(
-      Command::new("tdm")
-        .about("Test DMN Model")
-        .display_order(8)
+      Command::new(COMMAND_TDM.name)
+        .about(COMMAND_TDM.about)
+        .display_order(COMMAND_TDM.display_order)
         .arg(
           arg!(--"invocable" <NAME>)
             .help("Name of the invocable to be tested")
@@ -363,26 +444,26 @@ fn get_matches() -> ArgMatches {
         .arg(arg!(<TEST_FILE>).help("File containing test cases for tested DMN model").required(true).index(1))
         .arg(arg!(<DMN_FILE>).help("File containing DMN model to be tested").required(true).index(2)),
     )
-    // xdm
+    // xdm - Export DMN Model
     .subcommand(
-      Command::new("xdm")
-        .about("eXport DMN Model")
-        .display_order(11)
+      Command::new(COMMAND_XDM.name)
+        .about(COMMAND_XDM.about)
+        .display_order(COMMAND_XDM.display_order)
         .arg(arg!(<DMN_FILE>).help("File containing DMN model to be exported to HTML").required(true).index(1))
         .arg(arg!(<HTML_FILE>).help("Output HTML file").required(true).index(2)),
     )
-    // pdt
+    // pdt - Parse Decision Table
     .subcommand(
-      Command::new("pdt")
-        .about("Parse Decision Table")
-        .display_order(6)
+      Command::new(COMMAND_PDT.name)
+        .about(COMMAND_PDT.about)
+        .display_order(COMMAND_PDT.display_order)
         .arg(arg!(<DECTAB_FILE>).help("File containing decision table to be parsed").required(true).index(1)),
     )
-    // edt
+    // edt - Evaluate Decision Table
     .subcommand(
-      Command::new("edt")
-        .about("Evaluate Decision Table")
-        .display_order(3)
+      Command::new(COMMAND_EDT.name)
+        .about(COMMAND_EDT.about)
+        .display_order(COMMAND_EDT.display_order)
         .arg(
           arg!(--"markdown")
             .help("Markdown decision table")
@@ -402,11 +483,11 @@ fn get_matches() -> ArgMatches {
         .arg(arg!(<INPUT_FILE>).help("File containing input data for evaluated decision table").required(true).index(1))
         .arg(arg!(<DECTAB_FILE>).help("File containing decision table to be evaluated").required(true).index(2)),
     )
-    // tdt
+    // tdt - Test Decision Table
     .subcommand(
-      Command::new("tdt")
-        .about("Test Decision Table")
-        .display_order(9)
+      Command::new(COMMAND_TDT.name)
+        .about(COMMAND_TDT.about)
+        .display_order(COMMAND_TDT.display_order)
         .arg(
           arg!(--"summary")
             .help("Display only summary after completing all tests")
@@ -425,26 +506,19 @@ fn get_matches() -> ArgMatches {
         .arg(arg!(<TEST_FILE>).help("File containing test cases for tested decision table").required(true).index(1))
         .arg(arg!(<DECTAB_FILE>).help("File containing FEEL expression to be tested").required(true).index(2)),
     )
-    // xdt
+    // xdt - Export Decision Table
     .subcommand(
-      Command::new("xdt")
-        .about("eXport Decision Table")
-        .display_order(12)
+      Command::new(COMMAND_XDT.name)
+        .about(COMMAND_XDT.about)
+        .display_order(COMMAND_XDT.display_order)
         .arg(arg!(<DECTAB_FILE>).help("File containing decision table to be exported to HTML").required(true).index(1))
         .arg(arg!(<HTML_FILE>).help("Output HTML file").required(true).index(2)),
     )
-    // rdt
+    // srv - Run as a service
     .subcommand(
-      Command::new("rdt")
-        .about("Recognize Decision Table")
-        .display_order(14)
-        .arg(arg!(<DECTAB_FILE>).help("File containing decision table to be recognized").required(true).index(1)),
-    )
-    // srv
-    .subcommand(
-      Command::new("srv")
-        .about("Run as a service")
-        .display_order(1)
+      Command::new(COMMAND_SRV.name)
+        .about(COMMAND_SRV.about)
+        .display_order(COMMAND_SRV.display_order)
         .arg(arg!(-H --host <HOST>).help("Host name").action(ArgAction::Set).display_order(1))
         .arg(arg!(-P --port <PORT>).help("Port number").action(ArgAction::Set).display_order(2))
         .arg(
@@ -470,11 +544,11 @@ fn get_matches() -> ArgMatches {
             .display_order(4),
         ),
     )
-    // exs
+    // exs - Save examples
     .subcommand(
-      Command::new("exs")
-        .about("Save examples")
-        .display_order(15)
+      Command::new(COMMAND_EXS.name)
+        .about(COMMAND_EXS.about)
+        .display_order(COMMAND_EXS.display_order)
         .arg(arg!(<DIR>).help("Directory where examples are saved").action(ArgAction::Set).required(true).index(1)),
     )
     .get_matches()
@@ -539,10 +613,6 @@ fn get_cli_action() -> Action {
     // export decision table subcommand
     Some(("xdt", matches)) => {
       return Action::ExportDecisionTable(match_string(matches, "DECTAB_FILE"), match_string(matches, "HTML_FILE"));
-    }
-    // recognize decision table subcommand
-    Some(("rdt", matches)) => {
-      return Action::RecognizeDecisionTable(match_string(matches, "DECTAB_FILE"));
     }
     // parse DMN model subcommand
     Some(("pdm", matches)) => {
@@ -834,21 +904,6 @@ fn export_decision_table(dectab_file_name: &str, html_file_name: &str) {
       Err(reason) => eprintln!("ERROR: {reason}"),
     },
     Err(reason) => eprintln!("loading decision table file `{dectab_file_name}` failed with reason: {reason}"),
-  }
-}
-
-/// Recognizes the decision table loaded from text file
-/// and generates DMN model containing recognized decision table.
-fn recognize_decision_table(dtb_file_name: &str) {
-  match fs::read_to_string(dtb_file_name) {
-    Ok(text) => match dsntk_recognizer::recognize_from_unicode(&text, false) {
-      Ok(_decision_table) => {
-        println!("Recognized.");
-        //TODO Generate DMN model with recognized decision table to be ready to deploy on server.
-      }
-      Err(reason) => eprintln!("ERROR: {reason}"),
-    },
-    Err(reason) => eprintln!("loading decision table file `{dtb_file_name}` failed with reason: {reason}"),
   }
 }
 
