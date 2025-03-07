@@ -101,6 +101,26 @@ pub fn err_invalid_hit_policy(hit_policy: &str) -> DsntkError {
   RecognizerError(format!("invalid hit policy: {hit_policy}")).into()
 }
 
+/// Error reported when the Markdown does not contain proper decision table.
+pub fn err_md_no_decision_table() -> DsntkError {
+  RecognizerError("no decision table".to_string()).into()
+}
+
+/// Error reported when the number of columns in the row differ from the number of columns in the table header.
+pub fn err_md_invalid_number_of_column(expected: usize, actual: usize, row: &str) -> DsntkError {
+  RecognizerError(format!("invalid number of columns, expected {expected}, actual is {actual} in row '{row}'")).into()
+}
+
+/// Error reported when the number of rows or the number of columns in the decision table is less than minimal.
+pub fn err_md_invalid_decision_table(reason: &str) -> DsntkError {
+  RecognizerError(format!("invalid decision table, reason: {reason}")).into()
+}
+
+/// Error reported when the hit policy is not present in the Markdown decision table.
+pub fn err_md_no_hit_policy() -> DsntkError {
+  RecognizerError("no hit policy".to_string()).into()
+}
+
 /// Utility function that formats a slice of characters into a list of characters,
 /// making it more readable in error messages.
 fn chars_to_list(input: &[char]) -> String {

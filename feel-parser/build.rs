@@ -8,7 +8,7 @@ fn main() {
     lalr_rust_tables("./src/lalr.rs");
     // reformat the generated code
     let status = Command::new("cargo")
-      .args(&["+nightly", "fmt", "-p", "dsntk-feel-parser"])
+      .args(["+nightly", "fmt", "-p", "dsntk-feel-parser"])
       .status()
       .expect("failed to run code formatter");
     if !status.success() {

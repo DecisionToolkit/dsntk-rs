@@ -4,9 +4,10 @@ use crate::{
 };
 use dsntk_common::gen_id;
 use dsntk_recognizer::{
-  AnnotationEntry as RecognizedAnnotationEntry, BuiltinAggregator as RecognizedBuiltinAggregator, DecisionRule as RecognizedDecisionRule, DecisionTable as RecognizedDecisionTable,
-  DecisionTableOrientation as RecognizedDecisionTableOrientation, HitPolicy as RecognizedHitPolicy, InputClause as RecognizedInputClause, InputEntry as RecognizedInputEntry,
-  OutputClause as RecognizedOutputClause, OutputEntry as RecognizedOutputEntry, RuleAnnotationClause as RecognizedRuleAnnotationClause,
+  AnnotationClause as RecognizedRuleAnnotationClause, AnnotationEntry as RecognizedAnnotationEntry, BuiltinAggregator as RecognizedBuiltinAggregator,
+  DecisionRule as RecognizedDecisionRule, DecisionTable as RecognizedDecisionTable, DecisionTableOrientation as RecognizedDecisionTableOrientation,
+  HitPolicy as RecognizedHitPolicy, InputClause as RecognizedInputClause, InputEntry as RecognizedInputEntry, OutputClause as RecognizedOutputClause,
+  OutputEntry as RecognizedOutputEntry,
 };
 
 impl From<RecognizedDecisionTable> for DecisionTable {
@@ -15,7 +16,7 @@ impl From<RecognizedDecisionTable> for DecisionTable {
       information_item_name,
       mut input_clauses,
       mut output_clauses,
-      rule_annotations: mut annotations,
+      annotation_clauses: mut annotations,
       mut rules,
       hit_policy,
       aggregation,
@@ -59,7 +60,7 @@ impl From<RecognizedOutputClause> for OutputClause {
       type_ref: None,
       name: value.name,
       allowed_output_values: value.allowed_output_values,
-      default_output_entry: value.default_output_entry,
+      default_output_entry: value.default_output_value,
     }
   }
 }
@@ -132,8 +133,8 @@ impl From<RecognizedBuiltinAggregator> for BuiltinAggregator {
 impl From<RecognizedDecisionTableOrientation> for DecisionTableOrientation {
   fn from(value: RecognizedDecisionTableOrientation) -> Self {
     match value {
-      RecognizedDecisionTableOrientation::RuleAsRow => Self::RuleAsRow,
-      RecognizedDecisionTableOrientation::RuleAsColumn => Self::RuleAsColumn,
+      RecognizedDecisionTableOrientation::RulesAsRows => Self::RuleAsRow,
+      RecognizedDecisionTableOrientation::RulesAsColumns => Self::RuleAsColumn,
       RecognizedDecisionTableOrientation::CrossTable => Self::CrossTable,
     }
   }
