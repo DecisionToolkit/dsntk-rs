@@ -6,9 +6,9 @@
 #                                                                             #
 ###############################################################################
 
-CARGO_VERSION=$(grep -oE '^version = "[^"]+"' Cargo.toml | grep -oE '"[^"]+"' | grep -oE '[0-9\.]+')
+CARGO_VERSION=$(grep -oE '^version = "[^"]+"' Cargo.toml | grep -oE '"[^"]+"' | grep -oE '[0-9\.a-z-]+')
 
-REPLACEMENT_DSNTK='<span style="font-weight:bold;word-spacing:-0.15rem;">Decision Toolkit<\/span>'
+REPLACEMENT_DSNTK='<span style="font-weight:bold;word-spacing:-0.15rem;">DecisionToolkit<\/span>'
 REPLACEMENT_VERSION="$CARGO_VERSION"
 REPLACEMENT_V_VERSION="v$CARGO_VERSION"
 REPLACEMENT_ON_THE_WAY="⏳ Detailed documentation is on the way."
