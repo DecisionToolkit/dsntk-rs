@@ -101,7 +101,13 @@ impl EvaluatedDecisionTable {
     match self.default_output_values.len() {
       0 => value_null!("no rules matched, no output value defined"),
       1 => self.default_output_values[0].clone(),
-      _ => value_null!(),
+      _ => {
+        let mut result: FeelContext = Default::default();
+        for (i,value) in self.default_output_values.iter().enumerate() {
+          result.set_entry(&self.component_names[i], value.clone());
+        }
+        Value::Context(result)
+      }
     }
   }
 
