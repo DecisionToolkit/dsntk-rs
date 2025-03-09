@@ -103,7 +103,7 @@ impl EvaluatedDecisionTable {
       1 => self.default_output_values[0].clone(),
       _ => {
         let mut result: FeelContext = Default::default();
-        for (i,value) in self.default_output_values.iter().enumerate() {
+        for (i, value) in self.default_output_values.iter().enumerate() {
           result.set_entry(&self.component_names[i], value.clone());
         }
         Value::Context(result)
