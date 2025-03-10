@@ -2,7 +2,7 @@
 
 use crate::errors::*;
 use crate::recognizer::Recognizer;
-use crate::{AnnotationEntry, DecisionRule, DecisionTable, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry, RuleAnnotationClause};
+use crate::{AnnotationClause, AnnotationEntry, DecisionRule, DecisionTable, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry};
 use dsntk_common::Result;
 
 /// Combines sizes of individual components of the decision table.
@@ -181,14 +181,14 @@ pub fn recognize_from_unicode(text: &str, trace: bool) -> Result<DecisionTable> 
       } else {
         None
       },
-      default_output_entry: None,
+      default_output_value: None,
     });
   }
 
   // Prepare annotations.
   let mut annotations = vec![];
   for i in 0..recognizer.annotation_clause_count {
-    annotations.push(RuleAnnotationClause {
+    annotations.push(AnnotationClause {
       name: recognizer.annotations[i].clone(),
     });
   }

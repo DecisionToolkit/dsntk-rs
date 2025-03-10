@@ -1,0 +1,13 @@
+Preferred orientation: rules-as-rows
+Information item name: Offered order options
+Hip policy: U
+Output label: Order options
+Allowed values: true
+Markers: [(none), input, input, output, output, annotation, annotation]
+Rows:
+| U | Customer type | Order size | Discount | Priority | Description | Reference |
+| (none) | "Business","Private" | (none) | (none) | "Normal",*"High"*,"Low" | (none) | (none) |
+| (none) | `in` | `in` | `out` | `out` | `#` | `#` |
+| 1 | "Business" | <10 | 0.11 | "Normal" | Small order | Ref 1 |
+| 2 | "Business" | >=10 | 0.16 | "High" | Large order | Ref 2 |
+| 3 | "Private" | - | 0.06 | "Low" | All orders | Ref 3 |

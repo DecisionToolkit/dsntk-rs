@@ -2,6 +2,8 @@
 
 use crate::errors::err_invalid_hit_policy;
 use dsntk_common::DsntkError;
+use std::fmt;
+use std::fmt::Display;
 
 /// Represents a decision table.
 #[derive(Debug)]
@@ -13,7 +15,7 @@ pub struct DecisionTable {
   /// List of instances of output clause that compose this decision table.
   pub output_clauses: Vec<OutputClause>,
   /// List of instances of rule annotation clause that compose this decision table.
-  pub rule_annotations: Vec<RuleAnnotationClause>,
+  pub annotation_clauses: Vec<AnnotationClause>,
   /// List of instances of decision rule that compose this decision table.
   pub rules: Vec<DecisionRule>,
   /// Hit policy associated with the instance of the decision table.
@@ -33,7 +35,7 @@ impl DecisionTable {
     information_item_name: Option<String>,
     input_clauses: Vec<InputClause>,
     output_clauses: Vec<OutputClause>,
-    rule_annotations: Vec<RuleAnnotationClause>,
+    annotation_clauses: Vec<AnnotationClause>,
     rules: Vec<DecisionRule>,
     hit_policy: HitPolicy,
     aggregation: Option<BuiltinAggregator>,
@@ -44,7 +46,7 @@ impl DecisionTable {
       information_item_name,
       input_clauses,
       output_clauses,
-      rule_annotations,
+      annotation_clauses,
       rules,
       hit_policy,
       aggregation,
@@ -71,12 +73,12 @@ pub struct OutputClause {
   /// Unary tests that constrain the result of output entries corresponding to output clause.
   pub allowed_output_values: Option<String>,
   /// Default output expression, selected in incomplete table when no rules match for the decision table.
-  pub default_output_entry: Option<String>,
+  pub default_output_value: Option<String>,
 }
 
 /// Represents a rule annotation clause.
 #[derive(Debug)]
-pub struct RuleAnnotationClause {
+pub struct AnnotationClause {
   /// Name that is used as the name of the rule annotation column of the containing decision table.
   pub name: String,
 }
@@ -132,9 +134,44 @@ pub enum HitPolicy {
   RuleOrder,
 }
 
+impl HitPolicy {
+  /// Returns optional aggregation associated with this hit policy.
+  pub fn aggregation(&self) -> Option<BuiltinAggregator> {
+    match self {
+      HitPolicy::Collect(aggregation) => Some(*aggregation),
+      _ => None,
+    }
+  }
+}
+
+impl Display for HitPolicy {
+  /// Converts hit policy into text.
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    write!(
+      f,
+      "{}",
+      match self {
+        HitPolicy::Unique => "U",
+        HitPolicy::Any => "A",
+        HitPolicy::Priority => "P",
+        HitPolicy::First => "F",
+        HitPolicy::RuleOrder => "R",
+        HitPolicy::OutputOrder => "O",
+        HitPolicy::Collect(aggregator) => match aggregator {
+          BuiltinAggregator::List => "C",
+          BuiltinAggregator::Sum => "C+",
+          BuiltinAggregator::Count => "C#",
+          BuiltinAggregator::Min => "C<",
+          BuiltinAggregator::Max => "C>",
+        },
+      }
+    )
+  }
+}
+
 impl TryFrom<&str> for HitPolicy {
   type Error = DsntkError;
-  /// Creates a hit policy from text.
+  /// Creates a hit policy from [str].
   fn try_from(value: &str) -> dsntk_common::Result<Self, Self::Error> {
     match value.trim() {
       "U" => Ok(HitPolicy::Unique),
@@ -150,6 +187,14 @@ impl TryFrom<&str> for HitPolicy {
       "C>" => Ok(HitPolicy::Collect(BuiltinAggregator::Max)),
       other => Err(err_invalid_hit_policy(other)),
     }
+  }
+}
+
+impl TryFrom<&String> for HitPolicy {
+  type Error = DsntkError;
+  /// Creates a hit policy from reference to [String].
+  fn try_from(value: &String) -> dsntk_common::Result<Self, Self::Error> {
+    Self::try_from(value.as_str())
   }
 }
 
@@ -172,9 +217,24 @@ pub enum BuiltinAggregator {
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum DecisionTableOrientation {
   /// Decision table is presented horizontally, rules are presented as rows.
-  RuleAsRow,
+  RulesAsRows,
   /// Decision table is presented vertically, rules are presented as columns.
-  RuleAsColumn,
+  RulesAsColumns,
   /// Decision table is presented as crosstab, rules are composed of two dimensions.
   CrossTable,
+}
+
+impl Display for DecisionTableOrientation {
+  /// Converts decision table orientation into text.
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    write!(
+      f,
+      "{}",
+      match self {
+        DecisionTableOrientation::RulesAsRows => "rules-as-rows",
+        DecisionTableOrientation::RulesAsColumns => "rules-as-columns",
+        DecisionTableOrientation::CrossTable => "cross-table",
+      }
+    )
+  }
 }
