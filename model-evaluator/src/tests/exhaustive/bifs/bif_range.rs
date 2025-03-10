@@ -5,7 +5,7 @@ from_examples!(EXHAUSTIVE_BIFS_BIF_RANGE);
 static_context!(CTX, "{}");
 
 fn eq(invocable_name: &str, input: &FeelContext, expected: &str) {
-  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, &input, expected);
+  assert_decision(&MODEL_EVALUATOR, &MODEL_NAMESPACE, &MODEL_NAME, invocable_name, input, expected);
 }
 
 #[test]
