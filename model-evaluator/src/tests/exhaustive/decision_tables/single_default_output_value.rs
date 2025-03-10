@@ -1,6 +1,6 @@
 use super::*;
 
-from_examples!(EXHAUSTIVE_DECISION_TABLES_NO_DEFAULT_OUTPUT_VALUES);
+from_examples!(EXHAUSTIVE_DECISION_TABLES_SINGLE_DEFAULT_OUTPUT_VALUE);
 
 static_context!(CTX_1, r#"{ Customer type: "Business", Order size: 9 }"#);
 static_context!(CTX_2, r#"{ Customer type: "Business", Order size: 10 }"#);
@@ -28,6 +28,6 @@ fn _0003() {
 
 #[test]
 fn _0004() {
-  // No rule matches, so null value is returned.
-  eq("decision_0001", &CTX_4, r#"null(no rules matched, no output value defined)"#);
+  // No rule matches, so the default output value is returned.
+  eq("decision_0001", &CTX_4, r#"0.06"#);
 }
