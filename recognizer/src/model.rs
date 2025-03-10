@@ -66,7 +66,7 @@ pub struct InputClause {
 }
 
 /// Represents an output clause.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct OutputClause {
   /// The name of the output component when the decision table contains more than one output clause.
   pub name: Option<String>,
@@ -77,14 +77,14 @@ pub struct OutputClause {
 }
 
 /// Represents a rule annotation clause.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct AnnotationClause {
   /// Name that is used as the name of the rule annotation column of the containing decision table.
   pub name: String,
 }
 
 /// Represents a decision rule.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct DecisionRule {
   /// Ordered list of input entries that compose decision rule.
   pub input_entries: Vec<InputEntry>,
@@ -95,21 +95,21 @@ pub struct DecisionRule {
 }
 
 /// Represents an input entry.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct InputEntry {
   /// Text representation of unary test that composes recognized input entry.
   pub text: String,
 }
 
 /// Represents an output entry.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct OutputEntry {
   /// Text representation of literal expression that composes recognized output entry.
   pub text: String,
 }
 
 /// Represents a rule annotation entry.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct AnnotationEntry {
   /// Text representation of the rule annotation.
   pub text: String,
