@@ -1,6 +1,7 @@
 //! # Markdown decision table recognizer
 
 use crate::errors::{err_md_invalid_decision_table, err_md_invalid_number_of_column, err_md_no_decision_table, err_md_no_hit_policy};
+use crate::utils::{get_allowed_and_default_output_values, EMPHASES};
 use crate::{AnnotationClause, AnnotationEntry, DecisionRule, DecisionTable, DecisionTableOrientation, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry};
 use dsntk_common::Result;
 
@@ -20,9 +21,6 @@ const MIN_ROWS: usize = 2;
 /// Minimum number of columns in every decision table.
 /// Do NOT change this.
 const MIN_COLUMNS: usize = 2;
-
-/// Markdown emphases.
-const EMPHASES: [&str; 5] = ["**", "__", "*", "_", "`"];
 
 type Table = Vec<Vec<Option<String>>>;
 
@@ -437,24 +435,6 @@ fn strip_emphasis(text: String) -> String {
     }
   }
   text
-}
-
-/// Returns the default output value retrieved from the list of allowed values.
-fn get_allowed_and_default_output_values(input: &Option<String>) -> (Option<String>, Option<String>) {
-  let Some(text) = input else {
-    return (None, None);
-  };
-  for part in text.split(",").map(|text| text.trim()) {
-    for emphasis in EMPHASES {
-      if part.starts_with(emphasis) && part.ends_with(emphasis) {
-        let trimmed_part = part.trim_start_matches(emphasis).trim_end_matches(emphasis);
-        let allowed_values = text.replace(part, trimmed_part);
-        let default_value = trimmed_part.to_string();
-        return (Some(allowed_values), Some(default_value));
-      }
-    }
-  }
-  (input.clone(), None)
 }
 
 /// Converts a collection of markers into user-readable list.

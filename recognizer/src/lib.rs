@@ -19,6 +19,7 @@ mod point;
 mod recognizer;
 mod rect;
 mod tests;
+mod utils;
 
 pub use builder::recognize_from_unicode;
 pub use markdown::recognize_from_markdown;

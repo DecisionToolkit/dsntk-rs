@@ -1,6 +1,6 @@
 use super::*;
 use dsntk_examples::decision_tables::*;
-use dsntk_recognizer::{recognize_from_markdown, BuiltinAggregator, DecisionTableOrientation, HitPolicy};
+use dsntk_recognizer::{recognize_from_markdown, recognize_from_unicode, BuiltinAggregator, DecisionTableOrientation, HitPolicy};
 
 #[test]
 fn h_000010() {
@@ -32,6 +32,6 @@ fn h_000010() {
       (&[], &[r#""Sunday""#], &[]),
     ]),
   );
-  let dt = recognize_from_markdown(H_000010, false).unwrap();
-  t_eq(&dt, expected);
+  t_eq(&expected, recognize_from_unicode(H_000010, false).unwrap());
+  t_eq(&expected, recognize_from_markdown(H_000010, false).unwrap());
 }

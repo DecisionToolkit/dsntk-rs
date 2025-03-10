@@ -2,6 +2,7 @@
 
 use crate::errors::*;
 use crate::recognizer::Recognizer;
+use crate::utils::get_allowed_and_default_output_values;
 use crate::{AnnotationClause, AnnotationEntry, DecisionRule, DecisionTable, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry};
 use dsntk_common::Result;
 
@@ -170,18 +171,20 @@ pub fn recognize_from_unicode(text: &str, trace: bool) -> Result<DecisionTable> 
   // Prepare output clauses.
   let mut output_clauses = vec![];
   for i in 0..size.output_clauses_count {
+    let name = if size.output_components_count > 0 {
+      recognizer.output_components[i].clone()
+    } else {
+      None
+    };
+    let (allowed_output_values, default_output_value) = get_allowed_and_default_output_values(&if size.output_values_count > 0 {
+      recognizer.allowed_output_values[i].clone()
+    } else {
+      None
+    });
     output_clauses.push(OutputClause {
-      name: if size.output_components_count > 0 {
-        recognizer.output_components[i].clone()
-      } else {
-        None
-      },
-      allowed_output_values: if size.output_values_count > 0 {
-        recognizer.allowed_output_values[i].clone()
-      } else {
-        None
-      },
-      default_output_value: None,
+      name,
+      allowed_output_values,
+      default_output_value,
     });
   }
 

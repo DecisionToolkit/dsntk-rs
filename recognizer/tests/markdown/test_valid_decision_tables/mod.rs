@@ -9,8 +9,7 @@ use dsntk_recognizer::{
 };
 
 fn t_eq(
-  actual: &DecisionTable,
-  expected: (
+  expected: &(
     Option<&'static str>,
     Option<&'static str>,
     HitPolicy,
@@ -21,6 +20,7 @@ fn t_eq(
     Vec<AnnotationClause>,
     Vec<DecisionRule>,
   ),
+  actual: DecisionTable,
 ) {
   assert_eq!(actual.information_item_name, expected.0.map(|s| s.to_string()));
   assert_eq!(actual.output_label, expected.1.map(|s| s.to_string()));

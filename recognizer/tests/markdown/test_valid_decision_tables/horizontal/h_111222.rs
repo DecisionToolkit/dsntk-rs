@@ -1,6 +1,6 @@
 use super::*;
 use dsntk_examples::decision_tables::*;
-use dsntk_recognizer::{recognize_from_markdown, DecisionTableOrientation, HitPolicy};
+use dsntk_recognizer::{recognize_from_markdown, recognize_from_unicode, DecisionTableOrientation, HitPolicy};
 
 #[test]
 fn h_111222() {
@@ -23,11 +23,11 @@ fn h_111222() {
     t_annotation_clauses(&["Description", "Reference"]),
     // expected rules
     t_rules(&[
-      (&[r#""Business""#, "<10"], &["0.11", r#""Normal""#], &["Small order", "Ref 1"]),
-      (&[r#""Business""#, ">=10"], &["0.16", r#""High""#], &["Large order", "Ref 2"]),
-      (&[r#""Private""#, "-"], &["0.06", r#""Low""#], &["All orders", "Ref 3"]),
+      (&[r#""Business""#, "<10"], &["0.10", r#""Normal""#], &["Small order", "Ref 1"]),
+      (&[r#""Business""#, ">=10"], &["0.15", r#""High""#], &["Large order", "Ref 2"]),
+      (&[r#""Private""#, "-"], &["0.05", r#""Low""#], &["All orders", "Ref 3"]),
     ]),
   );
-  let dt = recognize_from_markdown(H_111222, false).unwrap();
-  t_eq(&dt, expected);
+  t_eq(&expected, recognize_from_unicode(H_111222, false).unwrap());
+  t_eq(&expected, recognize_from_markdown(H_111222, false).unwrap());
 }
