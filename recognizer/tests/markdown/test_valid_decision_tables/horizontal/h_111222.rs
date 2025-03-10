@@ -1,6 +1,6 @@
 use super::*;
 use dsntk_examples::decision_tables::*;
-use dsntk_recognizer::{recognize_from_markdown, recognize_from_unicode, DecisionTableOrientation, HitPolicy};
+use dsntk_recognizer::{from_markdown, from_unicode, DecisionTableOrientation, HitPolicy};
 
 #[test]
 fn h_111222() {
@@ -28,6 +28,6 @@ fn h_111222() {
       (&[r#""Private""#, "-"], &["0.05", r#""Low""#], &["All orders", "Ref 3"]),
     ]),
   );
-  t_eq(&expected, recognize_from_unicode(H_111222, false).unwrap());
-  t_eq(&expected, recognize_from_markdown(H_111222, false).unwrap());
+  t_eq(&expected, from_unicode(H_111222, false).unwrap());
+  t_eq(&expected, from_markdown(H_111222, false).unwrap());
 }

@@ -1,4 +1,4 @@
-use dsntk_recognizer::recognize_from_markdown;
+use dsntk_recognizer::from_markdown;
 
 #[test]
 fn _0001() {
@@ -11,7 +11,7 @@ fn _0001() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid number of columns, expected 2, actual is 3 in row '| 2 | "Tuesday" | 2 |'"#,
-    recognize_from_markdown(markdown, false).unwrap_err().to_string()
+    from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -25,7 +25,7 @@ fn _0002() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: no markers row before the first rule"#,
-    recognize_from_markdown(markdown, false).unwrap_err().to_string()
+    from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -42,7 +42,7 @@ fn _0003() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: too many rows before the first rule"#,
-    recognize_from_markdown(markdown, false).unwrap_err().to_string()
+    from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -55,7 +55,7 @@ fn _0004() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: no markers column before the first rule"#,
-    recognize_from_markdown(markdown, false).unwrap_err().to_string()
+    from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -68,7 +68,7 @@ fn _0005() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: too many columns before the first rule"#,
-    recognize_from_markdown(markdown, false).unwrap_err().to_string()
+    from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -84,7 +84,7 @@ fn _0006() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: no input clause"#,
-    recognize_from_markdown(markdown, false).unwrap_err().to_string()
+    from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -100,7 +100,7 @@ fn _0007() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: no annotation name"#,
-    recognize_from_markdown(markdown, false).unwrap_err().to_string()
+    from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -116,7 +116,7 @@ fn _0008() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: no input entry"#,
-    recognize_from_markdown(markdown, false).unwrap_err().to_string()
+    from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -132,7 +132,7 @@ fn _0009() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: no output entry"#,
-    recognize_from_markdown(markdown, false).unwrap_err().to_string()
+    from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -147,7 +147,7 @@ fn _0010() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: unexpected marker"#,
-    recognize_from_markdown(markdown, false).unwrap_err().to_string()
+    from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -162,7 +162,7 @@ fn _0011() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: expected input or output marker"#,
-    recognize_from_markdown(markdown, false).unwrap_err().to_string()
+    from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -178,7 +178,7 @@ fn _0012() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: expected output or annotation marker"#,
-    recognize_from_markdown(markdown, false).unwrap_err().to_string()
+    from_markdown(markdown, false).unwrap_err().to_string()
   );
 }
 
@@ -194,6 +194,6 @@ fn _0013() {
   "#;
   assert_eq!(
     r#"<RecognizerError> invalid decision table, reason: expected annotation marker"#,
-    recognize_from_markdown(markdown, false).unwrap_err().to_string()
+    from_markdown(markdown, false).unwrap_err().to_string()
   );
 }

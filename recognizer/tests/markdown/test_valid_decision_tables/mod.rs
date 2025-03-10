@@ -8,6 +8,7 @@ use dsntk_recognizer::{
   AnnotationClause, AnnotationEntry, BuiltinAggregator, DecisionRule, DecisionTable, DecisionTableOrientation, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry,
 };
 
+#[allow(clippy::type_complexity)]
 fn t_eq(
   expected: &(
     Option<&'static str>,

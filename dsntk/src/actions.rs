@@ -863,8 +863,8 @@ fn parse_decision_table(dectab_file_name: &str, dectab_file_format: DecisionTabl
   match fs::read_to_string(dectab_file_name) {
     Ok(dtb_file_content) => {
       let recognition_result = match dectab_file_format {
-        DecisionTableFormat::Unicode => dsntk_recognizer::recognize_from_unicode(&dtb_file_content, true),
-        DecisionTableFormat::Markdown => dsntk_recognizer::recognize_from_markdown(&dtb_file_content, true),
+        DecisionTableFormat::Unicode => dsntk_recognizer::from_unicode(&dtb_file_content, true),
+        DecisionTableFormat::Markdown => dsntk_recognizer::from_markdown(&dtb_file_content, true),
       };
       match recognition_result {
         Ok(_) => {}
@@ -899,8 +899,8 @@ fn evaluate_decision_table(input_file_name: &str, dectab_file_name: &str, dectab
     }
   };
   let recognition_result = match dectab_file_format {
-    DecisionTableFormat::Unicode => dsntk_recognizer::recognize_from_unicode(&dtb_file_content, false),
-    DecisionTableFormat::Markdown => dsntk_recognizer::recognize_from_markdown(&dtb_file_content, false),
+    DecisionTableFormat::Unicode => dsntk_recognizer::from_unicode(&dtb_file_content, false),
+    DecisionTableFormat::Markdown => dsntk_recognizer::from_markdown(&dtb_file_content, false),
   };
   let recognized_decision_table = match recognition_result {
     Ok(decision_table) => decision_table,
@@ -931,8 +931,8 @@ fn test_decision_table(test_file_name: &str, dectab_file_name: &str, dectab_file
     }
   };
   let recognition_result = match dectab_file_format {
-    DecisionTableFormat::Unicode => dsntk_recognizer::recognize_from_unicode(&dtb_file_content, false),
-    DecisionTableFormat::Markdown => dsntk_recognizer::recognize_from_markdown(&dtb_file_content, false),
+    DecisionTableFormat::Unicode => dsntk_recognizer::from_unicode(&dtb_file_content, false),
+    DecisionTableFormat::Markdown => dsntk_recognizer::from_markdown(&dtb_file_content, false),
   };
   let decision_table: DecisionTable = match recognition_result {
     Ok(decision_table) => decision_table.into(),
@@ -977,8 +977,8 @@ fn export_decision_table(dectab_file_name: &str, html_file_name: &str, dectab_fi
   match fs::read_to_string(dectab_file_name) {
     Ok(dtb_file_content) => {
       let recognition_result = match dectab_file_format {
-        DecisionTableFormat::Unicode => dsntk_recognizer::recognize_from_unicode(&dtb_file_content, false),
-        DecisionTableFormat::Markdown => dsntk_recognizer::recognize_from_markdown(&dtb_file_content, false),
+        DecisionTableFormat::Unicode => dsntk_recognizer::from_unicode(&dtb_file_content, false),
+        DecisionTableFormat::Markdown => dsntk_recognizer::from_markdown(&dtb_file_content, false),
       };
       match recognition_result {
         Ok(recognized_decision_table) => {

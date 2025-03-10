@@ -1,8 +1,8 @@
-use dsntk_recognizer::{recognize_from_unicode, BuiltinAggregator, HitPolicy};
+use dsntk_recognizer::{from_unicode, BuiltinAggregator, HitPolicy};
 
 #[test]
 fn _0001() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
  ┌───╥─────────────┐
  │ U ║             │
@@ -18,7 +18,7 @@ fn _0001() {
 
 #[test]
 fn _0002() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
  ┌───╥─────────────┐
  │ A ║             │
@@ -34,7 +34,7 @@ fn _0002() {
 
 #[test]
 fn _0003() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
  ┌───╥─────────────┐
  │ P ║             │
@@ -50,7 +50,7 @@ fn _0003() {
 
 #[test]
 fn _0004() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
  ┌───╥─────────────┐
  │ F ║             │
@@ -66,7 +66,7 @@ fn _0004() {
 
 #[test]
 fn _0005() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
  ┌───╥─────────────┐
  │ R ║             │
@@ -82,7 +82,7 @@ fn _0005() {
 
 #[test]
 fn _0006() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
  ┌───╥─────────────┐
  │ O ║             │
@@ -98,7 +98,7 @@ fn _0006() {
 
 #[test]
 fn _0007() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
  ┌───╥─────────────┐
  │ C ║             │
@@ -114,7 +114,7 @@ fn _0007() {
 
 #[test]
 fn _0008() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
  ┌────╥─────────────┐
  │ C+ ║             │
@@ -130,7 +130,7 @@ fn _0008() {
 
 #[test]
 fn _0009() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
  ┌────╥─────────────┐
  │ C# ║             │
@@ -146,7 +146,7 @@ fn _0009() {
 
 #[test]
 fn _0010() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
  ┌────╥─────────────┐
  │ C< ║             │
@@ -162,7 +162,7 @@ fn _0010() {
 
 #[test]
 fn _0011() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
  ┌────╥─────────────┐
  │ C> ║             │
@@ -178,7 +178,7 @@ fn _0011() {
 
 #[test]
 fn _0012() {
-  recognize_from_unicode(
+  from_unicode(
     r#"
  ┌────╥─────────────┐
  │ C$ ║             │
@@ -193,7 +193,7 @@ fn _0012() {
 
 #[test]
 fn _0013() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
   ┌─────────╥──────────┐
   │ Weekday ║     -    │
@@ -211,7 +211,7 @@ fn _0013() {
 
 #[test]
 fn _0014() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
   ┌─────────╥──────────┐
   │ Weekday ║     -    │
@@ -229,7 +229,7 @@ fn _0014() {
 
 #[test]
 fn _0015() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
   ┌─────────╥──────────┐
   │ Weekday ║     -    │
@@ -247,7 +247,7 @@ fn _0015() {
 
 #[test]
 fn _0016() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
   ┌─────────╥──────────┐
   │ Weekday ║     -    │
@@ -265,7 +265,7 @@ fn _0016() {
 
 #[test]
 fn _0017() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
   ┌─────────╥──────────┐
   │ Weekday ║     -    │
@@ -283,7 +283,7 @@ fn _0017() {
 
 #[test]
 fn _0018() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
   ┌─────────╥──────────┐
   │ Weekday ║     -    │
@@ -301,7 +301,7 @@ fn _0018() {
 
 #[test]
 fn _0019() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
   ┌─────────╥──────────┐
   │ Weekday ║     -    │
@@ -319,7 +319,7 @@ fn _0019() {
 
 #[test]
 fn _0020() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
   ┌─────────╥──────────┐
   │ Weekday ║     -    │
@@ -337,7 +337,7 @@ fn _0020() {
 
 #[test]
 fn _0021() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
   ┌─────────╥──────────┐
   │ Weekday ║     -    │
@@ -355,7 +355,7 @@ fn _0021() {
 
 #[test]
 fn _0022() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
   ┌─────────╥──────────┐
   │ Weekday ║     -    │
@@ -373,7 +373,7 @@ fn _0022() {
 
 #[test]
 fn _0023() {
-  let dt = recognize_from_unicode(
+  let dt = from_unicode(
     r#"
   ┌─────────╥──────────┐
   │ Weekday ║     -    │
@@ -391,7 +391,7 @@ fn _0023() {
 
 #[test]
 fn _0024() {
-  recognize_from_unicode(
+  from_unicode(
     r#"
   ┌─────────╥──────────┐
   │ Weekday ║     -    │

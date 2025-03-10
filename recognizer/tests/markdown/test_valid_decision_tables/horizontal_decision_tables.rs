@@ -1,9 +1,9 @@
 use dsntk_examples::decision_tables::*;
-use dsntk_recognizer::{recognize_from_markdown, BuiltinAggregator, DecisionTableOrientation, HitPolicy};
+use dsntk_recognizer::{from_markdown, BuiltinAggregator, DecisionTableOrientation, HitPolicy};
 
 #[test]
 fn test_h_000010() {
-  let dt = recognize_from_markdown(H_000010, false).unwrap();
+  let dt = from_markdown(H_000010, false).unwrap();
   assert_eq!(None, dt.information_item_name);
   assert_eq!(None, dt.output_label);
   assert_eq!(HitPolicy::Collect(BuiltinAggregator::List), dt.hit_policy);
@@ -32,7 +32,7 @@ fn test_h_000010() {
 
 #[test]
 fn test_h_111222() {
-  let dt = recognize_from_markdown(H_111222, false).unwrap();
+  let dt = from_markdown(H_111222, false).unwrap();
   assert_eq!("Offered order options", dt.information_item_name.unwrap());
   assert_eq!("Order options", dt.output_label.unwrap());
   assert_eq!(HitPolicy::Unique, dt.hit_policy);

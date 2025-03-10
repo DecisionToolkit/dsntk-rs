@@ -1,4 +1,4 @@
-use dsntk_recognizer::{recognize_from_markdown, DecisionTableOrientation, HitPolicy};
+use dsntk_recognizer::{from_markdown, DecisionTableOrientation, HitPolicy};
 
 /// There is some additional text after decision table.
 #[test]
@@ -10,7 +10,7 @@ fn _0001() {
     | 1 |  "Monday"   |
     > Other text after decision table
   "#;
-  let dt = recognize_from_markdown(markdown, false).unwrap();
+  let dt = from_markdown(markdown, false).unwrap();
   assert_eq!(None, dt.information_item_name);
   assert_eq!(None, dt.output_label);
   assert_eq!(HitPolicy::Unique, dt.hit_policy);
@@ -28,7 +28,7 @@ fn _0002() {
     | 1 |  "Monday"   |
     > Other text after decision table
   "#;
-  let dt = recognize_from_markdown(markdown, false).unwrap();
+  let dt = from_markdown(markdown, false).unwrap();
   assert_eq!("Weekdays sorted", dt.information_item_name.unwrap());
   assert_eq!(None, dt.output_label);
   assert_eq!(HitPolicy::Unique, dt.hit_policy);
@@ -47,7 +47,7 @@ fn _0003() {
     | 1 |  "Monday"   |
     > Other text after decision table
   "#;
-  let dt = recognize_from_markdown(markdown, false).unwrap();
+  let dt = from_markdown(markdown, false).unwrap();
   assert_eq!("Weekdays sorted", dt.information_item_name.unwrap());
   assert_eq!("Weekday", dt.output_label.unwrap());
   assert_eq!(HitPolicy::Unique, dt.hit_policy);
@@ -65,7 +65,7 @@ fn _0004() {
     | 1 |  "Monday"   |
     > Other text after decision table
   "#;
-  let dt = recognize_from_markdown(markdown, false).unwrap();
+  let dt = from_markdown(markdown, false).unwrap();
   assert_eq!(None, dt.information_item_name);
   assert_eq!("Weekday", dt.output_label.unwrap());
   assert_eq!(HitPolicy::Unique, dt.hit_policy);
