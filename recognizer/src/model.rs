@@ -57,7 +57,7 @@ impl DecisionTable {
 }
 
 /// Represents an input clause.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct InputClause {
   /// The subject of this input clause, text representation of unary tests.
   pub input_expression: String,
