@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20230324/MODEL/"
+             namespace="https://decision-toolkit.org/exhausive/decision-tables"
+             name="no-default-output-values"
+             id="_8450265e-58f1-4ba9-87de-a5569de95b9a">
+
+    <description>
+        Decision table without default output values.
+        When no rule is matching, the value null is returned in this case.
+    </description>
+
+    <decision name="decision_0001">
+        <variable name="decision_0001"/>
+        <informationRequirement>
+            <requiredInput href="#_38aae844-6d65-459c-8784-5fb6ec42078f"/>
+        </informationRequirement>
+        <informationRequirement>
+            <requiredInput href="#_c9fc9aea-d3aa-4980-84f1-19bab6928a1b"/>
+        </informationRequirement>
+        <decisionTable outputLabel="Order options">
+            <input>
+                <inputExpression typeRef="string">
+                    <text>Customer type</text>
+                </inputExpression>
+                <inputValues>
+                    <text>"Business","Private"</text>
+                </inputValues>
+            </input>
+            <input>
+                <inputExpression typeRef="number">
+                    <text>Order size</text>
+                </inputExpression>
+            </input>
+            <output name="Discount">
+                <outputValues>
+                    <text>0.10, 0.15, 0.05</text>
+                </outputValues>
+            </output>
+            <output name="Priority">
+                <outputValues>
+                    <text>"High", "Normal", "Low"</text>
+                </outputValues>
+            </output>
+            <rule>
+                <inputEntry>
+                    <text>"Business"</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>&lt;10</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>0.10</text>
+                </outputEntry>
+                <outputEntry>
+                    <text>"Normal"</text>
+                </outputEntry>
+            </rule>
+            <rule>
+                <inputEntry>
+                    <text>"Business"</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>&gt;=10</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>0.15</text>
+                </outputEntry>
+                <outputEntry>
+                    <text>"High"</text>
+                </outputEntry>
+            </rule>
+            <rule>
+                <inputEntry>
+                    <text>"Private"</text>
+                </inputEntry>
+                <inputEntry>
+                    <text>&lt;=100</text>
+                </inputEntry>
+                <outputEntry>
+                    <text>0.05</text>
+                </outputEntry>
+                <outputEntry>
+                    <text>"Low"</text>
+                </outputEntry>
+            </rule>
+        </decisionTable>
+    </decision>
+
+    <inputData name="Customer type" id="_38aae844-6d65-459c-8784-5fb6ec42078f">
+        <variable typeRef="string" name="Customer type"/>
+    </inputData>
+    <inputData name="Order size" id="_c9fc9aea-d3aa-4980-84f1-19bab6928a1b">
+        <variable typeRef="number" name="Order size"/>
+    </inputData>
+
+</definitions>
