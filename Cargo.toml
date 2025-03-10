@@ -31,7 +31,7 @@ license = "MIT OR Apache-2.0"
 edition = "2021"
 
 [workspace.dependencies]
-actix-web = "4.9.0"
+actix-web = "4.10.2"
 antex = "0.0.8"
 base64 = "0.22.1"
 chrono = "0.4.40"
@@ -49,9 +49,9 @@ quote = "1.0.39"
 regex = "1.11.1"
 reqwest = { version = "0.12.12", default-features = false, features = ["blocking", "json", "rustls-tls"] }
 roxmltree = "0.20.0"
-serde = { version = "1.0.218", features = ["derive"] }
+serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.140"
-syn = { version = "2.0.99", features = ["fold", "full"] }
+syn = { version = "2.0.100", features = ["fold", "full"] }
 uuid = { version = "1.15.1", features = ["v4"] }
 uriparse = "0.6.4"
 url = "2.5.4"
