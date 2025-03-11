@@ -118,31 +118,35 @@ impl Recognizer {
   /// Recognizes decision table components from horizontally oriented plane.
   /// Vertical decision tables are pivoted horizontal decision tables.
   fn recognize_horizontal_table(&mut self) -> Result<()> {
-    // retrieve the rectangle of the input clause region
+    // Retrieve the rectangle of the input clause region.
     let r_in = self.plane.horz_input_clause_rect()?;
 
-    // retrieve the number of recognized input clauses
+    // Retrieve the number of recognized input clauses.
     self.input_clause_count = r_in.width();
 
-    // retrieve the rectangle of the output clause region
+    // Retrieve the rectangle of the output clause region.
     let r_out = self.plane.horz_output_clause_rect()?;
 
-    // retrieve the number of recognized output clauses
+    // Retrieve the number of recognized output clauses.
     self.output_clause_count = r_out.width();
 
-    // detect if the allowed input and/or allowed output values are present
+    // Detect if the allowed input and/or allowed output values are present.
     let allowed_values_present = match r_in.height() {
       1 => {
-        // by a single row, there are no allowed values present, only input expressions
+        // By a single row, there are no allowed values present, only input expressions.
         false
       }
       2 => {
-        // by two rows, when regions in each column are the same, then there are no allowed input values
-        !self.plane.equal_regions_in_columns(&r_in)? || (self.input_clause_count == 0 && self.output_clause_count > 1 && !self.plane.equal_regions_in_columns(&r_out)?)
+        // By two rows, when regions in each column are the same, then there are no allowed input values.
+        let equal_input_regions = self.plane.equal_regions_in_columns(&r_in)?;
+        let no_inputs = self.input_clause_count == 0;
+        let multiple_outputs = self.output_clause_count > 1;
+        let equal_output_regions = self.plane.equal_regions_in_columns(&r_out)?;
+        !equal_input_regions || (no_inputs && multiple_outputs && equal_output_regions)
       }
       3 => {
-        // by three rows, allowed input or allowed output values are always provided,
-        // just check if the two bottom rows contain the same regions - input and output expressions
+        // By three rows, allowed input or allowed output values are always provided.
+        // Just check if the two bottom rows contain the same regions: input and output expressions.
         if !self.plane.unique_regions_in_columns(&r_in.offset_top(1))? {
           return Err(err_invalid_input_expressions());
         }
@@ -152,12 +156,12 @@ impl Recognizer {
         true
       }
       _ => {
-        // there are to many rows in the input clause (above the double line)
+        // There are to many rows in the input clause (above the double line), report an error.
         return Err(err_too_many_rows_in_input_clause());
       }
     };
 
-    // retrieve input expressions from the plane
+    // Retrieve the input expressions from the plane.
     for col in r_in.left..r_in.right {
       self.input_expressions.push(self.plane.region_text(0, col)?);
     }

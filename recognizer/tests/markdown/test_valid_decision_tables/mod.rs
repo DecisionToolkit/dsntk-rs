@@ -32,7 +32,7 @@ fn t_eq(
   for (i, actual_input_clause) in actual.input_clauses.iter().enumerate() {
     assert_eq!(*actual_input_clause, expected.5[i]);
   }
-  assert_eq!(actual.output_clauses.len(), expected.6.len());
+  assert_eq!(actual.output_clauses.len(), expected.6.len(), "number of output clauses differ");
   for (i, actual_output_clause) in actual.output_clauses.iter().enumerate() {
     assert_eq!(*actual_output_clause, expected.6[i]);
   }
