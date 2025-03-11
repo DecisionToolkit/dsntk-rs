@@ -69,8 +69,32 @@ pub const H_001020: &str = include_str!("H_001020.md");
 #[doc = include_str!("H_001210.md")]
 pub const H_001210: &str = include_str!("H_001210.md");
 
+#[doc = include_str!("H_001211.md")]
+pub const H_001211: &str = include_str!("H_001211.md");
+
+#[doc = include_str!("H_001212.md")]
+pub const H_001212: &str = include_str!("H_001212.md");
+
+#[doc = include_str!("H_001220.md")]
+pub const H_001220: &str = include_str!("H_001220.md");
+
+#[doc = include_str!("H_001221.md")]
+pub const H_001221: &str = include_str!("H_001221.md");
+
+#[doc = include_str!("H_001222.md")]
+pub const H_001222: &str = include_str!("H_001222.md");
+
 #[doc = include_str!("H_010010.md")]
 pub const H_010010: &str = include_str!("H_010010.md");
+
+#[doc = include_str!("H_010011.md")]
+pub const H_010011: &str = include_str!("H_010011.md");
+
+#[doc = include_str!("H_010012.md")]
+pub const H_010012: &str = include_str!("H_010012.md");
+
+#[doc = include_str!("H_010120.md")]
+pub const H_010120: &str = include_str!("H_010120.md");
 
 #[doc = include_str!("H_010210.md")]
 pub const H_010210: &str = include_str!("H_010210.md");
