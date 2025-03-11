@@ -39,6 +39,12 @@ pub const H_000122: &str = include_str!("H_000122.md");
 #[doc = include_str!("H_000210.md")]
 pub const H_000210: &str = include_str!("H_000210.md");
 
+#[doc = include_str!("H_000211.md")]
+pub const H_000211: &str = include_str!("H_000211.md");
+
+#[doc = include_str!("H_000212.md")]
+pub const H_000212: &str = include_str!("H_000212.md");
+
 #[doc = include_str!("H_001010.md")]
 pub const H_001010: &str = include_str!("H_001010.md");
 
