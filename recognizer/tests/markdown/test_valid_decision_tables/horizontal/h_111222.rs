@@ -1,6 +1,4 @@
 use super::*;
-use dsntk_examples::decision_tables::*;
-use dsntk_recognizer::{from_markdown, from_unicode, DecisionTableOrientation, HitPolicy};
 
 #[test]
 fn h_111222() {

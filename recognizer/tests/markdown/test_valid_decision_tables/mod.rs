@@ -5,8 +5,11 @@ mod miscellaneous_decision_tables;
 mod vertical_decision_tables;
 
 use dsntk_recognizer::{
-  AnnotationClause, AnnotationEntry, BuiltinAggregator, DecisionRule, DecisionTable, DecisionTableOrientation, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry,
+  from_markdown, from_unicode, AnnotationClause, AnnotationEntry, BuiltinAggregator, DecisionRule, DecisionTable, DecisionTableOrientation, HitPolicy, InputClause, InputEntry,
+  OutputClause, OutputEntry,
 };
+
+use dsntk_examples::decision_tables::*;
 
 #[allow(clippy::type_complexity)]
 fn t_eq(
@@ -36,7 +39,7 @@ fn t_eq(
   for (i, actual_output_clause) in actual.output_clauses.iter().enumerate() {
     assert_eq!(*actual_output_clause, expected.6[i]);
   }
-  assert_eq!(actual.annotation_clauses.len(), expected.7.len());
+  assert_eq!(actual.annotation_clauses.len(), expected.7.len(), "number of annotation clauses differ");
   for (i, actual_annotation_clause) in actual.annotation_clauses.iter().enumerate() {
     assert_eq!(*actual_annotation_clause, expected.7[i]);
   }
