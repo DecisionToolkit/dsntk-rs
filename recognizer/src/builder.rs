@@ -174,7 +174,7 @@ pub fn from_unicode(text: &str, trace: bool) -> Result<DecisionTable> {
     let name = if size.output_components_count > 0 {
       recognizer.output_components[i].clone()
     } else {
-      None
+      output_label.clone()
     };
     let (allowed_output_values, default_output_value) = get_allowed_and_default_output_values(&if size.output_values_count > 0 {
       recognizer.allowed_output_values[i].clone()

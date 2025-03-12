@@ -216,9 +216,9 @@ pub const H_011221: &str = include_str!("H_011221.md");
 #[doc = include_str!("H_011222.md")]
 pub const H_011222: &str = include_str!("H_011222.md");
 
-// #[doc = include_str!("H_100010.md")]
-// pub const H_100010: &str = include_str!("H_100010.md");
-//
+#[doc = include_str!("H_100010.md")]
+pub const H_100010: &str = include_str!("H_100010.md");
+
 // #[doc = include_str!("H_100011.md")]
 // pub const H_100011: &str = include_str!("H_100011.md");
 //

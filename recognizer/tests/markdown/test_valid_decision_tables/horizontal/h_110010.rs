@@ -4,9 +4,9 @@ use super::*;
 fn _0001() {
   let expected = (
     // expected information item name
-    None,
+    "Days of week".into(),
     // expected output label
-    None,
+    "Weekday".into(),
     // expected hit policy
     HitPolicy::Collect(BuiltinAggregator::List),
     // expected aggregation
@@ -16,7 +16,7 @@ fn _0001() {
     // expected input clauses
     t_input_clauses(&[]),
     // expected output clauses
-    t_output_clauses(&[(None, None, None)]),
+    t_output_clauses(&[("Weekday".into(), None, None)]),
     // expected annotation clauses
     t_annotation_clauses(&[]),
     // expected rules
@@ -30,6 +30,6 @@ fn _0001() {
       (&[], &[r#""Sunday""#], &[]),
     ]),
   );
-  t_eq(&expected, from_unicode(H_000010, false).unwrap());
-  t_eq(&expected, from_markdown(H_000010, false).unwrap());
+  t_eq(&expected, from_unicode(H_110010, false).unwrap());
+  t_eq(&expected, from_markdown(H_110010, false).unwrap());
 }

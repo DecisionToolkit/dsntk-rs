@@ -26,26 +26,26 @@ fn t_eq(
   ),
   actual: DecisionTable,
 ) {
-  assert_eq!(actual.information_item_name, expected.0.map(|s| s.to_string()));
-  assert_eq!(actual.output_label, expected.1.map(|s| s.to_string()));
-  assert_eq!(actual.hit_policy, expected.2);
-  assert_eq!(actual.aggregation, expected.3);
-  assert_eq!(actual.preferred_orientation, expected.4);
-  assert_eq!(actual.input_clauses.len(), expected.5.len());
+  assert_eq!(actual.information_item_name, expected.0.map(|s| s.to_string()), "information item names differ");
+  assert_eq!(actual.output_label, expected.1.map(|s| s.to_string()), "output labels differ");
+  assert_eq!(actual.hit_policy, expected.2, "hit policies differ");
+  assert_eq!(actual.aggregation, expected.3, "aggregations differ");
+  assert_eq!(actual.preferred_orientation, expected.4, "preferred orientations differ");
+  assert_eq!(actual.input_clauses.len(), expected.5.len(), "number of input clauses differ");
   for (i, actual_input_clause) in actual.input_clauses.iter().enumerate() {
-    assert_eq!(*actual_input_clause, expected.5[i]);
+    assert_eq!(*actual_input_clause, expected.5[i], "input clauses differ");
   }
   assert_eq!(actual.output_clauses.len(), expected.6.len(), "number of output clauses differ");
   for (i, actual_output_clause) in actual.output_clauses.iter().enumerate() {
-    assert_eq!(*actual_output_clause, expected.6[i]);
+    assert_eq!(*actual_output_clause, expected.6[i], "output clauses differ");
   }
   assert_eq!(actual.annotation_clauses.len(), expected.7.len(), "number of annotation clauses differ");
   for (i, actual_annotation_clause) in actual.annotation_clauses.iter().enumerate() {
-    assert_eq!(*actual_annotation_clause, expected.7[i]);
+    assert_eq!(*actual_annotation_clause, expected.7[i], "annotation clauses differ");
   }
-  assert_eq!(actual.rules.len(), expected.8.len());
+  assert_eq!(actual.rules.len(), expected.8.len(), "number of rules differ");
   for (i, actual_rule) in actual.rules.iter().enumerate() {
-    assert_eq!(*actual_rule, expected.8[i]);
+    assert_eq!(*actual_rule, expected.8[i], "rules differ");
   }
 }
 

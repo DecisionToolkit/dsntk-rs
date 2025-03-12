@@ -1,7 +1,7 @@
 use super::*;
 
 #[test]
-fn h_111222() {
+fn _0001() {
   let expected = (
     // expected information item name
     "Offered order options".into(),

@@ -36,7 +36,7 @@ type Markers = Vec<Option<Marker>>;
 /// Recognizes a decision table defined as plain Markdown text.
 pub fn from_markdown(markdown: &str, trace: bool) -> Result<DecisionTable> {
   // Locate and retrieve lines containing the decision table from provided Markdown content.
-  let (information_item_name, output_label, lines) = markdown_lines(markdown);
+  let (information_item_name, mut output_label, lines) = markdown_lines(markdown);
   // Convert lines into table.
   let table = markdown_table(lines)?;
   // Get the hit policy and aggregation.
@@ -62,32 +62,7 @@ pub fn from_markdown(markdown: &str, trace: bool) -> Result<DecisionTable> {
   let allowed_values = empty_count == 2;
   // Get the input/output/annotation markers.
   let markers = get_markers(table[empty_count].iter())?;
-  // Display tracing report when requested.
-  if trace {
-    println!("Preferred orientation: {}", preferred_orientation);
-    println!("Information item name: {}", information_item_name.as_ref().unwrap_or(&"(none)".to_string()));
-    println!("Hip policy: {}", hit_policy);
-    println!("Output label: {}", output_label.as_ref().unwrap_or(&"(none)".to_string()));
-    println!("Allowed values: {}", allowed_values);
-    println!("Markers: {}", markers_to_string(&markers));
-    println!("Rows:");
-    for row in &table {
-      println!(
-        "| {} |",
-        row
-          .iter()
-          .map(|column| {
-            if let Some(text) = column {
-              text.to_string()
-            } else {
-              "(none)".to_string()
-            }
-          })
-          .collect::<Vec<String>>()
-          .join(" | ")
-      );
-    }
-  }
+  let output_count = markers.iter().filter(|marker| marker.is_some_and(|m| m == Marker::Output)).count();
   // Prepare the input, output and annotation clauses with optional allowed values.
   let mut input_clauses = vec![];
   let mut output_clauses = vec![];
@@ -104,6 +79,10 @@ pub fn from_markdown(markdown: &str, trace: bool) -> Result<DecisionTable> {
       }
       Some(Marker::Output) => {
         let name = table[0][index].clone();
+        // If there is only one output with the name, then it is also the default output label.
+        if output_count == 1 && output_label.is_none() {
+          output_label = name.clone();
+        }
         let (allowed_output_values, default_output_value) = if allowed_values {
           get_allowed_and_default_output_values(&table[1][index])
         } else {
@@ -147,6 +126,32 @@ pub fn from_markdown(markdown: &str, trace: bool) -> Result<DecisionTable> {
       output_entries,
       annotation_entries,
     });
+  }
+  // Display tracing report when requested.
+  if trace {
+    println!("Preferred orientation: {}", preferred_orientation);
+    println!("Information item name: {}", information_item_name.as_ref().unwrap_or(&"(none)".to_string()));
+    println!("Hip policy: {}", hit_policy);
+    println!("Output label: {}", output_label.as_ref().unwrap_or(&"(none)".to_string()));
+    println!("Allowed values: {}", allowed_values);
+    println!("Markers: {}", markers_to_string(&markers));
+    println!("Rows:");
+    for row in &table {
+      println!(
+        "| {} |",
+        row
+          .iter()
+          .map(|column| {
+            if let Some(text) = column {
+              text.to_string()
+            } else {
+              "(none)".to_string()
+            }
+          })
+          .collect::<Vec<String>>()
+          .join(" | ")
+      );
+    }
   }
   // Return the recognized decision table.
   Ok(DecisionTable::new(

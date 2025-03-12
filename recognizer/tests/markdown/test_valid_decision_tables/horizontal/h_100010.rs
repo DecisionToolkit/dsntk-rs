@@ -4,7 +4,7 @@ use super::*;
 fn _0001() {
   let expected = (
     // expected information item name
-    None,
+    "Days of week".into(),
     // expected output label
     None,
     // expected hit policy
@@ -30,6 +30,6 @@ fn _0001() {
       (&[], &[r#""Sunday""#], &[]),
     ]),
   );
-  t_eq(&expected, from_unicode(H_000010, false).unwrap());
-  t_eq(&expected, from_markdown(H_000010, false).unwrap());
+  t_eq(&expected, from_unicode(H_100010, false).unwrap());
+  t_eq(&expected, from_markdown(H_100010, false).unwrap());
 }

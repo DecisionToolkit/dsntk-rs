@@ -107,7 +107,7 @@ fn test_invalid_0002() {
 fn test_dt_0001() {
   let recognizer = &Recognizer::recognize(H_110010, false).unwrap();
   eq_orientation(recognizer, DecisionTableOrientation::RulesAsRows);
-  eq_information_item_name(recognizer, "Weekdays");
+  eq_information_item_name(recognizer, "Days of week");
   eq_hit_policy(recognizer, HitPolicy::Collect(BuiltinAggregator::List));
   eq_input_expressions(recognizer, EMPTY_VECTOR);
   eq_input_values(recognizer, EMPTY_OPT_VECTOR);
