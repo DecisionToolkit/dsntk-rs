@@ -11,6 +11,9 @@ const TABLE_VERT_LINE: &str = "|";
 /// Characters used to denote the information item name of the decision table.
 const INFORMATION_ITEM_NAME_START: &str = "> #";
 
+/// Optional characters in the information item name of the decision table after start.
+const INFORMATION_ITEM_NAME_HEADING: &str = "#";
+
 /// Characters used to denote the output label of the decision table.
 const OUTPUT_LABEL_START: &str = ">";
 
@@ -190,7 +193,13 @@ fn markdown_lines(text: &str) -> (Option<String>, Option<String>, Vec<String>) {
     match state {
       State::BeforeTable => {
         if line.starts_with(INFORMATION_ITEM_NAME_START) {
-          buffer.push(line.trim_start_matches(INFORMATION_ITEM_NAME_START).trim().to_string());
+          buffer.push(
+            line
+              .trim_start_matches(INFORMATION_ITEM_NAME_START)
+              .trim_start_matches(INFORMATION_ITEM_NAME_HEADING)
+              .trim()
+              .to_string(),
+          );
           state = State::BlockQuoteFirst;
         } else if line.starts_with(OUTPUT_LABEL_START) {
           buffer.push(line.trim_start_matches(OUTPUT_LABEL_START).trim().to_string());
