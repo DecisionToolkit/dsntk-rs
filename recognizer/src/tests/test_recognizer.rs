@@ -187,7 +187,7 @@ fn ex_0044() {
     rec,
     &[&["<25", r#""good""#], &["<25", r#""bad""#], &["[25..60]", "-"], &[">60", r#""good""#], &[">60", r#""bad""#]],
   );
-  eq_output_label(rec, Some("Sell\n\noptions".to_string()));
+  eq_output_label(rec, Some("Sell options".to_string()));
   eq_output_components(rec, &[Some("Applicant risk rating"), Some("Special Discount")]);
   eq_output_values(rec, EMPTY_OPT_VECTOR);
   eq_output_entries(
@@ -216,7 +216,7 @@ fn ex_0064() {
     rec,
     &[&["<25", r#""good""#], &["<25", r#""bad""#], &["[25..60]", "-"], &[">60", r#""good""#], &[">60", r#""bad""#]],
   );
-  eq_output_label(rec, Some("Sell\n\noptions".to_string()));
+  eq_output_label(rec, Some("Sell options".to_string()));
   eq_output_components(rec, &[Some("Applicant risk rating"), Some("Special Discount")]);
   eq_output_entries(
     rec,
@@ -239,7 +239,7 @@ fn general_horizontal() {
   eq_hit_policy(rec, HitPolicy::Collect(BuiltinAggregator::List));
   eq_orientation(rec, DecisionTableOrientation::RulesAsRows);
   eq_input_expressions(rec, &["input expression 1", "input expression 2"]);
-  eq_input_values(rec, &[Some("input value 1a,\ninput value 1b"), Some("input value 2a,\ninput value 2b")]);
+  eq_input_values(rec, &[Some("input value 1a, input value 1b"), Some("input value 2a, input value 2b")]);
   eq_input_entries(
     rec,
     &[
@@ -251,7 +251,7 @@ fn general_horizontal() {
   );
   eq_output_label(rec, Some("output label".to_string()));
   eq_output_components(rec, EMPTY_OPT_VECTOR);
-  eq_output_values(rec, &[Some("output value 1a,\noutput value 1b")]);
+  eq_output_values(rec, &[Some("output value 1a, output value 1b")]);
   eq_output_entries(rec, &[&["output entry 1.1"], &["output entry 1.2"], &["output entry 1.3"], &["output entry 1.4"]]);
   eq_annotations(rec, EMPTY_VECTOR);
   eq_annotation_entries(rec, EMPTY_MATRIX);

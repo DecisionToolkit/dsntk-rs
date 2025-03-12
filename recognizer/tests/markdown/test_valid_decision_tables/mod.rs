@@ -2,7 +2,7 @@ mod horizontal;
 mod horizontal_decision_tables;
 mod minimal_decision_tables;
 mod miscellaneous_decision_tables;
-mod vertical_decision_tables;
+mod vertical;
 
 use dsntk_recognizer::{
   from_markdown, from_unicode, AnnotationClause, AnnotationEntry, BuiltinAggregator, DecisionRule, DecisionTable, DecisionTableOrientation, HitPolicy, InputClause, InputEntry,

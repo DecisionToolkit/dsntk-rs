@@ -593,8 +593,9 @@ impl Canvas {
           .trim()
           .to_string()
       })
+      .filter(|s| !s.is_empty())
       .collect::<Vec<String>>()
-      .join("\n")
+      .join(" ")
   }
 
   /// Copies characters from source layer to destination layer.
