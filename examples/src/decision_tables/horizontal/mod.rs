@@ -225,101 +225,101 @@ pub const H_100011: &str = include_str!("H_100011.md");
 #[doc = include_str!("H_100012.md")]
 pub const H_100012: &str = include_str!("H_100012.md");
 
-// #[doc = include_str!("H_100020.md")]
-// pub const H_100020: &str = include_str!("H_100020.md");
-//
-// #[doc = include_str!("H_100021.md")]
-// pub const H_100021: &str = include_str!("H_100021.md");
-//
-// #[doc = include_str!("H_100022.md")]
-// pub const H_100022: &str = include_str!("H_100022.md");
-//
-// #[doc = include_str!("H_100110.md")]
-// pub const H_100110: &str = include_str!("H_100110.md");
-//
-// #[doc = include_str!("H_100111.md")]
-// pub const H_100111: &str = include_str!("H_100111.md");
-//
-// #[doc = include_str!("H_100112.md")]
-// pub const H_100112: &str = include_str!("H_100112.md");
-//
-// #[doc = include_str!("H_100120.md")]
-// pub const H_100120: &str = include_str!("H_100120.md");
-//
-// #[doc = include_str!("H_100121.md")]
-// pub const H_100121: &str = include_str!("H_100121.md");
-//
-// #[doc = include_str!("H_100122.md")]
-// pub const H_100122: &str = include_str!("H_100122.md");
-//
-// #[doc = include_str!("H_100210.md")]
-// pub const H_100210: &str = include_str!("H_100210.md");
-//
-// #[doc = include_str!("H_100211.md")]
-// pub const H_100211: &str = include_str!("H_100211.md");
-//
-// #[doc = include_str!("H_100212.md")]
-// pub const H_100212: &str = include_str!("H_100212.md");
-//
-// #[doc = include_str!("H_100220.md")]
-// pub const H_100220: &str = include_str!("H_100220.md");
-//
-// #[doc = include_str!("H_100221.md")]
-// pub const H_100221: &str = include_str!("H_100221.md");
-//
-// #[doc = include_str!("H_100222.md")]
-// pub const H_100222: &str = include_str!("H_100222.md");
-//
-// #[doc = include_str!("H_101010.md")]
-// pub const H_101010: &str = include_str!("H_101010.md");
-//
-// #[doc = include_str!("H_101011.md")]
-// pub const H_101011: &str = include_str!("H_101011.md");
-//
-// #[doc = include_str!("H_101012.md")]
-// pub const H_101012: &str = include_str!("H_101012.md");
-//
-// #[doc = include_str!("H_101020.md")]
-// pub const H_101020: &str = include_str!("H_101020.md");
-//
-// #[doc = include_str!("H_101021.md")]
-// pub const H_101021: &str = include_str!("H_101021.md");
-//
-// #[doc = include_str!("H_101022.md")]
-// pub const H_101022: &str = include_str!("H_101022.md");
-//
-// #[doc = include_str!("H_101110.md")]
-// pub const H_101110: &str = include_str!("H_101110.md");
-//
-// #[doc = include_str!("H_101111.md")]
-// pub const H_101111: &str = include_str!("H_101111.md");
-//
-// #[doc = include_str!("H_101112.md")]
-// pub const H_101112: &str = include_str!("H_101112.md");
-//
-// #[doc = include_str!("H_101120.md")]
-// pub const H_101120: &str = include_str!("H_101120.md");
-//
-// #[doc = include_str!("H_101121.md")]
-// pub const H_101121: &str = include_str!("H_101121.md");
-//
-// #[doc = include_str!("H_101122.md")]
-// pub const H_101122: &str = include_str!("H_101122.md");
-//
-// #[doc = include_str!("H_101210.md")]
-// pub const H_101210: &str = include_str!("H_101210.md");
-//
-// #[doc = include_str!("H_101211.md")]
-// pub const H_101211: &str = include_str!("H_101211.md");
-//
-// #[doc = include_str!("H_101212.md")]
-// pub const H_101212: &str = include_str!("H_101212.md");
-//
-// #[doc = include_str!("H_101220.md")]
-// pub const H_101220: &str = include_str!("H_101220.md");
-//
-// #[doc = include_str!("H_101221.md")]
-// pub const H_101221: &str = include_str!("H_101221.md");
+#[doc = include_str!("H_100020.md")]
+pub const H_100020: &str = include_str!("H_100020.md");
+
+#[doc = include_str!("H_100021.md")]
+pub const H_100021: &str = include_str!("H_100021.md");
+
+#[doc = include_str!("H_100022.md")]
+pub const H_100022: &str = include_str!("H_100022.md");
+
+#[doc = include_str!("H_100110.md")]
+pub const H_100110: &str = include_str!("H_100110.md");
+
+#[doc = include_str!("H_100111.md")]
+pub const H_100111: &str = include_str!("H_100111.md");
+
+#[doc = include_str!("H_100112.md")]
+pub const H_100112: &str = include_str!("H_100112.md");
+
+#[doc = include_str!("H_100120.md")]
+pub const H_100120: &str = include_str!("H_100120.md");
+
+#[doc = include_str!("H_100121.md")]
+pub const H_100121: &str = include_str!("H_100121.md");
+
+#[doc = include_str!("H_100122.md")]
+pub const H_100122: &str = include_str!("H_100122.md");
+
+#[doc = include_str!("H_100210.md")]
+pub const H_100210: &str = include_str!("H_100210.md");
+
+#[doc = include_str!("H_100211.md")]
+pub const H_100211: &str = include_str!("H_100211.md");
+
+#[doc = include_str!("H_100212.md")]
+pub const H_100212: &str = include_str!("H_100212.md");
+
+#[doc = include_str!("H_100220.md")]
+pub const H_100220: &str = include_str!("H_100220.md");
+
+#[doc = include_str!("H_100221.md")]
+pub const H_100221: &str = include_str!("H_100221.md");
+
+#[doc = include_str!("H_100222.md")]
+pub const H_100222: &str = include_str!("H_100222.md");
+
+#[doc = include_str!("H_101010.md")]
+pub const H_101010: &str = include_str!("H_101010.md");
+
+#[doc = include_str!("H_101011.md")]
+pub const H_101011: &str = include_str!("H_101011.md");
+
+#[doc = include_str!("H_101012.md")]
+pub const H_101012: &str = include_str!("H_101012.md");
+
+#[doc = include_str!("H_101020.md")]
+pub const H_101020: &str = include_str!("H_101020.md");
+
+#[doc = include_str!("H_101021.md")]
+pub const H_101021: &str = include_str!("H_101021.md");
+
+#[doc = include_str!("H_101022.md")]
+pub const H_101022: &str = include_str!("H_101022.md");
+
+#[doc = include_str!("H_101110.md")]
+pub const H_101110: &str = include_str!("H_101110.md");
+
+#[doc = include_str!("H_101111.md")]
+pub const H_101111: &str = include_str!("H_101111.md");
+
+#[doc = include_str!("H_101112.md")]
+pub const H_101112: &str = include_str!("H_101112.md");
+
+#[doc = include_str!("H_101120.md")]
+pub const H_101120: &str = include_str!("H_101120.md");
+
+#[doc = include_str!("H_101121.md")]
+pub const H_101121: &str = include_str!("H_101121.md");
+
+#[doc = include_str!("H_101122.md")]
+pub const H_101122: &str = include_str!("H_101122.md");
+
+#[doc = include_str!("H_101210.md")]
+pub const H_101210: &str = include_str!("H_101210.md");
+
+#[doc = include_str!("H_101211.md")]
+pub const H_101211: &str = include_str!("H_101211.md");
+
+#[doc = include_str!("H_101212.md")]
+pub const H_101212: &str = include_str!("H_101212.md");
+
+#[doc = include_str!("H_101220.md")]
+pub const H_101220: &str = include_str!("H_101220.md");
+
+#[doc = include_str!("H_101221.md")]
+pub const H_101221: &str = include_str!("H_101221.md");
 
 #[doc = include_str!("H_101222.md")]
 pub const H_101222: &str = include_str!("H_101222.md");
@@ -327,107 +327,107 @@ pub const H_101222: &str = include_str!("H_101222.md");
 #[doc = include_str!("H_110010.md")]
 pub const H_110010: &str = include_str!("H_110010.md");
 
-// #[doc = include_str!("H_110011.md")]
-// pub const H_110011: &str = include_str!("H_110011.md");
-//
-// #[doc = include_str!("H_110012.md")]
-// pub const H_110012: &str = include_str!("H_110012.md");
-//
-// #[doc = include_str!("H_110020.md")]
-// pub const H_110020: &str = include_str!("H_110020.md");
-//
-// #[doc = include_str!("H_110021.md")]
-// pub const H_110021: &str = include_str!("H_110021.md");
-//
-// #[doc = include_str!("H_110022.md")]
-// pub const H_110022: &str = include_str!("H_110022.md");
-//
-// #[doc = include_str!("H_110110.md")]
-// pub const H_110110: &str = include_str!("H_110110.md");
-//
-// #[doc = include_str!("H_110111.md")]
-// pub const H_110111: &str = include_str!("H_110111.md");
-//
-// #[doc = include_str!("H_110112.md")]
-// pub const H_110112: &str = include_str!("H_110112.md");
-//
-// #[doc = include_str!("H_110120.md")]
-// pub const H_110120: &str = include_str!("H_110120.md");
-//
-// #[doc = include_str!("H_110121.md")]
-// pub const H_110121: &str = include_str!("H_110121.md");
-//
-// #[doc = include_str!("H_110122.md")]
-// pub const H_110122: &str = include_str!("H_110122.md");
-//
-// #[doc = include_str!("H_110210.md")]
-// pub const H_110210: &str = include_str!("H_110210.md");
-//
-// #[doc = include_str!("H_110211.md")]
-// pub const H_110211: &str = include_str!("H_110211.md");
-//
-// #[doc = include_str!("H_110212.md")]
-// pub const H_110212: &str = include_str!("H_110212.md");
-//
-// #[doc = include_str!("H_110220.md")]
-// pub const H_110220: &str = include_str!("H_110220.md");
-//
-// #[doc = include_str!("H_110221.md")]
-// pub const H_110221: &str = include_str!("H_110221.md");
+#[doc = include_str!("H_110011.md")]
+pub const H_110011: &str = include_str!("H_110011.md");
+
+#[doc = include_str!("H_110012.md")]
+pub const H_110012: &str = include_str!("H_110012.md");
+
+#[doc = include_str!("H_110020.md")]
+pub const H_110020: &str = include_str!("H_110020.md");
+
+#[doc = include_str!("H_110021.md")]
+pub const H_110021: &str = include_str!("H_110021.md");
+
+#[doc = include_str!("H_110022.md")]
+pub const H_110022: &str = include_str!("H_110022.md");
+
+#[doc = include_str!("H_110110.md")]
+pub const H_110110: &str = include_str!("H_110110.md");
+
+#[doc = include_str!("H_110111.md")]
+pub const H_110111: &str = include_str!("H_110111.md");
+
+#[doc = include_str!("H_110112.md")]
+pub const H_110112: &str = include_str!("H_110112.md");
+
+#[doc = include_str!("H_110120.md")]
+pub const H_110120: &str = include_str!("H_110120.md");
+
+#[doc = include_str!("H_110121.md")]
+pub const H_110121: &str = include_str!("H_110121.md");
+
+#[doc = include_str!("H_110122.md")]
+pub const H_110122: &str = include_str!("H_110122.md");
+
+#[doc = include_str!("H_110210.md")]
+pub const H_110210: &str = include_str!("H_110210.md");
+
+#[doc = include_str!("H_110211.md")]
+pub const H_110211: &str = include_str!("H_110211.md");
+
+#[doc = include_str!("H_110212.md")]
+pub const H_110212: &str = include_str!("H_110212.md");
+
+#[doc = include_str!("H_110220.md")]
+pub const H_110220: &str = include_str!("H_110220.md");
+
+#[doc = include_str!("H_110221.md")]
+pub const H_110221: &str = include_str!("H_110221.md");
 
 #[doc = include_str!("H_110222.md")]
 pub const H_110222: &str = include_str!("H_110222.md");
 
-// #[doc = include_str!("H_111010.md")]
-// pub const H_111010: &str = include_str!("H_111010.md");
-//
-// #[doc = include_str!("H_111011.md")]
-// pub const H_111011: &str = include_str!("H_111011.md");
-//
-// #[doc = include_str!("H_111012.md")]
-// pub const H_111012: &str = include_str!("H_111012.md");
-//
-// #[doc = include_str!("H_111020.md")]
-// pub const H_111020: &str = include_str!("H_111020.md");
-//
-// #[doc = include_str!("H_111021.md")]
-// pub const H_111021: &str = include_str!("H_111021.md");
-//
-// #[doc = include_str!("H_111022.md")]
-// pub const H_111022: &str = include_str!("H_111022.md");
-//
-// #[doc = include_str!("H_111110.md")]
-// pub const H_111110: &str = include_str!("H_111110.md");
-//
-// #[doc = include_str!("H_111111.md")]
-// pub const H_111111: &str = include_str!("H_111111.md");
-//
-// #[doc = include_str!("H_111112.md")]
-// pub const H_111112: &str = include_str!("H_111112.md");
-//
-// #[doc = include_str!("H_111120.md")]
-// pub const H_111120: &str = include_str!("H_111120.md");
-//
-// #[doc = include_str!("H_111121.md")]
-// pub const H_111121: &str = include_str!("H_111121.md");
-//
-// #[doc = include_str!("H_111122.md")]
-// pub const H_111122: &str = include_str!("H_111122.md");
-//
-// #[doc = include_str!("H_111210.md")]
-// pub const H_111210: &str = include_str!("H_111210.md");
-//
-// #[doc = include_str!("H_111211.md")]
-// pub const H_111211: &str = include_str!("H_111211.md");
-//
-// #[doc = include_str!("H_111212.md")]
-// pub const H_111212: &str = include_str!("H_111212.md");
-//
-// #[doc = include_str!("H_111220.md")]
-// pub const H_111220: &str = include_str!("H_111220.md");
-//
-// #[doc = include_str!("H_111221.md")]
-// pub const H_111221: &str = include_str!("H_111221.md");
+#[doc = include_str!("H_111010.md")]
+pub const H_111010: &str = include_str!("H_111010.md");
+
+#[doc = include_str!("H_111011.md")]
+pub const H_111011: &str = include_str!("H_111011.md");
+
+#[doc = include_str!("H_111012.md")]
+pub const H_111012: &str = include_str!("H_111012.md");
+
+#[doc = include_str!("H_111020.md")]
+pub const H_111020: &str = include_str!("H_111020.md");
+
+#[doc = include_str!("H_111021.md")]
+pub const H_111021: &str = include_str!("H_111021.md");
+
+#[doc = include_str!("H_111022.md")]
+pub const H_111022: &str = include_str!("H_111022.md");
+
+#[doc = include_str!("H_111110.md")]
+pub const H_111110: &str = include_str!("H_111110.md");
+
+#[doc = include_str!("H_111111.md")]
+pub const H_111111: &str = include_str!("H_111111.md");
+
+#[doc = include_str!("H_111112.md")]
+pub const H_111112: &str = include_str!("H_111112.md");
+
+#[doc = include_str!("H_111120.md")]
+pub const H_111120: &str = include_str!("H_111120.md");
+
+#[doc = include_str!("H_111121.md")]
+pub const H_111121: &str = include_str!("H_111121.md");
+
+#[doc = include_str!("H_111122.md")]
+pub const H_111122: &str = include_str!("H_111122.md");
+
+#[doc = include_str!("H_111210.md")]
+pub const H_111210: &str = include_str!("H_111210.md");
+
+#[doc = include_str!("H_111211.md")]
+pub const H_111211: &str = include_str!("H_111211.md");
+
+#[doc = include_str!("H_111212.md")]
+pub const H_111212: &str = include_str!("H_111212.md");
+
+#[doc = include_str!("H_111220.md")]
+pub const H_111220: &str = include_str!("H_111220.md");
+
+#[doc = include_str!("H_111221.md")]
+pub const H_111221: &str = include_str!("H_111221.md");
 
 #[doc = include_str!("H_111222.md")]
 pub const H_111222: &str = include_str!("H_111222.md");
