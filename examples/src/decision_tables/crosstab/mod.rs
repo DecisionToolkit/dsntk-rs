@@ -1,4 +1,6 @@
-//! # Examples of cross-tab decision tables defined as Unicode text
+//! # Examples of cross-tab decision tables
+
+pub const C_000000: &str = "";
 
 // #[doc = include_str!("C_000010.md")]
 // pub const C_000010: &str = include_str!("C_000010.md");

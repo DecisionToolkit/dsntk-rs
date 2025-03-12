@@ -1,4 +1,4 @@
-//! # Examples of vertical decision tables defined as Unicode text
+//! # Examples of vertical decision tables
 
 // #[doc = include_str!("V_000010.md")]
 // pub const V_000010: &str = include_str!("V_000010.md");
