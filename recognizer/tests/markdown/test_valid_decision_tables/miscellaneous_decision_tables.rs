@@ -54,12 +54,13 @@ fn _0003() {
   assert_eq!(DecisionTableOrientation::RulesAsRows, dt.preferred_orientation);
 }
 
-/// Only the output label is present.
+/// Only the output label is present before the table,
+/// but it is also defined in a first row.
 #[test]
 fn _0004() {
   let markdown = r#"
     > Weekday
-    | U |             |
+    | U | Day of week |
     |:-:|:-----------:|
     |   |    Out      |
     | 1 |  "Monday"   |
