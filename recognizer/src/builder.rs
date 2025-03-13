@@ -154,6 +154,7 @@ pub fn from_unicode(text: &str, trace: bool) -> Result<DecisionTable> {
 
   // Prepare the output label
   let output_label = recognizer.output_label.clone();
+  println!("DDD: {:?}", output_label);
 
   // Prepare the input clauses.
   let mut input_clauses = vec![];
@@ -171,7 +172,7 @@ pub fn from_unicode(text: &str, trace: bool) -> Result<DecisionTable> {
   // Prepare output clauses.
   let mut output_clauses = vec![];
   for i in 0..size.output_clauses_count {
-    let name = if size.output_components_count > 0 {
+    let output_component_name = if size.output_components_count > 0 {
       recognizer.output_components[i].clone()
     } else {
       output_label.clone()
@@ -182,7 +183,7 @@ pub fn from_unicode(text: &str, trace: bool) -> Result<DecisionTable> {
       None
     });
     output_clauses.push(OutputClause {
-      name,
+      output_component_name,
       allowed_output_values,
       default_output_value,
     });

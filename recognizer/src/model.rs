@@ -69,7 +69,7 @@ pub struct InputClause {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct OutputClause {
   /// The name of the output component when the decision table contains more than one output clause.
-  pub name: Option<String>,
+  pub output_component_name: Option<String>,
   /// Unary tests that constrain the result of output entries corresponding to output clause.
   pub allowed_output_values: Option<String>,
   /// Default output expression, selected in incomplete table when no rules match for the decision table.

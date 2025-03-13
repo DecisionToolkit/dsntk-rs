@@ -64,7 +64,7 @@ fn t_output_clauses(list: &[(Option<&'static str>, Option<&'static str>, Option<
   let mut output_clauses = vec![];
   for output_clause in list {
     output_clauses.push(OutputClause {
-      name: output_clause.0.map(|s| s.to_string()),
+      output_component_name: output_clause.0.map(|s| s.to_string()),
       allowed_output_values: output_clause.1.map(|s| s.to_string()),
       default_output_value: output_clause.2.map(|s| s.to_string()),
     });

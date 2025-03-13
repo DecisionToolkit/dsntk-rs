@@ -196,11 +196,11 @@ impl Recognizer {
             self.output_label = self.opt_text(self.plane.region_text(r_out.top, r_out.left)?);
           }
           2 => {
-            if allowed_values_present && !self.plane.equal_regions(&r_out)? {
+            if !self.plane.equal_regions(&r_out)? {
               // output label is present
               self.output_label = self.opt_text(self.plane.region_text(r_out.top, r_out.left)?);
             } else {
-              // no output label
+              // output label is not present
               self.output_label = None;
             }
             self.allowed_output_values.push(self.opt_text(self.plane.region_text(r_out.top + 1, r_out.left)?))

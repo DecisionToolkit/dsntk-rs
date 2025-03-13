@@ -58,7 +58,7 @@ impl From<RecognizedOutputClause> for OutputClause {
   fn from(value: RecognizedOutputClause) -> Self {
     Self {
       type_ref: None,
-      name: value.name,
+      name: value.output_component_name,
       allowed_output_values: value.allowed_output_values,
       default_output_entry: value.default_output_value,
     }

@@ -92,7 +92,7 @@ pub fn from_markdown(markdown: &str, trace: bool) -> Result<DecisionTable> {
           (None, None)
         };
         output_clauses.push(OutputClause {
-          name,
+          output_component_name: name,
           allowed_output_values,
           default_output_value,
         });
