@@ -137,12 +137,16 @@ impl Recognizer {
         false
       }
       2 => {
-        // By two rows, when regions in each column are the same, then there are no allowed input values.
+        // By two rows, the logic is more complex.
         let equal_input_regions = self.plane.equal_regions_in_columns(&r_in)?;
-        let no_inputs = self.input_clause_count == 0;
+        let inputs_present = self.input_clause_count > 0;
         let multiple_outputs = self.output_clause_count > 1;
         let equal_output_regions = self.plane.equal_regions_in_columns(&r_out)?;
-        !equal_input_regions || (no_inputs && multiple_outputs && equal_output_regions)
+        let unique_output_regions = self.plane.unique_regions(&r_out)?;
+        matches!(
+          (equal_input_regions, inputs_present, multiple_outputs, equal_output_regions, unique_output_regions),
+          (false, _, _, _, _) | (true, false, true, true, _) | (true, false, true, false, true)
+        )
       }
       3 => {
         // By three rows, allowed input or allowed output values are always provided.
@@ -218,6 +222,8 @@ impl Recognizer {
             }
           }
           2 => {
+            println!("DDD: allowed_values_present: {}", allowed_values_present);
+
             if allowed_values_present {
               // component names and output values
               for col in r_out.left..r_out.right {
