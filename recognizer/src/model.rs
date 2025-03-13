@@ -20,7 +20,7 @@ pub struct DecisionTable {
   pub rules: Vec<DecisionRule>,
   /// Hit policy associated with the instance of the decision table.
   pub hit_policy: HitPolicy,
-  /// Optional aggregation type when the hit policy is `COLLECT`.
+  /// Optional aggregation type when the hit policy is [HitPolicy::Collect].
   pub aggregation: Option<BuiltinAggregator>,
   /// Preferred orientation representation of the instance of the decision table.
   pub preferred_orientation: DecisionTableOrientation,
@@ -79,7 +79,8 @@ pub struct OutputClause {
 /// Represents a rule annotation clause.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AnnotationClause {
-  /// Text that is used as the name of the rule annotation column of the containing decision table.
+  /// Text that is used as the name of the rule annotation column
+  /// of the containing decision table.
   pub name: String,
 }
 
