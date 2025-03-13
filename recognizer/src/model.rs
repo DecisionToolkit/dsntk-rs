@@ -6,7 +6,7 @@ use std::fmt;
 use std::fmt::Display;
 
 /// Represents a decision table.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct DecisionTable {
   /// Information item name.
   pub information_item_name: Option<String>,
@@ -20,7 +20,7 @@ pub struct DecisionTable {
   pub rules: Vec<DecisionRule>,
   /// Hit policy associated with the instance of the decision table.
   pub hit_policy: HitPolicy,
-  /// Optional aggregation type when the hit policy is `COLLECT`.
+  /// Optional aggregation type when the hit policy is [HitPolicy::Collect].
   pub aggregation: Option<BuiltinAggregator>,
   /// Preferred orientation representation of the instance of the decision table.
   pub preferred_orientation: DecisionTableOrientation,
@@ -57,7 +57,7 @@ impl DecisionTable {
 }
 
 /// Represents an input clause.
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct InputClause {
   /// The subject of this input clause, text representation of unary tests.
   pub input_expression: String,
@@ -66,10 +66,10 @@ pub struct InputClause {
 }
 
 /// Represents an output clause.
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct OutputClause {
   /// The name of the output component when the decision table contains more than one output clause.
-  pub name: Option<String>,
+  pub output_component_name: Option<String>,
   /// Unary tests that constrain the result of output entries corresponding to output clause.
   pub allowed_output_values: Option<String>,
   /// Default output expression, selected in incomplete table when no rules match for the decision table.
@@ -77,14 +77,15 @@ pub struct OutputClause {
 }
 
 /// Represents a rule annotation clause.
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AnnotationClause {
-  /// Name that is used as the name of the rule annotation column of the containing decision table.
+  /// Text that is used as the name of the rule annotation column
+  /// of the containing decision table.
   pub name: String,
 }
 
 /// Represents a decision rule.
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct DecisionRule {
   /// Ordered list of input entries that compose decision rule.
   pub input_entries: Vec<InputEntry>,
@@ -95,28 +96,28 @@ pub struct DecisionRule {
 }
 
 /// Represents an input entry.
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct InputEntry {
   /// Text representation of unary test that composes recognized input entry.
   pub text: String,
 }
 
 /// Represents an output entry.
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct OutputEntry {
   /// Text representation of literal expression that composes recognized output entry.
   pub text: String,
 }
 
 /// Represents a rule annotation entry.
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AnnotationEntry {
   /// Text representation of the rule annotation.
   pub text: String,
 }
 
 /// Enumeration of hit policies.
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum HitPolicy {
   /// `UNIQUE` hit policy.
   Unique,
@@ -198,8 +199,8 @@ impl TryFrom<&String> for HitPolicy {
   }
 }
 
-/// Enumeration of built-in aggregators.
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+/// Enumeration of built-in aggregators for [HitPolicy].
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum BuiltinAggregator {
   /// The result is a list of matching output entries.
   List,
@@ -214,7 +215,7 @@ pub enum BuiltinAggregator {
 }
 
 /// Enumeration of preferred decision table orientations.
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum DecisionTableOrientation {
   /// Decision table is presented horizontally, rules are presented as rows.
   RulesAsRows,

@@ -107,7 +107,7 @@ fn test_invalid_0002() {
 fn test_dt_0001() {
   let recognizer = &Recognizer::recognize(H_110010, false).unwrap();
   eq_orientation(recognizer, DecisionTableOrientation::RulesAsRows);
-  eq_information_item_name(recognizer, " Weekdays ");
+  eq_information_item_name(recognizer, "Days of week");
   eq_hit_policy(recognizer, HitPolicy::Collect(BuiltinAggregator::List));
   eq_input_expressions(recognizer, EMPTY_VECTOR);
   eq_input_values(recognizer, EMPTY_OPT_VECTOR);
@@ -187,7 +187,7 @@ fn ex_0044() {
     rec,
     &[&["<25", r#""good""#], &["<25", r#""bad""#], &["[25..60]", "-"], &[">60", r#""good""#], &[">60", r#""bad""#]],
   );
-  eq_output_label(rec, Some("Sell    \n         \n options".to_string()));
+  eq_output_label(rec, Some("Sell options".to_string()));
   eq_output_components(rec, &[Some("Applicant risk rating"), Some("Special Discount")]);
   eq_output_values(rec, EMPTY_OPT_VECTOR);
   eq_output_entries(
@@ -207,7 +207,7 @@ fn ex_0044() {
 #[test]
 fn ex_0064() {
   let rec = &Recognizer::recognize(EX_07, false).unwrap();
-  eq_information_item_name(rec, " Sell options                                                                     ");
+  eq_information_item_name(rec, "Sell options");
   eq_hit_policy(rec, HitPolicy::Unique);
   eq_orientation(rec, DecisionTableOrientation::RulesAsColumns);
   eq_input_expressions(rec, &["Applicant age", "Medical history"]);
@@ -216,7 +216,7 @@ fn ex_0064() {
     rec,
     &[&["<25", r#""good""#], &["<25", r#""bad""#], &["[25..60]", "-"], &[">60", r#""good""#], &[">60", r#""bad""#]],
   );
-  eq_output_label(rec, Some("Sell    \n         \n options".to_string()));
+  eq_output_label(rec, Some("Sell options".to_string()));
   eq_output_components(rec, &[Some("Applicant risk rating"), Some("Special Discount")]);
   eq_output_entries(
     rec,
@@ -235,11 +235,11 @@ fn ex_0064() {
 #[test]
 fn general_horizontal() {
   let rec = &Recognizer::recognize(EX_08, false).unwrap();
-  eq_information_item_name(rec, " information item name     ");
+  eq_information_item_name(rec, "information item name");
   eq_hit_policy(rec, HitPolicy::Collect(BuiltinAggregator::List));
   eq_orientation(rec, DecisionTableOrientation::RulesAsRows);
   eq_input_expressions(rec, &["input expression 1", "input expression 2"]);
-  eq_input_values(rec, &[Some("input value 1a,    \n   input value 1b"), Some("input value 2a,    \n   input value 2b")]);
+  eq_input_values(rec, &[Some("input value 1a, input value 1b"), Some("input value 2a, input value 2b")]);
   eq_input_entries(
     rec,
     &[
@@ -251,7 +251,7 @@ fn general_horizontal() {
   );
   eq_output_label(rec, Some("output label".to_string()));
   eq_output_components(rec, EMPTY_OPT_VECTOR);
-  eq_output_values(rec, &[Some("output value 1a,   \n   output value 1b")]);
+  eq_output_values(rec, &[Some("output value 1a, output value 1b")]);
   eq_output_entries(rec, &[&["output entry 1.1"], &["output entry 1.2"], &["output entry 1.3"], &["output entry 1.4"]]);
   eq_annotations(rec, EMPTY_VECTOR);
   eq_annotation_entries(rec, EMPTY_MATRIX);
@@ -260,7 +260,7 @@ fn general_horizontal() {
 #[test]
 fn general_vertical() {
   let rec = &Recognizer::recognize(EX_09, false).unwrap();
-  eq_information_item_name(rec, "   information item name   ");
+  eq_information_item_name(rec, "information item name");
   eq_hit_policy(rec, HitPolicy::Unique);
   eq_orientation(rec, DecisionTableOrientation::RulesAsColumns);
 }

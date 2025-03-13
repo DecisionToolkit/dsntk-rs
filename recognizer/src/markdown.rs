@@ -1,6 +1,7 @@
 //! # Markdown decision table recognizer
 
 use crate::errors::{err_md_invalid_decision_table, err_md_invalid_number_of_column, err_md_no_decision_table, err_md_no_hit_policy};
+use crate::utils::{get_allowed_and_default_output_values, EMPHASES};
 use crate::{AnnotationClause, AnnotationEntry, DecisionRule, DecisionTable, DecisionTableOrientation, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry};
 use dsntk_common::Result;
 
@@ -9,6 +10,9 @@ const TABLE_VERT_LINE: &str = "|";
 
 /// Characters used to denote the information item name of the decision table.
 const INFORMATION_ITEM_NAME_START: &str = "> #";
+
+/// Optional characters in the information item name of the decision table after start.
+const INFORMATION_ITEM_NAME_HEADING: &str = "#";
 
 /// Characters used to denote the output label of the decision table.
 const OUTPUT_LABEL_START: &str = ">";
@@ -21,9 +25,6 @@ const MIN_ROWS: usize = 2;
 /// Do NOT change this.
 const MIN_COLUMNS: usize = 2;
 
-/// Markdown emphases.
-const EMPHASES: [&str; 5] = ["**", "__", "*", "_", "`"];
-
 type Table = Vec<Vec<Option<String>>>;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -35,10 +36,10 @@ enum Marker {
 
 type Markers = Vec<Option<Marker>>;
 
-/// Recognizes a decision table defined as plain Markdown text.
-pub fn recognize_from_markdown(markdown: &str, trace: bool) -> Result<DecisionTable> {
+/// Recognizes a decision table defined as Markdown text.
+pub fn from_markdown(markdown: &str, trace: bool) -> Result<DecisionTable> {
   // Locate and retrieve lines containing the decision table from provided Markdown content.
-  let (information_item_name, output_label, lines) = markdown_lines(markdown);
+  let (information_item_name, mut output_label, lines) = markdown_lines(markdown);
   // Convert lines into table.
   let table = markdown_table(lines)?;
   // Get the hit policy and aggregation.
@@ -64,32 +65,7 @@ pub fn recognize_from_markdown(markdown: &str, trace: bool) -> Result<DecisionTa
   let allowed_values = empty_count == 2;
   // Get the input/output/annotation markers.
   let markers = get_markers(table[empty_count].iter())?;
-  // Display tracing report when requested.
-  if trace {
-    println!("Preferred orientation: {}", preferred_orientation);
-    println!("Information item name: {}", information_item_name.as_ref().unwrap_or(&"(none)".to_string()));
-    println!("Hip policy: {}", hit_policy);
-    println!("Output label: {}", output_label.as_ref().unwrap_or(&"(none)".to_string()));
-    println!("Allowed values: {}", allowed_values);
-    println!("Markers: {}", markers_to_string(&markers));
-    println!("Rows:");
-    for row in &table {
-      println!(
-        "| {} |",
-        row
-          .iter()
-          .map(|column| {
-            if let Some(text) = column {
-              text.to_string()
-            } else {
-              "(none)".to_string()
-            }
-          })
-          .collect::<Vec<String>>()
-          .join(" | ")
-      );
-    }
-  }
+  let output_count = markers.iter().filter(|marker| marker.is_some_and(|m| m == Marker::Output)).count();
   // Prepare the input, output and annotation clauses with optional allowed values.
   let mut input_clauses = vec![];
   let mut output_clauses = vec![];
@@ -106,13 +82,17 @@ pub fn recognize_from_markdown(markdown: &str, trace: bool) -> Result<DecisionTa
       }
       Some(Marker::Output) => {
         let name = table[0][index].clone();
+        // If there is only one output with the name, then it is also the default output label.
+        if output_count == 1 && output_label.is_none() {
+          output_label = name.clone();
+        }
         let (allowed_output_values, default_output_value) = if allowed_values {
           get_allowed_and_default_output_values(&table[1][index])
         } else {
           (None, None)
         };
         output_clauses.push(OutputClause {
-          name,
+          output_component_name: name,
           allowed_output_values,
           default_output_value,
         });
@@ -149,6 +129,32 @@ pub fn recognize_from_markdown(markdown: &str, trace: bool) -> Result<DecisionTa
       output_entries,
       annotation_entries,
     });
+  }
+  // Display tracing report when requested.
+  if trace {
+    println!("Preferred orientation: {}", preferred_orientation);
+    println!("Information item name: {}", information_item_name.as_ref().unwrap_or(&"(none)".to_string()));
+    println!("Hip policy: {}", hit_policy);
+    println!("Output label: {}", output_label.as_ref().unwrap_or(&"(none)".to_string()));
+    println!("Allowed values: {}", allowed_values);
+    println!("Markers: {}", markers_to_string(&markers));
+    println!("Rows:");
+    for row in &table {
+      println!(
+        "| {} |",
+        row
+          .iter()
+          .map(|column| {
+            if let Some(text) = column {
+              text.to_string()
+            } else {
+              "(none)".to_string()
+            }
+          })
+          .collect::<Vec<String>>()
+          .join(" | ")
+      );
+    }
   }
   // Return the recognized decision table.
   Ok(DecisionTable::new(
@@ -187,7 +193,13 @@ fn markdown_lines(text: &str) -> (Option<String>, Option<String>, Vec<String>) {
     match state {
       State::BeforeTable => {
         if line.starts_with(INFORMATION_ITEM_NAME_START) {
-          buffer.push(line.trim_start_matches(INFORMATION_ITEM_NAME_START).trim().to_string());
+          buffer.push(
+            line
+              .trim_start_matches(INFORMATION_ITEM_NAME_START)
+              .trim_start_matches(INFORMATION_ITEM_NAME_HEADING)
+              .trim()
+              .to_string(),
+          );
           state = State::BlockQuoteFirst;
         } else if line.starts_with(OUTPUT_LABEL_START) {
           buffer.push(line.trim_start_matches(OUTPUT_LABEL_START).trim().to_string());
@@ -437,24 +449,6 @@ fn strip_emphasis(text: String) -> String {
     }
   }
   text
-}
-
-/// Returns the default output value retrieved from the list of allowed values.
-fn get_allowed_and_default_output_values(input: &Option<String>) -> (Option<String>, Option<String>) {
-  let Some(text) = input else {
-    return (None, None);
-  };
-  for part in text.split(",").map(|text| text.trim()) {
-    for emphasis in EMPHASES {
-      if part.starts_with(emphasis) && part.ends_with(emphasis) {
-        let trimmed_part = part.trim_start_matches(emphasis).trim_end_matches(emphasis);
-        let allowed_values = text.replace(part, trimmed_part);
-        let default_value = trimmed_part.to_string();
-        return (Some(allowed_values), Some(default_value));
-      }
-    }
-  }
-  (input.clone(), None)
 }
 
 /// Converts a collection of markers into user-readable list.

@@ -582,20 +582,20 @@ impl Canvas {
   }
 
   /// Retrieves the text enclosed inside a rectangle `r` in selected `layer`.
-  fn text_from_rect(&self, layer: usize, r: &Rect) -> String {
-    let mut text = String::new();
-    let mut new_line = false;
-    for row in self.content[(r.top + 1)..(r.bottom - 1)].iter() {
-      for column in row[(r.left + 1)..(r.right - 1)].iter() {
-        if new_line {
-          text.push('\n');
-          new_line = false;
-        }
-        text.push(column[layer]);
-      }
-      new_line = true;
-    }
-    text
+  fn text_from_rect(&self, layer: usize, rect: &Rect) -> String {
+    self.content[(rect.top + 1)..(rect.bottom - 1)]
+      .iter()
+      .map(|row| {
+        row[(rect.left + 1)..(rect.right - 1)]
+          .iter()
+          .map(|layers| layers[layer])
+          .collect::<String>()
+          .trim()
+          .to_string()
+      })
+      .filter(|s| !s.is_empty())
+      .collect::<Vec<String>>()
+      .join(" ")
   }
 
   /// Copies characters from source layer to destination layer.
