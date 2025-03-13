@@ -154,7 +154,6 @@ pub fn from_unicode(text: &str, trace: bool) -> Result<DecisionTable> {
 
   // Prepare the output label
   let output_label = recognizer.output_label.clone();
-  println!("DDD: {:?}", output_label);
 
   // Prepare the input clauses.
   let mut input_clauses = vec![];
