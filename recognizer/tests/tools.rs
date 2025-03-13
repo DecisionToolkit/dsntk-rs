@@ -20,10 +20,7 @@ fn check_decision_tables_tests() {
         let test_file_name = format!("./tests/valid_decision_tables/horizontal/{}.rs", decision_table_name.to_lowercase());
         ok &= if let Ok(content) = fs::read_to_string(test_file_name.clone()) {
           match (content.find(&unicode_test), content.find(&markdown_test)) {
-            (Some(_), Some(_)) => {
-              println!("{} ... ok", decision_table_name);
-              true
-            }
+            (Some(_), Some(_)) => true,
             (None, Some(_)) => {
               println!("{} NO UNICODE TEST", decision_table_name);
               false
@@ -44,5 +41,5 @@ fn check_decision_tables_tests() {
       }
     }
   }
-  //assert!(ok, "ERROR: not all tests were found.");
+  assert!(ok, "ERROR: not all tests were found.");
 }
