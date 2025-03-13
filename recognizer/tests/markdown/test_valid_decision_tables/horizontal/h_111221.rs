@@ -14,21 +14,21 @@ fn _0001() {
     // expected preferred orientation
     DecisionTableOrientation::RulesAsRows,
     // expected input clauses
-    t_input_clauses(&[(r#"Customer"#, r#""Business","Private""#.into()), (r#"Order"#, None)]),
+    t_input_clauses(&[(r#"Customer"#, r#""Business", "Private""#.into()), (r#"Order"#, r#"<10, >=10"#.into())]),
     // expected output clauses
     t_output_clauses(&[
       (r#"Discount"#.into(), None, None),
       (r#"Priority"#.into(), r#""Normal", "High", "Low""#.into(), r#""High""#.into()),
     ]),
     // expected annotation clauses
-    t_annotation_clauses(&[r#"Description"#, r#"Reference"#]),
+    t_annotation_clauses(&[r#"Description"#]),
     // expected rules
     t_rules(&[
-      (&[r#""Business""#, "<10"], &[r#"0.10"#, r#""Normal""#], &[r#"Desc 1"#, r#"Ref 1"#]),
-      (&[r#""Business""#, ">=10"], &[r#"0.15"#, r#""High""#], &[r#"Desc 2"#, r#"Ref 2"#]),
-      (&[r#""Private""#, "-"], &[r#"0.05"#, r#""Low""#], &[r#"Desc 3"#, r#"Ref 3"#]),
+      (&[r#""Business""#, r#"<10"#], &[r#"0.10"#, r#""Normal""#], &[r#"Desc 1"#]),
+      (&[r#""Business""#, r#">=10"#], &[r#"0.15"#, r#""High""#], &[r#"Desc 2"#]),
+      (&[r#""Private""#, r#"-"#], &[r#"0.05"#, r#""Low""#], &[r#"Desc 3"#]),
     ]),
   );
-  t_eq(&expected, from_unicode(H_111222, false).unwrap());
-  t_eq(&expected, from_markdown(H_111222, false).unwrap());
+  t_eq(&expected, from_unicode(H_111221, false).unwrap());
+  t_eq(&expected, from_markdown(H_111221, false).unwrap());
 }
