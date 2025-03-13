@@ -24,9 +24,9 @@ fn _0001() {
     t_annotation_clauses(&[r#"Description"#, r#"Reference"#]),
     // expected rules
     t_rules(&[
-      (&[r#""Business""#, "<10"], &[r#"0.10"#, r#""Normal""#], &[r#"Desc 1"#, r#"Ref 1"#]),
-      (&[r#""Business""#, ">=10"], &[r#"0.15"#, r#""High""#], &[r#"Desc 2"#, r#"Ref 2"#]),
-      (&[r#""Private""#, "-"], &[r#"0.05"#, r#""Low""#], &[r#"Desc 3"#, r#"Ref 3"#]),
+      (&[r#""Business""#, r#"<10"#], &[r#"0.10"#, r#""Normal""#], &[r#"Desc 1"#, r#"Ref 1"#]),
+      (&[r#""Business""#, r#">=10"#], &[r#"0.15"#, r#""High""#], &[r#"Desc 2"#, r#"Ref 2"#]),
+      (&[r#""Private""#, r#"-"#], &[r#"0.05"#, r#""Low""#], &[r#"Desc 3"#, r#"Ref 3"#]),
     ]),
   );
   t_eq(&expected, from_unicode(H_111222, false).unwrap());
