@@ -81,10 +81,10 @@ PLANE
 
 
 >> input expressions:
-|Customer      type|Order   size|
+|Customer type|Order size|
 
 >> allowed input values:
-|"Business", "Private"|<10,   >=10|
+|"Business", "Private"|<10, >=10|
 
 >> input entries:
 |"Business"|<10|
@@ -98,7 +98,7 @@ PLANE
 |Discount|Priority|
 
 >> allowed output values:
-|0.10,      0.15,      0.05|"Normal",   "High",    "Low"|
+|0.10, 0.15, 0.05|"Normal", "High", "Low"|
 
 >> output entries:
 |0.10|"Normal"|

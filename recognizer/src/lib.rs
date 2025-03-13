@@ -19,9 +19,10 @@ mod point;
 mod recognizer;
 mod rect;
 mod tests;
+mod utils;
 
-pub use builder::recognize_from_unicode;
-pub use markdown::recognize_from_markdown;
+pub use builder::from_unicode;
+pub use markdown::from_markdown;
 
 pub use model::{
   AnnotationClause, AnnotationEntry, BuiltinAggregator, DecisionRule, DecisionTable, DecisionTableOrientation, HitPolicy, InputClause, InputEntry, OutputClause, OutputEntry,

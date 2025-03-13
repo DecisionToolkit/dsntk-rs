@@ -799,6 +799,7 @@ dependencies = [
  "dsntk-common",
  "dsntk-examples",
  "dsntk-macros",
+ "walkdir",
 ]
 
 [[package]]

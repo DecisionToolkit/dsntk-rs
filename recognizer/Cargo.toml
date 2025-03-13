@@ -16,3 +16,4 @@ dsntk-macros = { workspace = true }
 
 [dev-dependencies]
 dsntk-examples = { workspace = true }
+walkdir = { workspace = true }

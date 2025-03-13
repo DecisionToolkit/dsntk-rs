@@ -213,7 +213,7 @@ impl Plane {
     }
   }
 
-  /// Verifies if all cells in the specified rectangle point to the same regions.
+  /// Verifies if all cells in the specified rectangle are pointing to the same regions.
   /// The same (or equal) regions have the same region number.
   pub fn equal_regions(&self, r: &Rect) -> Result<bool> {
     let number = self.region_number(r.top, r.left)?;
