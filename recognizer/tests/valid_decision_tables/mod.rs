@@ -1,6 +1,4 @@
 mod horizontal;
-mod minimal_decision_tables;
-mod miscellaneous_decision_tables;
 mod vertical;
 
 use dsntk_recognizer::{
