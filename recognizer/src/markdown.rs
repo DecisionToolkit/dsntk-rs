@@ -36,7 +36,7 @@ enum Marker {
 
 type Markers = Vec<Option<Marker>>;
 
-/// Recognizes a decision table defined as plain Markdown text.
+/// Recognizes a decision table defined as Markdown text.
 pub fn from_markdown(markdown: &str, trace: bool) -> Result<DecisionTable> {
   // Locate and retrieve lines containing the decision table from provided Markdown content.
   let (information_item_name, mut output_label, lines) = markdown_lines(markdown);

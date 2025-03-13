@@ -128,7 +128,7 @@ fn validate_size(recognizer: &Recognizer) -> Result<Size> {
   })
 }
 
-/// Recognizes a decision table defined as plain Unicode text.
+/// Recognizes a decision table defined as Unicode text.
 pub fn from_unicode(text: &str, trace: bool) -> Result<DecisionTable> {
   // Recognize the decision table.
   let recognizer = Recognizer::recognize(text, trace)?;
