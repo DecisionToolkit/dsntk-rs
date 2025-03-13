@@ -14,11 +14,11 @@ fn _0001() {
     // expected preferred orientation
     DecisionTableOrientation::RulesAsRows,
     // expected input clauses
-    t_input_clauses(&[(r#"Customer"#, r#""Business","Private""#.into()), (r#"Order"#, None)]),
+    t_input_clauses(&[(r#"Customer"#, r#""Business", "Private""#.into()), (r#"Order"#, r#"<10, >=10"#.into())]),
     // expected output clauses
     t_output_clauses(&[
-      (r#"Discount"#.into(), None, None),
-      (r#"Priority"#.into(), r#""Normal", "High", "Low""#.into(), r#""High""#.into()),
+      (r#"Discount"#.into(), r#"0.05, 0.10, 0.15"#.into(), None),
+      (r#"Priority"#.into(), r#""Normal", "High", "Low""#.into(), None),
     ]),
     // expected annotation clauses
     t_annotation_clauses(&[r#"Description"#, r#"Reference"#]),
