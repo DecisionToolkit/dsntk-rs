@@ -42,8 +42,8 @@ ensuring accurate evaluation of decision models. All tools are implemented in [R
 a programming language known for its security, efficiency and reliability.
 
 **DecisionToolkit** offers a range of features, including DMN™ models evaluation, decision tables evaluation,
-and FEEL expressions evaluation. It also includes functionality for parsing, validating, and recognizing DMN™ models,
-decision tables, and FEEL expressions. Users can test DMN™ models, decision tables, and FEEL expressions,
+and FEEL expressions evaluation. It also includes functionality for parsing DMN™ models, decision tables,
+and FEEL expressions. Users can test DMN™ models, decision tables, and FEEL expressions,
 and export them to HTML.
 
 ### Features:

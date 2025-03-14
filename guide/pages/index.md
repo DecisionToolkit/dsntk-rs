@@ -25,7 +25,7 @@ features:
   - title: Decision models
     details: Evaluate, design, parse, validate, test and export decision models.
   - title: Decision tables
-    details: Evaluate, design, parse, test, recognize and export decision tables.
+    details: Evaluate, design, parse, test, and export decision tables.
   - title: FEEL expressions
     details: Evaluate, design, parse, test and export FEEL expressions.
 ---

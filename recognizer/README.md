@@ -36,9 +36,10 @@
 
 Decision table recognizer used by components of [**dsntk**][dsntk-url] crate.
 
-Recognizes decision tables defined as Unicode text. To be properly recognized,
-the structure of the decision table must be conformant to DMN™ standard.
-Example of the decision table defined using only Unicode characters is shown below:
+Recognizes decision tables defined as Unicode or Markdown text.
+To be properly recognized, the structure of the decision table must be conformant to DMN™ standard.
+
+Example of decision table defined using only Unicode characters:
 
 ```text
   ┌───┬────────────┬───────╥──────────┐
@@ -51,6 +52,15 @@ Example of the decision table defined using only Unicode characters is shown bel
   │ 3 │ "Private"  │   -   ║   0.05   │
   └───┴────────────┴───────╨──────────┘
 ```
+
+Example of decision table defined using Markdown:
+
+| U |  Customer  | Order | Discount |
+|:-:|:----------:|:-----:|:--------:|
+|   |    `i`     |  `i`  |   `o`    |
+| 1 | "Business" |  <10  |   0.10   |
+| 2 | "Business" | >=10  |   0.15   |
+| 3 | "Private"  |   -   |   0.05   |
 
 ## License
 

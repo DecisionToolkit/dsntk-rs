@@ -12,7 +12,6 @@ outline: 'deep'
 |     **PARSE** | [**pdm**](commands/command-pdm.md) | [**pdt**](commands/command-pdt.md) | [**pfe**](commands/command-pfe.md) |                                    |
 |      **TEST** | [**tdm**](commands/command-tdm.md) | [**tdt**](commands/command-tdt.md) | [**tfe**](commands/command-tfe.md) |                                    |
 |    **EXPORT** | [**xdm**](commands/command-xdm.md) | [**xdt**](commands/command-xdt.md) | [**xfe**](commands/command-xfe.md) |                                    |
-| **RECOGNIZE** |                                    | [**rdt**](commands/command-rdt.md) |                                    |                                    |
 |     **SERVE** | [**srv**](commands/command-srv.md) |                                    |                                    |                                    |
 |      **SAVE** |                                    |                                    |                                    | [**exs**](commands/command-exs.md) |
 
@@ -185,20 +184,6 @@ $ dsntk help xfe
 ```
 
 For more details, refer to [Exporting FEEL expressions](commands/command-xfe).
-
-### RECOGNIZE
-
-#### rdt
-
-Recognizes decision table.
-
-To display all available options of the [**rdt**](commands/command-rdt) command, enter:
-
-```shell
-$ dsntk help rdt
-```
-
-For more details, refer to [Recognizing decision tables](commands/command-rdt).
 
 ### SAVE
 
