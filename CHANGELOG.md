@@ -1,6 +1,6 @@
 # Changelog
 
-## [v0.2.0](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.2.0) (2024-03-14)
+## [v0.2.0](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.2.0) (2025-03-14)
 
 [Full Changelog](https://github.com/DecisionToolkit/dsntk-rs/compare/v0.1.0...v0.2.0)
 
@@ -24,7 +24,7 @@
 - Composed default output values [\#96](https://github.com/DecisionToolkit/dsntk-rs/pull/96)
 - Tests for Markdown decision tables [\#97](https://github.com/DecisionToolkit/dsntk-rs/pull/97)
 
-## [v0.1.0](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.1.0) (2024-02-20)
+## [v0.1.0](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.1.0) (2025-02-20)
 
 [Full Changelog](https://github.com/DecisionToolkit/dsntk-rs/compare/v0.0.9...v0.1.0)
 
