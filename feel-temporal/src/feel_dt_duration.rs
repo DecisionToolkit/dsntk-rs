@@ -3,8 +3,8 @@
 use crate::defs::*;
 use crate::errors::*;
 use dsntk_common::DsntkError;
-use once_cell::sync::Lazy;
 use regex::Regex;
+use std::sync::LazyLock;
 use std::{fmt, ops};
 
 /// Regular expression pattern for parsing days and time duration.
@@ -19,7 +19,7 @@ const NANOSECONDS_IN_MINUTE: i64 = 60 * NANOSECONDS_IN_SECOND;
 /// Number of nanoseconds in a second.
 const NANOSECONDS_IN_SECOND: i64 = 1_000_000_000;
 
-static RE_DAYS_AND_TIME: Lazy<Regex> = Lazy::new(|| Regex::new(REGEX_DAYS_AND_TIME).unwrap());
+static RE_DAYS_AND_TIME: LazyLock<Regex> = LazyLock::new(|| Regex::new(REGEX_DAYS_AND_TIME).unwrap());
 
 /// FEEL days and time duration.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd)]

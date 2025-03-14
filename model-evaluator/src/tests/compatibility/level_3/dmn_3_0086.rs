@@ -1,7 +1,7 @@
 use super::*;
 use dsntk_examples::*;
 
-static MODEL_EVALUATOR: Lazy<Arc<ModelEvaluator>> = Lazy::new(|| build_model_evaluators(&[DMN_3_0086_IMPORT, DMN_3_0086]));
+static MODEL_EVALUATOR: LazyLock<Arc<ModelEvaluator>> = LazyLock::new(|| build_model_evaluators(&[DMN_3_0086_IMPORT, DMN_3_0086]));
 
 const MODEL_NAMESPACE: &str = "https://dsntk.io/3_0086";
 const MODEL_NAME: &str = "Import BKM and have a Decision Ctx with DT";

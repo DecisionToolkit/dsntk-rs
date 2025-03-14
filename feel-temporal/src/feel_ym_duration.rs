@@ -2,8 +2,8 @@
 
 use crate::errors::*;
 use dsntk_common::DsntkError;
-use once_cell::sync::Lazy;
 use regex::Regex;
+use std::sync::LazyLock;
 use std::{fmt, ops};
 
 /// Regular expression pattern for parsing years and months duration.
@@ -13,7 +13,7 @@ const REGEX_YEARS_AND_MONTHS: &str = r#"^(?P<sign>-)?P((?P<years>[0-9]+)Y)?((?P<
 const MONTHS_IN_YEAR: i64 = 12;
 
 /// Regular expression for parsing years and months duration.
-static RE_YEARS_AND_MONTHS: Lazy<Regex> = Lazy::new(|| Regex::new(REGEX_YEARS_AND_MONTHS).unwrap());
+static RE_YEARS_AND_MONTHS: LazyLock<Regex> = LazyLock::new(|| Regex::new(REGEX_YEARS_AND_MONTHS).unwrap());
 
 /// Years and months duration in FEEL.
 ///

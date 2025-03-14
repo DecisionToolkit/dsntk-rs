@@ -11,7 +11,6 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
-once_cell = { workspace = true }
 regex = { workspace = true }
 reqwest = { workspace = true }
 serde = { workspace = true }

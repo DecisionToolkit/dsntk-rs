@@ -3,10 +3,10 @@
 use dsntk_feel::dto::ValueDto;
 use dsntk_feel::value_null;
 use dsntk_feel::values::Value;
-use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
+use std::sync::LazyLock;
 
-static CLIENT: Lazy<reqwest::blocking::Client> = Lazy::new(reqwest::blocking::Client::new);
+static CLIENT: LazyLock<reqwest::blocking::Client> = LazyLock::new(reqwest::blocking::Client::new);
 
 const JAVA_RPC_SERVER_URL: &str = "http://127.0.0.1:22023/api/rest/v1/rpc/evaluate";
 

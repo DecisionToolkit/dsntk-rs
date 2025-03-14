@@ -1,9 +1,9 @@
-use once_cell::sync::Lazy;
 use std::collections::HashMap;
+use std::sync::LazyLock;
 
 type Blocks = HashMap<&'static str, &'static str>;
 
-static UNICODE_BLOCKS: Lazy<Blocks> = Lazy::new(init_blocks);
+static UNICODE_BLOCKS: LazyLock<Blocks> = LazyLock::new(init_blocks);
 
 fn init_blocks() -> Blocks {
   let mut map = HashMap::new();

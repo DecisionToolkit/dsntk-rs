@@ -1,7 +1,7 @@
 use super::*;
 
 from_examples!(DMN_3_0021);
-static CTX: Lazy<FeelContext> = Lazy::new(|| context(r#"{Employees: ["Jack","John","Bob","Zack"]}"#));
+static CTX: LazyLock<FeelContext> = LazyLock::new(|| context(r#"{Employees: ["Jack","John","Bob","Zack"]}"#));
 
 #[test]
 fn _0001() {

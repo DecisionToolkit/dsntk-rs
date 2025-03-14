@@ -616,7 +616,6 @@ dependencies = [
  "dsntk-recognizer",
  "dsntk-server",
  "dsntk-workspace",
- "once_cell",
  "serde",
 ]
 
@@ -661,7 +660,6 @@ dependencies = [
  "dsntk-feel-number",
  "dsntk-feel-temporal",
  "dsntk-macros",
- "once_cell",
  "regex",
  "serde",
  "serde_json",
@@ -677,7 +675,6 @@ dependencies = [
  "dsntk-feel-regex",
  "dsntk-feel-temporal",
  "dsntk-macros",
- "once_cell",
  "regex",
  "reqwest",
  "serde",
@@ -719,7 +716,6 @@ version = "0.3.0-dev"
 dependencies = [
  "dsntk-common",
  "dsntk-macros",
- "once_cell",
  "regex",
 ]
 
@@ -732,7 +728,6 @@ dependencies = [
  "dsntk-common",
  "dsntk-feel-number",
  "dsntk-macros",
- "once_cell",
  "regex",
 ]
 
@@ -748,7 +743,6 @@ dependencies = [
  "dsntk-model",
  "dsntk-recognizer",
  "markdown",
- "once_cell",
 ]
 
 [[package]]
@@ -788,7 +782,6 @@ dependencies = [
  "dsntk-macros",
  "dsntk-model",
  "dsntk-recognizer",
- "once_cell",
  "walkdir",
 ]
 

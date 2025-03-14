@@ -1,10 +1,10 @@
 use crate::defs::*;
 use domrs::*;
-use once_cell::sync::Lazy;
+use std::sync::LazyLock;
 
-static FONT_NORMAL: Lazy<CssFontFamily> = Lazy::new(|| CssFontFamily::new(&["Barlow".to_string()], CssFontGenericFamily::SansSerif));
-static FONT_CONDENSED: Lazy<CssFontFamily> = Lazy::new(|| CssFontFamily::new(&["Barlow Condensed".to_string()], CssFontGenericFamily::SansSerif));
-static FONT_MONO: Lazy<CssFontFamily> = Lazy::new(|| CssFontFamily::new(&["JetBrains Mono".to_string()], CssFontGenericFamily::Monospace));
+static FONT_NORMAL: LazyLock<CssFontFamily> = LazyLock::new(|| CssFontFamily::new(&["Barlow".to_string()], CssFontGenericFamily::SansSerif));
+static FONT_CONDENSED: LazyLock<CssFontFamily> = LazyLock::new(|| CssFontFamily::new(&["Barlow Condensed".to_string()], CssFontGenericFamily::SansSerif));
+static FONT_MONO: LazyLock<CssFontFamily> = LazyLock::new(|| CssFontFamily::new(&["JetBrains Mono".to_string()], CssFontGenericFamily::Monospace));
 
 /// Creates styles common for the whole document.
 pub fn create_document_style() -> CssDocument {

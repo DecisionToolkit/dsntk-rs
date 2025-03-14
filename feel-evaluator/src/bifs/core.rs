@@ -7,11 +7,11 @@ use dsntk_feel::context::FeelContext;
 use dsntk_feel::values::{Value, Values, VALUE_FALSE, VALUE_TRUE};
 use dsntk_feel::{value_null, value_number, value_string, FeelNumber, FeelScope, Name, ToFeelString};
 use dsntk_feel_temporal::{DayOfWeek, DayOfYear, FeelDate, FeelDateTime, FeelDaysAndTimeDuration, FeelTime, FeelYearsAndMonthsDuration, MonthOfYear, WeekOfYear};
-use once_cell::sync::Lazy;
 use regex::Regex;
 use std::borrow::Borrow;
 use std::cmp::Ordering;
 use std::str::FromStr;
+use std::sync::LazyLock;
 
 /// Returns the absolute value of the argument.
 pub fn abs(value: &Value) -> Value {
@@ -1992,7 +1992,7 @@ pub fn remove(list: &Value, position_value: &Value) -> Value {
 }
 
 // Rust implementation is eager when parsing matching groups, so place numbers in square brackets.
-static RG_REPLACE_NUM: Lazy<Regex> = Lazy::new(|| Regex::new("\\$([1-9][0-9]*)").unwrap());
+static RG_REPLACE_NUM: LazyLock<Regex> = LazyLock::new(|| Regex::new("\\$([1-9][0-9]*)").unwrap());
 
 /// ???
 pub fn replace(input_string_value: &Value, pattern_string_value: &Value, replacement_string_value: &Value, flags_string_value: &Value) -> Value {

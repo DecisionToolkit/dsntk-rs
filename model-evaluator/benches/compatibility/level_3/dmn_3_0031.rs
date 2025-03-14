@@ -1,7 +1,7 @@
 use super::*;
 
 from_examples!(DMN_3_0031);
-static CTX: Lazy<FeelContext> = Lazy::new(|| context(r#"{inputA: 10, inputB: 5}"#));
+static CTX: LazyLock<FeelContext> = LazyLock::new(|| context(r#"{inputA: 10, inputB: 5}"#));
 
 #[bench]
 fn _0001(b: &mut Bencher) {

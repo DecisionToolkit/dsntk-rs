@@ -13,7 +13,6 @@ edition = { workspace = true }
 [dependencies]
 chrono = { workspace = true }
 chrono-tz = { workspace = true }
-once_cell = { workspace = true }
 regex = { workspace = true }
 dsntk-common = { workspace = true }
 dsntk-feel-number = { workspace = true }

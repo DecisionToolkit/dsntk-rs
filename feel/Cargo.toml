@@ -20,6 +20,3 @@ dsntk-common = { workspace = true }
 dsntk-feel-number = { workspace = true }
 dsntk-feel-temporal = { workspace = true }
 dsntk-macros = { workspace = true }
-
-[dev-dependencies]
-once_cell = { workspace = true }
