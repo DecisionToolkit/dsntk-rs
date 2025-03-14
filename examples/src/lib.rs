@@ -21,7 +21,9 @@ pub use full_model::*;
 mod utilities {
   use std::collections::BTreeSet;
   use std::fmt::Write;
+  use std::fs;
   use walkdir::WalkDir;
+  use yaml_rust::YamlLoader;
 
   /// Generates multiple decision table variants.
   #[test]
@@ -123,5 +125,18 @@ mod utilities {
       }
     }
     results
+  }
+
+  #[test]
+  fn a() {
+    let content = fs::read_to_string("./src/compatibility/level_2/2_0001.yml").expect("failed to load yaml input file");
+    //println!("{}", content);
+    let docs = YamlLoader::load_from_str(&content).unwrap();
+    let doc = &docs[0];
+    if let Some(definitions) = doc["definitions"].as_vec() {
+      for definition in definitions {
+        println!("{:?}", definition);
+      }
+    }
   }
 }

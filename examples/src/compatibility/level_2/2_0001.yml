@@ -1,0 +1,59 @@
+model:
+  namespace: https://dsntk.io/2_0001/
+  name: 2_001
+  id: _2_0001
+  xmlns: https://www.omg.org/spec/DMN/20191111/MODEL/
+  description: |
+    Compliance level 2: Test 0001
+    
+    The decision named **Greeting Message** has a label defined in diagram definition.
+    In the diagram this decision is depicted as **GREETING MESSAGE**.
+    
+    The output variable name remains **Greeting Message**.
+
+definitions:
+
+  - decision: "Greeting Message"
+    id: _75b3add2-4d36-4a19-a76c-268b49b2f436
+    description: |
+      This decision prepares a greeting message.
+      'Hello' is prepended to the value of the input variable named 'Full Name'.
+    question: What is the greeting suitable for our customer?
+    allowedAnswers: |
+      The proper greeting is in the format:
+      Hello {customer's full name}
+    variable:
+      name: "Greeting Message"
+      label: "GREETING MESSAGE"
+      typeRef: string
+    informationRequirement:
+      id: _70c3f69a-63f3-4197-96ce-b206c8bd2a6b
+      requiredInput:
+        href: #_cba86e4d-e91c-46a2-9176-e9adf88e15db
+    literalExpression:
+      text: |
+        "Hello " + Full Name
+
+  - decision: "kuku"
+    description: |
+      This decision prepares a greeting message.
+      'Hello' is prepended to the value of the input variable named 'Full Name'.
+    decision-table:
+      unicode: |
+
+      unicode-file: a.uni
+      markdown: |
+
+      markdown-file: b.md
+
+  - input-data: "Full Name"
+    id: _cba86e4d-e91c-46a2-9176-e9adf88e15db
+    description: |
+      Full name of the customer provided by calling service.
+    variable:
+      typeRef: string
+      name: "Full Name"
+      label: "Customer's name"
+      id: _id_variable_full_name
+      description: |
+        Full name of the person that will be sent greetings from this decision model.
