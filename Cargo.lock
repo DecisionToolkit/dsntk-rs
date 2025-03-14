@@ -599,7 +599,7 @@ checksum = "fdda6acc74f0bfd12b77f1f72b5dda9e4147137af9d4e5cd91fa395bf1aa91b4"
 
 [[package]]
 name = "dsntk"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "actix-web",
  "antex",
@@ -622,7 +622,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-common"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "dsntk-macros",
  "serde",
@@ -634,7 +634,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-evaluator"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "dsntk-common",
  "dsntk-feel",
@@ -646,14 +646,14 @@ dependencies = [
 
 [[package]]
 name = "dsntk-examples"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "walkdir",
 ]
 
 [[package]]
 name = "dsntk-feel"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "chrono",
  "chrono-tz",
@@ -669,7 +669,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-evaluator"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "dsntk-common",
  "dsntk-feel",
@@ -686,7 +686,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-grammar"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "convert_case",
  "regex",
@@ -694,7 +694,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-number"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "dfp-number-sys",
  "dsntk-common",
@@ -703,7 +703,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-parser"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "antex",
  "difference",
@@ -715,7 +715,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-regex"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "dsntk-common",
  "dsntk-macros",
@@ -725,7 +725,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-feel-temporal"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "chrono",
  "chrono-tz",
@@ -738,7 +738,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-gendoc"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "antex",
  "domrs",
@@ -753,7 +753,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-macros"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -762,7 +762,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-model"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "dsntk-common",
  "dsntk-examples",
@@ -776,7 +776,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-model-evaluator"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "antex",
  "dsntk-common",
@@ -794,7 +794,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-recognizer"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "dsntk-common",
  "dsntk-examples",
@@ -804,7 +804,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-server"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "actix-web",
  "antex",
@@ -821,7 +821,7 @@ dependencies = [
 
 [[package]]
 name = "dsntk-workspace"
-version = "0.2.0-dev"
+version = "0.2.0"
 dependencies = [
  "antex",
  "dsntk-common",
@@ -1455,9 +1455,9 @@ dependencies = [
 
 [[package]]
 name = "once_cell"
-version = "1.21.0"
+version = "1.21.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cde51589ab56b20a6f686b2c68f7a0bd6add753d697abf720d63f8db3ab7b1ad"
+checksum = "d75b0bedcc4fe52caa0e03d9f1151a323e4aa5e2d78ba3580400cd3c9e2bc4bc"
 
 [[package]]
 name = "parking_lot"
@@ -2312,9 +2312,9 @@ checksum = "06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821"
 
 [[package]]
 name = "uuid"
-version = "1.15.1"
+version = "1.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e0f540e3240398cce6128b64ba83fdbdd86129c16a3aa1a3a252efd66eb3d587"
+checksum = "458f7a779bf54acc9f347480ac654f68407d3aab21269a6e3c9f922acd9e2da9"
 dependencies = [
  "getrandom 0.3.1",
 ]
