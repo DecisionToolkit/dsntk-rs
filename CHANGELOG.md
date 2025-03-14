@@ -1,5 +1,29 @@
 # Changelog
 
+## [v0.2.0](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.2.0) (2024-03-14)
+
+[Full Changelog](https://github.com/DecisionToolkit/dsntk-rs/compare/v0.1.0...v0.2.0)
+
+### What's new
+
+- Added recognizing decision tables defined as Markdown table.
+
+### Closed issues
+
+- Markdown decision tables [\#88](https://github.com/DecisionToolkit/dsntk-rs/issues/88)
+- Handle multiple default output values [\#90](https://github.com/DecisionToolkit/dsntk-rs/issues/90)
+- Minor rebranding [\#91](https://github.com/DecisionToolkit/dsntk-rs/issues/91)
+- Remove `rdt` command [\#92](https://github.com/DecisionToolkit/dsntk-rs/issues/92)
+
+### Merged pull requests
+
+- Recognizing Markdown decision tables [\#89](https://github.com/DecisionToolkit/dsntk-rs/pull/89)
+- Minor rebranding [\#93](https://github.com/DecisionToolkit/dsntk-rs/pull/93)
+- Automated code formatting [\#94](https://github.com/DecisionToolkit/dsntk-rs/pull/94)
+- Removed `rdt` command [\#95](https://github.com/DecisionToolkit/dsntk-rs/pull/95)
+- Composed default output values [\#96](https://github.com/DecisionToolkit/dsntk-rs/pull/96)
+- Tests for Markdown decision tables [\#97](https://github.com/DecisionToolkit/dsntk-rs/pull/97)
+
 ## [v0.1.0](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.1.0) (2024-02-20)
 
 [Full Changelog](https://github.com/DecisionToolkit/dsntk-rs/compare/v0.0.9...v0.1.0)
