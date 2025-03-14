@@ -1,6 +1,6 @@
 # Changelog
 
-## [v0.1.0](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.1.0) (2024-02-20)
+## [v0.1.0](https://github.com/DecisionToolkit/dsntk-rs/tree/v0.1.0) (2025-02-20)
 
 [Full Changelog](https://github.com/DecisionToolkit/dsntk-rs/compare/v0.0.9...v0.1.0)
 
