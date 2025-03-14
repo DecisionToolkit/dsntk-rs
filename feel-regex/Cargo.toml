@@ -12,6 +12,5 @@ edition = { workspace = true }
 
 [dependencies]
 regex = { workspace = true }
-once_cell = { workspace = true }
 dsntk-common = { workspace = true }
 dsntk-macros = { workspace = true }

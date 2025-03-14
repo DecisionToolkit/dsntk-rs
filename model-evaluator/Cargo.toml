@@ -21,7 +21,6 @@ dsntk-model = { workspace = true }
 
 [dev-dependencies]
 antex = { workspace = true }
-once_cell = { workspace = true }
 walkdir = { workspace = true }
 dsntk-examples = { workspace = true }
 dsntk-recognizer = { workspace = true }

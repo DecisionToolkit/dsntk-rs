@@ -1,7 +1,7 @@
 use super::*;
 
 from_examples!(DMN_3_0007);
-static CTX: Lazy<FeelContext> = Lazy::new(|| {
+static CTX: LazyLock<FeelContext> = LazyLock::new(|| {
   context(
     r#"{
          Day: 22,

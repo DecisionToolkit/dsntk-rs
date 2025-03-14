@@ -3,8 +3,8 @@
 use crate::feel_date_time::FeelDateTime;
 use crate::feel_zone::FeelZone;
 use chrono::{DateTime, Datelike, FixedOffset, Local, LocalResult, NaiveDate, NaiveDateTime, NaiveTime, TimeZone, Timelike, Utc};
-use once_cell::sync::Lazy;
 use regex::Regex;
+use std::sync::LazyLock;
 
 /// Regular expression pattern for parsing dates.
 const DATE_PATTERN: &str = r"(?P<sign>-)?(?P<year>[1-9][0-9]{3,8})-(?P<month>[0-9]{2})-(?P<day>[0-9]{2})";
@@ -35,13 +35,13 @@ pub type WeekOfYear = u8;
 pub type MonthOfYear = (String, u8);
 
 /// Regular expression pattern for parsing time zone.
-pub static TIME_ZONE_PATTERN: Lazy<String> = Lazy::new(|| format!("{ZULU_PATTERN}|{ZONE_PATTERN}|{OFFSET_PATTERN}"));
+pub static TIME_ZONE_PATTERN: LazyLock<String> = LazyLock::new(|| format!("{ZULU_PATTERN}|{ZONE_PATTERN}|{OFFSET_PATTERN}"));
 /// Regular expression for parsing date.
-pub static RE_DATE: Lazy<Regex> = Lazy::new(|| Regex::new(&format!("^{DATE_PATTERN}$")).unwrap());
+pub static RE_DATE: LazyLock<Regex> = LazyLock::new(|| Regex::new(&format!("^{DATE_PATTERN}$")).unwrap());
 /// Regular expression for parsing time.
-pub static RE_TIME: Lazy<Regex> = Lazy::new(|| Regex::new(&format!("^{TIME_PATTERN}({})?$", TIME_ZONE_PATTERN.as_str())).unwrap());
+pub static RE_TIME: LazyLock<Regex> = LazyLock::new(|| Regex::new(&format!("^{TIME_PATTERN}({})?$", TIME_ZONE_PATTERN.as_str())).unwrap());
 /// Regular expression for parsing date and time.
-pub static RE_DATE_AND_TIME: Lazy<Regex> = Lazy::new(|| Regex::new(&format!("^{DATE_PATTERN}T{TIME_PATTERN}({})?$", TIME_ZONE_PATTERN.as_str())).unwrap());
+pub static RE_DATE_AND_TIME: LazyLock<Regex> = LazyLock::new(|| Regex::new(&format!("^{DATE_PATTERN}T{TIME_PATTERN}({})?$", TIME_ZONE_PATTERN.as_str())).unwrap());
 
 pub fn feel_time_offset(me: &FeelDateTime) -> Option<i32> {
   let me_date_tuple = me.date().as_tuple();
