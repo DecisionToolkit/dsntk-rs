@@ -648,7 +648,6 @@ name = "dsntk-examples"
 version = "0.3.0-dev"
 dependencies = [
  "walkdir",
- "yaml-rust",
 ]
 
 [[package]]
@@ -767,6 +766,7 @@ dependencies = [
  "dsntk-recognizer",
  "petgraph",
  "roxmltree",
+ "yaml-rust",
 ]
 
 [[package]]

@@ -12,4 +12,3 @@ edition = { workspace = true }
 
 [dev-dependencies]
 walkdir = { workspace = true }
-yaml-rust = "0.4.5"

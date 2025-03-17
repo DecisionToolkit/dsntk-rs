@@ -1,59 +1,90 @@
-model:
-  namespace: https://dsntk.io/2_0001/
-  name: 2_001
-  id: _2_0001
-  xmlns: https://www.omg.org/spec/DMN/20191111/MODEL/
-  description: |
-    Compliance level 2: Test 0001
-    
-    The decision named **Greeting Message** has a label defined in diagram definition.
-    In the diagram this decision is depicted as **GREETING MESSAGE**.
-    
-    The output variable name remains **Greeting Message**.
+namespace: https://decision-toolkit.org/2_0001/
+name: 2_0001
+id: _2_0001
+xmlns: https://www.omg.org/spec/DMN/20191111/MODEL/
+description: |
+  Compliance level 2: Test 0001
+  
+  The decision named **Greeting Message** has a label defined in diagram definition.
+  In the diagram this decision is depicted as **GREETING MESSAGE**.
+  The output variable name remains **Greeting Message**.
 
 definitions:
-
-  - decision: "Greeting Message"
-    id: _75b3add2-4d36-4a19-a76c-268b49b2f436
-    description: |
-      This decision prepares a greeting message.
-      'Hello' is prepended to the value of the input variable named 'Full Name'.
-    question: What is the greeting suitable for our customer?
-    allowedAnswers: |
-      The proper greeting is in the format:
-      Hello {customer's full name}
-    variable:
+  - decision:
       name: "Greeting Message"
-      label: "GREETING MESSAGE"
-      typeRef: string
-    informationRequirement:
-      id: _70c3f69a-63f3-4197-96ce-b206c8bd2a6b
-      requiredInput:
-        href: #_cba86e4d-e91c-46a2-9176-e9adf88e15db
-    literalExpression:
-      text: |
-        "Hello " + Full Name
-
-  - decision: "kuku"
-    description: |
-      This decision prepares a greeting message.
-      'Hello' is prepended to the value of the input variable named 'Full Name'.
-    decision-table:
-      unicode: |
-
-      unicode-file: a.uni
-      markdown: |
-
-      markdown-file: b.md
-
-  - input-data: "Full Name"
-    id: _cba86e4d-e91c-46a2-9176-e9adf88e15db
-    description: |
-      Full name of the customer provided by calling service.
-    variable:
-      typeRef: string
-      name: "Full Name"
-      label: "Customer's name"
-      id: _id_variable_full_name
+      id: _75b3add2-4d36-4a19-a76c-268b49b2f436
       description: |
-        Full name of the person that will be sent greetings from this decision model.
+        This decision prepares a greeting message.
+        'Hello' is prepended to the value of the input variable named 'Full Name'.
+      question: |
+        What is the greeting suitable for our customer?
+      allowedAnswers: |
+        The proper greeting is in the format: Hello {customer's full name}
+      variable:
+        name: "Greeting Message"
+        label: "GREETING MESSAGE"
+        typeRef: string
+        id: _decision_greeting_message
+      informationRequirement:
+        - id: _70c3f69a-63f3-4197-96ce-b206c8bd2a6b
+          requiredInput:
+            href: "#_cba86e4d-e91c-46a2-9176-e9adf88e15db"
+      literalExpression:
+        id: _literal_expression
+        text: |
+          "Hello " + Full Name
+  - inputData:
+      name: "Full Name"
+      id: _cba86e4d-e91c-46a2-9176-e9adf88e15db
+      description: |
+        Full name of the customer provided by calling service.
+      variable:
+        name: "Full Name"
+        label: "Customer's name"
+        typeRef: string
+        id: _id_variable_full_name
+        description: |
+          Full name of the person that will be sent greetings from this decision model.
+
+diagrams:
+  - diagram:
+      name: Decision Requirement Diagram
+      resolution: 300
+      id: _d3a3312e-5924-4f7b-ac0e-232ef9203ff6
+      size: 190.0 240.0
+      shapes:
+        - id: _ebf33cfc-0ee3-4708-af8b-91c52237b7d6
+          dmnElementRef: _75b3add2-4d36-4a19-a76c-268b49b2f436
+          bounds: 20.0 20.0 150.0 60.0
+          label:
+            text: GREETING MESSAGE
+            sharedStyle: style1
+          sharedStyle: style1
+        - id: _48ea7a1d-2575-4cb7-8b63-8baa4cb3b371
+          dmnElementRef: _cba86e4d-e91c-46a2-9176-e9adf88e15db
+          bounds: 20.0 160.0 150.0 60.0
+          sharedStyle: style2
+      edges:
+        - id: _e9a73517-0ba2-4b31-b308-82279ae21591
+          dmnElementRef: _70c3f69a-63f3-4197-96ce-b206c8bd2a6b
+          waypoints:
+            - waypoint: 95.0 160.0
+            - waypoint: 95.0 80.0
+      styles:
+        - id: style1
+          fontFamily: "Arial,Helvetica,sans-serif"
+          fontSize: 18
+          fontBold: true
+          fontUnderline: true
+          fontItalic: true
+          fontStrikeThrough: true
+          labelVerticalAlignment: start
+          fillColor: 10 255 255
+          strokeColor: 255 0 0
+          fontColor: 0 200 0
+        - id: style2
+          fontFamily: "Arial,sans-serif"
+          fontSize: 12
+          fontBold: true
+          fontUnderline: true
+          strokeColor: 255 0 0
