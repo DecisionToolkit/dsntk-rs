@@ -28,7 +28,7 @@ DECISION
     INFORMATION-REQUIREMENT
         ID _70c3f69a-63f3-4197-96ce-b206c8bd2a6b
         INPUT #_cba86e4d-e91c-46a2-9176-e9adf88e15db
-    LITERAL-EXPRESSION
+    LITERAL_EXPRESSION
         ID _5baa6245-f6fc-4685-8973-fa873817e2c1
         TEXT "Hello " + Full Name
 
