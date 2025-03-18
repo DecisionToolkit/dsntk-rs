@@ -72,11 +72,11 @@ diagrams:
             - point: 95.0 80.0
       styles:
         - id: style1
-          font: bold underline italic strikethrough 18 "Arial, Helvetica,sans-serif"
+          font: bold underline italic strikethrough 18 Arial, Helvetica, sans-serif
           labelVerticalAlignment: start
           fillColor: 10 255 255
           strokeColor: 255 0 0
           fontColor: 0 200 0
         - id: style2
-          font: bold underline 12 "Arial, sans-serif"
+          font: bold underline 12 Arial, "Fira Sans", sans-serif
           strokeColor: 255 0 0
