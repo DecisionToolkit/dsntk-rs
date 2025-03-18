@@ -1,13 +1,14 @@
-namespace: https://decision-toolkit.org/2_0001/
-name: 2_0001
-id: _2_0001
-xmlns: https://www.omg.org/spec/DMN/20191111/MODEL/
-description: |
-  Compliance level 2: Test 0001
-  
-  The decision named **Greeting Message** has a label defined in diagram definition.
-  In the diagram this decision is depicted as **GREETING MESSAGE**.
-  The output variable name remains **Greeting Message**.
+MODEL
+    NAMESPACE https://decision-toolkit.org/2_0001/
+    NAME 2_0001
+    ID _2_0001
+    VERSION https://www.omg.org/spec/DMN/20191111/MODEL/
+    DESCRIPTION
+        Compliance level 2: Test 0001
+
+        The decision named **Greeting Message** has a label defined in diagram definition.
+        In the diagram this decision is depicted as **GREETING MESSAGE**.
+        The output variable name remains **Greeting Message**.
 
 definitions:
   - decision:
