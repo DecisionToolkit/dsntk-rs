@@ -26,43 +26,39 @@ pub const YAML_TYPE_REF: &str = "typeRef";
 pub const YAML_VARIABLE: &str = "variable";
 
 /// Returns the value of the required attribute.
-pub fn required_attribute(name: &str, yaml: &Yaml, attr_name: &str) -> Result<String> {
-  let value = &yaml[attr_name];
-  if value.is_badvalue() || value.is_null() || value.is_array() {
-    return Err(err_yaml_expected_mandatory_attribute(name, attr_name));
-  }
-  let Some(string_value) = value.as_str() else {
-    return Err(err_yaml_expected_mandatory_attribute(name, attr_name));
-  };
-  Ok(string_value.to_string())
+pub fn required_attribute(yaml: &Yaml, attr_name: &str) -> Result<String> {
+  Ok(
+    scalar(yaml, attr_name)
+      .ok_or(err_yaml_expected_mandatory_attribute(attr_name))?
+      .as_str()
+      .ok_or(err_yaml_expected_mandatory_attribute(attr_name))?
+      .trim()
+      .to_string(),
+  )
 }
 
 /// Returns the value of the optional attribute.
 pub fn optional_attribute(yaml: &Yaml, attr_name: &str) -> Option<String> {
-  let value = &yaml[attr_name];
-  if value.is_null() || value.is_badvalue() || value.is_array() {
-    return None;
-  }
-  value.as_str().map(|s| s.trim().to_string())
+  scalar(yaml, attr_name).map(|value| value.as_str().map(|value| value.trim().to_string())).flatten()
 }
 
 /// Returns the required URI attribute.
-pub fn required_uri(name: &str, yaml: &Yaml, attr_name: &str) -> Result<Uri> {
-  to_uri(required_attribute(name, yaml, attr_name)?.as_str())
+pub fn required_uri(yaml: &Yaml, attr_name: &str) -> Result<Uri> {
+  to_uri(required_attribute(yaml, attr_name)?.as_str())
 }
 
 /// Returns an optional URI attribute.
 pub fn optional_uri(node: &Yaml, attr_name: &str) -> Result<Option<Uri>> {
-  if let Some(value) = optional_attribute(node, attr_name) {
-    Ok(Some(to_uri(value.as_str())?))
+  Ok(if let Some(value) = optional_attribute(node, attr_name) {
+    Some(to_uri(value.as_str())?)
   } else {
-    Ok(None)
-  }
+    None
+  })
 }
 
 /// Returns required name attribute.
-pub fn required_name(name: &str, yaml: &Yaml) -> Result<String> {
-  required_attribute(name, yaml, YAML_NAME)
+pub fn required_name(yaml: &Yaml) -> Result<String> {
+  required_attribute(yaml, YAML_NAME)
 }
 
 /// Returns optional identifier if provided in the model, otherwise generates a new one.
@@ -71,8 +67,8 @@ pub fn optional_id(yaml: &Yaml) -> DmnId {
 }
 
 /// Returns the required FEEL name.
-pub fn required_feel_name(name: &str, node: &Yaml) -> Result<Name> {
-  let input = required_name(name, node)?;
+pub fn required_feel_name(node: &Yaml) -> Result<Name> {
+  let input = required_name(node)?;
   Ok(dsntk_feel_parser::parse_longest_name(&input).unwrap_or(input.into()))
 }
 
@@ -88,11 +84,11 @@ pub fn optional_label(yaml: &Yaml) -> Option<String> {
 
 /// Returns the required `href` attribute of the specified optional attribute.
 pub fn optional_attribute_required_href(yaml: &Yaml, attr_name: &str) -> Result<Option<HRef>> {
-  if let Some(child_yaml) = scalar(yaml, attr_name) {
-    Ok(Some(HRef::try_from(required_attribute(attr_name, child_yaml, YAML_HREF)?.as_str())?))
+  Ok(if let Some(child_yaml) = scalar(yaml, attr_name) {
+    Some(HRef::try_from(required_attribute(child_yaml, YAML_HREF)?.as_str())?)
   } else {
-    Ok(None)
-  }
+    None
+  })
 }
 
 /// Returns a scalar attribute with specified name.

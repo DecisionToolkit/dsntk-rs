@@ -43,14 +43,13 @@ impl Parser {
 
   /// Parses model [Definitions].
   fn parse_definitions(&mut self, yaml: &Yaml) -> Result<Definitions> {
-    let root = "(root)";
-    self.namespace = required_uri(root, yaml, YAML_NAMESPACE)?;
-    self.model_name = required_name(root, yaml)?;
+    self.namespace = required_uri(yaml, YAML_NAMESPACE)?;
+    self.model_name = required_name(yaml)?;
     let definitions = Definitions {
       namespace: self.namespace.clone(),
       model_name: self.model_name.clone(),
       name: self.model_name.clone(),
-      feel_name: required_feel_name(root, yaml)?,
+      feel_name: required_feel_name(yaml)?,
       id: optional_id(yaml),
       description: optional_description(yaml),
       label: optional_label(yaml),
@@ -94,8 +93,8 @@ impl Parser {
 
   /// Parses [InputData].
   fn parse_input_data(&self, yaml: &Yaml) -> Result<DrgElement> {
-    let name = required_name(YAML_INPUT_DATA, yaml)?;
-    let feel_name = required_feel_name(YAML_INPUT_DATA, yaml)?;
+    let name = required_name(yaml)?;
+    let feel_name = required_feel_name(yaml)?;
     let variable = self
       .parse_opt_information_item_child(yaml, YAML_VARIABLE)?
       .unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
@@ -116,8 +115,8 @@ impl Parser {
 
   /// Parses [Decision].
   fn parse_decision(&mut self, yaml: &Yaml) -> Result<DrgElement> {
-    let name = required_name(YAML_DECISION, yaml)?;
-    let feel_name = required_feel_name(YAML_DECISION, yaml)?;
+    let name = required_name(yaml)?;
+    let feel_name = required_feel_name(yaml)?;
     let variable = self
       .parse_opt_information_item_child(yaml, YAML_VARIABLE)?
       .unwrap_or(self.create_information_item(name.clone(), feel_name.clone())?);
@@ -224,8 +223,8 @@ impl Parser {
       label: optional_label(yaml),
       extension_elements: self.parse_extension_elements(yaml),
       extension_attributes: self.parse_extension_attributes(yaml),
-      name: required_name("", yaml)?,
-      feel_name: required_feel_name("", yaml)?,
+      name: required_name(yaml)?,
+      feel_name: required_feel_name(yaml)?,
       type_ref: optional_attribute(yaml, YAML_TYPE_REF).unwrap_or(FEEL_TYPE_NAME_ANY.to_string()),
       feel_type: None,
     })

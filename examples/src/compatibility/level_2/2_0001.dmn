@@ -17,7 +17,7 @@
     <decision name="Greeting Message" id="_75b3add2-4d36-4a19-a76c-268b49b2f436">
         <description>
             This decision prepares a greeting message.
-            'Hello' is prepended to the value of the input variable named 'Full Name'.
+            "Hello" is prepended to the value of the input variable named 'Full Name'.
         </description>
         <question>
             What is the greeting suitable for our customer?
@@ -25,11 +25,11 @@
         <allowedAnswers>
             The proper greeting is in the format: Hello {customer's full name}
         </allowedAnswers>
-        <variable typeRef="string" name="Greeting Message" label="GREETING MESSAGE" id="_decision_greeting_message"/>
+        <variable typeRef="string" name="Greeting Message" label="GREETING MESSAGE" id="_3215b422-b937-4360-9d1c-4c677cae5dfd"/>
         <informationRequirement id="_70c3f69a-63f3-4197-96ce-b206c8bd2a6b">
             <requiredInput href="#_cba86e4d-e91c-46a2-9176-e9adf88e15db"/>
         </informationRequirement>
-        <literalExpression id="_literal_expression">
+        <literalExpression id="_5baa6245-f6fc-4685-8973-fa873817e2c1">
             <text>"Hello " + Full Name</text>
         </literalExpression>
     </decision>
@@ -38,7 +38,7 @@
         <description>
             Full name of the customer provided by calling service.
         </description>
-        <variable typeRef="string" name="Full Name" label="Customer's name" id="_id_variable_full_name">
+        <variable typeRef="string" name="Full Name" label="Customer's name" id="_4bc2161f-2f3b-4260-b454-0a01aed0e46b">
             <description>Full name of the person that will be sent greetings from this decision model.</description>
         </variable>
     </inputData>
