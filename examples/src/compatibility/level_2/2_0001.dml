@@ -18,8 +18,9 @@ DECISION
         "Hello" is prepended to the value of the input variable named 'Full Name'.
     QUESTION
         What is the greeting suitable for our customer?
-    ANSWERS
-        The proper greeting is in the format: Hello {customer's full name}
+    ALLOWED_ANSWERS
+        The proper greeting is in the format:
+        Hello {customer's full name}
     VARIABLE
         NAME Greeting Message
         ID _3215b422-b937-4360-9d1c-4c677cae5dfd
