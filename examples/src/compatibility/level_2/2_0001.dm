@@ -23,8 +23,8 @@ DECISION
     VARIABLE
         NAME Greeting Message
         ID _3215b422-b937-4360-9d1c-4c677cae5dfd
-        TYPE REF string
-        LABEL `GREETING MESSAGE`
+        TYPE_REF string
+        LABEL "GREETING MESSAGE"
     INFORMATION_REQUIREMENT
         ID _70c3f69a-63f3-4197-96ce-b206c8bd2a6b
         INPUT #_cba86e4d-e91c-46a2-9176-e9adf88e15db
