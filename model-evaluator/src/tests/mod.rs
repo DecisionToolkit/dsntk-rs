@@ -5,8 +5,7 @@ use dsntk_feel::FeelScope;
 use dsntk_model::DmnElement;
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
-use std::sync::Arc;
-use std::sync::LazyLock;
+use std::sync::{Arc, LazyLock};
 use walkdir::WalkDir;
 
 mod compatibility;
