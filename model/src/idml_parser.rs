@@ -1,7 +1,8 @@
 use crate::errors::*;
 use crate::idml_utils::*;
 use crate::{
-  Decision, Definitions, DmnId, DrgElement, ExpressionInstance, ExtensionAttribute, ExtensionElement, InformationItem, InformationRequirement, InputData, LiteralExpression,
+  Decision, DecisionTable, Definitions, DmnId, DrgElement, ExpressionInstance, ExtensionAttribute, ExtensionElement, InformationItem, InformationRequirement, InputData,
+  LiteralExpression,
 };
 use dsntk_common::{gen_id, Result};
 use dsntk_feel::{Name, FEEL_TYPE_NAME_ANY};
@@ -193,9 +194,9 @@ impl ModelParser {
     // if let Some(context) = self.parse_optional_context(node)? {
     //   return Ok(Some(ExpressionInstance::Context(Box::new(context))));
     // }
-    // if let Some(decision_table) = self.parse_optional_decision_table(node)? {
-    //   return Ok(Some(ExpressionInstance::DecisionTable(Box::new(decision_table))));
-    // }
+    if let Some(decision_table) = self.parse_optional_decision_table(node)? {
+      return Ok(Some(ExpressionInstance::DecisionTable(Box::new(decision_table))));
+    }
     // if let Some(function_definition) = self.parse_optional_function_definition(node)? {
     //   return Ok(Some(ExpressionInstance::FunctionDefinition(Box::new(function_definition))));
     // }
@@ -279,5 +280,42 @@ impl ModelParser {
       required_input: optional_child_required_href(node, IDML_REQUIRED_INPUT)?,
     };
     Ok(req)
+  }
+
+  fn parse_optional_decision_table(&self, node: &Node) -> Result<Option<DecisionTable>> {
+    if let Some(child_node) = node.children().find(filter_name(IDML_DECISION_TABLE)) {
+      return Ok(Some(self.parse_decision_table(child_node)?));
+    }
+    Ok(None)
+  }
+
+  fn parse_decision_table(&self, node: &Node) -> Result<DecisionTable> {
+    let content = node.text();
+    let mut decision_table: DecisionTable = dsntk_recognizer::from_unicode(content, false)?.into();
+    decision_table.namespace = self.namespace.clone();
+    decision_table.model_name = self.model_name.clone();
+    decision_table.id = optional_id(node);
+    //decision_table.output_label = optional_value(node, IDML_OUTPUT_LABEL);
+    Ok(decision_table)
+
+    // Ok(DecisionTable {
+    //   namespace: self.namespace.clone(),
+    //   model_name: self.model_name.clone(),
+    //   id: optional_id(node),
+    //   description: optional_description(node),
+    //   label: optional_label(node),
+    //   extension_elements: self.parse_extension_elements(node),
+    //   extension_attributes: self.parse_extension_attributes(node),
+    //   type_ref: optional_value(node, IDML_TYPE_REF),
+    //   information_item_name: None,
+    //   input_clauses: self.parse_decision_table_inputs(node)?,
+    //   output_clauses: self.parse_decision_table_outputs(node)?,
+    //   annotations: vec![], // TODO implement parsing annotations
+    //   rules: self.parse_decision_table_rules(node)?,
+    //   hit_policy: self.parse_hit_policy_attribute(node)?,
+    //   aggregation: None,
+    //   preferred_orientation: self.parse_preferred_orientation_attribute(node)?,
+    //   output_label: optional_value(node, IDML_OUTPUT_LABEL),
+    // })
   }
 }

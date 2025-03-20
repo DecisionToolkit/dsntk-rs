@@ -8,7 +8,6 @@
         The decision named **Greeting Message** has a label defined in diagram definition.
         In the diagram this decision is depicted as **GREETING MESSAGE**.
         The output variable name remains **Greeting Message**.
-
 .DECISION
     .NAME Greeting Message
     .ID _75b3add2-4d36-4a19-a76c-268b49b2f436
@@ -31,7 +30,6 @@
     .LITERAL-EXPRESSION
         .ID _5baa6245-f6fc-4685-8973-fa873817e2c1
         .TEXT "Hello " + Full Name
-
 .INPUT-DATA
     .NAME Full Name
     .ID _cba86e4d-e91c-46a2-9176-e9adf88e15db
@@ -44,7 +42,6 @@
         .TYPE-REF string
         .DESCRIPTION
            Full name of the person that will be sent greetings from this decision model.
-
 .DIAGRAM
     .NAME Decision Requirement Diagram
     .ID _d3a3312e-5924-4f7b-ac0e-232ef9203ff6

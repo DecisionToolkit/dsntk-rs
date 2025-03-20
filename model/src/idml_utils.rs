@@ -4,28 +4,29 @@ use dsntk_common::{gen_id, to_uri, HRef, Result, Uri};
 use dsntk_feel::Name;
 use idml::Node;
 
-pub const IDML_DESCRIPTION: &str = "DESCRIPTION";
+pub const IDML_ALLOWED_ANSWERS: &str = "ALLOWED-ANSWERS";
 pub const IDML_DECISION: &str = "DECISION";
+pub const IDML_DECISION_TABLE: &str = "DECISION-TABLE";
+pub const IDML_DESCRIPTION: &str = "DESCRIPTION";
 pub const IDML_EXPORTER: &str = "EXPORTER";
 pub const IDML_EXPORTER_VERSION: &str = "EXPORTER-VERSION";
 pub const IDML_EXPRESSION_LANGUAGE: &str = "EXPRESSION-LANGUAGE";
-pub const IDML_ID: &str = "ID";
-pub const IDML_QUESTION: &str = "QUESTION";
-pub const IDML_ALLOWED_ANSWERS: &str = "ALLOWED-ANSWERS";
-pub const IDML_INFORMATION_REQUIREMENT: &str = "INFORMATION-REQUIREMENT";
-pub const IDML_LITERAL_EXPRESSION: &str = "LITERAL-EXPRESSION";
-pub const IDML_LABEL: &str = "LABEL";
-pub const IDML_INPUT_DATA: &str = "INPUT-DATA";
-pub const IDML_NAME: &str = "NAME";
-pub const IDML_REQUIRED_INPUT: &str = "REQUIRED-INPUT";
-pub const IDML_REQUIRED_DECISION: &str = "REQUIRED-DECISION";
 pub const IDML_HREF: &str = "HREF";
-
+pub const IDML_ID: &str = "ID";
+pub const IDML_INFORMATION_REQUIREMENT: &str = "INFORMATION-REQUIREMENT";
+pub const IDML_INPUT_DATA: &str = "INPUT-DATA";
+pub const IDML_LABEL: &str = "LABEL";
+pub const IDML_LITERAL_EXPRESSION: &str = "LITERAL-EXPRESSION";
+pub const IDML_NAME: &str = "NAME";
 pub const IDML_NAMESPACE: &str = "NAMESPACE";
-pub const IDML_VARIABLE: &str = "VARIABLE";
+//pub const IDML_OUTPUT_LABEL: &str = "OUTPUT-LABEL";
+pub const IDML_QUESTION: &str = "QUESTION";
+pub const IDML_REQUIRED_DECISION: &str = "REQUIRED-DECISION";
+pub const IDML_REQUIRED_INPUT: &str = "REQUIRED-INPUT";
 pub const IDML_TEXT: &str = "TEXT";
 pub const IDML_TYPE_LANGUAGE: &str = "TYPE-LANGUAGE";
 pub const IDML_TYPE_REF: &str = "TYPE-REF";
+pub const IDML_VARIABLE: &str = "VARIABLE";
 
 /// Returns the required string value of a child node with specified name.
 pub fn required_value(node: &Node, child_name: &str) -> Result<String> {
