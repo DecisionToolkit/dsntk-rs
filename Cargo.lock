@@ -764,6 +764,7 @@ dependencies = [
  "dsntk-feel-parser",
  "dsntk-macros",
  "dsntk-recognizer",
+ "idml",
  "petgraph",
  "roxmltree",
 ]
@@ -1248,6 +1249,10 @@ dependencies = [
  "quote",
  "syn",
 ]
+
+[[package]]
+name = "idml"
+version = "0.1.1"
 
 [[package]]
 name = "idna"
